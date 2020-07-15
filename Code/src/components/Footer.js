@@ -36,7 +36,7 @@ function Footer() {
         <Hidden smDown>
           <Grid container item xs={12} md={6}>
             <List>
-              <ListItem component="a" href="#">
+              {/* <ListItem component="a" href="#">
                 <ListItemText primary="Support" />
               </ListItem>
               <ListItem component="a" href="#">
@@ -47,14 +47,14 @@ function Footer() {
               </ListItem>
               <ListItem component="a" href="#">
                 <ListItemText primary="Terms of Service" />
-              </ListItem>
+              </ListItem> */}
             </List>
           </Grid>
         </Hidden>
         <Grid container item xs={12} md={6} justify="flex-end">
           <List>
             <ListItem>
-              <ListItemText primary={`© ${new Date().getFullYear()} - Material App`} />
+              <ListItemText primary={`© ${new Date().getFullYear()} - Hospital Authority`} />
             </ListItem>
           </List>
         </Grid>

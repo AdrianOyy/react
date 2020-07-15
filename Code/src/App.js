@@ -16,7 +16,7 @@ function App({ theme }) {
   return (
     <React.Fragment>
       <Helmet
-        titleTemplate="%s | Material App"
+        titleTemplate="%s | SENSE Platform"
         defaultTitle="Material App - React Admin & Dashboard Template"
       />
       <StylesProvider injectFirst>
