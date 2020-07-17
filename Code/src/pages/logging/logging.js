@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { NavLink as RouterNavLink } from "react-router-dom";
 import loggingAPI from '../../api/logging.js'
 import Helmet from 'react-helmet';
+import dayjs from 'dayjs';
 
 import {
   Box,
@@ -36,6 +37,7 @@ import { green, orange, red } from "@material-ui/core/colors";
 import {
   Add as AddIcon,
   Archive as ArchiveIcon,
+  Delete as DeleteIcon,
   FilterList as FilterListIcon,
   RemoveRedEye as RemoveRedEyeIcon,
   ReportOff
@@ -121,6 +123,8 @@ function getComparator(order, orderBy) {
 }
 
 function stableSort(array, comparator) {
+  console.log('2222222222222222222')
+  console.log(array)
   const stabilizedThis = array.map((el, index) => [el, index]);
   stabilizedThis.sort((a, b) => {
     const order = comparator(a[0], b[0]);
@@ -131,9 +135,7 @@ function stableSort(array, comparator) {
 }
 
 const headCells = [
-  { id: 'action', alignment: 'center', label: 'Action' },
   { id: 'logType', alignment: 'center', label: 'LogType' },
-  { id: 'timeInterval', alignment: 'center', label: 'TimeInterval' },
   { id: 'message', alignment: 'center', label: 'Message' },
   { id: 'createAt', alignment: 'center', label: 'CreateAt' },
 ];
@@ -214,7 +216,7 @@ let EnhancedTableToolbar = props => {
         {numSelected > 0 ? (
           <Tooltip title="Delete">
             <IconButton aria-label="Delete">
-              <ArchiveIcon />
+              <DeleteIcon />
             </IconButton>
           </Tooltip>
         ) : (
@@ -235,38 +237,46 @@ function EnhancedTable() {
   const [selected, setSelected] = React.useState([]);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
+  const [total, setTotal] = React.useState(0);
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
     setOrder(isAsc ? 'desc' : 'asc');
     setOrderBy(property);
   };
-
   const [rows, setRows] = useState([]);
-
+  
   useEffect(() => {
-    loggingAPI.list({}).then(response => {
+    loggingAPI.list({ limit:rowsPerPage, page:page+1}).then(response => {
+      setTotal(response.data.total);
       setRows(response.data.data);
-    })
-     // loginAPI.login({ userName:'vivianapj', password:'ViP2013' }).then(response => {
-    //   dispatch(login({ ...response.data.Data }));
+    });
+  }, [page]);
+  // const [rows, setRows] = useState([]);
+
+  // useEffect(() => {
+  //   loggingAPI.list({}).then(response => {
+  //     setRows(response.data.data);
+  //   })
+  //    // loginAPI.login({ userName:'vivianapj', password:'ViP2013' }).then(response => {
+  //   //   dispatch(login({ ...response.data.Data }));
       
-    //   var redirectUrl = getQueryString('redirect');
-    //   router.history.push(!redirectUrl ? '/' : redirectUrl);
-    // });
-    // setRows([
-    //   createData('000253', 'Salt & Pepper Grinder', '2020-01-02', '$32,00', 0),
-    //   createData('000254', 'Backpack', '2020-01-04', '$130,00', 0),
-    //   createData('000255', 'Pocket Speaker', '2020-01-04', '$80,00', 2),
-    //   createData('000256', 'Glass Teapot', '2020-01-08', '$45,00', 0),
-    //   createData('000257', 'Unbreakable Water Bottle', '2020-01-09', '$40,00', 0),
-    //   createData('000258', 'Spoon Saver', '2020-01-14', '$15,00', 0),
-    //   createData('000259', 'Hip Flash', '2020-01-16', '$25,00', 1),
-    //   createData('000260', 'Woven Slippers', '2020-01-22', '$20,00', 0),
-    //   createData('000261', 'Womens Watch', '2020-01-22', '$65,00', 2),
-    //   createData('000262', 'Over-Ear Headphones', '2020-01-23', '$210,00', 0),
-    // ])
-  });
+  //   //   var redirectUrl = getQueryString('redirect');
+  //   //   router.history.push(!redirectUrl ? '/' : redirectUrl);
+  //   // });
+  //   // setRows([
+  //   //   createData('000253', 'Salt & Pepper Grinder', '2020-01-02', '$32,00', 0),
+  //   //   createData('000254', 'Backpack', '2020-01-04', '$130,00', 0),
+  //   //   createData('000255', 'Pocket Speaker', '2020-01-04', '$80,00', 2),
+  //   //   createData('000256', 'Glass Teapot', '2020-01-08', '$45,00', 0),
+  //   //   createData('000257', 'Unbreakable Water Bottle', '2020-01-09', '$40,00', 0),
+  //   //   createData('000258', 'Spoon Saver', '2020-01-14', '$15,00', 0),
+  //   //   createData('000259', 'Hip Flash', '2020-01-16', '$25,00', 1),
+  //   //   createData('000260', 'Woven Slippers', '2020-01-22', '$20,00', 0),
+  //   //   createData('000261', 'Womens Watch', '2020-01-22', '$65,00', 2),
+  //   //   createData('000262', 'Over-Ear Headphones', '2020-01-23', '$210,00', 0),
+  //   // ])
+  // });
   
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
@@ -298,6 +308,7 @@ function EnhancedTable() {
   };
 
   const handleChangePage = (event, newPage) => {
+    console.log(newPage)
     setPage(newPage);
   };
 
@@ -335,7 +346,7 @@ function EnhancedTable() {
                 .map((row, index) => {
                   const isItemSelected = isSelected(row.id);
                   const labelId = `enhanced-table-checkbox-${index}`;
-
+                  console.log(emptyRows)
                   return (
                     <TableRow
                       hover
@@ -353,21 +364,16 @@ function EnhancedTable() {
                         />
                       </TableCell>
 
-                      <TableCell align="center">#{row.action}</TableCell>
                       <TableCell align="center">{row.logType}</TableCell>
-                      <TableCell align="center">{row.timeInterval}</TableCell>
                       <TableCell align="center">{row.message}</TableCell>
                       <TableCell align="center">
-                        {row.createdAt}
+                        {dayjs(row.createdAt).format('YYYY-MM-DD HH:mm:ss')}
                       </TableCell>
                       <TableCell padding="none" align="right">
                         <Box mr={2}>
                           <IconButton aria-label="delete">
-                            <ArchiveIcon />
-                          </IconButton>  
-                          <IconButton aria-label="details">
-                            <RemoveRedEyeIcon />
-                          </IconButton>  
+                            <DeleteIcon />
+                          </IconButton>
                         </Box>
                       </TableCell>
                     </TableRow>
@@ -384,7 +390,7 @@ function EnhancedTable() {
         <TablePagination
           rowsPerPageOptions={[5, 10, 25]}
           component="div"
-          count={rows.length}
+          count={total}
           rowsPerPage={rowsPerPage}
           page={page}
           onChangePage={handleChangePage}
