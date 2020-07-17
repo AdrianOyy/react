@@ -76,6 +76,9 @@ const Calendar = async(() => import("../pages/pages/Calendar"));
 const SimpleTable = async(() => import("../pages/tables/SimpleTable"));
 const AdvancedTable = async(() => import("../pages/tables/AdvancedTable"));
 
+// loggin components
+const logging = async(() => import("../pages/logs/logging"));
+
 // Chart components
 const Chartjs = async(() => import("../pages/charts/Chartjs"));
 
@@ -173,6 +176,15 @@ const orderRoutes = {
   component: Orders,
   children: null
 };
+
+
+const logRoutes = {
+  id: "Log",
+  path: "/logs",
+  icon: <List />,
+  component: logging,
+  children: null
+}
 
 const tasksRoutes = {
   id: "Tasks",
@@ -449,6 +461,7 @@ export const dashboard = [
   componentsRoutes,
   chartRoutes,
   formsRoutes,
+  logRoutes,
   tablesRoutes,
   iconsRoutes,
   mapsRoutes,
@@ -473,6 +486,7 @@ export default [
   componentsRoutes,
   chartRoutes,
   formsRoutes,
+  logRoutes,
   tablesRoutes,
   iconsRoutes,
   mapsRoutes,

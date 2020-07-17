@@ -1,5 +1,5 @@
 {
-  "name": "SENSE Platform",
+  "name": "SENSE-Platform",
   "version": "1.0.8",
   "description": "Material App Pro - React Admin & Dashboard Template",
   "author": "Paul Laros <support@bootlab.io>",
@@ -31,6 +31,7 @@
     "@material-ui/pickers": "3.2.10",
     "@material-ui/styles": "4.9.10",
     "@material-ui/system": "4.9.10",
+    "axios": "^0.19.2",
     "chart.js": "2.9.3",
     "css-vendor": "2.0.8",
     "date-fns": "2.10.0",
