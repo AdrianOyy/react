@@ -79,6 +79,9 @@ const AdvancedTable = async(() => import("../pages/tables/AdvancedTable"));
 // loggin components
 const logging = async(() => import("../pages/logging/logging"));
 
+// syncUser components
+// const syncUser = async(() => import("../pages/aaa-service/syncUser"));
+
 // Chart components
 const Chartjs = async(() => import("../pages/charts/Chartjs"));
 
@@ -185,6 +188,20 @@ const logRoutes = {
   component: logging,
   children: null
 }
+
+
+// const aaaServiceRoutes = {
+//   id: "AAAService",
+//   path: "/aaa-service",
+//   icon: <Grid />,
+//   children: [
+//     {
+//       path: "/aaa-service/syncUser",
+//       name: "User For Sync",
+//       component: syncUser
+//     }
+//   ]
+// };
 
 const tasksRoutes = {
   id: "Tasks",
@@ -462,6 +479,7 @@ export const dashboard = [
   chartRoutes,
   formsRoutes,
   logRoutes,
+  // aaaServiceRoutes,
   tablesRoutes,
   iconsRoutes,
   mapsRoutes,
@@ -487,6 +505,7 @@ export default [
   chartRoutes,
   formsRoutes,
   logRoutes,
+  // aaaServiceRoutes,
   tablesRoutes,
   iconsRoutes,
   mapsRoutes,
