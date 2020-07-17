@@ -77,7 +77,7 @@ const SimpleTable = async(() => import("../pages/tables/SimpleTable"));
 const AdvancedTable = async(() => import("../pages/tables/AdvancedTable"));
 
 // loggin components
-const logging = async(() => import("../pages/logs/logging"));
+const logging = async(() => import("../pages/logging/logging"));
 
 // Chart components
 const Chartjs = async(() => import("../pages/charts/Chartjs"));
@@ -180,7 +180,7 @@ const orderRoutes = {
 
 const logRoutes = {
   id: "Log",
-  path: "/logs",
+  path: "/logging",
   icon: <List />,
   component: logging,
   children: null
