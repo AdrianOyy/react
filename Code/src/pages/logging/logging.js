@@ -4,13 +4,13 @@ import { NavLink as RouterNavLink } from "react-router-dom";
 import loggingAPI from '../../api/logging.js'
 import Helmet from 'react-helmet';
 import dayjs from 'dayjs';
+import CommonTip from '../../components/CommonTip'
 
 import {
   Box,
   Breadcrumbs as MuiBreadcrumbs,
   Button,
   Checkbox,
-  Chip as MuiChip,
   Divider as MuiDivider,
   Grid,
   IconButton,
@@ -27,20 +27,12 @@ import {
   Toolbar,
   Tooltip,
   Typography,
-  CardContent,
-  TextField,
-  Card as MuiCard
+  TextField
 } from "@material-ui/core";
 
-import { green, orange, red } from "@material-ui/core/colors";
-
 import {
-  Add as AddIcon,
-  Archive as ArchiveIcon,
   Delete as DeleteIcon,
-  FilterList as FilterListIcon,
-  RemoveRedEye as RemoveRedEyeIcon,
-  ReportOff
+  FilterList as FilterListIcon
 } from "@material-ui/icons";
 
 import { spacing } from "@material-ui/system";
@@ -55,17 +47,6 @@ const Breadcrumbs = styled(MuiBreadcrumbs)(spacing);
 
 const Paper = styled(MuiPaper)(spacing);
 
-const Card = styled(MuiCard)(spacing);
-
-const Chip = styled(MuiChip)`
-  ${spacing};
-
-  background: ${props => props.shipped && green[500]};
-  background: ${props => props.processing && orange[700]};
-  background: ${props => props.cancelled && red[500]};
-  color: ${props => props.theme.palette.common.white};
-`
-
 const Spacer = styled.div`
   flex: 1 1 100%;
 `;
@@ -74,37 +55,6 @@ const ToolbarTitle = styled.div`
   min-width: 150px;
 `;
 
-function createData(id, product, date, total, status, method) {
-  return { id, product, date, total, status, method };
-}
-
-// const rows = [
-//   createData('000253', 'Salt & Pepper Grinder', '2020-01-02', '$32,00', 0),
-//   createData('000254', 'Backpack', '2020-01-04', '$130,00', 0),
-//   createData('000255', 'Pocket Speaker', '2020-01-04', '$80,00', 2),
-//   createData('000256', 'Glass Teapot', '2020-01-08', '$45,00', 0),
-//   createData('000257', 'Unbreakable Water Bottle', '2020-01-09', '$40,00', 0),
-//   createData('000258', 'Spoon Saver', '2020-01-14', '$15,00', 0),
-//   createData('000259', 'Hip Flash', '2020-01-16', '$25,00', 1),
-//   createData('000260', 'Woven Slippers', '2020-01-22', '$20,00', 0),
-//   createData('000261', 'Womens Watch', '2020-01-22', '$65,00', 2),
-//   createData('000262', 'Over-Ear Headphones', '2020-01-23', '$210,00', 0),
-// ];
-
-// useEffect(() => {
-//   setRows([
-//     createData('000253', 'Salt & Pepper Grinder', '2020-01-02', '$32,00', 0),
-//     createData('000254', 'Backpack', '2020-01-04', '$130,00', 0),
-//     createData('000255', 'Pocket Speaker', '2020-01-04', '$80,00', 2),
-//     createData('000256', 'Glass Teapot', '2020-01-08', '$45,00', 0),
-//     createData('000257', 'Unbreakable Water Bottle', '2020-01-09', '$40,00', 0),
-//     createData('000258', 'Spoon Saver', '2020-01-14', '$15,00', 0),
-//     createData('000259', 'Hip Flash', '2020-01-16', '$25,00', 1),
-//     createData('000260', 'Woven Slippers', '2020-01-22', '$20,00', 0),
-//     createData('000261', 'Womens Watch', '2020-01-22', '$65,00', 2),
-//     createData('000262', 'Over-Ear Headphones', '2020-01-23', '$210,00', 0),
-//   ])
-// });
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -354,9 +304,14 @@ function EnhancedTable() {
   };
   
   const handleDelete = (event, id) => {
-    console.log('1111111111111111')
+    // console.log('1111111111111111')
     loggingAPI.delete({id}).then(({data}) => {
-      console.log(data)
+      CommonTip.success('delete success')
+      setQuery({
+        message: text,
+        startDate,
+        endDate
+      })
     })
   }
 

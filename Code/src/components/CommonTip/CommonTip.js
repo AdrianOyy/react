@@ -1,7 +1,11 @@
 import React, { Component } from "react";
 import ReactDOM from "react-dom";
-import Snackbar from '@material-ui/core/Snackbar';
-import MuiAlert, { AlertProps } from '@material-ui/lab/Alert';
+import {
+  Snackbar as MuiSnackbar
+} from "@material-ui/core";
+import MuiAlert from '@material-ui/lab/Alert';
+import styled from "styled-components";
+import { spacing } from "@material-ui/system";
 
 class CommonTip extends Component {
   static info(msg) {
@@ -20,15 +24,16 @@ class CommonTip extends Component {
     let defaultOptions = {
       msg: '',
       severity: 'info',
-      autoHideDuration: 6000
+      autoHideDuration: 6000,
+      vertical: 'top',
+      horizontal: 'center'
     };
-
     let opt = Object.assign({}, defaultOptions, options);
-
+    const Snackbar = styled(MuiSnackbar)(spacing);
     const div = document.createElement("div");
     document.body.append(div);
 
-    const handleClose = (event?: React.SyntheticEvent, reason?: string) => {
+      const handleClose =  (event, reason) => {
       if (reason === 'clickaway') {
         return;
       }
@@ -38,7 +43,7 @@ class CommonTip extends Component {
     }
 
     const Alert = (props) => (
-      <Snackbar open={true} autoHideDuration={props.autoHideDuration} onClose={handleClose}> 
+      <Snackbar anchorOrigin={{ vertical: props.vertical, horizontal: props.horizontal }} open={true}  autoHideDuration={props.autoHideDuration} onClose={handleClose}> 
         <MuiAlert elevation={6} variant="filled" severity={props.severity} onClose={handleClose}>
           {props.msg}
         </MuiAlert>
