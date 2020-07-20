@@ -123,8 +123,6 @@ function getComparator(order, orderBy) {
 }
 
 function stableSort(array, comparator) {
-  console.log('2222222222222222222')
-  console.log(array)
   const stabilizedThis = array.map((el, index) => [el, index]);
   stabilizedThis.sort((a, b) => {
     const order = comparator(a[0], b[0]);
@@ -140,16 +138,31 @@ const headCells = [
   { id: 'createAt', alignment: 'center', label: 'CreateAt' },
 ];
 
-function EmptyCard() {
-  const [text, setText] = React.useState('');
-  const handelChange = (event) => {
-    setText(event.target.value)
-  };
+function EmptyCard(props) {
+  const { onHandelTextChange, onHandelStartDateChange, onHandelEndDateChange, onSearchButton } = props;
 
   return (
     <div>
-      <TextField size="small" id="Message" onChange={handelChange.bind(this)} label="Message" variant="outlined" />
-      <Button variant="contained" color="primary"  >
+      <TextField size="small" id="Message" onChange={onHandelTextChange.bind(this)} label="Message" variant="outlined" />
+        <TextField
+          id="datetime-local"
+          label="Next appointment"
+          type="datetime-local"
+          defaultValue="2017-05-24T10:30"
+          onChange={onHandelStartDateChange.bind(this)}
+          InputLabelProps={{
+            shrink: true
+          }}/>
+        <TextField
+          id="datetime-local"
+          label="Next appointment"
+          type="datetime-local"
+          defaultValue="2017-05-24T10:30"
+          onChange={onHandelEndDateChange.bind(this)}
+          InputLabelProps={{
+            shrink: true
+          }}/>
+      <Button variant="contained" color="primary" onClick={onSearchButton} >
         Search
       </Button>
     </div>
@@ -238,6 +251,32 @@ function EnhancedTable() {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const [total, setTotal] = React.useState(0);
+  const [emptyRows, setEmptyRows] = React.useState(0);
+  
+  const [text, setText] = React.useState('');
+  const [startDate, setStartDate] = React.useState('');
+  const [endDate, setEndDate] = React.useState('');
+  const [query, setQuery] = React.useState({});
+
+  const handelTextChange = (event) => {
+    setText(event.target.value)
+  };
+
+  const handelStartDateChange = (event) => {
+    setStartDate(event.target.value)
+  };
+
+  const handelEndDateChange = (event) => {
+    setEndDate(event.target.value)
+  };
+
+  const handlSearch =  () => {
+    setQuery({
+      message: text,
+      startDate,
+      endDate
+    })
+  };
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -247,11 +286,18 @@ function EnhancedTable() {
   const [rows, setRows] = useState([]);
   
   useEffect(() => {
-    loggingAPI.list({ limit:rowsPerPage, page:page+1}).then(response => {
+    loggingAPI.list(Object.assign(
+      {},
+      query,
+      { limit: rowsPerPage, page: page+1 })
+      ).then(response => {
       setTotal(response.data.total);
       setRows(response.data.data);
+      const length = response.data.data.length
+      const emptyrow = rowsPerPage - length;
+      setEmptyRows(emptyrow);
     });
-  }, [page]);
+  }, [page, rowsPerPage, query]);
   // const [rows, setRows] = useState([]);
 
   // useEffect(() => {
@@ -306,6 +352,13 @@ function EnhancedTable() {
   
     setSelected(newSelected);
   };
+  
+  const handleDelete = (event, id) => {
+    console.log('1111111111111111')
+    loggingAPI.delete({id}).then(({data}) => {
+      console.log(data)
+    })
+  }
 
   const handleChangePage = (event, newPage) => {
     console.log(newPage)
@@ -319,11 +372,15 @@ function EnhancedTable() {
 
   const isSelected = (id) => selected.indexOf(id) !== -1;
 
-  const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
 
   return (
     <div>
-      {/* <EmptyCard /> */}
+      <EmptyCard 
+        onHandelTextChange={handelTextChange} 
+        onHandelStartDateChange={handelStartDateChange} 
+        onHandelEndDateChange={handelEndDateChange}
+        onSearchButton={handlSearch}
+      />
       <Paper>
         <EnhancedTableToolbar numSelected={selected.length} />
         <TableContainer>
@@ -342,11 +399,9 @@ function EnhancedTable() {
             />
             <TableBody>
               {stableSort(rows, getComparator(order, orderBy))
-                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row, index) => {
                   const isItemSelected = isSelected(row.id);
                   const labelId = `enhanced-table-checkbox-${index}`;
-                  console.log(emptyRows)
                   return (
                     <TableRow
                       hover
@@ -371,7 +426,7 @@ function EnhancedTable() {
                       </TableCell>
                       <TableCell padding="none" align="right">
                         <Box mr={2}>
-                          <IconButton aria-label="delete">
+                          <IconButton aria-label="delete" onClick={(event) => handleDelete(event, row.id)}>
                             <DeleteIcon />
                           </IconButton>
                         </Box>
