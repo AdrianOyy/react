@@ -3,21 +3,11 @@ import React from "react";
 import async from "../components/Async";
 
 import {
-  BookOpen,
-  Briefcase,
-  Calendar as CalendarIcon,
   CheckSquare,
-  CreditCard,
   Grid,
-  Heart,
-  Layout,
   List,
-  Map,
   Monitor,
-  ShoppingCart,
-  PieChart,
   Sliders,
-  User,
   Users
 } from "react-feather";
 
@@ -37,61 +27,17 @@ const Cards = async(() => import("../pages/components/Cards"));
 const Chips = async(() => import("../pages/components/Chips"));
 const Dialogs = async(() => import("../pages/components/Dialogs"));
 const ExpPanels = async(() => import("../pages/components/ExpansionPanels"));
-const Lists = async(() => import("../pages/components/Lists"));
-const Menus = async(() => import("../pages/components/Menus"));
-const Pagination = async(() => import("../pages/components/Pagination"));
-const Progress = async(() => import("../pages/components/Progress"));
-const Snackbars = async(() => import("../pages/components/Snackbars"));
-const Tooltips = async(() => import("../pages/components/Tooltips"));
 
 // Dashboards components
-const Default = async(() => import("../pages/dashboards/Default"));
 const Analytics = async(() => import("../pages/dashboards/Analytics"));
 
-// Forms components
-const Pickers = async(() => import("../pages/forms/Pickers"));
-const SelectionCtrls = async(() => import("../pages/forms/SelectionControls"));
-const Selects = async(() => import("../pages/forms/Selects"));
-const TextFields = async(() => import("../pages/forms/TextFields"));
-const Dropzone = async(() => import("../pages/forms/Dropzone"));
-const Editors = async(() => import("../pages/forms/Editors"));
-
-// Icons components
-const MaterialIcons = async(() => import("../pages/icons/MaterialIcons"));
-const FeatherIcons = async(() => import("../pages/icons/FeatherIcons"));
-
-// Pages components
-const Blank = async(() => import("../pages/pages/Blank"));
-const InvoiceDetails = async(() => import("../pages/pages/InvoiceDetails"));
-const InvoiceList = async(() => import("../pages/pages/InvoiceList"));
-const Orders = async(() => import("../pages/pages/Orders"));
-const Pricing = async(() => import("../pages/pages/Pricing"));
-const Profile = async(() => import("../pages/pages/Profile"));
-const Settings = async(() => import("../pages/pages/Settings"));
-const Tasks = async(() => import("../pages/pages/Tasks"));
-const Projects = async(() => import("../pages/pages/Projects"));
-const Calendar = async(() => import("../pages/pages/Calendar"));
-
-// Tables components
-const SimpleTable = async(() => import("../pages/tables/SimpleTable"));
-const AdvancedTable = async(() => import("../pages/tables/AdvancedTable"));
-
-// loggin components
+// logging components
 const logging = async(() => import("../pages/logging/logging"));
 
 // syncUser components
-// const syncUser = async(() => import("../pages/aaa-service/syncUser"));
-
-// Chart components
-const Chartjs = async(() => import("../pages/charts/Chartjs"));
-
-// Maps components
-const GoogleMaps = async(() => import("../pages/maps/GoogleMaps"));
-const VectorMaps = async(() => import("../pages/maps/VectorMaps"));
+// const syncUser = async(() => import("../pages/aaa-service/syncUser"))
 
 // Documentation
-const Docs = async(() => import("../pages/docs/Documentation"));
-const Changelog = async(() => import("../pages/docs/Changelog"));
 const Presentation = async(() => import("../pages/docs/Presentation"));
 
 const authRoutes = {
@@ -127,6 +73,15 @@ const authRoutes = {
   ]
 };
 
+const presentationRoutes = {
+  id: "Presentation",
+  path: "/",
+  header: "Docs",
+  icon: <Monitor />,
+  component: Presentation,
+  children: null
+};
+
 const dashboardsRoutes = {
   id: "Dashboard",
   path: "/dashboard",
@@ -145,14 +100,6 @@ const dashboardsRoutes = {
       component: Analytics
     }
   ]
-};
-
-const profileRoutes = {
-  id: "Profile",
-  path: "/profile",
-  icon: <User />,
-  component: Profile,
-  children: null
 };
 
 const logRoutes = {
@@ -258,8 +205,8 @@ const recordRoutes = {
 
 export const dashboard = [
   dashboardsRoutes,
-  profileRoutes,
-  logRoutes,
+  presentationRoutes,
+  // logRoutes,
   // aaaServiceRoutes,
 ];
 
