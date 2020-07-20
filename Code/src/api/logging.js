@@ -5,8 +5,8 @@ class Logging {
     return request.get('/logging/list', params, options)
   }
 
-  delete(params, options) {
-    return request.get('/logging/delete', params, options)
+  delete(data, options) {
+    return request.delete(`/logging/delete`,data, options)
   }
 }
 
