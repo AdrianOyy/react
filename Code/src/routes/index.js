@@ -94,132 +94,6 @@ const Docs = async(() => import("../pages/docs/Documentation"));
 const Changelog = async(() => import("../pages/docs/Changelog"));
 const Presentation = async(() => import("../pages/docs/Presentation"));
 
-const dashboardsRoutes = {
-  id: "Dashboard",
-  path: "/dashboard",
-  header: "Pages",
-  icon: <Sliders />,
-  containsHome: true,
-  children: [
-    {
-      path: "/dashboard/default",
-      name: "Default",
-      component: Default
-    },
-    {
-      path: "/dashboard/analytics",
-      name: "Analytics",
-      component: Analytics
-    }
-  ]
-};
-
-const pagesRoutes = {
-  id: "Pages",
-  path: "/pages",
-  icon: <Layout />,
-  children: [
-    {
-      path: "/pages/settings",
-      name: "Settings",
-      component: Settings
-    },
-    {
-      path: "/pages/pricing",
-      name: "Pricing",
-      component: Pricing
-    },
-    {
-      path: "/pages/blank",
-      name: "Blank Page",
-      component: Blank
-    }
-  ]
-};
-
-const profileRoutes = {
-  id: "Profile",
-  path: "/profile",
-  icon: <User />,
-  component: Profile,
-  children: null
-};
-
-const projectsRoutes = {
-  id: "Projects",
-  path: "/projects",
-  icon: <Briefcase />,
-  badge: "8",
-  component: Projects,
-  children: null
-};
-
-const invoiceRoutes = {
-  id: "Invoices",
-  path: "/invoices",
-  icon: <CreditCard />,
-  children: [
-    {
-      path: "/invoices",
-      name: "List",
-      component: InvoiceList
-    },
-    {
-      path: "/invoices/detail",
-      name: "Details",
-      component: InvoiceDetails
-    }
-  ]
-};
-
-const orderRoutes = {
-  id: "Orders",
-  path: "/orders",
-  icon: <ShoppingCart />,
-  component: Orders,
-  children: null
-};
-
-
-const logRoutes = {
-  id: "Log",
-  path: "/logging",
-  icon: <List />,
-  component: logging,
-  children: null
-}
-
-
-// const aaaServiceRoutes = {
-//   id: "AAAService",
-//   path: "/aaa-service",
-//   icon: <Grid />,
-//   children: [
-//     {
-//       path: "/aaa-service/syncUser",
-//       name: "User For Sync",
-//       component: syncUser
-//     }
-//   ]
-// };
-
-const tasksRoutes = {
-  id: "Tasks",
-  path: "/tasks",
-  icon: <CheckSquare />,
-  badge: "17",
-  component: Tasks,
-  children: null
-};
-
-const calendarRoutes = {
-  id: "Calendar",
-  path: "/calendar",
-  icon: <CalendarIcon />,
-  component: Calendar,
-  children: null
-};
-
 const authRoutes = {
   id: "Auth",
   path: "/auth",
@@ -253,263 +127,149 @@ const authRoutes = {
   ]
 };
 
-const componentsRoutes = {
-  id: "Components",
-  path: "/components",
-  header: "Elements",
-  icon: <Grid />,
+const dashboardsRoutes = {
+  id: "Dashboard",
+  path: "/dashboard",
+  // header: "Pages",
+  icon: <Sliders />,
+  containsHome: true,
+  children: [
+    // {
+    //   path: "/dashboard/default",
+    //   name: "Default",
+    //   component: Default
+    // },
+    {
+      path: "/dashboard/analytics",
+      name: "Analytics",
+      component: Analytics
+    }
+  ]
+};
+
+const profileRoutes = {
+  id: "Profile",
+  path: "/profile",
+  icon: <User />,
+  component: Profile,
+  children: null
+};
+
+const logRoutes = {
+  id: "Log",
+  path: "/logging",
+  icon: <List />,
+  component: logging,
+  children: null
+};
+
+const workflowRoutes = {
+  id: "Workflow",
+  path: "/workflow",
+  icon: <CheckSquare />,
+  component: logging,
   children: [
     {
-      path: "/components/alerts",
-      name: "Alerts",
+      path: "/workflow/account",
+      name: "Account management",
       component: Alerts
     },
     {
-      path: "/components/avatars",
-      name: "Avatars",
+      path: "/workflow/vm",
+      name: "VM allocation",
+      component: Alerts
+    },
+    {
+      path: "/workflow/movein",
+      name: "Move-in",
+      component: Alerts
+    },
+  ]
+};
+
+// const aaaServiceRoutes = {
+//   id: "AAAService",
+//   path: "/aaa-service",
+//   icon: <Grid />,
+//   children: [
+//     {
+//       path: "/aaa-service/syncUser",
+//       name: "User For Sync",
+//       component: syncUser
+//     }
+//   ]
+// };
+
+const resourceRoutes = {
+  id: "Resource",
+  path: "/resources",
+  icon: <Grid />,
+  children: [
+    {
+      path: "/resources/vm",
+      name: "VM",
+      component: Alerts
+    },
+    {
+      path: "/resources/port",
+      name: "Network Port",
       component: Avatars
     },
     {
-      path: "/components/badges",
-      name: "Badges",
+      path: "/resources/ip",
+      name: "IP address",
       component: Badges
     },
     {
-      path: "/components/buttons",
-      name: "Buttons",
+      path: "/resources/network",
+      name: "Network",
       component: Buttons
     },
     {
-      path: "/components/cards",
-      name: "Cards",
+      path: "/resources/storage",
+      name: "Storage",
       component: Cards
     },
     {
-      path: "/components/chips",
-      name: "Chips",
+      path: "/resources/firewall",
+      name: "Firewall",
       component: Chips
     },
     {
-      path: "/components/dialogs",
-      name: "Dialogs",
+      path: "/resources/hardware",
+      name: "Hardware",
       component: Dialogs
     },
     {
-      path: "/components/expansion-panels",
-      name: "Expansion Panels",
+      path: "/resources/platform",
+      name: "Platform",
       component: ExpPanels
     },
-    {
-      path: "/components/lists",
-      name: "Lists",
-      component: Lists
-    },
-    {
-      path: "/components/menus",
-      name: "Menus",
-      component: Menus
-    },
-    {
-      path: "/components/pagination",
-      name: "Pagination",
-      component: Pagination
-    },
-    {
-      path: "/components/progress",
-      name: "Progress",
-      component: Progress
-    },
-    {
-      path: "/components/snackbars",
-      name: "Snackbars",
-      component: Snackbars
-    },
-    {
-      path: "/components/tooltips",
-      name: "Tooltips",
-      component: Tooltips
-    }
   ]
 };
 
-const formsRoutes = {
-  id: "Forms",
-  path: "/forms",
-  icon: <CheckSquare />,
-  children: [
-    {
-      path: "/forms/pickers",
-      name: "Pickers",
-      component: Pickers
-    },
-    {
-      path: "/forms/selection-controls",
-      name: "Selection Controls",
-      component: SelectionCtrls
-    },
-    {
-      path: "/forms/selects",
-      name: "Selects",
-      component: Selects
-    },
-    {
-      path: "/forms/text-fields",
-      name: "Text Fields",
-      component: TextFields
-    },
-    {
-      path: "/forms/dropzone",
-      name: "Dropzone",
-      component: Dropzone
-    },
-    {
-      path: "/forms/editors",
-      name: "Editors",
-      component: Editors
-    }
-  ]
-};
-
-const tablesRoutes = {
-  id: "Tables",
-  path: "/tables",
+const recordRoutes = {
+  id: "Record allocation",
+  path: "/record",
   icon: <List />,
-  children: [
-    {
-      path: "/tables/simple-table",
-      name: "Simple Table",
-      component: SimpleTable
-    },
-    {
-      path: "/tables/advanced-table",
-      name: "Advanced Table",
-      component: AdvancedTable
-    }
-  ]
-};
-
-const iconsRoutes = {
-  id: "Icons",
-  path: "/icons",
-  icon: <Heart />,
-  children: [
-    {
-      path: "/icons/material-icons",
-      name: "Material Icons",
-      component: MaterialIcons
-    },
-    {
-      path: "/icons/feather-icons",
-      name: "Feather Icons",
-      component: FeatherIcons
-    }
-  ]
-};
-
-const chartRoutes = {
-  id: "Charts",
-  path: "/charts",
-  icon: <PieChart />,
-  component: Chartjs,
-  children: null
-};
-
-const mapsRoutes = {
-  id: "Maps",
-  path: "/maps",
-  icon: <Map />,
-  children: [
-    {
-      path: "/maps/google-maps",
-      name: "Google Maps",
-      component: GoogleMaps
-    },
-    {
-      path: "/maps/vector-maps",
-      name: "Vector Maps",
-      component: VectorMaps
-    }
-  ]
-};
-
-const presentationRoutes = {
-  id: "Presentation",
-  path: "/",
-  header: "Docs",
-  icon: <Monitor />,
-  component: Presentation,
-  children: null
-};
-
-const documentationRoutes = {
-  id: "Getting Started",
-  path: "/documentation",
-  icon: <BookOpen />,
-  component: Docs,
-  children: null
-};
-
-const changelogRoutes = {
-  id: "Changelog",
-  path: "/changelog",
-  badge: "v1.0.8",
-  icon: <List />,
-  component: Changelog,
-  children: null
-};
-
-// This route is not visisble in the sidebar
-const privateRoutes = {
-  id: "Private",
-  path: "/private",
-  component: Blank,
+  component: logging,
   children: null
 };
 
 export const dashboard = [
   dashboardsRoutes,
-  pagesRoutes,
   profileRoutes,
-  projectsRoutes,
-  orderRoutes,
-  invoiceRoutes,
-  tasksRoutes,
-  calendarRoutes,
-  componentsRoutes,
-  chartRoutes,
-  formsRoutes,
   logRoutes,
   // aaaServiceRoutes,
-  tablesRoutes,
-  iconsRoutes,
-  mapsRoutes,
-  presentationRoutes,
-  documentationRoutes,
-  changelogRoutes,
-  privateRoutes
 ];
 
 export const auth = [authRoutes];
 
 export default [
   dashboardsRoutes,
-  pagesRoutes,
-  profileRoutes,
-  projectsRoutes,
-  orderRoutes,
-  invoiceRoutes,
-  tasksRoutes,
-  calendarRoutes,
-  authRoutes,
-  componentsRoutes,
-  chartRoutes,
-  formsRoutes,
+  resourceRoutes,
+  workflowRoutes,
+  recordRoutes,
   logRoutes,
   // aaaServiceRoutes,
-  tablesRoutes,
-  iconsRoutes,
-  mapsRoutes,
-  presentationRoutes,
-  documentationRoutes,
-  changelogRoutes
 ];
