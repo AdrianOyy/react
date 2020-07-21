@@ -78,7 +78,7 @@ const presentationRoutes = {
   path: "/",
   header: "Docs",
   icon: <Monitor />,
-  component: Presentation,
+  component: Analytics,
   children: null
 };
 
@@ -105,7 +105,7 @@ const dashboardsRoutes = {
 const logRoutes = {
   id: "Log",
   path: "/logging",
-  icon: <List />,
+  icon: <Monitor />,
   component: logging,
   children: null
 };
@@ -131,6 +131,16 @@ const workflowRoutes = {
       name: "Move-in",
       component: Alerts
     },
+    {
+      path: "/workflow/request",
+      name: "Request",
+      component: Alerts
+    },
+    {
+      path: "/workflow/approval",
+      name: "Approval",
+      component: Alerts
+    },
   ]
 };
 
@@ -140,8 +150,13 @@ const aaaServiceRoutes = {
   icon: <Grid />,
   children: [
     {
-      path: "/aaa-service/syncUser",
-      name: "User For Sync",
+      path: "/aaa-service/users",
+      name: "User profile",
+      component: syncUser
+    },
+    {
+      path: "/aaa-service/tenant",
+      name: "Tenant",
       component: syncUser
     }
   ]
@@ -183,8 +198,8 @@ const resourceRoutes = {
       component: Chips
     },
     {
-      path: "/resources/hardware",
-      name: "Hardware",
+      path: "/resources/server",
+      name: "Server",
       component: Dialogs
     },
     {
@@ -196,10 +211,10 @@ const resourceRoutes = {
 };
 
 const recordRoutes = {
-  id: "Record allocation",
-  path: "/record",
+  id: "Allocation",
+  path: "/allocation",
   icon: <List />,
-  component: logging,
+  component: Dialogs,
   children: null
 };
 
