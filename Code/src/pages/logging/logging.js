@@ -84,8 +84,10 @@ function stableSort(array, comparator) {
 
 const headCells = [
   { id: 'logType', alignment: 'center', label: 'LogType' },
-  { id: 'message', alignment: 'center', label: 'Message' },
-  { id: 'createAt', alignment: 'center', label: 'CreateAt' },
+  { id: 'request', alignment: 'center', label: 'Request' },
+  { id: 'response', alignment: 'center', label: 'Response' },
+  { id: 'createdAt', alignment: 'center', label: 'CreatedAt' },
+  { id: 'actions', alignment: 'right', label: 'Actions' },
 ];
 
 function EmptyCard(props) {
@@ -118,7 +120,7 @@ function EmptyCard(props) {
     </div>
   );
 }
-  
+
 
 function EnhancedTableHead(props) {
   const { onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort } = props;
@@ -195,14 +197,14 @@ let EnhancedTableToolbar = props => {
 };
 
 function EnhancedTable() {
-  const [order, setOrder] = React.useState('asc');
-  const [orderBy, setOrderBy] = React.useState('customer');
+  const [order, setOrder] = React.useState('desc');
+  const [orderBy, setOrderBy] = React.useState('createdAt');
   const [selected, setSelected] = React.useState([]);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const [total, setTotal] = React.useState(0);
   const [emptyRows, setEmptyRows] = React.useState(0);
-  
+
   const [text, setText] = React.useState('');
   const [startDate, setStartDate] = React.useState('');
   const [endDate, setEndDate] = React.useState('');
@@ -234,12 +236,12 @@ function EnhancedTable() {
     setOrderBy(property);
   };
   const [rows, setRows] = useState([]);
-  
+
   useEffect(() => {
     loggingAPI.list(Object.assign(
       {},
       query,
-      { limit: rowsPerPage, page: page+1 })
+      { orderBy, order, limit: rowsPerPage, page: page+1 })
       ).then(response => {
       setTotal(response.data.total);
       setRows(response.data.data);
@@ -247,7 +249,7 @@ function EnhancedTable() {
       const emptyrow = rowsPerPage - length;
       setEmptyRows(emptyrow);
     });
-  }, [page, rowsPerPage, query]);
+  }, [page, rowsPerPage, query, orderBy, order]);
   // const [rows, setRows] = useState([]);
 
   // useEffect(() => {
@@ -256,7 +258,7 @@ function EnhancedTable() {
   //   })
   //    // loginAPI.login({ userName:'vivianapj', password:'ViP2013' }).then(response => {
   //   //   dispatch(login({ ...response.data.Data }));
-      
+
   //   //   var redirectUrl = getQueryString('redirect');
   //   //   router.history.push(!redirectUrl ? '/' : redirectUrl);
   //   // });
@@ -273,7 +275,7 @@ function EnhancedTable() {
   //   //   createData('000262', 'Over-Ear Headphones', '2020-01-23', '$210,00', 0),
   //   // ])
   // });
-  
+
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
       const newSelecteds = rows.map((n) => n.id);
@@ -286,7 +288,7 @@ function EnhancedTable() {
   const handleClick = (event, id) => {
     const selectedIndex = selected.indexOf(id);
     let newSelected = [];
-  
+
     if (selectedIndex === -1) {
       newSelected = newSelected.concat(selected, id);
     } else if (selectedIndex === 0) {
@@ -299,10 +301,10 @@ function EnhancedTable() {
         selected.slice(selectedIndex + 1),
       );
     }
-  
+
     setSelected(newSelected);
   };
-  
+
   const handleDelete = (event, id) => {
     // console.log('1111111111111111')
     loggingAPI.delete({id}).then(({data}) => {
@@ -330,9 +332,9 @@ function EnhancedTable() {
 
   return (
     <div>
-      <EmptyCard 
-        onHandelTextChange={handelTextChange} 
-        onHandelStartDateChange={handelStartDateChange} 
+      <EmptyCard
+        onHandelTextChange={handelTextChange}
+        onHandelStartDateChange={handelStartDateChange}
         onHandelEndDateChange={handelEndDateChange}
         onSearchButton={handlSearch}
       />
@@ -375,7 +377,8 @@ function EnhancedTable() {
                       </TableCell>
 
                       <TableCell align="center">{row.logType}</TableCell>
-                      <TableCell align="center">{row.message}</TableCell>
+                      <TableCell align="center">{row.request}</TableCell>
+                      <TableCell align="center">{row.response}</TableCell>
                       <TableCell align="center">
                         {dayjs(row.createdAt).format('YYYY-MM-DD HH:mm:ss')}
                       </TableCell>
@@ -418,7 +421,7 @@ function LogList() {
 
       <Grid
         justify="space-between"
-        container 
+        container
         spacing={24}
       >
         <Grid item>
@@ -437,7 +440,7 @@ function LogList() {
           </Breadcrumbs>
         </Grid>
       </Grid>
-      
+
       <Divider my={6} />
 
       <Grid container spacing={6}>
