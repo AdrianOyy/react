@@ -35,7 +35,7 @@ const Analytics = async(() => import("../pages/dashboards/Analytics"));
 const logging = async(() => import("../pages/logging/logging"));
 
 // syncUser components
-// const syncUser = async(() => import("../pages/aaa-service/syncUser"))
+const syncUser = async(() => import("../pages/aaa-service/syncUser"))
 
 // Documentation
 const Presentation = async(() => import("../pages/docs/Presentation"));
@@ -134,18 +134,18 @@ const workflowRoutes = {
   ]
 };
 
-// const aaaServiceRoutes = {
-//   id: "AAAService",
-//   path: "/aaa-service",
-//   icon: <Grid />,
-//   children: [
-//     {
-//       path: "/aaa-service/syncUser",
-//       name: "User For Sync",
-//       component: syncUser
-//     }
-//   ]
-// };
+const aaaServiceRoutes = {
+  id: "AAAService",
+  path: "/aaa-service",
+  icon: <Grid />,
+  children: [
+    {
+      path: "/aaa-service/syncUser",
+      name: "User For Sync",
+      component: syncUser
+    }
+  ]
+};
 
 const resourceRoutes = {
   id: "Resource",
@@ -207,7 +207,7 @@ export const dashboard = [
   dashboardsRoutes,
   presentationRoutes,
   // logRoutes,
-  // aaaServiceRoutes,
+  aaaServiceRoutes,
 ];
 
 export const auth = [authRoutes];
@@ -218,5 +218,5 @@ export default [
   workflowRoutes,
   recordRoutes,
   logRoutes,
-  // aaaServiceRoutes,
+  aaaServiceRoutes,
 ];

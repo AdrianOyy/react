@@ -3,11 +3,17 @@ import styled from "styled-components";
 import { NavLink as RouterNavLink } from "react-router-dom";
 import syncUserAPI from '../../api/syncUser.js'
 import Helmet from 'react-helmet';
+// import dayjs from 'dayjs';
 
 import {
+  // Box,
   Breadcrumbs as MuiBreadcrumbs,
+  Button,
+  Checkbox,
+  // Chip as MuiChip,
   Divider as MuiDivider,
   Grid,
+  IconButton,
   Link,
   Paper as MuiPaper,
   Table,
@@ -19,16 +25,27 @@ import {
   TableRow,
   TableSortLabel,
   Toolbar,
-  Typography
+  Tooltip,
+  Typography,
+  // CardContent,
+  TextField,
+  // Card as MuiCard
 } from "@material-ui/core";
 
 // import { green, orange, red } from "@material-ui/core/colors";
 
-// import {
-//   Refresh as RefreshIcon
-// } from "@material-ui/icons";
+import {
+  // Add as AddIcon,
+  // Archive as ArchiveIcon,
+  Delete as DeleteIcon,
+  FilterList as FilterListIcon,
+  // RemoveRedEye as RemoveRedEyeIcon,
+  // ReportOff
+} from "@material-ui/icons";
 
 import { spacing } from "@material-ui/system";
+
+import { makeStyles } from '@material-ui/core/styles';
 
 const NavLink = React.forwardRef((props, ref) => (
   <RouterNavLink innerRef={ref} {...props} />
@@ -40,13 +57,40 @@ const Breadcrumbs = styled(MuiBreadcrumbs)(spacing);
 
 const Paper = styled(MuiPaper)(spacing);
 
-// const Spacer = styled.div`
-//   flex: 1 1 100%;
-// `;
+// const Card = styled(MuiCard)(spacing);
+
+// const Chip = styled(MuiChip)`
+//   ${spacing};
+
+//   background: ${props => props.shipped && green[500]};
+//   background: ${props => props.processing && orange[700]};
+//   background: ${props => props.cancelled && red[500]};
+//   color: ${props => props.theme.palette.common.white};
+// `
+
+const Spacer = styled.div`
+  flex: 1 1 100%;
+`;
 
 const ToolbarTitle = styled.div`
   min-width: 150px;
 `;
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    display: 'flex',
+    flexWrap: 'wrap',
+    margin: theme.spacing(2),
+    border: '2ch'
+  },
+  textField: {
+    marginRight: theme.spacing(10),
+    width: '25ch',
+  },
+  button: {
+    marginRight: theme.spacing(10),
+  },
+}));
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -91,10 +135,31 @@ const headCells = [
   { id: 'UACDesc', alignment: 'center', label: 'UAC Desc' },
   { id: 'createdAt', alignment: 'center', label: 'CreatedAt' },
 ];
-let inited = false
+
+function EmptyCard(props) {
+  const { onHandelTextChange, onSearchButton } = props;
+  const classes = useStyles();
+  return (
+    <div className={classes.root}>
+      <TextField
+        id="surname"
+        onChange={onHandelTextChange.bind(this)}
+        label="surname"
+        className={classes.textField}/>
+      <Button
+        variant="contained"
+        color="primary"
+        onClick={onSearchButton}
+        className={classes.button}>
+        Search
+      </Button>
+    </div>
+  );
+}
+  
 
 function EnhancedTableHead(props) {
-  const { order, orderBy, onRequestSort } = props;
+  const { onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort } = props;
   const createSortHandler = (property) => (event) => {
     onRequestSort(event, property);
   };
@@ -102,6 +167,14 @@ function EnhancedTableHead(props) {
   return (
     <TableHead>
       <TableRow>
+        <TableCell padding="checkbox">
+          <Checkbox
+            indeterminate={numSelected > 0 && numSelected < rowCount}
+            checked={rowCount > 0 && numSelected === rowCount}
+            onChange={onSelectAllClick}
+            inputProps={{ 'aria-label': 'select all' }}
+          />
+        </TableCell>
         {headCells.map((headCell) => (
           <TableCell
             key={headCell.id}
@@ -135,10 +208,26 @@ let EnhancedTableToolbar = props => {
           </Typography>
         ) : (
           <Typography variant="h6" id="tableTitle">
-            User For Sync
+            Log
           </Typography>
         )}
       </ToolbarTitle>
+      <Spacer />
+      <div>
+        {numSelected > 0 ? (
+          <Tooltip title="Delete">
+            <IconButton aria-label="Delete">
+              <DeleteIcon />
+            </IconButton>
+          </Tooltip>
+        ) : (
+          <Tooltip title="Filter list">
+            <IconButton aria-label="Filter list">
+              <FilterListIcon />
+            </IconButton>
+          </Tooltip>
+        )}
+      </div>
     </Toolbar>
   );
 };
@@ -148,28 +237,47 @@ function EnhancedTable() {
   const [orderBy, setOrderBy] = React.useState('customer');
   const [selected, setSelected] = React.useState([]);
   const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(10);
+  const [rowsPerPage, setRowsPerPage] = React.useState(1);
+  const [total, setTotal] = React.useState(0);
+  const [emptyRows, setEmptyRows] = React.useState(0);
+  
+  const [text, setText] = React.useState('');
+  const [query, setQuery] = React.useState({});
+
+  const handelTextChange = (event) => {
+    setText(event.target.value)
+  };
+
+  const handlSearch =  () => {
+    setQuery({
+      surname: text
+    })
+  };
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
     setOrder(isAsc ? 'desc' : 'asc');
     setOrderBy(property);
   };
-
   const [rows, setRows] = useState([]);
-
+  
   useEffect(() => {
-    if (!inited) {
-      syncUserAPI.list({}).then(response => {
-        setRows(response.data.data.rows || []);
-        inited = true
-      })
-    }
-  });
+    syncUserAPI.list(Object.assign(
+      {},
+      query,
+      { limit: rowsPerPage, page: page+1 })
+      ).then(response => {
+      console.log(response.data)
+      setTotal(response.data.data.count);
+      setRows(response.data.data.rows);
+      const length = response.data.data.length
+      const emptyrow = rowsPerPage - length;
+      setEmptyRows(emptyrow);
+    });
+  }, [page, rowsPerPage, query]);
   
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
-      console.log('rows', rows)
       const newSelecteds = rows.map((n) => n.id);
       setSelected(newSelecteds);
       return;
@@ -177,7 +285,34 @@ function EnhancedTable() {
     setSelected([]);
   };
 
+  const handleClick = (event, id) => {
+    const selectedIndex = selected.indexOf(id);
+    let newSelected = [];
+  
+    if (selectedIndex === -1) {
+      newSelected = newSelected.concat(selected, id);
+    } else if (selectedIndex === 0) {
+      newSelected = newSelected.concat(selected.slice(1));
+    } else if (selectedIndex === selected.length - 1) {
+      newSelected = newSelected.concat(selected.slice(0, -1));
+    } else if (selectedIndex > 0) {
+      newSelected = newSelected.concat(
+        selected.slice(0, selectedIndex),
+        selected.slice(selectedIndex + 1),
+      );
+    }
+  
+    setSelected(newSelected);
+  };
+  
+  // const handleDelete = (event, id) => {
+  //   syncUserAPI.delete({id}).then(({data}) => {
+  //     console.log(data)
+  //   })
+  // }
+
   const handleChangePage = (event, newPage) => {
+    console.log(newPage)
     setPage(newPage);
   };
 
@@ -187,11 +322,14 @@ function EnhancedTable() {
   };
 
   const isSelected = (id) => selected.indexOf(id) !== -1;
-  const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
+
 
   return (
     <div>
-      {/* <EmptyCard /> */}
+      <EmptyCard 
+        onHandelTextChange={handelTextChange}
+        onSearchButton={handlSearch}
+      />
       <Paper>
         <EnhancedTableToolbar numSelected={selected.length} />
         <TableContainer>
@@ -210,10 +348,9 @@ function EnhancedTable() {
             />
             <TableBody>
               {stableSort(rows, getComparator(order, orderBy))
-                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row, index) => {
                   const isItemSelected = isSelected(row.id);
-
+                  const labelId = `enhanced-table-checkbox-${index}`;
                   return (
                     <TableRow
                       hover
@@ -223,6 +360,13 @@ function EnhancedTable() {
                       key={`${row.id}-${index}`}
                       selected={isItemSelected}
                       >
+                      <TableCell padding="checkbox">
+                        <Checkbox
+                          checked={isItemSelected}
+                          inputProps={{ 'aria-labelledby': labelId }}
+                          onClick={(event) => handleClick(event, row.id)}
+                        />
+                      </TableCell>
                       <TableCell align="center">{row.corpId}</TableCell>
                       <TableCell align="center">{row.alias}</TableCell>
                       <TableCell align="center">{row.surname}</TableCell>
@@ -237,12 +381,19 @@ function EnhancedTable() {
                       <TableCell align="center">{row.passwordLastSet}</TableCell>
                       <TableCell align="center">{row.UACCode}</TableCell>
                       <TableCell align="center">{row.UACDesc}</TableCell>
-                      <TableCell align="center">{row.createdAt}</TableCell>
+                      <TableCell align="center">{row.createdAt}</TableCell> 
+                      {/* <TableCell padding="none" align="right">
+                        <Box mr={2}>
+                          <IconButton aria-label="delete" onClick={(event) => handleDelete(event, row.id)}>
+                            <DeleteIcon />
+                          </IconButton>
+                        </Box>
+                      </TableCell> */}
                     </TableRow>
                   );
                 })}
               {emptyRows > 0 && (
-                <TableRow style={{ height: (10) * emptyRows }}>
+                <TableRow style={{ height: (53) * emptyRows }}>
                   <TableCell colSpan={8} />
                 </TableRow>
               )}
@@ -252,7 +403,7 @@ function EnhancedTable() {
         <TablePagination
           rowsPerPageOptions={[1, 2, 3]}
           component="div"
-          count={rows.length}
+          count={total}
           rowsPerPage={rowsPerPage}
           page={page}
           onChangePage={handleChangePage}
@@ -263,7 +414,7 @@ function EnhancedTable() {
   );
 }
 
-function LogList() {
+function SyncList() {
   return (
     <React.Fragment>
       <Helmet title="User For Sync" />
@@ -301,4 +452,4 @@ function LogList() {
   );
 }
 
-export default LogList;
+export default SyncList;
