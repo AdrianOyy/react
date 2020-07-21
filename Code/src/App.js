@@ -16,8 +16,8 @@ function App({ theme }) {
   return (
     <React.Fragment>
       <Helmet
-        titleTemplate="%s | SENSE Platform"
-        defaultTitle="SENSE Platform"
+        titleTemplate="%s | Material App"
+        defaultTitle="Material App - React Admin & Dashboard Template"
       />
       <StylesProvider injectFirst>
         <MuiPickersUtilsProvider utils={DateFnsUtils}>
