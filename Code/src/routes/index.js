@@ -204,9 +204,12 @@ const recordRoutes = {
 };
 
 export const dashboard = [
-  dashboardsRoutes,
   presentationRoutes,
-  // logRoutes,
+  dashboardsRoutes,
+  resourceRoutes,
+  workflowRoutes,
+  recordRoutes,
+  logRoutes,
   aaaServiceRoutes,
 ];
 
