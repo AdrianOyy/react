@@ -24,13 +24,16 @@ class CommonTip extends Component {
     let defaultOptions = {
       msg: '',
       severity: 'info',
-      autoHideDuration: 6000,
+      autoHideDuration: 5000,
       vertical: 'top',
-      horizontal: 'center'
+      horizontal: 'center',
+      ...options,
     };
-    let opt = Object.assign({}, defaultOptions, options);
+    let opt = Object.assign({}, defaultOptions);
     const Snackbar = styled(MuiSnackbar)(spacing);
     const div = document.createElement("div");
+    div.style.position="absolute";
+    div.style.zIndex="1300";
     document.body.append(div);
 
       const handleClose =  (event, reason) => {
@@ -44,10 +47,16 @@ class CommonTip extends Component {
 
     const Alert = (props) => (
       <Snackbar anchorOrigin={{ vertical: props.vertical, horizontal: props.horizontal }} open={true}  autoHideDuration={props.autoHideDuration} onClose={handleClose}> 
-        <MuiAlert elevation={6} variant="filled" severity={props.severity} onClose={handleClose}>
+        <MuiAlert variant="filled" severity={props.severity}>
           {props.msg}
         </MuiAlert>
+        {/* <div>{props.msg}</div> */}
       </Snackbar>
+      // <Snackbar anchorOrigin={{ vertical: props.vertical, horizontal: props.horizontal }} open={true}  autoHideDuration={props.autoHideDuration} onClose={handleClose}> 
+      //   <MuiAlert variant="filled" severity={props.severity} onClose={handleClose}>
+      //     {props.msg}
+      //   </MuiAlert>
+      // </Snackbar>
     );
     ReactDOM.render(<Alert {...opt} />, div);
   }

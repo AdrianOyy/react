@@ -87,7 +87,7 @@ export default {
           resolve(res)
         })
         .catch(error => {
-          CommonTip.error(error, { });
+          CommonTip.error(error.message, { });
           reject(error)
         })
     })

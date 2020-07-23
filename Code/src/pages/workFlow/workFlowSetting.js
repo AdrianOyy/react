@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styled from "styled-components";
 import { NavLink as RouterNavLink } from "react-router-dom";
-import syncUserAPI from '../../api/syncUser.js'
+// import syncUserAPI from '../../api/syncUser.js'
 import workFlowAPI  from '../../api/workFlow.js'
 import Helmet from 'react-helmet';
 import CommonTip from '../../components/CommonTip'
@@ -154,7 +154,7 @@ function EmptyCard(props) {
     </div>
   );
 }
-  
+
 
 function EnhancedTableHead(props) {
   const { onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort } = props;
@@ -262,16 +262,15 @@ function EnhancedTable() {
   };
   const [rows, setRows] = useState([]);
   
-   useEffect(() => {
+  useEffect(() => {
     workFlowAPI.getProcessDefinitions().then(response => {
-       console.log(response.data.data)
        // setTotal(response.data.data.total);
         setRows(response.data.data);
       //  const length = response.data.data.length
       //  const emptyrow = rowsPerPage - length;
       //  setEmptyRows(emptyrow);
-     });
-   },[]);
+    })
+  },[]);
   
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
@@ -421,7 +420,7 @@ function SyncList() {
       <Grid
         justify="space-between"
         container 
-        spacing={24}
+        spacing={10}
       >
         <Grid item>
           <Typography variant="h3" gutterBottom display="inline">
