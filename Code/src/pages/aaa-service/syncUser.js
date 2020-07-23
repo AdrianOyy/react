@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { NavLink as RouterNavLink } from "react-router-dom";
 import syncUserAPI from '../../api/syncUser.js'
 import Helmet from 'react-helmet';
-// import dayjs from 'dayjs';
+import dayjs from 'dayjs';
 
 import {
   // Box,
@@ -119,25 +119,26 @@ function stableSort(array, comparator) {
 }
 
 const headCells = [
-  { id: 'corpId', alignment: 'center', label: 'CORP ID' },
+  // { id: 'corpId', alignment: 'center', label: 'CORP ID' },
   { id: 'alias', alignment: 'center', label: 'Alias' },
   { id: 'surname', alignment: 'center', label: 'Surname' },
   { id: 'givenname', alignment: 'center', label: 'Given Name' },
   { id: 'title', alignment: 'center', label: 'Title' },
   { id: 'displayname', alignment: 'center', label: 'Display Name' },
   { id: 'email', alignment: 'center', label: 'Email' },
-  { id: 'proxyAddresses', alignment: 'center', label: 'Proxy Addresses' },
+  // { id: 'proxyAddresses', alignment: 'center', label: 'Proxy Addresses' },
   { id: 'cluster', alignment: 'center', label: 'Cluster' },
   { id: 'hospital', alignment: 'center', label: 'Hospital' },
   { id: 'department', alignment: 'center', label: 'Department' },
-  { id: 'passwordLastSet', alignment: 'center', label: 'Password Last Set' },
-  { id: 'UACCode', alignment: 'center', label: 'UAC Code' },
-  { id: 'UACDesc', alignment: 'center', label: 'UAC Desc' },
+  // { id: 'passwordLastSet', alignment: 'center', label: 'Password Last Set' },
+  // { id: 'UACCode', alignment: 'center', label: 'UAC Code' },
+  // { id: 'UACDesc', alignment: 'center', label: 'UAC Desc' },
   { id: 'createdAt', alignment: 'center', label: 'CreatedAt' },
 ];
 
 function EmptyCard(props) {
   const { onHandelTextChange, onSearchButton } = props;
+  // const { onHandelTextChange, onSearchButton, onSyncButton } = props;
   const classes = useStyles();
   return (
     <div className={classes.root}>
@@ -153,6 +154,13 @@ function EmptyCard(props) {
         className={classes.button}>
         Search
       </Button>
+      {/* <Button
+        variant="contained"
+        color="primary"
+        onClick={onSyncButton}
+        className={classes.button}>
+        Sync
+      </Button> */}
     </div>
   );
 }
@@ -208,7 +216,7 @@ let EnhancedTableToolbar = props => {
           </Typography>
         ) : (
           <Typography variant="h6" id="tableTitle">
-            Log
+            User profile
           </Typography>
         )}
       </ToolbarTitle>
@@ -253,6 +261,11 @@ function EnhancedTable() {
       surname: text
     })
   };
+
+  const handlSync = () => {
+    syncUserAPI.sync().then(response => {
+    })
+  }
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -329,6 +342,7 @@ function EnhancedTable() {
       <EmptyCard 
         onHandelTextChange={handelTextChange}
         onSearchButton={handlSearch}
+        // onSyncButton={handlSync}
       />
       <Paper>
         <EnhancedTableToolbar numSelected={selected.length} />
@@ -367,21 +381,21 @@ function EnhancedTable() {
                           onClick={(event) => handleClick(event, row.id)}
                         />
                       </TableCell>
-                      <TableCell align="center">{row.corpId}</TableCell>
+                      {/* <TableCell align="center">{row.corpId}</TableCell> */}
                       <TableCell align="center">{row.alias}</TableCell>
                       <TableCell align="center">{row.surname}</TableCell>
                       <TableCell align="center">{row.givenname}</TableCell>
                       <TableCell align="center">{row.title}</TableCell>
                       <TableCell align="center">{row.displayname}</TableCell>
                       <TableCell align="center">{row.email}</TableCell>
-                      <TableCell align="center">{row.proxyAddresses}</TableCell>
+                      {/* <TableCell align="center">{row.proxyAddresses}</TableCell> */}
                       <TableCell align="center">{row.cluster}</TableCell>
                       <TableCell align="center">{row.hospital}</TableCell>
                       <TableCell align="center">{row.department}</TableCell>
-                      <TableCell align="center">{row.passwordLastSet}</TableCell>
-                      <TableCell align="center">{row.UACCode}</TableCell>
-                      <TableCell align="center">{row.UACDesc}</TableCell>
-                      <TableCell align="center">{row.createdAt}</TableCell> 
+                      {/* <TableCell align="center">{row.passwordLastSet}</TableCell> */}
+                      {/* <TableCell align="center">{row.UACCode}</TableCell> */}
+                      {/* <TableCell align="center">{row.UACDesc}</TableCell> */}
+                      <TableCell align="center">{dayjs(row.createdAt).format('YYYY-MM-DD HH:mm:ss')}</TableCell> 
                       {/* <TableCell padding="none" align="right">
                         <Box mr={2}>
                           <IconButton aria-label="delete" onClick={(event) => handleDelete(event, row.id)}>
@@ -417,7 +431,7 @@ function EnhancedTable() {
 function SyncList() {
   return (
     <React.Fragment>
-      <Helmet title="User For Sync" />
+      <Helmet title="User profile" />
 
       <Grid
         justify="space-between"
@@ -426,7 +440,7 @@ function SyncList() {
       >
         <Grid item>
           <Typography variant="h3" gutterBottom display="inline">
-          User For Sync
+          User profile
           </Typography>
 
           <Breadcrumbs aria-label="Breadcrumb" mt={2}>
@@ -436,7 +450,7 @@ function SyncList() {
             <Link component={NavLink} exact to="/">
               Pages
             </Link>
-            <Typography>User For Sync</Typography>
+            <Typography>User profile</Typography>
           </Breadcrumbs>
         </Grid>
       </Grid>
