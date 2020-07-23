@@ -40,6 +40,9 @@ const syncUser = async(() => import("../pages/aaa-service/syncUser"))
 // Documentation
 const Presentation = async(() => import("../pages/docs/Presentation"));
 
+//workFlow
+const WorkflowSetting = async(() => import("../pages/workFlow/workFlowSetting"));
+
 const authRoutes = {
   id: "Auth",
   path: "/auth",
@@ -140,6 +143,11 @@ const workflowRoutes = {
       path: "/workflow/approval",
       name: "Approval",
       component: Alerts
+    },
+    {
+      path: "/workflow/workflowSetting",
+      name: "WorkflowSetting",
+      component: WorkflowSetting
     },
   ]
 };
