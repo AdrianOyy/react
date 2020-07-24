@@ -43,6 +43,9 @@ const Presentation = async(() => import("../pages/docs/Presentation"));
 //workFlow
 const WorkflowSetting = async(() => import("../pages/workFlow/workFlowSetting"));
 
+// management
+const management = async(() => import("../pages/management/management"));
+
 const authRoutes = {
   id: "Auth",
   path: "/auth",
@@ -166,7 +169,12 @@ const aaaServiceRoutes = {
       path: "/aaa-service/tenant",
       name: "Tenant",
       component: syncUser
-    }
+    },
+    {
+      path: "/aaa-service/management",
+      name: "Management",
+      component: management,
+    },
   ]
 };
 
