@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import styled from "styled-components";
-import { NavLink as RouterNavLink } from "react-router-dom";
+import { NavLink as RouterNavLink, Link as RouterLink } from "react-router-dom";
 import syncUserAPI from '../../api/syncUser.js'
 import Helmet from 'react-helmet';
 import dayjs from 'dayjs';
 
 import {
-  // Box,
+  Box,
   Breadcrumbs as MuiBreadcrumbs,
   Button,
   Checkbox,
@@ -39,7 +39,7 @@ import {
   // Archive as ArchiveIcon,
   Delete as DeleteIcon,
   FilterList as FilterListIcon,
-  // RemoveRedEye as RemoveRedEyeIcon,
+  RemoveRedEye as RemoveRedEyeIcon,
   // ReportOff
 } from "@material-ui/icons";
 
@@ -134,6 +134,7 @@ const headCells = [
   // { id: 'UACCode', alignment: 'center', label: 'UAC Code' },
   // { id: 'UACDesc', alignment: 'center', label: 'UAC Desc' },
   { id: 'createdAt', alignment: 'center', label: 'CreatedAt' },
+  { id: 'actions', alignment: 'right', label: 'Actions' },
 ];
 
 function EmptyCard(props) {
@@ -262,10 +263,10 @@ function EnhancedTable() {
     })
   };
 
-  const handlSync = () => {
-    syncUserAPI.sync().then(response => {
-    })
-  }
+  // const handlSync = () => {
+  //   syncUserAPI.sync().then(response => {
+  //   })
+  // }
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -318,8 +319,8 @@ function EnhancedTable() {
     setSelected(newSelected);
   };
   
-  // const handleDelete = (event, id) => {
-  //   syncUserAPI.delete({id}).then(({data}) => {
+  // const handleDetail = (event, id) => {
+  //   syncUserAPI.detail(id).then(({data}) => {
   //     console.log(data)
   //   })
   // }
@@ -396,13 +397,13 @@ function EnhancedTable() {
                       {/* <TableCell align="center">{row.UACCode}</TableCell> */}
                       {/* <TableCell align="center">{row.UACDesc}</TableCell> */}
                       <TableCell align="center">{dayjs(row.createdAt).format('YYYY-MM-DD HH:mm:ss')}</TableCell> 
-                      {/* <TableCell padding="none" align="right">
+                      <TableCell padding="none" align="right">
                         <Box mr={2}>
-                          <IconButton aria-label="delete" onClick={(event) => handleDelete(event, row.id)}>
-                            <DeleteIcon />
+                          <IconButton aria-label="details" component={RouterLink} to="/aaa-service/userDetails">
+                            <RemoveRedEyeIcon />
                           </IconButton>
                         </Box>
-                      </TableCell> */}
+                      </TableCell>
                     </TableRow>
                   );
                 })}
@@ -444,13 +445,10 @@ function SyncList() {
           </Typography>
 
           <Breadcrumbs aria-label="Breadcrumb" mt={2}>
-            <Link component={NavLink} exact to="/">
-              Dashboard
+            <Typography>AAAService</Typography>
+            <Link component={NavLink} exact to="/aaa-service/users">
+              User profile
             </Link>
-            <Link component={NavLink} exact to="/">
-              Pages
-            </Link>
-            <Typography>User profile</Typography>
           </Breadcrumbs>
         </Grid>
       </Grid>
