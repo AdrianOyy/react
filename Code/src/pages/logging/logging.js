@@ -36,6 +36,7 @@ import {
 } from "@material-ui/icons";
 
 import { spacing } from "@material-ui/system";
+import {makeStyles} from "@material-ui/core/styles";
 
 const NavLink = React.forwardRef((props, ref) => (
   <RouterNavLink innerRef={ref} {...props} />
@@ -46,6 +47,22 @@ const Divider = styled(MuiDivider)(spacing);
 const Breadcrumbs = styled(MuiBreadcrumbs)(spacing);
 
 const Paper = styled(MuiPaper)(spacing);
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    display: 'flex',
+    flexWrap: 'wrap',
+    margin: theme.spacing(2),
+    border: '2ch'
+  },
+  textField: {
+    marginRight: theme.spacing(10),
+    width: '25ch',
+  },
+  button: {
+    marginRight: theme.spacing(10),
+  },
+}));
 
 const Spacer = styled.div`
   flex: 1 1 100%;
@@ -92,31 +109,33 @@ const headCells = [
 
 function EmptyCard(props) {
   const { onHandelTextChange, onHandelStartDateChange, onHandelEndDateChange, onSearchButton } = props;
-
+  const classes = useStyles();
   return (
-    <div>
-      <TextField size="small" id="Message" onChange={onHandelTextChange.bind(this)} label="Message" variant="outlined" />
+    <div className={classes.root}>
+      <TextField size="small" id="Message" onChange={onHandelTextChange.bind(this)} className={classes.textField} label="Message"  />
         <TextField
           id="datetime-local"
-          label="Next appointment"
-          type="datetime-local"
-          defaultValue="2017-05-24T10:30"
+          label="Start Date"
+          type="date"
+          className={classes.textField}
+          defaultValue="2020-07-01"
           onChange={onHandelStartDateChange.bind(this)}
           InputLabelProps={{
             shrink: true
           }}/>
         <TextField
           id="datetime-local"
-          label="Next appointment"
-          type="datetime-local"
-          defaultValue="2017-05-24T10:30"
+          label="End Date"
+          type="date"
+          defaultValue="2020-07-31"
+          className={classes.textField}
           onChange={onHandelEndDateChange.bind(this)}
           InputLabelProps={{
             shrink: true
           }}/>
-      <Button variant="contained" color="primary" onClick={onSearchButton} >
-        Search
-      </Button>
+        <Button variant="contained"  className={classes.button} color="primary" onClick={onSearchButton} >
+          Search
+        </Button>
     </div>
   );
 }
