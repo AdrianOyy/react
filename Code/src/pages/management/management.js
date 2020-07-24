@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styled from "styled-components";
 import { NavLink as RouterNavLink } from "react-router-dom";
-import syncUserAPI from '../../api/syncUser.js'
 import Helmet from 'react-helmet';
-import dayjs from 'dayjs';
 
 import {
   // Box,
@@ -266,11 +264,6 @@ function EnhancedTable() {
       surname: text
     })
   };
-
-  const handlSync = () => {
-    syncUserAPI.sync().then(response => {
-    })
-  }
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';

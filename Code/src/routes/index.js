@@ -37,6 +37,12 @@ const logging = async(() => import("../pages/logging/logging"));
 // syncUser components
 const syncUser = async(() => import("../pages/aaa-service/syncUser"))
 
+// syncUser detail components
+const syncUserDetails = async(() => import("../pages/aaa-service/syncUserDetails"))
+
+// tenant components
+const tenants = async(() => import("../pages/aaa-service/tenants"))
+
 // Documentation
 const Presentation = async(() => import("../pages/docs/Presentation"));
 
@@ -166,9 +172,9 @@ const aaaServiceRoutes = {
       component: syncUser
     },
     {
-      path: "/aaa-service/tenant",
+      path: "/aaa-service/tenants",
       name: "Tenant",
-      component: syncUser
+      component: tenants
     },
     {
       path: "/aaa-service/management",
@@ -176,6 +182,13 @@ const aaaServiceRoutes = {
       component: management,
     },
   ]
+};
+
+const syncUserDetailsRoutes = {
+  id: "syncUserDetails",
+  path: "/aaa-service/userDetails",
+  component: syncUserDetails,
+  children: null
 };
 
 const resourceRoutes = {
@@ -242,6 +255,10 @@ export const dashboard = [
   recordRoutes,
   logRoutes,
   aaaServiceRoutes,
+];
+
+export const details = [
+  syncUserDetailsRoutes,
 ];
 
 export const auth = [authRoutes];
