@@ -120,7 +120,8 @@ function stableSort(array, comparator) {
 
 const headCells = [
   { id: 'project', alignment: 'center', label: 'Project' },
-  { id: 'managerADGroup', alignment: 'center', label: 'Manager AD Group' },
+  { id: 'ADGroup', alignment: 'center', label: 'AD Group' },
+  { id: 'right', alignment: 'center', label: 'Right' },
   { id: 'createdAt', alignment: 'center', label: 'CreatedAt' },
   { id: 'updatedAt', alignment: 'center', label: 'UpdatedAt' },
 ];
@@ -351,7 +352,8 @@ function EnhancedTable() {
                         />
                       </TableCell>
                       <TableCell align="center">{row.project}</TableCell>
-                      <TableCell align="center">{row.managerADGroup}</TableCell>
+                      <TableCell align="center">{row.ADGroup}</TableCell>
+                      <TableCell align="center">{row.right}</TableCell>
                       <TableCell align="center">{dayjs(row.createdAt).format('YYYY-MM-DD HH:mm:ss')}</TableCell> 
                       <TableCell align="center">{dayjs(row.updatedAt).format('YYYY-MM-DD HH:mm:ss')}</TableCell> 
                       {/* <TableCell padding="none" align="right">
