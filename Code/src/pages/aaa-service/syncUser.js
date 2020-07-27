@@ -217,7 +217,7 @@ let EnhancedTableToolbar = props => {
           </Typography>
         ) : (
           <Typography variant="h6" id="tableTitle">
-            User profile
+            User Profile
           </Typography>
         )}
       </ToolbarTitle>
@@ -337,7 +337,7 @@ function EnhancedTable() {
 
   const isSelected = (id) => selected.indexOf(id) !== -1;
 
-
+  
   return (
     <div>
       <EmptyCard 
@@ -399,7 +399,7 @@ function EnhancedTable() {
                       <TableCell align="center">{dayjs(row.createdAt).format('YYYY-MM-DD HH:mm:ss')}</TableCell> 
                       <TableCell padding="none" align="right">
                         <Box mr={2}>
-                          <IconButton aria-label="details" component={RouterLink} to="/aaa-service/userDetails">
+                        <IconButton aria-label="details" component={RouterLink} to="/aaa-service/userDetails">
                             <RemoveRedEyeIcon />
                           </IconButton>
                         </Box>
@@ -432,7 +432,7 @@ function EnhancedTable() {
 function SyncList() {
   return (
     <React.Fragment>
-      <Helmet title="User profile" />
+      <Helmet title="User Profile" />
 
       <Grid
         justify="space-between"
@@ -441,13 +441,13 @@ function SyncList() {
       >
         <Grid item>
           <Typography variant="h3" gutterBottom display="inline">
-          User profile
+          User Profile
           </Typography>
 
           <Breadcrumbs aria-label="Breadcrumb" mt={2}>
-            <Typography>AAAService</Typography>
+            <Typography>AAA Service</Typography>
             <Link component={NavLink} exact to="/aaa-service/users">
-              User profile
+              User Profile
             </Link>
           </Breadcrumbs>
         </Grid>

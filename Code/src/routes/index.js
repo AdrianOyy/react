@@ -162,13 +162,13 @@ const workflowRoutes = {
 };
 
 const aaaServiceRoutes = {
-  id: "AAAService",
+  id: "AAA Service",
   path: "/aaa-service",
   icon: <Grid />,
   children: [
     {
       path: "/aaa-service/users",
-      name: "User profile",
+      name: "User Profile",
       component: syncUser
     },
     {
