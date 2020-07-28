@@ -1,9 +1,9 @@
 import React from "react";
 import styled from "styled-components";
-import { Link } from "react-router-dom";
+import { useHistory, Link } from "react-router-dom";
 import authAPI from '../../api/auth.js'
-
 import Helmet from 'react-helmet';
+import { encryption } from '../../utils/encryption'
 
 import {
   Avatar,
@@ -37,25 +37,25 @@ const BigAvatar = styled(Avatar)`
   text-align: center;
   margin: 0 auto ${props => props.theme.spacing(5)}px;
 `;
-
 function SignIn() {
-
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
+  const history = useHistory();
 
   const login =  () => {
     let account = email;
     let pwd = password;
+
     // let pwd = Base64.stringify(AES.encrypt(password, 'secret key 123'));
-    
     authAPI.login({
       username: account,
-      password: pwd
+      password: encryption(pwd)
     }).then(response => {
       if (response.data.data === null) {
         console.log('login failed')
       } else {
-        console.log(response.data.data)
+        history.push('/dashboard/analytics')
+        // console.log(response.data.data)
       }
     })
   };
