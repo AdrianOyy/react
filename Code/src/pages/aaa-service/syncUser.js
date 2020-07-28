@@ -263,11 +263,6 @@ function EnhancedTable() {
     })
   };
 
-  // const handlSync = () => {
-  //   syncUserAPI.sync().then(response => {
-  //   })
-  // }
-
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
     setOrder(isAsc ? 'desc' : 'asc');
