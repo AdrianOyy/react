@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import styled from "styled-components";
-import { NavLink as RouterNavLink } from "react-router-dom";
-import tenantsAPI from '../../api/tenants.js'
+import { NavLink as RouterNavLink, useHistory } from "react-router-dom";
+import tenantAPI from '../../api/tenant.js'
 import Helmet from 'react-helmet';
 import dayjs from 'dayjs';
 
 import {
-  // Box,
+  Box,
   Breadcrumbs as MuiBreadcrumbs,
   Button,
   Checkbox,
@@ -39,7 +39,7 @@ import {
   // Archive as ArchiveIcon,
   Delete as DeleteIcon,
   FilterList as FilterListIcon,
-  // RemoveRedEye as RemoveRedEyeIcon,
+  Edit as EditIcon,
   // ReportOff
 } from "@material-ui/icons";
 
@@ -124,6 +124,7 @@ const headCells = [
   { id: 'right', alignment: 'center', label: 'Right' },
   { id: 'createdAt', alignment: 'center', label: 'CreatedAt' },
   { id: 'updatedAt', alignment: 'center', label: 'UpdatedAt' },
+  { id: 'actions', alignment: 'right', label: 'Actions' },
 ];
 
 function EmptyCard(props) {
@@ -234,6 +235,8 @@ function EnhancedTable() {
   const [text, setText] = React.useState('');
   const [query, setQuery] = React.useState({});
 
+  const history = useHistory();
+
   const handelTextChange = (event) => {
     setText(event.target.value)
   };
@@ -252,7 +255,7 @@ function EnhancedTable() {
   const [rows, setRows] = useState([]);
   
   useEffect(() => {
-    tenantsAPI.list(Object.assign(
+    tenantAPI.list(Object.assign(
       {},
       query,
       { limit: rowsPerPage, page: page+1 })
@@ -299,6 +302,13 @@ function EnhancedTable() {
     console.log(newPage)
     setPage(newPage);
   };
+
+  const handleDetail = (event, id) => {
+    const path = {
+      pathname:'/aaa-service/tenantsDetails/'+id,
+    }
+    history.push(path);
+  }
 
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(parseInt(event.target.value, 10));
@@ -356,13 +366,13 @@ function EnhancedTable() {
                       <TableCell align="center">{row.right}</TableCell>
                       <TableCell align="center">{dayjs(row.createdAt).format('YYYY-MM-DD HH:mm:ss')}</TableCell> 
                       <TableCell align="center">{dayjs(row.updatedAt).format('YYYY-MM-DD HH:mm:ss')}</TableCell> 
-                      {/* <TableCell padding="none" align="right">
+                      <TableCell padding="none" align="right">
                         <Box mr={2}>
-                          <IconButton aria-label="delete" onClick={(event) => handleDelete(event, row.id)}>
-                            <DeleteIcon />
-                          </IconButton>
+                        <IconButton aria-label="details" onClick={(event) => handleDetail(event, row.id)}>
+                          <EditIcon />
+                        </IconButton>
                         </Box>
-                      </TableCell> */}
+                      </TableCell>
                     </TableRow>
                   );
                 })}

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styled from "styled-components";
-import { NavLink as RouterNavLink, Link as RouterLink } from "react-router-dom";
+import { NavLink as RouterNavLink, useHistory } from "react-router-dom";
 import syncUserAPI from '../../api/syncUser.js'
 import Helmet from 'react-helmet';
 import dayjs from 'dayjs';
@@ -253,6 +253,8 @@ function EnhancedTable() {
   const [text, setText] = React.useState('');
   const [query, setQuery] = React.useState({});
 
+  const history = useHistory();
+
   const handelTextChange = (event) => {
     setText(event.target.value)
   };
@@ -276,7 +278,7 @@ function EnhancedTable() {
       query,
       { limit: rowsPerPage, page: page+1 })
       ).then(response => {
-      console.log(response.data)
+      // console.log(response.data)
       setTotal(response.data.data.count);
       setRows(response.data.data.rows);
       const length = response.data.data.length
@@ -314,14 +316,15 @@ function EnhancedTable() {
     setSelected(newSelected);
   };
   
-  // const handleDetail = (event, id) => {
-  //   syncUserAPI.detail(id).then(({data}) => {
-  //     console.log(data)
-  //   })
-  // }
+  const handleDetail = (event, id) => {
+    const path = {
+      pathname:'/aaa-service/userDetails/'+id,
+    }
+    history.push(path);
+  }
 
   const handleChangePage = (event, newPage) => {
-    console.log(newPage)
+    // console.log(newPage)
     setPage(newPage);
   };
 
@@ -394,7 +397,7 @@ function EnhancedTable() {
                       <TableCell align="center">{dayjs(row.createdAt).format('YYYY-MM-DD HH:mm:ss')}</TableCell> 
                       <TableCell padding="none" align="right">
                         <Box mr={2}>
-                        <IconButton aria-label="details" component={RouterLink} to="/aaa-service/userDetails">
+                        <IconButton aria-label="details" onClick={(event) => handleDetail(event, row.id)}>
                             <RemoveRedEyeIcon />
                           </IconButton>
                         </Box>
