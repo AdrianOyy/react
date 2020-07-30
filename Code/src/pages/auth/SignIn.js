@@ -1,8 +1,9 @@
 import React from "react";
 import styled from "styled-components";
-import { Link } from "react-router-dom";
-
+import { useHistory, Link } from "react-router-dom";
+import authAPI from '../../api/auth.js'
 import Helmet from 'react-helmet';
+import { encryption } from '../../utils/encryption'
 
 import {
   Avatar,
@@ -16,6 +17,9 @@ import {
   Typography
 } from "@material-ui/core";
 import { spacing } from "@material-ui/system";
+
+// import AES from 'crypto-js/aes';
+// import Base64 from 'crypto-js/enc-base64';
 
 const Button = styled(MuiButton)(spacing);
 
@@ -33,8 +37,37 @@ const BigAvatar = styled(Avatar)`
   text-align: center;
   margin: 0 auto ${props => props.theme.spacing(5)}px;
 `;
-
 function SignIn() {
+  const [email, setEmail] = React.useState('');
+  const [password, setPassword] = React.useState('');
+  const history = useHistory();
+
+  const login =  () => {
+    let account = email;
+    let pwd = password;
+
+    // let pwd = Base64.stringify(AES.encrypt(password, 'secret key 123'));
+    authAPI.login({
+      username: account,
+      password: encryption(pwd)
+    }).then(response => {
+      if (response.data.data === null) {
+        console.log('login failed')
+      } else {
+        history.push('/dashboard/analytics')
+        // console.log(response.data.data)
+      }
+    })
+  };
+
+  const handleChange = (event, type) => {
+    if (type === 'password') {
+      setPassword(event.target.value);
+    } else if (type === 'email') {
+      setEmail(event.target.value);
+    }
+  }
+
   return (
     <Wrapper>
       <Helmet title="Sign In" />
@@ -49,11 +82,18 @@ function SignIn() {
       <form>
         <FormControl margin="normal" required fullWidth>
           <InputLabel htmlFor="email">Email Address</InputLabel>
-          <Input id="email" name="email" autoComplete="email" autoFocus />
+          <Input
+            onChange={(event) => handleChange(event, 'email')}
+            id="email"
+            name="email"
+            autoComplete="email"
+            autoFocus
+          />
         </FormControl>
         <FormControl margin="normal" required fullWidth>
           <InputLabel htmlFor="password">Password</InputLabel>
           <Input
+            onChange={(event) => handleChange(event, 'password')}
             name="password"
             type="password"
             id="password"
@@ -66,7 +106,7 @@ function SignIn() {
         />
         <Button
           component={Link}
-          to="/"
+          onClick = {login}
           fullWidth
           variant="contained"
           color="primary"

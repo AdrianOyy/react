@@ -9,10 +9,10 @@ class SyncUser {
     return request.get('/AAA/syncUser/list')
     // return request.get(`/syncUser/detail?id=${id}`)
   }
-  sync(params, options) {
-    return request.get('/AAA/syncUser/sync', params, options)
-    // return request.get('/syncUser/sync', params, options)
-  }
+  // sync(params, options) {
+  //   // return request.get('/AAA/syncUser/sync', params, options)
+  //   return request.get('/syncUser/sync', params, options)
+  // }
 }
 
 export default new SyncUser()

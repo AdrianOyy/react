@@ -90,7 +90,7 @@ const presentationRoutes = {
   path: "/",
   header: "Docs",
   icon: <Monitor />,
-  component: Analytics,
+  component: SignIn,
   children: null
 };
 
@@ -162,13 +162,13 @@ const workflowRoutes = {
 };
 
 const aaaServiceRoutes = {
-  id: "AAAService",
+  id: "AAA Service",
   path: "/aaa-service",
   icon: <Grid />,
   children: [
     {
       path: "/aaa-service/users",
-      name: "User profile",
+      name: "User Profile",
       component: syncUser
     },
     {
@@ -248,7 +248,6 @@ const recordRoutes = {
 };
 
 export const dashboard = [
-  presentationRoutes,
   dashboardsRoutes,
   resourceRoutes,
   workflowRoutes,
@@ -261,7 +260,7 @@ export const details = [
   syncUserDetailsRoutes,
 ];
 
-export const auth = [authRoutes];
+export const auth = [authRoutes, presentationRoutes];
 
 export default [
   dashboardsRoutes,

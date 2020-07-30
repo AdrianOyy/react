@@ -404,10 +404,10 @@ function Tenant() {
           </Typography>
 
           <Breadcrumbs aria-label="Breadcrumb" mt={2}>
-            <Link component={NavLink} exact to="/">
-              AAA-Service
+            <Typography>AAA Service</Typography>
+            <Link component={NavLink} exact to="/aaa-service/tenants">
+              Tenant
             </Link>
-            <Typography>Tenant</Typography>
           </Breadcrumbs>
         </Grid>
       </Grid>
