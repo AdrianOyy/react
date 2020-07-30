@@ -52,7 +52,7 @@ const Presentation = async(() => import("../pages/docs/Presentation"));
 const WorkflowSetting = async(() => import("../pages/workFlow/workFlowSetting"));
 
 // management
-const management = async(() => import("../pages/management/management"));
+const management = async(() => import("../pages/aaa-service/management"));
 
 const authRoutes = {
   id: "Auth",

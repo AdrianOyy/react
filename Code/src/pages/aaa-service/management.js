@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import styled from "styled-components";
 import { NavLink as RouterNavLink } from "react-router-dom";
 import Helmet from 'react-helmet';
+import managementApi from '../../api/management.js'
 
 import {
   // Box,
@@ -37,6 +38,7 @@ import {
   // Archive as ArchiveIcon,
   Delete as DeleteIcon,
   FilterList as FilterListIcon,
+  TramRounded,
   // RemoveRedEye as RemoveRedEyeIcon,
   // ReportOff
 } from "@material-ui/icons";
@@ -65,6 +67,7 @@ const Paper = styled(MuiPaper)(spacing);
 //   background: ${props => props.cancelled && red[500]};
 //   color: ${props => props.theme.palette.common.white};
 // `
+
 
 const Spacer = styled.div`
   flex: 1 1 100%;
@@ -117,39 +120,58 @@ function stableSort(array, comparator) {
 }
 
 const headCells = [
-  // { id: 'corpId', alignment: 'center', label: 'CORP ID' },
-  { id: 'Project', alignment: 'Center', label: 'Project' },
-  { id: 'Manager_AD_Group', alignment: 'Center', label: 'Manager AD Group' },
-  { id: 'Supporter', alignment: 'Center', label: 'Supporter' },
-  { id: 'Resources_Quota', alignment: 'Center', label: 'Resources Quota' },
+  { id: 'Project', alignment: 'center', label: 'Project' },
+  { id: 'Manager_AD_Group', alignment: 'center', label: 'Manager AD Group' },
+  { id: 'Supporter', alignment: 'center', label: 'Supporter' },
+  { id: 'Resources_Quota', alignment: 'center', label: 'Resources Quota' },
 ];
 
 function EmptyCard(props) {
-  const { onHandelTextChange, onSearchButton } = props;
-  // const { onHandelTextChange, onSearchButton, onSyncButton } = props;
+  const { onHandelPrjectChange, onHandelADChange, onHandelSuChange,
+    onHandelReChange, onSearchButton, onHandelStartDateChange, onHandelEndDateChange } = props;
   const classes = useStyles();
   return (
     <div className={classes.root}>
       <TextField
         id="Project"
-        onChange={onHandelTextChange.bind(this)}
+        onChange={onHandelPrjectChange.bind(this)}
         label="Project"
         className={classes.textField}/>
       <TextField
         id="Manager_AD_Group"
-        onChange={onHandelTextChange.bind(this)}
+        onChange={onHandelADChange.bind(this)}
         label="Manager AD Group"
         className={classes.textField}/>
       <TextField
         id="Supporter"
-        onChange={onHandelTextChange.bind(this)}
+        onChange={onHandelSuChange.bind(this)}
         label="Supporter"
         className={classes.textField}/>
       <TextField
         id="Resources_Quota"
-        onChange={onHandelTextChange.bind(this)}
+        onChange={onHandelReChange.bind(this)}
         label="Resources Quota"
         className={classes.textField}/>
+        <TextField
+          id="datetime-local"
+          label="End Date"
+          type="date"
+          className={classes.textField}
+          onChange={onHandelStartDateChange.bind(this)}
+          InputLabelProps={{
+            shrink: true
+          }}
+        />
+        <TextField
+          id="datetime-local"
+          label="End Date"
+          type="date"
+          className={classes.textField}
+          onChange={onHandelEndDateChange.bind(this)}
+          InputLabelProps={{
+            shrink: true
+          }}
+        />
       <Button
         variant="contained"
         color="primary"
@@ -157,13 +179,6 @@ function EmptyCard(props) {
         className={classes.button}>
         Search
       </Button>
-      {/* <Button
-        variant="contained"
-        color="primary"
-        onClick={onSyncButton}
-        className={classes.button}>
-        Sync
-      </Button> */}
     </div>
   );
 }
@@ -243,25 +258,30 @@ let EnhancedTableToolbar = props => {
   );
 };
 
+
 function EnhancedTable() {
   const [order, setOrder] = React.useState('asc');
   const [orderBy, setOrderBy] = React.useState('customer');
   const [selected, setSelected] = React.useState([]);
   const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(1);
+  const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const [total, setTotal] = React.useState(0);
-  const [emptyRows, setEmptyRows] = React.useState(0);
-  
-  const [text, setText] = React.useState('');
+  const [project, setProject] = React.useState('');
+  const [managerADGroup, setManagerADGroup] = React.useState('');
+  const [supporter, setSupporter] = React.useState('');
+  const [resourcesQuota, setResourcesQuota] = React.useState('');
+  const [startDate, setStartDate] = React.useState('');
+  const [endDate, setEndDate] = React.useState('');
   const [query, setQuery] = React.useState({});
-
-  const handelTextChange = (event) => {
-    setText(event.target.value)
-  };
 
   const handlSearch =  () => {
     setQuery({
-      surname: text
+      project,
+      managerADGroup,
+      supporter,
+      resourcesQuota,
+      startDate,
+      endDate,
     })
   };
 
@@ -272,29 +292,17 @@ function EnhancedTable() {
   };
   const [rows, setRows] = useState([]);
 
-  const fakeDataList = [
-    { Project: "N3", Manager_AD_Group: "n3manager", Supporter: "[AD Group]", Resources_Quota: '' },
-    { Project: "SENSE", Manager_AD_Group: "sensemanager", Supporter: "", Resources_Quota: '' },
-  ];
   useEffect(() => {
-    // syncUserAPI.list(Object.assign(
-    //   {},
-    //   query,
-    //   { limit: rowsPerPage, page: page+1 })
-    //   ).then(response => {
-    //   console.log(response.data)
-    //   setTotal(response.data.data.count);
-    //   setRows(response.data.data.rows);
-    //   const length = response.data.data.length
-    //   const emptyrow = rowsPerPage - length;
-    //   setEmptyRows(emptyrow);
-    // });
-    setRows(fakeDataList);
-    setTotal(2);
-    const length = 1
-    const emptyrow = rowsPerPage - length;
-    setEmptyRows(emptyrow);
-  }, []);
+    managementApi.list(Object.assign(
+      {},
+      query,
+      { limit: rowsPerPage, page: page + 1}
+    )).then(({ data }) => {
+      const { count, rows } = data.data
+      setRows(rows);
+      setTotal(count);
+    })
+  }, [page, query, rowsPerPage]);
   
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
@@ -343,13 +351,36 @@ function EnhancedTable() {
 
   const isSelected = (id) => selected.indexOf(id) !== -1;
 
+  const handelPrjectChange = (event) => {
+    setProject(event.target.value)
+  };
+  const handelADChange = (event) => {
+    setManagerADGroup(event.target.value)
+  };
+  const handelSuChange = (event) => {
+    setSupporter(event.target.value)
+  };
+  const handelReChange = (event) => {
+    setResourcesQuota(event.target.value)
+  };
+  const handelStartDateChange = (event) => {
+    setStartDate(event.target.value)
+  };
+  const handelEndDateChange = (event) => {
+    setEndDate(event.target.value)
+  };
+
 
   return (
     <div>
       <EmptyCard 
-        onHandelTextChange={handelTextChange}
+        onHandelPrjectChange={handelPrjectChange}
+        onHandelADChange={handelADChange}
+        onHandelSuChange={handelSuChange}
+        onHandelReChange={handelReChange}
+        onHandelStartDateChange={handelStartDateChange}
+        onHandelEndDateChange={handelEndDateChange}
         onSearchButton={handlSearch}
-        // onSyncButton={handlSync}
       />
       <Paper>
         <EnhancedTableToolbar numSelected={selected.length} />
@@ -389,10 +420,10 @@ function EnhancedTable() {
                         />
                       </TableCell>
                       {/* <TableCell align="center">{row.corpId}</TableCell> */}
-                      <TableCell align="center">{row.Project}</TableCell>
-                      <TableCell align="center">{row.Manager_AD_Group}</TableCell>
-                      <TableCell align="center">{row.Supporter}</TableCell>
-                      <TableCell align="center">{row.Resources_Quota}</TableCell>
+                      <TableCell align="center">{row.project}</TableCell>
+                      <TableCell align="center">{row.managerADGroup}</TableCell>
+                      <TableCell align="center">{row.supporter}</TableCell>
+                      <TableCell align="center">{row.resourcesQuota}</TableCell>
                       {/* <TableCell align="center">{row.proxyAddresses}</TableCell> */}
                       {/* <TableCell align="center">{row.passwordLastSet}</TableCell> */}
                       {/* <TableCell align="center">{row.UACCode}</TableCell> */}
@@ -407,16 +438,16 @@ function EnhancedTable() {
                     </TableRow>
                   );
                 })}
-              {emptyRows > 0 && (
+              {/* {emptyRows > 0 && (
                 <TableRow style={{ height: (53) * emptyRows }}>
                   <TableCell colSpan={8} />
                 </TableRow>
-              )}
+              )} */}
             </TableBody>
           </Table>
         </TableContainer>
         <TablePagination
-          rowsPerPageOptions={[1, 2, 3]}
+          rowsPerPageOptions={[10, 50, 100]}
           component="div"
           count={total}
           rowsPerPage={rowsPerPage}
@@ -437,7 +468,7 @@ function SyncList() {
       <Grid
         justify="space-between"
         container 
-        spacing={24}
+        spacing={10}
       >
         <Grid item>
           <Typography variant="h3" gutterBottom display="inline">
