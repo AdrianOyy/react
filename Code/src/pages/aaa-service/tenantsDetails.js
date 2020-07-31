@@ -8,7 +8,7 @@ import {
   CardContent,
   Grid,
   Link,
-  // MenuItem,
+  MenuItem,
   Button as MuiButton,
   Breadcrumbs as MuiBreadcrumbs,
   Card as MuiCard,
@@ -49,7 +49,11 @@ class DefaultTextFields extends React.Component {
 
   componentWillUpdate(nextProps){
     if (this.inited) {
-      this.setState(nextProps.state);
+      const detail = nextProps.state.result.rows[0]
+      this.setState(detail);
+      this.ad_groups.push({id: detail.ad_group.id, label: detail.ad_group.name});
+      this.tenants.push({id: detail.tenant.id, label: detail.tenant.name});
+      this.rights = nextProps.state.roles;
       this.history = nextProps.history;
       this.inited = false;
     }
@@ -59,18 +63,39 @@ class DefaultTextFields extends React.Component {
   history = null;
   disabled = false;
 
+  ad_groups = [
+    {
+      id: '',
+      label: '',
+    }
+  ]
+
+  tenants = [
+    {
+      id: '',
+      label: '',
+    }
+  ]
+
+  rights = [
+    {
+      id: '',
+      label: '',
+    }
+  ];
+
   state = {
     id: "",
-    project: "",
-    ADGroup: "",
-    right: "",
+    tenantId: "",
+    adGroupId: "",
+    roleId: "",
     createdAt: "",
   };
 
   handleChange = name => event => {
-    if (name === 'right' && !event.target.value) {
+    if (name === 'roleId' && !event.target.value) {
       this.disabled = true;
-    } else if (name === 'right' && event.target.value) {
+    } else if (name === 'roleId' && event.target.value) {
       this.disabled = false;
     }
     this.setState({ [name]: event.target.value });
@@ -79,12 +104,12 @@ class DefaultTextFields extends React.Component {
     const _this = this
     tenantAPI.update(this.state).then(response => {
       if (response.data.success) {
-        _this.history.push('/aaa-service/tenants')
+        _this.history.push('/aaa-service/tenant')
       }
     });
   };
   handleBack = () => event => {
-    this.history.push('/aaa-service/tenants')
+    this.history.push('/aaa-service/tenant')
   };
 
   render() {
@@ -97,31 +122,51 @@ class DefaultTextFields extends React.Component {
           <Paper mt={3}>
             <form noValidate autoComplete="off">
               <TextField
-                id="standard-read-only-input"
+                id="standard-select-currency"
+                select
                 label="Project"
-                value={this.state.project}
+                value={this.state.tenantId}
                 InputProps={{
                   readOnly: true
                 }}
                 m={2}
-              />
+              >
+                {this.tenants.map((option) => (
+                  <MenuItem key={option.id} value={option.id}>
+                    {option.label}
+                  </MenuItem>
+                ))}
+              </TextField>
               <TextField
-                id="standard-read-only-input"
+                id="standard-select-currency"
+                select
                 label="AD Group"
-                value={this.state.ADGroup}
+                value={this.state.adGroupId}
                 InputProps={{
                   readOnly: true
                 }}
                 m={2}
-              />
+              >
+                {this.ad_groups.map((option) => (
+                  <MenuItem key={option.id} value={option.id}>
+                    {option.label}
+                  </MenuItem>
+                ))}
+              </TextField>
               <TextField
-                required
-                id="standard-required"
+                id="standard-select-currency"
+                select
                 label="Right"
-                value={this.state.right}
-                onChange={this.handleChange("right")}
+                value={this.state.roleId}
+                onChange={this.handleChange("roleId")}
                 m={2}
-              />
+              >
+                {this.rights.map((option) => (
+                  <MenuItem key={option.id} value={option.id}>
+                    {option.label}
+                  </MenuItem>
+                ))}
+              </TextField>
               <TextField
                 disabled
                 id="standard-disabled"
@@ -175,7 +220,7 @@ function TenantsDetails() {
 
       <Breadcrumbs aria-label="Breadcrumb" mt={2}>
         <Typography>AAA Service</Typography>
-        <Link component={NavLink} exact to="/aaa-service/tenants">
+        <Link component={NavLink} exact to="/aaa-service/tenant">
           Tenant
         </Link>
       </Breadcrumbs>
