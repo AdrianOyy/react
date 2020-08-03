@@ -1,7 +1,7 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
-import { NavLink as RouterNavLink } from "react-router-dom";
-
+import { NavLink as RouterNavLink, useParams } from "react-router-dom";
+import dayjs from 'dayjs';
 // import Helmet from 'react-helmet';
 
 import {
@@ -18,6 +18,8 @@ import {
 } from "@material-ui/core";
 
 import { spacing } from "@material-ui/system";
+
+import syncUserAPI from '../../api/syncUser.js'
 
 const NavLink = React.forwardRef((props, ref) => (
   <RouterNavLink innerRef={ref} {...props} />
@@ -40,7 +42,6 @@ const TextField = styled(TextFieldSpacing)`
 class DefaultTextFields extends React.Component {
   constructor(props) {
     super(props);
-
     this.currencies = [
       {
         value: "USD",
@@ -61,23 +62,50 @@ class DefaultTextFields extends React.Component {
     ];
   }
 
+  componentWillUpdate(nextProps){
+    if (this.inited) {
+      this.setState(nextProps.state);
+      this.inited = false;
+    }
+  }
+
+  inited = true;
+
   state = {
-    corpId: "chaukm",
-    alias: "chaukm",
-    surname: "CHAU",
-    givenname: "Joseph",
-    title: "SA(N3)3",
-    displayname: "Joseph CHAU Dr, HOIT&HI SA(N3)3",
-    email: "chaukm@ha.org.hk",
-    proxyAddresses: "chaukm@pyn.ha.org.hk, chaukm@ha.org.hk,",
-    cluster: "HO",
-    hospital: "KITEC",
-    department: "IT&HID",
-    passwordLastSet: "2020-07-17 06:07:29",
-    UACCode: "512",
-    UACDesc: "NORMAL_ACCOUNT",
-    createdAt: "2020-07-17 06:07:29",
+    corpId: "",
+    alias: "",
+    surname: "",
+    givenname: "",
+    title: "",
+    displayname: "",
+    email: "",
+    proxyAddresses: "",
+    cluster: "",
+    hospital: "",
+    department: "",
+    passwordLastSet: "",
+    UACCode: "",
+    UACDesc: "",
+    createdAt: "",
   };
+
+  // state = {
+  //   corpId: "chaukm",
+  //   alias: "chaukm",
+  //   surname: "CHAU",
+  //   givenname: "Joseph",
+  //   title: "SA(N3)3",
+  //   displayname: "Joseph CHAU Dr, HOIT&HI SA(N3)3",
+  //   email: "chaukm@ha.org.hk",
+  //   proxyAddresses: "chaukm@pyn.ha.org.hk, chaukm@ha.org.hk,",
+  //   cluster: "HO",
+  //   hospital: "KITEC",
+  //   department: "IT&HID",
+  //   passwordLastSet: "2020-07-17 06:07:29",
+  //   UACCode: "512",
+  //   UACDesc: "NORMAL_ACCOUNT",
+  //   createdAt: "2020-07-17 06:07:29",
+  // };
 
   handleChange = name => event => {
     this.setState({ [name]: event.target.value });
@@ -193,7 +221,7 @@ class DefaultTextFields extends React.Component {
               <TextField
                 id="standard-read-only-input"
                 label="PasswordLastSet"
-                value={this.state.passwordLastSet}
+                value={dayjs(this.state.passwordLastSet).format('YYYY-MM-DD HH:mm:ss')}
                 InputProps={{
                   readOnly: true
                 }}
@@ -219,183 +247,12 @@ class DefaultTextFields extends React.Component {
               <TextField
                 id="standard-read-only-input"
                 label="CreatedAt"
-                value={this.state.createdAt}
+                value={dayjs(this.state.createdAt).format('YYYY-MM-DD HH:mm:ss')}
                 InputProps={{
                   readOnly: true
                 }}
                 m={4}
               />
-              {/* <TextField
-                id="standard-name"
-                label="Name"
-                value={this.state.name}
-                onChange={this.handleChange("name")}
-                m={2}
-              />
-
-              <TextField
-                id="standard-uncontrolled"
-                label="Uncontrolled"
-                defaultValue="foo"
-                m={2}
-              />
-
-              <TextField
-                required
-                id="standard-required"
-                label="Required"
-                defaultValue="Hello World"
-                m={2}
-              />
-
-              <TextField
-                error
-                id="standard-error"
-                label="Error"
-                defaultValue="Hello World"
-                m={2}
-              />
-
-              <TextField
-                disabled
-                id="standard-disabled"
-                label="Disabled"
-                defaultValue="Hello World"
-                m={2}
-              />
-
-              <TextField
-                id="standard-password-input"
-                label="Password"
-                type="password"
-                autoComplete="current-password"
-                m={2}
-              />
-
-              <TextField
-                id="standard-read-only-input"
-                label="Read Only"
-                defaultValue="Hello World"
-                InputProps={{
-                  readOnly: true
-                }}
-                m={2}
-              />
-
-              <TextField
-                id="standard-dense"
-                label="Dense"
-                margin="dense"
-                m={2}
-              />
-
-              <TextField
-                id="standard-multiline-flexible"
-                label="Multiline"
-                multiline
-                rowsMax="4"
-                value={this.state.multiline}
-                onChange={this.handleChange("multiline")}
-                m={2}
-              />
-
-              <TextField
-                id="standard-multiline-static"
-                label="Multiline"
-                multiline
-                rows="4"
-                defaultValue="Default Value"
-                m={2}
-              />
-
-              <TextField
-                id="standard-helperText"
-                label="Helper text"
-                defaultValue="Default Value"
-                helperText="Some important text"
-                m={2}
-              />
-
-              <TextField
-                id="standard-with-placeholder"
-                label="With placeholder"
-                placeholder="Placeholder"
-              />
-
-              <TextField
-                id="standard-textarea"
-                label="With placeholder multiline"
-                placeholder="Placeholder"
-                multiline
-                m={2}
-              />
-
-              <TextField
-                id="standard-number"
-                label="Number"
-                value={this.state.age}
-                onChange={this.handleChange("age")}
-                type="number"
-                InputLabelProps={{
-                  shrink: true
-                }}
-                m={2}
-              />
-
-              <TextField
-                id="standard-search"
-                label="Search field"
-                type="search"
-                m={2}
-              />
-
-              <TextField
-                id="standard-select-currency"
-                select
-                label="Select"
-                value={this.state.currency}
-                onChange={this.handleChange("currency")}
-                helperText="Please select your currency"
-                m={2}
-              >
-                {this.currencies.map(option => (
-                  <MenuItem key={option.value} value={option.value}>
-                    {option.label}
-                  </MenuItem>
-                ))}
-              </TextField>
-              <TextField
-                id="standard-select-currency-native"
-                select
-                label="Native select"
-                value={this.state.currency}
-                onChange={this.handleChange("currency")}
-                SelectProps={{
-                  native: true
-                }}
-                helperText="Please select your currency"
-                m={2}
-              >
-                {this.currencies.map(option => (
-                  <option key={option.value} value={option.value}>
-                    {option.label}
-                  </option>
-                ))}
-              </TextField>
-              <TextField
-                id="standard-full-width"
-                label="Label"
-                style={{ margin: 8 }}
-                placeholder="Placeholder"
-                helperText="Full width!"
-                fullWidth
-                InputLabelProps={{
-                  shrink: true
-                }}
-                m={2}
-              />
-
-              <TextField id="standard-bare" defaultValue="Bare" m={2} /> */}
             </form>
           </Paper>
         </CardContent>
@@ -404,7 +261,15 @@ class DefaultTextFields extends React.Component {
   }
 }
 
-function TextFields() {
+function SyncUserDetails() {
+  let { id } = useParams();
+  const [data, setData] = React.useState([]);
+  useEffect(() => {
+    syncUserAPI.detail(id).then(response => {
+      setData(response.data.data);
+    });
+  }, []);
+  
   return (
     <React.Fragment>
       {/* <Helmet title="Text Fields" />
@@ -423,11 +288,11 @@ function TextFields() {
 
       <Grid container spacing={6}>
         <Grid item xs={12}>
-          <DefaultTextFields />
+          <DefaultTextFields state={data}/>
         </Grid>
       </Grid>
     </React.Fragment>
   );
 }
 
-export default TextFields;
+export default SyncUserDetails;

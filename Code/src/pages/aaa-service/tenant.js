@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import styled from "styled-components";
-import { NavLink as RouterNavLink } from "react-router-dom";
-import tenantsAPI from '../../api/tenants.js'
+import { NavLink as RouterNavLink, useHistory } from "react-router-dom";
+import tenantAPI from '../../api/tenant.js'
 import Helmet from 'react-helmet';
 import dayjs from 'dayjs';
 
 import {
-  // Box,
+  Box,
   Breadcrumbs as MuiBreadcrumbs,
   Button,
   Checkbox,
@@ -39,7 +39,7 @@ import {
   // Archive as ArchiveIcon,
   Delete as DeleteIcon,
   FilterList as FilterListIcon,
-  // RemoveRedEye as RemoveRedEyeIcon,
+  Edit as EditIcon,
   // ReportOff
 } from "@material-ui/icons";
 
@@ -124,6 +124,7 @@ const headCells = [
   { id: 'right', alignment: 'center', label: 'Right' },
   { id: 'createdAt', alignment: 'center', label: 'CreatedAt' },
   { id: 'updatedAt', alignment: 'center', label: 'UpdatedAt' },
+  { id: 'actions', alignment: 'right', label: 'Actions' },
 ];
 
 function EmptyCard(props) {
@@ -133,6 +134,7 @@ function EmptyCard(props) {
     <div className={classes.root}>
       <TextField
         id="project"
+        type="search"
         onChange={onHandelTextChange.bind(this)}
         label="project"
         className={classes.textField}/>
@@ -234,6 +236,8 @@ function EnhancedTable() {
   const [text, setText] = React.useState('');
   const [query, setQuery] = React.useState({});
 
+  const history = useHistory();
+
   const handelTextChange = (event) => {
     setText(event.target.value)
   };
@@ -252,12 +256,11 @@ function EnhancedTable() {
   const [rows, setRows] = useState([]);
   
   useEffect(() => {
-    tenantsAPI.list(Object.assign(
+    tenantAPI.list(Object.assign(
       {},
       query,
       { limit: rowsPerPage, page: page+1 })
       ).then(response => {
-      console.log(response.data)
       setTotal(response.data.data.count);
       setRows(response.data.data.rows);
       const length = response.data.data.length
@@ -296,9 +299,15 @@ function EnhancedTable() {
   };
 
   const handleChangePage = (event, newPage) => {
-    console.log(newPage)
     setPage(newPage);
   };
+
+  const handleDetail = (event, id) => {
+    const path = {
+      pathname:'/aaa-service/tenantsDetails/'+id,
+    }
+    history.push(path);
+  }
 
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(parseInt(event.target.value, 10));
@@ -351,18 +360,18 @@ function EnhancedTable() {
                           onClick={(event) => handleClick(event, row.id)}
                         />
                       </TableCell>
-                      <TableCell align="center">{row.project}</TableCell>
-                      <TableCell align="center">{row.ADGroup}</TableCell>
-                      <TableCell align="center">{row.right}</TableCell>
+                      <TableCell align="center">{row.tenant ? row.tenant.name : ''}</TableCell>
+                      <TableCell align="center">{row.ad_group ? row.ad_group.name : ''}</TableCell>
+                      <TableCell align="center">{row.role ? row.role.label : ''}</TableCell>
                       <TableCell align="center">{dayjs(row.createdAt).format('YYYY-MM-DD HH:mm:ss')}</TableCell> 
                       <TableCell align="center">{dayjs(row.updatedAt).format('YYYY-MM-DD HH:mm:ss')}</TableCell> 
-                      {/* <TableCell padding="none" align="right">
+                      <TableCell padding="none" align="right">
                         <Box mr={2}>
-                          <IconButton aria-label="delete" onClick={(event) => handleDelete(event, row.id)}>
-                            <DeleteIcon />
-                          </IconButton>
+                        <IconButton aria-label="details" onClick={(event) => handleDetail(event, row.id)}>
+                          <EditIcon />
+                        </IconButton>
                         </Box>
-                      </TableCell> */}
+                      </TableCell>
                     </TableRow>
                   );
                 })}
@@ -405,7 +414,7 @@ function Tenant() {
 
           <Breadcrumbs aria-label="Breadcrumb" mt={2}>
             <Typography>AAA Service</Typography>
-            <Link component={NavLink} exact to="/aaa-service/tenants">
+            <Link component={NavLink} exact to="/aaa-service/tenant">
               Tenant
             </Link>
           </Breadcrumbs>
