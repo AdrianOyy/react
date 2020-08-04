@@ -72,8 +72,8 @@ export default {
     handleError: true //是否自动解析结果并提示
   },
   enableChangeBaseApi: true,
-  changeBaseUrl(baseUrl) {
-    if (baseUrl && this.enableChangeBaseApi) {
+  changeBaseUrl(baseUrl, flag = false) {
+    if (flag && baseUrl && this.enableChangeBaseApi) {
       console.log('changeBaseUrl', axiosInstance.defaults.baseURL + '->' + baseUrl);
       axiosInstance.defaults.baseURL = baseUrl;
     }
@@ -81,8 +81,8 @@ export default {
   //get 请求
   get(url, param, options, baseUrl = null) {
     let o = Object.assign(this.defaultOptions, options)
-    const defaultUrl = baseUrl ? axiosInstance.defaults.baseURL : null;
-    this.changeBaseUrl(baseUrl);
+    const defaultUrl = axiosInstance.defaults.baseURL;
+    this.changeBaseUrl(baseUrl, baseUrl !== null);
     return new Promise((resolve, reject) => {
       axiosInstance({
         method: 'get',
@@ -100,15 +100,15 @@ export default {
           reject(error)
         })
         .finally(() => {
-          this.changeBaseUrl(defaultUrl);
+          this.changeBaseUrl(defaultUrl, baseUrl !== null);
         })
     })
   },
   //post 请求
   post(url, param, options, baseUrl = null) {
     let o = Object.assign(this.defaultOptions, options)
-    const defaultUrl = baseUrl ? axiosInstance.defaults.baseURL : null;
-    this.changeBaseUrl(baseUrl);
+    const defaultUrl = axiosInstance.defaults.baseURL;
+    this.changeBaseUrl(baseUrl, baseUrl !== null);
 
     return new Promise((resolve, reject) => {
       axiosInstance({
@@ -127,15 +127,15 @@ export default {
           reject(error)
         })
         .finally(() => {
-          this.changeBaseUrl(defaultUrl);
+          this.changeBaseUrl(defaultUrl, baseUrl !== null);
         })
     })
   },
   //put 请求
   put(url, param, options, baseUrl = null) {
     let o = Object.assign(this.defaultOptions, options)
-    const defaultUrl = baseUrl ? axiosInstance.defaults.baseURL : null;
-    this.changeBaseUrl(baseUrl);
+    const defaultUrl = axiosInstance.defaults.baseURL;
+    this.changeBaseUrl(baseUrl, baseUrl !== null);
     return new Promise((resolve, reject) => {
       axiosInstance({
         method: 'put',
@@ -153,15 +153,15 @@ export default {
           reject(error)
         })
         .finally(() => {
-          this.changeBaseUrl(defaultUrl);
+          this.changeBaseUrl(defaultUrl, baseUrl !== null);
         })
     })
   },
   //delete 请求
   delete(url, param, options, baseUrl = null) {
     let o = Object.assign(this.defaultOptions, options);
-    const defaultUrl = baseUrl ? axiosInstance.defaults.baseURL : null;
-    this.changeBaseUrl(baseUrl);
+    const defaultUrl = axiosInstance.defaults.baseURL;
+    this.changeBaseUrl(baseUrl, baseUrl !== null);
 
     return new Promise((resolve, reject) => {
       axiosInstance({
@@ -180,7 +180,7 @@ export default {
           reject(error)
         })
         .finally(() => {
-          this.changeBaseUrl(defaultUrl);
+          this.changeBaseUrl(defaultUrl, baseUrl !== null);
         })
     })
   },
