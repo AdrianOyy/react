@@ -46,7 +46,7 @@ const tenant = async(() => import("../pages/aaa-service/tenant"))
 const tenantsDetails = async(() => import("../pages/aaa-service/tenantsDetails"))
 
 // Documentation
-const Presentation = async(() => import("../pages/docs/Presentation"));
+// const Presentation = async(() => import("../pages/docs/Presentation"));
 
 //workFlow
 const WorkflowSetting = async(() => import("../pages/workFlow/workFlowSetting"));

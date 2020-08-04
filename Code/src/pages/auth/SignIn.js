@@ -7,9 +7,9 @@ import { encryption } from '../../utils/encryption'
 
 import {
   Avatar,
-  Checkbox,
+  // Checkbox,
   FormControl,
-  FormControlLabel,
+  // FormControlLabel,
   Input,
   InputLabel,
   Button as MuiButton,
@@ -132,13 +132,14 @@ function SignIn() {
             autoComplete="current-password"
           />
         </FormControl>
-        <FormControlLabel
+        {/* <FormControlLabel
           control={<Checkbox value="remember" color="primary" />}
           label="Remember me"
-        />
+        /> */}
         <Button
           component={Link}
           onClick = {login}
+          to="#"
           fullWidth
           variant="contained"
           color="primary"
@@ -151,14 +152,14 @@ function SignIn() {
             {message}
           </Alert>
         </Snackbar>
-        <Button
+        {/* <Button
           component={Link}
           to="/auth/reset-password"
           fullWidth
           color="primary"
         >
           Forgot password
-        </Button>
+        </Button> */}
       </form>
     </Wrapper>
   );

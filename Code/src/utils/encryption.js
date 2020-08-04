@@ -1,5 +1,5 @@
 const crypto = require('crypto');
-const sha1 = crypto.createHash("sha1");
+// const sha1 = crypto.createHash("sha1");
 
 export function encryption (pass) {
     let encrypted = '';
