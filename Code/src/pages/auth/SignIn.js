@@ -31,12 +31,12 @@ const Wrapper = styled(Paper)`
   }
 `;
 
-const BigAvatar = styled(Avatar)`
-  width: 92px;
-  height: 92px;
-  text-align: center;
-  margin: 0 auto ${props => props.theme.spacing(5)}px;
-`;
+// const BigAvatar = styled(Avatar)`
+//   width: 92px;
+//   height: 92px;
+//   text-align: center;
+//   margin: 0 auto ${props => props.theme.spacing(5)}px;
+// `;
 function SignIn() {
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
@@ -71,10 +71,15 @@ function SignIn() {
   return (
     <Wrapper>
       <Helmet title="Sign In" />
-      <BigAvatar alt="Lucy" src="/static/img/avatars/avatar-1.jpg" />
+      <Avatar
+        alt="Logo"
+        variant="square"
+        style={{ width: '92px', height: '92px', textAlign: 'center', margin: '0 auto', top: '-5px' }}
+        src="/static/img/logo/homePage.png"
+      />
 
       <Typography component="h1" variant="h4" align="center" gutterBottom>
-        Welcome back, Lucy!
+        Welcome to SENSE Platform!
       </Typography>
       <Typography component="h2" variant="body1" align="center">
         Sign in to your account to continue
@@ -105,7 +110,7 @@ function SignIn() {
           label="Remember me"
         />
         <Button
-          component={Link}
+          // component={Link}
           onClick = {login}
           fullWidth
           variant="contained"

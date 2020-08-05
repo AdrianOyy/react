@@ -1,18 +1,27 @@
 import request from '../utils/request'
 
-class tenants {
+const prefix = ''
+// const prefix = '/AAA'
+
+class assign {
   list(params, options) {
-    // return request.get('/AAA/tenantsMapping/list', params, options)
-    return request.get('/tenantsMapping/list', params, options)
+    return request.get(`${prefix}/tenant/list`, params, options)
+  }
+  create(params) {
+    return request.post(`${prefix}/tenant/create`, params)
   }
   detail(id) {
-    // return request.get('/AAA/tenantsMappingMapping/list')
-    return request.get(`/tenantsMapping/detail?id=${id}`)
+    return request.get(`${prefix}/tenant/detail?id=${id}`)
   }
-  update(params, options) {
-    // return request.put(`/AAA/tenantsMapping/update`, params, options)
-    return request.put(`/tenantsMapping/update`, params, options)
+  update(id, params) {
+    return request.put(`${prefix}/tenant/update?id=${id}`, params)
+  }
+  deleteMany(params) {
+    return request.delete(`${prefix}/tenant/deleteMany`, params)
+  }
+  checkName(id,name) {
+    return request.get(`${prefix}/tenant/checkName?id=${id}&name=${name}`)
   }
 }
 
-export default new tenants()
+export default new assign()

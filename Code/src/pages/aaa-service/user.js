@@ -246,7 +246,7 @@ function EnhancedTable() {
   const [orderBy, setOrderBy] = React.useState('customer');
   const [selected, setSelected] = React.useState([]);
   const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(1);
+  const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const [total, setTotal] = React.useState(0);
   const [emptyRows, setEmptyRows] = React.useState(0);
   
@@ -318,7 +318,7 @@ function EnhancedTable() {
   
   const handleDetail = (event, id) => {
     const path = {
-      pathname:'/aaa-service/userDetails/'+id,
+      pathname:'/aaa-service/userDetail/'+id,
     }
     history.push(path);
   }
@@ -414,7 +414,7 @@ function EnhancedTable() {
           </Table>
         </TableContainer>
         <TablePagination
-          rowsPerPageOptions={[1, 2, 3]}
+          rowsPerPageOptions={[10, 50, 100]}
           component="div"
           count={total}
           rowsPerPage={rowsPerPage}
@@ -435,7 +435,7 @@ function SyncList() {
       <Grid
         justify="space-between"
         container 
-        spacing={24}
+        spacing={10}
       >
         <Grid item>
           <Typography variant="h3" gutterBottom display="inline">

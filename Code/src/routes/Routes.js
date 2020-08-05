@@ -1,7 +1,8 @@
 import React from "react";
-import { BrowserRouter as Router, Route, Switch, withRouter } from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+// import { BrowserRouter as Router, Route, Switch, withRouter } from "react-router-dom";
 import { createBrowserHistory} from "history";
-import { dashboard as dashboardRoutes, details as detailsRoutes, auth as authRoutes } from "./index";
+import { dashboard as dashboardRoutes, auth as authRoutes } from "./index";
 
 import DashboardLayout from "../layouts/Dashboard";
 import AuthLayout from "../layouts/Auth";
@@ -28,7 +29,6 @@ const childRoutes = (Layout, routes) =>
       <Route
         key={index}
         path={path}
-        exact
         render={props => (
           <Layout>
             <Component {...props} />
@@ -42,7 +42,6 @@ const Routes = () => (
   <Router history={createBrowserHistory}>
     <Switch>
       {childRoutes(DashboardLayout, dashboardRoutes)}
-      {childRoutes(DashboardLayout, detailsRoutes)}
       {childRoutes(AuthLayout, authRoutes)}
       <Route
         render={() => (

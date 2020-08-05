@@ -34,25 +34,31 @@ const Analytics = async(() => import("../pages/dashboards/Analytics"));
 // logging components
 const logging = async(() => import("../pages/logging/logging"));
 
-// syncUser components
-const syncUser = async(() => import("../pages/aaa-service/syncUser"))
+// user components
+const user = async(() => import("../pages/aaa-service/user"))
 
-// syncUser detail components
-const syncUserDetails = async(() => import("../pages/aaa-service/syncUserDetails"))
+// user detail components
+const userDetail = async(() => import("../pages/aaa-service/userDetail"))
 
-// tenant components
-const tenant = async(() => import("../pages/aaa-service/tenant"))
-// tenant detail components
-const tenantsDetails = async(() => import("../pages/aaa-service/tenantsDetails"))
+// assign components
+const assign = async(() => import("../pages/aaa-service/assign"))
+// assign detail components
+const assignDetail = async(() => import("../pages/aaa-service/assignDetail"))
 
 // Documentation
-const Presentation = async(() => import("../pages/docs/Presentation"));
+// const Presentation = async(() => import("../pages/docs/Presentation"));
 
 //workFlow
 const WorkflowSetting = async(() => import("../pages/workFlow/workFlowSetting"));
 
 // management
 const management = async(() => import("../pages/aaa-service/management"));
+
+// tenant
+const tenant = async(() => import("../pages/aaa-service/Tenant/TenantList"));
+const tenantDetail = async(() => import("../pages/aaa-service/Tenant/TenantDetail"))
+const tenantUpdate = async(() => import("../pages/aaa-service/Tenant/TenantUpdate"))
+const tenantCreate = async(() => import("../pages/aaa-service/Tenant/TenantCreate"))
 
 const authRoutes = {
   id: "Auth",
@@ -169,14 +175,19 @@ const aaaServiceRoutes = {
   icon: <Grid />,
   children: [
     {
-      path: "/aaa-service/users",
+      path: "/aaa-service/user",
       name: "User Profile",
-      component: syncUser
+      component: user
     },
     {
       path: "/aaa-service/tenant",
       name: "Tenant",
-      component: tenant
+      component: tenant,
+    },
+    {
+      path: "/aaa-service/assign",
+      name: "Assign",
+      component: assign
     },
     {
       path: "/aaa-service/management",
@@ -186,18 +197,40 @@ const aaaServiceRoutes = {
   ]
 };
 
-const syncUserDetailsRoutes = {
-  id: "syncUserDetails",
-  path: "/aaa-service/userDetails/:id",
-  component: syncUserDetails,
+const userDetailRoutes = {
+  id: "userDetail",
+  path: "/aaa-service/userDetail/:id",
+  component: userDetail,
   children: null
 };
-const tenantsDetailsRoutes = {
-  id: "tenantsDetails",
-  path: "/aaa-service/tenantsDetails/:id",
-  component: tenantsDetails,
+
+
+const tenantCreateRoutes = {
+  id: "tenantCreate",
+  path: "/aaa-service/tenant/create",
+  component: tenantCreate,
   children: null
 };
+const tenantDetailRoutes = {
+  id: "tenantDetail",
+  path: "/aaa-service/tenant/detail/:id",
+  component: tenantDetail,
+  children: null
+};
+const tenantUpdateRoutes = {
+  id: "tenantUpdate",
+  path: "/aaa-service/tenant/update/:id",
+  component: tenantUpdate,
+  children: null
+};
+const assignDetailRoutes = {
+  id: "assignDetail",
+  path: "/aaa-service/assignDetail/:id",
+  component: assignDetail,
+  children: null
+};
+
+
 
 const resourceRoutes = {
   id: "Resource",
@@ -262,14 +295,19 @@ export const dashboard = [
   recordRoutes,
   logRoutes,
   aaaServiceRoutes,
+  tenantDetailRoutes,
+  tenantCreateRoutes,
+  tenantUpdateRoutes,
+  userDetailRoutes,
+  assignDetailRoutes
 ];
 
-export const details = [
-  syncUserDetailsRoutes,
-  tenantsDetailsRoutes,
-];
 
-export const auth = [authRoutes, presentationRoutes];
+
+export const auth = [
+  authRoutes,
+  presentationRoutes,
+];
 
 export default [
   dashboardsRoutes,

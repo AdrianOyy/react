@@ -30,7 +30,7 @@ import { ExpandLess, ExpandMore } from "@material-ui/icons";
 
 import routes from "../routes/index";
 
-import { Layers } from "react-feather";
+// import { Layers } from "react-feather";
 
 const NavLink = React.forwardRef((props, ref) => (
   <RouterNavLink innerRef={ref} {...props} />
@@ -75,10 +75,10 @@ const Brand = styled(ListItem)`
   }
 `;
 
-const BrandIcon = styled(Layers)`
-  margin-right: ${props => props.theme.spacing(2)}px;
-  color: ${props => props.theme.sidebar.header.brand.color};
-`;
+// const BrandIcon = styled(Layers)`
+//   margin-right: ${props => props.theme.spacing(2)}px;
+//   color: ${props => props.theme.sidebar.header.brand.color};
+// `;
 
 // const BrandChip = styled(Chip)`
 //   background-color: ${green[700]};
@@ -308,7 +308,13 @@ function Sidebar({ classes, staticContext, location, ...rest }) {
   return (
     <Drawer variant="permanent" {...rest}>
       <Brand>
-        <BrandIcon /> <Box ml={1}>SENSE Platform
+        <Avatar
+          alt="Logo"
+          variant="square"
+          style={{ width: '24px', height: '24px', textAlign: 'center', margin: '0', marginRight: '10px' }}
+          src="/static/img/logo/sidebar.svg"
+        />
+        <Box ml={1}>SENSE Platform
         {/* <BrandChip label="PRO" /> */}
         </Box> 
       </Brand>

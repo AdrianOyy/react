@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import styled from "styled-components";
-import { NavLink as RouterNavLink } from "react-router-dom";
+import { NavLink as RouterNavLink, useHistory } from "react-router-dom";
+import assignApi from '../../api/assign.js'
 import Helmet from 'react-helmet';
-import managementApi from '../../api/management.js'
+import dayjs from 'dayjs';
 
 import {
-  // Box,
+  Box,
   Breadcrumbs as MuiBreadcrumbs,
   Button,
   Checkbox,
@@ -38,8 +39,7 @@ import {
   // Archive as ArchiveIcon,
   Delete as DeleteIcon,
   FilterList as FilterListIcon,
-  // TramRounded,
-  // RemoveRedEye as RemoveRedEyeIcon,
+  Edit as EditIcon,
   // ReportOff
 } from "@material-ui/icons";
 
@@ -67,7 +67,6 @@ const Paper = styled(MuiPaper)(spacing);
 //   background: ${props => props.cancelled && red[500]};
 //   color: ${props => props.theme.palette.common.white};
 // `
-
 
 const Spacer = styled.div`
   flex: 1 1 100%;
@@ -120,58 +119,24 @@ function stableSort(array, comparator) {
 }
 
 const headCells = [
-  { id: 'Project', alignment: 'center', label: 'Project' },
-  { id: 'Manager_AD_Group', alignment: 'center', label: 'Manager AD Group' },
-  { id: 'Supporter', alignment: 'center', label: 'Supporter' },
-  { id: 'Resources_Quota', alignment: 'center', label: 'Resources Quota' },
+  { id: 'project', alignment: 'center', label: 'Project' },
+  { id: 'ADGroup', alignment: 'center', label: 'AD Group' },
+  { id: 'right', alignment: 'center', label: 'Right' },
+  { id: 'createdAt', alignment: 'center', label: 'CreatedAt' },
+  { id: 'updatedAt', alignment: 'center', label: 'UpdatedAt' },
+  { id: 'actions', alignment: 'right', label: 'Actions' },
 ];
 
 function EmptyCard(props) {
-  const { onHandelPrjectChange, onHandelADChange, onHandelSuChange,
-    onHandelReChange, onSearchButton, onHandelStartDateChange, onHandelEndDateChange } = props;
+  const { onHandelTextChange, onSearchButton } = props;
   const classes = useStyles();
   return (
     <div className={classes.root}>
       <TextField
-        id="Project"
-        onChange={onHandelPrjectChange.bind(this)}
-        label="Project"
+        id="project"
+        onChange={onHandelTextChange.bind(this)}
+        label="project"
         className={classes.textField}/>
-      <TextField
-        id="Manager_AD_Group"
-        onChange={onHandelADChange.bind(this)}
-        label="Manager AD Group"
-        className={classes.textField}/>
-      <TextField
-        id="Supporter"
-        onChange={onHandelSuChange.bind(this)}
-        label="Supporter"
-        className={classes.textField}/>
-      <TextField
-        id="Resources_Quota"
-        onChange={onHandelReChange.bind(this)}
-        label="Resources Quota"
-        className={classes.textField}/>
-        <TextField
-          id="datetime-local"
-          label="End Date"
-          type="date"
-          className={classes.textField}
-          onChange={onHandelStartDateChange.bind(this)}
-          InputLabelProps={{
-            shrink: true
-          }}
-        />
-        <TextField
-          id="datetime-local"
-          label="End Date"
-          type="date"
-          className={classes.textField}
-          onChange={onHandelEndDateChange.bind(this)}
-          InputLabelProps={{
-            shrink: true
-          }}
-        />
       <Button
         variant="contained"
         color="primary"
@@ -234,7 +199,7 @@ let EnhancedTableToolbar = props => {
           </Typography>
         ) : (
           <Typography variant="h6" id="tableTitle">
-            Management
+            Assign
           </Typography>
         )}
       </ToolbarTitle>
@@ -258,30 +223,27 @@ let EnhancedTableToolbar = props => {
   );
 };
 
-
 function EnhancedTable() {
   const [order, setOrder] = React.useState('asc');
   const [orderBy, setOrderBy] = React.useState('customer');
   const [selected, setSelected] = React.useState([]);
   const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(10);
+  const [rowsPerPage, setRowsPerPage] = React.useState(1);
   const [total, setTotal] = React.useState(0);
-  const [project, setProject] = React.useState('');
-  const [managerADGroup, setManagerADGroup] = React.useState('');
-  const [supporter, setSupporter] = React.useState('');
-  const [resourcesQuota, setResourcesQuota] = React.useState('');
-  const [startDate, setStartDate] = React.useState('');
-  const [endDate, setEndDate] = React.useState('');
+  const [emptyRows, setEmptyRows] = React.useState(0);
+  
+  const [text, setText] = React.useState('');
   const [query, setQuery] = React.useState({});
+
+  const history = useHistory();
+
+  const handelTextChange = (event) => {
+    setText(event.target.value)
+  };
 
   const handlSearch =  () => {
     setQuery({
-      project,
-      managerADGroup,
-      supporter,
-      resourcesQuota,
-      startDate,
-      endDate,
+      project: text
     })
   };
 
@@ -291,18 +253,21 @@ function EnhancedTable() {
     setOrderBy(property);
   };
   const [rows, setRows] = useState([]);
-
+  
   useEffect(() => {
-    managementApi.list(Object.assign(
+    assignApi.list(Object.assign(
       {},
       query,
-      { limit: rowsPerPage, page: page + 1}
-    )).then(({ data }) => {
-      const { count, rows } = data.data
-      setRows(rows);
-      setTotal(count);
-    })
-  }, [page, query, rowsPerPage]);
+      { limit: rowsPerPage, page: page+1 })
+      ).then(response => {
+      console.log(response.data)
+      setTotal(response.data.data.count);
+      setRows(response.data.data.rows);
+      const length = response.data.data.length
+      const emptyrow = rowsPerPage - length;
+      setEmptyRows(emptyrow);
+    });
+  }, [page, rowsPerPage, query]);
   
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
@@ -332,17 +297,18 @@ function EnhancedTable() {
   
     setSelected(newSelected);
   };
-  
-  // const handleDelete = (event, id) => {
-  //   syncUserAPI.delete({id}).then(({data}) => {
-  //     console.log(data)
-  //   })
-  // }
 
   const handleChangePage = (event, newPage) => {
     console.log(newPage)
     setPage(newPage);
   };
+
+  const handleDetail = (event, id) => {
+    const path = {
+      pathname:'/aaa-service/assignsDetails/'+id,
+    }
+    history.push(path);
+  }
 
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(parseInt(event.target.value, 10));
@@ -351,35 +317,11 @@ function EnhancedTable() {
 
   const isSelected = (id) => selected.indexOf(id) !== -1;
 
-  const handelPrjectChange = (event) => {
-    setProject(event.target.value)
-  };
-  const handelADChange = (event) => {
-    setManagerADGroup(event.target.value)
-  };
-  const handelSuChange = (event) => {
-    setSupporter(event.target.value)
-  };
-  const handelReChange = (event) => {
-    setResourcesQuota(event.target.value)
-  };
-  const handelStartDateChange = (event) => {
-    setStartDate(event.target.value)
-  };
-  const handelEndDateChange = (event) => {
-    setEndDate(event.target.value)
-  };
-
 
   return (
     <div>
       <EmptyCard 
-        onHandelPrjectChange={handelPrjectChange}
-        onHandelADChange={handelADChange}
-        onHandelSuChange={handelSuChange}
-        onHandelReChange={handelReChange}
-        onHandelStartDateChange={handelStartDateChange}
-        onHandelEndDateChange={handelEndDateChange}
+        onHandelTextChange={handelTextChange}
         onSearchButton={handlSearch}
       />
       <Paper>
@@ -419,35 +361,31 @@ function EnhancedTable() {
                           onClick={(event) => handleClick(event, row.id)}
                         />
                       </TableCell>
-                      {/* <TableCell align="center">{row.corpId}</TableCell> */}
                       <TableCell align="center">{row.project}</TableCell>
-                      <TableCell align="center">{row.managerADGroup}</TableCell>
-                      <TableCell align="center">{row.supporter}</TableCell>
-                      <TableCell align="center">{row.resourcesQuota}</TableCell>
-                      {/* <TableCell align="center">{row.proxyAddresses}</TableCell> */}
-                      {/* <TableCell align="center">{row.passwordLastSet}</TableCell> */}
-                      {/* <TableCell align="center">{row.UACCode}</TableCell> */}
-                      {/* <TableCell align="center">{row.UACDesc}</TableCell> */}
-                      {/* <TableCell padding="none" align="right">
+                      <TableCell align="center">{row.ADGroup}</TableCell>
+                      <TableCell align="center">{row.right}</TableCell>
+                      <TableCell align="center">{dayjs(row.createdAt).format('YYYY-MM-DD HH:mm:ss')}</TableCell> 
+                      <TableCell align="center">{dayjs(row.updatedAt).format('YYYY-MM-DD HH:mm:ss')}</TableCell> 
+                      <TableCell padding="none" align="right">
                         <Box mr={2}>
-                          <IconButton aria-label="delete" onClick={(event) => handleDelete(event, row.id)}>
-                            <DeleteIcon />
-                          </IconButton>
+                        <IconButton aria-label="details" onClick={(event) => handleDetail(event, row.id)}>
+                          <EditIcon />
+                        </IconButton>
                         </Box>
-                      </TableCell> */}
+                      </TableCell>
                     </TableRow>
                   );
                 })}
-              {/* {emptyRows > 0 && (
+              {emptyRows > 0 && (
                 <TableRow style={{ height: (53) * emptyRows }}>
                   <TableCell colSpan={8} />
                 </TableRow>
-              )} */}
+              )}
             </TableBody>
           </Table>
         </TableContainer>
         <TablePagination
-          rowsPerPageOptions={[10, 50, 100]}
+          rowsPerPageOptions={[1, 2, 3]}
           component="div"
           count={total}
           rowsPerPage={rowsPerPage}
@@ -460,10 +398,10 @@ function EnhancedTable() {
   );
 }
 
-function SyncList() {
+function Assign() {
   return (
     <React.Fragment>
-      <Helmet title="Management" />
+      <Helmet title="Assign" />
 
       <Grid
         justify="space-between"
@@ -472,17 +410,14 @@ function SyncList() {
       >
         <Grid item>
           <Typography variant="h3" gutterBottom display="inline">
-          Management
+          Assign
           </Typography>
 
           <Breadcrumbs aria-label="Breadcrumb" mt={2}>
-            <Link component={NavLink} exact to="/">
-              Dashboard
+            <Typography>AAA Service</Typography>
+            <Link component={NavLink} exact to="/aaa-service/assign">
+              Assign
             </Link>
-            <Link component={NavLink} exact to="/">
-              Pages
-            </Link>
-            <Typography>Management</Typography>
           </Breadcrumbs>
         </Grid>
       </Grid>
@@ -498,4 +433,4 @@ function SyncList() {
   );
 }
 
-export default SyncList;
+export default Assign;

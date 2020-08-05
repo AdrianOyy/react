@@ -387,7 +387,7 @@ function Products() {
               </TableRow>
               <TableRow>
                 <TableCell component="th" scope="row">
-                  Material App
+                  SENSE Platform
                 </TableCell>
                 <TableCell>
                   <ProductsChip

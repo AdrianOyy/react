@@ -240,6 +240,12 @@ function EnhancedTable() {
   const [emptyRows, setEmptyRows] = React.useState(0);
   const [text, setText] = React.useState('');
   const [query, setQuery] = React.useState({});
+
+  console.log('setTotal==========================setTotal');
+  console.log(setTotal);
+  console.log(setEmptyRows);
+  console.log(query);
+  console.log('setTotal==========================setTotal');
   
   const handelTextChange = (event) => {
     setText(event.target.value)
