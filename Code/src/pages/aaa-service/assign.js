@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styled from "styled-components";
 import { NavLink as RouterNavLink, useHistory } from "react-router-dom";
-import assignApi from '../../api/assign.js'
+import tenantAPI from '../../api/tenant.js'
 import Helmet from 'react-helmet';
 import dayjs from 'dayjs';
 
@@ -134,6 +134,7 @@ function EmptyCard(props) {
     <div className={classes.root}>
       <TextField
         id="project"
+        type="search"
         onChange={onHandelTextChange.bind(this)}
         label="project"
         className={classes.textField}/>
@@ -199,7 +200,7 @@ let EnhancedTableToolbar = props => {
           </Typography>
         ) : (
           <Typography variant="h6" id="tableTitle">
-            Assign
+            Tenant
           </Typography>
         )}
       </ToolbarTitle>
@@ -255,12 +256,11 @@ function EnhancedTable() {
   const [rows, setRows] = useState([]);
   
   useEffect(() => {
-    assignApi.list(Object.assign(
+    tenantAPI.list(Object.assign(
       {},
       query,
       { limit: rowsPerPage, page: page+1 })
       ).then(response => {
-      console.log(response.data)
       setTotal(response.data.data.count);
       setRows(response.data.data.rows);
       const length = response.data.data.length
@@ -299,13 +299,12 @@ function EnhancedTable() {
   };
 
   const handleChangePage = (event, newPage) => {
-    console.log(newPage)
     setPage(newPage);
   };
 
   const handleDetail = (event, id) => {
     const path = {
-      pathname:'/aaa-service/assignsDetails/'+id,
+      pathname:'/aaa-service/tenantsDetails/'+id,
     }
     history.push(path);
   }
@@ -361,9 +360,9 @@ function EnhancedTable() {
                           onClick={(event) => handleClick(event, row.id)}
                         />
                       </TableCell>
-                      <TableCell align="center">{row.project}</TableCell>
-                      <TableCell align="center">{row.ADGroup}</TableCell>
-                      <TableCell align="center">{row.right}</TableCell>
+                      <TableCell align="center">{row.tenant ? row.tenant.name : ''}</TableCell>
+                      <TableCell align="center">{row.ad_group ? row.ad_group.name : ''}</TableCell>
+                      <TableCell align="center">{row.role ? row.role.label : ''}</TableCell>
                       <TableCell align="center">{dayjs(row.createdAt).format('YYYY-MM-DD HH:mm:ss')}</TableCell> 
                       <TableCell align="center">{dayjs(row.updatedAt).format('YYYY-MM-DD HH:mm:ss')}</TableCell> 
                       <TableCell padding="none" align="right">
@@ -398,25 +397,25 @@ function EnhancedTable() {
   );
 }
 
-function Assign() {
+function Tenant() {
   return (
     <React.Fragment>
-      <Helmet title="Assign" />
+      <Helmet title="Tenant" />
 
       <Grid
         justify="space-between"
         container 
-        spacing={10}
+        spacing={24}
       >
         <Grid item>
           <Typography variant="h3" gutterBottom display="inline">
-          Assign
+          Tenant
           </Typography>
 
           <Breadcrumbs aria-label="Breadcrumb" mt={2}>
             <Typography>AAA Service</Typography>
-            <Link component={NavLink} exact to="/aaa-service/assign">
-              Assign
+            <Link component={NavLink} exact to="/aaa-service/tenant">
+              Tenant
             </Link>
           </Breadcrumbs>
         </Grid>
@@ -433,4 +432,4 @@ function Assign() {
   );
 }
 
-export default Assign;
+export default Tenant;

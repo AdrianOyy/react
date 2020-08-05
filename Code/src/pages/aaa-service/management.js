@@ -154,7 +154,7 @@ function EmptyCard(props) {
         className={classes.textField}/>
         <TextField
           id="datetime-local"
-          label="End Date"
+          label="Start Date"
           type="date"
           className={classes.textField}
           onChange={onHandelStartDateChange.bind(this)}

@@ -145,6 +145,7 @@ function EmptyCard(props) {
     <div className={classes.root}>
       <TextField
         id="surname"
+        type="search"
         onChange={onHandelTextChange.bind(this)}
         label="surname"
         className={classes.textField}/>

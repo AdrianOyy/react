@@ -143,7 +143,7 @@ const workflowRoutes = {
     },
     {
       path: "/workflow/vm",
-      name: "VM allocation",
+      name: "VM Allocation",
       component: Alerts
     },
     {
@@ -153,17 +153,17 @@ const workflowRoutes = {
     },
     {
       path: "/workflow/request",
-      name: "Request",
+      name: "My Request",
       component: Alerts
     },
     {
       path: "/workflow/approval",
-      name: "Approval",
+      name: "My Approval",
       component: Alerts
     },
     {
       path: "/workflow/workflowSetting",
-      name: "WorkflowSetting",
+      name: "Workflow Setting",
       component: WorkflowSetting
     },
   ]
@@ -249,7 +249,7 @@ const resourceRoutes = {
     },
     {
       path: "/resources/ip",
-      name: "IP address",
+      name: "IP Address",
       component: Badges
     },
     {

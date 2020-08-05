@@ -1,21 +1,23 @@
 import React from "react";
 import styled from "styled-components";
-import { useHistory, Link } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import authAPI from '../../api/auth.js'
 import Helmet from 'react-helmet';
 import { encryption } from '../../utils/encryption'
 
 import {
   Avatar,
-  Checkbox,
+  // Checkbox,
   FormControl,
-  FormControlLabel,
+  // FormControlLabel,
   Input,
   InputLabel,
   Button as MuiButton,
   Paper,
+  Snackbar,
   Typography
 } from "@material-ui/core";
+import { Alert as MuiAlert } from '@material-ui/lab';
 import { spacing } from "@material-ui/system";
 
 // import AES from 'crypto-js/aes';
@@ -37,27 +39,49 @@ const Wrapper = styled(Paper)`
 //   text-align: center;
 //   margin: 0 auto ${props => props.theme.spacing(5)}px;
 // `;
+
+const Alert = styled(MuiAlert)(spacing);
+
 function SignIn() {
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
   const history = useHistory();
+  const [open, setOpen] = React.useState(false);
+  const [severity, setSeverity] = React.useState('info');
+  const [message, setMessage] = React.useState('');
 
   const login =  () => {
     let account = email;
     let pwd = password;
 
     // let pwd = Base64.stringify(AES.encrypt(password, 'secret key 123'));
-    authAPI.login({
-      username: account,
-      password: encryption(pwd)
-    }).then(response => {
-      if (response.data.data === null) {
-        console.log('login failed')
-      } else {
-        history.push('/dashboard/analytics')
-        // console.log(response.data.data)
+    if (account && pwd) {
+
+      authAPI.login({
+        username: account,
+        password: encryption(pwd)
+      }).then(response => {
+        if (!response.data.data) {
+          setSeverity('error')
+          setOpen(true);
+          setMessage('Login failed');
+        } else {
+          setSeverity('success')
+          setOpen(true);
+          setMessage('Login success');
+          history.push('/dashboard/analytics')
+          // console.log(response.data.data)
+        }
+      })
+    } else {
+      setSeverity('warning')
+      setOpen(true);
+      if (!account) {
+        setMessage('username is required');
+      } else if (!pwd) {
+        setMessage('password is required');
       }
-    })
+    }
   };
 
   const handleChange = (event, type) => {
@@ -67,6 +91,14 @@ function SignIn() {
       setEmail(event.target.value);
     }
   }
+
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setOpen(false);
+  };
 
   return (
     <Wrapper>
@@ -105,13 +137,14 @@ function SignIn() {
             autoComplete="current-password"
           />
         </FormControl>
-        <FormControlLabel
+        {/* <FormControlLabel
           control={<Checkbox value="remember" color="primary" />}
           label="Remember me"
-        />
+        /> */}
         <Button
           // component={Link}
           onClick = {login}
+          to="#"
           fullWidth
           variant="contained"
           color="primary"
@@ -119,14 +152,19 @@ function SignIn() {
         >
           Sign in
         </Button>
-        <Button
+        <Snackbar open={open} autoHideDuration={2000} onClose={handleClose}>
+          <Alert severity={severity} onClose={handleClose}>
+            {message}
+          </Alert>
+        </Snackbar>
+        {/* <Button
           component={Link}
           to="/auth/reset-password"
           fullWidth
           color="primary"
         >
           Forgot password
-        </Button>
+        </Button> */}
       </form>
     </Wrapper>
   );

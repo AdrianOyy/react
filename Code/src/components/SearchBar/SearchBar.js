@@ -41,6 +41,9 @@ function SearchBar(props) {
               type = { field.type ? field.type : 'text' }
               onChange={ (event) => onhandelFieldChange(event, field.id)}
               className={classes.textField}
+              InputLabelProps={{
+                shrink: field.type === 'date'
+              }}
               style = {{ marginRight: '10ch' }}
             />
           ))
