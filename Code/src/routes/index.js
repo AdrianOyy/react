@@ -60,6 +60,12 @@ const tenantDetail = async(() => import("../pages/aaa-service/Tenant/TenantDetai
 const tenantUpdate = async(() => import("../pages/aaa-service/Tenant/TenantUpdate"))
 const tenantCreate = async(() => import("../pages/aaa-service/Tenant/TenantCreate"))
 
+// ADGroup
+const ADGroup = async(() => import("../pages/aaa-service/ADGroup/ADGroupList"));
+const ADGroupDetail = async(() => import("../pages/aaa-service/ADGroup/ADGroupDetail"))
+const ADGroupUpdate = async(() => import("../pages/aaa-service/ADGroup/ADGroupUpdate"))
+const ADGroupCreate = async(() => import("../pages/aaa-service/ADGroup/ADGroupCreate"))
+
 const authRoutes = {
   id: "Auth",
   path: "/auth",
@@ -194,6 +200,11 @@ const aaaServiceRoutes = {
       name: "Management",
       component: management,
     },
+    {
+      path: "/aaa-service/adgroup",
+      name: "AD Group",
+      component: ADGroup,
+    },
   ]
 };
 
@@ -230,7 +241,24 @@ const assignDetailRoutes = {
   children: null
 };
 
-
+const adgroupCreateRoutes = {
+  id: "adgroupCreate",
+  path: "/aaa-service/adgroup/create",
+  component: ADGroupCreate,
+  children: null
+};
+const adgroupDetailRoutes = {
+  id: "adgroupDetail",
+  path: "/aaa-service/adgroup/detail/:id",
+  component: ADGroupDetail,
+  children: null
+};
+const adgroupUpdateRoutes = {
+  id: "adgroupUpdate",
+  path: "/aaa-service/adgroup/update/:id",
+  component: ADGroupUpdate,
+  children: null
+};
 
 const resourceRoutes = {
   id: "Resource",
@@ -299,7 +327,10 @@ export const dashboard = [
   tenantCreateRoutes,
   tenantUpdateRoutes,
   userDetailRoutes,
-  assignDetailRoutes
+  assignDetailRoutes,
+  adgroupDetailRoutes,
+  adgroupCreateRoutes,
+  adgroupUpdateRoutes,
 ];
 
 
