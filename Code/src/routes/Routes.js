@@ -28,6 +28,7 @@ const childRoutes = (Layout, routes) =>
       <Route
         key={index}
         path={path}
+        exact
         render={props => (
           <Layout>
             <Component {...props} />

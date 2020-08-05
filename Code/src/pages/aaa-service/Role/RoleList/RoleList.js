@@ -8,14 +8,14 @@ import {
 
 import {NaviHeader, SearchBar} from '../../../../components'
 import EnhancedTable from './components/EnhancedTable'
-import tenantApi from "../../../../api/tenant";
+import roleApi from "../../../../api/role";
 import styled from "styled-components";
 import {spacing} from "@material-ui/system";
 const Paper = styled(MuiPaper)(spacing);
-const breadcrumbsList = [{ title: 'AAA Service'}, { title: 'Tenant' }]
-function TenantList() {
-
-  const [name, setName] = React.useState('');
+const breadcrumbsList = [{ title: 'AAA Service'}, { title: 'Role' }]
+function RoleList() {
+  const [label, setLabel] = React.useState('');
+  const [value, setValue] = React.useState('');
   const [createdAt, setCreatedAt] = React.useState('');
   const [updatedAt, setUpdateAt] = React.useState('');
   const [query, setQuery] = React.useState({});
@@ -24,7 +24,7 @@ function TenantList() {
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const [total, setTotal] = React.useState(0);
   useEffect(() => {
-    tenantApi.list({ ...query, limit: rowsPerPage, page: page+1 })
+    roleApi.list({ ...query, limit: rowsPerPage, page: page+1 })
       .then(response => {
         setTotal(response.data.data.count);
         setRows(response.data.data.rows);
@@ -34,8 +34,11 @@ function TenantList() {
   const handelFieldChange = (e, id) => {
     const { value } = e.target
     switch (id) {
-      case "name":
-        setName(value);
+      case "label":
+        setLabel(value);
+        break;
+      case "value":
+        setValue(value);
         break;
       case "createdAt":
         setCreatedAt(value);
@@ -49,7 +52,8 @@ function TenantList() {
   };
   const handleSearch = () => {
     setQuery({
-      name,
+      label,
+      value,
       createdAt,
       updatedAt,
     })
@@ -64,13 +68,14 @@ function TenantList() {
     setPage(0);
   }
   const searchBarFieldList = [
-    { id: 'name', label: 'Name', type: 'text', disabled: false, readOnly: false, value: name },
+    { id: 'label', label: 'Label', type: 'text', disabled: false, readOnly: false, value: label },
+    { id: 'value', label: 'Value', type: 'text', disabled: false, readOnly: false, value: value },
     { id: 'createdAt', label: 'Created At', type: 'date', disabled: false, readOnly: false, value: createdAt },
     { id: 'updatedAt', label: 'Updated At', type: 'date', disabled: false, readOnly: false, value: updatedAt },
   ]
   return (
     <React.Fragment>
-      <NaviHeader title="Tenant" breadcrumbsList={ breadcrumbsList } />
+      <NaviHeader title="Role" breadcrumbsList={ breadcrumbsList } />
       <Grid container spacing={6}>
         <Grid item xs={12}>
           <SearchBar
@@ -99,4 +104,4 @@ function TenantList() {
   );
 }
 
-export default TenantList;
+export default RoleList;

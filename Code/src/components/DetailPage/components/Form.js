@@ -6,8 +6,11 @@ import {
   Card as MuiCard,
   Paper as MuiPaper,
   TextField as MuiTextField,
-  Typography
+  Typography,
+  Grid
 } from "@material-ui/core";
+
+import CommonSelect from "../../CommonSelect";
 
 import { spacing } from "@material-ui/system";
 import styled from "styled-components";
@@ -37,39 +40,60 @@ function Form(props) {
         <Paper mt={10}>
           <form noValidate autoComplete="off">
             {
-              formFieldList && formFieldList.map((field, i) => (
-                <TextField
-                  id = { field.id }
-                  key = {field.id + field.label}
-                  label = { field.label}
-                  type = {field.type}
-                  error = {field.error || false}
-                  helperText = {field.helperText || ''}
-                  disabled = {field.disabled || false}
-                  variant = "outlined"
-                  required = {field.required || false}
-                  onChange = { !field.readOnly ? (event) => onFormFieldChange(event, field.id) : null}
-                  onBlur = {!field.readOnly ? () => onFormFieldBlur(field.id) : null}
-                  value={ field.value }
-                  InputProps={{
-                    readOnly: field.readOnly
-                  }}
-                  m={8}
-                />
-              ))
+              formFieldList && formFieldList.map((field, i) => field.isSelector ? (
+                  <CommonSelect
+                    id = {field.id}
+                    key = {field.id + field.label}
+                    label = { field.label}
+                    error = {field.error || false}
+                    helperText = {field.helperText || ''}
+                    value={ field.value }
+                    itemList={field.itemList}
+                    onSelectChange = { (event) => onFormFieldChange(event, field.id) }
+                  />
+
+                ):
+                (
+                  <TextField
+                    id = { field.id }
+                    key = {field.id + field.label}
+                    label = { field.label}
+                    type = {field.type}
+                    error = {field.error || false}
+                    helperText = {field.helperText || ''}
+                    disabled = {field.disabled || false}
+                    variant = "outlined"
+                    required = {field.required || false}
+                    onChange = { !field.readOnly ? (event) => onFormFieldChange(event, field.id) : null}
+                    onBlur = {!field.readOnly ? () => onFormFieldBlur(field.id) : null}
+                    value={ field.value }
+                    InputProps={{
+                      readOnly: field.readOnly
+                    }}
+                    mt={1}
+                    mr={8}
+                    ml={8}
+                  />
+                )
+              )
             }
           </form>
         </Paper>
         {
             showBtn &&   (
-              <div style={{display:'flex', justifyContent:'right'}}>
+              <Grid
+                container
+                direction="row"
+                justify="flex-end"
+                alignItems="center"
+              >
                 <Button
-                  mr={2}
+                  color="primary"
                   variant="contained"
                   onClick={ (e) => onBtnClick() }>
                   Save
                 </Button>
-              </div>
+              </Grid>
             )
         }
       </CardContent>
