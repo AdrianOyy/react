@@ -1,20 +1,21 @@
 import React, {useEffect, useState} from 'react';
 
 import DetailPage from "../../../../components/DetailPage";
-import tenantApi from "../../../../api/tenant"
+import roleApi from "../../../../api/role"
 import {useParams} from "react-router-dom";
 import dayjs from "dayjs";
 
 const breadcrumbsList = [
   { title: 'AAA Service'},
-  { title: 'Tenant', path: '/aaa-service/tenant' },
+  { title: 'Role', path: '/aaa-service/role' },
   { title: 'Detail' },
 ]
 
 
 function TenantDetail(props) {
   const { id } = useParams()
-  const [ name, setName ] = useState('');
+  const [label, setLabel] = React.useState('');
+  const [value, setValue] = React.useState('');
   const [ createdAt, setCreatedAt ] = useState('');
   const [ updatedAt, setUpdastedAt ] = useState('');
   const [ formFieldList, setFormFieldList ] = useState([]);
@@ -23,10 +24,11 @@ function TenantDetail(props) {
   }
 
   useEffect(() => {
-    tenantApi.detail(id).then(({ data }) => {
+    roleApi.detail(id).then(({ data }) => {
       if (data && data.data) {
-        const { name, createdAt, updatedAt } = data.data;
-        setName(name);
+        const { label, value, createdAt, updatedAt } = data.data;
+        setLabel(label);
+        setValue(value);
         setCreatedAt(createdAt);
         setUpdastedAt(updatedAt);
       }
@@ -35,17 +37,21 @@ function TenantDetail(props) {
 
   useEffect(() => {
     const list = [
-      { id: 'name', label: 'Name', type: 'text', disabled: true, readOnly: true, value: name },
+      { id: 'label', label: 'Label', type: 'text', disabled: true, readOnly: true, value: label },
+      { id: 'value', label: 'Value', type: 'text', disabled: true, readOnly: true, value: value },
       { id: 'createdAt', label: 'Created At', type: 'text', disabled: true, readOnly: true, value: formatDateTime(createdAt) },
       { id: 'updatedAt', label: 'Updated At', type: 'text', disabled: true, readOnly: true, value: formatDateTime(updatedAt) },
     ]
     setFormFieldList(list);
-  },[name, createdAt, updatedAt]);
+  },[label, value, createdAt, updatedAt]);
   const onFormFieldChange = (e, id) => {
     const { value } = e.target;
     switch(id) {
-      case 'name':
-        setName(value);
+      case 'label':
+        setLabel(value);
+        break;
+      case 'value':
+        setValue(value);
         break;
       default:
         break;
@@ -53,12 +59,12 @@ function TenantDetail(props) {
   }
   return (
     <React.Fragment>
-        <DetailPage
-          breadcrumbsList = { breadcrumbsList }
-          formTitle = 'Tenant Detail'
-          onFormFieldChange = { onFormFieldChange }
-          formFieldList = { formFieldList }
-        />
+      <DetailPage
+        breadcrumbsList = { breadcrumbsList }
+        formTitle = 'Role Detail'
+        onFormFieldChange = { onFormFieldChange }
+        formFieldList = { formFieldList }
+      />
     </React.Fragment>
   );
 }
