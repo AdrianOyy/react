@@ -66,6 +66,12 @@ const ADGroupDetail = async(() => import("../pages/aaa-service/ADGroup/ADGroupDe
 const ADGroupUpdate = async(() => import("../pages/aaa-service/ADGroup/ADGroupUpdate"))
 const ADGroupCreate = async(() => import("../pages/aaa-service/ADGroup/ADGroupCreate"))
 
+// role
+const role = async(() => import("../pages/aaa-service/Role/RoleList"))
+const roleDetail = async(() => import("../pages/aaa-service/Role/RoleDetail"))
+const roleCreate = async(() => import("../pages/aaa-service/Role/RoleCreate"))
+const roleUpdate = async(() => import("../pages/aaa-service/Role/RoleUpdate"))
+
 const authRoutes = {
   id: "Auth",
   path: "/auth",
@@ -191,6 +197,11 @@ const aaaServiceRoutes = {
       component: tenant,
     },
     {
+      path: "/aaa-service/role",
+      name: "Role",
+      component: role,
+    },
+    {
       path: "/aaa-service/assign",
       name: "Assign",
       component: assign
@@ -234,6 +245,26 @@ const tenantUpdateRoutes = {
   component: tenantUpdate,
   children: null
 };
+const roleDetailRoutes = {
+  id: "roleDetail",
+  path: "/aaa-service/role/detail/:id",
+  component: roleDetail,
+  children: null,
+}
+
+const roleCreateRoutes = {
+  id: "roleCreate",
+  path: "/aaa-service/role/create",
+  component: roleCreate,
+  children: null,
+}
+
+const roleUpdateRoutes = {
+  id: "roleUpdate",
+  path: "/aaa-service/role/update/:id",
+  component: roleUpdate,
+  children: null,
+}
 const assignDetailRoutes = {
   id: "assignDetail",
   path: "/aaa-service/assignDetail/:id",
@@ -326,6 +357,9 @@ export const dashboard = [
   tenantDetailRoutes,
   tenantCreateRoutes,
   tenantUpdateRoutes,
+  roleDetailRoutes,
+  roleCreateRoutes,
+  roleUpdateRoutes,
   userDetailRoutes,
   assignDetailRoutes,
   adgroupDetailRoutes,
