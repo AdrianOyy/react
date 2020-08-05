@@ -4,8 +4,6 @@ import tenantApi from '../../../../../api/tenant'
 import dayjs from 'dayjs';
 import { SearchBar, EnhancedTableToolbar, EnhancedTableHead } from '../../../../../components'
 import CommentTip from '../../../../../components/CommonTip'
-import { spacing } from "@material-ui/system";
-import styled from "styled-components";
 import {
   Box,
   Checkbox,
@@ -14,9 +12,7 @@ import {
   TableBody,
   TableCell,
   TableContainer,
-  TablePagination,
   TableRow,
-  Paper as MuiPaper,
 } from '@material-ui/core'
 
 import {
@@ -24,9 +20,6 @@ import {
   BorderColorOutlined as BorderColorIcon
 } from "@material-ui/icons";
 
-
-
-const Paper = styled(MuiPaper)(spacing);
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -54,18 +47,12 @@ function stableSort(array, comparator) {
   return stabilizedThis.map((el) => el[0]);
 }
 
-function EnhancedTable() {
+function EnhancedTable(props) {
+  const { handleSearch, rows } = props;
   const [order, setOrder] = React.useState('asc');
   const [orderBy, setOrderBy] = React.useState('customer');
   const [selected, setSelected] = React.useState([]);
-  const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(10);
-  const [total, setTotal] = React.useState(0);
-  const [name, setName] = React.useState('');
-  const [createdAt, setCreatedAt] = React.useState('');
-  const [updatedAt, setUpdateAt] = React.useState('');
-  const [query, setQuery] = React.useState({});
-  const [loading, setLoading ] = React.useState(true);
+  const [loading, setLoading ] = React.useState(false);
 
   const formatDateTime = (str) => {
     return dayjs(new Date(str)).format('YYYY-MM-DD HH:mm')
@@ -73,37 +60,13 @@ function EnhancedTable() {
 
   const history = useHistory();
 
-  const handelFieldChange = (e, id) => {
-    const { value } = e.target
-    switch (id) {
-      case "name":
-        setName(value);
-        break;
-      case "createdAt":
-        setCreatedAt(value);
-        break;
-      case "updatedAt":
-        setUpdateAt(value);
-        break;
-      default:
-        break;
-    }
-  };
-
-  const handleSearch = () => {
-    setQuery({
-      name,
-      createdAt,
-      updatedAt,
-    })
-  };
-
   const handleDelete = () => {
     if (loading) return;
     setLoading(true)
     tenantApi.deleteMany({ idList: selected}).then(() => {
       CommentTip.success('success')
       handleSearch()
+      setLoading(false)
       setSelected([])
     }).catch((e) => {
       setLoading(false)
@@ -115,17 +78,8 @@ function EnhancedTable() {
     setOrder(isAsc ? 'desc' : 'asc');
     setOrderBy(property);
   };
-  const [rows, setRows] = useState([]);
-  
-  useEffect(() => {
-    setLoading(true)
-    tenantApi.list({ ...query, limit: rowsPerPage, page: page+1 })
-    .then(response => {
-      setTotal(response.data.data.count);
-      setRows(response.data.data.rows);
-      setLoading(false);
-    });
-  }, [page, rowsPerPage, query]);
+
+
   
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
@@ -170,31 +124,17 @@ function EnhancedTable() {
     history.push(path)
   }
 
-  const handleChangePage = (_, newPage) => {
-    setPage(newPage);
-  };
-
-  const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
-  };
-
   const isSelected = (id) => selected.indexOf(id) !== -1;
 
-  const searchBarFieldList = [
-    { id: 'name', label: 'Name', type: 'text' },
-    { id: 'createdAt', label: 'Created At', type: 'date' },
-    { id: 'updatedAt', label: 'Updated At', type: 'date' },
+  const headCells = [
+    { id: 'name', alignment: 'center', label: 'Name' },
+    { id: 'createdAt', alignment: 'center', label: 'Created At' },
+    { id: 'updatedAt', alignment: 'center', label: 'Updated At' },
+    { id: 'action', alignment: 'right', label: 'Actions' },
   ];
   
   return (
     <React.Fragment>
-      <SearchBar
-        onhandelFieldChange={handelFieldChange}
-        onSearchButton={handleSearch}
-        fieldList = { searchBarFieldList }
-      />
-      <Paper>
         <EnhancedTableToolbar
           numSelected={selected.length}
           tableName='Tenant'
@@ -214,6 +154,7 @@ function EnhancedTable() {
               onSelectAllClick={handleSelectAllClick}
               onRequestSort={handleRequestSort}
               rowCount={rows.length}
+              headCells={headCells}
             />
             <TableBody>
               {stableSort(rows, getComparator(order, orderBy))
@@ -255,16 +196,6 @@ function EnhancedTable() {
             </TableBody>
           </Table>
         </TableContainer>
-        <TablePagination
-          rowsPerPageOptions={[10, 50, 100]}
-          component="div"
-          count={total}
-          rowsPerPage={rowsPerPage}
-          page={page}
-          onChangePage={handleChangePage}
-          onChangeRowsPerPage={handleChangeRowsPerPage}
-        />
-      </Paper>
     </React.Fragment>
   );
 }

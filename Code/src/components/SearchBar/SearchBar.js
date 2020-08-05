@@ -24,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function SearchBar(props) {
-  const { onhandelFieldChange, onSearchButton, fieldList } = props;
+  const { onSearchFieldChange, onSearchButton, fieldList } = props;
   const classes = useStyles();
   return (
     <div style={{ marginBottom: '10px',  padding: '0 10px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
@@ -35,12 +35,16 @@ function SearchBar(props) {
         {
           fieldList && fieldList.map((field) => (
             <TextField
-              id = {field.id}
-              label ={ field.label }
-              key = { field.id }
-              type = { field.type ? field.type : 'text' }
-              onChange={ (event) => onhandelFieldChange(event, field.id)}
-              className={classes.textField}
+              id = { field.id }
+              key = {field.id + field.label}
+              label = { field.label}
+              type = {field.type}
+              error = {field.error || false}
+              helperText = {field.helperText || ''}
+              disabled = {field.disabled || false}
+              required = {field.required || false}
+              onChange = { !field.readOnly ? (event) => onSearchFieldChange(event, field.id) : null}
+              value={ field.value }
               InputLabelProps={{
                 shrink: field.type === 'date' ? true : undefined
               }}

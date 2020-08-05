@@ -8,16 +8,18 @@ import {
   Checkbox,
 } from '@material-ui/core'
 
-const headCells = [
-  { id: 'name', alignment: 'center', label: 'Name' },
-  { id: 'createdAt', alignment: 'center', label: 'Created At' },
-  { id: 'updatedAt', alignment: 'center', label: 'Updated At' },
-  { id: 'action', alignment: 'right', label: 'Actions' },
-];
 
   
 function EnhancedTableHead(props) {
-  const { onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort } = props;
+  const {
+    onSelectAllClick,
+    order,
+    orderBy,
+    numSelected,
+    rowCount,
+    onRequestSort,
+    headCells,
+  } = props;
   const createSortHandler = (property) => (event) => {
     onRequestSort(event, property);
   };
