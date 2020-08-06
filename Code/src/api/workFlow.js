@@ -1,4 +1,4 @@
-import request from '../utils/request2'
+import request from '../utils/requestWorkflow'
 
 //class WorkFlow {
  

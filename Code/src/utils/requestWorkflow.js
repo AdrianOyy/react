@@ -5,7 +5,7 @@ import CommonTip from '../components/CommonTip'
 
 
 const axiosInstance = axios.create({  
-  baseURL: process.env.REACT_APP_BASE_API2,
+  baseURL: process.env.REACT_APP_BASE_API_WORKFLOW,
   timeout: 60000
 });
 

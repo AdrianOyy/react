@@ -256,7 +256,7 @@ function EnhancedTable() {
     //   console.log(response)
       
     // })
-    window.open(process.env.REACT_APP_BASE_API2+"/create?token="+localStorage.getItem("token"))
+    window.open(process.env.REACT_APP_BASE_API_WORKFLOW+"/create?token="+localStorage.getItem("token"))
   //  createModel(localStorage.getItem("token")).then(response =>{
   //    console.log(response.data)
   //    openDesigner(response.data.data.modelId)
