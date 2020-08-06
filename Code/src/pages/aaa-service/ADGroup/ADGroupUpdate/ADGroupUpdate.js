@@ -1,21 +1,23 @@
 import React, {useEffect, useState} from 'react';
 
 import DetailPage from "../../../../components/DetailPage";
-import ADGroupApi from "../../../../api/adGroup"
 import {useParams} from "react-router-dom";
 import dayjs from "dayjs";
 import CommonTip from "../../../../components/CommonTip";
 import { useHistory } from 'react-router-dom'
+import ADGroupApi from "../../../../api/adGroup"
 import {checkEmpty, getCheckExist} from "../untils/ADGroupCheck";
 
+const listPath = '/aaa-service/adgroup'
+const formTitle = 'AD Group Update'
 const breadcrumbsList = [
   { title: 'AAA Service'},
-  { title: 'AD Group', path: '/aaa-service/adgroup' },
+  { title: 'AD Group', path: listPath },
   { title: 'Update' },
 ]
 
 
-function ADGroupUpdate(props) {
+function Update(props) {
   const { id } = useParams()
   const history = useHistory();
   const [ name, setName ] = useState('');
@@ -36,7 +38,7 @@ function ADGroupUpdate(props) {
     ADGroupApi.update(id, { name })
       .then(() => {
         CommonTip.success("Successfully Update");
-        history.push({pathname: '/aaa-service/adgroup'})
+        history.push({pathname: listPath})
       })
       .catch(() => {
         setSaving(false);
@@ -97,7 +99,7 @@ function ADGroupUpdate(props) {
     <React.Fragment>
       <DetailPage
         breadcrumbsList = { breadcrumbsList }
-        formTitle = 'AD Group Update'
+        formTitle = { formTitle }
         onFormFieldChange = { onFormFieldChange }
         onFormFieldBlur = { onFormFieldBlur }
         formFieldList = { formFieldList }
@@ -108,4 +110,4 @@ function ADGroupUpdate(props) {
   );
 }
 
-export default ADGroupUpdate;
+export default Update;
