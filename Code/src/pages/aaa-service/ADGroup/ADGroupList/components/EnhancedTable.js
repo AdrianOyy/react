@@ -17,7 +17,7 @@ import {
 
 import {
   RemoveRedEye as RemoveRedEyeIcon,
-  BorderColorOutlined as BorderColorIcon
+  // BorderColorOutlined as BorderColorIcon
 } from "@material-ui/icons";
 
 
@@ -117,12 +117,12 @@ function EnhancedTable(props) {
     history.push(path);
   }
 
-  const handleUpdate = (_, id) => {
-    const path = {
-      pathname: '/aaa-service/adgroup/update/' + id,
-    }
-    history.push(path)
-  }
+  // const handleUpdate = (_, id) => {
+  //   const path = {
+  //     pathname: '/aaa-service/adgroup/update/' + id,
+  //   }
+  //   history.push(path)
+  // }
 
   const isSelected = (id) => selected.indexOf(id) !== -1;
 
@@ -185,9 +185,9 @@ function EnhancedTable(props) {
                           <IconButton aria-label="detail" onClick={(event) => handleDetail(event, row.id)}>
                             <RemoveRedEyeIcon />
                           </IconButton>
-                          <IconButton aria-label="update" onClick={(event) => handleUpdate(event, row.id)}>
+                          {/* <IconButton aria-label="update" onClick={(event) => handleUpdate(event, row.id)}>
                             <BorderColorIcon />
-                          </IconButton>
+                          </IconButton> */}
                         </Box>
                       </TableCell>
                     </TableRow>
