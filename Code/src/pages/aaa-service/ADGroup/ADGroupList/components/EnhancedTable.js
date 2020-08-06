@@ -1,6 +1,5 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom'
-import ADGroupApi from "../../../../../api/adGroup"
 import dayjs from 'dayjs';
 import { EnhancedTableToolbar, EnhancedTableHead } from '../../../../../components'
 import CommentTip from '../../../../../components/CommonTip'
@@ -20,6 +19,11 @@ import {
   // BorderColorOutlined as BorderColorIcon
 } from "@material-ui/icons";
 
+import ADGroupApi from "../../../../../api/adGroup"
+
+const createPath = '/aaa-service/adgroup/create'
+const detailPath = '/aaa-service/adgroup/detail/'
+// const updatePath = '/aaa-service/adgroup/update/'
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -112,14 +116,14 @@ function EnhancedTable(props) {
   
   const handleDetail = (_, id) => {
     const path = {
-      pathname:'/aaa-service/adgroup/detail/'+id,
+      pathname: detailPath + id,
     }
     history.push(path);
   }
 
   // const handleUpdate = (_, id) => {
   //   const path = {
-  //     pathname: '/aaa-service/adgroup/update/' + id,
+  //     pathname: updatePath + id,
   //   }
   //   history.push(path)
   // }
@@ -138,7 +142,7 @@ function EnhancedTable(props) {
         <EnhancedTableToolbar
           numSelected={selected.length}
           tableName='AD Group'
-          createPath='/aaa-service/adgroup/create'
+          createPath={createPath}
           onDelete={ handleDelete }
         />
         <TableContainer>

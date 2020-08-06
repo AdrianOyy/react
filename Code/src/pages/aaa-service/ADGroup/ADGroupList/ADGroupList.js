@@ -8,13 +8,16 @@ import {
 
 import {NaviHeader, SearchBar} from '../../../../components'
 import EnhancedTable from './components/EnhancedTable'
-import ADGroupApi from "../../../../api/adGroup"
 import styled from "styled-components";
 import {spacing} from "@material-ui/system";
 // import dayjs from "dayjs";
+import ADGroupApi from "../../../../api/adGroup"
 const Paper = styled(MuiPaper)(spacing);
-const breadcrumbsList = [{ title: 'AAA Service'}, { title: 'AD Group' }]
-function TenantList() {
+
+const naviHeaderTitle = 'AD Group'
+const breadcrumbsList = [{ title: 'AAA Service'}, { title: naviHeaderTitle }]
+
+function List() {
 
   const [name, setName] = React.useState('');
   const [createdAt, setCreatedAt] = React.useState('');
@@ -71,7 +74,7 @@ function TenantList() {
   ]
   return (
     <React.Fragment>
-      <NaviHeader title="AD Group" breadcrumbsList={ breadcrumbsList } />
+      <NaviHeader title={ naviHeaderTitle } breadcrumbsList={ breadcrumbsList } />
       <Grid container spacing={6}>
         <Grid item xs={12}>
           <SearchBar
@@ -100,4 +103,4 @@ function TenantList() {
   );
 }
 
-export default TenantList;
+export default List;
