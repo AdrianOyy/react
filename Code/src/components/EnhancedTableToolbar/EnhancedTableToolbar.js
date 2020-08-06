@@ -15,7 +15,7 @@ import {
 } from "@material-ui/icons";
 
 const ToolbarTitle = styled.div`
-  min-width: 150px;
+  min-width: 300px;
 `;
 
 const Spacer = styled.div`

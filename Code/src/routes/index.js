@@ -72,6 +72,12 @@ const roleDetail = async(() => import("../pages/aaa-service/Role/RoleDetail"))
 const roleCreate = async(() => import("../pages/aaa-service/Role/RoleCreate"))
 const roleUpdate = async(() => import("../pages/aaa-service/Role/RoleUpdate"))
 
+// tenant adGroup mapping
+const tenantGroupMapping = async(() => import("../pages/aaa-service/TenantGroupMapping/TenantGroupMappingList"))
+const tenantGroupMappingDetail = async(() => import("../pages/aaa-service/TenantGroupMapping/TenantGroupMappingDetail"))
+const tenantGroupMappingUpdate = async(() => import("../pages/aaa-service/TenantGroupMapping/TenantGroupMappingUpdate"))
+const tenantGroupMappingCreate = async(() => import("../pages/aaa-service/TenantGroupMapping/TenantGroupMappingCreate"))
+
 const authRoutes = {
   id: "Auth",
   path: "/auth",
@@ -216,6 +222,11 @@ const aaaServiceRoutes = {
       name: "AD Group",
       component: ADGroup,
     },
+    {
+      path: "/aaa-service/tenantAdGroupMapping",
+      name: "Tenant AD Group Mapping",
+      component: tenantGroupMapping,
+    }
   ]
 };
 
@@ -245,26 +256,45 @@ const tenantUpdateRoutes = {
   component: tenantUpdate,
   children: null
 };
+
 const roleDetailRoutes = {
   id: "roleDetail",
   path: "/aaa-service/role/detail/:id",
   component: roleDetail,
   children: null,
 }
-
 const roleCreateRoutes = {
   id: "roleCreate",
   path: "/aaa-service/role/create",
   component: roleCreate,
   children: null,
 }
-
 const roleUpdateRoutes = {
   id: "roleUpdate",
   path: "/aaa-service/role/update/:id",
   component: roleUpdate,
   children: null,
 }
+
+const tenantGroupMappingDetailRoutes = {
+  id: "roleDetail",
+  path: "/aaa-service/tenantGroupMapping/detail/:id",
+  component: tenantGroupMappingDetail,
+  children: null,
+}
+const tenantGroupMappingUpdateRoutes = {
+  id: "roleDetail",
+  path: "/aaa-service/tenantGroupMapping/update/:id",
+  component: tenantGroupMappingUpdate,
+  children: null,
+}
+const tenantGroupMappingCreateRoutes = {
+  id: "roleDetail",
+  path: "/aaa-service/tenantGroupMapping/create",
+  component: tenantGroupMappingCreate,
+  children: null,
+}
+
 const assignDetailRoutes = {
   id: "assignDetail",
   path: "/aaa-service/assignDetail/:id",
@@ -365,6 +395,9 @@ export const dashboard = [
   adgroupDetailRoutes,
   adgroupCreateRoutes,
   adgroupUpdateRoutes,
+  tenantGroupMappingDetailRoutes,
+  tenantGroupMappingUpdateRoutes,
+  tenantGroupMappingCreateRoutes,
 ];
 
 

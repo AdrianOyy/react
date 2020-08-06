@@ -17,14 +17,26 @@ const useStyles = makeStyles((theme) => ({
 
 function CommonSelect(props) {
   const classes = useStyles();
-  const { value, itemList, onSelectChange, id, label, error, helperText } = props;
+  const {
+    value,
+    itemList,
+    onSelectChange,
+    id,
+    label,
+    error,
+    helperText,
+    outlined,
+    valueField,
+    labelField,
+  } = props;
   return (
     <FormControl
       className={classes.formControl}
       error={error}
-      variant="outlined"
+      variant={ outlined ? "outlined" : undefined }
+      style={{ margin: "0 10ch 0 0"}}
     >
-      <InputLabel id={id}>{label}</InputLabel>
+      <InputLabel id={id}> {label} </InputLabel>
       <Select
         labelId={id}
         id={id}
@@ -33,7 +45,12 @@ function CommonSelect(props) {
       >
         {
           itemList && itemList.map((item, i) => (
-            <MenuItem value={item.value} key={i + item.value}>{item.label}</MenuItem>
+            <MenuItem
+              value={valueField ? item[valueField] : item.value}
+              key={i}
+            >
+              {labelField ? item[labelField] : item.label}
+            </MenuItem>
           ))
         }
       </Select>

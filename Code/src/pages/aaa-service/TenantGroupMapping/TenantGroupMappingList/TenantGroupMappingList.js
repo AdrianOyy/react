@@ -8,14 +8,16 @@ import {
 
 import {NaviHeader, SearchBar} from '../../../../components'
 import EnhancedTable from './components/EnhancedTable'
-import roleApi from "../../../../api/role";
+import tenantGroupMappingApi from "../../../../api/tenantGroupMapping";
+import tenantApi from "../../../../api/tenant"
+import adGroupApi from "../../../../api/adGroup";
 import styled from "styled-components";
 import {spacing} from "@material-ui/system";
 const Paper = styled(MuiPaper)(spacing);
-const breadcrumbsList = [{ title: 'AAA Service'}, { title: 'Role' }]
+const breadcrumbsList = [{ title: 'AAA Service'}, { title: 'Tenant AD Group Mapping' }]
 function RoleList() {
-  const [label, setLabel] = useState('');
-  const [value, setValue] = useState('');
+  const [tenant, setTenant] = useState('');
+  const [adGroup, setAdGroup] = useState('');
   const [createdAt, setCreatedAt] = useState('');
   const [updatedAt, setUpdateAt] = useState('');
   const [query, setQuery] = useState({});
@@ -23,8 +25,28 @@ function RoleList() {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [total, setTotal] = useState(0);
+  const [tenantList, setTenantList] = useState([]);
+  const [adGroupList, setAdGroupList] = useState([]);
+
+  // 获取 tenantList 和 gourpList
+  useEffect(() =>　{
+    tenantApi.list({limit:999, page:1}).then(({data}) => {
+      if (data && data.data) {
+        const { rows } = data.data;
+        setTenantList(rows)
+      }
+    })
+    adGroupApi.list({limit:999, page: 1}).then(({data}) => {
+      if (data && data.data) {
+        const { rows } = data.data;
+        setAdGroupList(rows)
+      }
+    })
+
+  }, [])
+
   useEffect(() => {
-    roleApi.list({ ...query, limit: rowsPerPage, page: page+1 })
+    tenantGroupMappingApi.list({ ...query, limit: rowsPerPage, page: page+1 })
       .then(response => {
         setTotal(response.data.data.count);
         setRows(response.data.data.rows);
@@ -34,11 +56,11 @@ function RoleList() {
   const handelFieldChange = (e, id) => {
     const { value } = e.target
     switch (id) {
-      case "label":
-        setLabel(value);
+      case "tenant":
+        setTenant(value);
         break;
-      case "value":
-        setValue(value);
+      case "adGroup":
+        setAdGroup(value);
         break;
       case "createdAt":
         setCreatedAt(value);
@@ -52,8 +74,8 @@ function RoleList() {
   };
   const handleSearch = () => {
     setQuery({
-      label,
-      value,
+      tenantId: tenant,
+      groupId: adGroup,
       createdAt,
       updatedAt,
     })
@@ -68,14 +90,18 @@ function RoleList() {
     setPage(0);
   }
   const searchBarFieldList = [
-    { id: 'label', label: 'Label', type: 'text', disabled: false, readOnly: false, value: label },
-    { id: 'value', label: 'Value', type: 'text', disabled: false, readOnly: false, value: value },
+    { id: 'tenant', label: 'Tenant', type: 'text', disabled: false, value: tenant, isSelector: true, itemList: tenantList, labelField: 'name', valueField: 'id' },
+    { id: 'adGroup', label: 'AD Group', type: 'text', disabled: false, value: adGroup, isSelector: true, itemList: adGroupList, labelField: 'name', valueField: 'id' },
     { id: 'createdAt', label: 'Created At', type: 'date', disabled: false, readOnly: false, value: createdAt },
     { id: 'updatedAt', label: 'Updated At', type: 'date', disabled: false, readOnly: false, value: updatedAt },
   ]
+  useEffect(() => {
+    searchBarFieldList[0].itemList = tenantList;
+    searchBarFieldList[1].itemList = adGroupList;
+  }, [tenantList, adGroupList, searchBarFieldList])
   return (
     <React.Fragment>
-      <NaviHeader title="Role" breadcrumbsList={ breadcrumbsList } />
+      <NaviHeader title="Tenant AD Group Mapping" breadcrumbsList={ breadcrumbsList } />
       <Grid container spacing={6}>
         <Grid item xs={12}>
           <SearchBar

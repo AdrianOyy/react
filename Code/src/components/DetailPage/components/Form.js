@@ -49,9 +49,11 @@ function Form(props) {
                     helperText = {field.helperText || ''}
                     value={ field.value }
                     itemList={field.itemList}
+                    outlined={true}
+                    labelField={field.labelField}
+                    valueField={field.valueField}
                     onSelectChange = { (event) => onFormFieldChange(event, field.id) }
                   />
-
                 ):
                 (
                   <TextField
@@ -70,9 +72,7 @@ function Form(props) {
                     InputProps={{
                       readOnly: field.readOnly
                     }}
-                    mt={1}
-                    mr={8}
-                    ml={8}
+                    style={{ marginRight: "10ch" }}
                   />
                 )
               )

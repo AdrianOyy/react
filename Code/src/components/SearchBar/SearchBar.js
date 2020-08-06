@@ -6,6 +6,7 @@ import {
   Button,
   TextField,
 } from '@material-ui/core'
+import CommonSelect from "../CommonSelect";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -24,7 +25,11 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function SearchBar(props) {
-  const { onSearchFieldChange, onSearchButton, fieldList } = props;
+  const {
+    onSearchFieldChange,
+    onSearchButton,
+    fieldList,
+  } = props;
   const classes = useStyles();
   return (
     <div style={{ marginBottom: '10px',  padding: '0 10px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
@@ -33,7 +38,21 @@ function SearchBar(props) {
       */}
       <div>
         {
-          fieldList && fieldList.map((field) => (
+          fieldList && fieldList.map((field) => field.isSelector ? (
+            <CommonSelect
+              id = {field.id}
+              key = {field.id + field.label}
+              label = { field.label}
+              error = {field.error || false}
+              helperText = {field.helperText || ''}
+              value={ field.value || '' }
+              itemList={field.itemList}
+              outlined={false}
+              labelField={field.labelField}
+              valueField={field.valueField}
+              onSelectChange = { (event) => onSearchFieldChange(event, field.id) }
+            />
+          ):(
             <TextField
               id = { field.id }
               key = {field.id + field.label}
@@ -48,7 +67,7 @@ function SearchBar(props) {
               InputLabelProps={{
                 shrink: field.type === 'date' ? true : undefined
               }}
-              style = {{ marginRight: '10ch' }}
+              style={{ marginRight: "10ch" }}
             />
           ))
         }
