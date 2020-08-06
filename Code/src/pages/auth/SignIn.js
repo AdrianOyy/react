@@ -66,6 +66,7 @@ function SignIn() {
           setOpen(true);
           setMessage('Login failed');
         } else {
+          localStorage.setItem('token',response.data.data)
           setSeverity('success')
           setOpen(true);
           setMessage('Login success');

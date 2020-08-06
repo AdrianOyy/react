@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import styled from "styled-components";
 import { NavLink as RouterNavLink } from "react-router-dom";
 // import syncUserAPI from '../../api/syncUser.js'
-import workFlowAPI  from '../../api/workFlow.js'
+import {getProcessDefinitions,openDesigner,createModel}  from '../../api/workFlow.js'
 import Helmet from 'react-helmet';
 import CommonTip from '../../components/CommonTip'
 // import dayjs from 'dayjs';
@@ -240,12 +240,6 @@ function EnhancedTable() {
   const [emptyRows, setEmptyRows] = React.useState(0);
   const [text, setText] = React.useState('');
   const [query, setQuery] = React.useState({});
-
-  console.log('setTotal==========================setTotal');
-  console.log(setTotal);
-  console.log(setEmptyRows);
-  console.log(query);
-  console.log('setTotal==========================setTotal');
   
   const handelTextChange = (event) => {
     setText(event.target.value)
@@ -258,7 +252,15 @@ function EnhancedTable() {
   };
 
   const openActivitiDesign = () => {
-    window.open("http://127.0.0.1:8888/create");
+    // openDesigner().then(response=>{
+    //   console.log(response)
+      
+    // })
+    window.open(process.env.REACT_APP_BASE_API2+"/create?token="+localStorage.getItem("token"))
+  //  createModel(localStorage.getItem("token")).then(response =>{
+  //    console.log(response.data)
+  //    openDesigner(response.data.data.modelId)
+  //   })
   };
 
   const handleRequestSort = (event, property) => {
@@ -269,9 +271,11 @@ function EnhancedTable() {
   const [rows, setRows] = useState([]);
   
   useEffect(() => {
-    workFlowAPI.getProcessDefinitions().then(response => {
+    getProcessDefinitions().then(response => {
        // setTotal(response.data.data.total);
-        setRows(response.data.data);
+       const newArr = response.data.data.filter(item => item.sourceExtraUrl!=null)
+      console.log(newArr)
+      setRows(newArr);
       //  const length = response.data.data.length
       //  const emptyrow = rowsPerPage - length;
       //  setEmptyRows(emptyrow);
@@ -307,19 +311,19 @@ function EnhancedTable() {
     setSelected(newSelected);
   };
   
-  const handleDelete = (event, id) => {
-    console.log(id)
-    workFlowAPI.deleteDeployment(id).then(() => {
-      CommonTip.success('delete success');
-    })
-  }
+  // const handleDelete = (event, id) => {
+  //   console.log(id)
+  //   workFlowAPI.deleteDeployment(id).then(() => {
+  //     CommonTip.success('delete success');
+  //   })
+  // }
 
-  const handlePublish = (event, id) => {
-    console.log(id)
-    workFlowAPI.publish(id).then(() => {
-      CommonTip.success('Publish success');
-    })
-  }
+  // const handlePublish = (event, id) => {
+  //   console.log(id)
+  //   workFlowAPI.publish(id).then(() => {
+  //     CommonTip.success('Publish success');
+  //   })
+  // }
 
   const handleChangePage = (event, newPage) => {
     console.log(newPage)
@@ -384,14 +388,14 @@ function EnhancedTable() {
                       <TableCell align="center">{row.deploymentId}</TableCell>
                       <TableCell align="center">{row.deploymentUrl}</TableCell>             
                       { <TableCell padding="none" align="right">
-                        <Box mr={2}>
+                        {/* <Box mr={2}>
                           <IconButton aria-label="delete" onClick={(event) => handleDelete(event, row.id)}>
                             <DeleteIcon />
                           </IconButton>
                         </Box>
                         <Box mr={2} onClick={(event) => handlePublish(event, row.id)}>
                           Publish
-                        </Box>
+                        </Box> */}
                       </TableCell>}
                     </TableRow>
                   );
