@@ -273,12 +273,18 @@ function EnhancedTable() {
   useEffect(() => {
     getProcessDefinitions().then(response => {
        // setTotal(response.data.data.total);
-       const newArr = response.data.data.filter(item => item.sourceExtraUrl!=null)
-      console.log(newArr)
-      setRows(newArr);
+       console.log(response.data)
+       if(response.data && response.data.data){
+        const newArr = response.data.data.filter(item => item.sourceExtraUrl!=null)
+        console.log(newArr)
+        setRows(newArr);
+       }
+     
       //  const length = response.data.data.length
       //  const emptyrow = rowsPerPage - length;
       //  setEmptyRows(emptyrow);
+    }).catch(error => {
+      CommonTip.error(error.message, { });
     })
   },[]);
   

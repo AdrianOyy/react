@@ -2,6 +2,8 @@ import axios from 'axios'
 //import store from '../redux/store/index'
  //import { getToken } from 'utils/auth'
 import CommonTip from '../components/CommonTip'
+import { createBrowserHistory } from 'history';
+
 
 
 const axiosInstance = axios.create({  
@@ -32,9 +34,11 @@ axiosInstance.interceptors.request.use(
 //响应拦截器(处理异常)
 axiosInstance.interceptors.response.use(
   response => {
-    if(response.data.code==400){
+    if(response.data.data.code==400){
       CommonTip.error('登录状态已过期')
-      return Promise.reject('error')
+      console.log("asdsad")
+      const history = createBrowserHistory();
+      history.push('/auth/sign-in')
     }else{
       return response
     }
