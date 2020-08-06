@@ -37,7 +37,7 @@ function Update(props) {
     setSaving(true);
     ADGroupApi.update(id, { name })
       .then(() => {
-        CommonTip.success("Successfully Update");
+        CommonTip.success("Success");
         history.push({pathname: listPath})
       })
       .catch(() => {

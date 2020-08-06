@@ -98,7 +98,7 @@ function TenantDetail(props) {
     setSaving(true);
     tenantGroupMappingApi.update(id, { tenantId, groupId })
       .then(() => {
-        CommonTip.success("Successfully Update");
+        CommonTip.success("Success");
         history.push({pathname: '/aaa-service/tenantAdGroupMapping'})
       })
       .catch(() => {

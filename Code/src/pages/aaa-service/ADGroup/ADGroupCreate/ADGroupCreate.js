@@ -29,7 +29,7 @@ function Create(props) {
     setSaving(true);
     ADGroupApi.create({ name })
       .then(() => {
-        CommonTip.success("Successfully Create");
+        CommonTip.success("Success");
         history.push({pathname: listPath})
       })
       .catch(() => {

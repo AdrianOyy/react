@@ -59,7 +59,7 @@ function ManagementUpdate(props) {
   }, [])
 
   const tenantCheck = async () => {
-    const emptyCheck = checkEmpty("tenant", tenantId);
+    const emptyCheck = checkEmpty("Tenant", tenantId);
     setTenantError(emptyCheck.error)
     setTenantHelperText(emptyCheck.msg);
     if (!emptyCheck.error && !groupError) {
@@ -86,14 +86,14 @@ function ManagementUpdate(props) {
   }
 
   const resourcesQuotaCheck = () => {
-    const emptyCheck = checkEmpty("resourcesQuota", resourcesQuota);
+    const emptyCheck = checkEmpty("Resources Quota", resourcesQuota);
     setResourcesQuotaError(emptyCheck.error)
     setResourcesQuotaHelperText(emptyCheck.msg);
     return emptyCheck.error
   }
 
   const supporterCheck = () => {
-    const emptyCheck = checkEmpty("supporter", supporter);
+    const emptyCheck = checkEmpty("Supporter", supporter);
     setSupporterError(emptyCheck.error)
     setSupporterHelperText(emptyCheck.msg);
     return emptyCheck.error
@@ -127,7 +127,7 @@ function ManagementUpdate(props) {
     setSaving(true);
     managementApi.update(id, { tenantId, groupId, supporter, resourcesQuota })
       .then(() => {
-        CommonTip.success("Successfully Update");
+        CommonTip.success("Success");
         history.push({pathname: '/aaa-service/management'})
       })
       .catch(() => {

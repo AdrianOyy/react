@@ -35,7 +35,7 @@ function TenantGroupMappingCreate(props) {
     setSaving(true);
     tenantGroupMappingApi.create({ tenantId, groupId })
       .then(() => {
-        CommonTip.success("Successfully Create");
+        CommonTip.success("Success");
         history.push({pathname: '/aaa-service/tenantAdGroupMapping'})
       })
       .catch(() => {
