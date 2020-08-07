@@ -12,7 +12,7 @@ import expiryApi from "../../../../api/expiry"
 import tenantApi from "../../../../api/tenant"
 import adGroupApi from "../../../../api/adGroup"
 import roleApi from "../../../../api/role"
-import userApi from "../../../../api/syncUser"
+import userApi from "../../../../api/user"
 import styled from "styled-components"
 import {spacing} from "@material-ui/system"
 const Paper = styled(MuiPaper)(spacing)

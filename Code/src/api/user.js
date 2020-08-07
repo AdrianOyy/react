@@ -1,7 +1,7 @@
 import request from '../utils/request'
 
 // const prefix = ''
-// const url = 'http://127.0.0.1:7001';
+// const url = 'http://127.0.0.1:7001'
 const prefix = '/AAA'
 const url = null
 

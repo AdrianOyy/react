@@ -5,7 +5,7 @@ import expiryApi from "../../../../api/expiry"
 import CommonTip from "../../../../components/CommonTip"
 import {checkEmpty, getCheckExist} from "../untils/expiryFieldCheck"
 import assignApi from "../../../../api/assign"
-import userApi from "../../../../api/syncUser"
+import userApi from "../../../../api/user"
 import dayjs from "dayjs"
 
 const breadcrumbsList = [

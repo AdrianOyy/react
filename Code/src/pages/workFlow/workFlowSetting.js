@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import styled from "styled-components"
 import { NavLink as RouterNavLink } from "react-router-dom"
-// import syncUserAPI from '../../api/syncUser.js'
+// import syncUserAPI from '../../api/user.js'
 import {getProcessDefinitions,openDesigner,createModel}  from '../../api/workFlow.js'
 import Helmet from 'react-helmet'
 import CommonTip from '../../components/CommonTip'
