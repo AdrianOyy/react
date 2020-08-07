@@ -96,13 +96,13 @@ function Update() {
   return (
     <React.Fragment>
       <DetailPage
-        breadcrumbsList = { breadcrumbsList }
-        formTitle = { formTitle }
-        onFormFieldChange = { onFormFieldChange }
-        onFormFieldBlur = { onFormFieldBlur }
-        formFieldList = { formFieldList }
-        showBtn ={ true }
-        onBtnClick = { hanleClick }
+        breadcrumbsList = {breadcrumbsList}
+        formTitle = {formTitle}
+        onFormFieldChange = {onFormFieldChange}
+        onFormFieldBlur = {onFormFieldBlur}
+        formFieldList = {formFieldList}
+        showBtn ={true}
+        onBtnClick = {hanleClick}
       />
     </React.Fragment>
   )

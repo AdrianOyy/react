@@ -53,10 +53,10 @@ function Detail() {
   return (
     <React.Fragment>
         <DetailPage
-          breadcrumbsList = { breadcrumbsList }
-          formTitle = { formTitle }
-          onFormFieldChange = { onFormFieldChange }
-          formFieldList = { formFieldList }
+          breadcrumbsList = {breadcrumbsList}
+          formTitle = {formTitle}
+          onFormFieldChange = {onFormFieldChange}
+          formFieldList = {formFieldList}
         />
     </React.Fragment>
   )
