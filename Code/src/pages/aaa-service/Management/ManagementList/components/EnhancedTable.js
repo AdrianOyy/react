@@ -1,5 +1,6 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom'
+import tenantGroupMappingApi from '../../../../../api/tenantGroupMapping'
 import dayjs from 'dayjs';
 import { EnhancedTableToolbar, EnhancedTableHead } from '../../../../../components'
 import CommentTip from '../../../../../components/CommonTip'
@@ -16,14 +17,9 @@ import {
 
 import {
   RemoveRedEye as RemoveRedEyeIcon,
-  // BorderColorOutlined as BorderColorIcon
+  BorderColorOutlined as BorderColorIcon
 } from "@material-ui/icons";
 
-import ADGroupApi from "../../../../../api/adGroup"
-
-const createPath = '/aaa-service/adgroup/create'
-const detailPath = '/aaa-service/adgroup/detail/'
-// const updatePath = '/aaa-service/adgroup/update/'
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -67,7 +63,7 @@ function EnhancedTable(props) {
   const handleDelete = () => {
     if (loading) return;
     setLoading(true)
-    ADGroupApi.deleteMany({ idList: selected}).then(() => {
+    tenantGroupMappingApi.deleteMany({ idList: selected}).then(() => {
       CommentTip.success('success')
       handleSearch()
       setLoading(false)
@@ -83,8 +79,6 @@ function EnhancedTable(props) {
     setOrderBy(property);
   };
 
-
-  
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
       const newSelecteds = rows.map((n) => n.id);
@@ -97,7 +91,7 @@ function EnhancedTable(props) {
   const handleClick = (_, id) => {
     const selectedIndex = selected.indexOf(id);
     let newSelected = [];
-  
+
     if (selectedIndex === -1) {
       newSelected = newSelected.concat(selected, id);
     } else if (selectedIndex === 0) {
@@ -110,39 +104,42 @@ function EnhancedTable(props) {
         selected.slice(selectedIndex + 1),
       );
     }
-  
+
     setSelected(newSelected);
   };
-  
+
   const handleDetail = (_, id) => {
     const path = {
-      pathname: detailPath + id,
+      pathname:'/aaa-service/management/detail/'+id,
     }
     history.push(path);
   }
 
-  // const handleUpdate = (_, id) => {
-  //   const path = {
-  //     pathname: updatePath + id,
-  //   }
-  //   history.push(path)
-  // }
+  const handleUpdate = (_, id) => {
+    const path = {
+      pathname: '/aaa-service/management/update/' + id,
+    }
+    history.push(path)
+  }
 
   const isSelected = (id) => selected.indexOf(id) !== -1;
 
   const headCells = [
-    { id: 'name', alignment: 'center', label: 'Name' },
+    { id: 'tenant', alignment: 'center', label: 'Tenant' },
+    { id: 'adGroup', alignment: 'center', label: 'AD Group' },
+    { id: 'supporter', alignment: 'center', label: 'Supporter' },
+    { id: 'resourcesQuota', alignment: 'center', label: 'Resources Quota' },
     { id: 'createdAt', alignment: 'center', label: 'Created At' },
     { id: 'updatedAt', alignment: 'center', label: 'Updated At' },
     { id: 'action', alignment: 'right', label: 'Actions' },
   ];
-  
+
   return (
     <React.Fragment>
         <EnhancedTableToolbar
           numSelected={selected.length}
-          tableName='AD Group'
-          createPath={createPath}
+          tableName='Management'
+          createPath='/aaa-service/management/create'
           onDelete={ handleDelete }
         />
         <TableContainer>
@@ -181,7 +178,10 @@ function EnhancedTable(props) {
                           onClick={(event) => handleClick(event, row.id)}
                         />
                       </TableCell>
-                      <TableCell align="center">{row.name}</TableCell>
+                      <TableCell align="center">{row.tenant.name}</TableCell>
+                      <TableCell align="center">{row.ad_group.name}</TableCell>
+                      <TableCell align="center">{row.supporter}</TableCell>
+                      <TableCell align="center">{row.resourcesQuota}</TableCell>
                       <TableCell align="center">{row.createdAt ? formatDateTime(row.createdAt) : ''}</TableCell>
                       <TableCell align="center">{row.updatedAt ? formatDateTime(row.updatedAt) : ''}</TableCell>
                       <TableCell padding="none" align="right">
@@ -189,9 +189,9 @@ function EnhancedTable(props) {
                           <IconButton aria-label="detail" onClick={(event) => handleDetail(event, row.id)}>
                             <RemoveRedEyeIcon />
                           </IconButton>
-                          {/* <IconButton aria-label="update" onClick={(event) => handleUpdate(event, row.id)}>
+                          <IconButton aria-label="update" onClick={(event) => handleUpdate(event, row.id)}>
                             <BorderColorIcon />
-                          </IconButton> */}
+                          </IconButton>
                         </Box>
                       </TableCell>
                     </TableRow>

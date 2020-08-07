@@ -64,7 +64,7 @@ function AssignUpdate(props) {
     setSaving(true);
     assignApi.update(id, { roleId })
       .then(() => {
-        CommonTip.success("Successfully Update");
+        CommonTip.success("Success");
         history.push({pathname: '/aaa-service/assign'})
       })
       .catch(() => {

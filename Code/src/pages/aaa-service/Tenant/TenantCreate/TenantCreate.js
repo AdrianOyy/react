@@ -27,7 +27,7 @@ function TenantCreate(props) {
     setSaving(true);
     tenantApi.create({ name })
       .then(() => {
-        CommonTip.success("Successfully Create");
+        CommonTip.success("Success");
         history.push({pathname: '/aaa-service/tenant'})
       })
       .catch(() => {

@@ -43,7 +43,7 @@ const Wrapper = styled(Paper)`
 const Alert = styled(MuiAlert)(spacing);
 
 function SignIn() {
-  const [email, setEmail] = React.useState('');
+  const [account, setAccount] = React.useState('');
   const [password, setPassword] = React.useState('');
   const history = useHistory();
   const [open, setOpen] = React.useState(false);
@@ -51,7 +51,6 @@ function SignIn() {
   const [message, setMessage] = React.useState('');
 
   const login =  () => {
-    let account = email;
     let pwd = password;
 
     // let pwd = Base64.stringify(AES.encrypt(password, 'secret key 123'));
@@ -64,11 +63,12 @@ function SignIn() {
         if (!response.data.data) {
           setSeverity('error')
           setOpen(true);
-          setMessage('Login failed');
+          setMessage('Failed');
         } else {
+          localStorage.setItem('token',response.data.data)
           setSeverity('success')
           setOpen(true);
-          setMessage('Login success');
+          setMessage('Success');
           history.push('/dashboard/analytics')
           // console.log(response.data.data)
         }
@@ -77,9 +77,9 @@ function SignIn() {
       setSeverity('warning')
       setOpen(true);
       if (!account) {
-        setMessage('username is required');
+        setMessage('Account is required');
       } else if (!pwd) {
-        setMessage('password is required');
+        setMessage('Password is required');
       }
     }
   };
@@ -87,8 +87,9 @@ function SignIn() {
   const handleChange = (event, type) => {
     if (type === 'password') {
       setPassword(event.target.value);
-    } else if (type === 'email') {
-      setEmail(event.target.value);
+    } else if (type === 'account') {
+      setAccount(event.target.value);
+      debugger
     }
   }
 
@@ -118,12 +119,11 @@ function SignIn() {
       </Typography>
       <form>
         <FormControl margin="normal" required fullWidth>
-          <InputLabel htmlFor="email">Email Address</InputLabel>
+          <InputLabel htmlFor="account">Account</InputLabel>
           <Input
-            onChange={(event) => handleChange(event, 'email')}
-            id="email"
-            name="email"
-            autoComplete="email"
+            onChange={(event) => handleChange(event, 'account')}
+            id="account"
+            name="account"
             autoFocus
           />
         </FormControl>
@@ -144,6 +144,7 @@ function SignIn() {
         <Button
           // component={Link}
           onClick = {login}
+          style={{marginTop:10}}
           to="#"
           fullWidth
           variant="contained"

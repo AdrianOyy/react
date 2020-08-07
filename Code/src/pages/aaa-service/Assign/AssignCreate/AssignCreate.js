@@ -33,7 +33,7 @@ function AssignCreate(props) {
     setSaving(true);
     assignApi.create({ mappingId, roleId })
       .then(() => {
-        CommonTip.success("Successfully Create");
+        CommonTip.success("Success");
         history.push({pathname: '/aaa-service/assign'})
       })
       .catch(() => {

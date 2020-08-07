@@ -1,19 +1,21 @@
 import React, {useEffect, useState} from 'react';
 
 import DetailPage from "../../../../components/DetailPage";
-import ADGroupApi from "../../../../api/adGroup"
 import CommonTip from "../../../../components/CommonTip";
 import { useHistory } from 'react-router-dom'
+import ADGroupApi from "../../../../api/adGroup"
 import {checkEmpty, getCheckExist} from "../untils/ADGroupCheck";
 
+const listPath = '/aaa-service/adgroup'
+const formTitle = 'AD Group Create'
 const breadcrumbsList = [
   { title: 'AAA Service'},
-  { title: 'AD Group', path: '/aaa-service/adgroup' },
+  { title: 'AD Group', path: listPath },
   { title: 'Create' },
 ]
 
 
-function ADGroupCreate(props) {
+function Create(props) {
   const history = useHistory();
   const [ name, setName ] = useState('');
   const [ formFieldList, setFormFieldList ] = useState([]);
@@ -27,9 +29,8 @@ function ADGroupCreate(props) {
     setSaving(true);
     ADGroupApi.create({ name })
       .then(() => {
-        CommonTip.success("Success" +
-          "");
-        history.push({pathname: '/aaa-service/adgroup'})
+        CommonTip.success("Success");
+        history.push({pathname: listPath})
       })
       .catch(() => {
         setSaving(false);
@@ -78,7 +79,7 @@ function ADGroupCreate(props) {
     <React.Fragment>
       <DetailPage
         breadcrumbsList = { breadcrumbsList }
-        formTitle = 'AD Group Create'
+        formTitle = { formTitle }
         onFormFieldChange = { onFormFieldChange }
         onFormFieldBlur = { onFormFieldBlur }
         formFieldList = { formFieldList }
@@ -89,4 +90,4 @@ function ADGroupCreate(props) {
   );
 }
 
-export default ADGroupCreate;
+export default Create;

@@ -48,7 +48,10 @@ const userDetail = async(() => import("../pages/aaa-service/userDetail"))
 const WorkflowSetting = async(() => import("../pages/workFlow/workFlowSetting"));
 
 // management
-const management = async(() => import("../pages/aaa-service/management"));
+const management = async(() => import("../pages/aaa-service/Management/ManagementList"));
+const managementDetail = async(() => import("../pages/aaa-service/Management/ManagementDetail"))
+const managementUpdate = async(() => import("../pages/aaa-service/Management/ManagementUpdate"))
+const managementCreate = async(() => import("../pages/aaa-service/Management/ManagementCreate"))
 
 // tenant
 const tenant = async(() => import("../pages/aaa-service/Tenant/TenantList"));
@@ -308,6 +311,26 @@ const tenantGroupMappingCreateRoutes = {
   children: null,
 }
 
+const managementDetailRoutes = {
+  id: "roleDetail",
+  path: "/aaa-service/management/detail/:id",
+  component: managementDetail,
+  children: null,
+}
+const managementUpdateRoutes = {
+  id: "roleDetail",
+  path: "/aaa-service/management/update/:id",
+  component: managementUpdate,
+  children: null,
+}
+const managementCreateRoutes = {
+  id: "roleDetail",
+  path: "/aaa-service/management/create",
+  component: managementCreate,
+  children: null,
+}
+
+
 const assignDetailRoutes = {
   id: "assignDetail",
   path: "/aaa-service/assign/detail/:id",
@@ -447,6 +470,9 @@ export const dashboard = [
   expiryDetailRoutes,
   expiryUpdateRoutes,
   expiryCreateRoutes,
+  managementDetailRoutes,
+  managementUpdateRoutes,
+  managementCreateRoutes,
 ];
 
 

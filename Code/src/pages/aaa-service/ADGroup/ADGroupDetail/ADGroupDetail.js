@@ -1,18 +1,19 @@
 import React, {useEffect, useState} from 'react';
 
 import DetailPage from "../../../../components/DetailPage";
-import ADGroupApi from "../../../../api/adGroup"
 import {useParams} from "react-router-dom";
 import dayjs from "dayjs";
+import ADGroupApi from "../../../../api/adGroup"
 
+const listPath = '/aaa-service/adgroup'
+const formTitle = 'AD Group Detail'
 const breadcrumbsList = [
   { title: 'AAA Service'},
-  { title: 'AD Group', path: '/aaa-service/adgroup' },
+  { title: 'AD Group', path: listPath },
   { title: 'Detail' },
 ]
 
-
-function ADGroupDetail(props) {
+function Detail(props) {
   const { id } = useParams()
   const [ name, setName ] = useState('');
   const [ createdAt, setCreatedAt ] = useState('');
@@ -53,7 +54,7 @@ function ADGroupDetail(props) {
     <React.Fragment>
         <DetailPage
           breadcrumbsList = { breadcrumbsList }
-          formTitle = 'AD Group Detail'
+          formTitle = { formTitle }
           onFormFieldChange = { onFormFieldChange }
           formFieldList = { formFieldList }
         />
@@ -61,4 +62,4 @@ function ADGroupDetail(props) {
   );
 }
 
-export default ADGroupDetail;
+export default Detail;
