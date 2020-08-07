@@ -1,8 +1,8 @@
-import "@fullcalendar/core/main.css";
-import "@fullcalendar/daygrid/main.css";
+import "@fullcalendar/core/main.css"
+import "@fullcalendar/daygrid/main.css"
 
-import { css } from "styled-components";
-import { darken, lighten } from "polished";
+import { css } from "styled-components"
+import { darken, lighten } from "polished"
 
 export default css`
   .fc-button,
@@ -66,4 +66,4 @@ export default css`
   .fc th {
     padding: ${props => props.theme.spacing(1)}px;
   }
-`;
+`

@@ -1,12 +1,12 @@
-import React, { useState } from "react";
-import styled from "styled-components";
-import { NavLink as RouterNavLink } from "react-router-dom";
+import React, { useState } from "react"
+import styled from "styled-components"
+import { NavLink as RouterNavLink } from "react-router-dom"
 
-import Helmet from 'react-helmet';
+import Helmet from 'react-helmet'
 
-import ReactQuill from 'react-quill';
-import 'react-quill/dist/quill.snow.css';
-import 'react-quill/dist/quill.bubble.css';
+import ReactQuill from 'react-quill'
+import 'react-quill/dist/quill.snow.css'
+import 'react-quill/dist/quill.bubble.css'
 
 import {
   Box,
@@ -17,23 +17,23 @@ import {
   Card as MuiCard,
   Divider as MuiDivider,
   Typography
-} from "@material-ui/core";
+} from "@material-ui/core"
 
-import { spacing } from "@material-ui/system";
+import { spacing } from "@material-ui/system"
 
 const NavLink = React.forwardRef((props, ref) => (
   <RouterNavLink innerRef={ref} {...props} />
-));
+))
 
 const Card = styled(MuiCard)`
   ${spacing};
 
   overflow: visible;
-`;
+`
 
-const Divider = styled(MuiDivider)(spacing);
+const Divider = styled(MuiDivider)(spacing)
 
-const Breadcrumbs = styled(MuiBreadcrumbs)(spacing);
+const Breadcrumbs = styled(MuiBreadcrumbs)(spacing)
 
 const QuillWrapper = styled.div`
   .ql-editor {
@@ -56,7 +56,7 @@ const BubbleWrapper = styled.div`
 `
 
 function Quill() {
-  const [value, setValue] = useState('');
+  const [value, setValue] = useState('')
 
   return (
     <Card mb={6}>
@@ -74,11 +74,11 @@ function Quill() {
         </Box>
       </CardContent>
     </Card>
-  );
+  )
 }
 
 function Bubble() {
-  const [value, setValue] = useState('');
+  const [value, setValue] = useState('')
 
   return (
     <Card mb={6}>
@@ -96,7 +96,7 @@ function Bubble() {
         </Box>
       </CardContent>
     </Card>
-  );
+  )
 }
 
 function Editors() {
@@ -126,7 +126,7 @@ function Editors() {
         </Grid>
       </Grid>
     </React.Fragment>
-  );
+  )
 }
 
-export default Editors;
+export default Editors

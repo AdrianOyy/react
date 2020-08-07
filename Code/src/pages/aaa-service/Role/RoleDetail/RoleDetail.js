@@ -1,9 +1,9 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react'
 
-import DetailPage from "../../../../components/DetailPage";
+import DetailPage from "../../../../components/DetailPage"
 import roleApi from "../../../../api/role"
-import {useParams} from "react-router-dom";
-import dayjs from "dayjs";
+import {useParams} from "react-router-dom"
+import dayjs from "dayjs"
 
 const breadcrumbsList = [
   { title: 'AAA Service'},
@@ -14,11 +14,11 @@ const breadcrumbsList = [
 
 function TenantDetail(props) {
   const { id } = useParams()
-  const [label, setLabel] = React.useState('');
-  const [value, setValue] = React.useState('');
-  const [ createdAt, setCreatedAt ] = useState('');
-  const [ updatedAt, setUpdastedAt ] = useState('');
-  const [ formFieldList, setFormFieldList ] = useState([]);
+  const [label, setLabel] = React.useState('')
+  const [value, setValue] = React.useState('')
+  const [ createdAt, setCreatedAt ] = useState('')
+  const [ updatedAt, setUpdastedAt ] = useState('')
+  const [ formFieldList, setFormFieldList ] = useState([])
   const formatDateTime = (str) => {
     return dayjs(new Date(str)).format('YYYY-MM-DD HH:mm')
   }
@@ -26,11 +26,11 @@ function TenantDetail(props) {
   useEffect(() => {
     roleApi.detail(id).then(({ data }) => {
       if (data && data.data) {
-        const { label, value, createdAt, updatedAt } = data.data;
-        setLabel(label);
-        setValue(value);
-        setCreatedAt(createdAt);
-        setUpdastedAt(updatedAt);
+        const { label, value, createdAt, updatedAt } = data.data
+        setLabel(label)
+        setValue(value)
+        setCreatedAt(createdAt)
+        setUpdastedAt(updatedAt)
       }
     })
   }, [id])
@@ -42,19 +42,19 @@ function TenantDetail(props) {
       { id: 'createdAt', label: 'Created At', type: 'text', disabled: true, readOnly: true, value: formatDateTime(createdAt) },
       { id: 'updatedAt', label: 'Updated At', type: 'text', disabled: true, readOnly: true, value: formatDateTime(updatedAt) },
     ]
-    setFormFieldList(list);
-  },[label, value, createdAt, updatedAt]);
+    setFormFieldList(list)
+  },[label, value, createdAt, updatedAt])
   const onFormFieldChange = (e, id) => {
-    const { value } = e.target;
+    const { value } = e.target
     switch(id) {
       case 'label':
-        setLabel(value);
-        break;
+        setLabel(value)
+        break
       case 'value':
-        setValue(value);
-        break;
+        setValue(value)
+        break
       default:
-        break;
+        break
     }
   }
   return (
@@ -66,7 +66,7 @@ function TenantDetail(props) {
         formFieldList = { formFieldList }
       />
     </React.Fragment>
-  );
+  )
 }
 
-export default TenantDetail;
+export default TenantDetail

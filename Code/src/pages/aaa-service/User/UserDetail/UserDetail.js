@@ -1,8 +1,8 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react'
+import {useParams} from "react-router-dom"
+import dayjs from "dayjs"
 
-import DetailPage from "../../../../components/DetailPage";
-import {useParams} from "react-router-dom";
-import dayjs from "dayjs";
+import DetailPage from "../../../../components/DetailPage"
 import UserApi from "../../../../api/user"
 
 const listPath = '/aaa-service/user'
@@ -13,50 +13,52 @@ const breadcrumbsList = [
   { title: 'Detail' },
 ]
 
-function Detail(props) {
+function Detail() {
   const { id } = useParams()
-  const [ corpId, setCorpId ] = useState('');
-  const [ alias, setAlias ] = useState('');
-  const [ surname, setSurname ] = useState('');
-  const [ givenname, setGivenname ] = useState('');
-  const [ title, setTitle ] = useState('');
-  const [ displayname, setDisplayname ] = useState('');
-  const [ email, setEmail ] = useState('');
-  const [ proxyAddresses, setProxyAddresses ] = useState('');
-  const [ cluster, setCluster ] = useState('');
-  const [ hospital, setHospital ] = useState('');
-  const [ department, setDepartment ] = useState('');
-  const [ passwordLastSet, setPasswordLastSet ] = useState('');
-  const [ UACCode, setUACCode ] = useState('');
-  const [ UACDesc, setUACDesc ] = useState('');
-  const [ createdAt, setCreatedAt ] = useState('');
-  const [ updatedAt, setUpdastedAt ] = useState('');
-  const [ formFieldList, setFormFieldList ] = useState([]);
+  const [ corpId, setCorpId ] = useState('')
+  const [ alias, setAlias ] = useState('')
+  const [ surname, setSurname ] = useState('')
+  const [ givenname, setGivenname ] = useState('')
+  const [ title, setTitle ] = useState('')
+  const [ displayname, setDisplayname ] = useState('')
+  const [ email, setEmail ] = useState('')
+  const [ proxyAddresses, setProxyAddresses ] = useState('')
+  const [ cluster, setCluster ] = useState('')
+  const [ hospital, setHospital ] = useState('')
+  const [ department, setDepartment ] = useState('')
+  const [ passwordLastSet, setPasswordLastSet ] = useState('')
+  const [ UACCode, setUACCode ] = useState('')
+  const [ UACDesc, setUACDesc ] = useState('')
+  const [ createdAt, setCreatedAt ] = useState('')
+  const [ updatedAt, setUpdastedAt ] = useState('')
+  const [ formFieldList, setFormFieldList ] = useState([])
   const formatDateTime = (str) => {
     return dayjs(new Date(str)).format('YYYY-MM-DD HH:mm')
   }
 
   useEffect(() => {
     UserApi.detail(id).then(({ data }) => {
-      const { corpId, alias, surname, givenname, title, displayname,
+      const {
+        corpId, alias, surname, givenname, title, displayname,
         email, proxyAddresses, cluster, hospital, department,
-        passwordLastSet, UACCode, UACDesc, createdAt, updatedAt } = data.data;
-      setCorpId(corpId);
-      setAlias(alias);
-      setSurname(surname);
-      setGivenname(givenname);
-      setTitle(title);
-      setDisplayname(displayname);
-      setEmail(email);
-      setProxyAddresses(proxyAddresses);
-      setCluster(cluster);
-      setHospital(hospital);
-      setDepartment(department);
-      setPasswordLastSet(passwordLastSet);
-      setUACCode(UACCode);
-      setUACDesc(UACDesc);
-      setCreatedAt(createdAt);
-      setUpdastedAt(updatedAt);
+        passwordLastSet, UACCode, UACDesc, createdAt, updatedAt
+      } = data.data
+      setCorpId(corpId)
+      setAlias(alias)
+      setSurname(surname)
+      setGivenname(givenname)
+      setTitle(title)
+      setDisplayname(displayname)
+      setEmail(email)
+      setProxyAddresses(proxyAddresses)
+      setCluster(cluster)
+      setHospital(hospital)
+      setDepartment(department)
+      setPasswordLastSet(passwordLastSet)
+      setUACCode(UACCode)
+      setUACDesc(UACDesc)
+      setCreatedAt(createdAt)
+      setUpdastedAt(updatedAt)
     })
   }, [id])
 
@@ -79,18 +81,18 @@ function Detail(props) {
       { id: 'createdAt', label: 'Created At', type: 'text', disabled: true, readOnly: true, value: formatDateTime(createdAt) },
       { id: 'updatedAt', label: 'Updated At', type: 'text', disabled: true, readOnly: true, value: formatDateTime(updatedAt) },
     ]
-    setFormFieldList(list);
-  },[corpId, alias, surname, givenname, title, displayname,
+    setFormFieldList(list)
+  },[ corpId, alias, surname, givenname, title, displayname,
     email, proxyAddresses, cluster, hospital, department,
-    passwordLastSet, UACCode, UACDesc, createdAt, updatedAt ]);
+    passwordLastSet, UACCode, UACDesc, createdAt, updatedAt ])
   const onFormFieldChange = (e, id) => {
-    const { value } = e.target;
+    const { value } = e.target
     switch(id) {
       case 'displayname':
-        setDisplayname(value);
-        break;
+        setDisplayname(value)
+        break
       default:
-        break;
+        break
     }
   }
   return (
@@ -102,7 +104,7 @@ function Detail(props) {
           formFieldList = { formFieldList }
         />
     </React.Fragment>
-  );
+  )
 }
 
-export default Detail;
+export default Detail

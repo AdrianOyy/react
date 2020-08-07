@@ -1,1 +1,1 @@
-export { default } from './ADGroupList';
+export { default } from './ADGroupList'

@@ -1,4 +1,5 @@
 import ADGroupApi from '../../../../api/adGroup'
+
 export function checkEmpty(key, value) {
   if (!value) {
     return {

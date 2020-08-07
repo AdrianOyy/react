@@ -1,8 +1,8 @@
-import React from "react";
-import styled from "styled-components";
-import { NavLink as RouterNavLink } from "react-router-dom";
+import React from "react"
+import styled from "styled-components"
+import { NavLink as RouterNavLink } from "react-router-dom"
 
-import Helmet from 'react-helmet';
+import Helmet from 'react-helmet'
 
 import {
   Avatar,
@@ -17,33 +17,33 @@ import {
   Grid,
   Link,
   Typography as MuiTypography
-} from "@material-ui/core";
+} from "@material-ui/core"
 
-import { AvatarGroup as MuiAvatarGroup } from '@material-ui/lab';
+import { AvatarGroup as MuiAvatarGroup } from '@material-ui/lab'
 
-import { red, green, orange } from "@material-ui/core/colors";
+import { red, green, orange } from "@material-ui/core/colors"
 
-import { spacing } from "@material-ui/system";
+import { spacing } from "@material-ui/system"
 
 const NavLink = React.forwardRef((props, ref) => (
   <RouterNavLink innerRef={ref} {...props} />
-));
+))
 
-const Breadcrumbs = styled(MuiBreadcrumbs)(spacing);
+const Breadcrumbs = styled(MuiBreadcrumbs)(spacing)
 
-const Card = styled(MuiCard)(spacing);
+const Card = styled(MuiCard)(spacing)
 
 const CardContent = styled(MuiCardContent)`
   border-bottom: 1px solid ${props => props.theme.palette.grey[300]};
-`;
+`
 
 const CardMedia = styled(MuiCardMedia)`
   height: 220px;
-`;
+`
 
-const Divider = styled(MuiDivider)(spacing);
+const Divider = styled(MuiDivider)(spacing)
 
-const Typography = styled(MuiTypography)(spacing);
+const Typography = styled(MuiTypography)(spacing)
 
 const Chip = styled(MuiChip)`
   height: 20px;
@@ -52,7 +52,7 @@ const Chip = styled(MuiChip)`
   background-color: ${props => props.rgbcolor};
   color: ${props => props.theme.palette.common.white};
   margin-bottom: ${props => props.theme.spacing(4)}px;
-`;
+`
 
 const AvatarGroup = styled(MuiAvatarGroup)`
   margin-left: ${props => props.theme.spacing(2)}px;
@@ -88,14 +88,14 @@ function Project({ image, title, description, chip }) {
         </Button>
       </CardActions>
     </Card>
-  );
+  )
 }
 
 function Projects() {
   return (
     <React.Fragment>
       <Helmet title="Projects" />
-      
+
       <Typography variant="h3" gutterBottom display="inline">
         Projects
       </Typography>
@@ -175,7 +175,7 @@ function Projects() {
         </Grid>
       </Grid>
     </React.Fragment>
-  );
+  )
 }
 
-export default Projects;
+export default Projects

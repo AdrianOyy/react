@@ -1,24 +1,24 @@
-import React, { Component } from "react";
-import ReactDOM from "react-dom";
+import React, { Component } from "react"
+import ReactDOM from "react-dom"
 import {
   Snackbar as MuiSnackbar
-} from "@material-ui/core";
-import MuiAlert from '@material-ui/lab/Alert';
-import styled from "styled-components";
-import { spacing } from "@material-ui/system";
+} from "@material-ui/core"
+import MuiAlert from '@material-ui/lab/Alert'
+import styled from "styled-components"
+import { spacing } from "@material-ui/system"
 
 class CommonTip extends Component {
   static info(msg) {
-    this.showtip({ msg: msg, serverity: 'info' });
+    this.showtip({ msg: msg, serverity: 'info' })
   }
   static success(msg) {
-    this.showtip({ msg: msg, severity: 'success' });
+    this.showtip({ msg: msg, severity: 'success' })
   }
   static warning(msg) {
-    this.showtip({ msg: msg, severity: 'warning' });
+    this.showtip({ msg: msg, severity: 'warning' })
   }
   static error(msg) {
-    this.showtip({ msg: msg, severity: 'error' });
+    this.showtip({ msg: msg, severity: 'error' })
   }
   static showtip(options) {
     let defaultOptions = {
@@ -28,20 +28,20 @@ class CommonTip extends Component {
       vertical: 'top',
       horizontal: 'center',
       ...options,
-    };
-    let opt = Object.assign({}, defaultOptions);
-    const Snackbar = styled(MuiSnackbar)(spacing);
-    const div = document.createElement("div");
-    div.style.position="absolute";
-    div.style.zIndex="1300";
-    document.body.append(div);
+    }
+    let opt = Object.assign({}, defaultOptions)
+    const Snackbar = styled(MuiSnackbar)(spacing)
+    const div = document.createElement("div")
+    div.style.position="absolute"
+    div.style.zIndex="1300"
+    document.body.append(div)
 
       const handleClose =  (event, reason) => {
       if (reason === 'clickaway') {
-        return;
+        return
       }
 
-      ReactDOM.unmountComponentAtNode(div);
+      ReactDOM.unmountComponentAtNode(div)
       setTimeout(x=> document.body.removeChild(div),50)
     }
 
@@ -57,8 +57,8 @@ class CommonTip extends Component {
       //     {props.msg}
       //   </MuiAlert>
       // </Snackbar>
-    );
-    ReactDOM.render(<Alert {...opt} />, div);
+    )
+    ReactDOM.render(<Alert {...opt} />, div)
   }
 }
-export default CommonTip;
+export default CommonTip

@@ -1,8 +1,8 @@
-import React from "react";
-import styled from "styled-components";
-import { NavLink as RouterNavLink } from "react-router-dom";
+import React from "react"
+import styled from "styled-components"
+import { NavLink as RouterNavLink } from "react-router-dom"
 
-import Helmet from 'react-helmet';
+import Helmet from 'react-helmet'
 
 import {
   Grid,
@@ -18,25 +18,25 @@ import {
   TableHead,
   TableRow,
   Typography
-} from "@material-ui/core";
+} from "@material-ui/core"
 
-import { spacing } from "@material-ui/system";
+import { spacing } from "@material-ui/system"
 
-import { withStyles } from "@material-ui/core/styles";
+import { withStyles } from "@material-ui/core/styles"
 
 const NavLink = React.forwardRef((props, ref) => (
   <RouterNavLink innerRef={ref} {...props} />
-));
+))
 
-const Card = styled(MuiCard)(spacing);
+const Card = styled(MuiCard)(spacing)
 
-const CardContent = styled(MuiCardContent)(spacing);
+const CardContent = styled(MuiCardContent)(spacing)
 
-const Divider = styled(MuiDivider)(spacing);
+const Divider = styled(MuiDivider)(spacing)
 
-const Breadcrumbs = styled(MuiBreadcrumbs)(spacing);
+const Breadcrumbs = styled(MuiBreadcrumbs)(spacing)
 
-const Paper = styled(MuiPaper)(spacing);
+const Paper = styled(MuiPaper)(spacing)
 
 const CustomTableCell = withStyles(theme => ({
   head: {
@@ -46,19 +46,19 @@ const CustomTableCell = withStyles(theme => ({
   body: {
     fontSize: 14
   }
-}))(TableCell);
+}))(TableCell)
 
 const CustomTableRow = styled(TableRow)`
   &:nth-of-type(odd) {
     background-color: rgba(0, 0, 0, 0.025);
   }
-`;
+`
 
 // Data
-let id = 0;
+let id = 0
 function createData(name, calories, fat, carbs, protein) {
-  id += 1;
-  return { id, name, calories, fat, carbs, protein };
+  id += 1
+  return { id, name, calories, fat, carbs, protein }
 }
 
 const rows = [
@@ -67,7 +67,7 @@ const rows = [
   createData("Eclair", 262, 16.0, 24, 6.0),
   createData("Cupcake", 305, 3.7, 67, 4.3),
   createData("Gingerbread", 356, 16.0, 49, 3.9)
-];
+]
 
 function SimpleTableDemo() {
   return (
@@ -107,7 +107,7 @@ function SimpleTableDemo() {
         </Table>
       </Paper>
     </Card>
-  );
+  )
 }
 
 function CustomizedTableDemo() {
@@ -150,7 +150,7 @@ function CustomizedTableDemo() {
         </Table>
       </Paper>
     </Card>
-  );
+  )
 }
 
 function SimpleTable() {
@@ -180,7 +180,7 @@ function SimpleTable() {
         </Grid>
       </Grid>
     </React.Fragment>
-  );
+  )
 }
 
-export default SimpleTable;
+export default SimpleTable

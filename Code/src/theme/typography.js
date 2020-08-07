@@ -53,6 +53,6 @@ const typography = {
   button: {
     textTransform: "none"
   }
-};
+}
 
-export default typography;
+export default typography

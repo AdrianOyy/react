@@ -1,4 +1,4 @@
-import React from "react";
+import React from "react"
 
 import {
   CardContent,
@@ -8,19 +8,19 @@ import {
   TextField as MuiTextField,
   Typography,
   Grid
-} from "@material-ui/core";
+} from "@material-ui/core"
 
-import CommonSelect from "../../CommonSelect";
+import CommonSelect from "../../CommonSelect"
 
-import { spacing } from "@material-ui/system";
-import styled from "styled-components";
+import { spacing } from "@material-ui/system"
+import styled from "styled-components"
 
-const Card = styled(MuiCard)(spacing);
-const Paper = styled(MuiPaper)(spacing);
-const TextFieldSpacing = styled(MuiTextField)(spacing);
-const TextField = styled(TextFieldSpacing)`width: 200px;`;
+const Card = styled(MuiCard)(spacing)
+const Paper = styled(MuiPaper)(spacing)
+const TextFieldSpacing = styled(MuiTextField)(spacing)
+const TextField = styled(TextFieldSpacing)`width: 200px;`
 
-const Button = styled(MuiButton)(spacing);
+const Button = styled(MuiButton)(spacing)
 
 function Form(props) {
   const {

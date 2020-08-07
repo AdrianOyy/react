@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 import {
   TableHead,
@@ -9,7 +9,7 @@ import {
 } from '@material-ui/core'
 
 
-  
+
 function EnhancedTableHead(props) {
   const {
     onSelectAllClick,
@@ -19,10 +19,10 @@ function EnhancedTableHead(props) {
     rowCount,
     onRequestSort,
     headCells,
-  } = props;
+  } = props
   const createSortHandler = (property) => (event) => {
-    onRequestSort(event, property);
-  };
+    onRequestSort(event, property)
+  }
 
   return (
     <TableHead>
@@ -53,7 +53,7 @@ function EnhancedTableHead(props) {
         ))}
       </TableRow>
     </TableHead>
-  );
+  )
 }
 
-export default EnhancedTableHead;
+export default EnhancedTableHead

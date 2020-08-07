@@ -1,14 +1,14 @@
-import React, { useState } from "react";
-import styled from "styled-components";
-import { rgba } from "polished";
+import React, { useState } from "react"
+import styled from "styled-components"
+import { rgba } from "polished"
 
-import { NavLink as RouterNavLink, withRouter } from "react-router-dom";
-import { darken } from "polished";
+import { NavLink as RouterNavLink, withRouter } from "react-router-dom"
+import { darken } from "polished"
 
-import PerfectScrollbar from "react-perfect-scrollbar";
-import "../vendor/perfect-scrollbar.css";
+import PerfectScrollbar from "react-perfect-scrollbar"
+import "../vendor/perfect-scrollbar.css"
 
-import { spacing } from "@material-ui/system";
+import { spacing } from "@material-ui/system"
 
 import {
   Avatar,
@@ -22,21 +22,21 @@ import {
   ListItem,
   ListItemText,
   Typography
-} from "@material-ui/core";
+} from "@material-ui/core"
 
-import { ExpandLess, ExpandMore } from "@material-ui/icons";
+import { ExpandLess, ExpandMore } from "@material-ui/icons"
 
 // import { green } from "@material-ui/core/colors";
 
-import routes from "../routes/index";
+import routes from "../routes/index"
 
 // import { Layers } from "react-feather";
 
 const NavLink = React.forwardRef((props, ref) => (
   <RouterNavLink innerRef={ref} {...props} />
-));
+))
 
-const Box = styled(MuiBox)(spacing);
+const Box = styled(MuiBox)(spacing)
 
 const Drawer = styled(MuiDrawer)`
   border-right: 0;
@@ -44,21 +44,21 @@ const Drawer = styled(MuiDrawer)`
   > div {
     border-right: 0;
   }
-`;
+`
 
 const Scrollbar = styled(PerfectScrollbar)`
   background-color: ${props => props.theme.sidebar.background};
   border-right: 1px solid rgba(0, 0, 0, 0.12);
-`;
+`
 
 const List = styled(MuiList)`
   background-color: ${props => props.theme.sidebar.background};
-`;
+`
 
 const Items = styled.div`
   padding-top: ${props => props.theme.spacing(2.5)}px;
   padding-bottom: ${props => props.theme.spacing(2.5)}px;
-`;
+`
 
 const Brand = styled(ListItem)`
   font-size: ${props => props.theme.typography.h5.fontSize};
@@ -73,7 +73,7 @@ const Brand = styled(ListItem)`
   ${props => props.theme.breakpoints.up("sm")} {
     min-height: 64px;
   }
-`;
+`
 
 // const BrandIcon = styled(Layers)`
 //   margin-right: ${props => props.theme.spacing(2)}px;
@@ -122,7 +122,7 @@ const Category = styled(ListItem)`
       color: ${props => props.theme.sidebar.color};
     }
   }
-`;
+`
 
 const CategoryText = styled(ListItemText)`
   margin: 0;
@@ -132,15 +132,15 @@ const CategoryText = styled(ListItemText)`
     font-weight: ${props => props.theme.sidebar.category.fontWeight};
     padding: 0 ${props => props.theme.spacing(4)}px;
   }
-`;
+`
 
 const CategoryIconLess = styled(ExpandLess)`
   color: ${props => rgba(props.theme.sidebar.color, 0.5)};
-`;
+`
 
 const CategoryIconMore = styled(ExpandMore)`
   color: ${props => rgba(props.theme.sidebar.color, 0.5)};
-`;
+`
 
 const Link = styled(ListItem)`
   padding-left: ${props => props.theme.spacing(15)}px;
@@ -162,7 +162,7 @@ const Link = styled(ListItem)`
       color: ${props => props.theme.sidebar.color};
     }
   }
-`;
+`
 
 const LinkText = styled(ListItemText)`
   color: ${props => props.theme.sidebar.color};
@@ -171,7 +171,7 @@ const LinkText = styled(ListItemText)`
   }
   margin-top: 0;
   margin-bottom: 0;
-`;
+`
 
 const LinkBadge = styled(Chip)`
   font-size: 11px;
@@ -189,11 +189,11 @@ const LinkBadge = styled(Chip)`
     padding-left: ${props => props.theme.spacing(2)}px;
     padding-right: ${props => props.theme.spacing(2)}px;
   }
-`;
+`
 
 const CategoryBadge = styled(LinkBadge)`
   top: 12px;
-`;
+`
 
 const SidebarSection = styled(Typography)`
   color: ${props => props.theme.sidebar.color};
@@ -201,7 +201,7 @@ const SidebarSection = styled(Typography)`
     ${props => props.theme.spacing(6)}px ${props => props.theme.spacing(1)}px;
   opacity: 0.9;
   display: block;
-`;
+`
 
 const SidebarFooter = styled.div`
   background-color: ${props =>
@@ -209,18 +209,18 @@ const SidebarFooter = styled.div`
   padding: ${props => props.theme.spacing(2.75)}px
     ${props => props.theme.spacing(4)}px;
   border-right: 1px solid rgba(0, 0, 0, 0.12);
-`;
+`
 
 const SidebarFooterText = styled(Typography)`
   color: ${props => props.theme.sidebar.footer.color};
-`;
+`
 
 const SidebarFooterSubText = styled(Typography)`
   color: ${props => props.theme.sidebar.footer.color};
   font-size: .725rem;
   display: block;
   padding: 1px;
-`;
+`
 
 const StyledBadge = styled(Badge)`
   margin-right: ${props => props.theme.spacing(1)}px;
@@ -256,7 +256,7 @@ function SidebarCategory({
       ) : null}
       {badge ? <CategoryBadge label={badge} /> : ""}
     </Category>
-  );
+  )
 }
 
 function SidebarLink({ name, to, badge }) {
@@ -272,37 +272,37 @@ function SidebarLink({ name, to, badge }) {
       <LinkText>{name}</LinkText>
       {badge ? <LinkBadge label={badge} /> : ""}
     </Link>
-  );
+  )
 }
 
 function Sidebar({ classes, staticContext, location, ...rest }) {
   const initOpenRoutes = () => {
     /* Open collapse element that matches current url */
-    const pathName = location.pathname;
+    const pathName = location.pathname
 
-    let _routes = {};
+    let _routes = {}
 
     routes.forEach((route, index) => {
-      const isActive = pathName.indexOf(route.path) === 0;
-      const isOpen = route.open;
-      const isHome = route.containsHome && pathName === "/" ? true : false;
+      const isActive = pathName.indexOf(route.path) === 0
+      const isOpen = route.open
+      const isHome = route.containsHome && pathName === "/" ? true : false
 
       _routes = Object.assign({}, _routes, {[index]: isActive || isOpen || isHome})
-    });
+    })
 
-    return _routes;
-  };
+    return _routes
+  }
 
-  const [openRoutes, setOpenRoutes] = useState(() => initOpenRoutes());
+  const [openRoutes, setOpenRoutes] = useState(() => initOpenRoutes())
 
   const toggle = index => {
     // Collapse all elements
     Object.keys(openRoutes).forEach(
       item => openRoutes[index] || setOpenRoutes(openRoutes => Object.assign({}, openRoutes, {[item]: false}))
     )
-    
+
     // Toggle selected element
-    setOpenRoutes(openRoutes => Object.assign({}, openRoutes, {[index]: !openRoutes[index]}));
+    setOpenRoutes(openRoutes => Object.assign({}, openRoutes, {[index]: !openRoutes[index]}))
   }
 
   return (
@@ -316,7 +316,7 @@ function Sidebar({ classes, staticContext, location, ...rest }) {
         />
         <Box ml={1}>SENSE Platform
         {/* <BrandChip label="PRO" /> */}
-        </Box> 
+        </Box>
       </Brand>
       <Scrollbar>
         <List disablePadding>
@@ -396,7 +396,7 @@ function Sidebar({ classes, staticContext, location, ...rest }) {
         </Grid>
       </SidebarFooter>
     </Drawer>
-  );
+  )
 }
 
-export default withRouter(Sidebar);
+export default withRouter(Sidebar)

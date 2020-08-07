@@ -1,29 +1,29 @@
-import React from "react";
-import styled, { withTheme } from "styled-components";
+import React from "react"
+import styled, { withTheme } from "styled-components"
 
-import Helmet from 'react-helmet';
+import Helmet from 'react-helmet'
 
 import {
   Grid,
   Divider as MuiDivider,
   Typography as MuiTypography
-} from "@material-ui/core";
+} from "@material-ui/core"
 
-import { green, red } from "@material-ui/core/colors";
+import { green, red } from "@material-ui/core/colors"
 
-import { spacing } from "@material-ui/system";
+import { spacing } from "@material-ui/system"
 
-import Actions from "./Actions";
-import BarChart from "./BarChart";
-import DoughnutChart from "./DoughnutChart";
-import LanguagesTable from "./LanguagesTable";
-import Stats from "./Stats";
-import TrafficTable from "./TrafficTable";
-import WorldMap from "./WorldMap";
+import Actions from "./Actions"
+import BarChart from "./BarChart"
+import DoughnutChart from "./DoughnutChart"
+import LanguagesTable from "./LanguagesTable"
+import Stats from "./Stats"
+import TrafficTable from "./TrafficTable"
+import WorldMap from "./WorldMap"
 
-const Divider = styled(MuiDivider)(spacing);
+const Divider = styled(MuiDivider)(spacing)
 
-const Typography = styled(MuiTypography)(spacing);
+const Typography = styled(MuiTypography)(spacing)
 
 function Analytics({ theme }) {
   return (
@@ -109,7 +109,7 @@ function Analytics({ theme }) {
         </Grid>
       </Grid>
     </React.Fragment>
-  );
+  )
 }
 
-export default withTheme(Analytics);
+export default withTheme(Analytics)

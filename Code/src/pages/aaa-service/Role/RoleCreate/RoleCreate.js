@@ -1,10 +1,10 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react'
 
-import DetailPage from "../../../../components/DetailPage";
+import DetailPage from "../../../../components/DetailPage"
 import roleApi from "../../../../api/role"
-import CommonTip from "../../../../components/CommonTip";
+import CommonTip from "../../../../components/CommonTip"
 import { useHistory } from 'react-router-dom'
-import {checkEmpty, getCheckExist} from "../untils/RoleFieldCheck";
+import {checkEmpty, getCheckExist} from "../untils/RoleFieldCheck"
 
 const breadcrumbsList = [
   { title: 'AAA Service'},
@@ -14,25 +14,25 @@ const breadcrumbsList = [
 
 
 function RoleCreate(props) {
-  const history = useHistory();
-  const [ label, setLabel ] = useState('');
-  const [ value, setValue ] = useState('');
-  const [ formFieldList, setFormFieldList ] = useState([]);
-  const [ saving, setSaving ] = useState(false);
-  const [ labelError, setLabelError ] = useState(false);
-  const [ labelHelperText, setLabelHelperText ] = useState("");
+  const history = useHistory()
+  const [ label, setLabel ] = useState('')
+  const [ value, setValue ] = useState('')
+  const [ formFieldList, setFormFieldList ] = useState([])
+  const [ saving, setSaving ] = useState(false)
+  const [ labelError, setLabelError ] = useState(false)
+  const [ labelHelperText, setLabelHelperText ] = useState("")
 
   const handelClick = async() => {
-    const labelError = await labelCheck();
-    if (labelError || saving) return;
-    setSaving(true);
+    const labelError = await labelCheck()
+    if (labelError || saving) return
+    setSaving(true)
     roleApi.create({ label, value })
       .then(() => {
-        CommonTip.success("Success");
+        CommonTip.success("Success")
         history.push({pathname: '/aaa-service/role'})
       })
       .catch(() => {
-        setSaving(false);
+        setSaving(false)
       })
   }
   useEffect(() => {
@@ -43,30 +43,30 @@ function RoleCreate(props) {
           { label: "Read & Write", value: "Read && Write" },
       ]},
     ]
-    setFormFieldList(list);
-  },[label, labelError, labelHelperText, value ]);
+    setFormFieldList(list)
+  },[label, labelError, labelHelperText, value ])
   const onFormFieldChange = (e, id) => {
-    const { value } = e.target;
+    const { value } = e.target
     switch(id) {
       case 'label':
-        setLabel(value);
-        break;
+        setLabel(value)
+        break
       case 'value':
-        setValue(value);
-        break;
+        setValue(value)
+        break
       default:
-        break;
+        break
     }
   }
   const labelCheck = async () => {
-    const emptyCheck = checkEmpty("label", label);
+    const emptyCheck = checkEmpty("label", label)
     setLabelError(emptyCheck.error)
-    setLabelHelperText(emptyCheck.msg);
+    setLabelHelperText(emptyCheck.msg)
     if (!emptyCheck.error) {
-      const checkExist = getCheckExist();
+      const checkExist = getCheckExist()
       const { error, msg } = await checkExist(0, label)
-      setLabelError(error);
-      setLabelHelperText(msg);
+      setLabelError(error)
+      setLabelHelperText(msg)
       return error
     }
     return emptyCheck.error
@@ -74,10 +74,10 @@ function RoleCreate(props) {
   const onFormFieldBlur = (id) => {
     switch (id) {
       case "label":
-        labelCheck();
-        break;
+        labelCheck()
+        break
       default:
-        break;
+        break
     }
   }
   return (
@@ -92,7 +92,7 @@ function RoleCreate(props) {
         onBtnClick = { handelClick }
       />
     </React.Fragment>
-  );
+  )
 }
 
-export default RoleCreate;
+export default RoleCreate

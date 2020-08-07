@@ -1,17 +1,17 @@
-import React from "react";
-import styled, { withTheme } from "styled-components";
+import React from "react"
+import styled, { withTheme } from "styled-components"
 
-import { CardContent, Card as MuiCard, Typography } from "@material-ui/core";
+import { CardContent, Card as MuiCard, Typography } from "@material-ui/core"
 
-import { spacing } from "@material-ui/system";
+import { spacing } from "@material-ui/system"
 
-import { VectorMap } from "react-jvectormap";
+import { VectorMap } from "react-jvectormap"
 
 const MapContainer = styled.div`
   height: 300px;
-`;
+`
 
-const Card = styled(MuiCard)(spacing);
+const Card = styled(MuiCard)(spacing)
 
 function World(props) {
   const options = {
@@ -27,7 +27,7 @@ function World(props) {
       height: "100%"
     },
     zoomOnScroll: false
-  };
+  }
 
   return (
     <Card mb={6}>
@@ -40,7 +40,7 @@ function World(props) {
         </MapContainer>
       </CardContent>
     </Card>
-  );
+  )
 }
 
-export default withTheme(World);
+export default withTheme(World)

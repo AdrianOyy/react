@@ -27,7 +27,7 @@ export function checkGroupEmpty(key, value) {
 
 export function getCheckExist() {
   return async function(id, value) {
-    const { tenantId, groupId } = value;
+    const { tenantId, groupId } = value
     const {data} = await ManagementApi.checkExist(id, tenantId, groupId)
     if (data.data < 1) {
       return {

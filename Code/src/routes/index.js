@@ -1,6 +1,6 @@
-import React from "react";
+import React from "react"
 
-import async from "../components/Async";
+import async from "../components/Async"
 
 import {
   CheckSquare,
@@ -9,30 +9,30 @@ import {
   Monitor,
   Sliders,
   Users
-} from "react-feather";
+} from "react-feather"
 
 // Auth components
-const SignIn = async(() => import("../pages/auth/SignIn"));
-const SignUp = async(() => import("../pages/auth/SignUp"));
-const ResetPassword = async(() => import("../pages/auth/ResetPassword"));
-const Page404 = async(() => import("../pages/auth/Page404"));
-const Page500 = async(() => import("../pages/auth/Page500"));
+const SignIn = async(() => import("../pages/auth/SignIn"))
+const SignUp = async(() => import("../pages/auth/SignUp"))
+const ResetPassword = async(() => import("../pages/auth/ResetPassword"))
+const Page404 = async(() => import("../pages/auth/Page404"))
+const Page500 = async(() => import("../pages/auth/Page500"))
 
 // Components components
-const Alerts = async(() => import("../pages/components/Alerts"));
-const Avatars = async(() => import("../pages/components/Avatars"));
-const Badges = async(() => import("../pages/components/Badges"));
-const Buttons = async(() => import("../pages/components/Buttons"));
-const Cards = async(() => import("../pages/components/Cards"));
-const Chips = async(() => import("../pages/components/Chips"));
-const Dialogs = async(() => import("../pages/components/Dialogs"));
-const ExpPanels = async(() => import("../pages/components/ExpansionPanels"));
+const Alerts = async(() => import("../pages/components/Alerts"))
+const Avatars = async(() => import("../pages/components/Avatars"))
+const Badges = async(() => import("../pages/components/Badges"))
+const Buttons = async(() => import("../pages/components/Buttons"))
+const Cards = async(() => import("../pages/components/Cards"))
+const Chips = async(() => import("../pages/components/Chips"))
+const Dialogs = async(() => import("../pages/components/Dialogs"))
+const ExpPanels = async(() => import("../pages/components/ExpansionPanels"))
 
 // Dashboards components
-const Analytics = async(() => import("../pages/dashboards/Analytics"));
+const Analytics = async(() => import("../pages/dashboards/Analytics"))
 
 // logging components
-const logging = async(() => import("../pages/logging/logging"));
+const logging = async(() => import("../pages/logging/logging"))
 
 // user components
 const user = async(() => import("../pages/aaa-service/User/UserList"))
@@ -45,22 +45,22 @@ const userDetail = async(() => import("../pages/aaa-service/User/UserDetail"))
 // const Presentation = async(() => import("../pages/docs/Presentation"));
 
 //workFlow
-const WorkflowSetting = async(() => import("../pages/workFlow/workFlowSetting"));
+const WorkflowSetting = async(() => import("../pages/workFlow/workFlowSetting"))
 
 // management
-const management = async(() => import("../pages/aaa-service/Management/ManagementList"));
+const management = async(() => import("../pages/aaa-service/Management/ManagementList"))
 const managementDetail = async(() => import("../pages/aaa-service/Management/ManagementDetail"))
 const managementUpdate = async(() => import("../pages/aaa-service/Management/ManagementUpdate"))
 const managementCreate = async(() => import("../pages/aaa-service/Management/ManagementCreate"))
 
 // tenant
-const tenant = async(() => import("../pages/aaa-service/Tenant/TenantList"));
+const tenant = async(() => import("../pages/aaa-service/Tenant/TenantList"))
 const tenantDetail = async(() => import("../pages/aaa-service/Tenant/TenantDetail"))
 const tenantUpdate = async(() => import("../pages/aaa-service/Tenant/TenantUpdate"))
 const tenantCreate = async(() => import("../pages/aaa-service/Tenant/TenantCreate"))
 
 // ADGroup
-const ADGroup = async(() => import("../pages/aaa-service/ADGroup/ADGroupList"));
+const ADGroup = async(() => import("../pages/aaa-service/ADGroup/ADGroupList"))
 const ADGroupDetail = async(() => import("../pages/aaa-service/ADGroup/ADGroupDetail"))
 const ADGroupUpdate = async(() => import("../pages/aaa-service/ADGroup/ADGroupUpdate"))
 const ADGroupCreate = async(() => import("../pages/aaa-service/ADGroup/ADGroupCreate"))
@@ -120,7 +120,7 @@ const authRoutes = {
       component: Page500
     }
   ]
-};
+}
 
 const presentationRoutes = {
   id: "Presentation",
@@ -129,7 +129,7 @@ const presentationRoutes = {
   icon: <Monitor />,
   component: SignIn,
   children: null
-};
+}
 
 const dashboardsRoutes = {
   id: "Dashboard",
@@ -149,7 +149,7 @@ const dashboardsRoutes = {
       component: Analytics
     }
   ]
-};
+}
 
 const logRoutes = {
   id: "Log",
@@ -157,7 +157,7 @@ const logRoutes = {
   icon: <Monitor />,
   component: logging,
   children: null
-};
+}
 
 const workflowRoutes = {
   id: "Workflow",
@@ -196,7 +196,7 @@ const workflowRoutes = {
       component: WorkflowSetting
     },
   ]
-};
+}
 
 const aaaServiceRoutes = {
   id: "AAA Service",
@@ -244,14 +244,14 @@ const aaaServiceRoutes = {
       component: expiry,
     }
   ]
-};
+}
 
 const userDetailRoutes = {
   id: "userDetail",
   path: "/aaa-service/user/detail/:id",
   component: userDetail,
   children: null
-};
+}
 
 
 const tenantCreateRoutes = {
@@ -259,19 +259,19 @@ const tenantCreateRoutes = {
   path: "/aaa-service/tenant/create",
   component: tenantCreate,
   children: null
-};
+}
 const tenantDetailRoutes = {
   id: "tenantDetail",
   path: "/aaa-service/tenant/detail/:id",
   component: tenantDetail,
   children: null
-};
+}
 const tenantUpdateRoutes = {
   id: "tenantUpdate",
   path: "/aaa-service/tenant/update/:id",
   component: tenantUpdate,
   children: null
-};
+}
 
 const roleDetailRoutes = {
   id: "roleDetail",
@@ -336,38 +336,38 @@ const assignDetailRoutes = {
   path: "/aaa-service/assign/detail/:id",
   component: assignDetail,
   children: null
-};
+}
 const assignUpdateRoutes = {
   id: "assignDetail",
   path: "/aaa-service/assign/update/:id",
   component: assignUpdate,
   children: null
-};
+}
 const assignCreateRoutes = {
   id: "assignDetail",
   path: "/aaa-service/assign/create",
   component: assignCreate,
   children: null
-};
+}
 
 const adgroupCreateRoutes = {
   id: "adgroupCreate",
   path: "/aaa-service/adgroup/create",
   component: ADGroupCreate,
   children: null
-};
+}
 const adgroupDetailRoutes = {
   id: "adgroupDetail",
   path: "/aaa-service/adgroup/detail/:id",
   component: ADGroupDetail,
   children: null
-};
+}
 const adgroupUpdateRoutes = {
   id: "adgroupUpdate",
   path: "/aaa-service/adgroup/update/:id",
   component: ADGroupUpdate,
   children: null
-};
+}
 
 const expiryDetailRoutes = {
   id: "expiryDetail",
@@ -434,7 +434,7 @@ const resourceRoutes = {
       component: ExpPanels
     },
   ]
-};
+}
 
 const recordRoutes = {
   id: "Allocation",
@@ -442,7 +442,7 @@ const recordRoutes = {
   icon: <List />,
   component: Dialogs,
   children: null
-};
+}
 
 export const dashboard = [
   dashboardsRoutes,
@@ -473,14 +473,14 @@ export const dashboard = [
   managementDetailRoutes,
   managementUpdateRoutes,
   managementCreateRoutes,
-];
+]
 
 
 
 export const auth = [
   authRoutes,
   presentationRoutes,
-];
+]
 
 export default [
   dashboardsRoutes,
@@ -489,4 +489,4 @@ export default [
   recordRoutes,
   logRoutes,
   aaaServiceRoutes,
-];
+]

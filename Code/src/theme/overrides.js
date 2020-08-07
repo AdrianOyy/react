@@ -74,6 +74,6 @@ const overrides = {
       }
     }
   }
-};
+}
 
-export default overrides;
+export default overrides

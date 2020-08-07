@@ -1,10 +1,10 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react'
 import { useHistory } from 'react-router-dom'
-import DetailPage from "../../../../components/DetailPage";
+import DetailPage from "../../../../components/DetailPage"
 import assignApi from "../../../../api/assign"
-import CommonTip from "../../../../components/CommonTip";
-import {checkEmpty, getCheckExist} from "../untils/assignFieldCheck";
-import tenantGroupMappingApi from "../../../../api/tenantGroupMapping";
+import CommonTip from "../../../../components/CommonTip"
+import {checkEmpty, getCheckExist} from "../untils/assignFieldCheck"
+import tenantGroupMappingApi from "../../../../api/tenantGroupMapping"
 import roleApi from "../../../../api/role"
 
 const breadcrumbsList = [
@@ -14,30 +14,30 @@ const breadcrumbsList = [
 ]
 
 function AssignCreate(props) {
-  const history = useHistory();
-  const [mappingId, setMappingId] = useState('');
-  const [roleId, setRoleId] = useState('');
-  const [ formFieldList, setFormFieldList ] = useState([]);
-  const [ saving, setSaving ] = useState(false);
-  const [ mappingError, setMappingError ] = useState(false);
-  const [ mappingHelperText, setMappingHelperText ] = useState("");
-  const [ mappingList, setMappingtList] = useState([]);
-  const [ roleError, setRoleError ] = useState(false);
-  const [ roleHelperText, setRoleHelperText ] = useState("");
-  const [ roleList, setRoleList ] = useState([]);
+  const history = useHistory()
+  const [mappingId, setMappingId] = useState('')
+  const [roleId, setRoleId] = useState('')
+  const [ formFieldList, setFormFieldList ] = useState([])
+  const [ saving, setSaving ] = useState(false)
+  const [ mappingError, setMappingError ] = useState(false)
+  const [ mappingHelperText, setMappingHelperText ] = useState("")
+  const [ mappingList, setMappingtList] = useState([])
+  const [ roleError, setRoleError ] = useState(false)
+  const [ roleHelperText, setRoleHelperText ] = useState("")
+  const [ roleList, setRoleList ] = useState([])
 
   const handelClick = async() => {
-    const mappingError = await mappingCheck();
-    const roleError = await roleCheck();
-    if (mappingError || roleError || saving) return;
-    setSaving(true);
+    const mappingError = await mappingCheck()
+    const roleError = await roleCheck()
+    if (mappingError || roleError || saving) return
+    setSaving(true)
     assignApi.create({ mappingId, roleId })
       .then(() => {
-        CommonTip.success("Success");
+        CommonTip.success("Success")
         history.push({pathname: '/aaa-service/assign'})
       })
       .catch(() => {
-        setSaving(false);
+        setSaving(false)
       })
   }
   // 获取 mappingList 和 roleList
@@ -50,7 +50,7 @@ function AssignCreate(props) {
     roleApi.list({limit:999, page: 1}).then(({data}) => {
       if (data && data.data) {
 
-        const { rows } = data.data;
+        const { rows } = data.data
         setRoleList(rows)
       }
     })
@@ -69,7 +69,7 @@ function AssignCreate(props) {
         error: roleError, helperText: roleHelperText,
       },
     ]
-    setFormFieldList(list);
+    setFormFieldList(list)
   },[
     mappingId,
     roleId,
@@ -79,47 +79,47 @@ function AssignCreate(props) {
     roleError,
     mappingHelperText,
     roleHelperText
-  ]);
+  ])
   const onFormFieldChange = (e, id) => {
-    const { value } = e.target;
+    const { value } = e.target
     switch(id) {
       case 'mapping':
-        setMappingId(value);
-        break;
+        setMappingId(value)
+        break
       case 'role':
-        setRoleId(value);
-        break;
+        setRoleId(value)
+        break
       default:
-        break;
+        break
     }
   }
   const mappingCheck = async () => {
-    const emptyCheck = checkEmpty("mapping", mappingId);
+    const emptyCheck = checkEmpty("mapping", mappingId)
     setMappingError(emptyCheck.error)
-    setMappingHelperText(emptyCheck.msg);
+    setMappingHelperText(emptyCheck.msg)
     if (!emptyCheck.error) {
-      const checkExist = getCheckExist();
+      const checkExist = getCheckExist()
       const { error, msg } = await checkExist(0, {mappingId})
-      setMappingError(error);
-      setMappingHelperText(msg);
+      setMappingError(error)
+      setMappingHelperText(msg)
       return error
     }
     return emptyCheck.error
   }
   const roleCheck = async () => {
-    const emptyCheck = checkEmpty("role", roleId);
+    const emptyCheck = checkEmpty("role", roleId)
     setRoleError(emptyCheck.error)
-    setRoleHelperText(emptyCheck.msg);
+    setRoleHelperText(emptyCheck.msg)
     return emptyCheck.error
   }
   // 字段 tenant 检查
   useEffect(() => {
-    mappingCheck();
+    mappingCheck()
     // eslint-disable-next-line
   }, [mappingId])
   // 字段 group 检查
   useEffect(() => {
-    roleCheck();
+    roleCheck()
     // eslint-disable-next-line
   }, [roleId])
   return (
@@ -133,7 +133,7 @@ function AssignCreate(props) {
         onBtnClick = { handelClick }
       />
     </React.Fragment>
-  );
+  )
 }
 
-export default AssignCreate;
+export default AssignCreate

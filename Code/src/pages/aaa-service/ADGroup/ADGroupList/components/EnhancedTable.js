@@ -1,6 +1,7 @@
-import React from 'react';
+import React from 'react'
 import { useHistory } from 'react-router-dom'
-import dayjs from 'dayjs';
+import dayjs from 'dayjs'
+
 import { EnhancedTableToolbar, EnhancedTableHead } from '../../../../../components'
 import CommentTip from '../../../../../components/CommonTip'
 import {
@@ -13,12 +14,10 @@ import {
   TableContainer,
   TableRow,
 } from '@material-ui/core'
-
 import {
   RemoveRedEye as RemoveRedEyeIcon,
   // BorderColorOutlined as BorderColorIcon
-} from "@material-ui/icons";
-
+} from "@material-ui/icons"
 import ADGroupApi from "../../../../../api/adGroup"
 
 const createPath = '/aaa-service/adgroup/create'
@@ -27,45 +26,47 @@ const detailPath = '/aaa-service/adgroup/detail/'
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
-    return -1;
+    return -1
   }
   if (b[orderBy] > a[orderBy]) {
-    return 1;
+    return 1
   }
-  return 0;
+  return 0
 }
 
 function getComparator(order, orderBy) {
   return order === 'desc'
     ? (a, b) => descendingComparator(a, b, orderBy)
-    : (a, b) => -descendingComparator(a, b, orderBy);
+    : (a, b) => -descendingComparator(a, b, orderBy)
 }
 
 function stableSort(array, comparator) {
-  const stabilizedThis = array.map((el, index) => [el, index]);
+  const stabilizedThis = array.map((el, index) => [el, index])
   stabilizedThis.sort((a, b) => {
-    const order = comparator(a[0], b[0]);
-    if (order !== 0) return order;
-    return a[1] - b[1];
-  });
-  return stabilizedThis.map((el) => el[0]);
+    const order = comparator(a[0], b[0])
+    if (order !== 0) return order
+    return a[1] - b[1]
+  })
+  return stabilizedThis.map((el) => el[0])
 }
 
 function EnhancedTable(props) {
-  const { handleSearch, rows } = props;
-  const [order, setOrder] = React.useState('asc');
-  const [orderBy, setOrderBy] = React.useState('customer');
-  const [selected, setSelected] = React.useState([]);
-  const [loading, setLoading ] = React.useState(false);
+  // eslint-disable-next-line react/prop-types
+  const { handleSearch, rows } = props
+  const history = useHistory()
+  const [ order, setOrder ] = React.useState('asc')
+  const [ orderBy, setOrderBy ] = React.useState('customer')
+  const [ selected, setSelected ] = React.useState([])
+  const [ loading, setLoading ] = React.useState(false)
 
   const formatDateTime = (str) => {
     return dayjs(new Date(str)).format('YYYY-MM-DD HH:mm')
   }
 
-  const history = useHistory();
+  
 
   const handleDelete = () => {
-    if (loading) return;
+    if (loading) return
     setLoading(true)
     ADGroupApi.deleteMany({ idList: selected}).then(() => {
       CommentTip.success('success')
@@ -73,52 +74,52 @@ function EnhancedTable(props) {
       setLoading(false)
       setSelected([])
     }).catch((e) => {
+      console.log(e)
       setLoading(false)
     })
   }
 
   const handleRequestSort = (_, property) => {
-    const isAsc = orderBy === property && order === 'asc';
-    setOrder(isAsc ? 'desc' : 'asc');
-    setOrderBy(property);
-  };
-
-
+    const isAsc = orderBy === property && order === 'asc'
+    setOrder(isAsc ? 'desc' : 'asc')
+    setOrderBy(property)
+  }
   
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
-      const newSelecteds = rows.map((n) => n.id);
-      setSelected(newSelecteds);
-      return;
+      // eslint-disable-next-line react/prop-types
+      const newSelecteds = rows.map((n) => n.id)
+      setSelected(newSelecteds)
+      return
     }
-    setSelected([]);
-  };
+    setSelected([])
+  }
 
   const handleClick = (_, id) => {
-    const selectedIndex = selected.indexOf(id);
-    let newSelected = [];
+    const selectedIndex = selected.indexOf(id)
+    let newSelected = []
   
     if (selectedIndex === -1) {
-      newSelected = newSelected.concat(selected, id);
+      newSelected = newSelected.concat(selected, id)
     } else if (selectedIndex === 0) {
-      newSelected = newSelected.concat(selected.slice(1));
+      newSelected = newSelected.concat(selected.slice(1))
     } else if (selectedIndex === selected.length - 1) {
-      newSelected = newSelected.concat(selected.slice(0, -1));
+      newSelected = newSelected.concat(selected.slice(0, -1))
     } else if (selectedIndex > 0) {
       newSelected = newSelected.concat(
         selected.slice(0, selectedIndex),
         selected.slice(selectedIndex + 1),
-      );
+      )
     }
   
-    setSelected(newSelected);
-  };
+    setSelected(newSelected)
+  }
   
   const handleDetail = (_, id) => {
     const path = {
       pathname: detailPath + id,
     }
-    history.push(path);
+    history.push(path)
   }
 
   // const handleUpdate = (_, id) => {
@@ -128,14 +129,14 @@ function EnhancedTable(props) {
   //   history.push(path)
   // }
 
-  const isSelected = (id) => selected.indexOf(id) !== -1;
+  const isSelected = (id) => selected.indexOf(id) !== -1
 
   const headCells = [
     { id: 'name', alignment: 'center', label: 'Name' },
     { id: 'createdAt', alignment: 'center', label: 'Created At' },
     { id: 'updatedAt', alignment: 'center', label: 'Updated At' },
     { id: 'action', alignment: 'right', label: 'Actions' },
-  ];
+  ]
   
   return (
     <React.Fragment>
@@ -157,14 +158,15 @@ function EnhancedTable(props) {
               orderBy={orderBy}
               onSelectAllClick={handleSelectAllClick}
               onRequestSort={handleRequestSort}
+              // eslint-disable-next-line react/prop-types
               rowCount={rows.length}
               headCells={headCells}
             />
             <TableBody>
               {stableSort(rows, getComparator(order, orderBy))
                 .map((row, index) => {
-                  const isItemSelected = isSelected(row.id);
-                  const labelId = `enhanced-table-checkbox-${index}`;
+                  const isItemSelected = isSelected(row.id)
+                  const labelId = `enhanced-table-checkbox-${index}`
                   return (
                     <TableRow
                       hover
@@ -195,13 +197,13 @@ function EnhancedTable(props) {
                         </Box>
                       </TableCell>
                     </TableRow>
-                  );
+                  )
                 })}
             </TableBody>
           </Table>
         </TableContainer>
     </React.Fragment>
-  );
+  )
 }
 
 export default EnhancedTable

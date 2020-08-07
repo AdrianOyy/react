@@ -1,7 +1,7 @@
-import React from "react";
-import { createGlobalStyle } from "styled-components";
+import React from "react"
+import { createGlobalStyle } from "styled-components"
 
-import { CssBaseline } from "@material-ui/core";
+import { CssBaseline } from "@material-ui/core"
 
 const GlobalStyle = createGlobalStyle`
   html,
@@ -13,7 +13,7 @@ const GlobalStyle = createGlobalStyle`
   body {
     background: ${props => props.theme.body.background};
   }
-`;
+`
 
 function Landing({ children }) {
   return (
@@ -22,7 +22,7 @@ function Landing({ children }) {
       <GlobalStyle />
       {children}
     </React.Fragment>
-  );
+  )
 }
 
-export default Landing;
+export default Landing

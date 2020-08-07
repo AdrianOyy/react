@@ -1,22 +1,22 @@
-import React, { useState } from "react";
-import styled, { createGlobalStyle } from "styled-components";
+import React, { useState } from "react"
+import styled, { createGlobalStyle } from "styled-components"
 
-import Sidebar from "../components/Sidebar";
-import Header from "../components/Header";
-import Footer from "../components/Footer";
+import Sidebar from "../components/Sidebar"
+import Header from "../components/Header"
+import Footer from "../components/Footer"
 // import Settings from "../components/Settings";
 
-import { spacing } from "@material-ui/system";
+import { spacing } from "@material-ui/system"
 import {
   Hidden,
   CssBaseline,
   Paper as MuiPaper,
   withWidth
-} from "@material-ui/core";
+} from "@material-ui/core"
 
-import { isWidthUp } from "@material-ui/core/withWidth";
+import { isWidthUp } from "@material-ui/core/withWidth"
 
-const drawerWidth = 260;
+const drawerWidth = 260
 
 const GlobalStyle = createGlobalStyle`
   html,
@@ -34,27 +34,27 @@ const GlobalStyle = createGlobalStyle`
     width: 28px;
     height: 28px;
   }
-`;
+`
 
 const Root = styled.div`
   display: flex;
   min-height: 100vh;
-`;
+`
 
 const Drawer = styled.div`
   ${props => props.theme.breakpoints.up("md")} {
     width: ${drawerWidth}px;
     flex-shrink: 0;
   }
-`;
+`
 
 const AppContent = styled.div`
   flex: 1;
   display: flex;
   flex-direction: column;
-`;
+`
 
-const Paper = styled(MuiPaper)(spacing);
+const Paper = styled(MuiPaper)(spacing)
 
 const MainContent = styled(Paper)`
   flex: 1;
@@ -67,14 +67,14 @@ const MainContent = styled(Paper)`
   .MuiPaper-root .MuiPaper-root {
     box-shadow: none;
   }
-`;
+`
 
 const Dashboard = ({children, routes, width}) => {
-  const [mobileOpen, setMobileOpen] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false)
 
   const handleDrawerToggle = () => {
-    setMobileOpen(!mobileOpen);
-  };
+    setMobileOpen(!mobileOpen)
+  }
 
   return (
     <Root>
@@ -109,4 +109,4 @@ const Dashboard = ({children, routes, width}) => {
   )
 }
 
-export default withWidth()(Dashboard);
+export default withWidth()(Dashboard)

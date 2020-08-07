@@ -1,9 +1,9 @@
 import request from '../utils/request'
 
-const prefix = ''
-// const url = 'http://127.0.0.1:7001';
-// const prefix = '/AAA'
-const url = null;
+// const prefix = ''
+// const url = 'http://127.0.0.1:7001'
+const prefix = '/AAA'
+const url = null
 
 class adGroup {
   list(params, options) {

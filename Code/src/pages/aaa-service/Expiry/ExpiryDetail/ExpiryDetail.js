@@ -1,9 +1,9 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react'
 
-import DetailPage from "../../../../components/DetailPage";
+import DetailPage from "../../../../components/DetailPage"
 import expiryAPi from "../../../../api/expiry"
-import {useParams} from "react-router-dom";
-import dayjs from "dayjs";
+import {useParams} from "react-router-dom"
+import dayjs from "dayjs"
 
 const breadcrumbsList = [
   { title: 'AAA Service'},
@@ -14,14 +14,14 @@ const breadcrumbsList = [
 
 function AssignDetail(props) {
   const { id } = useParams()
-  const [tenant, setTenant] = useState('');
-  const [adGroup, setAdGroup] = useState('');
-  const [role, setRole] = useState('');
-  const [user, setUser] = useState('');
-  const [expiryDate, setExpiryDate] = useState('');
-  const [ createdAt, setCreatedAt ] = useState('');
-  const [ updatedAt, setUpdastedAt ] = useState('');
-  const [ formFieldList, setFormFieldList ] = useState([]);
+  const [tenant, setTenant] = useState('')
+  const [adGroup, setAdGroup] = useState('')
+  const [role, setRole] = useState('')
+  const [user, setUser] = useState('')
+  const [expiryDate, setExpiryDate] = useState('')
+  const [ createdAt, setCreatedAt ] = useState('')
+  const [ updatedAt, setUpdastedAt ] = useState('')
+  const [ formFieldList, setFormFieldList ] = useState([])
   const formatDateTime = (str) => {
     return dayjs(new Date(str)).format('YYYY-MM-DD HH:mm')
   }
@@ -29,16 +29,16 @@ function AssignDetail(props) {
   useEffect(() => {
     expiryAPi.detail(id).then(({ data }) => {
       if (data && data.data) {
-        const { user, assign, expiryDate, createdAt, updatedAt } = data.data;
-        const { tenant_group_mapping, role } = assign;
-        const { ad_group, tenant } = tenant_group_mapping;
-        setTenant(tenant.name);
-        setAdGroup(ad_group.name);
-        setRole(role.label);
-        setUser(user.displayname);
-        setExpiryDate(expiryDate);
-        setCreatedAt(createdAt);
-        setUpdastedAt(updatedAt);
+        const { user, assign, expiryDate, createdAt, updatedAt } = data.data
+        const { tenant_group_mapping, role } = assign
+        const { ad_group, tenant } = tenant_group_mapping
+        setTenant(tenant.name)
+        setAdGroup(ad_group.name)
+        setRole(role.label)
+        setUser(user.displayname)
+        setExpiryDate(expiryDate)
+        setCreatedAt(createdAt)
+        setUpdastedAt(updatedAt)
       }
     })
   }, [id])
@@ -53,28 +53,28 @@ function AssignDetail(props) {
       { id: 'createdAt', label: 'Created At', type: 'text', disabled: true, readOnly: true, value: formatDateTime(createdAt) },
       { id: 'updatedAt', label: 'Updated At', type: 'text', disabled: true, readOnly: true, value: formatDateTime(updatedAt) },
     ]
-    setFormFieldList(list);
-  },[tenant, adGroup, role, user, expiryDate, createdAt, updatedAt]);
+    setFormFieldList(list)
+  },[tenant, adGroup, role, user, expiryDate, createdAt, updatedAt])
   const onFormFieldChange = (e, id) => {
-    const { value } = e.target;
+    const { value } = e.target
     switch(id) {
       case 'tenant':
-        setTenant(value);
-        break;
+        setTenant(value)
+        break
       case 'adGroup':
-        setAdGroup(value);
-        break;
+        setAdGroup(value)
+        break
       case 'role':
-        setRole(value);
-        break;
+        setRole(value)
+        break
       case 'user':
-        setUser(value);
-        break;
+        setUser(value)
+        break
       case 'expiryDate':
-        setExpiryDate(value);
-        break;
+        setExpiryDate(value)
+        break
       default:
-        break;
+        break
     }
   }
   return (
@@ -86,7 +86,7 @@ function AssignDetail(props) {
         formFieldList = { formFieldList }
       />
     </React.Fragment>
-  );
+  )
 }
 
-export default AssignDetail;
+export default AssignDetail

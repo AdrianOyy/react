@@ -1,8 +1,8 @@
-import React from "react";
-import styled from "styled-components";
-import { NavLink as RouterNavLink } from "react-router-dom";
+import React from "react"
+import styled from "styled-components"
+import { NavLink as RouterNavLink } from "react-router-dom"
 
-import Helmet from 'react-helmet';
+import Helmet from 'react-helmet'
 
 import {
   CardContent,
@@ -15,7 +15,7 @@ import {
   Fab as MuiFab,
   IconButton as MuiIconButton,
   Typography
-} from "@material-ui/core";
+} from "@material-ui/core"
 
 import {
   Add as AddIcon,
@@ -25,25 +25,25 @@ import {
   KeyboardVoice as KeyboardVoiceIcon,
   Navigation as NavigationIcon,
   Save as SaveIcon
-} from "@material-ui/icons";
+} from "@material-ui/icons"
 
-import { spacing } from "@material-ui/system";
+import { spacing } from "@material-ui/system"
 
 const NavLink = React.forwardRef((props, ref) => (
   <RouterNavLink innerRef={ref} {...props} />
-));
+))
 
-const Card = styled(MuiCard)(spacing);
+const Card = styled(MuiCard)(spacing)
 
-const Button = styled(MuiButton)(spacing);
+const Button = styled(MuiButton)(spacing)
 
-const Fab = styled(MuiFab)(spacing);
+const Fab = styled(MuiFab)(spacing)
 
-const IconButton = styled(MuiIconButton)(spacing);
+const IconButton = styled(MuiIconButton)(spacing)
 
-const Divider = styled(MuiDivider)(spacing);
+const Divider = styled(MuiDivider)(spacing)
 
-const Breadcrumbs = styled(MuiBreadcrumbs)(spacing);
+const Breadcrumbs = styled(MuiBreadcrumbs)(spacing)
 
 function ContainedButtons() {
   return (
@@ -73,7 +73,7 @@ function ContainedButtons() {
         </Button>
       </CardContent>
     </Card>
-  );
+  )
 }
 
 function TextButtons() {
@@ -102,7 +102,7 @@ function TextButtons() {
         </Button>
       </CardContent>
     </Card>
-  );
+  )
 }
 
 function OutlinedButtons() {
@@ -133,7 +133,7 @@ function OutlinedButtons() {
         </Button>
       </CardContent>
     </Card>
-  );
+  )
 }
 
 function FloatingActionButtons() {
@@ -162,7 +162,7 @@ function FloatingActionButtons() {
         </Fab>
       </CardContent>
     </Card>
-  );
+  )
 }
 
 function ButtonSizes() {
@@ -234,7 +234,7 @@ function ButtonSizes() {
         </div>
       </CardContent>
     </Card>
-  );
+  )
 }
 
 function IconButtons() {
@@ -271,7 +271,7 @@ function IconButtons() {
         </Button>
       </CardContent>
     </Card>
-  );
+  )
 }
 
 function Buttons() {
@@ -307,7 +307,7 @@ function Buttons() {
         </Grid>
       </Grid>
     </React.Fragment>
-  );
+  )
 }
 
-export default Buttons;
+export default Buttons

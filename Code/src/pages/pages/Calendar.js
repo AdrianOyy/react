@@ -1,14 +1,14 @@
-import React from "react";
-import styled from "styled-components";
-import { NavLink as RouterNavLink } from "react-router-dom";
+import React from "react"
+import styled from "styled-components"
+import { NavLink as RouterNavLink } from "react-router-dom"
 
-import Helmet from 'react-helmet';
+import Helmet from 'react-helmet'
 
-import FullCalendar from "@fullcalendar/react";
-import dayGridPlugin from "@fullcalendar/daygrid";
-import interactionPlugin from "@fullcalendar/interaction";
+import FullCalendar from "@fullcalendar/react"
+import dayGridPlugin from "@fullcalendar/daygrid"
+import interactionPlugin from "@fullcalendar/interaction"
 
-import demoEvents from "./demo-events.json";
+import demoEvents from "./demo-events.json"
 
 import {
   Breadcrumbs as MuiBreadcrumbs,
@@ -18,27 +18,27 @@ import {
   Grid,
   Link,
   Typography
-} from "@material-ui/core";
+} from "@material-ui/core"
 
-import { spacing } from "@material-ui/system";
+import { spacing } from "@material-ui/system"
 
-import calendarStyle from "./Calendar.style";
+import calendarStyle from "./Calendar.style"
 
 const FullCalendarWrapper = styled.div`
   ${calendarStyle}
-`;
+`
 
 const NavLink = React.forwardRef((props, ref) => (
   <RouterNavLink innerRef={ref} {...props} />
-));
+))
 
-const Card = styled(MuiCard)(spacing);
+const Card = styled(MuiCard)(spacing)
 
-const CardContent = styled(MuiCardContent)(spacing);
+const CardContent = styled(MuiCardContent)(spacing)
 
-const Divider = styled(MuiDivider)(spacing);
+const Divider = styled(MuiDivider)(spacing)
 
-const Breadcrumbs = styled(MuiBreadcrumbs)(spacing);
+const Breadcrumbs = styled(MuiBreadcrumbs)(spacing)
 
 function EmptyCard() {
   return (
@@ -60,7 +60,7 @@ function EmptyCard() {
         </FullCalendarWrapper>
       </CardContent>
     </Card>
-  );
+  )
 }
 
 function Calendar() {
@@ -89,7 +89,7 @@ function Calendar() {
         </Grid>
       </Grid>
     </React.Fragment>
-  );
+  )
 }
 
-export default Calendar;
+export default Calendar

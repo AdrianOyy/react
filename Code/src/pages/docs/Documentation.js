@@ -1,8 +1,8 @@
-import React from "react";
-import styled from "styled-components";
-import { NavLink as RouterNavLink } from "react-router-dom";
+import React from "react"
+import styled from "styled-components"
+import { NavLink as RouterNavLink } from "react-router-dom"
 
-import Helmet from 'react-helmet';
+import Helmet from 'react-helmet'
 
 import {
   Breadcrumbs as MuiBreadcrumbs,
@@ -12,25 +12,25 @@ import {
   Grid,
   Link,
   Typography as MuiTypography
-} from "@material-ui/core";
+} from "@material-ui/core"
 
-import { spacing } from "@material-ui/system";
+import { spacing } from "@material-ui/system"
 
 const NavLink = React.forwardRef((props, ref) => (
   <RouterNavLink innerRef={ref} {...props} />
-));
+))
 
-const Card = styled(MuiCard)(spacing);
+const Card = styled(MuiCard)(spacing)
 
-const Divider = styled(MuiDivider)(spacing);
+const Divider = styled(MuiDivider)(spacing)
 
-const Breadcrumbs = styled(MuiBreadcrumbs)(spacing);
+const Breadcrumbs = styled(MuiBreadcrumbs)(spacing)
 
-const Typography = styled(MuiTypography)(spacing);
+const Typography = styled(MuiTypography)(spacing)
 
 const Code = styled.pre`
   margin-bottom: 0;
-`;
+`
 
 function Introduction() {
   return (
@@ -52,7 +52,7 @@ function Introduction() {
         </Typography>
       </CardContent>
     </Card>
-  );
+  )
 }
 
 function Contents() {
@@ -89,7 +89,7 @@ function Contents() {
       └── theme.js`}</Code>
       </CardContent>
     </Card>
-  );
+  )
 }
 
 function QuickStart() {
@@ -135,7 +135,7 @@ function QuickStart() {
         </Typography>
       </CardContent>
     </Card>
-  );
+  )
 }
 
 function BuildTools() {
@@ -161,7 +161,7 @@ function BuildTools() {
         </Typography>
       </CardContent>
     </Card>
-  );
+  )
 }
 
 function Documentation() {
@@ -193,7 +193,7 @@ function Documentation() {
         </Grid>
       </Grid>
     </React.Fragment>
-  );
+  )
 }
 
-export default Documentation;
+export default Documentation

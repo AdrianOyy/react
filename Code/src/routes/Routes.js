@@ -1,11 +1,11 @@
-import React from "react";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import { createBrowserHistory} from "history";
-import { dashboard as dashboardRoutes, auth as authRoutes } from "./index";
+import React from "react"
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom"
+import { createBrowserHistory} from "history"
+import { dashboard as dashboardRoutes, auth as authRoutes } from "./index"
 
-import DashboardLayout from "../layouts/Dashboard";
-import AuthLayout from "../layouts/Auth";
-import Page404 from "../pages/auth/Page404";
+import DashboardLayout from "../layouts/Dashboard"
+import AuthLayout from "../layouts/Auth"
+import Page404 from "../pages/auth/Page404"
 
 const childRoutes = (Layout, routes) =>
   routes.map(({ children, path, component: Component }, index) =>
@@ -36,7 +36,7 @@ const childRoutes = (Layout, routes) =>
         )}
       />
     )
-  );
+  )
 
 const Routes = () => (
   <Router history={createBrowserHistory}>
@@ -52,6 +52,6 @@ const Routes = () => (
       />
     </Switch>
   </Router>
-);
+)
 
-export default Routes;
+export default Routes

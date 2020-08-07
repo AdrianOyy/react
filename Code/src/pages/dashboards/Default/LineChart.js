@@ -1,40 +1,40 @@
-import React, { Component } from "react";
-import styled, { withTheme } from "styled-components";
+import React, { Component } from "react"
+import styled, { withTheme } from "styled-components"
 
 import {
   Card as MuiCard,
   CardContent,
   CardHeader,
   IconButton
-} from "@material-ui/core";
+} from "@material-ui/core"
 
-import { spacing } from "@material-ui/system";
+import { spacing } from "@material-ui/system"
 
-import { fade } from "@material-ui/core/styles/colorManipulator";
+import { fade } from "@material-ui/core/styles/colorManipulator"
 
-import { Line } from "react-chartjs-2";
+import { Line } from "react-chartjs-2"
 
-import { MoreVertical } from "react-feather";
+import { MoreVertical } from "react-feather"
 
-const Card = styled(MuiCard)(spacing);
+const Card = styled(MuiCard)(spacing)
 
 const ChartWrapper = styled.div`
   height: 378px;
-`;
+`
 
 class LineChart extends Component {
   constructor() {
-    super();
+    super()
 
     this.data = canvas => {
-      const ctx = canvas.getContext("2d");
+      const ctx = canvas.getContext("2d")
 
-      const gradient = ctx.createLinearGradient(0, 0, 0, 300);
+      const gradient = ctx.createLinearGradient(0, 0, 0, 300)
       gradient.addColorStop(
         0,
         fade(this.props.theme.palette.secondary.main, 0.0875)
-      );
-      gradient.addColorStop(1, "rgba(0, 0, 0, 0)");
+      )
+      gradient.addColorStop(1, "rgba(0, 0, 0, 0)")
 
       return {
         labels: [
@@ -94,8 +94,8 @@ class LineChart extends Component {
             ]
           }
         ]
-      };
-    };
+      }
+    }
 
     this.options = {
       maintainAspectRatio: false,
@@ -136,7 +136,7 @@ class LineChart extends Component {
           }
         ]
       }
-    };
+    }
   }
 
   render() {
@@ -156,8 +156,8 @@ class LineChart extends Component {
           </ChartWrapper>
         </CardContent>
       </Card>
-    );
+    )
   }
 }
 
-export default withTheme(LineChart);
+export default withTheme(LineChart)
