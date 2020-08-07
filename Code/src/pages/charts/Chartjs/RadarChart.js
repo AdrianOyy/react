@@ -1,20 +1,20 @@
-import React from "react";
-import styled, { withTheme } from "styled-components";
+import React from "react"
+import styled, { withTheme } from "styled-components"
 
-import { CardContent, Card as MuiCard, Typography } from "@material-ui/core";
-import orange from "@material-ui/core/colors/orange";
-import { lighten } from "@material-ui/core/styles/colorManipulator";
-import { spacing } from "@material-ui/system";
+import { CardContent, Card as MuiCard, Typography } from "@material-ui/core"
+import orange from "@material-ui/core/colors/orange"
+import { lighten } from "@material-ui/core/styles/colorManipulator"
+import { spacing } from "@material-ui/system"
 
-import { Radar } from "react-chartjs-2";
+import { Radar } from "react-chartjs-2"
 
-const Card = styled(MuiCard)(spacing);
+const Card = styled(MuiCard)(spacing)
 
-const Spacer = styled.div(spacing);
+const Spacer = styled.div(spacing)
 
 const ChartWrapper = styled.div`
   height: 300px;
-`;
+`
 
 function RadarChart({ theme }) {
   const data = {
@@ -41,9 +41,9 @@ function RadarChart({ theme }) {
         data: [35, 38, 65, 85, 84]
       }
     ]
-  };
+  }
 
-  const options = { maintainAspectRatio: false };
+  const options = { maintainAspectRatio: false }
 
   return (
     <Card mb={1}>
@@ -63,7 +63,7 @@ function RadarChart({ theme }) {
         </ChartWrapper>
       </CardContent>
     </Card>
-  );
+  )
 }
 
-export default withTheme(RadarChart);
+export default withTheme(RadarChart)

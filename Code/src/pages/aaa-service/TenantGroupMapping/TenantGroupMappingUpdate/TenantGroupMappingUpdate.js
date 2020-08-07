@@ -1,14 +1,14 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react'
 
-import DetailPage from "../../../../components/DetailPage";
+import DetailPage from "../../../../components/DetailPage"
 import tenantGroupMappingApi from "../../../../api/tenantGroupMapping"
-import {useParams} from "react-router-dom";
-import dayjs from "dayjs";
-import CommonTip from "../../../../components/CommonTip";
+import {useParams} from "react-router-dom"
+import dayjs from "dayjs"
+import CommonTip from "../../../../components/CommonTip"
 import { useHistory } from 'react-router-dom'
-import {checkEmpty, getCheckExist} from "../untils/TenantGroupMappingFieldCheck";
-import tenantApi from "../../../../api/tenant";
-import adGroupApi from "../../../../api/adGroup";
+import {checkEmpty, getCheckExist} from "../untils/TenantGroupMappingFieldCheck"
+import tenantApi from "../../../../api/tenant"
+import adGroupApi from "../../../../api/adGroup"
 
 const breadcrumbsList = [
   { title: 'AAA Service'},
@@ -19,19 +19,19 @@ const breadcrumbsList = [
 
 function TenantGroupMappingUpdate(props) {
   const { id } = useParams()
-  const history = useHistory();
-  const [tenantId, setTenantId] = React.useState('');
-  const [groupId, setGroupId] = React.useState('');
-  const [ createdAt, setCreatedAt ] = useState('');
-  const [ updatedAt, setUpdastedAt ] = useState('');
-  const [ formFieldList, setFormFieldList ] = useState([]);
-  const [ saving, setSaving ] = useState(true);
-  const [ tenantError, setTenantError ] = useState(false);
-  const [ groupError, setGroupError ] = useState(false);
-  const [ tenantHelperText, setTenantHelperText ] = useState("");
-  const [ groupHelperText, setGroupHelperText ] = useState("");
-  const [tenantList, setTenantList] = useState([]);
-  const [adGroupList, setAdGroupList] = useState([]);
+  const history = useHistory()
+  const [tenantId, setTenantId] = React.useState('')
+  const [groupId, setGroupId] = React.useState('')
+  const [ createdAt, setCreatedAt ] = useState('')
+  const [ updatedAt, setUpdastedAt ] = useState('')
+  const [ formFieldList, setFormFieldList ] = useState([])
+  const [ saving, setSaving ] = useState(true)
+  const [ tenantError, setTenantError ] = useState(false)
+  const [ groupError, setGroupError ] = useState(false)
+  const [ tenantHelperText, setTenantHelperText ] = useState("")
+  const [ groupHelperText, setGroupHelperText ] = useState("")
+  const [tenantList, setTenantList] = useState([])
+  const [adGroupList, setAdGroupList] = useState([])
   const formatDateTime = (str) => {
     return dayjs(new Date(str)).format('YYYY-MM-DD HH:mm')
   }
@@ -40,13 +40,13 @@ function TenantGroupMappingUpdate(props) {
   useEffect(() =>　{
     tenantApi.list({limit:999, page:1}).then(({data}) => {
       if (data && data.data) {
-        const { rows } = data.data;
+        const { rows } = data.data
         setTenantList(rows)
       }
     })
     adGroupApi.list({limit:999, page: 1}).then(({data}) => {
       if (data && data.data) {
-        const { rows } = data.data;
+        const { rows } = data.data
         setAdGroupList(rows)
       }
     })
@@ -54,27 +54,27 @@ function TenantGroupMappingUpdate(props) {
   }, [])
 
   const tenantCheck = async () => {
-    const emptyCheck = checkEmpty("tenant", tenantId);
+    const emptyCheck = checkEmpty("tenant", tenantId)
     setTenantError(emptyCheck.error)
-    setTenantHelperText(emptyCheck.msg);
+    setTenantHelperText(emptyCheck.msg)
     if (!emptyCheck.error && !groupError) {
-      const checkExist = getCheckExist();
+      const checkExist = getCheckExist()
       const { error, msg } = await checkExist(id, {tenantId, groupId})
-      setTenantError(error);
-      setTenantHelperText(msg);
+      setTenantError(error)
+      setTenantHelperText(msg)
       return error
     }
     return emptyCheck.error
   }
   const groupCheck = async () => {
-    const emptyCheck = checkEmpty("AD Group", groupId);
+    const emptyCheck = checkEmpty("AD Group", groupId)
     setGroupError(emptyCheck.error)
-    setGroupHelperText(emptyCheck.msg);
+    setGroupHelperText(emptyCheck.msg)
     if (!emptyCheck.error && !tenantError) {
-      const checkExist = getCheckExist();
+      const checkExist = getCheckExist()
       const { error, msg } = await checkExist(id, {tenantId, groupId})
-      setGroupError(error);
-      setGroupHelperText(msg);
+      setGroupError(error)
+      setGroupHelperText(msg)
       return error
     }
     return emptyCheck.error
@@ -82,38 +82,38 @@ function TenantGroupMappingUpdate(props) {
 
   // 字段 tenant 检查
   useEffect(() => {
-    tenantCheck();
+    tenantCheck()
     // eslint-disable-next-line
   }, [tenantId])
   // 字段 group 检查
   useEffect(() => {
-    groupCheck();
+    groupCheck()
     // eslint-disable-next-line
   }, [groupId])
 
   const hanleClick = async() => {
-    const tenantError = await tenantCheck();
-    const adGroupError = await groupCheck();
-    if (tenantError || adGroupError || saving) return;
-    setSaving(true);
+    const tenantError = await tenantCheck()
+    const adGroupError = await groupCheck()
+    if (tenantError || adGroupError || saving) return
+    setSaving(true)
     tenantGroupMappingApi.update(id, { tenantId, groupId })
       .then(() => {
-        CommonTip.success("Success");
+        CommonTip.success("Success")
         history.push({pathname: '/aaa-service/tenantAdGroupMapping'})
       })
       .catch(() => {
-        setSaving(false);
+        setSaving(false)
       })
   }
 
   useEffect(() => {
     tenantGroupMappingApi.detail(id).then(({ data }) => {
-      const { tenant, ad_group, createdAt, updatedAt } = data.data;
-      setTenantId(tenant.id);
-      setGroupId(ad_group.id);
-      setCreatedAt(createdAt);
-      setUpdastedAt(updatedAt);
-      setSaving(false);
+      const { tenant, ad_group, createdAt, updatedAt } = data.data
+      setTenantId(tenant.id)
+      setGroupId(ad_group.id)
+      setCreatedAt(createdAt)
+      setUpdastedAt(updatedAt)
+      setSaving(false)
     })
   }, [id])
 
@@ -132,19 +132,19 @@ function TenantGroupMappingUpdate(props) {
       { id: 'createdAt', label: 'Created At', type: 'text', disabled: true, readOnly: true, value: formatDateTime(createdAt) },
       { id: 'updatedAt', label: 'Updated At', type: 'text', disabled: true, readOnly: true, value: formatDateTime(updatedAt) },
     ]
-    setFormFieldList(list);
-  },[tenantId, groupId, tenantError, groupError, tenantHelperText, groupHelperText, tenantList, adGroupList, createdAt, updatedAt ]);
+    setFormFieldList(list)
+  },[tenantId, groupId, tenantError, groupError, tenantHelperText, groupHelperText, tenantList, adGroupList, createdAt, updatedAt ])
   const onFormFieldChange = (e, id) => {
-    const { value } = e.target;
+    const { value } = e.target
     switch(id) {
       case 'tenant':
-        setTenantId(value);
-        break;
+        setTenantId(value)
+        break
       case 'group':
-        setGroupId(value);
-        break;
+        setGroupId(value)
+        break
       default:
-        break;
+        break
     }
   }
 
@@ -159,7 +159,7 @@ function TenantGroupMappingUpdate(props) {
         onBtnClick = { hanleClick }
       />
     </React.Fragment>
-  );
+  )
 }
 
-export default TenantGroupMappingUpdate;
+export default TenantGroupMappingUpdate

@@ -1,33 +1,33 @@
-import React from "react";
-import styled, { withTheme } from "styled-components";
+import React from "react"
+import styled, { withTheme } from "styled-components"
 
 import {
   Card as MuiCard,
   CardContent as MuiCardContent,
   CardHeader,
   IconButton
-} from "@material-ui/core";
+} from "@material-ui/core"
 
-import { spacing } from "@material-ui/system";
+import { spacing } from "@material-ui/system"
 
-import { MoreVertical } from "react-feather";
+import { MoreVertical } from "react-feather"
 
-import { VectorMap } from "react-jvectormap";
+import { VectorMap } from "react-jvectormap"
 
-import "../../../vendor/jvectormap.css";
+import "../../../vendor/jvectormap.css"
 
 const MapContainer = styled.div`
   height: 344px;
-`;
+`
 
-const Card = styled(MuiCard)(spacing);
+const Card = styled(MuiCard)(spacing)
 
 const CardContent = styled(MuiCardContent)`
   &:last-child {
     padding-top: 0;
     padding-bottom: ${props => props.theme.spacing(4)}px;
   }
-`;
+`
 
 function WorldMap(props) {
 
@@ -97,7 +97,7 @@ function WorldMap(props) {
         name: "Madrid"
       }
     ]
-  };
+  }
 
   return (
     <Card mb={4}>
@@ -118,4 +118,4 @@ function WorldMap(props) {
   )
 }
 
-export default withTheme(WorldMap);
+export default withTheme(WorldMap)

@@ -1,8 +1,8 @@
-import React, { useState } from "react";
-import styled, { createGlobalStyle } from "styled-components";
-import { NavLink as RouterNavLink } from "react-router-dom";
+import React, { useState } from "react"
+import styled, { createGlobalStyle } from "styled-components"
+import { NavLink as RouterNavLink } from "react-router-dom"
 
-import Helmet from 'react-helmet';
+import Helmet from 'react-helmet'
 
 import {
   Button,
@@ -13,23 +13,23 @@ import {
   Card as MuiCard,
   Divider as MuiDivider,
   Typography
-} from "@material-ui/core";
+} from "@material-ui/core"
 
 import { DropzoneArea, DropzoneDialog } from 'material-ui-dropzone'
 
-import { spacing } from "@material-ui/system";
+import { spacing } from "@material-ui/system"
 
 const NavLink = React.forwardRef((props, ref) => (
   <RouterNavLink innerRef={ref} {...props} />
-));
+))
 
-const Card = styled(MuiCard)(spacing);
+const Card = styled(MuiCard)(spacing)
 
-const Spacer = styled.div(spacing);
+const Spacer = styled.div(spacing)
 
-const Divider = styled(MuiDivider)(spacing);
+const Divider = styled(MuiDivider)(spacing)
 
-const Breadcrumbs = styled(MuiBreadcrumbs)(spacing);
+const Breadcrumbs = styled(MuiBreadcrumbs)(spacing)
 
 const GlobalStyleDropzone = createGlobalStyle`
   [class^="DropzoneArea-dropZone"] {
@@ -52,17 +52,17 @@ function DefaultDropzone() {
         <DropzoneArea showFileNamesInPreview={true} showFileNames={true} />
       </CardContent>
     </Card>
-  );
+  )
 }
 
 function DialogDropzone() {
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(false)
 
   const handleSave = (files) => {
     //Saving files to state for further use and closing Modal.
-    console.log('files:', files);
+    console.log('files:', files)
 
-    setOpen(false);
+    setOpen(false)
   }
 
   return (
@@ -90,7 +90,7 @@ function DialogDropzone() {
         />
       </CardContent>
     </Card>
-  );
+  )
 }
 
 function Dropzone() {
@@ -123,7 +123,7 @@ function Dropzone() {
         </Grid>
       </Grid>
     </React.Fragment>
-  );
+  )
 }
 
-export default Dropzone;
+export default Dropzone

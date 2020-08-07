@@ -1,12 +1,12 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react'
 
-import DetailPage from "../../../../components/DetailPage";
+import DetailPage from "../../../../components/DetailPage"
 import expiryApi from "../../../../api/expiry"
-import {useParams} from "react-router-dom";
-import dayjs from "dayjs";
-import CommonTip from "../../../../components/CommonTip";
+import {useParams} from "react-router-dom"
+import dayjs from "dayjs"
+import CommonTip from "../../../../components/CommonTip"
 import { useHistory } from 'react-router-dom'
-import {checkEmpty} from "../untils/expiryFieldCheck";
+import {checkEmpty} from "../untils/expiryFieldCheck"
 
 const breadcrumbsList = [
   { title: 'AAA Service'},
@@ -17,56 +17,56 @@ const breadcrumbsList = [
 
 function AssignUpdate(props) {
   const { id } = useParams()
-  const history = useHistory();
-  const [tenant, setTenant] = useState('');
-  const [group, setGroup] = useState('');
-  const [role, setRole] = useState('');
-  const [user, setUser] = useState('');
-  const [expiryDate, setExpiryDate] = useState('');
-  const [ createdAt, setCreatedAt ] = useState('');
-  const [ updatedAt, setUpdastedAt ] = useState('');
-  const [ formFieldList, setFormFieldList ] = useState([]);
-  const [ saving, setSaving ] = useState(false);
-  const [ expiryDateError, setExpiryDateError ] = useState(false);
-  const [ expiryDateHelperText, setExpiryDateHelperText ] = useState("");
+  const history = useHistory()
+  const [tenant, setTenant] = useState('')
+  const [group, setGroup] = useState('')
+  const [role, setRole] = useState('')
+  const [user, setUser] = useState('')
+  const [expiryDate, setExpiryDate] = useState('')
+  const [ createdAt, setCreatedAt ] = useState('')
+  const [ updatedAt, setUpdastedAt ] = useState('')
+  const [ formFieldList, setFormFieldList ] = useState([])
+  const [ saving, setSaving ] = useState(false)
+  const [ expiryDateError, setExpiryDateError ] = useState(false)
+  const [ expiryDateHelperText, setExpiryDateHelperText ] = useState("")
   const formatDateTime = (str) => {
     return dayjs(new Date(str)).format('YYYY-MM-DD HH:mm')
   }
 
   const expiryDateCheck = async () => {
-    const emptyCheck = checkEmpty("Expiry Date", expiryDate);
+    const emptyCheck = checkEmpty("Expiry Date", expiryDate)
     setExpiryDateError(emptyCheck.error)
-    setExpiryDateHelperText(emptyCheck.msg);
+    setExpiryDateHelperText(emptyCheck.msg)
     return emptyCheck.error
   }
 
   const hanleClick = async() => {
-    const roleError = await expiryDateCheck();
-    if (roleError || saving) return;
-    setSaving(true);
+    const roleError = await expiryDateCheck()
+    if (roleError || saving) return
+    setSaving(true)
     expiryApi.update(id, { expiryDate })
       .then(() => {
-        CommonTip.success("Success");
+        CommonTip.success("Success")
         history.push({pathname: '/aaa-service/assign'})
       })
       .catch(() => {
-        setSaving(false);
+        setSaving(false)
       })
   }
 
   useEffect(() => {
     expiryApi.detail(id).then(({ data }) => {
       if (data && data.data) {
-        const { user, assign, expiryDate, createdAt, updatedAt } = data.data;
-        const { tenant_group_mapping, role } = assign;
-        const { ad_group, tenant } = tenant_group_mapping;
-        setTenant(tenant.name);
-        setGroup(ad_group.name);
-        setRole(role.label);
-        setUser(user.displayname);
-        setExpiryDate(dayjs(new Date(expiryDate)).format('YYYY-MM-DD'));
-        setCreatedAt(createdAt);
-        setUpdastedAt(updatedAt);
+        const { user, assign, expiryDate, createdAt, updatedAt } = data.data
+        const { tenant_group_mapping, role } = assign
+        const { ad_group, tenant } = tenant_group_mapping
+        setTenant(tenant.name)
+        setGroup(ad_group.name)
+        setRole(role.label)
+        setUser(user.displayname)
+        setExpiryDate(dayjs(new Date(expiryDate)).format('YYYY-MM-DD'))
+        setCreatedAt(createdAt)
+        setUpdastedAt(updatedAt)
       }
     })
   }, [id])
@@ -82,22 +82,22 @@ function AssignUpdate(props) {
       { id: 'createdAt', label: 'Created At', type: 'text', disabled: true, readOnly: true, value: formatDateTime(createdAt) },
       { id: 'updatedAt', label: 'Updated At', type: 'text', disabled: true, readOnly: true, value: formatDateTime(updatedAt) },
     ]
-    setFormFieldList(list);
-  },[tenant, group, role, user, expiryDate, expiryDateError, expiryDateHelperText, createdAt, updatedAt ]);
+    setFormFieldList(list)
+  },[tenant, group, role, user, expiryDate, expiryDateError, expiryDateHelperText, createdAt, updatedAt ])
   // 字段改变
   const onFormFieldChange = (e, id) => {
-    const { value } = e.target;
+    const { value } = e.target
     switch(id) {
       case 'expiryDate':
-        setExpiryDate(dayjs(new Date(value)).format('YYYY-MM-DD'));
-        break;
+        setExpiryDate(dayjs(new Date(value)).format('YYYY-MM-DD'))
+        break
       default:
-        break;
+        break
     }
   }
   // 字段 expiryDate 检查
   useEffect(() => {
-    expiryDateCheck();
+    expiryDateCheck()
     // eslint-disable-next-line
   }, [expiryDate])
 
@@ -112,7 +112,7 @@ function AssignUpdate(props) {
         onBtnClick = { hanleClick }
       />
     </React.Fragment>
-  );
+  )
 }
 
-export default AssignUpdate;
+export default AssignUpdate

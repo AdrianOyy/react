@@ -1,8 +1,8 @@
-import React from "react";
-import styled from "styled-components";
-import { NavLink as RouterNavLink } from "react-router-dom";
+import React from "react"
+import styled from "styled-components"
+import { NavLink as RouterNavLink } from "react-router-dom"
 
-import Helmet from 'react-helmet';
+import Helmet from 'react-helmet'
 
 import {
   CardContent,
@@ -13,15 +13,15 @@ import {
   Divider as MuiDivider,
   Paper as MuiPaper,
   Typography
-} from "@material-ui/core";
+} from "@material-ui/core"
 
-import { spacing } from "@material-ui/system";
+import { spacing } from "@material-ui/system"
 
-import * as Icon from "react-feather";
+import * as Icon from "react-feather"
 
 const NavLink = React.forwardRef((props, ref) => (
   <RouterNavLink innerRef={ref} {...props} />
-));
+))
 
 const icons = {
   Activity: <Icon.Activity />,
@@ -296,15 +296,15 @@ const icons = {
   Zap: <Icon.Zap />,
   ZoomIn: <Icon.ZoomIn />,
   ZoomOut: <Icon.ZoomOut />
-};
+}
 
-const Card = styled(MuiCard)(spacing);
+const Card = styled(MuiCard)(spacing)
 
-const Divider = styled(MuiDivider)(spacing);
+const Divider = styled(MuiDivider)(spacing)
 
-const Breadcrumbs = styled(MuiBreadcrumbs)(spacing);
+const Breadcrumbs = styled(MuiBreadcrumbs)(spacing)
 
-const Paper = styled(MuiPaper)(spacing);
+const Paper = styled(MuiPaper)(spacing)
 
 const IconHolder = styled(Grid)`
   margin: 0.5rem 0;
@@ -320,7 +320,7 @@ const IconHolder = styled(Grid)`
     margin-right: 0.5rem;
     margin-top: -0.1rem;
   }
-`;
+`
 
 function Icons() {
   return (
@@ -341,13 +341,13 @@ function Icons() {
                     {icons[key]} {key}
                   </Typography>
                 </IconHolder>
-              );
+              )
             })}
           </Grid>
         </Paper>
       </CardContent>
     </Card>
-  );
+  )
 }
 
 function FeatherIcons() {
@@ -376,7 +376,7 @@ function FeatherIcons() {
         </Grid>
       </Grid>
     </React.Fragment>
-  );
+  )
 }
 
-export default FeatherIcons;
+export default FeatherIcons

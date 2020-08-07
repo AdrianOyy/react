@@ -9,7 +9,7 @@ import axios from 'axios'
 const axiosInstance = axios.create({  
   baseURL: process.env.REACT_APP_BASE_API_WORKFLOW,
   timeout: 60000
-});
+})
 
 //请求拦截器 用于添加token
 axiosInstance.interceptors.request.use(

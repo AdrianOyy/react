@@ -1,8 +1,8 @@
-import React from "react";
-import styled from "styled-components";
-import { NavLink as RouterNavLink } from "react-router-dom";
+import React from "react"
+import styled from "styled-components"
+import { NavLink as RouterNavLink } from "react-router-dom"
 
-import Helmet from 'react-helmet';
+import Helmet from 'react-helmet'
 
 import {
   Checkbox,
@@ -25,31 +25,31 @@ import {
   Typography,
   FormControlLabel,
   Switch
-} from "@material-ui/core";
+} from "@material-ui/core"
 
 import {
   Delete as DeleteIcon,
   FilterList as FilterListIcon
-} from "@material-ui/icons";
+} from "@material-ui/icons"
 
-import { spacing } from "@material-ui/system";
+import { spacing } from "@material-ui/system"
 
 const NavLink = React.forwardRef((props, ref) => (
   <RouterNavLink innerRef={ref} {...props} />
-));
+))
 
-const Divider = styled(MuiDivider)(spacing);
+const Divider = styled(MuiDivider)(spacing)
 
-const Breadcrumbs = styled(MuiBreadcrumbs)(spacing);
+const Breadcrumbs = styled(MuiBreadcrumbs)(spacing)
 
-const Paper = styled(MuiPaper)(spacing);
+const Paper = styled(MuiPaper)(spacing)
 
 const Spacer = styled.div`
   flex: 1 1 100%;
-`;
+`
 
 function createData(name, calories, fat, carbs, protein) {
-  return { name, calories, fat, carbs, protein };
+  return { name, calories, fat, carbs, protein }
 }
 
 const rows = [
@@ -66,32 +66,32 @@ const rows = [
   createData('Marshmallow', 318, 0, 81, 2.0),
   createData('Nougat', 360, 19.0, 9, 37.0),
   createData('Oreo', 437, 18.0, 63, 4.0),
-];
+]
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
-    return -1;
+    return -1
   }
   if (b[orderBy] > a[orderBy]) {
-    return 1;
+    return 1
   }
-  return 0;
+  return 0
 }
 
 function getComparator(order, orderBy) {
   return order === 'desc'
     ? (a, b) => descendingComparator(a, b, orderBy)
-    : (a, b) => -descendingComparator(a, b, orderBy);
+    : (a, b) => -descendingComparator(a, b, orderBy)
 }
 
 function stableSort(array, comparator) {
-  const stabilizedThis = array.map((el, index) => [el, index]);
+  const stabilizedThis = array.map((el, index) => [el, index])
   stabilizedThis.sort((a, b) => {
-    const order = comparator(a[0], b[0]);
-    if (order !== 0) return order;
-    return a[1] - b[1];
-  });
-  return stabilizedThis.map((el) => el[0]);
+    const order = comparator(a[0], b[0])
+    if (order !== 0) return order
+    return a[1] - b[1]
+  })
+  return stabilizedThis.map((el) => el[0])
 }
 
 const headCells = [
@@ -100,13 +100,13 @@ const headCells = [
   { id: 'fat', numeric: true, disablePadding: false, label: 'Fat (g)' },
   { id: 'carbs', numeric: true, disablePadding: false, label: 'Carbs (g)' },
   { id: 'protein', numeric: true, disablePadding: false, label: 'Protein (g)' },
-];
+]
 
 function EnhancedTableHead(props) {
-  const { onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort } = props;
+  const { onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort } = props
   const createSortHandler = (property) => (event) => {
-    onRequestSort(event, property);
-  };
+    onRequestSort(event, property)
+  }
 
   return (
     <TableHead>
@@ -137,11 +137,11 @@ function EnhancedTableHead(props) {
         ))}
       </TableRow>
     </TableHead>
-  );
+  )
 }
 
 let EnhancedTableToolbar = props => {
-  const { numSelected } = props;
+  const { numSelected } = props
 
   return (
     <Toolbar>
@@ -173,68 +173,68 @@ let EnhancedTableToolbar = props => {
         )}
       </div>
     </Toolbar>
-  );
-};
+  )
+}
 
 function EnhancedTable() {
-  const [order, setOrder] = React.useState('asc');
-  const [orderBy, setOrderBy] = React.useState('calories');
-  const [selected, setSelected] = React.useState([]);
-  const [page, setPage] = React.useState(0);
-  const [dense, setDense] = React.useState(false);
-  const [rowsPerPage, setRowsPerPage] = React.useState(10);
+  const [order, setOrder] = React.useState('asc')
+  const [orderBy, setOrderBy] = React.useState('calories')
+  const [selected, setSelected] = React.useState([])
+  const [page, setPage] = React.useState(0)
+  const [dense, setDense] = React.useState(false)
+  const [rowsPerPage, setRowsPerPage] = React.useState(10)
 
   const handleRequestSort = (event, property) => {
-    const isAsc = orderBy === property && order === 'asc';
-    setOrder(isAsc ? 'desc' : 'asc');
-    setOrderBy(property);
-  };
+    const isAsc = orderBy === property && order === 'asc'
+    setOrder(isAsc ? 'desc' : 'asc')
+    setOrderBy(property)
+  }
 
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
-      const newSelecteds = rows.map((n) => n.name);
-      setSelected(newSelecteds);
-      return;
+      const newSelecteds = rows.map((n) => n.name)
+      setSelected(newSelecteds)
+      return
     }
-    setSelected([]);
-  };
+    setSelected([])
+  }
 
   const handleClick = (event, name) => {
-    const selectedIndex = selected.indexOf(name);
-    let newSelected = [];
+    const selectedIndex = selected.indexOf(name)
+    let newSelected = []
 
     if (selectedIndex === -1) {
-      newSelected = newSelected.concat(selected, name);
+      newSelected = newSelected.concat(selected, name)
     } else if (selectedIndex === 0) {
-      newSelected = newSelected.concat(selected.slice(1));
+      newSelected = newSelected.concat(selected.slice(1))
     } else if (selectedIndex === selected.length - 1) {
-      newSelected = newSelected.concat(selected.slice(0, -1));
+      newSelected = newSelected.concat(selected.slice(0, -1))
     } else if (selectedIndex > 0) {
       newSelected = newSelected.concat(
         selected.slice(0, selectedIndex),
         selected.slice(selectedIndex + 1),
-      );
+      )
     }
 
-    setSelected(newSelected);
-  };
+    setSelected(newSelected)
+  }
 
   const handleChangePage = (event, newPage) => {
-    setPage(newPage);
-  };
+    setPage(newPage)
+  }
 
   const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
-  };
+    setRowsPerPage(parseInt(event.target.value, 10))
+    setPage(0)
+  }
 
   const handleChangeDense = (event) => {
-    setDense(event.target.checked);
-  };
+    setDense(event.target.checked)
+  }
 
-  const isSelected = (name) => selected.indexOf(name) !== -1;
+  const isSelected = (name) => selected.indexOf(name) !== -1
 
-  const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
+  const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage)
 
   return (
     <div>
@@ -258,8 +258,8 @@ function EnhancedTable() {
               {stableSort(rows, getComparator(order, orderBy))
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row, index) => {
-                  const isItemSelected = isSelected(row.name);
-                  const labelId = `enhanced-table-checkbox-${index}`;
+                  const isItemSelected = isSelected(row.name)
+                  const labelId = `enhanced-table-checkbox-${index}`
 
                   return (
                     <TableRow
@@ -285,7 +285,7 @@ function EnhancedTable() {
                       <TableCell align="right">{row.carbs}</TableCell>
                       <TableCell align="right">{row.protein}</TableCell>
                     </TableRow>
-                  );
+                  )
                 })}
               {emptyRows > 0 && (
                 <TableRow style={{ height: (dense ? 33 : 53) * emptyRows }}>
@@ -310,7 +310,7 @@ function EnhancedTable() {
         label="Dense padding"
       />
     </div>
-  );
+  )
 }
 
 function AdvancedTable() {
@@ -339,7 +339,7 @@ function AdvancedTable() {
         </Grid>
       </Grid>
     </React.Fragment>
-  );
+  )
 }
 
-export default AdvancedTable;
+export default AdvancedTable

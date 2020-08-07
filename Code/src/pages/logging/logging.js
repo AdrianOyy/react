@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
-import styled from "styled-components";
-import { NavLink as RouterNavLink } from "react-router-dom";
+import React, { useState, useEffect } from 'react'
+import styled from "styled-components"
+import { NavLink as RouterNavLink } from "react-router-dom"
 import loggingAPI from '../../api/logging.js'
-import Helmet from 'react-helmet';
-import dayjs from 'dayjs';
+import Helmet from 'react-helmet'
+import dayjs from 'dayjs'
 import CommonTip from '../../components/CommonTip'
 
 import {
@@ -28,25 +28,25 @@ import {
   Tooltip,
   Typography,
   TextField
-} from "@material-ui/core";
+} from "@material-ui/core"
 
 import {
   Delete as DeleteIcon,
   FilterList as FilterListIcon
-} from "@material-ui/icons";
+} from "@material-ui/icons"
 
-import { spacing } from "@material-ui/system";
-import {makeStyles} from "@material-ui/core/styles";
+import { spacing } from "@material-ui/system"
+import {makeStyles} from "@material-ui/core/styles"
 
 const NavLink = React.forwardRef((props, ref) => (
   <RouterNavLink innerRef={ref} {...props} />
-));
+))
 
-const Divider = styled(MuiDivider)(spacing);
+const Divider = styled(MuiDivider)(spacing)
 
-const Breadcrumbs = styled(MuiBreadcrumbs)(spacing);
+const Breadcrumbs = styled(MuiBreadcrumbs)(spacing)
 
-const Paper = styled(MuiPaper)(spacing);
+const Paper = styled(MuiPaper)(spacing)
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -62,41 +62,41 @@ const useStyles = makeStyles((theme) => ({
   button: {
     marginRight: theme.spacing(10),
   },
-}));
+}))
 
 const Spacer = styled.div`
   flex: 1 1 100%;
-`;
+`
 
 const ToolbarTitle = styled.div`
   min-width: 150px;
-`;
+`
 
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
-    return -1;
+    return -1
   }
   if (b[orderBy] > a[orderBy]) {
-    return 1;
+    return 1
   }
-  return 0;
+  return 0
 }
 
 function getComparator(order, orderBy) {
   return order === 'desc'
     ? (a, b) => descendingComparator(a, b, orderBy)
-    : (a, b) => -descendingComparator(a, b, orderBy);
+    : (a, b) => -descendingComparator(a, b, orderBy)
 }
 
 function stableSort(array, comparator) {
-  const stabilizedThis = array.map((el, index) => [el, index]);
+  const stabilizedThis = array.map((el, index) => [el, index])
   stabilizedThis.sort((a, b) => {
-    const order = comparator(a[0], b[0]);
-    if (order !== 0) return order;
-    return a[1] - b[1];
-  });
-  return stabilizedThis.map((el) => el[0]);
+    const order = comparator(a[0], b[0])
+    if (order !== 0) return order
+    return a[1] - b[1]
+  })
+  return stabilizedThis.map((el) => el[0])
 }
 
 const headCells = [
@@ -105,11 +105,11 @@ const headCells = [
   { id: 'response', alignment: 'center', label: 'Response' },
   { id: 'createdAt', alignment: 'center', label: 'CreatedAt' },
   { id: 'actions', alignment: 'right', label: 'Actions' },
-];
+]
 
 function EmptyCard(props) {
-  const { onHandelTextChange, onHandelStartDateChange, onHandelEndDateChange, onSearchButton } = props;
-  const classes = useStyles();
+  const { onHandelTextChange, onHandelStartDateChange, onHandelEndDateChange, onSearchButton } = props
+  const classes = useStyles()
   return (
     <div className={classes.root}>
       <TextField size="small" id="Message" onChange={onHandelTextChange.bind(this)} className={classes.textField} label="Message"  />
@@ -137,15 +137,15 @@ function EmptyCard(props) {
           Search
         </Button>
     </div>
-  );
+  )
 }
 
 
 function EnhancedTableHead(props) {
-  const { onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort } = props;
+  const { onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort } = props
   const createSortHandler = (property) => (event) => {
-    onRequestSort(event, property);
-  };
+    onRequestSort(event, property)
+  }
 
   return (
     <TableHead>
@@ -176,11 +176,11 @@ function EnhancedTableHead(props) {
         ))}
       </TableRow>
     </TableHead>
-  );
+  )
 }
 
 let EnhancedTableToolbar = props => {
-  const { numSelected } = props;
+  const { numSelected } = props
 
   return (
     <Toolbar>
@@ -212,34 +212,34 @@ let EnhancedTableToolbar = props => {
         )}
       </div>
     </Toolbar>
-  );
-};
+  )
+}
 
 function EnhancedTable() {
-  const [order, setOrder] = React.useState('desc');
-  const [orderBy, setOrderBy] = React.useState('createdAt');
-  const [selected, setSelected] = React.useState([]);
-  const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(10);
-  const [total, setTotal] = React.useState(0);
-  const [emptyRows, setEmptyRows] = React.useState(0);
+  const [order, setOrder] = React.useState('desc')
+  const [orderBy, setOrderBy] = React.useState('createdAt')
+  const [selected, setSelected] = React.useState([])
+  const [page, setPage] = React.useState(0)
+  const [rowsPerPage, setRowsPerPage] = React.useState(10)
+  const [total, setTotal] = React.useState(0)
+  const [emptyRows, setEmptyRows] = React.useState(0)
 
-  const [text, setText] = React.useState('');
-  const [startDate, setStartDate] = React.useState('');
-  const [endDate, setEndDate] = React.useState('');
-  const [query, setQuery] = React.useState({});
+  const [text, setText] = React.useState('')
+  const [startDate, setStartDate] = React.useState('')
+  const [endDate, setEndDate] = React.useState('')
+  const [query, setQuery] = React.useState({})
 
   const handelTextChange = (event) => {
     setText(event.target.value)
-  };
+  }
 
   const handelStartDateChange = (event) => {
     setStartDate(event.target.value)
-  };
+  }
 
   const handelEndDateChange = (event) => {
     setEndDate(event.target.value)
-  };
+  }
 
   const handlSearch =  () => {
     setQuery({
@@ -247,14 +247,14 @@ function EnhancedTable() {
       startDate,
       endDate
     })
-  };
+  }
 
   const handleRequestSort = (event, property) => {
-    const isAsc = orderBy === property && order === 'asc';
-    setOrder(isAsc ? 'desc' : 'asc');
-    setOrderBy(property);
-  };
-  const [rows, setRows] = useState([]);
+    const isAsc = orderBy === property && order === 'asc'
+    setOrder(isAsc ? 'desc' : 'asc')
+    setOrderBy(property)
+  }
+  const [rows, setRows] = useState([])
 
   useEffect(() => {
     loggingAPI.list(Object.assign(
@@ -262,13 +262,13 @@ function EnhancedTable() {
       query,
       { orderBy, order, limit: rowsPerPage, page: page+1 })
       ).then(response => {
-      setTotal(response.data.total);
-      setRows(response.data.data);
+      setTotal(response.data.total)
+      setRows(response.data.data)
       const length = response.data.data.length
-      const emptyrow = rowsPerPage - length;
-      setEmptyRows(emptyrow);
-    });
-  }, [page, rowsPerPage, query, orderBy, order]);
+      const emptyrow = rowsPerPage - length
+      setEmptyRows(emptyrow)
+    })
+  }, [page, rowsPerPage, query, orderBy, order])
   // const [rows, setRows] = useState([]);
 
   // useEffect(() => {
@@ -297,32 +297,32 @@ function EnhancedTable() {
 
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
-      const newSelecteds = rows.map((n) => n.id);
-      setSelected(newSelecteds);
-      return;
+      const newSelecteds = rows.map((n) => n.id)
+      setSelected(newSelecteds)
+      return
     }
-    setSelected([]);
-  };
+    setSelected([])
+  }
 
   const handleClick = (event, id) => {
-    const selectedIndex = selected.indexOf(id);
-    let newSelected = [];
+    const selectedIndex = selected.indexOf(id)
+    let newSelected = []
 
     if (selectedIndex === -1) {
-      newSelected = newSelected.concat(selected, id);
+      newSelected = newSelected.concat(selected, id)
     } else if (selectedIndex === 0) {
-      newSelected = newSelected.concat(selected.slice(1));
+      newSelected = newSelected.concat(selected.slice(1))
     } else if (selectedIndex === selected.length - 1) {
-      newSelected = newSelected.concat(selected.slice(0, -1));
+      newSelected = newSelected.concat(selected.slice(0, -1))
     } else if (selectedIndex > 0) {
       newSelected = newSelected.concat(
         selected.slice(0, selectedIndex),
         selected.slice(selectedIndex + 1),
-      );
+      )
     }
 
-    setSelected(newSelected);
-  };
+    setSelected(newSelected)
+  }
 
   const handleDelete = (event, id) => {
     // console.log('1111111111111111')
@@ -338,15 +338,15 @@ function EnhancedTable() {
 
   const handleChangePage = (event, newPage) => {
     console.log(newPage)
-    setPage(newPage);
-  };
+    setPage(newPage)
+  }
 
   const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
-  };
+    setRowsPerPage(parseInt(event.target.value, 10))
+    setPage(0)
+  }
 
-  const isSelected = (id) => selected.indexOf(id) !== -1;
+  const isSelected = (id) => selected.indexOf(id) !== -1
 
 
   return (
@@ -376,8 +376,8 @@ function EnhancedTable() {
             <TableBody>
               {stableSort(rows, getComparator(order, orderBy))
                 .map((row, index) => {
-                  const isItemSelected = isSelected(row.id);
-                  const labelId = `enhanced-table-checkbox-${index}`;
+                  const isItemSelected = isSelected(row.id)
+                  const labelId = `enhanced-table-checkbox-${index}`
                   return (
                     <TableRow
                       hover
@@ -409,7 +409,7 @@ function EnhancedTable() {
                         </Box>
                       </TableCell>
                     </TableRow>
-                  );
+                  )
                 })}
               {emptyRows > 0 && (
                 <TableRow style={{ height: (53) * emptyRows }}>
@@ -430,7 +430,7 @@ function EnhancedTable() {
         />
       </Paper>
     </div>
-  );
+  )
 }
 
 function LogList() {
@@ -468,7 +468,7 @@ function LogList() {
         </Grid>
       </Grid>
     </React.Fragment>
-  );
+  )
 }
 
-export default LogList;
+export default LogList

@@ -1,8 +1,8 @@
-import React from "react";
-import styled from "styled-components";
-import { NavLink as RouterNavLink } from "react-router-dom";
+import React from "react"
+import styled from "styled-components"
+import { NavLink as RouterNavLink } from "react-router-dom"
 
-import Helmet from 'react-helmet';
+import Helmet from 'react-helmet'
 
 import {
   Button,
@@ -15,32 +15,32 @@ import {
   CardHeader as MuiCardHeader,
   Divider as MuiDivider,
   Typography
-} from "@material-ui/core";
+} from "@material-ui/core"
 
-import { StarBorder as StarIcon } from "@material-ui/icons";
+import { StarBorder as StarIcon } from "@material-ui/icons"
 
-import { spacing } from "@material-ui/system";
+import { spacing } from "@material-ui/system"
 
 const NavLink = React.forwardRef((props, ref) => (
   <RouterNavLink innerRef={ref} {...props} />
-));
+))
 
-const Card = styled(MuiCard)(spacing);
+const Card = styled(MuiCard)(spacing)
 
-const CardHeader = styled(MuiCardHeader)(spacing);
+const CardHeader = styled(MuiCardHeader)(spacing)
 
-const Divider = styled(MuiDivider)(spacing);
+const Divider = styled(MuiDivider)(spacing)
 
-const Breadcrumbs = styled(MuiBreadcrumbs)(spacing);
+const Breadcrumbs = styled(MuiBreadcrumbs)(spacing)
 
 const Price = styled.div`
   text-align: center;
   padding-bottom: ${props => props.theme.spacing(3)}px;
-`;
+`
 
 const Header = styled.div`
   padding: ${props => props.theme.spacing(6)}px 0;
-`;
+`
 
 function Pricing() {
   return (
@@ -218,7 +218,7 @@ function Pricing() {
         </Grid>
       </Grid>
     </React.Fragment>
-  );
+  )
 }
 
-export default Pricing;
+export default Pricing

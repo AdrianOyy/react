@@ -1,13 +1,13 @@
-import React from "react";
-import styled, { withTheme } from "styled-components";
-import { NavLink as RouterNavLink } from "react-router-dom";
+import React from "react"
+import styled, { withTheme } from "styled-components"
+import { NavLink as RouterNavLink } from "react-router-dom"
 
-import Helmet from 'react-helmet';
+import Helmet from 'react-helmet'
 
-import "../../vendor/roundedBarCharts";
-import { Bar } from "react-chartjs-2";
+import "../../vendor/roundedBarCharts"
+import { Bar } from "react-chartjs-2"
 
-import { red, green, blue } from "@material-ui/core/colors";
+import { red, green, blue } from "@material-ui/core/colors"
 
 import {
   Avatar as MuiAvatar,
@@ -27,9 +27,9 @@ import {
   TableHead,
   TableRow,
   Typography
-} from "@material-ui/core";
+} from "@material-ui/core"
 
-import { spacing } from "@material-ui/system";
+import { spacing } from "@material-ui/system"
 
 import {
   Briefcase,
@@ -41,37 +41,37 @@ import {
   MapPin,
   ShoppingBag,
   Twitter
-} from "react-feather";
+} from "react-feather"
 
 const NavLink = React.forwardRef((props, ref) => (
   <RouterNavLink innerRef={ref} {...props} />
-));
+))
 
-const Breadcrumbs = styled(MuiBreadcrumbs)(spacing);
+const Breadcrumbs = styled(MuiBreadcrumbs)(spacing)
 
-const Button = styled(MuiButton)(spacing);
+const Button = styled(MuiButton)(spacing)
 
-const Card = styled(MuiCard)(spacing);
+const Card = styled(MuiCard)(spacing)
 
-const Chip = styled(MuiChip)(spacing);
+const Chip = styled(MuiChip)(spacing)
 
-const Divider = styled(MuiDivider)(spacing);
+const Divider = styled(MuiDivider)(spacing)
 
-const Grid = styled(MuiGrid)(spacing);
+const Grid = styled(MuiGrid)(spacing)
 
-const LinearProgress = styled(MuiLinearProgress)(spacing);
+const LinearProgress = styled(MuiLinearProgress)(spacing)
 
-const Spacer = styled.div(spacing);
+const Spacer = styled.div(spacing)
 
 const Centered = styled.div`
   text-align: center;
-`;
+`
 
 const Avatar = styled(MuiAvatar)`
   display: inline-block;
   height: 128px;
   width: 128px;
-`;
+`
 
 const AboutIcon = styled.span`
   display: flex;
@@ -81,12 +81,12 @@ const AboutIcon = styled.span`
     width: 14px;
     height: 14px;
   }
-`;
+`
 
 const ChartWrapper = styled.div`
   height: 280px;
   position: relative;
-`;
+`
 
 const StatsIcon = styled.div`
   position: absolute;
@@ -98,7 +98,7 @@ const StatsIcon = styled.div`
     height: 32px;
     color: ${props => props.theme.palette.secondary.main};
   }
-`;
+`
 
 const ProductsChip = styled(Chip)`
   height: 20px;
@@ -106,12 +106,12 @@ const ProductsChip = styled(Chip)`
   font-size: 90%;
   background-color: ${props => props.rgbcolor};
   color: ${props => props.theme.palette.common.white};
-`;
+`
 
 const TableWrapper = styled.div`
   overflow-y: auto;
   max-width: calc(100vw - ${props => props.theme.spacing(12)}px);
-`;
+`
 
 function Details() {
   return (
@@ -139,7 +139,7 @@ function Details() {
         </Centered>
       </CardContent>
     </Card>
-  );
+  )
 }
 
 function Skills() {
@@ -165,7 +165,7 @@ function Skills() {
         </Centered>
       </CardContent>
     </Card>
-  );
+  )
 }
 
 function About() {
@@ -214,7 +214,7 @@ function About() {
         </Grid>
       </CardContent>
     </Card>
-  );
+  )
 }
 
 function Elsewhere() {
@@ -269,7 +269,7 @@ function Elsewhere() {
         </Grid>
       </CardContent>
     </Card>
-  );
+  )
 }
 
 function Earnings() {
@@ -296,7 +296,7 @@ function Earnings() {
         </CardContent>
       </Card>
     </Box>
-  );
+  )
 }
 
 function Orders() {
@@ -323,7 +323,7 @@ function Orders() {
         </CardContent>
       </Card>
     </Box>
-  );
+  )
 }
 
 function Revenue() {
@@ -350,7 +350,7 @@ function Revenue() {
         </CardContent>
       </Card>
     </Box>
-  );
+  )
 }
 
 function Products() {
@@ -446,7 +446,7 @@ function Products() {
         </TableWrapper>
       </CardContent>
     </Card>
-  );
+  )
 }
 
 const SalesRevenue = withTheme(({ theme }) => {
@@ -487,7 +487,7 @@ const SalesRevenue = withTheme(({ theme }) => {
         categoryPercentage: 0.5
       }
     ]
-  };
+  }
 
   const options = {
     maintainAspectRatio: false,
@@ -516,7 +516,7 @@ const SalesRevenue = withTheme(({ theme }) => {
         }
       ]
     }
-  };
+  }
 
   return (
     <Card mb={6}>
@@ -532,8 +532,8 @@ const SalesRevenue = withTheme(({ theme }) => {
         </ChartWrapper>
       </CardContent>
     </Card>
-  );
-});
+  )
+})
 
 function Profile() {
   return (
@@ -580,7 +580,7 @@ function Profile() {
         </Grid>
       </Grid>
     </React.Fragment>
-  );
+  )
 }
 
-export default Profile;
+export default Profile

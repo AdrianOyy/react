@@ -1,5 +1,5 @@
-import React from "react";
-import {NaviHeader} from "../index";
+import React from "react"
+import {NaviHeader} from "../index"
 import Form from './components/Form'
 
 function DetailPage(props) {

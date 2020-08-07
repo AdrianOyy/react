@@ -1,8 +1,8 @@
-import React from "react";
-import styled from "styled-components";
-import { NavLink as RouterNavLink } from "react-router-dom";
+import React from "react"
+import styled from "styled-components"
+import { NavLink as RouterNavLink } from "react-router-dom"
 
-import Helmet from 'react-helmet';
+import Helmet from 'react-helmet'
 
 import {
   Breadcrumbs as MuiBreadcrumbs,
@@ -12,27 +12,27 @@ import {
   Grid,
   Link,
   Typography
-} from "@material-ui/core";
+} from "@material-ui/core"
 
 import {
   Pagination as MuiPagination,
-} from "@material-ui/lab";
+} from "@material-ui/lab"
 
-import { spacing } from "@material-ui/system";
+import { spacing } from "@material-ui/system"
 
 const NavLink = React.forwardRef((props, ref) => (
   <RouterNavLink innerRef={ref} {...props} />
-));
+))
 
-const Card = styled(MuiCard)(spacing);
+const Card = styled(MuiCard)(spacing)
 
-const Spacer = styled.div(spacing);
+const Spacer = styled.div(spacing)
 
-const Divider = styled(MuiDivider)(spacing);
+const Divider = styled(MuiDivider)(spacing)
 
-const Breadcrumbs = styled(MuiBreadcrumbs)(spacing);
+const Breadcrumbs = styled(MuiBreadcrumbs)(spacing)
 
-const Pagination = styled(MuiPagination)(spacing);
+const Pagination = styled(MuiPagination)(spacing)
 
 function BasicPagination() {
   return (
@@ -53,7 +53,7 @@ function BasicPagination() {
         <Pagination mb={2} count={10} disabled />
       </CardContent>
     </Card>
-  );
+  )
 }
 
 function OutlinedPagination() {
@@ -75,7 +75,7 @@ function OutlinedPagination() {
         <Pagination mb={2} count={10} variant="outlined" disabled />
       </CardContent>
     </Card>
-  );
+  )
 }
 
 function RoundedPagination() {
@@ -97,7 +97,7 @@ function RoundedPagination() {
         <Pagination mb={2} count={10} variant="outlined" shape="rounded" disabled />
       </CardContent>
     </Card>
-  );
+  )
 }
 
 function PaginationSizes() {
@@ -118,7 +118,7 @@ function PaginationSizes() {
         <Pagination mb={2} count={10} size="large" />
       </CardContent>
     </Card>
-  );
+  )
 }
 
 function PaginationRanges() {
@@ -140,7 +140,7 @@ function PaginationRanges() {
         <Pagination mb={2} count={11} defaultPage={6} boundaryCount={2} />
       </CardContent>
     </Card>
-  );
+  )
 }
 
 function PaginationComponents() {
@@ -175,7 +175,7 @@ function PaginationComponents() {
         </Grid>
       </Grid>
     </React.Fragment>
-  );
+  )
 }
 
-export default PaginationComponents;
+export default PaginationComponents

@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import styled from "styled-components";
-import { NavLink as RouterNavLink } from "react-router-dom";
-import Helmet from 'react-helmet';
+import React, { useState, useEffect } from 'react'
+import styled from "styled-components"
+import { NavLink as RouterNavLink } from "react-router-dom"
+import Helmet from 'react-helmet'
 import managementApi from '../../api/management.js'
 
 import {
@@ -29,7 +29,7 @@ import {
   // CardContent,
   TextField,
   // Card as MuiCard
-} from "@material-ui/core";
+} from "@material-ui/core"
 
 // import { green, orange, red } from "@material-ui/core/colors";
 
@@ -41,21 +41,21 @@ import {
   // TramRounded,
   // RemoveRedEye as RemoveRedEyeIcon,
   // ReportOff
-} from "@material-ui/icons";
+} from "@material-ui/icons"
 
-import { spacing } from "@material-ui/system";
+import { spacing } from "@material-ui/system"
 
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles'
 
 const NavLink = React.forwardRef((props, ref) => (
   <RouterNavLink innerRef={ref} {...props} />
-));
+))
 
-const Divider = styled(MuiDivider)(spacing);
+const Divider = styled(MuiDivider)(spacing)
 
-const Breadcrumbs = styled(MuiBreadcrumbs)(spacing);
+const Breadcrumbs = styled(MuiBreadcrumbs)(spacing)
 
-const Paper = styled(MuiPaper)(spacing);
+const Paper = styled(MuiPaper)(spacing)
 
 // const Card = styled(MuiCard)(spacing);
 
@@ -71,11 +71,11 @@ const Paper = styled(MuiPaper)(spacing);
 
 const Spacer = styled.div`
   flex: 1 1 100%;
-`;
+`
 
 const ToolbarTitle = styled.div`
   min-width: 150px;
-`;
+`
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -91,32 +91,32 @@ const useStyles = makeStyles((theme) => ({
   button: {
     marginRight: theme.spacing(10),
   },
-}));
+}))
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
-    return -1;
+    return -1
   }
   if (b[orderBy] > a[orderBy]) {
-    return 1;
+    return 1
   }
-  return 0;
+  return 0
 }
 
 function getComparator(order, orderBy) {
   return order === 'desc'
     ? (a, b) => descendingComparator(a, b, orderBy)
-    : (a, b) => -descendingComparator(a, b, orderBy);
+    : (a, b) => -descendingComparator(a, b, orderBy)
 }
 
 function stableSort(array, comparator) {
-  const stabilizedThis = array.map((el, index) => [el, index]);
+  const stabilizedThis = array.map((el, index) => [el, index])
   stabilizedThis.sort((a, b) => {
-    const order = comparator(a[0], b[0]);
-    if (order !== 0) return order;
-    return a[1] - b[1];
-  });
-  return stabilizedThis.map((el) => el[0]);
+    const order = comparator(a[0], b[0])
+    if (order !== 0) return order
+    return a[1] - b[1]
+  })
+  return stabilizedThis.map((el) => el[0])
 }
 
 const headCells = [
@@ -124,12 +124,12 @@ const headCells = [
   { id: 'Manager_AD_Group', alignment: 'center', label: 'Manager AD Group' },
   { id: 'Supporter', alignment: 'center', label: 'Supporter' },
   { id: 'Resources_Quota', alignment: 'center', label: 'Resources Quota' },
-];
+]
 
 function EmptyCard(props) {
   const { onHandelPrjectChange, onHandelADChange, onHandelSuChange,
-    onHandelReChange, onSearchButton, onHandelStartDateChange, onHandelEndDateChange } = props;
-  const classes = useStyles();
+    onHandelReChange, onSearchButton, onHandelStartDateChange, onHandelEndDateChange } = props
+  const classes = useStyles()
   return (
     <div className={classes.root}>
       <TextField
@@ -180,15 +180,15 @@ function EmptyCard(props) {
         Search
       </Button>
     </div>
-  );
+  )
 }
-  
+
 
 function EnhancedTableHead(props) {
-  const { onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort } = props;
+  const { onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort } = props
   const createSortHandler = (property) => (event) => {
-    onRequestSort(event, property);
-  };
+    onRequestSort(event, property)
+  }
 
   return (
     <TableHead>
@@ -219,11 +219,11 @@ function EnhancedTableHead(props) {
         ))}
       </TableRow>
     </TableHead>
-  );
+  )
 }
 
 let EnhancedTableToolbar = props => {
-  const { numSelected } = props;
+  const { numSelected } = props
 
   return (
     <Toolbar>
@@ -255,24 +255,24 @@ let EnhancedTableToolbar = props => {
         )}
       </div>
     </Toolbar>
-  );
-};
+  )
+}
 
 
 function EnhancedTable() {
-  const [order, setOrder] = React.useState('asc');
-  const [orderBy, setOrderBy] = React.useState('customer');
-  const [selected, setSelected] = React.useState([]);
-  const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(10);
-  const [total, setTotal] = React.useState(0);
-  const [project, setProject] = React.useState('');
-  const [managerADGroup, setManagerADGroup] = React.useState('');
-  const [supporter, setSupporter] = React.useState('');
-  const [resourcesQuota, setResourcesQuota] = React.useState('');
-  const [startDate, setStartDate] = React.useState('');
-  const [endDate, setEndDate] = React.useState('');
-  const [query, setQuery] = React.useState({});
+  const [order, setOrder] = React.useState('asc')
+  const [orderBy, setOrderBy] = React.useState('customer')
+  const [selected, setSelected] = React.useState([])
+  const [page, setPage] = React.useState(0)
+  const [rowsPerPage, setRowsPerPage] = React.useState(10)
+  const [total, setTotal] = React.useState(0)
+  const [project, setProject] = React.useState('')
+  const [managerADGroup, setManagerADGroup] = React.useState('')
+  const [supporter, setSupporter] = React.useState('')
+  const [resourcesQuota, setResourcesQuota] = React.useState('')
+  const [startDate, setStartDate] = React.useState('')
+  const [endDate, setEndDate] = React.useState('')
+  const [query, setQuery] = React.useState({})
 
   const handlSearch =  () => {
     setQuery({
@@ -283,14 +283,14 @@ function EnhancedTable() {
       startDate,
       endDate,
     })
-  };
+  }
 
   const handleRequestSort = (event, property) => {
-    const isAsc = orderBy === property && order === 'asc';
-    setOrder(isAsc ? 'desc' : 'asc');
-    setOrderBy(property);
-  };
-  const [rows, setRows] = useState([]);
+    const isAsc = orderBy === property && order === 'asc'
+    setOrder(isAsc ? 'desc' : 'asc')
+    setOrderBy(property)
+  }
+  const [rows, setRows] = useState([])
 
   useEffect(() => {
     managementApi.list(Object.assign(
@@ -299,40 +299,40 @@ function EnhancedTable() {
       { limit: rowsPerPage, page: page + 1}
     )).then(({ data }) => {
       const { count, rows } = data.data
-      setRows(rows);
-      setTotal(count);
+      setRows(rows)
+      setTotal(count)
     })
-  }, [page, query, rowsPerPage]);
-  
+  }, [page, query, rowsPerPage])
+
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
-      const newSelecteds = rows.map((n) => n.id);
-      setSelected(newSelecteds);
-      return;
+      const newSelecteds = rows.map((n) => n.id)
+      setSelected(newSelecteds)
+      return
     }
-    setSelected([]);
-  };
+    setSelected([])
+  }
 
   const handleClick = (event, id) => {
-    const selectedIndex = selected.indexOf(id);
-    let newSelected = [];
-  
+    const selectedIndex = selected.indexOf(id)
+    let newSelected = []
+
     if (selectedIndex === -1) {
-      newSelected = newSelected.concat(selected, id);
+      newSelected = newSelected.concat(selected, id)
     } else if (selectedIndex === 0) {
-      newSelected = newSelected.concat(selected.slice(1));
+      newSelected = newSelected.concat(selected.slice(1))
     } else if (selectedIndex === selected.length - 1) {
-      newSelected = newSelected.concat(selected.slice(0, -1));
+      newSelected = newSelected.concat(selected.slice(0, -1))
     } else if (selectedIndex > 0) {
       newSelected = newSelected.concat(
         selected.slice(0, selectedIndex),
         selected.slice(selectedIndex + 1),
-      );
+      )
     }
-  
-    setSelected(newSelected);
-  };
-  
+
+    setSelected(newSelected)
+  }
+
   // const handleDelete = (event, id) => {
   //   syncUserAPI.delete({id}).then(({data}) => {
   //     console.log(data)
@@ -341,39 +341,39 @@ function EnhancedTable() {
 
   const handleChangePage = (event, newPage) => {
     console.log(newPage)
-    setPage(newPage);
-  };
+    setPage(newPage)
+  }
 
   const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
-  };
+    setRowsPerPage(parseInt(event.target.value, 10))
+    setPage(0)
+  }
 
-  const isSelected = (id) => selected.indexOf(id) !== -1;
+  const isSelected = (id) => selected.indexOf(id) !== -1
 
   const handelPrjectChange = (event) => {
     setProject(event.target.value)
-  };
+  }
   const handelADChange = (event) => {
     setManagerADGroup(event.target.value)
-  };
+  }
   const handelSuChange = (event) => {
     setSupporter(event.target.value)
-  };
+  }
   const handelReChange = (event) => {
     setResourcesQuota(event.target.value)
-  };
+  }
   const handelStartDateChange = (event) => {
     setStartDate(event.target.value)
-  };
+  }
   const handelEndDateChange = (event) => {
     setEndDate(event.target.value)
-  };
+  }
 
 
   return (
     <div>
-      <EmptyCard 
+      <EmptyCard
         onHandelPrjectChange={handelPrjectChange}
         onHandelADChange={handelADChange}
         onHandelSuChange={handelSuChange}
@@ -401,8 +401,8 @@ function EnhancedTable() {
             <TableBody>
               {stableSort(rows, getComparator(order, orderBy))
                 .map((row, index) => {
-                  const isItemSelected = isSelected(row.id);
-                  const labelId = `enhanced-table-checkbox-${index}`;
+                  const isItemSelected = isSelected(row.id)
+                  const labelId = `enhanced-table-checkbox-${index}`
                   return (
                     <TableRow
                       hover
@@ -436,7 +436,7 @@ function EnhancedTable() {
                         </Box>
                       </TableCell> */}
                     </TableRow>
-                  );
+                  )
                 })}
               {/* {emptyRows > 0 && (
                 <TableRow style={{ height: (53) * emptyRows }}>
@@ -457,7 +457,7 @@ function EnhancedTable() {
         />
       </Paper>
     </div>
-  );
+  )
 }
 
 function SyncList() {
@@ -467,7 +467,7 @@ function SyncList() {
 
       <Grid
         justify="space-between"
-        container 
+        container
         spacing={10}
       >
         <Grid item>
@@ -486,7 +486,7 @@ function SyncList() {
           </Breadcrumbs>
         </Grid>
       </Grid>
-      
+
       <Divider my={6} />
 
       <Grid container spacing={6}>
@@ -495,7 +495,7 @@ function SyncList() {
         </Grid>
       </Grid>
     </React.Fragment>
-  );
+  )
 }
 
-export default SyncList;
+export default SyncList

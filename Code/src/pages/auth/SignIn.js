@@ -1,8 +1,8 @@
-import React from "react";
-import styled from "styled-components";
-import { useHistory } from "react-router-dom";
+import React from "react"
+import styled from "styled-components"
+import { useHistory } from "react-router-dom"
 import authAPI from '../../api/auth.js'
-import Helmet from 'react-helmet';
+import Helmet from 'react-helmet'
 import { encryption } from '../../utils/encryption'
 
 import {
@@ -16,14 +16,14 @@ import {
   Paper,
   Snackbar,
   Typography
-} from "@material-ui/core";
-import { Alert as MuiAlert } from '@material-ui/lab';
-import { spacing } from "@material-ui/system";
+} from "@material-ui/core"
+import { Alert as MuiAlert } from '@material-ui/lab'
+import { spacing } from "@material-ui/system"
 
 // import AES from 'crypto-js/aes';
 // import Base64 from 'crypto-js/enc-base64';
 
-const Button = styled(MuiButton)(spacing);
+const Button = styled(MuiButton)(spacing)
 
 const Wrapper = styled(Paper)`
   padding: ${props => props.theme.spacing(6)}px;
@@ -31,7 +31,7 @@ const Wrapper = styled(Paper)`
   ${props => props.theme.breakpoints.up("md")} {
     padding: ${props => props.theme.spacing(10)}px;
   }
-`;
+`
 
 // const BigAvatar = styled(Avatar)`
 //   width: 92px;
@@ -40,18 +40,18 @@ const Wrapper = styled(Paper)`
 //   margin: 0 auto ${props => props.theme.spacing(5)}px;
 // `;
 
-const Alert = styled(MuiAlert)(spacing);
+const Alert = styled(MuiAlert)(spacing)
 
 function SignIn() {
-  const [account, setAccount] = React.useState('');
-  const [password, setPassword] = React.useState('');
-  const history = useHistory();
-  const [open, setOpen] = React.useState(false);
-  const [severity, setSeverity] = React.useState('info');
-  const [message, setMessage] = React.useState('');
+  const [account, setAccount] = React.useState('')
+  const [password, setPassword] = React.useState('')
+  const history = useHistory()
+  const [open, setOpen] = React.useState(false)
+  const [severity, setSeverity] = React.useState('info')
+  const [message, setMessage] = React.useState('')
 
   const login =  () => {
-    let pwd = password;
+    let pwd = password
 
     // let pwd = Base64.stringify(AES.encrypt(password, 'secret key 123'));
     if (account && pwd) {
@@ -62,44 +62,44 @@ function SignIn() {
       }).then(response => {
         if (!response.data.data) {
           setSeverity('error')
-          setOpen(true);
-          setMessage('Failed');
+          setOpen(true)
+          setMessage('Failed')
         } else {
           localStorage.setItem('token',response.data.data)
           setSeverity('success')
-          setOpen(true);
-          setMessage('Success');
+          setOpen(true)
+          setMessage('Success')
           history.push('/dashboard/analytics')
           // console.log(response.data.data)
         }
       })
     } else {
       setSeverity('warning')
-      setOpen(true);
+      setOpen(true)
       if (!account) {
-        setMessage('Account is required');
+        setMessage('Account is required')
       } else if (!pwd) {
-        setMessage('Password is required');
+        setMessage('Password is required')
       }
     }
-  };
+  }
 
   const handleChange = (event, type) => {
     if (type === 'password') {
-      setPassword(event.target.value);
+      setPassword(event.target.value)
     } else if (type === 'account') {
-      setAccount(event.target.value);
+      setAccount(event.target.value)
       debugger
     }
   }
 
   const handleClose = (event, reason) => {
     if (reason === 'clickaway') {
-      return;
+      return
     }
 
-    setOpen(false);
-  };
+    setOpen(false)
+  }
 
   return (
     <Wrapper>
@@ -168,7 +168,7 @@ function SignIn() {
         </Button> */}
       </form>
     </Wrapper>
-  );
+  )
 }
 
-export default SignIn;
+export default SignIn

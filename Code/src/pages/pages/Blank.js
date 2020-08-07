@@ -1,8 +1,8 @@
-import React from "react";
-import styled from "styled-components";
-import { NavLink as RouterNavLink } from "react-router-dom";
+import React from "react"
+import styled from "styled-components"
+import { NavLink as RouterNavLink } from "react-router-dom"
 
-import Helmet from 'react-helmet';
+import Helmet from 'react-helmet'
 
 import {
   CardContent,
@@ -12,19 +12,19 @@ import {
   Card as MuiCard,
   Divider as MuiDivider,
   Typography
-} from "@material-ui/core";
+} from "@material-ui/core"
 
-import { spacing } from "@material-ui/system";
+import { spacing } from "@material-ui/system"
 
 const NavLink = React.forwardRef((props, ref) => (
   <RouterNavLink innerRef={ref} {...props} />
-));
+))
 
-const Card = styled(MuiCard)(spacing);
+const Card = styled(MuiCard)(spacing)
 
-const Divider = styled(MuiDivider)(spacing);
+const Divider = styled(MuiDivider)(spacing)
 
-const Breadcrumbs = styled(MuiBreadcrumbs)(spacing);
+const Breadcrumbs = styled(MuiBreadcrumbs)(spacing)
 
 function EmptyCard() {
   return (
@@ -38,7 +38,7 @@ function EmptyCard() {
         </Typography>
       </CardContent>
     </Card>
-  );
+  )
 }
 
 function Blank() {
@@ -67,7 +67,7 @@ function Blank() {
         </Grid>
       </Grid>
     </React.Fragment>
-  );
+  )
 }
 
-export default Blank;
+export default Blank

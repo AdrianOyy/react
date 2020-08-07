@@ -1,9 +1,9 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react'
 
-import DetailPage from "../../../../components/DetailPage";
+import DetailPage from "../../../../components/DetailPage"
 import tenantGroupMappingApi from "../../../../api/tenantGroupMapping"
-import {useParams} from "react-router-dom";
-import dayjs from "dayjs";
+import {useParams} from "react-router-dom"
+import dayjs from "dayjs"
 
 const breadcrumbsList = [
   { title: 'AAA Service'},
@@ -14,11 +14,11 @@ const breadcrumbsList = [
 
 function TenantGroupMappingDetail(props) {
   const { id } = useParams()
-  const [tenant, setTenant] = React.useState('');
-  const [adGroup, setAdGroup] = React.useState('');
-  const [ createdAt, setCreatedAt ] = useState('');
-  const [ updatedAt, setUpdastedAt ] = useState('');
-  const [ formFieldList, setFormFieldList ] = useState([]);
+  const [tenant, setTenant] = React.useState('')
+  const [adGroup, setAdGroup] = React.useState('')
+  const [ createdAt, setCreatedAt ] = useState('')
+  const [ updatedAt, setUpdastedAt ] = useState('')
+  const [ formFieldList, setFormFieldList ] = useState([])
   const formatDateTime = (str) => {
     return dayjs(new Date(str)).format('YYYY-MM-DD HH:mm')
   }
@@ -26,11 +26,11 @@ function TenantGroupMappingDetail(props) {
   useEffect(() => {
     tenantGroupMappingApi.detail(id).then(({ data }) => {
       if (data && data.data) {
-        const { tenant, ad_group, createdAt, updatedAt } = data.data;
-        setTenant(tenant.name);
-        setAdGroup(ad_group.name);
-        setCreatedAt(createdAt);
-        setUpdastedAt(updatedAt);
+        const { tenant, ad_group, createdAt, updatedAt } = data.data
+        setTenant(tenant.name)
+        setAdGroup(ad_group.name)
+        setCreatedAt(createdAt)
+        setUpdastedAt(updatedAt)
       }
     })
   }, [id])
@@ -42,19 +42,19 @@ function TenantGroupMappingDetail(props) {
       { id: 'createdAt', label: 'Created At', type: 'text', disabled: true, readOnly: true, value: formatDateTime(createdAt) },
       { id: 'updatedAt', label: 'Updated At', type: 'text', disabled: true, readOnly: true, value: formatDateTime(updatedAt) },
     ]
-    setFormFieldList(list);
-  },[tenant, adGroup, createdAt, updatedAt]);
+    setFormFieldList(list)
+  },[tenant, adGroup, createdAt, updatedAt])
   const onFormFieldChange = (e, id) => {
-    const { value } = e.target;
+    const { value } = e.target
     switch(id) {
       case 'tenant':
-        setTenant(value);
-        break;
+        setTenant(value)
+        break
       case 'adGroup':
-        setAdGroup(value);
-        break;
+        setAdGroup(value)
+        break
       default:
-        break;
+        break
     }
   }
   return (
@@ -66,7 +66,7 @@ function TenantGroupMappingDetail(props) {
         formFieldList = { formFieldList }
       />
     </React.Fragment>
-  );
+  )
 }
 
-export default TenantGroupMappingDetail;
+export default TenantGroupMappingDetail

@@ -1,7 +1,7 @@
-import React from "react";
-import styled, { createGlobalStyle } from "styled-components";
+import React from "react"
+import styled, { createGlobalStyle } from "styled-components"
 
-import { CssBaseline } from "@material-ui/core";
+import { CssBaseline } from "@material-ui/core"
 
 const GlobalStyle = createGlobalStyle`
   html,
@@ -13,7 +13,7 @@ const GlobalStyle = createGlobalStyle`
   body {
     background: ${props => props.theme.body.background};
   }
-`;
+`
 
 const Root = styled.div`
   max-width: 520px;
@@ -22,7 +22,7 @@ const Root = styled.div`
   align-items: center;
   display: flex;
   min-height: 100%;
-`;
+`
 
 function Auth({ children }) {
   return (
@@ -31,7 +31,7 @@ function Auth({ children }) {
       <GlobalStyle />
       {children}
     </Root>
-  );
+  )
 }
 
-export default Auth;
+export default Auth

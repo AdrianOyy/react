@@ -1,19 +1,19 @@
-import React from "react";
-import styled from "styled-components";
+import React from "react"
+import styled from "styled-components"
 
-import { CardContent, Card as MuiCard, Typography } from "@material-ui/core";
-import { spacing } from "@material-ui/system";
+import { CardContent, Card as MuiCard, Typography } from "@material-ui/core"
+import { spacing } from "@material-ui/system"
 
-import GoogleMapReact from "google-map-react";
+import GoogleMapReact from "google-map-react"
 
-const Card = styled(MuiCard)(spacing);
+const Card = styled(MuiCard)(spacing)
 
-const Spacer = styled.div(spacing);
+const Spacer = styled.div(spacing)
 
 const GoogleMapReactWrapper = styled.div`
   height: 300px;
   width: 100%;
-`;
+`
 
 function Hybrid() {
   const options = {
@@ -22,7 +22,7 @@ function Hybrid() {
       lng: -74.005941
     },
     zoom: 14
-  };
+  }
 
   const getMapOptions = maps => {
     return {
@@ -32,8 +32,8 @@ function Hybrid() {
       scaleControl: true,
       scrollwheel: false,
       streetViewControl: true
-    };
-  };
+    }
+  }
 
   return (
     <Card mb={1}>
@@ -59,7 +59,7 @@ function Hybrid() {
         </GoogleMapReactWrapper>
       </CardContent>
     </Card>
-  );
+  )
 }
 
-export default Hybrid;
+export default Hybrid

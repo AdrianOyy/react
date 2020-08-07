@@ -1,19 +1,19 @@
-import React from "react";
-import styled, { withTheme } from "styled-components";
+import React from "react"
+import styled, { withTheme } from "styled-components"
 
-import { CardContent, Card as MuiCard, Typography } from "@material-ui/core";
-import { spacing } from "@material-ui/system";
+import { CardContent, Card as MuiCard, Typography } from "@material-ui/core"
+import { spacing } from "@material-ui/system"
 
-import { Bar } from "react-chartjs-2";
+import { Bar } from "react-chartjs-2"
 
-const Card = styled(MuiCard)(spacing);
+const Card = styled(MuiCard)(spacing)
 
-const Spacer = styled.div(spacing);
+const Spacer = styled.div(spacing)
 
 const ChartWrapper = styled.div`
   height: 300px;
   width: 100%;
-`;
+`
 
 function BarChart({ theme }) {
   const data = {
@@ -53,7 +53,7 @@ function BarChart({ theme }) {
         categoryPercentage: 0.5
       }
     ]
-  };
+  }
 
   const options = {
     maintainAspectRatio: false,
@@ -81,7 +81,7 @@ function BarChart({ theme }) {
         }
       ]
     }
-  };
+  }
 
   return (
     <Card mb={1}>
@@ -101,7 +101,7 @@ function BarChart({ theme }) {
         </ChartWrapper>
       </CardContent>
     </Card>
-  );
+  )
 }
 
-export default withTheme(BarChart);
+export default withTheme(BarChart)

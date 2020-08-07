@@ -1,10 +1,10 @@
-import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import InputLabel from '@material-ui/core/InputLabel';
-import MenuItem from '@material-ui/core/MenuItem';
-import FormHelperText from '@material-ui/core/FormHelperText';
-import FormControl from '@material-ui/core/FormControl';
-import Select from '@material-ui/core/Select';
+import React from 'react'
+import { makeStyles } from '@material-ui/core/styles'
+import InputLabel from '@material-ui/core/InputLabel'
+import MenuItem from '@material-ui/core/MenuItem'
+import FormHelperText from '@material-ui/core/FormHelperText'
+import FormControl from '@material-ui/core/FormControl'
+import Select from '@material-ui/core/Select'
 const useStyles = makeStyles((theme) => ({
   formControl: {
     margin: theme.spacing(1),
@@ -13,10 +13,10 @@ const useStyles = makeStyles((theme) => ({
   selectEmpty: {
     marginTop: theme.spacing(2),
   },
-}));
+}))
 
 function CommonSelect(props) {
-  const classes = useStyles();
+  const classes = useStyles()
   const {
     value,
     itemList,
@@ -30,7 +30,7 @@ function CommonSelect(props) {
     labelField,
     hasMt,
     width
-  } = props;
+  } = props
   return (
     <FormControl
       className={classes.formControl}

@@ -1,8 +1,8 @@
-import React from "react";
-import styled from "styled-components";
-import { NavLink as RouterNavLink } from "react-router-dom";
+import React from "react"
+import styled from "styled-components"
+import { NavLink as RouterNavLink } from "react-router-dom"
 
-import Helmet from 'react-helmet';
+import Helmet from 'react-helmet'
 
 import {
   CardContent,
@@ -13,51 +13,51 @@ import {
   Card as MuiCard,
   Divider as MuiDivider,
   Typography
-} from "@material-ui/core";
+} from "@material-ui/core"
 
-import { deepOrange, deepPurple, green, pink } from "@material-ui/core/colors";
+import { deepOrange, deepPurple, green, pink } from "@material-ui/core/colors"
 
 import {
   Assignment as AssignmentIcon,
   Folder as FolderIcon,
   Pageview as PageviewIcon
-} from "@material-ui/icons";
-import { spacing } from "@material-ui/system";
+} from "@material-ui/icons"
+import { spacing } from "@material-ui/system"
 
 const NavLink = React.forwardRef((props, ref) => (
   <RouterNavLink innerRef={ref} {...props} />
-));
+))
 
-const Card = styled(MuiCard)(spacing);
+const Card = styled(MuiCard)(spacing)
 
 const Avatar = styled(MuiAvatar)`
   margin-right: ${props => props.theme.spacing(2)}px;
-`;
+`
 
 const BigAvatar = styled(Avatar)`
   width: 60px;
   height: 60px;
-`;
+`
 
 const PinkAvatar = styled(Avatar)`
   background-color: ${pink[500]};
-`;
+`
 
 const GreenAvatar = styled(Avatar)`
   background-color: ${green[500]};
-`;
+`
 
 const OrangeAvatar = styled(Avatar)`
   background-color: ${deepOrange[500]};
-`;
+`
 
 const PurpleAvatar = styled(Avatar)`
   background-color: ${deepPurple[500]};
-`;
+`
 
-const Divider = styled(MuiDivider)(spacing);
+const Divider = styled(MuiDivider)(spacing)
 
-const Breadcrumbs = styled(MuiBreadcrumbs)(spacing);
+const Breadcrumbs = styled(MuiBreadcrumbs)(spacing)
 
 function ImageAvatars() {
   return (
@@ -77,7 +77,7 @@ function ImageAvatars() {
         </Grid>
       </CardContent>
     </Card>
-  );
+  )
 }
 
 function LetterAvatars() {
@@ -99,7 +99,7 @@ function LetterAvatars() {
         </Grid>
       </CardContent>
     </Card>
-  );
+  )
 }
 
 function IconAvatars() {
@@ -126,7 +126,7 @@ function IconAvatars() {
         </Grid>
       </CardContent>
     </Card>
-  );
+  )
 }
 
 function Avatars() {
@@ -159,7 +159,7 @@ function Avatars() {
         </Grid>
       </Grid>
     </React.Fragment>
-  );
+  )
 }
 
-export default Avatars;
+export default Avatars

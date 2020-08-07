@@ -1,9 +1,9 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react'
 
-import DetailPage from "../../../../components/DetailPage";
+import DetailPage from "../../../../components/DetailPage"
 import tenantApi from "../../../../api/tenant"
-import {useParams} from "react-router-dom";
-import dayjs from "dayjs";
+import {useParams} from "react-router-dom"
+import dayjs from "dayjs"
 
 const breadcrumbsList = [
   { title: 'AAA Service'},
@@ -14,10 +14,10 @@ const breadcrumbsList = [
 
 function TenantDetail(props) {
   const { id } = useParams()
-  const [ name, setName ] = useState('');
-  const [ createdAt, setCreatedAt ] = useState('');
-  const [ updatedAt, setUpdastedAt ] = useState('');
-  const [ formFieldList, setFormFieldList ] = useState([]);
+  const [ name, setName ] = useState('')
+  const [ createdAt, setCreatedAt ] = useState('')
+  const [ updatedAt, setUpdastedAt ] = useState('')
+  const [ formFieldList, setFormFieldList ] = useState([])
   const formatDateTime = (str) => {
     return dayjs(new Date(str)).format('YYYY-MM-DD HH:mm')
   }
@@ -25,10 +25,10 @@ function TenantDetail(props) {
   useEffect(() => {
     tenantApi.detail(id).then(({ data }) => {
       if (data && data.data) {
-        const { name, createdAt, updatedAt } = data.data;
-        setName(name);
-        setCreatedAt(createdAt);
-        setUpdastedAt(updatedAt);
+        const { name, createdAt, updatedAt } = data.data
+        setName(name)
+        setCreatedAt(createdAt)
+        setUpdastedAt(updatedAt)
       }
     })
   }, [id])
@@ -39,16 +39,16 @@ function TenantDetail(props) {
       { id: 'createdAt', label: 'Created At', type: 'text', disabled: true, readOnly: true, value: formatDateTime(createdAt) },
       { id: 'updatedAt', label: 'Updated At', type: 'text', disabled: true, readOnly: true, value: formatDateTime(updatedAt) },
     ]
-    setFormFieldList(list);
-  },[name, createdAt, updatedAt]);
+    setFormFieldList(list)
+  },[name, createdAt, updatedAt])
   const onFormFieldChange = (e, id) => {
-    const { value } = e.target;
+    const { value } = e.target
     switch(id) {
       case 'name':
-        setName(value);
-        break;
+        setName(value)
+        break
       default:
-        break;
+        break
     }
   }
   return (
@@ -60,7 +60,7 @@ function TenantDetail(props) {
           formFieldList = { formFieldList }
         />
     </React.Fragment>
-  );
+  )
 }
 
-export default TenantDetail;
+export default TenantDetail

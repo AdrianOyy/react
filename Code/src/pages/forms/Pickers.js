@@ -1,8 +1,8 @@
-import React, { useState } from "react";
-import styled from "styled-components";
-import { NavLink as RouterNavLink } from "react-router-dom";
+import React, { useState } from "react"
+import styled from "styled-components"
+import { NavLink as RouterNavLink } from "react-router-dom"
 
-import Helmet from 'react-helmet';
+import Helmet from 'react-helmet'
 
 import {
   CardContent,
@@ -14,23 +14,23 @@ import {
   Paper as MuiPaper,
   Typography,
   TextField
-} from "@material-ui/core";
+} from "@material-ui/core"
 
-import { TimePicker, DatePicker, DateTimePicker } from "@material-ui/pickers";
+import { TimePicker, DatePicker, DateTimePicker } from "@material-ui/pickers"
 
-import { spacing } from "@material-ui/system";
+import { spacing } from "@material-ui/system"
 
 const NavLink = React.forwardRef((props, ref) => (
   <RouterNavLink innerRef={ref} {...props} />
-));
+))
 
-const Card = styled(MuiCard)(spacing);
+const Card = styled(MuiCard)(spacing)
 
-const Divider = styled(MuiDivider)(spacing);
+const Divider = styled(MuiDivider)(spacing)
 
-const Breadcrumbs = styled(MuiBreadcrumbs)(spacing);
+const Breadcrumbs = styled(MuiBreadcrumbs)(spacing)
 
-const Paper = styled(MuiPaper)(spacing);
+const Paper = styled(MuiPaper)(spacing)
 
 function DatePickers() {
   return (
@@ -58,7 +58,7 @@ function DatePickers() {
         </Paper>
       </CardContent>
     </Card>
-  );
+  )
 }
 
 function DateAndTimePickers() {
@@ -87,7 +87,7 @@ function DateAndTimePickers() {
         </Paper>
       </CardContent>
     </Card>
-  );
+  )
 }
 
 function TimePickers() {
@@ -118,7 +118,7 @@ function TimePickers() {
         </Paper>
       </CardContent>
     </Card>
-  );
+  )
 }
 
 function MaterialUIPickersDatePicker() {
@@ -232,7 +232,7 @@ function Pickers() {
         </Grid>
       </Grid>
     </React.Fragment>
-  );
+  )
 }
 
-export default Pickers;
+export default Pickers

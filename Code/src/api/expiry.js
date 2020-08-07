@@ -19,7 +19,7 @@ class assign {
     return request.delete(`${prefix}/expiry/deleteMany`, params)
   }
   checkExist(id, parmas) {
-    const { assignId, userId } = parmas;
+    const { assignId, userId } = parmas
     return request.get(`${prefix}/expiry/checkExist?id=${id}&assignId=${assignId}&userId=${userId}`)
   }
 }

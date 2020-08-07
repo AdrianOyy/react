@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
-import styled from "styled-components";
-import { NavLink as RouterNavLink } from "react-router-dom";
+import React, { useState, useEffect } from 'react'
+import styled from "styled-components"
+import { NavLink as RouterNavLink } from "react-router-dom"
 // import syncUserAPI from '../../api/syncUser.js'
 import {getProcessDefinitions,openDesigner,createModel}  from '../../api/workFlow.js'
-import Helmet from 'react-helmet';
+import Helmet from 'react-helmet'
 import CommonTip from '../../components/CommonTip'
 // import dayjs from 'dayjs';
 
@@ -32,7 +32,7 @@ import {
   // CardContent,
   TextField,
   // Card as MuiCard
-} from "@material-ui/core";
+} from "@material-ui/core"
 
 
 import {
@@ -42,21 +42,21 @@ import {
   FilterList as FilterListIcon,
   // RemoveRedEye as RemoveRedEyeIcon,
   // ReportOff
-} from "@material-ui/icons";
+} from "@material-ui/icons"
 
-import { spacing } from "@material-ui/system";
+import { spacing } from "@material-ui/system"
 
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles'
 
 const NavLink = React.forwardRef((props, ref) => (
   <RouterNavLink innerRef={ref} {...props} />
-));
+))
 
-const Divider = styled(MuiDivider)(spacing);
+const Divider = styled(MuiDivider)(spacing)
 
-const Breadcrumbs = styled(MuiBreadcrumbs)(spacing);
+const Breadcrumbs = styled(MuiBreadcrumbs)(spacing)
 
-const Paper = styled(MuiPaper)(spacing);
+const Paper = styled(MuiPaper)(spacing)
 
 // const Card = styled(MuiCard)(spacing);
 
@@ -71,11 +71,11 @@ const Paper = styled(MuiPaper)(spacing);
 
 const Spacer = styled.div`
   flex: 1 1 100%;
-`;
+`
 
 const ToolbarTitle = styled.div`
   min-width: 150px;
-`;
+`
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -91,32 +91,32 @@ const useStyles = makeStyles((theme) => ({
   button: {
     marginRight: theme.spacing(10),
   },
-}));
+}))
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
-    return -1;
+    return -1
   }
   if (b[orderBy] > a[orderBy]) {
-    return 1;
+    return 1
   }
-  return 0;
+  return 0
 }
 
 function getComparator(order, orderBy) {
   return order === 'desc'
     ? (a, b) => descendingComparator(a, b, orderBy)
-    : (a, b) => -descendingComparator(a, b, orderBy);
+    : (a, b) => -descendingComparator(a, b, orderBy)
 }
 
 function stableSort(array, comparator) {
-  const stabilizedThis = array.map((el, index) => [el, index]);
+  const stabilizedThis = array.map((el, index) => [el, index])
   stabilizedThis.sort((a, b) => {
-    const order = comparator(a[0], b[0]);
-    if (order !== 0) return order;
-    return a[1] - b[1];
-  });
-  return stabilizedThis.map((el) => el[0]);
+    const order = comparator(a[0], b[0])
+    if (order !== 0) return order
+    return a[1] - b[1]
+  })
+  return stabilizedThis.map((el) => el[0])
 }
 
 const headCells = [
@@ -125,11 +125,11 @@ const headCells = [
   { id: 'name', alignment: 'center', label: 'Name' },
   { id: 'deploymentId', alignment: 'center', label: 'Deployment Id' },
   { id: 'deploymentUrl', alignment: 'center', label: 'Deployment Url' },
-];
+]
 
 function EmptyCard(props) {
-  const { onHandelTextChange, onSearchButton, openActivitiDesign } = props;
-  const classes = useStyles();
+  const { onHandelTextChange, onSearchButton, openActivitiDesign } = props
+  const classes = useStyles()
   return (
     <div className={classes.root}>
       <TextField
@@ -152,15 +152,15 @@ function EmptyCard(props) {
         Activiti Design
       </Button>
     </div>
-  );
+  )
 }
 
 
 function EnhancedTableHead(props) {
-  const { onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort } = props;
+  const { onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort } = props
   const createSortHandler = (property) => (event) => {
-    onRequestSort(event, property);
-  };
+    onRequestSort(event, property)
+  }
 
   return (
     <TableHead>
@@ -191,11 +191,11 @@ function EnhancedTableHead(props) {
         ))}
       </TableRow>
     </TableHead>
-  );
+  )
 }
 
 let EnhancedTableToolbar = props => {
-  const { numSelected } = props;
+  const { numSelected } = props
 
   return (
     <Toolbar>
@@ -227,29 +227,29 @@ let EnhancedTableToolbar = props => {
         )}
       </div>
     </Toolbar>
-  );
-};
+  )
+}
 
 function EnhancedTable() {
-  const [order, setOrder] = React.useState('asc');
-  const [orderBy, setOrderBy] = React.useState('id');
-  const [selected, setSelected] = React.useState([]);
-  const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(1);
-  const [total, setTotal] = React.useState(0);
-  const [emptyRows, setEmptyRows] = React.useState(0);
-  const [text, setText] = React.useState('');
-  const [query, setQuery] = React.useState({});
+  const [order, setOrder] = React.useState('asc')
+  const [orderBy, setOrderBy] = React.useState('id')
+  const [selected, setSelected] = React.useState([])
+  const [page, setPage] = React.useState(0)
+  const [rowsPerPage, setRowsPerPage] = React.useState(1)
+  const [total, setTotal] = React.useState(0)
+  const [emptyRows, setEmptyRows] = React.useState(0)
+  const [text, setText] = React.useState('')
+  const [query, setQuery] = React.useState({})
   
   const handelTextChange = (event) => {
     setText(event.target.value)
-  };
+  }
 
   const handlSearch =  () => {
     setQuery({
       surname: text
     })
-  };
+  }
 
   const openActivitiDesign = () => {
     // openDesigner().then(response=>{
@@ -261,14 +261,14 @@ function EnhancedTable() {
   //    console.log(response.data)
   //    openDesigner(response.data.data.modelId)
   //   })
-  };
+  }
 
   const handleRequestSort = (event, property) => {
-    const isAsc = orderBy === property && order === 'asc';
-    setOrder(isAsc ? 'desc' : 'asc');
-    setOrderBy(property);
-  };
-  const [rows, setRows] = useState([]);
+    const isAsc = orderBy === property && order === 'asc'
+    setOrder(isAsc ? 'desc' : 'asc')
+    setOrderBy(property)
+  }
+  const [rows, setRows] = useState([])
   
   useEffect(() => {
     getProcessDefinitions().then(response => {
@@ -277,45 +277,45 @@ function EnhancedTable() {
        if(response.data && response.data.data){
         const newArr = response.data.data.filter(item => item.sourceExtraUrl!=null)
         console.log(newArr)
-        setRows(newArr);
+        setRows(newArr)
        }
      
       //  const length = response.data.data.length
       //  const emptyrow = rowsPerPage - length;
       //  setEmptyRows(emptyrow);
     }).catch(error => {
-      CommonTip.error(error.message, { });
+      CommonTip.error(error.message, { })
     })
-  },[]);
+  },[])
   
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
-      const newSelecteds = rows.map((n) => n.id);
-      setSelected(newSelecteds);
-      return;
+      const newSelecteds = rows.map((n) => n.id)
+      setSelected(newSelecteds)
+      return
     }
-    setSelected([]);
-  };
+    setSelected([])
+  }
 
   const handleClick = (event, id) => {
-    const selectedIndex = selected.indexOf(id);
-    let newSelected = [];
+    const selectedIndex = selected.indexOf(id)
+    let newSelected = []
   
     if (selectedIndex === -1) {
-      newSelected = newSelected.concat(selected, id);
+      newSelected = newSelected.concat(selected, id)
     } else if (selectedIndex === 0) {
-      newSelected = newSelected.concat(selected.slice(1));
+      newSelected = newSelected.concat(selected.slice(1))
     } else if (selectedIndex === selected.length - 1) {
-      newSelected = newSelected.concat(selected.slice(0, -1));
+      newSelected = newSelected.concat(selected.slice(0, -1))
     } else if (selectedIndex > 0) {
       newSelected = newSelected.concat(
         selected.slice(0, selectedIndex),
         selected.slice(selectedIndex + 1),
-      );
+      )
     }
   
-    setSelected(newSelected);
-  };
+    setSelected(newSelected)
+  }
   
   // const handleDelete = (event, id) => {
   //   console.log(id)
@@ -333,15 +333,15 @@ function EnhancedTable() {
 
   const handleChangePage = (event, newPage) => {
     console.log(newPage)
-    setPage(newPage);
-  };
+    setPage(newPage)
+  }
 
   const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
-  };
+    setRowsPerPage(parseInt(event.target.value, 10))
+    setPage(0)
+  }
 
-  const isSelected = (id) => selected.indexOf(id) !== -1;
+  const isSelected = (id) => selected.indexOf(id) !== -1
 
 
   return (
@@ -370,8 +370,8 @@ function EnhancedTable() {
             <TableBody>
               {stableSort(rows, getComparator(order, orderBy))
                 .map((row, index) => {
-                  const isItemSelected = isSelected(row.id);
-                  const labelId = `enhanced-table-checkbox-${index}`;
+                  const isItemSelected = isSelected(row.id)
+                  const labelId = `enhanced-table-checkbox-${index}`
                   return (
                     <TableRow
                       hover
@@ -404,7 +404,7 @@ function EnhancedTable() {
                         </Box> */}
                       </TableCell>}
                     </TableRow>
-                  );
+                  )
                 })}
               {emptyRows > 0 && (
                 <TableRow style={{ height: (53) * emptyRows }}>
@@ -425,7 +425,7 @@ function EnhancedTable() {
         />
       </Paper>
     </div>
-  );
+  )
 }
 
 function SyncList() {
@@ -463,7 +463,7 @@ function SyncList() {
         </Grid>
       </Grid>
     </React.Fragment>
-  );
+  )
 }
 
-export default SyncList;
+export default SyncList

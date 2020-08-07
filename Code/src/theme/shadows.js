@@ -1,5 +1,5 @@
 function createShadow(px) {
-  return `0 0 ${px}px 0 rgba(53,64,82,.05)`;
+  return `0 0 ${px}px 0 rgba(53,64,82,.05)`
 }
 
 const shadows = [
@@ -28,6 +28,6 @@ const shadows = [
   createShadow(14),
   createShadow(14),
   createShadow(14)
-];
+]
 
-export default shadows;
+export default shadows

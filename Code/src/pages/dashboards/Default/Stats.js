@@ -1,5 +1,5 @@
-import React from "react";
-import styled from "styled-components";
+import React from "react"
+import styled from "styled-components"
 
 import {
   Box,
@@ -7,13 +7,13 @@ import {
   CardContent as MuiCardContent,
   Chip as MuiChip,
   Typography as MuiTypography
-} from "@material-ui/core";
+} from "@material-ui/core"
 
-import { spacing } from "@material-ui/system";
+import { spacing } from "@material-ui/system"
 
-const Card = styled(MuiCard)(spacing);
+const Card = styled(MuiCard)(spacing)
 
-const Typography = styled(MuiTypography)(spacing);
+const Typography = styled(MuiTypography)(spacing)
 
 const CardContent = styled(MuiCardContent)`
   position: relative;
@@ -21,7 +21,7 @@ const CardContent = styled(MuiCardContent)`
   &:last-child {
     padding-bottom: ${props => props.theme.spacing(4)}px;
   }
-`;
+`
 
 const Chip = styled(MuiChip)`
   position: absolute;
@@ -38,7 +38,7 @@ const Chip = styled(MuiChip)`
     padding-left: ${props => props.theme.spacing(2)}px;
     padding-right: ${props => props.theme.spacing(2)}px;
   }
-`;
+`
 
 const Percentage = styled(MuiTypography)`
   color: ${props => props.theme.palette.grey[600]};
@@ -48,7 +48,7 @@ const Percentage = styled(MuiTypography)`
     padding-right: 10px;
     font-weight: ${props => props.theme.typography.fontWeightBold};
   }
-`;
+`
 
 function Stats({ title, amount, chip, percentageText, percentagecolor }) {
   return (
@@ -70,7 +70,7 @@ function Stats({ title, amount, chip, percentageText, percentagecolor }) {
         <Chip label={chip} />
       </CardContent>
     </Card>
-  );
+  )
 }
 
-export default Stats;
+export default Stats

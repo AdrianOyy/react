@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
-import styled from "styled-components";
-import { NavLink as RouterNavLink, useHistory } from "react-router-dom";
+import React, { useState, useEffect } from 'react'
+import styled from "styled-components"
+import { NavLink as RouterNavLink, useHistory } from "react-router-dom"
 import tenantAPI from '../../api/tenant.js'
-import Helmet from 'react-helmet';
-import dayjs from 'dayjs';
+import Helmet from 'react-helmet'
+import dayjs from 'dayjs'
 
 import {
   Box,
@@ -30,7 +30,7 @@ import {
   // CardContent,
   TextField,
   // Card as MuiCard
-} from "@material-ui/core";
+} from "@material-ui/core"
 
 // import { green, orange, red } from "@material-ui/core/colors";
 
@@ -41,21 +41,21 @@ import {
   FilterList as FilterListIcon,
   Edit as EditIcon,
   // ReportOff
-} from "@material-ui/icons";
+} from "@material-ui/icons"
 
-import { spacing } from "@material-ui/system";
+import { spacing } from "@material-ui/system"
 
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles'
 
 const NavLink = React.forwardRef((props, ref) => (
   <RouterNavLink innerRef={ref} {...props} />
-));
+))
 
-const Divider = styled(MuiDivider)(spacing);
+const Divider = styled(MuiDivider)(spacing)
 
-const Breadcrumbs = styled(MuiBreadcrumbs)(spacing);
+const Breadcrumbs = styled(MuiBreadcrumbs)(spacing)
 
-const Paper = styled(MuiPaper)(spacing);
+const Paper = styled(MuiPaper)(spacing)
 
 // const Card = styled(MuiCard)(spacing);
 
@@ -70,11 +70,11 @@ const Paper = styled(MuiPaper)(spacing);
 
 const Spacer = styled.div`
   flex: 1 1 100%;
-`;
+`
 
 const ToolbarTitle = styled.div`
   min-width: 150px;
-`;
+`
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -90,32 +90,32 @@ const useStyles = makeStyles((theme) => ({
   button: {
     marginRight: theme.spacing(10),
   },
-}));
+}))
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
-    return -1;
+    return -1
   }
   if (b[orderBy] > a[orderBy]) {
-    return 1;
+    return 1
   }
-  return 0;
+  return 0
 }
 
 function getComparator(order, orderBy) {
   return order === 'desc'
     ? (a, b) => descendingComparator(a, b, orderBy)
-    : (a, b) => -descendingComparator(a, b, orderBy);
+    : (a, b) => -descendingComparator(a, b, orderBy)
 }
 
 function stableSort(array, comparator) {
-  const stabilizedThis = array.map((el, index) => [el, index]);
+  const stabilizedThis = array.map((el, index) => [el, index])
   stabilizedThis.sort((a, b) => {
-    const order = comparator(a[0], b[0]);
-    if (order !== 0) return order;
-    return a[1] - b[1];
-  });
-  return stabilizedThis.map((el) => el[0]);
+    const order = comparator(a[0], b[0])
+    if (order !== 0) return order
+    return a[1] - b[1]
+  })
+  return stabilizedThis.map((el) => el[0])
 }
 
 const headCells = [
@@ -125,11 +125,11 @@ const headCells = [
   { id: 'createdAt', alignment: 'center', label: 'CreatedAt' },
   { id: 'updatedAt', alignment: 'center', label: 'UpdatedAt' },
   { id: 'actions', alignment: 'right', label: 'Actions' },
-];
+]
 
 function EmptyCard(props) {
-  const { onHandelTextChange, onSearchButton } = props;
-  const classes = useStyles();
+  const { onHandelTextChange, onSearchButton } = props
+  const classes = useStyles()
   return (
     <div className={classes.root}>
       <TextField
@@ -146,15 +146,15 @@ function EmptyCard(props) {
         Search
       </Button>
     </div>
-  );
+  )
 }
-  
+
 
 function EnhancedTableHead(props) {
-  const { onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort } = props;
+  const { onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort } = props
   const createSortHandler = (property) => (event) => {
-    onRequestSort(event, property);
-  };
+    onRequestSort(event, property)
+  }
 
   return (
     <TableHead>
@@ -185,11 +185,11 @@ function EnhancedTableHead(props) {
         ))}
       </TableRow>
     </TableHead>
-  );
+  )
 }
 
 let EnhancedTableToolbar = props => {
-  const { numSelected } = props;
+  const { numSelected } = props
 
   return (
     <Toolbar>
@@ -221,105 +221,105 @@ let EnhancedTableToolbar = props => {
         )}
       </div>
     </Toolbar>
-  );
-};
+  )
+}
 
 function EnhancedTable() {
-  const [order, setOrder] = React.useState('asc');
-  const [orderBy, setOrderBy] = React.useState('customer');
-  const [selected, setSelected] = React.useState([]);
-  const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(1);
-  const [total, setTotal] = React.useState(0);
-  const [emptyRows, setEmptyRows] = React.useState(0);
-  
-  const [text, setText] = React.useState('');
-  const [query, setQuery] = React.useState({});
+  const [order, setOrder] = React.useState('asc')
+  const [orderBy, setOrderBy] = React.useState('customer')
+  const [selected, setSelected] = React.useState([])
+  const [page, setPage] = React.useState(0)
+  const [rowsPerPage, setRowsPerPage] = React.useState(1)
+  const [total, setTotal] = React.useState(0)
+  const [emptyRows, setEmptyRows] = React.useState(0)
 
-  const history = useHistory();
+  const [text, setText] = React.useState('')
+  const [query, setQuery] = React.useState({})
+
+  const history = useHistory()
 
   const handelTextChange = (event) => {
     setText(event.target.value)
-  };
+  }
 
   const handlSearch =  () => {
     setQuery({
       project: text
     })
-  };
+  }
 
   const handleRequestSort = (event, property) => {
-    const isAsc = orderBy === property && order === 'asc';
-    setOrder(isAsc ? 'desc' : 'asc');
-    setOrderBy(property);
-  };
-  const [rows, setRows] = useState([]);
-  
+    const isAsc = orderBy === property && order === 'asc'
+    setOrder(isAsc ? 'desc' : 'asc')
+    setOrderBy(property)
+  }
+  const [rows, setRows] = useState([])
+
   useEffect(() => {
     tenantAPI.list(Object.assign(
       {},
       query,
       { limit: rowsPerPage, page: page+1 })
       ).then(response => {
-      setTotal(response.data.data.count);
-      setRows(response.data.data.rows);
+      setTotal(response.data.data.count)
+      setRows(response.data.data.rows)
       const length = response.data.data.length
-      const emptyrow = rowsPerPage - length;
-      setEmptyRows(emptyrow);
-    });
-  }, [page, rowsPerPage, query]);
-  
+      const emptyrow = rowsPerPage - length
+      setEmptyRows(emptyrow)
+    })
+  }, [page, rowsPerPage, query])
+
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
-      const newSelecteds = rows.map((n) => n.id);
-      setSelected(newSelecteds);
-      return;
+      const newSelecteds = rows.map((n) => n.id)
+      setSelected(newSelecteds)
+      return
     }
-    setSelected([]);
-  };
+    setSelected([])
+  }
 
   const handleClick = (event, id) => {
-    const selectedIndex = selected.indexOf(id);
-    let newSelected = [];
-  
+    const selectedIndex = selected.indexOf(id)
+    let newSelected = []
+
     if (selectedIndex === -1) {
-      newSelected = newSelected.concat(selected, id);
+      newSelected = newSelected.concat(selected, id)
     } else if (selectedIndex === 0) {
-      newSelected = newSelected.concat(selected.slice(1));
+      newSelected = newSelected.concat(selected.slice(1))
     } else if (selectedIndex === selected.length - 1) {
-      newSelected = newSelected.concat(selected.slice(0, -1));
+      newSelected = newSelected.concat(selected.slice(0, -1))
     } else if (selectedIndex > 0) {
       newSelected = newSelected.concat(
         selected.slice(0, selectedIndex),
         selected.slice(selectedIndex + 1),
-      );
+      )
     }
-  
-    setSelected(newSelected);
-  };
+
+    setSelected(newSelected)
+  }
 
   const handleChangePage = (event, newPage) => {
-    setPage(newPage);
-  };
+    setPage(newPage)
+  }
 
   const handleDetail = (event, id) => {
     const path = {
       pathname:'/aaa-service/tenantsDetails/'+id,
     }
-    history.push(path);
+    history.push(path)
   }
 
   const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
-  };
+    setRowsPerPage(parseInt(event.target.value, 10))
+    setPage(0)
+  }
 
-  const isSelected = (id) => selected.indexOf(id) !== -1;
+  const isSelected = (id) => selected.indexOf(id) !== -1
 
 
   return (
     <div>
-      <EmptyCard 
+      <EmptyCard
         onHandelTextChange={handelTextChange}
         onSearchButton={handlSearch}
       />
@@ -342,8 +342,8 @@ function EnhancedTable() {
             <TableBody>
               {stableSort(rows, getComparator(order, orderBy))
                 .map((row, index) => {
-                  const isItemSelected = isSelected(row.id);
-                  const labelId = `enhanced-table-checkbox-${index}`;
+                  const isItemSelected = isSelected(row.id)
+                  const labelId = `enhanced-table-checkbox-${index}`
                   return (
                     <TableRow
                       hover
@@ -363,8 +363,8 @@ function EnhancedTable() {
                       <TableCell align="center">{row.tenant ? row.tenant.name : ''}</TableCell>
                       <TableCell align="center">{row.ad_group ? row.ad_group.name : ''}</TableCell>
                       <TableCell align="center">{row.role ? row.role.label : ''}</TableCell>
-                      <TableCell align="center">{dayjs(row.createdAt).format('YYYY-MM-DD HH:mm:ss')}</TableCell> 
-                      <TableCell align="center">{dayjs(row.updatedAt).format('YYYY-MM-DD HH:mm:ss')}</TableCell> 
+                      <TableCell align="center">{dayjs(row.createdAt).format('YYYY-MM-DD HH:mm:ss')}</TableCell>
+                      <TableCell align="center">{dayjs(row.updatedAt).format('YYYY-MM-DD HH:mm:ss')}</TableCell>
                       <TableCell padding="none" align="right">
                         <Box mr={2}>
                         <IconButton aria-label="details" onClick={(event) => handleDetail(event, row.id)}>
@@ -373,7 +373,7 @@ function EnhancedTable() {
                         </Box>
                       </TableCell>
                     </TableRow>
-                  );
+                  )
                 })}
               {emptyRows > 0 && (
                 <TableRow style={{ height: (53) * emptyRows }}>
@@ -394,7 +394,7 @@ function EnhancedTable() {
         />
       </Paper>
     </div>
-  );
+  )
 }
 
 function Tenant() {
@@ -404,7 +404,7 @@ function Tenant() {
 
       <Grid
         justify="space-between"
-        container 
+        container
         spacing={24}
       >
         <Grid item>
@@ -420,7 +420,7 @@ function Tenant() {
           </Breadcrumbs>
         </Grid>
       </Grid>
-      
+
       <Divider my={6} />
 
       <Grid container spacing={6}>
@@ -429,7 +429,7 @@ function Tenant() {
         </Grid>
       </Grid>
     </React.Fragment>
-  );
+  )
 }
 
-export default Tenant;
+export default Tenant

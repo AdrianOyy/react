@@ -1,5 +1,5 @@
-import React from "react";
-import styled, { withTheme } from "styled-components";
+import React from "react"
+import styled, { withTheme } from "styled-components"
 
 import {
   Card as MuiCard,
@@ -12,25 +12,25 @@ import {
   TableHead,
   TableRow,
   LinearProgress as MuiLinearProgress
-} from "@material-ui/core";
+} from "@material-ui/core"
 
-import { spacing } from "@material-ui/system";
+import { spacing } from "@material-ui/system"
 
-import { MoreVertical } from "react-feather";
+import { MoreVertical } from "react-feather"
 
-const Card = styled(MuiCard)(spacing);
+const Card = styled(MuiCard)(spacing)
 
 const TableWrapper = styled.div`
   overflow-y: auto;
   max-width: calc(100vw - ${props => props.theme.spacing(12)}px);
-`;
+`
 
 const LinearProgress = styled(MuiLinearProgress)`
   height: 14px;
   width: 180px;
   border-radius: 3px;
   background: ${props => props.theme.palette.grey[200]};
-`;
+`
 
 function LanguagesTable() {
   return (
@@ -127,7 +127,7 @@ function LanguagesTable() {
         </TableWrapper>
       </Paper>
     </Card>
-  );
+  )
 }
 
-export default withTheme(LanguagesTable);
+export default withTheme(LanguagesTable)

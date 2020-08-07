@@ -1,4 +1,4 @@
-import { blue, green, grey, indigo, red, teal } from "@material-ui/core/colors";
+import { blue, green, grey, indigo, red, teal } from "@material-ui/core/colors"
 
 const blueVariant = {
   name: "Blue",
@@ -50,7 +50,7 @@ const blueVariant = {
   body: {
     background: "#F7F9FC"
   }
-};
+}
 
 const greenVariant = {
   name: "Green",
@@ -102,7 +102,7 @@ const greenVariant = {
   body: {
     background: "#F9F9FC"
   }
-};
+}
 
 const indigoVariant = {
   name: "Indigo",
@@ -154,7 +154,7 @@ const indigoVariant = {
   body: {
     background: "#F9F9FC"
   }
-};
+}
 
 const tealVariant = {
   name: "Teal",
@@ -206,7 +206,7 @@ const tealVariant = {
   body: {
     background: "#F7F9FC"
   }
-};
+}
 
 const lightVariant = {
   name: "Light",
@@ -258,7 +258,7 @@ const lightVariant = {
   body: {
     background: "#F7F9FC"
   }
-};
+}
 
 const darkVariant = {
   name: "Dark",
@@ -310,7 +310,7 @@ const darkVariant = {
   body: {
     background: "#F7F9FC"
   }
-};
+}
 
 const variants = [
   darkVariant,
@@ -319,6 +319,6 @@ const variants = [
   greenVariant,
   indigoVariant,
   tealVariant
-];
+]
 
-export default variants;
+export default variants

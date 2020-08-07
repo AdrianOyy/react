@@ -199,14 +199,14 @@ class DefaultTextFields extends React.Component {
 function TenantsDetails() {
   const { id } = useParams();
   const history = useHistory();
-  
+
   const [data, setData] = React.useState([]);
   useEffect(() => {
     tenantAPI.detail(id).then(response => {
       setData(response.data.data);
     });
   }, [id]);
-  
+
   return (
     <React.Fragment>
       {/* <Helmet title="Text Fields" />

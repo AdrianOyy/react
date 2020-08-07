@@ -1,10 +1,10 @@
-import React, { useEffect } from "react";
-import styled from "styled-components";
-import { NavLink as RouterNavLink } from "react-router-dom";
+import React, { useEffect } from "react"
+import styled from "styled-components"
+import { NavLink as RouterNavLink } from "react-router-dom"
 
-import Helmet from 'react-helmet';
+import Helmet from 'react-helmet'
 
-import "react-dragula/dist/dragula.css";
+import "react-dragula/dist/dragula.css"
 
 import {
   Avatar,
@@ -16,35 +16,35 @@ import {
   Grid,
   Link,
   Typography as MuiTypography
-} from "@material-ui/core";
+} from "@material-ui/core"
 
-import { AvatarGroup } from '@material-ui/lab';
+import { AvatarGroup } from '@material-ui/lab'
 
-import { spacing } from "@material-ui/system";
+import { spacing } from "@material-ui/system"
 
-import { orange, green, blue } from "@material-ui/core/colors";
+import { orange, green, blue } from "@material-ui/core/colors"
 
-import { Add as AddIcon } from "@material-ui/icons";
+import { Add as AddIcon } from "@material-ui/icons"
 
-import { MessageCircle } from "react-feather";
+import { MessageCircle } from "react-feather"
 
-import dragula from "react-dragula";
+import dragula from "react-dragula"
 
 const NavLink = React.forwardRef((props, ref) => (
   <RouterNavLink innerRef={ref} {...props} />
-));
+))
 
-const Card = styled(MuiCard)(spacing);
+const Card = styled(MuiCard)(spacing)
 
 const CardContent = styled(MuiCardContent)`
   &:last-child {
     padding-bottom: ${props => props.theme.spacing(4)}px;
   }
-`;
+`
 
-const Divider = styled(MuiDivider)(spacing);
+const Divider = styled(MuiDivider)(spacing)
 
-const Breadcrumbs = styled(MuiBreadcrumbs)(spacing);
+const Breadcrumbs = styled(MuiBreadcrumbs)(spacing)
 
 const TaskWrapper = styled(Card)`
   border: 1px solid ${props => props.theme.palette.grey[300]};
@@ -54,7 +54,7 @@ const TaskWrapper = styled(Card)`
   &:hover {
     background: ${props => props.theme.body.background};
   }
-`;
+`
 
 const TaskWrapperContent = styled(CardContent)`
   position: relative;
@@ -62,7 +62,7 @@ const TaskWrapperContent = styled(CardContent)`
   &:last-child {
     padding-bottom: ${props => props.theme.spacing(4)}px;
   }
-`;
+`
 
 const TaskAvatars = styled.div`
   margin-left: 8px;
@@ -96,7 +96,7 @@ const TaskNotificationsAmount = styled.div`
   line-height: 1.75;
 `
 
-const Typography = styled(MuiTypography)(spacing);
+const Typography = styled(MuiTypography)(spacing)
 
 const TaskTitle = styled(Typography)`
   font-weight: 600;
@@ -107,9 +107,9 @@ const TaskTitle = styled(Typography)`
 function Lane({title, description, onContainerLoaded, children}) {
   const handleContainerLoaded = container => {
     if (container) {
-      onContainerLoaded(container);
+      onContainerLoaded(container)
     }
-  };
+  }
 
   return (
     <Card mb={6}>
@@ -127,7 +127,7 @@ function Lane({title, description, onContainerLoaded, children}) {
         </Button>
       </CardContent>
     </Card>
-  );
+  )
 }
 
 function Task({ content, avatars }) {
@@ -156,7 +156,7 @@ function Task({ content, avatars }) {
         }
       </TaskWrapperContent>
     </TaskWrapper>
-  );
+  )
 }
 
 const demoTasks = [
@@ -182,18 +182,18 @@ const demoTasks = [
     title: "Stripe payment integration",
     badges: [blue[600]]
   }
-];
+]
 
 function Tasks() {
-  const containers = [];
+  const containers = []
 
   const onContainerReady = container => {
-    containers.push(container);
-  };
+    containers.push(container)
+  }
 
   useEffect(() => {
-    dragula(containers);
-  }, [containers]);
+    dragula(containers)
+  }, [containers])
 
   return (
     <React.Fragment>
@@ -251,7 +251,7 @@ function Tasks() {
         </Grid>
       </Grid>
     </React.Fragment>
-  );
+  )
 }
 
-export default Tasks;
+export default Tasks

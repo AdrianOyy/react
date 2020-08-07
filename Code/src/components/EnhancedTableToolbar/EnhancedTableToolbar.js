@@ -1,6 +1,6 @@
-import React from 'react';
+import React from 'react'
 import { useHistory } from 'react-router-dom'
-import styled from "styled-components";
+import styled from "styled-components"
 
 import {
   Toolbar,
@@ -12,21 +12,21 @@ import {
 import {
   Delete as DeleteIcon,
   AddOutlined as AddIcon,
-} from "@material-ui/icons";
+} from "@material-ui/icons"
 
 const ToolbarTitle = styled.div`
   min-width: 300px;
-`;
+`
 
 const Spacer = styled.div`
   flex: 1 1 100%;
-`;
+`
 
 function EnhancedTableToolbar(props) {
-  const { numSelected, tableName, createPath, onDelete } = props;
-  const history = useHistory();
+  const { numSelected, tableName, createPath, onDelete } = props
+  const history = useHistory()
   const toCreatePage = () => {
-    history.push(createPath);
+    history.push(createPath)
   }
   return (
     <React.Fragment>
@@ -60,7 +60,7 @@ function EnhancedTableToolbar(props) {
         </div>
       </Toolbar>
     </React.Fragment>
-  );
+  )
 }
 
 export default EnhancedTableToolbar

@@ -1,8 +1,8 @@
-import React from "react";
-import styled from "styled-components";
-import { NavLink as RouterNavLink } from "react-router-dom";
+import React from "react"
+import styled from "styled-components"
+import { NavLink as RouterNavLink } from "react-router-dom"
 
-import Helmet from 'react-helmet';
+import Helmet from 'react-helmet'
 
 import {
   Avatar,
@@ -16,39 +16,39 @@ import {
   Link,
   TextField as MuiTextField,
   Typography
-} from "@material-ui/core";
+} from "@material-ui/core"
 
-import { CloudUpload as MuiCloudUpload } from "@material-ui/icons";
+import { CloudUpload as MuiCloudUpload } from "@material-ui/icons"
 
-import { spacing } from "@material-ui/system";
+import { spacing } from "@material-ui/system"
 
 const NavLink = React.forwardRef((props, ref) => (
   <RouterNavLink innerRef={ref} {...props} />
-));
+))
 
-const Breadcrumbs = styled(MuiBreadcrumbs)(spacing);
+const Breadcrumbs = styled(MuiBreadcrumbs)(spacing)
 
-const Card = styled(MuiCard)(spacing);
+const Card = styled(MuiCard)(spacing)
 
-const Divider = styled(MuiDivider)(spacing);
+const Divider = styled(MuiDivider)(spacing)
 
-const FormControl = styled(MuiFormControl)(spacing);
+const FormControl = styled(MuiFormControl)(spacing)
 
-const TextField = styled(MuiTextField)(spacing);
+const TextField = styled(MuiTextField)(spacing)
 
-const Button = styled(MuiButton)(spacing);
+const Button = styled(MuiButton)(spacing)
 
-const CloudUpload = styled(MuiCloudUpload)(spacing);
+const CloudUpload = styled(MuiCloudUpload)(spacing)
 
 const CenteredContent = styled.div`
   text-align: center;
-`;
+`
 
 const BigAvatar = styled(Avatar)`
   width: 120px;
   height: 120px;
   margin: 0 auto ${props => props.theme.spacing(2)}px;
-`;
+`
 
 function Public() {
   return (
@@ -106,7 +106,7 @@ function Public() {
         </Button>
       </CardContent>
     </Card>
-  );
+  )
 }
 
 function Private() {
@@ -149,7 +149,7 @@ function Private() {
         </Button>
       </CardContent>
     </Card>
-  );
+  )
 }
 
 function Settings() {
@@ -180,7 +180,7 @@ function Settings() {
         </Grid>
       </Grid>
     </React.Fragment>
-  );
+  )
 }
 
-export default Settings;
+export default Settings

@@ -1,26 +1,26 @@
-import React from "react";
-import styled, { withTheme } from "styled-components";
+import React from "react"
+import styled, { withTheme } from "styled-components"
 
 import {
   Card as MuiCard,
   CardContent,
   CardHeader,
   IconButton
-} from "@material-ui/core";
+} from "@material-ui/core"
 
-import { spacing } from "@material-ui/system";
+import { spacing } from "@material-ui/system"
 
-import "../../../vendor/roundedBarCharts";
-import { Bar } from "react-chartjs-2";
+import "../../../vendor/roundedBarCharts"
+import { Bar } from "react-chartjs-2"
 
-import { MoreVertical } from "react-feather";
+import { MoreVertical } from "react-feather"
 
-const Card = styled(MuiCard)(spacing);
+const Card = styled(MuiCard)(spacing)
 
 const ChartWrapper = styled.div`
   height: 340px;
   width: 100%;
-`;
+`
 
 const BarChart = ({ theme }) => {
   const data = {
@@ -60,7 +60,7 @@ const BarChart = ({ theme }) => {
         categoryPercentage: 0.5
       }
     ]
-  };
+  }
 
   const options = {
     maintainAspectRatio: false,
@@ -89,7 +89,7 @@ const BarChart = ({ theme }) => {
         }
       ]
     }
-  };
+  }
 
   return (
     <Card mb={1}>
@@ -108,7 +108,7 @@ const BarChart = ({ theme }) => {
         </ChartWrapper>
       </CardContent>
     </Card>
-  );
-};
+  )
+}
 
-export default withTheme(BarChart);
+export default withTheme(BarChart)

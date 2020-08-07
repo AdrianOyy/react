@@ -1,19 +1,19 @@
-import React from "react";
-import styled from "styled-components";
+import React from "react"
+import styled from "styled-components"
 
-import { CardContent, Card as MuiCard, Typography } from "@material-ui/core";
-import { spacing } from "@material-ui/system";
+import { CardContent, Card as MuiCard, Typography } from "@material-ui/core"
+import { spacing } from "@material-ui/system"
 
-import GoogleMapReact from "google-map-react";
+import GoogleMapReact from "google-map-react"
 
-const Card = styled(MuiCard)(spacing);
+const Card = styled(MuiCard)(spacing)
 
-const Spacer = styled.div(spacing);
+const Spacer = styled.div(spacing)
 
 const GoogleMapReactWrapper = styled.div`
   height: 300px;
   width: 100%;
-`;
+`
 
 function LightStyle() {
   const options = {
@@ -22,7 +22,7 @@ function LightStyle() {
       lng: -74.005941
     },
     zoom: 14
-  };
+  }
 
   const getMapOptions = () => {
     return {
@@ -207,8 +207,8 @@ function LightStyle() {
           ]
         }
       ]
-    };
-  };
+    }
+  }
 
   return (
     <Card mb={1}>
@@ -234,7 +234,7 @@ function LightStyle() {
         </GoogleMapReactWrapper>
       </CardContent>
     </Card>
-  );
+  )
 }
 
-export default LightStyle;
+export default LightStyle

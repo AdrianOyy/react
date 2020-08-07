@@ -19,7 +19,7 @@ class assign {
     return request.delete(`${prefix}/assign/deleteMany`, params)
   }
   checkExist(id, parmas) {
-    const { mappingId } = parmas;
+    const { mappingId } = parmas
     return request.get(`${prefix}/assign/checkExist?id=${id}&mappingId=${mappingId}`)
   }
   handledList() {
