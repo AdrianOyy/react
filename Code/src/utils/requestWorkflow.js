@@ -34,9 +34,8 @@ axiosInstance.interceptors.request.use(
 //响应拦截器(处理异常)
 axiosInstance.interceptors.response.use(
   response => {
-    if(response.data.data.code==400){
+    if(response.data.code===400){
       CommonTip.error('登录状态已过期')
-      console.log("asdsad")
       const history = createBrowserHistory();
       history.push('/auth/sign-in')
     }else{
