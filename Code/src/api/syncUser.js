@@ -1,18 +1,17 @@
 import request from '../utils/request'
 
+// const prefix = ''
+// const url = 'http://127.0.0.1:7001';
+const prefix = '/AAA'
+const url = null;
+
 class SyncUser {
   list(params, options) {
-    // return request.get('/AAA/user/list', params, options)
-    return request.get('/user/list', params, options)
+    return request.get(`${prefix}/user/list`, params, options, url)
   }
   detail(id) {
-    // return request.get('/AAA/user/list')
-    return request.get(`/user/detail?id=${id}`)
+    return request.get(`${prefix}/user/detail?id=${id}`, {}, {}, url)
   }
-  // sync(params, options) {
-  //   // return request.get('/AAA/user/sync', params, options)
-  //   return request.get('/user/sync', params, options)
-  // }
 }
 
 export default new SyncUser()
