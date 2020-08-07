@@ -1,6 +1,6 @@
-import React from 'react';
-import { NavLink as RouterNavLink } from "react-router-dom";
-import styled from "styled-components";
+import React from 'react'
+import { NavLink as RouterNavLink } from "react-router-dom"
+import styled from "styled-components"
 
 import {
   Grid,
@@ -8,28 +8,28 @@ import {
   Typography,
   Divider as MuiDivider,
   Breadcrumbs as MuiBreadcrumbs,
-} from "@material-ui/core";
-import { spacing } from "@material-ui/system";
-import Helmet from 'react-helmet';
+} from "@material-ui/core"
+import { spacing } from "@material-ui/system"
+import Helmet from 'react-helmet'
 
 const NavLink = React.forwardRef((props, ref) => (
   <RouterNavLink innerRef={ref} {...props} />
-));
+))
 
-const Divider = styled(MuiDivider)(spacing);
+const Divider = styled(MuiDivider)(spacing)
 
-const Breadcrumbs = styled(MuiBreadcrumbs)(spacing);
+const Breadcrumbs = styled(MuiBreadcrumbs)(spacing)
 
 
 function NaviHader(props) {
-  const { breadcrumbsList, title } = props;
+  const { breadcrumbsList, title } = props
 
   return (
     <React.Fragment>
       <Helmet title={title} />
       <Grid
         justify="space-between"
-        container 
+        container
         spacing={10}
       >
         <Grid item>
@@ -39,11 +39,11 @@ function NaviHader(props) {
 
           <Breadcrumbs aria-label="Breadcrumb" mt={2}>
             {
-              breadcrumbsList && breadcrumbsList.map((el, i) => 
+              breadcrumbsList && breadcrumbsList.map((el, i) =>
                 el.path ? (
                   <Link component={NavLink} exact to={el.path} key={i + el.title}>
                     { el.title }
-                  </Link> 
+                  </Link>
                 ) : (
                   <Typography key={i + el.title}>{ el.title }</Typography>
                 )
@@ -52,7 +52,7 @@ function NaviHader(props) {
           </Breadcrumbs>
         </Grid>
       </Grid>
-      
+
       <Divider my={6} />
     </React.Fragment>
   )

@@ -1,7 +1,7 @@
-import React, { useState } from "react";
-import styled from "styled-components";
-import { connect } from "react-redux";
-import { setTheme } from "../redux/actions/themeActions";
+import React, { useState } from "react"
+import styled from "styled-components"
+import { connect } from "react-redux"
+import { setTheme } from "../redux/actions/themeActions"
 
 import {
   Button,
@@ -10,38 +10,38 @@ import {
   ListItem,
   Paper as MuiPaper,
   Typography
-} from "@material-ui/core";
+} from "@material-ui/core"
 
-import { spacing } from "@material-ui/system";
+import { spacing } from "@material-ui/system"
 
-import { Palette as PaletteIcon } from "@material-ui/icons";
+import { Palette as PaletteIcon } from "@material-ui/icons"
 
-const Paper = styled(MuiPaper)(spacing);
+const Paper = styled(MuiPaper)(spacing)
 
 const Demo = styled(Paper)`
   cursor: pointer;
   text-align: center;
   box-shadow: none;
-`;
+`
 
 const Fab = styled(MuiFab)`
   position: fixed;
   right: ${props => props.theme.spacing(8)}px;
   bottom: ${props => props.theme.spacing(8)}px;
   z-index: 1;
-`;
+`
 
 const Wrapper = styled.div`
   width: 240px;
   overflow-x: hidden;
-`;
+`
 
 const Screenshot = styled.img`
   max-width: 100%;
   height: auto;
   border: 1px solid ${props => props.theme.palette.grey[300]};
   display: block;
-`;
+`
 
 const Heading = styled(ListItem)`
   font-size: ${props => props.theme.typography.h5.fontSize};
@@ -54,9 +54,9 @@ const Heading = styled(ListItem)`
   ${props => props.theme.breakpoints.up("sm")} {
     min-height: 64px;
   }
-`;
+`
 
-const Spacer = styled.div(spacing);
+const Spacer = styled.div(spacing)
 
 let Demos = function({dispatch}) {
   return (
@@ -124,16 +124,16 @@ let Demos = function({dispatch}) {
   )
 }
 
-Demos = connect()(Demos);
+Demos = connect()(Demos)
 
 function Settings() {
   const [state, setState] = useState({
     isOpen: false
-  });
+  })
 
   const toggleDrawer = open => () => {
-    setState({ ...state, isOpen: open });
-  };
+    setState({ ...state, isOpen: open })
+  }
 
   return (
     <React.Fragment>
@@ -144,7 +144,7 @@ function Settings() {
         <Demos />
       </Drawer>
     </React.Fragment>
-  );
+  )
 }
 
-export default Settings;
+export default Settings

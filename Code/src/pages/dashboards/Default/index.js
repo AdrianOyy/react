@@ -1,28 +1,28 @@
-import React from "react";
-import styled, { withTheme } from "styled-components";
+import React from "react"
+import styled, { withTheme } from "styled-components"
 
-import Helmet from 'react-helmet';
+import Helmet from 'react-helmet'
 
 import {
   Grid,
   Divider as MuiDivider,
   Typography as MuiTypography
-} from "@material-ui/core";
+} from "@material-ui/core"
 
-import { spacing } from "@material-ui/system";
+import { spacing } from "@material-ui/system"
 
-import { green, red } from "@material-ui/core/colors";
+import { green, red } from "@material-ui/core/colors"
 
-import Actions from "./Actions";
-import BarChart from "./BarChart";
-import LineChart from "./LineChart";
-import DoughnutChart from "./DoughnutChart";
-import Stats from "./Stats";
-import Table from "./Table";
+import Actions from "./Actions"
+import BarChart from "./BarChart"
+import LineChart from "./LineChart"
+import DoughnutChart from "./DoughnutChart"
+import Stats from "./Stats"
+import Table from "./Table"
 
-const Divider = styled(MuiDivider)(spacing);
+const Divider = styled(MuiDivider)(spacing)
 
-const Typography = styled(MuiTypography)(spacing);
+const Typography = styled(MuiTypography)(spacing)
 
 function Default({ theme }) {
   return (
@@ -101,7 +101,7 @@ function Default({ theme }) {
         </Grid>
       </Grid>
     </React.Fragment>
-  );
+  )
 }
 
-export default withTheme(Default);
+export default withTheme(Default)

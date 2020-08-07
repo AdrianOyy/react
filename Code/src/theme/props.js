@@ -5,6 +5,6 @@ const props = {
   MuiCardHeader: {
     titleTypographyProps: { variant: "h6" }
   }
-};
+}
 
-export default props;
+export default props

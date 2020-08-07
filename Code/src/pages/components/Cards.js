@@ -1,8 +1,8 @@
-import React from "react";
-import styled from "styled-components";
-import { NavLink as RouterNavLink } from "react-router-dom";
+import React from "react"
+import styled from "styled-components"
+import { NavLink as RouterNavLink } from "react-router-dom"
 
-import Helmet from 'react-helmet';
+import Helmet from 'react-helmet'
 
 import {
   CardActionArea,
@@ -16,25 +16,25 @@ import {
   CardMedia as MuiCardMedia,
   Divider as MuiDivider,
   Typography
-} from "@material-ui/core";
+} from "@material-ui/core"
 
-import { spacing } from "@material-ui/system";
+import { spacing } from "@material-ui/system"
 
 const NavLink = React.forwardRef((props, ref) => (
   <RouterNavLink innerRef={ref} {...props} />
-));
+))
 
-const Card = styled(MuiCard)(spacing);
+const Card = styled(MuiCard)(spacing)
 
-const Button = styled(MuiButton)(spacing);
+const Button = styled(MuiButton)(spacing)
 
-const Divider = styled(MuiDivider)(spacing);
+const Divider = styled(MuiDivider)(spacing)
 
-const Breadcrumbs = styled(MuiBreadcrumbs)(spacing);
+const Breadcrumbs = styled(MuiBreadcrumbs)(spacing)
 
 const CardMedia = styled(MuiCardMedia)`
   height: 220px;
-`;
+`
 
 function SimpleCard() {
   return (
@@ -57,7 +57,7 @@ function SimpleCard() {
         <Button size="small">Learn More</Button>
       </CardActions>
     </Card>
-  );
+  )
 }
 
 function MediaCard() {
@@ -88,7 +88,7 @@ function MediaCard() {
         </Button>
       </CardActions>
     </Card>
-  );
+  )
 }
 
 function Cards() {
@@ -120,7 +120,7 @@ function Cards() {
         </Grid>
       </Grid>
     </React.Fragment>
-  );
+  )
 }
 
-export default Cards;
+export default Cards

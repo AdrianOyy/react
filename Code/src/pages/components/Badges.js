@@ -1,8 +1,8 @@
-import React, { useState } from "react";
-import styled from "styled-components";
-import { NavLink as RouterNavLink } from "react-router-dom";
+import React, { useState } from "react"
+import styled from "styled-components"
+import { NavLink as RouterNavLink } from "react-router-dom"
 
-import Helmet from 'react-helmet';
+import Helmet from 'react-helmet'
 
 import {
   Button,
@@ -20,28 +20,28 @@ import {
   Tab,
   Tabs,
   Typography
-} from "@material-ui/core";
+} from "@material-ui/core"
 
-import { Mail as MailIcon } from "@material-ui/icons";
-import { spacing } from "@material-ui/system";
+import { Mail as MailIcon } from "@material-ui/icons"
+import { spacing } from "@material-ui/system"
 
 const NavLink = React.forwardRef((props, ref) => (
   <RouterNavLink innerRef={ref} {...props} />
-));
+))
 
-const Card = styled(MuiCard)(spacing);
+const Card = styled(MuiCard)(spacing)
 
-const Badge = styled(MuiBadge)(spacing);
+const Badge = styled(MuiBadge)(spacing)
 
-const TabBadge = styled(Badge)(spacing);
+const TabBadge = styled(Badge)(spacing)
 
-const AppBar = styled(MuiAppBar)(spacing);
+const AppBar = styled(MuiAppBar)(spacing)
 
-const Spacer = styled.div(spacing);
+const Spacer = styled.div(spacing)
 
-const Divider = styled(MuiDivider)(spacing);
+const Divider = styled(MuiDivider)(spacing)
 
-const Breadcrumbs = styled(MuiBreadcrumbs)(spacing);
+const Breadcrumbs = styled(MuiBreadcrumbs)(spacing)
 
 function IconBadges() {
   return (
@@ -65,7 +65,7 @@ function IconBadges() {
         </Badge>
       </CardContent>
     </Card>
-  );
+  )
 }
 
 function TabBadges() {
@@ -112,7 +112,7 @@ function TabBadges() {
         </AppBar>
       </CardContent>
     </Card>
-  );
+  )
 }
 
 function ButtonBadges() {
@@ -137,15 +137,15 @@ function ButtonBadges() {
         </Badge>
       </CardContent>
     </Card>
-  );
+  )
 }
 
 function BadgeVisibility() {
-  const [invisible, setInvisible] = useState(false);
+  const [invisible, setInvisible] = useState(false)
 
   const handleBadgeVisibility = () => {
-    setInvisible(!invisible);
-  };
+    setInvisible(!invisible)
+  }
 
   return (
     <Card mb={6}>
@@ -213,7 +213,7 @@ function Badges() {
         </Grid>
       </Grid>
     </React.Fragment>
-  );
+  )
 }
 
-export default Badges;
+export default Badges

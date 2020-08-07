@@ -1,8 +1,8 @@
-import React from "react";
-import styled from "styled-components";
-import { connect } from "react-redux";
-import { setTheme } from "../../redux/actions/themeActions";
-import { useHistory } from "react-router-dom";
+import React from "react"
+import styled from "styled-components"
+import { connect } from "react-redux"
+import { setTheme } from "../../redux/actions/themeActions"
+import { useHistory } from "react-router-dom"
 
 import {
   Button,
@@ -11,21 +11,21 @@ import {
   Tooltip,
   Typography as MuiTypography,
   withWidth
-} from "@material-ui/core";
+} from "@material-ui/core"
 
-import { isWidthUp } from "@material-ui/core/withWidth";
+import { isWidthUp } from "@material-ui/core/withWidth"
 
-import { spacing } from "@material-ui/system";
+import { spacing } from "@material-ui/system"
 
-const Spacer = styled.div(spacing);
+const Spacer = styled.div(spacing)
 
-const Typography = styled(MuiTypography)(spacing);
+const Typography = styled(MuiTypography)(spacing)
 
 const IntroductionContent = styled.div`
   padding: 3vw 5vw;
   text-align: center;
   line-height: 150%;
-`;
+`
 
 const IntroductionSubtitle = styled(Typography)`
   font-size: ${props => props.theme.typography.h5.fontSize};
@@ -33,46 +33,46 @@ const IntroductionSubtitle = styled(Typography)`
   color: ${props => props.theme.palette.common.black};
   font-family: ${props => props.theme.typography.fontFamily};
   margin-bottom: ${props => props.theme.spacing(4)}px;
-`;
+`
 
-const BrandIcons = styled.div``;
+const BrandIcons = styled.div``
 
 const BrandIcon = styled.img`
   vertical-align: middle;
   margin: ${props => props.theme.spacing(1)}px;
   height: auto;
-`;
+`
 
 const BrandIconStyledComponents = styled.span`
   font-size: 1.875rem;
   vertical-align: middle;
   margin: ${props => props.theme.spacing(1)}px;
   cursor: default;
-`;
+`
 
 const DemoListContent = styled.div`
   ${spacing};
   background: ${props => props.theme.palette.common.white};
   text-align: center;
-`;
+`
 
-const DemoContent = styled.div(spacing);
+const DemoContent = styled.div(spacing)
 
 const DemoLink = styled.div`
   cursor: pointer;
-`;
+`
 
 const DemoScreenshot = styled.img`
   max-width: 100%;
   height: auto;
   border: 1px solid ${props => props.theme.palette.grey[300]};
   display: block;
-`;
+`
 
 const JoinUsContent = styled.div`
   ${spacing};
   text-align: center;
-`;
+`
 
 function Introduction() {
   return (
@@ -138,16 +138,16 @@ function Introduction() {
         </Grid>
       </Grid>
     </Container>
-  );
+  )
 }
 
 function Demo({ dispatch, id, title, img }) {
-  const history = useHistory();
+  const history = useHistory()
 
   const toggleDemo = id => {
-    dispatch(setTheme(id));
-    history.push("/dashboard/analytics");
-  };
+    dispatch(setTheme(id))
+    history.push("/dashboard/analytics")
+  }
 
   return (
     <Grid item xs={12} sm={6} md={4} lg={4}>
@@ -162,10 +162,10 @@ function Demo({ dispatch, id, title, img }) {
         <Typography variant="h6">{title}</Typography>
       </DemoContent>
     </Grid>
-  );
+  )
 }
 
-const ConnectedDemo = connect()(Demo);
+const ConnectedDemo = connect()(Demo)
 
 function DemoList({ width }) {
   return (
@@ -186,7 +186,7 @@ function DemoList({ width }) {
         </Grid>
       </Container>
     </DemoListContent>
-  );
+  )
 }
 
 function JoinUs() {
@@ -214,7 +214,7 @@ function JoinUs() {
         </Grid>
       </Container>
     </JoinUsContent>
-  );
+  )
 }
 
 function Presentation({ width }) {
@@ -224,7 +224,7 @@ function Presentation({ width }) {
       <DemoList width={width} />
       <JoinUs />
     </React.Fragment>
-  );
+  )
 }
 
-export default withWidth()(Presentation);
+export default withWidth()(Presentation)

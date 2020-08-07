@@ -1,8 +1,8 @@
-import React from "react";
-import styled from "styled-components";
-import { NavLink as RouterNavLink } from "react-router-dom";
+import React from "react"
+import styled from "styled-components"
+import { NavLink as RouterNavLink } from "react-router-dom"
 
-import Helmet from 'react-helmet';
+import Helmet from 'react-helmet'
 
 import {
   Grid,
@@ -10,29 +10,29 @@ import {
   Breadcrumbs as MuiBreadcrumbs,
   Divider as MuiDivider,
   Typography
-} from "@material-ui/core";
+} from "@material-ui/core"
 
-import { spacing } from "@material-ui/system";
+import { spacing } from "@material-ui/system"
 
-import Africa from "./Africa";
-import Asia from "./Asia";
-import China from "./China";
-import Europe from "./Europe";
-import NorthAmerica from "./NorthAmerica";
-import Oceania from "./Oceania";
-import SouthAmerica from "./SouthAmerica";
-import USA from "./USA";
-import World from "./World";
+import Africa from "./Africa"
+import Asia from "./Asia"
+import China from "./China"
+import Europe from "./Europe"
+import NorthAmerica from "./NorthAmerica"
+import Oceania from "./Oceania"
+import SouthAmerica from "./SouthAmerica"
+import USA from "./USA"
+import World from "./World"
 
-import "../../../vendor/jvectormap.css";
+import "../../../vendor/jvectormap.css"
 
 const NavLink = React.forwardRef((props, ref) => (
   <RouterNavLink innerRef={ref} {...props} />
-));
+))
 
-const Divider = styled(MuiDivider)(spacing);
+const Divider = styled(MuiDivider)(spacing)
 
-const Breadcrumbs = styled(MuiBreadcrumbs)(spacing);
+const Breadcrumbs = styled(MuiBreadcrumbs)(spacing)
 
 function VectorMaps() {
   return (
@@ -84,7 +84,7 @@ function VectorMaps() {
         </Grid>
       </Grid>
     </React.Fragment>
-  );
+  )
 }
 
-export default VectorMaps;
+export default VectorMaps

@@ -1,8 +1,8 @@
-import React from "react";
-import styled from "styled-components";
-import { NavLink as RouterNavLink } from "react-router-dom";
+import React from "react"
+import styled from "styled-components"
+import { NavLink as RouterNavLink } from "react-router-dom"
 
-import Helmet from 'react-helmet';
+import Helmet from 'react-helmet'
 
 import {
   Grid,
@@ -10,23 +10,23 @@ import {
   Breadcrumbs as MuiBreadcrumbs,
   Divider as MuiDivider,
   Typography
-} from "@material-ui/core";
-import { spacing } from "@material-ui/system";
+} from "@material-ui/core"
+import { spacing } from "@material-ui/system"
 
-import LineChart from "./LineChart";
-import BarChart from "./BarChart";
-import DoughnutChart from "./DoughnutChart";
-import PieChart from "./PieChart";
-import RadarChart from "./RadarChart";
-import PolarChart from "./PolarChart";
+import LineChart from "./LineChart"
+import BarChart from "./BarChart"
+import DoughnutChart from "./DoughnutChart"
+import PieChart from "./PieChart"
+import RadarChart from "./RadarChart"
+import PolarChart from "./PolarChart"
 
-const Divider = styled(MuiDivider)(spacing);
+const Divider = styled(MuiDivider)(spacing)
 
-const Breadcrumbs = styled(MuiBreadcrumbs)(spacing);
+const Breadcrumbs = styled(MuiBreadcrumbs)(spacing)
 
 const NavLink = React.forwardRef((props, ref) => (
   <RouterNavLink innerRef={ref} {...props} />
-));
+))
 
 function Blank() {
   return (
@@ -66,7 +66,7 @@ function Blank() {
         </Grid>
       </Grid>
     </React.Fragment>
-  );
+  )
 }
 
-export default Blank;
+export default Blank

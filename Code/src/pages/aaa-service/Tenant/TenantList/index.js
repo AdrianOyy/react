@@ -1,1 +1,1 @@
-export { default } from './TenantList';
+export { default } from './TenantList'

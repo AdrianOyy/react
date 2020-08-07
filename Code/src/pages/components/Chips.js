@@ -1,8 +1,8 @@
-import React, { useState } from "react";
-import styled from "styled-components";
-import { NavLink as RouterNavLink } from "react-router-dom";
+import React, { useState } from "react"
+import styled from "styled-components"
+import { NavLink as RouterNavLink } from "react-router-dom"
 
-import Helmet from 'react-helmet';
+import Helmet from 'react-helmet'
 
 import {
   Avatar,
@@ -14,35 +14,35 @@ import {
   Chip as MuiChip,
   Divider as MuiDivider,
   Typography
-} from "@material-ui/core";
+} from "@material-ui/core"
 
 import {
   Done as DoneIcon,
   Face as FaceIcon,
   TagFaces as TagFacesIcon
-} from "@material-ui/icons";
+} from "@material-ui/icons"
 
-import { spacing } from "@material-ui/system";
+import { spacing } from "@material-ui/system"
 
 const NavLink = React.forwardRef((props, ref) => (
   <RouterNavLink innerRef={ref} {...props} />
-));
+))
 
-const Card = styled(MuiCard)(spacing);
+const Card = styled(MuiCard)(spacing)
 
-const Chip = styled(MuiChip)(spacing);
+const Chip = styled(MuiChip)(spacing)
 
-const Divider = styled(MuiDivider)(spacing);
+const Divider = styled(MuiDivider)(spacing)
 
-const Breadcrumbs = styled(MuiBreadcrumbs)(spacing);
+const Breadcrumbs = styled(MuiBreadcrumbs)(spacing)
 
 const DefaultChips = () => {
   const handleDelete = () => {
-    alert("You clicked the delete icon.");
+    alert("You clicked the delete icon.")
   }
 
   const handleClick = () => {
-    alert("You clicked the chip.");
+    alert("You clicked the chip.")
   }
 
   return (
@@ -146,16 +146,16 @@ const DefaultChips = () => {
         </div>
       </CardContent>
     </Card>
-  );
+  )
 }
 
 const OutlinedChips = () => {
   const handleDelete = () => {
-    alert("You clicked the delete icon.");
+    alert("You clicked the delete icon.")
   }
 
   const handleClick = () => {
-    alert("You clicked the chip.");
+    alert("You clicked the chip.")
   }
 
   return (
@@ -269,7 +269,7 @@ const OutlinedChips = () => {
         </div>
       </CardContent>
     </Card>
-  );
+  )
 }
 
 const ChipArray = () => {
@@ -279,16 +279,16 @@ const ChipArray = () => {
     { key: 2, label: "Polymer" },
     { key: 3, label: "React" },
     { key: 4, label: "Vue.js" }
-  ]);
+  ])
 
   const handleDelete = data => () => {
     if (data.label === "React") {
-      alert("Why would you want to delete React?! :)"); // eslint-disable-line no-alert
-      return;
+      alert("Why would you want to delete React?! :)") // eslint-disable-line no-alert
+      return
     }
 
-    setChipData(chipData.filter(item => item.key !== data.key));
-  };
+    setChipData(chipData.filter(item => item.key !== data.key))
+  }
 
   return (
     <Card mb={6}>
@@ -301,10 +301,10 @@ const ChipArray = () => {
         </Typography>
         <div>
           {chipData.map(data => {
-            let icon = null;
+            let icon = null
 
             if (data.label === "React") {
-              icon = <TagFacesIcon />;
+              icon = <TagFacesIcon />
             }
 
             return (
@@ -315,7 +315,7 @@ const ChipArray = () => {
                 onDelete={handleDelete(data)}
                 m={1}
               />
-            );
+            )
           })}
         </div>
       </CardContent>
@@ -353,7 +353,7 @@ function Chips() {
         </Grid>
       </Grid>
     </React.Fragment>
-  );
+  )
 }
 
-export default Chips;
+export default Chips

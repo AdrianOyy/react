@@ -1,8 +1,8 @@
-import React from "react";
-import styled from "styled-components";
-import { NavLink as RouterNavLink } from "react-router-dom";
+import React from "react"
+import styled from "styled-components"
+import { NavLink as RouterNavLink } from "react-router-dom"
 
-import Helmet from 'react-helmet';
+import Helmet from 'react-helmet'
 
 import {
   CardContent,
@@ -18,13 +18,13 @@ import {
   TableHead,
   TableRow,
   Typography as MuiTypography
-} from "@material-ui/core";
+} from "@material-ui/core"
 
-import { spacing, display } from "@material-ui/system";
+import { spacing, display } from "@material-ui/system"
 
 const NavLink = React.forwardRef((props, ref) => (
   <RouterNavLink innerRef={ref} {...props} />
-));
+))
 
 const Card = styled(MuiCard)`
   ${spacing};
@@ -32,17 +32,17 @@ const Card = styled(MuiCard)`
   box-shadow: none;
 `
 
-const Divider = styled(MuiDivider)(spacing);
+const Divider = styled(MuiDivider)(spacing)
 
 const Shadow = styled.div`
   box-shadow: ${props => props.theme.shadows[1]};
-`;
+`
 
-const Breadcrumbs = styled(MuiBreadcrumbs)(spacing);
+const Breadcrumbs = styled(MuiBreadcrumbs)(spacing)
 
-const Button = styled(MuiButton)(spacing);
+const Button = styled(MuiButton)(spacing)
 
-const Typography = styled(MuiTypography)(display);
+const Typography = styled(MuiTypography)(display)
 
 function InvoiceDetails() {
   return (
@@ -209,7 +209,7 @@ function InvoiceDetails() {
         </Grid>
       </Grid>
     </React.Fragment>
-  );
+  )
 }
 
-export default InvoiceDetails;
+export default InvoiceDetails

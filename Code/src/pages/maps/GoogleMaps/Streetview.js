@@ -1,20 +1,20 @@
-import React from "react";
-import ReactDOM from "react-dom";
-import styled from "styled-components";
+import React from "react"
+import ReactDOM from "react-dom"
+import styled from "styled-components"
 
-import { CardContent, Card as MuiCard, Typography } from "@material-ui/core";
-import { spacing } from "@material-ui/system";
+import { CardContent, Card as MuiCard, Typography } from "@material-ui/core"
+import { spacing } from "@material-ui/system"
 
-import GoogleMapReact from "google-map-react";
+import GoogleMapReact from "google-map-react"
 
-const Card = styled(MuiCard)(spacing);
+const Card = styled(MuiCard)(spacing)
 
-const Spacer = styled.div(spacing);
+const Spacer = styled.div(spacing)
 
 const GoogleMapReactWrapper = styled.div`
   height: 300px;
   width: 100%;
-`;
+`
 
 function Streetview() {
   const options = {
@@ -23,7 +23,7 @@ function Streetview() {
       lng: -74.005941
     },
     zoom: 14
-  };
+  }
 
   const getMapOptions = () => {
     return {
@@ -32,8 +32,8 @@ function Streetview() {
       scaleControl: true,
       scrollwheel: false,
       streetViewControl: true
-    };
-  };
+    }
+  }
 
   const apiIsLoaded = (map, maps) => {
     if (map) {
@@ -50,12 +50,12 @@ function Streetview() {
           },
           visible: true
         }
-      );
-      map.setStreetView(panorama);
+      )
+      map.setStreetView(panorama)
     }
-  };
+  }
 
-  const panoramaRef = React.createRef();
+  const panoramaRef = React.createRef()
 
   return (
     <Card mb={1}>
@@ -85,7 +85,7 @@ function Streetview() {
         </GoogleMapReactWrapper>
       </CardContent>
     </Card>
-  );
+  )
 }
 
-export default Streetview;
+export default Streetview

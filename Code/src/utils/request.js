@@ -15,7 +15,7 @@ axios.interceptors.request.use(
     //if (store.getters.token) {
     //  config.headers['authorization'] = 'bearer ' + getToken()
     //}
-   
+
     return config
   },
   error => {
@@ -53,7 +53,7 @@ const axiosInstance = axios.create({
   //   return data
   // }]
 
-});
+})
 
 //响应拦截器(处理异常)
 axios.interceptors.response.use(
@@ -74,15 +74,15 @@ export default {
   enableChangeBaseApi: true,
   changeBaseUrl(baseUrl, flag = false) {
     if (flag && baseUrl && this.enableChangeBaseApi) {
-      console.log('changeBaseUrl', axiosInstance.defaults.baseURL + '->' + baseUrl);
-      axiosInstance.defaults.baseURL = baseUrl;
+      console.log('changeBaseUrl', axiosInstance.defaults.baseURL + '->' + baseUrl)
+      axiosInstance.defaults.baseURL = baseUrl
     }
   },
   //get 请求
   get(url, param, options, baseUrl = null) {
     let o = Object.assign(this.defaultOptions, options)
-    const defaultUrl = axiosInstance.defaults.baseURL;
-    this.changeBaseUrl(baseUrl, baseUrl !== null);
+    const defaultUrl = axiosInstance.defaults.baseURL
+    this.changeBaseUrl(baseUrl, baseUrl !== null)
     return new Promise((resolve, reject) => {
       axiosInstance({
         method: 'get',
@@ -91,24 +91,24 @@ export default {
       })
         .then(res => {
           if(res.data && !res.data.status && res.data.message && o.handleError){
-            CommonTip.error(`${res.data.message}${res.data.exception ? ':' + res.data.exception.message : ''}`, { });
-          } 
+            CommonTip.error(`${res.data.message}${res.data.exception ? ':' + res.data.exception.message : ''}`, { })
+          }
           resolve(res)
         })
         .catch(error => {
-          CommonTip.error(error.message, { });
+          CommonTip.error(error.message, { })
           reject(error)
         })
         .finally(() => {
-          this.changeBaseUrl(defaultUrl, baseUrl !== null);
+          this.changeBaseUrl(defaultUrl, baseUrl !== null)
         })
     })
   },
   //post 请求
   post(url, param, options, baseUrl = null) {
     let o = Object.assign(this.defaultOptions, options)
-    const defaultUrl = axiosInstance.defaults.baseURL;
-    this.changeBaseUrl(baseUrl, baseUrl !== null);
+    const defaultUrl = axiosInstance.defaults.baseURL
+    this.changeBaseUrl(baseUrl, baseUrl !== null)
 
     return new Promise((resolve, reject) => {
       axiosInstance({
@@ -118,24 +118,24 @@ export default {
       })
         .then(res => {
           if(res.data && !res.data.status && res.data.message && o.handleError){
-            CommonTip.error(`${res.data.message}${res.data.exception ? ':' + res.data.exception.message : ''}`, { });
-          } 
+            CommonTip.error(`${res.data.message}${res.data.exception ? ':' + res.data.exception.message : ''}`, { })
+          }
           resolve(res)
         })
         .catch(error => {
-          CommonTip.error(error.message, { });
+          CommonTip.error(error.message, { })
           reject(error)
         })
         .finally(() => {
-          this.changeBaseUrl(defaultUrl, baseUrl !== null);
+          this.changeBaseUrl(defaultUrl, baseUrl !== null)
         })
     })
   },
   //put 请求
   put(url, param, options, baseUrl = null) {
     let o = Object.assign(this.defaultOptions, options)
-    const defaultUrl = axiosInstance.defaults.baseURL;
-    this.changeBaseUrl(baseUrl, baseUrl !== null);
+    const defaultUrl = axiosInstance.defaults.baseURL
+    this.changeBaseUrl(baseUrl, baseUrl !== null)
     return new Promise((resolve, reject) => {
       axiosInstance({
         method: 'put',
@@ -144,24 +144,24 @@ export default {
       })
         .then(res => {
           if(res.data && !res.data.status && res.data.message && o.handleError){
-            CommonTip.error(`${res.data.message}${res.data.exception ? ':' + res.data.exception.message : ''}`, { });
-          } 
+            CommonTip.error(`${res.data.message}${res.data.exception ? ':' + res.data.exception.message : ''}`, { })
+          }
           resolve(res)
         })
         .catch(error => {
-          CommonTip.error(error.message, { });
+          CommonTip.error(error.message, { })
           reject(error)
         })
         .finally(() => {
-          this.changeBaseUrl(defaultUrl, baseUrl !== null);
+          this.changeBaseUrl(defaultUrl, baseUrl !== null)
         })
     })
   },
   //delete 请求
   delete(url, param, options, baseUrl = null) {
-    let o = Object.assign(this.defaultOptions, options);
-    const defaultUrl = axiosInstance.defaults.baseURL;
-    this.changeBaseUrl(baseUrl, baseUrl !== null);
+    let o = Object.assign(this.defaultOptions, options)
+    const defaultUrl = axiosInstance.defaults.baseURL
+    this.changeBaseUrl(baseUrl, baseUrl !== null)
 
     return new Promise((resolve, reject) => {
       axiosInstance({
@@ -171,16 +171,16 @@ export default {
       })
         .then(res => {
           if(res.data && !res.data.status && res.data.message && o.handleError){
-            CommonTip.error(`${res.data.message}${res.data.exception ? ':' + res.data.exception.message : ''}`, { });
-          } 
+            CommonTip.error(`${res.data.message}${res.data.exception ? ':' + res.data.exception.message : ''}`, { })
+          }
           resolve(res)
         })
         .catch(error => {
-          CommonTip.error(error.message, { });
+          CommonTip.error(error.message, { })
           reject(error)
         })
         .finally(() => {
-          this.changeBaseUrl(defaultUrl, baseUrl !== null);
+          this.changeBaseUrl(defaultUrl, baseUrl !== null)
         })
     })
   },

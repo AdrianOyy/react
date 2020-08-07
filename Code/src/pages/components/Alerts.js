@@ -1,8 +1,8 @@
-import React from "react";
-import styled from "styled-components";
-import { NavLink as RouterNavLink } from "react-router-dom";
+import React from "react"
+import styled from "styled-components"
+import { NavLink as RouterNavLink } from "react-router-dom"
 
-import Helmet from 'react-helmet';
+import Helmet from 'react-helmet'
 
 import {
   Button,
@@ -15,27 +15,27 @@ import {
   Card as MuiCard,
   Divider as MuiDivider,
   Typography
-} from "@material-ui/core";
+} from "@material-ui/core"
 
-import { Close as CloseIcon } from '@material-ui/icons';
+import { Close as CloseIcon } from '@material-ui/icons'
 
-import { Alert as MuiAlert, AlertTitle } from '@material-ui/lab';
+import { Alert as MuiAlert, AlertTitle } from '@material-ui/lab'
 
-import { spacing } from "@material-ui/system";
+import { spacing } from "@material-ui/system"
 
 const NavLink = React.forwardRef((props, ref) => (
   <RouterNavLink innerRef={ref} {...props} />
-));
+))
 
-const Card = styled(MuiCard)(spacing);
+const Card = styled(MuiCard)(spacing)
 
-const Spacer = styled.div(spacing);
+const Spacer = styled.div(spacing)
 
-const Divider = styled(MuiDivider)(spacing);
+const Divider = styled(MuiDivider)(spacing)
 
-const Breadcrumbs = styled(MuiBreadcrumbs)(spacing);
+const Breadcrumbs = styled(MuiBreadcrumbs)(spacing)
 
-const Alert = styled(MuiAlert)(spacing);
+const Alert = styled(MuiAlert)(spacing)
 
 function SimpleAlerts() {
   return (
@@ -56,7 +56,7 @@ function SimpleAlerts() {
         <Alert severity="success">This is a success alert — check it out!</Alert>
       </CardContent>
     </Card>
-  );
+  )
 }
 
 function OutlinedAlerts() {
@@ -78,7 +78,7 @@ function OutlinedAlerts() {
         <Alert variant="outlined" severity="success">This is a success alert — check it out!</Alert>
       </CardContent>
     </Card>
-  );
+  )
 }
 
 function FilledAlerts() {
@@ -100,7 +100,7 @@ function FilledAlerts() {
         <Alert variant="filled" severity="success">This is a success alert — check it out!</Alert>
       </CardContent>
     </Card>
-  );
+  )
 }
 
 function AdvancedAlerts() {
@@ -134,7 +134,7 @@ function AdvancedAlerts() {
         </Alert>
       </CardContent>
     </Card>
-  );
+  )
 }
 
 function ActionAlerts() {
@@ -162,11 +162,11 @@ function ActionAlerts() {
         </Alert>
       </CardContent>
     </Card>
-  );
+  )
 }
 
 function TransitionAlerts() {
-  const [open, setOpen] = React.useState(true);
+  const [open, setOpen] = React.useState(true)
 
   return (
     <Card mb={6}>
@@ -189,7 +189,7 @@ function TransitionAlerts() {
                 color="inherit"
                 size="small"
                 onClick={() => {
-                  setOpen(false);
+                  setOpen(false)
                 }}
               >
                 <CloseIcon fontSize="inherit" />
@@ -203,14 +203,14 @@ function TransitionAlerts() {
           disabled={open}
           variant="outlined"
           onClick={() => {
-            setOpen(true);
+            setOpen(true)
           }}
         >
           Re-open
         </Button>
       </CardContent>
     </Card>
-  );
+  )
 }
 
 function Alerts() {
@@ -246,7 +246,7 @@ function Alerts() {
         </Grid>
       </Grid>
     </React.Fragment>
-  );
+  )
 }
 
-export default Alerts;
+export default Alerts

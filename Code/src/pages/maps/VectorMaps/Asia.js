@@ -1,19 +1,19 @@
-import React from "react";
-import styled from "styled-components";
+import React from "react"
+import styled from "styled-components"
 
-import { CardContent, Card as MuiCard, Typography } from "@material-ui/core";
+import { CardContent, Card as MuiCard, Typography } from "@material-ui/core"
 
-import { spacing } from "@material-ui/system";
+import { spacing } from "@material-ui/system"
 
-import { orange } from "@material-ui/core/colors";
+import { orange } from "@material-ui/core/colors"
 
-import { VectorMap } from "react-jvectormap";
+import { VectorMap } from "react-jvectormap"
 
 const MapContainer = styled.div`
   height: 300px;
-`;
+`
 
-const Card = styled(MuiCard)(spacing);
+const Card = styled(MuiCard)(spacing)
 
 function Asia() {
   const options = {
@@ -29,7 +29,7 @@ function Asia() {
       height: "100%"
     },
     zoomOnScroll: false
-  };
+  }
 
   return (
     <Card mb={6}>
@@ -42,7 +42,7 @@ function Asia() {
         </MapContainer>
       </CardContent>
     </Card>
-  );
+  )
 }
 
-export default Asia;
+export default Asia

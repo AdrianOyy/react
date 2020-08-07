@@ -1,20 +1,20 @@
-import React from "react";
-import styled, { withTheme } from "styled-components";
+import React from "react"
+import styled, { withTheme } from "styled-components"
 
-import { CardContent, Card as MuiCard, Typography } from "@material-ui/core";
-import orange from "@material-ui/core/colors/orange";
-import red from "@material-ui/core/colors/red";
-import { spacing } from "@material-ui/system";
+import { CardContent, Card as MuiCard, Typography } from "@material-ui/core"
+import orange from "@material-ui/core/colors/orange"
+import red from "@material-ui/core/colors/red"
+import { spacing } from "@material-ui/system"
 
-import { Doughnut } from "react-chartjs-2";
+import { Doughnut } from "react-chartjs-2"
 
-const Card = styled(MuiCard)(spacing);
+const Card = styled(MuiCard)(spacing)
 
-const Spacer = styled.div(spacing);
+const Spacer = styled.div(spacing)
 
 const ChartWrapper = styled.div`
   height: 300px;
-`;
+`
 
 function DoughnutChart({ theme }) {
   const data = {
@@ -31,7 +31,7 @@ function DoughnutChart({ theme }) {
         borderColor: "transparent"
       }
     ]
-  };
+  }
 
   const options = {
     maintainAspectRatio: false,
@@ -39,7 +39,7 @@ function DoughnutChart({ theme }) {
     legend: {
       display: false
     }
-  };
+  }
 
   return (
     <Card mb={1}>
@@ -59,7 +59,7 @@ function DoughnutChart({ theme }) {
         </ChartWrapper>
       </CardContent>
     </Card>
-  );
+  )
 }
 
-export default withTheme(DoughnutChart);
+export default withTheme(DoughnutChart)

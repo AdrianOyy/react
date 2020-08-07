@@ -1,14 +1,14 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react'
 
-import DetailPage from "../../../../components/DetailPage";
+import DetailPage from "../../../../components/DetailPage"
 import managementApi from "../../../../api/management"
-import {useParams} from "react-router-dom";
-import dayjs from "dayjs";
-import CommonTip from "../../../../components/CommonTip";
+import {useParams} from "react-router-dom"
+import dayjs from "dayjs"
+import CommonTip from "../../../../components/CommonTip"
 import { useHistory } from 'react-router-dom'
-import {checkEmpty, getCheckExist} from "../untils/ManagementFieldCheck";
-import tenantApi from "../../../../api/tenant";
-import adGroupApi from "../../../../api/adGroup";
+import {checkEmpty, getCheckExist} from "../untils/ManagementFieldCheck"
+import tenantApi from "../../../../api/tenant"
+import adGroupApi from "../../../../api/adGroup"
 
 const breadcrumbsList = [
   { title: 'AAA Service'},
@@ -19,25 +19,25 @@ const breadcrumbsList = [
 
 function ManagementUpdate(props) {
   const { id } = useParams()
-  const history = useHistory();
-  const [ tenantId, setTenantId ] = React.useState('');
-  const [ groupId, setGroupId ] = React.useState('');
-  const [ supporter, setSupporter ] = useState('');
-  const [ resourcesQuota, setResourcesQuota ] = useState('');
-  const [ createdAt, setCreatedAt ] = useState('');
-  const [ updatedAt, setUpdastedAt ] = useState('');
-  const [ formFieldList, setFormFieldList ] = useState([]);
-  const [ saving, setSaving ] = useState(true);
-  const [ tenantError, setTenantError ] = useState(false);
-  const [ groupError, setGroupError ] = useState(false);
-  const [ tenantHelperText, setTenantHelperText ] = useState("");
-  const [ groupHelperText, setGroupHelperText ] = useState("");
-  const [ tenantList, setTenantList] = useState([]);
-  const [ adGroupList, setAdGroupList] = useState([]);
-  const [ supporterError, setSupporterError ] = useState(false);
-  const [ supporterHelperText, setSupporterHelperText ] = useState("");
-  const [ resourcesQuotaError, setResourcesQuotaError ] = useState(false);
-  const [ resourcesQuotaHelperText, setResourcesQuotaHelperText ] = useState("");
+  const history = useHistory()
+  const [ tenantId, setTenantId ] = React.useState('')
+  const [ groupId, setGroupId ] = React.useState('')
+  const [ supporter, setSupporter ] = useState('')
+  const [ resourcesQuota, setResourcesQuota ] = useState('')
+  const [ createdAt, setCreatedAt ] = useState('')
+  const [ updatedAt, setUpdastedAt ] = useState('')
+  const [ formFieldList, setFormFieldList ] = useState([])
+  const [ saving, setSaving ] = useState(true)
+  const [ tenantError, setTenantError ] = useState(false)
+  const [ groupError, setGroupError ] = useState(false)
+  const [ tenantHelperText, setTenantHelperText ] = useState("")
+  const [ groupHelperText, setGroupHelperText ] = useState("")
+  const [ tenantList, setTenantList] = useState([])
+  const [ adGroupList, setAdGroupList] = useState([])
+  const [ supporterError, setSupporterError ] = useState(false)
+  const [ supporterHelperText, setSupporterHelperText ] = useState("")
+  const [ resourcesQuotaError, setResourcesQuotaError ] = useState(false)
+  const [ resourcesQuotaHelperText, setResourcesQuotaHelperText ] = useState("")
   const formatDateTime = (str) => {
     return dayjs(new Date(str)).format('YYYY-MM-DD HH:mm')
   }
@@ -46,105 +46,105 @@ function ManagementUpdate(props) {
   useEffect(() =>　{
     tenantApi.list({limit:999, page:1}).then(({data}) => {
       if (data && data.data) {
-        const { rows } = data.data;
+        const { rows } = data.data
         setTenantList(rows)
       }
     })
     adGroupApi.list({limit:999, page: 1}).then(({data}) => {
       if (data && data.data) {
-        const { rows } = data.data;
+        const { rows } = data.data
         setAdGroupList(rows)
       }
     })
   }, [])
 
   const tenantCheck = async () => {
-    const emptyCheck = checkEmpty("Tenant", tenantId);
+    const emptyCheck = checkEmpty("Tenant", tenantId)
     setTenantError(emptyCheck.error)
-    setTenantHelperText(emptyCheck.msg);
+    setTenantHelperText(emptyCheck.msg)
     if (!emptyCheck.error && !groupError) {
-      const checkExist = getCheckExist();
+      const checkExist = getCheckExist()
       const { error, msg } = await checkExist(id, {tenantId, groupId})
-      setTenantError(error);
-      setTenantHelperText(msg);
+      setTenantError(error)
+      setTenantHelperText(msg)
       return error
     }
     return emptyCheck.error
   }
   const groupCheck = async () => {
-    const emptyCheck = checkEmpty("AD Group", groupId);
+    const emptyCheck = checkEmpty("AD Group", groupId)
     setGroupError(emptyCheck.error)
-    setGroupHelperText(emptyCheck.msg);
+    setGroupHelperText(emptyCheck.msg)
     if (!emptyCheck.error && !tenantError) {
-      const checkExist = getCheckExist();
+      const checkExist = getCheckExist()
       const { error, msg } = await checkExist(id, {tenantId, groupId})
-      setGroupError(error);
-      setGroupHelperText(msg);
+      setGroupError(error)
+      setGroupHelperText(msg)
       return error
     }
     return emptyCheck.error
   }
 
   const resourcesQuotaCheck = () => {
-    const emptyCheck = checkEmpty("Resources Quota", resourcesQuota);
+    const emptyCheck = checkEmpty("Resources Quota", resourcesQuota)
     setResourcesQuotaError(emptyCheck.error)
-    setResourcesQuotaHelperText(emptyCheck.msg);
+    setResourcesQuotaHelperText(emptyCheck.msg)
     return emptyCheck.error
   }
 
   const supporterCheck = () => {
-    const emptyCheck = checkEmpty("Supporter", supporter);
+    const emptyCheck = checkEmpty("Supporter", supporter)
     setSupporterError(emptyCheck.error)
-    setSupporterHelperText(emptyCheck.msg);
+    setSupporterHelperText(emptyCheck.msg)
     return emptyCheck.error
   }
 
   // 字段 tenant 检查
   useEffect(() => {
-    tenantCheck();
+    tenantCheck()
     // eslint-disable-next-line
   }, [tenantId])
   // 字段 group 检查
   useEffect(() => {
-    groupCheck();
+    groupCheck()
     // eslint-disable-next-line
   }, [groupId])
   useEffect(() => {
-    supporterCheck();
+    supporterCheck()
     // eslint-disable-next-line
   }, [supporter])
   useEffect(() =>{
-    resourcesQuotaCheck();
+    resourcesQuotaCheck()
     // eslint-disable-next-line
   }, [resourcesQuota])
 
   const hanleClick = async() => {
-    const tenantError = await tenantCheck();
-    const adGroupError = await groupCheck();
-    const supporterError = supporterCheck();
-    const resourcesQuotaError = resourcesQuotaCheck();
-    if (tenantError || adGroupError || supporterError || resourcesQuotaError || saving) return;
-    setSaving(true);
+    const tenantError = await tenantCheck()
+    const adGroupError = await groupCheck()
+    const supporterError = supporterCheck()
+    const resourcesQuotaError = resourcesQuotaCheck()
+    if (tenantError || adGroupError || supporterError || resourcesQuotaError || saving) return
+    setSaving(true)
     managementApi.update(id, { tenantId, groupId, supporter, resourcesQuota })
       .then(() => {
-        CommonTip.success("Success");
+        CommonTip.success("Success")
         history.push({pathname: '/aaa-service/management'})
       })
       .catch(() => {
-        setSaving(false);
+        setSaving(false)
       })
   }
 
   useEffect(() => {
     managementApi.detail(id).then(({ data }) => {
-      const { tenant, ad_group, supporter, resourcesQuota, createdAt, updatedAt } = data.data;
-      setTenantId(tenant.id);
-      setGroupId(ad_group.id);
-      setSupporter(supporter);
-      setResourcesQuota(resourcesQuota);
-      setCreatedAt(createdAt);
-      setUpdastedAt(updatedAt);
-      setSaving(false);
+      const { tenant, ad_group, supporter, resourcesQuota, createdAt, updatedAt } = data.data
+      setTenantId(tenant.id)
+      setGroupId(ad_group.id)
+      setSupporter(supporter)
+      setResourcesQuota(resourcesQuota)
+      setCreatedAt(createdAt)
+      setUpdastedAt(updatedAt)
+      setSaving(false)
     })
   }, [id])
 
@@ -183,37 +183,37 @@ function ManagementUpdate(props) {
       { id: 'createdAt', label: 'Created At', type: 'text', disabled: true, readOnly: true, value: formatDateTime(createdAt) },
       { id: 'updatedAt', label: 'Updated At', type: 'text', disabled: true, readOnly: true, value: formatDateTime(updatedAt) },
     ]
-    setFormFieldList(list);
-  },[tenantId, groupId, supporter, resourcesQuota, tenantError, groupError, supporterError, resourcesQuotaError, tenantHelperText, groupHelperText, supporterHelperText, resourcesQuotaHelperText, tenantList, adGroupList, createdAt, updatedAt ]);
+    setFormFieldList(list)
+  },[tenantId, groupId, supporter, resourcesQuota, tenantError, groupError, supporterError, resourcesQuotaError, tenantHelperText, groupHelperText, supporterHelperText, resourcesQuotaHelperText, tenantList, adGroupList, createdAt, updatedAt ])
   const onFormFieldChange = (e, id) => {
-    const { value } = e.target;
+    const { value } = e.target
     switch(id) {
       case 'tenant':
-        setTenantId(value);
-        break;
+        setTenantId(value)
+        break
       case 'group':
-        setGroupId(value);
-        break;
+        setGroupId(value)
+        break
       case 'supporter':
-        setSupporter(value);
-        break;
+        setSupporter(value)
+        break
       case 'resourcesQuota':
-        setResourcesQuota(value);
-        break;
+        setResourcesQuota(value)
+        break
       default:
-        break;
+        break
     }
   }
   const onFormFieldBlur = (id) => {
     switch(id) {
       case 'supporter':
-        supporterCheck();
-        break;
+        supporterCheck()
+        break
       case 'resourcesQuota':
-        resourcesQuotaCheck();
-        break;
+        resourcesQuotaCheck()
+        break
       default:
-        break;
+        break
     }
   }
   return (
@@ -228,7 +228,7 @@ function ManagementUpdate(props) {
         onBtnClick = { hanleClick }
       />
     </React.Fragment>
-  );
+  )
 }
 
-export default ManagementUpdate;
+export default ManagementUpdate

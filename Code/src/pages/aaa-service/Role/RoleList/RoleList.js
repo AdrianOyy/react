@@ -1,55 +1,55 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react'
 
 import {
   Grid,
   TablePagination,
   Paper as MuiPaper,
-} from "@material-ui/core";
+} from "@material-ui/core"
 
 import {NaviHeader, SearchBar} from '../../../../components'
 import EnhancedTable from './components/EnhancedTable'
-import roleApi from "../../../../api/role";
-import styled from "styled-components";
-import {spacing} from "@material-ui/system";
-const Paper = styled(MuiPaper)(spacing);
+import roleApi from "../../../../api/role"
+import styled from "styled-components"
+import {spacing} from "@material-ui/system"
+const Paper = styled(MuiPaper)(spacing)
 const breadcrumbsList = [{ title: 'AAA Service'}, { title: 'Role' }]
 function RoleList() {
-  const [label, setLabel] = useState('');
-  const [value, setValue] = useState('');
-  const [createdAt, setCreatedAt] = useState('');
-  const [updatedAt, setUpdateAt] = useState('');
-  const [query, setQuery] = useState({});
-  const [rows, setRows] = useState([]);
-  const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(10);
-  const [total, setTotal] = useState(0);
+  const [label, setLabel] = useState('')
+  const [value, setValue] = useState('')
+  const [createdAt, setCreatedAt] = useState('')
+  const [updatedAt, setUpdateAt] = useState('')
+  const [query, setQuery] = useState({})
+  const [rows, setRows] = useState([])
+  const [page, setPage] = useState(0)
+  const [rowsPerPage, setRowsPerPage] = useState(10)
+  const [total, setTotal] = useState(0)
   useEffect(() => {
     roleApi.list({ ...query, limit: rowsPerPage, page: page+1 })
       .then(response => {
-        setTotal(response.data.data.count);
-        setRows(response.data.data.rows);
-      });
-  }, [page, rowsPerPage, query]);
+        setTotal(response.data.data.count)
+        setRows(response.data.data.rows)
+      })
+  }, [page, rowsPerPage, query])
 
   const handelFieldChange = (e, id) => {
     const { value } = e.target
     switch (id) {
       case "label":
-        setLabel(value);
-        break;
+        setLabel(value)
+        break
       case "value":
-        setValue(value);
-        break;
+        setValue(value)
+        break
       case "createdAt":
-        setCreatedAt(value);
-        break;
+        setCreatedAt(value)
+        break
       case "updatedAt":
-        setUpdateAt(value);
-        break;
+        setUpdateAt(value)
+        break
       default:
-        break;
+        break
     }
-  };
+  }
   const handleSearch = () => {
     setQuery({
       label,
@@ -57,15 +57,15 @@ function RoleList() {
       createdAt,
       updatedAt,
     })
-  };
+  }
 
   const handleChangePage = (_, newPage) => {
-    setPage(newPage);
-  };
+    setPage(newPage)
+  }
 
   const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
+    setRowsPerPage(parseInt(event.target.value, 10))
+    setPage(0)
   }
   const searchBarFieldList = [
     { id: 'label', label: 'Label', type: 'text', disabled: false, readOnly: false, value: label },
@@ -101,7 +101,7 @@ function RoleList() {
         </Grid>
       </Grid>
     </React.Fragment>
-  );
+  )
 }
 
-export default RoleList;
+export default RoleList

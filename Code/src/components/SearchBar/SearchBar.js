@@ -1,12 +1,12 @@
 // import React, { useState, useEffect } from 'react';
-import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import React from 'react'
+import { makeStyles } from '@material-ui/core/styles'
 // import dayjs from 'dayjs'
 import {
   Button,
   TextField,
 } from '@material-ui/core'
-import CommonSelect from "../CommonSelect";
+import CommonSelect from "../CommonSelect"
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -22,15 +22,15 @@ const useStyles = makeStyles((theme) => ({
   button: {
     marginRight: theme.spacing(10),
   },
-}));
+}))
 
 function SearchBar(props) {
   const {
     onSearchFieldChange,
     onSearchButton,
     fieldList,
-  } = props;
-  const classes = useStyles();
+  } = props
+  const classes = useStyles()
   return (
     <div style={{ marginBottom: '10px',  padding: '0 10px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
       {/* 
@@ -80,7 +80,7 @@ function SearchBar(props) {
         Search
       </Button>
     </div>
-  );
+  )
 }
 
 export default SearchBar
