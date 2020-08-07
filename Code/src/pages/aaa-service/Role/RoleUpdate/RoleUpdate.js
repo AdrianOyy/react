@@ -36,7 +36,7 @@ function TenantDetail(props) {
     setSaving(true);
     roleApi.update(id, { label, value })
       .then(() => {
-        CommonTip.success("Successfully Update");
+        CommonTip.success("Success");
         history.push({pathname: '/aaa-service/role'})
       })
       .catch(() => {

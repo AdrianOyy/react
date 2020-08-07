@@ -1,27 +1,29 @@
 import React, {useEffect, useState} from 'react';
 
 import DetailPage from "../../../../components/DetailPage";
-import tenantGroupMappingApi from "../../../../api/tenantGroupMapping"
+import managementApi from "../../../../api/management"
 import {useParams} from "react-router-dom";
 import dayjs from "dayjs";
 import CommonTip from "../../../../components/CommonTip";
 import { useHistory } from 'react-router-dom'
-import {checkEmpty, getCheckExist} from "../untils/TenantGroupMappingFieldCheck";
+import {checkEmpty, getCheckExist} from "../untils/ManagementFieldCheck";
 import tenantApi from "../../../../api/tenant";
 import adGroupApi from "../../../../api/adGroup";
 
 const breadcrumbsList = [
   { title: 'AAA Service'},
-  { title: 'Tenant AD Group Mapping', path: '/aaa-service/tenantAdGroupMapping' },
+  { title: 'Management', path: '/aaa-service/management' },
   { title: 'Update' },
 ]
 
 
-function TenantDetail(props) {
+function ManagementUpdate(props) {
   const { id } = useParams()
   const history = useHistory();
-  const [tenantId, setTenantId] = React.useState('');
-  const [groupId, setGroupId] = React.useState('');
+  const [ tenantId, setTenantId ] = React.useState('');
+  const [ groupId, setGroupId ] = React.useState('');
+  const [ supporter, setSupporter ] = useState('');
+  const [ resourcesQuota, setResourcesQuota ] = useState('');
   const [ createdAt, setCreatedAt ] = useState('');
   const [ updatedAt, setUpdastedAt ] = useState('');
   const [ formFieldList, setFormFieldList ] = useState([]);
@@ -30,8 +32,12 @@ function TenantDetail(props) {
   const [ groupError, setGroupError ] = useState(false);
   const [ tenantHelperText, setTenantHelperText ] = useState("");
   const [ groupHelperText, setGroupHelperText ] = useState("");
-  const [tenantList, setTenantList] = useState([]);
-  const [adGroupList, setAdGroupList] = useState([]);
+  const [ tenantList, setTenantList] = useState([]);
+  const [ adGroupList, setAdGroupList] = useState([]);
+  const [ supporterError, setSupporterError ] = useState(false);
+  const [ supporterHelperText, setSupporterHelperText ] = useState("");
+  const [ resourcesQuotaError, setResourcesQuotaError ] = useState(false);
+  const [ resourcesQuotaHelperText, setResourcesQuotaHelperText ] = useState("");
   const formatDateTime = (str) => {
     return dayjs(new Date(str)).format('YYYY-MM-DD HH:mm')
   }
@@ -50,11 +56,10 @@ function TenantDetail(props) {
         setAdGroupList(rows)
       }
     })
-
   }, [])
 
   const tenantCheck = async () => {
-    const emptyCheck = checkEmpty("tenant", tenantId);
+    const emptyCheck = checkEmpty("Tenant", tenantId);
     setTenantError(emptyCheck.error)
     setTenantHelperText(emptyCheck.msg);
     if (!emptyCheck.error && !groupError) {
@@ -80,6 +85,20 @@ function TenantDetail(props) {
     return emptyCheck.error
   }
 
+  const resourcesQuotaCheck = () => {
+    const emptyCheck = checkEmpty("Resources Quota", resourcesQuota);
+    setResourcesQuotaError(emptyCheck.error)
+    setResourcesQuotaHelperText(emptyCheck.msg);
+    return emptyCheck.error
+  }
+
+  const supporterCheck = () => {
+    const emptyCheck = checkEmpty("Supporter", supporter);
+    setSupporterError(emptyCheck.error)
+    setSupporterHelperText(emptyCheck.msg);
+    return emptyCheck.error
+  }
+
   // 字段 tenant 检查
   useEffect(() => {
     tenantCheck();
@@ -90,16 +109,26 @@ function TenantDetail(props) {
     groupCheck();
     // eslint-disable-next-line
   }, [groupId])
+  useEffect(() => {
+    supporterCheck();
+    // eslint-disable-next-line
+  }, [supporter])
+  useEffect(() =>{
+    resourcesQuotaCheck();
+    // eslint-disable-next-line
+  }, [resourcesQuota])
 
   const hanleClick = async() => {
     const tenantError = await tenantCheck();
     const adGroupError = await groupCheck();
-    if (tenantError || adGroupError || saving) return;
+    const supporterError = supporterCheck();
+    const resourcesQuotaError = resourcesQuotaCheck();
+    if (tenantError || adGroupError || supporterError || resourcesQuotaError || saving) return;
     setSaving(true);
-    tenantGroupMappingApi.update(id, { tenantId, groupId })
+    managementApi.update(id, { tenantId, groupId, supporter, resourcesQuota })
       .then(() => {
         CommonTip.success("Success");
-        history.push({pathname: '/aaa-service/tenantAdGroupMapping'})
+        history.push({pathname: '/aaa-service/management'})
       })
       .catch(() => {
         setSaving(false);
@@ -107,10 +136,12 @@ function TenantDetail(props) {
   }
 
   useEffect(() => {
-    tenantGroupMappingApi.detail(id).then(({ data }) => {
-      const { tenant, ad_group, createdAt, updatedAt } = data.data;
+    managementApi.detail(id).then(({ data }) => {
+      const { tenant, ad_group, supporter, resourcesQuota, createdAt, updatedAt } = data.data;
       setTenantId(tenant.id);
       setGroupId(ad_group.id);
+      setSupporter(supporter);
+      setResourcesQuota(resourcesQuota);
       setCreatedAt(createdAt);
       setUpdastedAt(updatedAt);
       setSaving(false);
@@ -129,11 +160,31 @@ function TenantDetail(props) {
         readOnly: false, value: groupId, error: groupError, helperText: groupHelperText,
         itemList: adGroupList, labelField: "name", valueField: "id"
       },
+      {
+        id: 'supporter',
+        label: 'Supporter',
+        type: 'text',
+        required: true,
+        readOnly: false,
+        value: supporter,
+        error: supporterError,
+        helperText: supporterHelperText
+      },
+      {
+        id: 'resourcesQuota',
+        label: 'Resources Quota',
+        type: 'text',
+        required: true,
+        readOnly: false,
+        value: resourcesQuota,
+        error: resourcesQuotaError,
+        helperText: resourcesQuotaHelperText
+      },
       { id: 'createdAt', label: 'Created At', type: 'text', disabled: true, readOnly: true, value: formatDateTime(createdAt) },
       { id: 'updatedAt', label: 'Updated At', type: 'text', disabled: true, readOnly: true, value: formatDateTime(updatedAt) },
     ]
     setFormFieldList(list);
-  },[tenantId, groupId, tenantError, groupError, tenantHelperText, groupHelperText, tenantList, adGroupList, createdAt, updatedAt ]);
+  },[tenantId, groupId, supporter, resourcesQuota, tenantError, groupError, supporterError, resourcesQuotaError, tenantHelperText, groupHelperText, supporterHelperText, resourcesQuotaHelperText, tenantList, adGroupList, createdAt, updatedAt ]);
   const onFormFieldChange = (e, id) => {
     const { value } = e.target;
     switch(id) {
@@ -143,17 +194,35 @@ function TenantDetail(props) {
       case 'group':
         setGroupId(value);
         break;
+      case 'supporter':
+        setSupporter(value);
+        break;
+      case 'resourcesQuota':
+        setResourcesQuota(value);
+        break;
       default:
         break;
     }
   }
-
+  const onFormFieldBlur = (id) => {
+    switch(id) {
+      case 'supporter':
+        supporterCheck();
+        break;
+      case 'resourcesQuota':
+        resourcesQuotaCheck();
+        break;
+      default:
+        break;
+    }
+  }
   return (
     <React.Fragment>
       <DetailPage
         breadcrumbsList = { breadcrumbsList }
-        formTitle = 'Tenant Update'
+        formTitle = 'Management Update'
         onFormFieldChange = { onFormFieldChange }
+        onFormFieldBlur = { onFormFieldBlur }
         formFieldList = { formFieldList }
         showBtn ={ true }
         onBtnClick = { hanleClick }
@@ -162,4 +231,4 @@ function TenantDetail(props) {
   );
 }
 
-export default TenantDetail;
+export default ManagementUpdate;

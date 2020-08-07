@@ -28,7 +28,7 @@ function RoleCreate(props) {
     setSaving(true);
     roleApi.create({ label, value })
       .then(() => {
-        CommonTip.success("Successfully Create");
+        CommonTip.success("Success");
         history.push({pathname: '/aaa-service/role'})
       })
       .catch(() => {

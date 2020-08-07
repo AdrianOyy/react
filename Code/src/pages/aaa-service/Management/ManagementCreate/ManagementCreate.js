@@ -1,42 +1,50 @@
 import React, {useEffect, useState} from 'react';
 
 import DetailPage from "../../../../components/DetailPage";
-import tenantGroupMappingApi from "../../../../api/tenantGroupMapping"
+import managementApi from "../../../../api/management"
 import CommonTip from "../../../../components/CommonTip";
 import { useHistory } from 'react-router-dom'
-import {checkEmpty, getCheckExist} from "../untils/TenantGroupMappingFieldCheck";
+import {checkEmpty, getCheckExist} from "../untils/ManagementFieldCheck";
 import tenantApi from "../../../../api/tenant";
 import adGroupApi from "../../../../api/adGroup";
 
 const breadcrumbsList = [
   { title: 'AAA Service'},
-  { title: 'Tenant AD Group Mapping', path: '/aaa-service/tenantAdGroupMapping' },
+  { title: 'Management', path: '/aaa-service/management' },
   { title: 'Create' },
 ]
 
 
-function TenantGroupMappingCreate(props) {
+function ManagemnetCreate(props) {
   const history = useHistory();
   const [tenantId, setTenantId] = React.useState('');
   const [groupId, setGroupId] = React.useState('');
+  const [supporter, setSupporter] = useState('');
+  const [ resourcesQuota, setResourcesQuota ] = useState('');
   const [ formFieldList, setFormFieldList ] = useState([]);
   const [ saving, setSaving ] = useState(false);
   const [ tenantError, setTenantError ] = useState(false);
   const [ groupError, setGroupError ] = useState(false);
   const [ tenantHelperText, setTenantHelperText ] = useState("");
   const [ groupHelperText, setGroupHelperText ] = useState("");
-  const [tenantList, setTenantList] = useState([]);
-  const [adGroupList, setAdGroupList] = useState([]);
+  const [ tenantList, setTenantList] = useState([]);
+  const [ adGroupList, setAdGroupList] = useState([]);
+  const [ supporterError, setSupporterError ] = useState(false);
+  const [ supporterHelperText, setSupporterHelperText ] = useState("");
+  const [ resourcesQuotaError, setResourcesQuotaError ] = useState(false);
+  const [ resourcesQuotaHelperText, setResourcesQuotaHelperText ] = useState("");
 
   const handelClick = async() => {
     const tenantError = await tenantCheck();
     const adGroupError = await groupCheck();
-    if (tenantError || adGroupError || saving) return;
+    const supporterError= supporterCheck();
+    const resourcesQuotaError = await resourcesQuotaCheck();
+    if (tenantError || adGroupError || supporterError || resourcesQuotaError || saving) return;
     setSaving(true);
-    tenantGroupMappingApi.create({ tenantId, groupId })
+    managementApi.create({ tenantId, groupId, supporter, resourcesQuota })
       .then(() => {
         CommonTip.success("Success");
-        history.push({pathname: '/aaa-service/tenantAdGroupMapping'})
+        history.push({pathname: '/aaa-service/management'})
       })
       .catch(() => {
         setSaving(false);
@@ -56,8 +64,7 @@ function TenantGroupMappingCreate(props) {
         setAdGroupList(rows)
       }
     })
-
-  }, [])
+  },[])
   useEffect(() => {
     const list = [
       {
@@ -82,17 +89,43 @@ function TenantGroupMappingCreate(props) {
         error: groupError,
         helperText: groupHelperText,
       },
+      {
+        id: 'supporter',
+        label: 'Supporter',
+        type: 'text',
+        required: true,
+        readOnly: false,
+        value: supporter,
+        error: supporterError,
+        helperText: supporterHelperText
+      },
+      {
+        id: 'resourcesQuota',
+        label: 'Resources Quota',
+        type: 'text',
+        required: true,
+        readOnly: false,
+        value: resourcesQuota,
+        error: resourcesQuotaError,
+        helperText: resourcesQuotaHelperText
+      }
     ]
     setFormFieldList(list);
   },[
     tenantId,
     groupId,
+    supporter,
+    resourcesQuota,
     tenantList,
     adGroupList,
     tenantError,
     groupError,
     tenantHelperText,
-    groupHelperText
+    groupHelperText,
+    supporterError,
+    supporterHelperText,
+    resourcesQuotaError,
+    resourcesQuotaHelperText
   ]);
   const onFormFieldChange = (e, id) => {
     const { value } = e.target;
@@ -103,12 +136,30 @@ function TenantGroupMappingCreate(props) {
       case 'group':
         setGroupId(value);
         break;
+      case 'supporter':
+        setSupporter(value);
+        break;
+      case 'resourcesQuota':
+        setResourcesQuota(value);
+        break;
+      default:
+        break;
+    }
+  }
+  const onFormFieldBlur = (id) => {
+    switch(id) {
+      case 'supporter':
+        supporterCheck();
+        break;
+      case 'resourcesQuota':
+        resourcesQuotaCheck();
+        break;
       default:
         break;
     }
   }
   const tenantCheck = async () => {
-    const emptyCheck = checkEmpty("tenant", tenantId);
+    const emptyCheck = checkEmpty("Tenant", tenantId);
     setTenantError(emptyCheck.error)
     setTenantHelperText(emptyCheck.msg);
     if (!emptyCheck.error && !groupError) {
@@ -133,6 +184,18 @@ function TenantGroupMappingCreate(props) {
     }
     return emptyCheck.error
   }
+  const resourcesQuotaCheck = () => {
+    const emptyCheck = checkEmpty("Resources Quota", resourcesQuota);
+    setResourcesQuotaError(emptyCheck.error)
+    setResourcesQuotaHelperText(emptyCheck.msg);
+    return emptyCheck.error
+  }
+  const supporterCheck = () => {
+    const emptyCheck = checkEmpty("Supporter", supporter);
+    setSupporterError(emptyCheck.error)
+    setSupporterHelperText(emptyCheck.msg);
+    return emptyCheck.error
+  }
   // 字段 tenant 检查
   useEffect(() => {
     tenantCheck();
@@ -143,12 +206,21 @@ function TenantGroupMappingCreate(props) {
     groupCheck();
     // eslint-disable-next-line
   }, [groupId])
+  useEffect(() => {
+    supporterCheck();
+    // eslint-disable-next-line
+  }, [supporter])
+  useEffect(() => {
+    resourcesQuotaCheck();
+    // eslint-disable-next-line
+  }, [resourcesQuota])
   return (
     <React.Fragment>
       <DetailPage
         breadcrumbsList = { breadcrumbsList }
-        formTitle = 'Tenant AD Group Mapping Create'
+        formTitle = 'Management Create'
         onFormFieldChange = { onFormFieldChange }
+        onFormFieldBlur = { onFormFieldBlur }
         formFieldList = { formFieldList }
         showBtn ={ true }
         onBtnClick = { handelClick }
@@ -157,4 +229,4 @@ function TenantGroupMappingCreate(props) {
   );
 }
 
-export default TenantGroupMappingCreate;
+export default ManagemnetCreate;
