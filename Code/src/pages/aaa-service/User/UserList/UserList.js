@@ -74,13 +74,13 @@ function List() {
   
   return (
     <React.Fragment>
-      <NaviHeader title={ naviHeaderTitle } breadcrumbsList={ breadcrumbsList } />
+      <NaviHeader title={naviHeaderTitle} breadcrumbsList={breadcrumbsList} />
       <Grid container spacing={6}>
         <Grid item xs={12}>
           <SearchBar
             onSearchFieldChange={handelFieldChange}
             onSearchButton={handleSearch}
-            fieldList = { searchBarFieldList }
+            fieldList = {searchBarFieldList}
           />
           <Paper>
             <EnhancedTable

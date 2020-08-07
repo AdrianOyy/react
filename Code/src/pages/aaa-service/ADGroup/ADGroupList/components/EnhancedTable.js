@@ -144,7 +144,7 @@ function EnhancedTable(props) {
           numSelected={selected.length}
           tableName='AD Group'
           createPath={createPath}
-          onDelete={ handleDelete }
+          onDelete={handleDelete}
         />
         <TableContainer>
           <Table

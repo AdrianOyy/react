@@ -77,13 +77,13 @@ function Create() {
   return (
     <React.Fragment>
       <DetailPage
-        breadcrumbsList = { breadcrumbsList }
-        formTitle = { formTitle }
-        onFormFieldChange = { onFormFieldChange }
-        onFormFieldBlur = { onFormFieldBlur }
-        formFieldList = { formFieldList }
-        showBtn ={ true }
-        onBtnClick = { handelClick }
+        breadcrumbsList = {breadcrumbsList}
+        formTitle = {formTitle}
+        onFormFieldChange = {onFormFieldChange}
+        onFormFieldBlur = {onFormFieldBlur}
+        formFieldList = {formFieldList}
+        showBtn ={true}
+        onBtnClick = {handelClick}
       />
     </React.Fragment>
   )
