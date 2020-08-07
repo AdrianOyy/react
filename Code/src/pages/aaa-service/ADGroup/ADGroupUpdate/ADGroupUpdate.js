@@ -1,10 +1,9 @@
 import React, {useEffect, useState} from 'react'
+import { useParams, useHistory} from "react-router-dom"
+import dayjs from "dayjs"
 
 import DetailPage from "../../../../components/DetailPage"
-import {useParams} from "react-router-dom"
-import dayjs from "dayjs"
 import CommonTip from "../../../../components/CommonTip"
-import { useHistory } from 'react-router-dom'
 import ADGroupApi from "../../../../api/adGroup"
 import {checkEmpty, getCheckExist} from "../untils/ADGroupCheck"
 
@@ -16,8 +15,7 @@ const breadcrumbsList = [
   { title: 'Update' },
 ]
 
-
-function Update(props) {
+function Update() {
   const { id } = useParams()
   const history = useHistory()
   const [ name, setName ] = useState('')

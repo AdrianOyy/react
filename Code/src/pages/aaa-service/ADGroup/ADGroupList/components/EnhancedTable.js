@@ -1,6 +1,7 @@
 import React from 'react'
 import { useHistory } from 'react-router-dom'
 import dayjs from 'dayjs'
+
 import { EnhancedTableToolbar, EnhancedTableHead } from '../../../../../components'
 import CommentTip from '../../../../../components/CommonTip'
 import {
@@ -13,12 +14,10 @@ import {
   TableContainer,
   TableRow,
 } from '@material-ui/core'
-
 import {
   RemoveRedEye as RemoveRedEyeIcon,
   // BorderColorOutlined as BorderColorIcon
 } from "@material-ui/icons"
-
 import ADGroupApi from "../../../../../api/adGroup"
 
 const createPath = '/aaa-service/adgroup/create'
@@ -52,17 +51,19 @@ function stableSort(array, comparator) {
 }
 
 function EnhancedTable(props) {
+  // eslint-disable-next-line react/prop-types
   const { handleSearch, rows } = props
-  const [order, setOrder] = React.useState('asc')
-  const [orderBy, setOrderBy] = React.useState('customer')
-  const [selected, setSelected] = React.useState([])
-  const [loading, setLoading ] = React.useState(false)
+  const history = useHistory()
+  const [ order, setOrder ] = React.useState('asc')
+  const [ orderBy, setOrderBy ] = React.useState('customer')
+  const [ selected, setSelected ] = React.useState([])
+  const [ loading, setLoading ] = React.useState(false)
 
   const formatDateTime = (str) => {
     return dayjs(new Date(str)).format('YYYY-MM-DD HH:mm')
   }
 
-  const history = useHistory()
+  
 
   const handleDelete = () => {
     if (loading) return
@@ -73,6 +74,7 @@ function EnhancedTable(props) {
       setLoading(false)
       setSelected([])
     }).catch((e) => {
+      console.log(e)
       setLoading(false)
     })
   }
@@ -82,11 +84,10 @@ function EnhancedTable(props) {
     setOrder(isAsc ? 'desc' : 'asc')
     setOrderBy(property)
   }
-
-
   
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
+      // eslint-disable-next-line react/prop-types
       const newSelecteds = rows.map((n) => n.id)
       setSelected(newSelecteds)
       return
@@ -157,6 +158,7 @@ function EnhancedTable(props) {
               orderBy={orderBy}
               onSelectAllClick={handleSelectAllClick}
               onRequestSort={handleRequestSort}
+              // eslint-disable-next-line react/prop-types
               rowCount={rows.length}
               headCells={headCells}
             />

@@ -1,8 +1,8 @@
 import React, {useEffect, useState} from 'react'
-
-import DetailPage from "../../../../components/DetailPage"
 import {useParams} from "react-router-dom"
 import dayjs from "dayjs"
+
+import DetailPage from "../../../../components/DetailPage"
 import UserApi from "../../../../api/user"
 
 const listPath = '/aaa-service/user'
@@ -13,7 +13,7 @@ const breadcrumbsList = [
   { title: 'Detail' },
 ]
 
-function Detail(props) {
+function Detail() {
   const { id } = useParams()
   const [ corpId, setCorpId ] = useState('')
   const [ alias, setAlias ] = useState('')
@@ -38,9 +38,11 @@ function Detail(props) {
 
   useEffect(() => {
     UserApi.detail(id).then(({ data }) => {
-      const { corpId, alias, surname, givenname, title, displayname,
+      const {
+        corpId, alias, surname, givenname, title, displayname,
         email, proxyAddresses, cluster, hospital, department,
-        passwordLastSet, UACCode, UACDesc, createdAt, updatedAt } = data.data
+        passwordLastSet, UACCode, UACDesc, createdAt, updatedAt
+      } = data.data
       setCorpId(corpId)
       setAlias(alias)
       setSurname(surname)
@@ -80,7 +82,7 @@ function Detail(props) {
       { id: 'updatedAt', label: 'Updated At', type: 'text', disabled: true, readOnly: true, value: formatDateTime(updatedAt) },
     ]
     setFormFieldList(list)
-  },[corpId, alias, surname, givenname, title, displayname,
+  },[ corpId, alias, surname, givenname, title, displayname,
     email, proxyAddresses, cluster, hospital, department,
     passwordLastSet, UACCode, UACDesc, createdAt, updatedAt ])
   const onFormFieldChange = (e, id) => {

@@ -89,7 +89,6 @@ function SignIn() {
       setPassword(event.target.value)
     } else if (type === 'account') {
       setAccount(event.target.value)
-      debugger
     }
   }
 

@@ -1,6 +1,7 @@
 import React from 'react'
 import { useHistory } from 'react-router-dom'
 import dayjs from 'dayjs'
+
 import { EnhancedTableToolbar, EnhancedTableHead } from '../../../../../components'
 import {
   Box,
@@ -12,7 +13,6 @@ import {
   TableContainer,
   TableRow,
 } from '@material-ui/core'
-
 import {
   RemoveRedEye as RemoveRedEyeIcon,
 } from "@material-ui/icons"
@@ -46,27 +46,26 @@ function stableSort(array, comparator) {
 }
 
 function EnhancedTable(props) {
+  // eslint-disable-next-line react/prop-types
   const { rows } = props
-  const [order, setOrder] = React.useState('asc')
-  const [orderBy, setOrderBy] = React.useState('customer')
-  const [selected, setSelected] = React.useState([])
+  const history = useHistory()
+  const [ order, setOrder ] = React.useState('asc')
+  const [ orderBy, setOrderBy ] = React.useState('customer')
+  const [ selected, setSelected ] = React.useState([])
 
   const formatDateTime = (str) => {
     return dayjs(new Date(str)).format('YYYY-MM-DD HH:mm')
   }
-
-  const history = useHistory()
 
   const handleRequestSort = (_, property) => {
     const isAsc = orderBy === property && order === 'asc'
     setOrder(isAsc ? 'desc' : 'asc')
     setOrderBy(property)
   }
-
-
   
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
+      // eslint-disable-next-line react/prop-types
       const newSelecteds = rows.map((n) => n.id)
       setSelected(newSelecteds)
       return
@@ -136,6 +135,7 @@ function EnhancedTable(props) {
               orderBy={orderBy}
               onSelectAllClick={handleSelectAllClick}
               onRequestSort={handleRequestSort}
+              // eslint-disable-next-line react/prop-types
               rowCount={rows.length}
               headCells={headCells}
             />

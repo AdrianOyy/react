@@ -1,8 +1,8 @@
 import React, {useEffect, useState} from 'react'
+import { useHistory } from 'react-router-dom'
 
 import DetailPage from "../../../../components/DetailPage"
 import CommonTip from "../../../../components/CommonTip"
-import { useHistory } from 'react-router-dom'
 import ADGroupApi from "../../../../api/adGroup"
 import {checkEmpty, getCheckExist} from "../untils/ADGroupCheck"
 
@@ -14,8 +14,7 @@ const breadcrumbsList = [
   { title: 'Create' },
 ]
 
-
-function Create(props) {
+function Create() {
   const history = useHistory()
   const [ name, setName ] = useState('')
   const [ formFieldList, setFormFieldList ] = useState([])

@@ -1,8 +1,8 @@
 import React, {useEffect, useState} from 'react'
-
-import DetailPage from "../../../../components/DetailPage"
 import {useParams} from "react-router-dom"
 import dayjs from "dayjs"
+
+import DetailPage from "../../../../components/DetailPage"
 import ADGroupApi from "../../../../api/adGroup"
 
 const listPath = '/aaa-service/adgroup'
@@ -13,7 +13,7 @@ const breadcrumbsList = [
   { title: 'Detail' },
 ]
 
-function Detail(props) {
+function Detail() {
   const { id } = useParams()
   const [ name, setName ] = useState('')
   const [ createdAt, setCreatedAt ] = useState('')
