@@ -1,8 +1,9 @@
-import React from "react";
-import styled from "styled-components";
-import { NavLink as RouterNavLink } from "react-router-dom";
+/* eslint-disable react/display-name */
+import React from "react"
+import styled from "styled-components"
+import { NavLink as RouterNavLink } from "react-router-dom"
 
-import Helmet from 'react-helmet';
+import Helmet from 'react-helmet'
 
 import {
   Box,
@@ -13,28 +14,28 @@ import {
   Divider as MuiDivider,
   Link,
   Typography as MuiTypography
-} from "@material-ui/core";
+} from "@material-ui/core"
 
-import { spacing } from "@material-ui/system";
+import { spacing } from "@material-ui/system"
 
 const NavLink = React.forwardRef((props, ref) => (
   <RouterNavLink innerRef={ref} {...props} />
-));
+))
 
-const Card = styled(MuiCard)(spacing);
+const Card = styled(MuiCard)(spacing)
 
-const Divider = styled(MuiDivider)(spacing);
+const Divider = styled(MuiDivider)(spacing)
 
-const Breadcrumbs = styled(MuiBreadcrumbs)(spacing);
+const Breadcrumbs = styled(MuiBreadcrumbs)(spacing)
 
-const Typography = styled(MuiTypography)(spacing);
+const Typography = styled(MuiTypography)(spacing)
 
 const Chip = styled(MuiChip)`
   height: 20px;
   margin-top: -3px;
   font-weight: bold;
   font-size: 75%;
-`;
+`
 
 function Changelog() {
   return (
@@ -134,7 +135,7 @@ function Changelog() {
         </CardContent>
       </Card>
     </React.Fragment>
-  );
+  )
 }
 
-export default Changelog;
+export default Changelog

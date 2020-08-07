@@ -18,5 +18,17 @@
         "react"
     ],
     "rules": {
+        "semi": [2, "never"],
+        "arrow-spacing": [ "error", { "before": true, "after": true }],
+        "no-var": "error",
+        "object-shorthand": [ "error", "always", {
+            "avoidQuotes": true,
+            "ignoreConstructors": false
+          }],
+        "react/display-name": [ "off", { "ignoreTranspilerName": false }],
+        "react/jsx-curly-spacing": [ "error", "never", { "allowMultiline": true }],
+        "react/jsx-no-duplicate-props": [ "error", { "ignoreCase": true }]
+
+        // "quotes": ["error", "double"]
     }
 }
