@@ -35,10 +35,10 @@ const Analytics = async(() => import("../pages/dashboards/Analytics"));
 const logging = async(() => import("../pages/logging/logging"));
 
 // user components
-const user = async(() => import("../pages/aaa-service/user"))
+const user = async(() => import("../pages/aaa-service/User/UserList"))
 
 // user detail components
-const userDetail = async(() => import("../pages/aaa-service/userDetail"))
+const userDetail = async(() => import("../pages/aaa-service/User/UserDetail"))
 
 
 // Documentation
@@ -248,7 +248,7 @@ const aaaServiceRoutes = {
 
 const userDetailRoutes = {
   id: "userDetail",
-  path: "/aaa-service/userDetail/:id",
+  path: "/aaa-service/user/detail/:id",
   component: userDetail,
   children: null
 };
