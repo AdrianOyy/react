@@ -40,10 +40,6 @@ const user = async(() => import("../pages/aaa-service/user"))
 // user detail components
 const userDetail = async(() => import("../pages/aaa-service/userDetail"))
 
-// assign components
-const assign = async(() => import("../pages/aaa-service/assign"))
-// assign detail components
-const assignDetail = async(() => import("../pages/aaa-service/assignDetail"))
 
 // Documentation
 // const Presentation = async(() => import("../pages/docs/Presentation"));
@@ -77,6 +73,18 @@ const tenantGroupMapping = async(() => import("../pages/aaa-service/TenantGroupM
 const tenantGroupMappingDetail = async(() => import("../pages/aaa-service/TenantGroupMapping/TenantGroupMappingDetail"))
 const tenantGroupMappingUpdate = async(() => import("../pages/aaa-service/TenantGroupMapping/TenantGroupMappingUpdate"))
 const tenantGroupMappingCreate = async(() => import("../pages/aaa-service/TenantGroupMapping/TenantGroupMappingCreate"))
+
+// assign
+const assign = async(() => import("../pages/aaa-service/Assign/AssignList"))
+const assignDetail = async(() => import("../pages/aaa-service/Assign/AssignDetail"))
+const assignUpdate = async(() => import("../pages/aaa-service/Assign/AssignUpdate"))
+const assignCreate = async(() => import("../pages/aaa-service/Assign/AssignCreate"))
+
+// expiry
+const expiry = async(() => import("../pages/aaa-service/Expiry/ExpiryList"))
+const expiryDetail = async(() => import("../pages/aaa-service/Expiry/ExpiryDetail"))
+const expiryUpdate = async(() => import("../pages/aaa-service/Expiry/ExpiryUpdate"))
+const expiryCreate = async(() => import("../pages/aaa-service/Expiry/ExpiryCreate"))
 
 const authRoutes = {
   id: "Auth",
@@ -226,6 +234,11 @@ const aaaServiceRoutes = {
       path: "/aaa-service/tenantAdGroupMapping",
       name: "Tenant AD Group Mapping",
       component: tenantGroupMapping,
+    },
+    {
+      path: "/aaa-service/expiry",
+      name: "Expiry",
+      component: expiry,
     }
   ]
 };
@@ -297,8 +310,20 @@ const tenantGroupMappingCreateRoutes = {
 
 const assignDetailRoutes = {
   id: "assignDetail",
-  path: "/aaa-service/assignDetail/:id",
+  path: "/aaa-service/assign/detail/:id",
   component: assignDetail,
+  children: null
+};
+const assignUpdateRoutes = {
+  id: "assignDetail",
+  path: "/aaa-service/assign/update/:id",
+  component: assignUpdate,
+  children: null
+};
+const assignCreateRoutes = {
+  id: "assignDetail",
+  path: "/aaa-service/assign/create",
+  component: assignCreate,
   children: null
 };
 
@@ -320,6 +345,25 @@ const adgroupUpdateRoutes = {
   component: ADGroupUpdate,
   children: null
 };
+
+const expiryDetailRoutes = {
+  id: "expiryDetail",
+  path: "/aaa-service/expiry/detail/:id",
+  component: expiryDetail,
+  children: null,
+}
+const expiryUpdateRoutes = {
+  id: "expiryDetail",
+  path: "/aaa-service/expiry/update/:id",
+  component: expiryUpdate,
+  children: null,
+}
+const expiryCreateRoutes = {
+  id: "expiryDetail",
+  path: "/aaa-service/expiry/create",
+  component: expiryCreate,
+  children: null,
+}
 
 const resourceRoutes = {
   id: "Resource",
@@ -392,12 +436,17 @@ export const dashboard = [
   roleUpdateRoutes,
   userDetailRoutes,
   assignDetailRoutes,
+  assignUpdateRoutes,
+  assignCreateRoutes,
   adgroupDetailRoutes,
   adgroupCreateRoutes,
   adgroupUpdateRoutes,
   tenantGroupMappingDetailRoutes,
   tenantGroupMappingUpdateRoutes,
   tenantGroupMappingCreateRoutes,
+  expiryDetailRoutes,
+  expiryUpdateRoutes,
+  expiryCreateRoutes,
 ];
 
 

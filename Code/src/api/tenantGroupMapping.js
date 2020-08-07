@@ -22,6 +22,9 @@ class role {
   checkExist(id, tenantId, groupId) {
     return request.get(`${prefix}/tenant_group_mapping/checkExist?id=${id}&tenantId=${tenantId}&groupId=${groupId}`)
   }
+  handledList() {
+    return request.get(`${prefix}/tenant_group_mapping/handledList`)
+  }
 }
 
 export default new role()

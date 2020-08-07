@@ -27,7 +27,8 @@ function ADGroupCreate(props) {
     setSaving(true);
     ADGroupApi.create({ name })
       .then(() => {
-        CommonTip.success("Successfully Create");
+        CommonTip.success("Success" +
+          "");
         history.push({pathname: '/aaa-service/adgroup'})
       })
       .catch(() => {

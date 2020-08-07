@@ -17,7 +17,7 @@ const breadcrumbsList = [
 ]
 
 
-function TenantDetail(props) {
+function TenantGroupMappingUpdate(props) {
   const { id } = useParams()
   const history = useHistory();
   const [tenantId, setTenantId] = React.useState('');
@@ -152,7 +152,7 @@ function TenantDetail(props) {
     <React.Fragment>
       <DetailPage
         breadcrumbsList = { breadcrumbsList }
-        formTitle = 'Tenant Update'
+        formTitle = 'Tenant AD Group Mapping Update'
         onFormFieldChange = { onFormFieldChange }
         formFieldList = { formFieldList }
         showBtn ={ true }
@@ -162,4 +162,4 @@ function TenantDetail(props) {
   );
 }
 
-export default TenantDetail;
+export default TenantGroupMappingUpdate;

@@ -1,17 +1,29 @@
 import request from '../utils/request'
 
+const prefix = ''
+
 class assign {
-  list(params, options) {
-    // return request.get('/AAA/tenantsMapping/list', params, options)
-    return request.get('/tenantsMapping/list', params, options)
+  list(params) {
+    return request.get(`${prefix}/assign/list`, params)
   }
   detail(id) {
-    // return request.get('/AAA/tenantsMappingMapping/list')
-    return request.get(`/tenantsMapping/detail?id=${id}`)
+    return request.get(`${prefix}/assign/detail?id=${id}`)
   }
-  update(params, options) {
-    // return request.put(`/AAA/tenantsMapping/update`, params, options)
-    return request.put(`/tenantsMapping/update`, params, options)
+  update(id, params) {
+    return request.put(`${prefix}/assign/update?id=${id}`, params)
+  }
+  create(params) {
+    return request.post(`${prefix}/assign/create`, params)
+  }
+  deleteMany(params) {
+    return request.delete(`${prefix}/assign/deleteMany`, params)
+  }
+  checkExist(id, parmas) {
+    const { mappingId } = parmas;
+    return request.get(`${prefix}/assign/checkExist?id=${id}&mappingId=${mappingId}`)
+  }
+  handledList() {
+    return request.get(`${prefix}/assign/handledList`)
   }
 }
 

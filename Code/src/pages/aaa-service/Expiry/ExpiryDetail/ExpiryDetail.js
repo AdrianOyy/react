@@ -1,21 +1,24 @@
 import React, {useEffect, useState} from 'react';
 
 import DetailPage from "../../../../components/DetailPage";
-import tenantGroupMappingApi from "../../../../api/tenantGroupMapping"
+import expiryAPi from "../../../../api/expiry"
 import {useParams} from "react-router-dom";
 import dayjs from "dayjs";
 
 const breadcrumbsList = [
   { title: 'AAA Service'},
-  { title: 'Tenant AD Group Mapping', path: '/aaa-service/tenantAdGroupMapping' },
+  { title: 'Expiry', path: '/aaa-service/expiry' },
   { title: 'Detail' },
 ]
 
 
-function TenantGroupMappingDetail(props) {
+function AssignDetail(props) {
   const { id } = useParams()
-  const [tenant, setTenant] = React.useState('');
-  const [adGroup, setAdGroup] = React.useState('');
+  const [tenant, setTenant] = useState('');
+  const [adGroup, setAdGroup] = useState('');
+  const [role, setRole] = useState('');
+  const [user, setUser] = useState('');
+  const [expiryDate, setExpiryDate] = useState('');
   const [ createdAt, setCreatedAt ] = useState('');
   const [ updatedAt, setUpdastedAt ] = useState('');
   const [ formFieldList, setFormFieldList ] = useState([]);
@@ -24,11 +27,16 @@ function TenantGroupMappingDetail(props) {
   }
 
   useEffect(() => {
-    tenantGroupMappingApi.detail(id).then(({ data }) => {
+    expiryAPi.detail(id).then(({ data }) => {
       if (data && data.data) {
-        const { tenant, ad_group, createdAt, updatedAt } = data.data;
+        const { user, assign, expiryDate, createdAt, updatedAt } = data.data;
+        const { tenant_group_mapping, role } = assign;
+        const { ad_group, tenant } = tenant_group_mapping;
         setTenant(tenant.name);
         setAdGroup(ad_group.name);
+        setRole(role.label);
+        setUser(user.displayname);
+        setExpiryDate(expiryDate);
         setCreatedAt(createdAt);
         setUpdastedAt(updatedAt);
       }
@@ -39,11 +47,14 @@ function TenantGroupMappingDetail(props) {
     const list = [
       { id: 'tenant', label: 'Tenant', type: 'text', disabled: true, readOnly: true, value: tenant },
       { id: 'adGroup', label: 'AD Group', type: 'text', disabled: true, readOnly: true, value: adGroup },
+      { id: 'role', label: 'Role', type: 'text', disabled: true, readOnly: true, value: role },
+      { id: 'user', label: 'User', type: 'text', disabled: true, readOnly: true, value: user },
+      { id: 'expiryDate', label: 'Expiry Date', type: 'text', disabled: true, readOnly: true, value: formatDateTime(expiryDate) },
       { id: 'createdAt', label: 'Created At', type: 'text', disabled: true, readOnly: true, value: formatDateTime(createdAt) },
       { id: 'updatedAt', label: 'Updated At', type: 'text', disabled: true, readOnly: true, value: formatDateTime(updatedAt) },
     ]
     setFormFieldList(list);
-  },[tenant, adGroup, createdAt, updatedAt]);
+  },[tenant, adGroup, role, user, expiryDate, createdAt, updatedAt]);
   const onFormFieldChange = (e, id) => {
     const { value } = e.target;
     switch(id) {
@@ -53,6 +64,15 @@ function TenantGroupMappingDetail(props) {
       case 'adGroup':
         setAdGroup(value);
         break;
+      case 'role':
+        setRole(value);
+        break;
+      case 'user':
+        setUser(value);
+        break;
+      case 'expiryDate':
+        setExpiryDate(value);
+        break;
       default:
         break;
     }
@@ -61,7 +81,7 @@ function TenantGroupMappingDetail(props) {
     <React.Fragment>
       <DetailPage
         breadcrumbsList = { breadcrumbsList }
-        formTitle = 'Tenant AD Group Mapping Detail'
+        formTitle = 'Expiry Date Detail'
         onFormFieldChange = { onFormFieldChange }
         formFieldList = { formFieldList }
       />
@@ -69,4 +89,4 @@ function TenantGroupMappingDetail(props) {
   );
 }
 
-export default TenantGroupMappingDetail;
+export default AssignDetail;

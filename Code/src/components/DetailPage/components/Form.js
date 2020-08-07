@@ -30,6 +30,7 @@ function Form(props) {
     showBtn,
     onBtnClick,
     onFormFieldBlur,
+    spacing,
   } = props
   return (
     <Card mb={6}>
@@ -39,44 +40,51 @@ function Form(props) {
         </Typography>
         <Paper mt={10}>
           <form noValidate autoComplete="off">
-            {
-              formFieldList && formFieldList.map((field, i) => field.isSelector ? (
-                  <CommonSelect
-                    id = {field.id}
-                    key = {field.id + field.label}
-                    label = { field.label}
-                    error = {field.error || false}
-                    helperText = {field.helperText || ''}
-                    value={ field.value }
-                    itemList={field.itemList}
-                    outlined={true}
-                    labelField={field.labelField}
-                    valueField={field.valueField}
-                    onSelectChange = { (event) => onFormFieldChange(event, field.id) }
-                  />
-                ):
-                (
-                  <TextField
-                    id = { field.id }
-                    key = {field.id + field.label}
-                    label = { field.label}
-                    type = {field.type}
-                    error = {field.error || false}
-                    helperText = {field.helperText || ''}
-                    disabled = {field.disabled || false}
-                    variant = "outlined"
-                    required = {field.required || false}
-                    onChange = { !field.readOnly ? (event) => onFormFieldChange(event, field.id) : null}
-                    onBlur = {!field.readOnly ? () => onFormFieldBlur(field.id) : null}
-                    value={ field.value }
-                    InputProps={{
-                      readOnly: field.readOnly
-                    }}
-                    style={{ marginRight: "10ch" }}
-                  />
-                )
-              )
-            }
+            <Grid container spacing={spacing ? spacing : 3}>
+                {
+                  formFieldList && formFieldList.map((field, i) => field.isSelector ? (
+                        <CommonSelect
+                          id = {field.id}
+                          key = {field.id + field.label}
+                          label = { field.label}
+                          error = {field.error || false}
+                          helperText = {field.helperText || ''}
+                          value={ field.value }
+                          itemList={field.itemList}
+                          outlined={true}
+                          labelField={field.labelField}
+                          valueField={field.valueField}
+                          hasMt = { true }
+                          width = {field.width}
+                          onSelectChange = { (event) => onFormFieldChange(event, field.id) }
+                        />
+                    ):
+                    (
+                        <TextField
+                          id = { field.id }
+                          key = {field.id + field.label}
+                          label = { field.label}
+                          type = {field.type}
+                          error = {field.error || false}
+                          helperText = {field.helperText || ''}
+                          disabled = {field.disabled || false}
+                          variant = "outlined"
+                          required = {field.required || false}
+                          onChange = { !field.readOnly ? (event) => onFormFieldChange(event, field.id) : null}
+                          onBlur = {!field.readOnly && onFormFieldBlur ? (e) => onFormFieldBlur(e, field.id) : null}
+                          value={ field.value }
+                          InputProps={{
+                            readOnly: field.readOnly
+                          }}
+                          InputLabelProps={{
+                            shrink: field.type === 'date' ? true : undefined
+                          }}
+                          style={{ marginTop: "5ch", marginRight: "10ch" }}
+                        />
+                    )
+                  )
+                }
+            </Grid>
           </form>
         </Paper>
         {

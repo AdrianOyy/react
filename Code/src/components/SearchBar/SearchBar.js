@@ -67,7 +67,7 @@ function SearchBar(props) {
               InputLabelProps={{
                 shrink: field.type === 'date' ? true : undefined
               }}
-              style={{ marginRight: "10ch" }}
+              style={{ marginRight: "8ch" }}
             />
           ))
         }

@@ -1,21 +1,22 @@
 import React, {useEffect, useState} from 'react';
 
 import DetailPage from "../../../../components/DetailPage";
-import tenantGroupMappingApi from "../../../../api/tenantGroupMapping"
+import assignAPi from "../../../../api/assign"
 import {useParams} from "react-router-dom";
 import dayjs from "dayjs";
 
 const breadcrumbsList = [
   { title: 'AAA Service'},
-  { title: 'Tenant AD Group Mapping', path: '/aaa-service/tenantAdGroupMapping' },
+  { title: 'Assign', path: '/aaa-service/assign' },
   { title: 'Detail' },
 ]
 
 
-function TenantGroupMappingDetail(props) {
+function AssignDetail(props) {
   const { id } = useParams()
-  const [tenant, setTenant] = React.useState('');
-  const [adGroup, setAdGroup] = React.useState('');
+  const [tenant, setTenant] = useState('');
+  const [adGroup, setAdGroup] = useState('');
+  const [role, setRole] = useState('');
   const [ createdAt, setCreatedAt ] = useState('');
   const [ updatedAt, setUpdastedAt ] = useState('');
   const [ formFieldList, setFormFieldList ] = useState([]);
@@ -24,11 +25,14 @@ function TenantGroupMappingDetail(props) {
   }
 
   useEffect(() => {
-    tenantGroupMappingApi.detail(id).then(({ data }) => {
+    assignAPi.detail(id).then(({ data }) => {
       if (data && data.data) {
-        const { tenant, ad_group, createdAt, updatedAt } = data.data;
+        console.log("data: ", data.data);
+        const { role, tenant_group_mapping, createdAt, updatedAt } = data.data;
+        const { ad_group, tenant } = tenant_group_mapping;
         setTenant(tenant.name);
         setAdGroup(ad_group.name);
+        setRole(role.label);
         setCreatedAt(createdAt);
         setUpdastedAt(updatedAt);
       }
@@ -39,11 +43,12 @@ function TenantGroupMappingDetail(props) {
     const list = [
       { id: 'tenant', label: 'Tenant', type: 'text', disabled: true, readOnly: true, value: tenant },
       { id: 'adGroup', label: 'AD Group', type: 'text', disabled: true, readOnly: true, value: adGroup },
+      { id: 'role', label: 'Role', type: 'text', disabled: true, readOnly: true, value: role },
       { id: 'createdAt', label: 'Created At', type: 'text', disabled: true, readOnly: true, value: formatDateTime(createdAt) },
       { id: 'updatedAt', label: 'Updated At', type: 'text', disabled: true, readOnly: true, value: formatDateTime(updatedAt) },
     ]
     setFormFieldList(list);
-  },[tenant, adGroup, createdAt, updatedAt]);
+  },[tenant, adGroup, role, createdAt, updatedAt]);
   const onFormFieldChange = (e, id) => {
     const { value } = e.target;
     switch(id) {
@@ -52,6 +57,9 @@ function TenantGroupMappingDetail(props) {
         break;
       case 'adGroup':
         setAdGroup(value);
+        break;
+      case 'role':
+        setRole(value);
         break;
       default:
         break;
@@ -69,4 +77,4 @@ function TenantGroupMappingDetail(props) {
   );
 }
 
-export default TenantGroupMappingDetail;
+export default AssignDetail;

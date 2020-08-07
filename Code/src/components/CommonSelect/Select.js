@@ -28,13 +28,15 @@ function CommonSelect(props) {
     outlined,
     valueField,
     labelField,
+    hasMt,
+    width
   } = props;
   return (
     <FormControl
       className={classes.formControl}
       error={error}
       variant={ outlined ? "outlined" : undefined }
-      style={{ margin: "0 10ch 0 0"}}
+      style={ hasMt ? { margin: "5ch 8ch 0 0"} : { margin: "0 8ch 0 0"} }
     >
       <InputLabel id={id}> {label} </InputLabel>
       <Select
@@ -42,6 +44,7 @@ function CommonSelect(props) {
         id={id}
         value={value}
         onChange={onSelectChange}
+        style={{minWidth:`${(width ? width : 1) * 150}px`}}
       >
         {
           itemList && itemList.map((item, i) => (
