@@ -2,13 +2,12 @@ import React, { useState, useEffect } from 'react'
 import styled from "styled-components"
 import { NavLink as RouterNavLink } from "react-router-dom"
 // import syncUserAPI from '../../api/user.js'
-import {getProcessDefinitions,openDesigner,createModel}  from '../../api/workFlow.js'
+import { getProcessDefinitions }  from '../../api/workFlow.js'
 import Helmet from 'react-helmet'
 import CommonTip from '../../components/CommonTip'
 // import dayjs from 'dayjs';
 
 import {
-  Box,
   Breadcrumbs as MuiBreadcrumbs,
   Button,
   Checkbox,
@@ -110,7 +109,7 @@ function getComparator(order, orderBy) {
 }
 
 function stableSort(array, comparator) {
-  const stabilizedThis = array.map((el, index) => [el, index])
+  const stabilizedThis = array.map((el, index) => [ el, index ])
   stabilizedThis.sort((a, b) => {
     const order = comparator(a[0], b[0])
     if (order !== 0) return order
@@ -231,16 +230,20 @@ let EnhancedTableToolbar = props => {
 }
 
 function EnhancedTable() {
-  const [order, setOrder] = React.useState('asc')
-  const [orderBy, setOrderBy] = React.useState('id')
-  const [selected, setSelected] = React.useState([])
-  const [page, setPage] = React.useState(0)
-  const [rowsPerPage, setRowsPerPage] = React.useState(1)
-  const [total, setTotal] = React.useState(0)
-  const [emptyRows, setEmptyRows] = React.useState(0)
-  const [text, setText] = React.useState('')
-  const [query, setQuery] = React.useState({})
-  
+  const [ order, setOrder ] = React.useState('asc')
+  const [ orderBy, setOrderBy ] = React.useState('id')
+  const [ selected, setSelected ] = React.useState([])
+  const [ page, setPage ] = React.useState(0)
+  const [ rowsPerPage, setRowsPerPage ] = React.useState(1)
+  const [ total, setTotal ] = React.useState(0)
+  const [ emptyRows, setEmptyRows ] = React.useState(0)
+  const [ text, setText ] = React.useState('')
+  const [ query, setQuery ] = React.useState({})
+
+  console.log(setTotal)
+  console.log(setEmptyRows)
+  console.log(query)
+
   const handelTextChange = (event) => {
     setText(event.target.value)
   }
@@ -254,9 +257,9 @@ function EnhancedTable() {
   const openActivitiDesign = () => {
     // openDesigner().then(response=>{
     //   console.log(response)
-      
+
     // })
-    window.open(process.env.REACT_APP_BASE_API_WORKFLOW+"/create?token="+localStorage.getItem("token"))
+    window.open(process.env.REACT_APP_BASE_API_WORKFLOW + "/create?token=" + localStorage.getItem("token"))
   //  createModel(localStorage.getItem("token")).then(response =>{
   //    console.log(response.data)
   //    openDesigner(response.data.data.modelId)
@@ -268,26 +271,26 @@ function EnhancedTable() {
     setOrder(isAsc ? 'desc' : 'asc')
     setOrderBy(property)
   }
-  const [rows, setRows] = useState([])
-  
+  const [ rows, setRows ] = useState([])
+
   useEffect(() => {
     getProcessDefinitions().then(response => {
-       // setTotal(response.data.data.total);
-       console.log(response.data)
-       if(response.data && response.data.data){
-        const newArr = response.data.data.filter(item => item.sourceExtraUrl!=null)
+      // setTotal(response.data.data.total);
+      console.log(response.data)
+      if (response.data && response.data.data) {
+        const newArr = response.data.data.filter(item => item.sourceExtraUrl != null)
         console.log(newArr)
         setRows(newArr)
-       }
-     
+      }
+
       //  const length = response.data.data.length
       //  const emptyrow = rowsPerPage - length;
       //  setEmptyRows(emptyrow);
     }).catch(error => {
       CommonTip.error(error.message, { })
     })
-  },[])
-  
+  }, [])
+
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
       const newSelecteds = rows.map((n) => n.id)
@@ -300,7 +303,7 @@ function EnhancedTable() {
   const handleClick = (event, id) => {
     const selectedIndex = selected.indexOf(id)
     let newSelected = []
-  
+
     if (selectedIndex === -1) {
       newSelected = newSelected.concat(selected, id)
     } else if (selectedIndex === 0) {
@@ -313,10 +316,10 @@ function EnhancedTable() {
         selected.slice(selectedIndex + 1),
       )
     }
-  
+
     setSelected(newSelected)
   }
-  
+
   // const handleDelete = (event, id) => {
   //   console.log(id)
   //   workFlowAPI.deleteDeployment(id).then(() => {
@@ -346,7 +349,7 @@ function EnhancedTable() {
 
   return (
     <div>
-      <EmptyCard 
+      <EmptyCard
         onHandelTextChange={handelTextChange}
         onSearchButton={handlSearch}
         openActivitiDesign={openActivitiDesign}
@@ -380,7 +383,7 @@ function EnhancedTable() {
                       tabIndex={-1}
                       key={`${row.id}-${index}`}
                       selected={isItemSelected}
-                      >
+                    >
                       <TableCell padding="checkbox">
                         <Checkbox
                           checked={isItemSelected}
@@ -392,7 +395,7 @@ function EnhancedTable() {
                       <TableCell align="center">{row.version}</TableCell>
                       <TableCell align="center">{row.name}</TableCell>
                       <TableCell align="center">{row.deploymentId}</TableCell>
-                      <TableCell align="center">{row.deploymentUrl}</TableCell>             
+                      <TableCell align="center">{row.deploymentUrl}</TableCell>
                       { <TableCell padding="none" align="right">
                         {/* <Box mr={2}>
                           <IconButton aria-label="delete" onClick={(event) => handleDelete(event, row.id)}>
@@ -415,7 +418,7 @@ function EnhancedTable() {
           </Table>
         </TableContainer>
         <TablePagination
-          rowsPerPageOptions={[1, 2, 3]}
+          rowsPerPageOptions={[ 1, 2, 3 ]}
           component="div"
           count={total}
           rowsPerPage={rowsPerPage}
@@ -435,7 +438,7 @@ function SyncList() {
 
       <Grid
         justify="space-between"
-        container 
+        container
         spacing={10}
       >
         <Grid item>
@@ -454,7 +457,7 @@ function SyncList() {
           </Breadcrumbs>
         </Grid>
       </Grid>
-      
+
       <Divider my={6} />
 
       <Grid container spacing={6}>
