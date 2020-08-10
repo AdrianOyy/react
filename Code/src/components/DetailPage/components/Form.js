@@ -14,6 +14,7 @@ import CommonSelect from "../../CommonSelect"
 
 import { spacing } from "@material-ui/system"
 import styled from "styled-components"
+import { KeyboardDatePicker } from "@material-ui/pickers"
 
 const Card = styled(MuiCard)(spacing)
 const Paper = styled(MuiPaper)(spacing)
@@ -32,6 +33,14 @@ function Form(props) {
     onFormFieldBlur,
     spacing,
   } = props
+  const handleDataChange = (value, id) => {
+    const data = {
+      target: {
+        value
+      }
+    }
+    onFormFieldChange(data, id)
+  }
   return (
     <Card mb={6}>
       <CardContent>
@@ -42,7 +51,7 @@ function Form(props) {
           <form noValidate autoComplete="off">
             <Grid container spacing={spacing ? spacing : 3}>
               {
-                formFieldList && formFieldList.map((field, i) => field.isSelector ? (
+                formFieldList && formFieldList.map((field) => field.isSelector ? (
                   <CommonSelect
                     id = {field.id}
                     key = {field.id + field.label}
@@ -56,10 +65,24 @@ function Form(props) {
                     valueField={field.valueField}
                     hasMt = {true}
                     width = {field.width}
+                    labelWidth = {field.labelWidth}
                     onSelectChange = {(event) => onFormFieldChange(event, field.id)}
                   />
-                ) :
+                ) : (field.type === 'date' ?
                   (
+                    <KeyboardDatePicker
+                      clearable
+                      variant="inline"
+                      inputVariant="outlined"
+                      key = {field.id + field.label}
+                      format="yyyy/MM/dd"
+                      label = {field.label}
+                      value = {field.value === '' ? null : field.value}
+                      style={{ marginTop: "5ch", marginRight: "10ch" }}
+                      disabled = {field.readOnly}
+                      onChange = {(event) => handleDataChange(event, field.id)}
+                    />
+                  ) : (
                     <TextField
                       id = {field.id}
                       key = {field.id + field.label}
@@ -81,7 +104,7 @@ function Form(props) {
                       }}
                       style={{ marginTop: "5ch", marginRight: "10ch" }}
                     />
-                  )
+                  ))
                 )
               }
             </Grid>
@@ -98,7 +121,7 @@ function Form(props) {
               <Button
                 color="primary"
                 variant="contained"
-                onClick={(e) => onBtnClick()}>
+                onClick={() => onBtnClick()}>
                   Save
               </Button>
             </Grid>
