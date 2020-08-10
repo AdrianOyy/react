@@ -12,7 +12,7 @@ const breadcrumbsList = [
 ]
 
 
-function ManagementDetail(props) {
+function ManagementDetail() {
   const { id } = useParams()
   const [tenant, setTenant] = React.useState('')
   const [adGroup, setAdGroup] = React.useState('')
