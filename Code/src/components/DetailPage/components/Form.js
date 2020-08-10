@@ -51,7 +51,7 @@ function Form(props) {
           <form noValidate autoComplete="off">
             <Grid container spacing={spacing ? spacing : 3}>
               {
-                formFieldList && formFieldList.map((field, i) => field.isSelector ? (
+                formFieldList && formFieldList.map((field) => field.isSelector ? (
                   <CommonSelect
                     id = {field.id}
                     key = {field.id + field.label}
@@ -121,7 +121,7 @@ function Form(props) {
               <Button
                 color="primary"
                 variant="contained"
-                onClick={(e) => onBtnClick()}>
+                onClick={() => onBtnClick()}>
                   Save
               </Button>
             </Grid>
