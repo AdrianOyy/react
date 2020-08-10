@@ -2,18 +2,16 @@ import React, { useEffect, useState } from 'react'
 import { useParams } from "react-router-dom"
 import dayjs from "dayjs"
 
-import DetailPage from "../../../../components/DetailPage"
-import UserApi from "../../../../api/user"
+import DetailPage from "../../../../../components/DetailPage"
+import UserApi from "../../../../../api/user"
 
-const listPath = '/aaa-service/user'
-const formTitle = 'User Profile List'
-const breadcrumbsList = [
-  { title: 'AAA Service' },
-  { title: 'User Profile', path: listPath },
-  { title: 'Detail' },
-]
+const formatDateTime = (str) => {
+  return dayjs(new Date(str)).format('YYYY-MM-DD HH:mm')
+}
+const formTitle = 'User Profile Detail'
 
-function Detail() {
+function Detail(props) {
+  const { onMount } = props
   const { id } = useParams()
   const [ corpId, setCorpId ] = useState('')
   const [ alias, setAlias ] = useState('')
@@ -30,11 +28,13 @@ function Detail() {
   const [ UACCode, setUACCode ] = useState('')
   const [ UACDesc, setUACDesc ] = useState('')
   const [ createdAt, setCreatedAt ] = useState('')
-  const [ updatedAt, setUpdastedAt ] = useState('')
+  const [ updatedAt, setUpdatedAt ] = useState('')
   const [ formFieldList, setFormFieldList ] = useState([])
-  const formatDateTime = (str) => {
-    return dayjs(new Date(str)).format('YYYY-MM-DD HH:mm')
-  }
+
+  useEffect(() => {
+    onMount('detail')
+    // eslint-disable-next-line
+  }, [])
 
   useEffect(() => {
     UserApi.detail(id).then(({ data }) => {
@@ -58,7 +58,7 @@ function Detail() {
       setUACCode(UACCode)
       setUACDesc(UACDesc)
       setCreatedAt(createdAt)
-      setUpdastedAt(updatedAt)
+      setUpdatedAt(updatedAt)
     })
   }, [ id ])
 
@@ -85,6 +85,7 @@ function Detail() {
   }, [ corpId, alias, surname, givenname, title, displayname,
     email, proxyAddresses, cluster, hospital, department,
     passwordLastSet, UACCode, UACDesc, createdAt, updatedAt ])
+
   const onFormFieldChange = (e, id) => {
     const { value } = e.target
     switch (id) {
@@ -95,10 +96,10 @@ function Detail() {
         break
     }
   }
+
   return (
     <React.Fragment>
       <DetailPage
-        breadcrumbsList = {breadcrumbsList}
         formTitle = {formTitle}
         onFormFieldChange = {onFormFieldChange}
         formFieldList = {formFieldList}

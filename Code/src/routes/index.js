@@ -35,10 +35,7 @@ const Analytics = async(() => import("../pages/dashboards/Analytics"))
 const logging = async(() => import("../pages/logging/logging"))
 
 // user components
-const user = async(() => import("../pages/aaa-service/User/UserList"))
-
-// user detail components
-const userDetail = async(() => import("../pages/aaa-service/User/UserDetail"))
+const user = async(() => import("../pages/aaa-service/User"))
 
 
 // Documentation
@@ -225,13 +222,6 @@ const aaaServiceRoutes = {
   ]
 }
 
-const userDetailRoutes = {
-  id: "userDetail",
-  path: "/aaa-service/user/detail/:id",
-  component: userDetail,
-  children: null
-}
-
 const resourceRoutes = {
   id: "Resource",
   path: "/resources",
@@ -295,7 +285,6 @@ export const dashboard = [
   recordRoutes,
   logRoutes,
   aaaServiceRoutes,
-  userDetailRoutes,
 ]
 
 
