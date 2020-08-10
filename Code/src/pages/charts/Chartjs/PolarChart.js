@@ -19,11 +19,11 @@ const ChartWrapper = styled.div`
 
 function PolarChart({ theme }) {
   const data = {
-    labels: ["Speed", "Reliability", "Comfort", "Safety", "Efficiency"],
+    labels: [ "Speed", "Reliability", "Comfort", "Safety", "Efficiency" ],
     datasets: [
       {
         label: "Model S",
-        data: [35, 38, 65, 70, 24],
+        data: [ 35, 38, 65, 70, 24 ],
         backgroundColor: [
           theme.palette.secondary.main,
           yellow[700],

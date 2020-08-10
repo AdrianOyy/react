@@ -56,7 +56,7 @@ const BubbleWrapper = styled.div`
 `
 
 function Quill() {
-  const [value, setValue] = useState('')
+  const [ value, setValue ] = useState('')
 
   return (
     <Card mb={6}>
@@ -78,7 +78,7 @@ function Quill() {
 }
 
 function Bubble() {
-  const [value, setValue] = useState('')
+  const [ value, setValue ] = useState('')
 
   return (
     <Card mb={6}>

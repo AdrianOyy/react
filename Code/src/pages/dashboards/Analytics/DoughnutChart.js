@@ -71,10 +71,10 @@ const RedText = styled.span`
 
 const PieChart = ({ theme }) => {
   const data = {
-    labels: ["Social", "Search Engines", "Direct", "Other"],
+    labels: [ "Social", "Search Engines", "Direct", "Other" ],
     datasets: [
       {
-        data: [260, 125, 164],
+        data: [ 260, 125, 164 ],
         backgroundColor: [
           blue[500],
           red[500],

@@ -285,24 +285,24 @@ function Sidebar({ classes, staticContext, location, ...rest }) {
     routes.forEach((route, index) => {
       const isActive = pathName.indexOf(route.path) === 0
       const isOpen = route.open
-      const isHome = route.containsHome && pathName === "/" ? true : false
+      const isHome = !!(route.containsHome && pathName === "/")
 
-      _routes = Object.assign({}, _routes, {[index]: isActive || isOpen || isHome})
+      _routes = Object.assign({}, _routes, { [index]: isActive || isOpen || isHome })
     })
 
     return _routes
   }
 
-  const [openRoutes, setOpenRoutes] = useState(() => initOpenRoutes())
+  const [ openRoutes, setOpenRoutes ] = useState(() => initOpenRoutes())
 
   const toggle = index => {
     // Collapse all elements
     Object.keys(openRoutes).forEach(
-      item => openRoutes[index] || setOpenRoutes(openRoutes => Object.assign({}, openRoutes, {[item]: false}))
+      item => openRoutes[index] || setOpenRoutes(openRoutes => Object.assign({}, openRoutes, { [item]: false }))
     )
 
     // Toggle selected element
-    setOpenRoutes(openRoutes => Object.assign({}, openRoutes, {[index]: !openRoutes[index]}))
+    setOpenRoutes(openRoutes => Object.assign({}, openRoutes, { [index]: !openRoutes[index] }))
   }
 
   return (
@@ -315,7 +315,7 @@ function Sidebar({ classes, staticContext, location, ...rest }) {
           src="/static/img/logo/sidebar.svg"
         />
         <Box ml={1}>SENSE Platform
-        {/* <BrandChip label="PRO" /> */}
+          {/* <BrandChip label="PRO" /> */}
         </Box>
       </Brand>
       <Scrollbar>

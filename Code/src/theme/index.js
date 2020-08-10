@@ -11,11 +11,11 @@ const theme = variant => {
   return createMuiTheme(
     {
       spacing: 4,
-      breakpoints: breakpoints,
-      overrides: overrides,
-      props: props,
-      typography: typography,
-      shadows: shadows,
+      breakpoints,
+      overrides,
+      props,
+      typography,
+      shadows,
       body: variant.body,
       header: variant.header,
       palette: variant.palette,

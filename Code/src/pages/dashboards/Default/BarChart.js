@@ -45,7 +45,7 @@ const BarChart = ({ theme }) => {
         borderColor: theme.palette.secondary.main,
         hoverBackgroundColor: theme.palette.secondary.main,
         hoverBorderColor: theme.palette.secondary.main,
-        data: [54, 67, 41, 55, 62, 45, 55, 73, 60, 76, 48, 79],
+        data: [ 54, 67, 41, 55, 62, 45, 55, 73, 60, 76, 48, 79 ],
         barPercentage: 0.75,
         categoryPercentage: 0.5
       },
@@ -55,7 +55,7 @@ const BarChart = ({ theme }) => {
         borderColor: theme.palette.grey[200],
         hoverBackgroundColor: theme.palette.grey[200],
         hoverBorderColor: theme.palette.grey[200],
-        data: [69, 66, 24, 48, 52, 51, 44, 53, 62, 79, 51, 68],
+        data: [ 69, 66, 24, 48, 52, 51, 44, 53, 62, 79, 51, 68 ],
         barPercentage: 0.75,
         categoryPercentage: 0.5
       }

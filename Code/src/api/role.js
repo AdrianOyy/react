@@ -19,7 +19,7 @@ class role {
   deleteMany(params) {
     return request.delete(`${prefix}/role/deleteMany`, params)
   }
-  checkLabel(id,label) {
+  checkLabel(id, label) {
     return request.get(`${prefix}/role/checkLabel?id=${id}&label=${label}`)
   }
 }

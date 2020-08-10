@@ -3,7 +3,7 @@ import request from '../utils/request'
 const prefix = ''
 // const prefix = '/AAA'
 
-class assign {
+class tenant {
   list(params, options) {
     return request.get(`${prefix}/tenant/list`, params, options)
   }
@@ -19,9 +19,9 @@ class assign {
   deleteMany(params) {
     return request.delete(`${prefix}/tenant/deleteMany`, params)
   }
-  checkName(id,name) {
+  checkName(id, name) {
     return request.get(`${prefix}/tenant/checkName?id=${id}&name=${name}`)
   }
 }
 
-export default new assign()
+export default new tenant()

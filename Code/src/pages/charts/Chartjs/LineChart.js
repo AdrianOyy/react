@@ -56,7 +56,7 @@ function LineChart({ theme }) {
         fill: true,
         backgroundColor: "transparent",
         borderColor: theme.palette.grey[500],
-        borderDash: [4, 4],
+        borderDash: [ 4, 4 ],
         data: [
           958,
           724,
@@ -106,7 +106,7 @@ function LineChart({ theme }) {
             stepSize: 500
           },
           display: true,
-          borderDash: [5, 5],
+          borderDash: [ 5, 5 ],
           gridLines: {
             color: "rgba(0,0,0,0)",
             fontColor: "#fff"

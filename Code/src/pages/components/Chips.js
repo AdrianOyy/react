@@ -273,7 +273,7 @@ const OutlinedChips = () => {
 }
 
 const ChipArray = () => {
-  const [chipData, setChipData] = useState([
+  const [ chipData, setChipData ] = useState([
     { key: 0, label: "Angular" },
     { key: 1, label: "jQuery" },
     { key: 2, label: "Polymer" },

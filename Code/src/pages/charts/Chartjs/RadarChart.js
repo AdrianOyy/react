@@ -18,7 +18,7 @@ const ChartWrapper = styled.div`
 
 function RadarChart({ theme }) {
   const data = {
-    labels: ["Speed", "Reliability", "Comfort", "Safety", "Efficiency"],
+    labels: [ "Speed", "Reliability", "Comfort", "Safety", "Efficiency" ],
     datasets: [
       {
         label: "Model X",
@@ -28,7 +28,7 @@ function RadarChart({ theme }) {
         pointBorderColor: "#fff",
         pointHoverBackgroundColor: "#fff",
         pointHoverBorderColor: theme.palette.secondary.main,
-        data: [70, 53, 82, 60, 33]
+        data: [ 70, 53, 82, 60, 33 ]
       },
       {
         label: "Model S",
@@ -38,7 +38,7 @@ function RadarChart({ theme }) {
         pointBorderColor: "#fff",
         pointHoverBackgroundColor: "#fff",
         pointHoverBorderColor: orange[600],
-        data: [35, 38, 65, 85, 84]
+        data: [ 35, 38, 65, 85, 84 ]
       }
     ]
   }

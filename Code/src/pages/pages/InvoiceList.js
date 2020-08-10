@@ -109,7 +109,7 @@ function getComparator(order, orderBy) {
 }
 
 function stableSort(array, comparator) {
-  const stabilizedThis = array.map((el, index) => [el, index])
+  const stabilizedThis = array.map((el, index) => [ el, index ])
   stabilizedThis.sort((a, b) => {
     const order = comparator(a[0], b[0])
     if (order !== 0) return order
@@ -202,11 +202,11 @@ let EnhancedTableToolbar = props => {
 }
 
 function EnhancedTable() {
-  const [order, setOrder] = React.useState('asc')
-  const [orderBy, setOrderBy] = React.useState('customer')
-  const [selected, setSelected] = React.useState([])
-  const [page, setPage] = React.useState(0)
-  const [rowsPerPage, setRowsPerPage] = React.useState(5)
+  const [ order, setOrder ] = React.useState('asc')
+  const [ orderBy, setOrderBy ] = React.useState('customer')
+  const [ selected, setSelected ] = React.useState([])
+  const [ page, setPage ] = React.useState(0)
+  const [ rowsPerPage, setRowsPerPage ] = React.useState(5)
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc'
@@ -226,7 +226,7 @@ function EnhancedTable() {
   const handleClick = (event, id) => {
     const selectedIndex = selected.indexOf(id)
     let newSelected = []
-  
+
     if (selectedIndex === -1) {
       newSelected = newSelected.concat(selected, id)
     } else if (selectedIndex === 0) {
@@ -239,7 +239,7 @@ function EnhancedTable() {
         selected.slice(selectedIndex + 1),
       )
     }
-  
+
     setSelected(newSelected)
   }
 
@@ -289,7 +289,7 @@ function EnhancedTable() {
                       tabIndex={-1}
                       key={`${row.id}-${index}`}
                       selected={isItemSelected}
-                      >
+                    >
                       <TableCell padding="checkbox">
                         <Checkbox
                           checked={isItemSelected}
@@ -320,10 +320,10 @@ function EnhancedTable() {
                       <TableCell align="right">
                         <IconButton aria-label="delete">
                           <ArchiveIcon />
-                        </IconButton>  
+                        </IconButton>
                         <IconButton aria-label="details" component={RouterLink} to="/invoices/detail">
                           <RemoveRedEyeIcon />
-                        </IconButton>  
+                        </IconButton>
                       </TableCell>
                     </TableRow>
                   )
@@ -337,7 +337,7 @@ function EnhancedTable() {
           </Table>
         </TableContainer>
         <TablePagination
-          rowsPerPageOptions={[5, 10, 25]}
+          rowsPerPageOptions={[ 5, 10, 25 ]}
           component="div"
           count={rows.length}
           rowsPerPage={rowsPerPage}
@@ -357,7 +357,7 @@ function InvoiceList() {
 
       <Grid
         justify="space-between"
-        container 
+        container
         spacing={24}
       >
         <Grid item>

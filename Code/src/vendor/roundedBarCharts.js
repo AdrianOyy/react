@@ -3,7 +3,13 @@ import { Chart as ChartJS } from "react-chartjs-2"
 ChartJS.elements.Rectangle.prototype.draw = function() {
   const ctx = this._chart.ctx
   const vm = this._view
-  let left, right, top, bottom, signX, signY, borderSkipped
+  let left,
+    right,
+    top,
+    bottom,
+    signX,
+    signY,
+    borderSkipped
   let borderWidth = vm.borderWidth
 
   // If radius is less than 0 or is large enough to cause drawing errors a max
@@ -62,14 +68,14 @@ ChartJS.elements.Rectangle.prototype.draw = function() {
   // | 1 2 |
   // | 0 3 |
   const corners = [
-    [left, bottom],
-    [left, top],
-    [right, top],
-    [right, bottom]
+    [ left, bottom ],
+    [ left, top ],
+    [ right, top ],
+    [ right, bottom ]
   ]
 
   // Find first (starting) corner with fallback to 'bottom'
-  const borders = ["bottom", "left", "top", "right"]
+  const borders = [ "bottom", "left", "top", "right" ]
   let startCorner = borders.indexOf(borderSkipped, 0)
   if (startCorner === -1) {
     startCorner = 0

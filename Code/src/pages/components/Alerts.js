@@ -166,7 +166,7 @@ function ActionAlerts() {
 }
 
 function TransitionAlerts() {
-  const [open, setOpen] = React.useState(true)
+  const [ open, setOpen ] = React.useState(true)
 
   return (
     <Card mb={6}>

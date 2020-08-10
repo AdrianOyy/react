@@ -104,7 +104,7 @@ const TaskTitle = styled(Typography)`
   margin-right: ${props => props.theme.spacing(10)}px;
 `
 
-function Lane({title, description, onContainerLoaded, children}) {
+function Lane({ title, description, onContainerLoaded, children }) {
   const handleContainerLoaded = container => {
     if (container) {
       onContainerLoaded(container)
@@ -139,7 +139,7 @@ function Task({ content, avatars }) {
         <TaskTitle variant="body1" gutterBottom>
           {content.title}
         </TaskTitle>
-        
+
         <TaskAvatars>
           <AvatarGroup max={3}>
             {avatars && avatars.map((avatar, i) => <Avatar src={`/static/img/avatars/avatar-${avatar}.jpg`} key={i} />)}
@@ -162,12 +162,12 @@ function Task({ content, avatars }) {
 const demoTasks = [
   {
     title: "Redesign the homepage",
-    badges: [green[600], orange[600]],
+    badges: [ green[600], orange[600] ],
     notifications: 2
   },
   {
     title: "Upgrade dependencies to latest versions",
-    badges: [green[600]],
+    badges: [ green[600] ],
     notifications: 1
   },
   {
@@ -175,12 +175,12 @@ const demoTasks = [
   },
   {
     title: "Improve site speed",
-    badges: [green[600]],
+    badges: [ green[600] ],
     notifications: 3
   },
   {
     title: "Stripe payment integration",
-    badges: [blue[600]]
+    badges: [ blue[600] ]
   }
 ]
 
@@ -193,7 +193,7 @@ function Tasks() {
 
   useEffect(() => {
     dragula(containers)
-  }, [containers])
+  }, [ containers ])
 
   return (
     <React.Fragment>
@@ -221,9 +221,9 @@ function Tasks() {
             description="Nam pretium turpis et arcu. Duis arcu."
             onContainerLoaded={onContainerReady}
           >
-            <Task content={demoTasks[0]} avatars={[1, 2, 3, 4]} />
-            <Task content={demoTasks[2]} avatars={[2]} />
-            <Task content={demoTasks[3]} avatars={[2, 3]} />
+            <Task content={demoTasks[0]} avatars={[ 1, 2, 3, 4 ]} />
+            <Task content={demoTasks[2]} avatars={[ 2 ]} />
+            <Task content={demoTasks[3]} avatars={[ 2, 3 ]} />
             <Task content={demoTasks[1]} avatars={[]} />
             <Task content={demoTasks[4]} avatars={[]} />
           </Lane>
@@ -234,8 +234,8 @@ function Tasks() {
             description="Curabitur ligula sapien, tincidunt non."
             onContainerLoaded={onContainerReady}
           >
-            <Task content={demoTasks[2]} avatars={[3, 1, 2]} />
-            <Task content={demoTasks[4]} avatars={[2]} />
+            <Task content={demoTasks[2]} avatars={[ 3, 1, 2 ]} />
+            <Task content={demoTasks[4]} avatars={[ 2 ]} />
           </Lane>
         </Grid>
         <Grid item xs={12} lg={4} xl={4}>
@@ -244,8 +244,8 @@ function Tasks() {
             description="Aenean posuere, tortor sed cursus feugiat."
             onContainerLoaded={onContainerReady}
           >
-            <Task content={demoTasks[3]} avatars={[1, 2]} />
-            <Task content={demoTasks[2]} avatars={[4]} />
+            <Task content={demoTasks[3]} avatars={[ 1, 2 ]} />
+            <Task content={demoTasks[2]} avatars={[ 4 ]} />
             <Task content={demoTasks[0]} avatars={[]} />
           </Lane>
         </Grid>

@@ -15,7 +15,7 @@ const GoogleMapReactWrapper = styled.div`
   width: 100%;
 `
 
-function Default({maps}) {
+function Default({ maps }) {
   const options = {
     center: {
       lat: 40.712784,

@@ -9,7 +9,6 @@ import {
 } from '@material-ui/core'
 
 
-
 function EnhancedTableHead(props) {
   const {
     onSelectAllClick,

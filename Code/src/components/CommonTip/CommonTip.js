@@ -9,16 +9,16 @@ import { spacing } from "@material-ui/system"
 
 class CommonTip extends Component {
   static info(msg) {
-    this.showtip({ msg: msg, serverity: 'info' })
+    this.showtip({ msg, serverity: 'info' })
   }
   static success(msg) {
-    this.showtip({ msg: msg, severity: 'success' })
+    this.showtip({ msg, severity: 'success' })
   }
   static warning(msg) {
-    this.showtip({ msg: msg, severity: 'warning' })
+    this.showtip({ msg, severity: 'warning' })
   }
   static error(msg) {
-    this.showtip({ msg: msg, severity: 'error' })
+    this.showtip({ msg, severity: 'error' })
   }
   static showtip(options) {
     let defaultOptions = {
@@ -32,27 +32,27 @@ class CommonTip extends Component {
     let opt = Object.assign({}, defaultOptions)
     const Snackbar = styled(MuiSnackbar)(spacing)
     const div = document.createElement("div")
-    div.style.position="absolute"
-    div.style.zIndex="1300"
+    div.style.position = "absolute"
+    div.style.zIndex = "1300"
     document.body.append(div)
 
-      const handleClose =  (event, reason) => {
+    const handleClose =  (event, reason) => {
       if (reason === 'clickaway') {
         return
       }
 
       ReactDOM.unmountComponentAtNode(div)
-      setTimeout(x=> document.body.removeChild(div),50)
+      setTimeout(x => document.body.removeChild(div), 50)
     }
 
     const Alert = (props) => (
-      <Snackbar anchorOrigin={{ vertical: props.vertical, horizontal: props.horizontal }} open={true}  autoHideDuration={props.autoHideDuration} onClose={handleClose}> 
+      <Snackbar anchorOrigin={{ vertical: props.vertical, horizontal: props.horizontal }} open={true}  autoHideDuration={props.autoHideDuration} onClose={handleClose}>
         <MuiAlert variant="filled" severity={props.severity}>
           {props.msg}
         </MuiAlert>
         {/* <div>{props.msg}</div> */}
       </Snackbar>
-      // <Snackbar anchorOrigin={{ vertical: props.vertical, horizontal: props.horizontal }} open={true}  autoHideDuration={props.autoHideDuration} onClose={handleClose}> 
+      // <Snackbar anchorOrigin={{ vertical: props.vertical, horizontal: props.horizontal }} open={true}  autoHideDuration={props.autoHideDuration} onClose={handleClose}>
       //   <MuiAlert variant="filled" severity={props.severity} onClose={handleClose}>
       //     {props.msg}
       //   </MuiAlert>

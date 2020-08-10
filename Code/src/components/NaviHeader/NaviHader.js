@@ -34,7 +34,7 @@ function NaviHader(props) {
       >
         <Grid item>
           <Typography variant="h3" gutterBottom display="inline">
-          {title}
+            {title}
           </Typography>
 
           <Breadcrumbs aria-label="Breadcrumb" mt={2}>

@@ -27,7 +27,7 @@ export function checkGroupEmpty(key, value) {
 
 export function getCheckExist() {
   return async function(id, value) {
-    const {data} = await assignAPi.checkExist(id, value)
+    const { data } = await assignAPi.checkExist(id, value)
     if (data.data < 1) {
       return {
         error: false,

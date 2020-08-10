@@ -27,13 +27,13 @@ export default css`
     &:not(:disabled):active:focus {
       box-shadow: none;
       background-color: ${props =>
-        darken(0.1, props.theme.palette.primary.main)};
+    darken(0.1, props.theme.palette.primary.main)};
     }
 
     &:not(:disabled):active,
     &:not(:disabled).fc-button-active {
       background-color: ${props =>
-        darken(0.1, props.theme.palette.primary.main)};
+    darken(0.1, props.theme.palette.primary.main)};
 
       &:focus {
         box-shadow: none;

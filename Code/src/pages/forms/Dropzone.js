@@ -56,10 +56,10 @@ function DefaultDropzone() {
 }
 
 function DialogDropzone() {
-  const [open, setOpen] = useState(false)
+  const [ open, setOpen ] = useState(false)
 
   const handleSave = (files) => {
-    //Saving files to state for further use and closing Modal.
+    // Saving files to state for further use and closing Modal.
     console.log('files:', files)
 
     setOpen(false)

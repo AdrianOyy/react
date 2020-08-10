@@ -140,7 +140,7 @@ const Indicator = styled(Badge)`
 // }
 
 function UserMenu() {
-  const [anchorMenu, setAnchorMenu] = useState(null)
+  const [ anchorMenu, setAnchorMenu ] = useState(null)
 
   const toggleMenu = event => {
     setAnchorMenu(event.currentTarget)

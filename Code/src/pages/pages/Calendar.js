@@ -48,7 +48,7 @@ function EmptyCard() {
           <FullCalendar
             defaultView="dayGridMonth"
             defaultDate="2020-02-14"
-            plugins={[dayGridPlugin, interactionPlugin]}
+            plugins={[ dayGridPlugin, interactionPlugin ]}
             events={demoEvents}
             editable={true}
             header={{

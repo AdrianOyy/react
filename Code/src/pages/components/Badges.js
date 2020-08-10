@@ -141,7 +141,7 @@ function ButtonBadges() {
 }
 
 function BadgeVisibility() {
-  const [invisible, setInvisible] = useState(false)
+  const [ invisible, setInvisible ] = useState(false)
 
   const handleBadgeVisibility = () => {
     setInvisible(!invisible)

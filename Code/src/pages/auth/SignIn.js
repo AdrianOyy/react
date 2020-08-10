@@ -43,12 +43,12 @@ const Wrapper = styled(Paper)`
 const Alert = styled(MuiAlert)(spacing)
 
 function SignIn() {
-  const [account, setAccount] = React.useState('')
-  const [password, setPassword] = React.useState('')
+  const [ account, setAccount ] = React.useState('')
+  const [ password, setPassword ] = React.useState('')
   const history = useHistory()
-  const [open, setOpen] = React.useState(false)
-  const [severity, setSeverity] = React.useState('info')
-  const [message, setMessage] = React.useState('')
+  const [ open, setOpen ] = React.useState(false)
+  const [ severity, setSeverity ] = React.useState('info')
+  const [ message, setMessage ] = React.useState('')
 
   const login =  () => {
     let pwd = password
@@ -65,7 +65,7 @@ function SignIn() {
           setOpen(true)
           setMessage('Failed')
         } else {
-          localStorage.setItem('token',response.data.data)
+          localStorage.setItem('token', response.data.data)
           setSeverity('success')
           setOpen(true)
           setMessage('Success')
@@ -143,7 +143,7 @@ function SignIn() {
         <Button
           // component={Link}
           onClick = {login}
-          style={{marginTop:10}}
+          style={{ marginTop: 10 }}
           to="#"
           fullWidth
           variant="contained"

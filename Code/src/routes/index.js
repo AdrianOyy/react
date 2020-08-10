@@ -44,50 +44,29 @@ const userDetail = async(() => import("../pages/aaa-service/User/UserDetail"))
 // Documentation
 // const Presentation = async(() => import("../pages/docs/Presentation"));
 
-//workFlow
+// workFlow
 const WorkflowSetting = async(() => import("../pages/workFlow/workFlowSetting"))
 
 // management
-const management = async(() => import("../pages/aaa-service/Management/ManagementList"))
-const managementDetail = async(() => import("../pages/aaa-service/Management/ManagementDetail"))
-const managementUpdate = async(() => import("../pages/aaa-service/Management/ManagementUpdate"))
-const managementCreate = async(() => import("../pages/aaa-service/Management/ManagementCreate"))
+const management = async(() => import("../pages/aaa-service/Management"))
 
 // tenant
-const tenant = async(() => import("../pages/aaa-service/Tenant/TenantList"))
-const tenantDetail = async(() => import("../pages/aaa-service/Tenant/TenantDetail"))
-const tenantUpdate = async(() => import("../pages/aaa-service/Tenant/TenantUpdate"))
-const tenantCreate = async(() => import("../pages/aaa-service/Tenant/TenantCreate"))
+const tenant = async(() => import("../pages/aaa-service/Tenant"))
 
 // ADGroup
-const ADGroup = async(() => import("../pages/aaa-service/ADGroup/ADGroupList"))
-const ADGroupDetail = async(() => import("../pages/aaa-service/ADGroup/ADGroupDetail"))
-const ADGroupUpdate = async(() => import("../pages/aaa-service/ADGroup/ADGroupUpdate"))
-const ADGroupCreate = async(() => import("../pages/aaa-service/ADGroup/ADGroupCreate"))
+const ADGroup = async(() => import("../pages/aaa-service/ADGroup"))
 
 // role
-const role = async(() => import("../pages/aaa-service/Role/RoleList"))
-const roleDetail = async(() => import("../pages/aaa-service/Role/RoleDetail"))
-const roleCreate = async(() => import("../pages/aaa-service/Role/RoleCreate"))
-const roleUpdate = async(() => import("../pages/aaa-service/Role/RoleUpdate"))
+const role = async(() => import("../pages/aaa-service/Role"))
 
 // tenant adGroup mapping
-const tenantGroupMapping = async(() => import("../pages/aaa-service/TenantGroupMapping/TenantGroupMappingList"))
-const tenantGroupMappingDetail = async(() => import("../pages/aaa-service/TenantGroupMapping/TenantGroupMappingDetail"))
-const tenantGroupMappingUpdate = async(() => import("../pages/aaa-service/TenantGroupMapping/TenantGroupMappingUpdate"))
-const tenantGroupMappingCreate = async(() => import("../pages/aaa-service/TenantGroupMapping/TenantGroupMappingCreate"))
+const tenantGroupMapping = async(() => import("../pages/aaa-service/TenantGroupMapping"))
 
 // assign
-const assign = async(() => import("../pages/aaa-service/Assign/AssignList"))
-const assignDetail = async(() => import("../pages/aaa-service/Assign/AssignDetail"))
-const assignUpdate = async(() => import("../pages/aaa-service/Assign/AssignUpdate"))
-const assignCreate = async(() => import("../pages/aaa-service/Assign/AssignCreate"))
+const assign = async(() => import("../pages/aaa-service/Assign"))
 
 // expiry
-const expiry = async(() => import("../pages/aaa-service/Expiry/ExpiryList"))
-const expiryDetail = async(() => import("../pages/aaa-service/Expiry/ExpiryDetail"))
-const expiryUpdate = async(() => import("../pages/aaa-service/Expiry/ExpiryUpdate"))
-const expiryCreate = async(() => import("../pages/aaa-service/Expiry/ExpiryCreate"))
+const expiry = async(() => import("../pages/aaa-service/Expiry"))
 
 const authRoutes = {
   id: "Auth",
@@ -253,141 +232,6 @@ const userDetailRoutes = {
   children: null
 }
 
-
-const tenantCreateRoutes = {
-  id: "tenantCreate",
-  path: "/aaa-service/tenant/create",
-  component: tenantCreate,
-  children: null
-}
-const tenantDetailRoutes = {
-  id: "tenantDetail",
-  path: "/aaa-service/tenant/detail/:id",
-  component: tenantDetail,
-  children: null
-}
-const tenantUpdateRoutes = {
-  id: "tenantUpdate",
-  path: "/aaa-service/tenant/update/:id",
-  component: tenantUpdate,
-  children: null
-}
-
-const roleDetailRoutes = {
-  id: "roleDetail",
-  path: "/aaa-service/role/detail/:id",
-  component: roleDetail,
-  children: null,
-}
-const roleCreateRoutes = {
-  id: "roleCreate",
-  path: "/aaa-service/role/create",
-  component: roleCreate,
-  children: null,
-}
-const roleUpdateRoutes = {
-  id: "roleUpdate",
-  path: "/aaa-service/role/update/:id",
-  component: roleUpdate,
-  children: null,
-}
-
-const tenantGroupMappingDetailRoutes = {
-  id: "roleDetail",
-  path: "/aaa-service/tenantGroupMapping/detail/:id",
-  component: tenantGroupMappingDetail,
-  children: null,
-}
-const tenantGroupMappingUpdateRoutes = {
-  id: "roleDetail",
-  path: "/aaa-service/tenantGroupMapping/update/:id",
-  component: tenantGroupMappingUpdate,
-  children: null,
-}
-const tenantGroupMappingCreateRoutes = {
-  id: "roleDetail",
-  path: "/aaa-service/tenantGroupMapping/create",
-  component: tenantGroupMappingCreate,
-  children: null,
-}
-
-const managementDetailRoutes = {
-  id: "roleDetail",
-  path: "/aaa-service/management/detail/:id",
-  component: managementDetail,
-  children: null,
-}
-const managementUpdateRoutes = {
-  id: "roleDetail",
-  path: "/aaa-service/management/update/:id",
-  component: managementUpdate,
-  children: null,
-}
-const managementCreateRoutes = {
-  id: "roleDetail",
-  path: "/aaa-service/management/create",
-  component: managementCreate,
-  children: null,
-}
-
-
-const assignDetailRoutes = {
-  id: "assignDetail",
-  path: "/aaa-service/assign/detail/:id",
-  component: assignDetail,
-  children: null
-}
-const assignUpdateRoutes = {
-  id: "assignDetail",
-  path: "/aaa-service/assign/update/:id",
-  component: assignUpdate,
-  children: null
-}
-const assignCreateRoutes = {
-  id: "assignDetail",
-  path: "/aaa-service/assign/create",
-  component: assignCreate,
-  children: null
-}
-
-const adgroupCreateRoutes = {
-  id: "adgroupCreate",
-  path: "/aaa-service/adgroup/create",
-  component: ADGroupCreate,
-  children: null
-}
-const adgroupDetailRoutes = {
-  id: "adgroupDetail",
-  path: "/aaa-service/adgroup/detail/:id",
-  component: ADGroupDetail,
-  children: null
-}
-const adgroupUpdateRoutes = {
-  id: "adgroupUpdate",
-  path: "/aaa-service/adgroup/update/:id",
-  component: ADGroupUpdate,
-  children: null
-}
-
-const expiryDetailRoutes = {
-  id: "expiryDetail",
-  path: "/aaa-service/expiry/detail/:id",
-  component: expiryDetail,
-  children: null,
-}
-const expiryUpdateRoutes = {
-  id: "expiryDetail",
-  path: "/aaa-service/expiry/update/:id",
-  component: expiryUpdate,
-  children: null,
-}
-const expiryCreateRoutes = {
-  id: "expiryDetail",
-  path: "/aaa-service/expiry/create",
-  component: expiryCreate,
-  children: null,
-}
-
 const resourceRoutes = {
   id: "Resource",
   path: "/resources",
@@ -451,30 +295,8 @@ export const dashboard = [
   recordRoutes,
   logRoutes,
   aaaServiceRoutes,
-  tenantDetailRoutes,
-  tenantCreateRoutes,
-  tenantUpdateRoutes,
-  roleDetailRoutes,
-  roleCreateRoutes,
-  roleUpdateRoutes,
   userDetailRoutes,
-  assignDetailRoutes,
-  assignUpdateRoutes,
-  assignCreateRoutes,
-  adgroupDetailRoutes,
-  adgroupCreateRoutes,
-  adgroupUpdateRoutes,
-  tenantGroupMappingDetailRoutes,
-  tenantGroupMappingUpdateRoutes,
-  tenantGroupMappingCreateRoutes,
-  expiryDetailRoutes,
-  expiryUpdateRoutes,
-  expiryCreateRoutes,
-  managementDetailRoutes,
-  managementUpdateRoutes,
-  managementCreateRoutes,
 ]
-
 
 
 export const auth = [

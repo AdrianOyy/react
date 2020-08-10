@@ -85,7 +85,7 @@ function getComparator(order, orderBy) {
 }
 
 function stableSort(array, comparator) {
-  const stabilizedThis = array.map((el, index) => [el, index])
+  const stabilizedThis = array.map((el, index) => [ el, index ])
   stabilizedThis.sort((a, b) => {
     const order = comparator(a[0], b[0])
     if (order !== 0) return order
@@ -177,12 +177,12 @@ let EnhancedTableToolbar = props => {
 }
 
 function EnhancedTable() {
-  const [order, setOrder] = React.useState('asc')
-  const [orderBy, setOrderBy] = React.useState('calories')
-  const [selected, setSelected] = React.useState([])
-  const [page, setPage] = React.useState(0)
-  const [dense, setDense] = React.useState(false)
-  const [rowsPerPage, setRowsPerPage] = React.useState(10)
+  const [ order, setOrder ] = React.useState('asc')
+  const [ orderBy, setOrderBy ] = React.useState('calories')
+  const [ selected, setSelected ] = React.useState([])
+  const [ page, setPage ] = React.useState(0)
+  const [ dense, setDense ] = React.useState(false)
+  const [ rowsPerPage, setRowsPerPage ] = React.useState(10)
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc'
@@ -296,7 +296,7 @@ function EnhancedTable() {
           </Table>
         </TableContainer>
         <TablePagination
-          rowsPerPageOptions={[5, 10, 25]}
+          rowsPerPageOptions={[ 5, 10, 25 ]}
           component="div"
           count={rows.length}
           rowsPerPage={rowsPerPage}

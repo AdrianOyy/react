@@ -4,6 +4,7 @@ import { makeStyles } from '@material-ui/core/styles'
 // import dayjs from 'dayjs'
 import {
   Button,
+  ButtonGroup,
   TextField,
 } from '@material-ui/core'
 import CommonSelect from "../CommonSelect"
@@ -27,13 +28,14 @@ const useStyles = makeStyles((theme) => ({
 function SearchBar(props) {
   const {
     onSearchFieldChange,
+    onClearButton,
     onSearchButton,
     fieldList,
   } = props
   const classes = useStyles()
   return (
     <div style={{ marginBottom: '10px',  padding: '0 10px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-      {/* 
+      {/*
         type list, see: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#Form_%3Cinput%3E_types
       */}
       <div>
@@ -42,28 +44,28 @@ function SearchBar(props) {
             <CommonSelect
               id = {field.id}
               key = {field.id + field.label}
-              label = { field.label}
+              label = {field.label}
               error = {field.error || false}
               helperText = {field.helperText || ''}
-              value={ field.value || '' }
+              value={field.value || ''}
               itemList={field.itemList}
               outlined={false}
               labelField={field.labelField}
               valueField={field.valueField}
-              onSelectChange = { (event) => onSearchFieldChange(event, field.id) }
+              onSelectChange = {(event) => onSearchFieldChange(event, field.id)}
             />
-          ):(
+          ) : (
             <TextField
-              id = { field.id }
+              id = {field.id}
               key = {field.id + field.label}
-              label = { field.label}
+              label = {field.label}
               type = {field.type}
               error = {field.error || false}
               helperText = {field.helperText || ''}
               disabled = {field.disabled || false}
               required = {field.required || false}
-              onChange = { !field.readOnly ? (event) => onSearchFieldChange(event, field.id) : null}
-              value={ field.value }
+              onChange = {!field.readOnly ? (event) => onSearchFieldChange(event, field.id) : null}
+              value={field.value}
               InputLabelProps={{
                 shrink: field.type === 'date' ? true : undefined
               }}
@@ -72,13 +74,24 @@ function SearchBar(props) {
           ))
         }
       </div>
-      <Button
-        variant="contained"
-        color="primary"
-        onClick={onSearchButton}
-        className={classes.button}>
-        Search
-      </Button>
+      <ButtonGroup>
+        <Button
+          variant="contained"
+          onClick={onClearButton}
+          className={classes.button}
+          style={{ marginRight: '2ch' }}
+        >
+          Clear
+        </Button>
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={onSearchButton}
+          className={classes.button}
+        >
+          Search
+        </Button>
+      </ButtonGroup>
     </div>
   )
 }

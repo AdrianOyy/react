@@ -1,20 +1,20 @@
 import axios from 'axios'
-//import store from '@/store'
+// import store from '@/store'
 // import { getToken } from 'utils/auth'
 import CommonTip from '../components/CommonTip'
 
-//这个baseUrl要根据实际情况进行改变
+// 这个baseUrl要根据实际情况进行改变
 axios.defaults.baseURL = process.env.REACT_APP_BASE_API
 axios.defaults.headers.common['Content-Type'] =
   'application/json, charset=UTF-8'
 // axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*'
 
-//请求拦截器 用于添加token
+// 请求拦截器 用于添加token
 axios.interceptors.request.use(
   config => {
-    //if (store.getters.token) {
+    // if (store.getters.token) {
     //  config.headers['authorization'] = 'bearer ' + getToken()
-    //}
+    // }
 
     return config
   },
@@ -55,7 +55,7 @@ const axiosInstance = axios.create({
 
 })
 
-//响应拦截器(处理异常)
+// 响应拦截器(处理异常)
 axios.interceptors.response.use(
   response => {
     return response
@@ -67,9 +67,9 @@ axios.interceptors.response.use(
 
 export default {
   instance: axiosInstance,
-  //默认选项, 留着备用
+  // 默认选项, 留着备用
   defaultOptions: {
-    handleError: true //是否自动解析结果并提示
+    handleError: true // 是否自动解析结果并提示
   },
   enableChangeBaseApi: true,
   changeBaseUrl(baseUrl, flag = false) {
@@ -78,7 +78,7 @@ export default {
       axiosInstance.defaults.baseURL = baseUrl
     }
   },
-  //get 请求
+  // get 请求
   get(url, param, options, baseUrl = null) {
     let o = Object.assign(this.defaultOptions, options)
     const defaultUrl = axiosInstance.defaults.baseURL
@@ -90,7 +90,7 @@ export default {
         params: param
       })
         .then(res => {
-          if(res.data && !res.data.status && res.data.message && o.handleError){
+          if (res.data && !res.data.status && res.data.message && o.handleError) {
             CommonTip.error(`${res.data.message}${res.data.exception ? ':' + res.data.exception.message : ''}`, { })
           }
           resolve(res)
@@ -104,7 +104,7 @@ export default {
         })
     })
   },
-  //post 请求
+  // post 请求
   post(url, param, options, baseUrl = null) {
     let o = Object.assign(this.defaultOptions, options)
     const defaultUrl = axiosInstance.defaults.baseURL
@@ -117,7 +117,7 @@ export default {
         data: param
       })
         .then(res => {
-          if(res.data && !res.data.status && res.data.message && o.handleError){
+          if (res.data && !res.data.status && res.data.message && o.handleError) {
             CommonTip.error(`${res.data.message}${res.data.exception ? ':' + res.data.exception.message : ''}`, { })
           }
           resolve(res)
@@ -131,7 +131,7 @@ export default {
         })
     })
   },
-  //put 请求
+  // put 请求
   put(url, param, options, baseUrl = null) {
     let o = Object.assign(this.defaultOptions, options)
     const defaultUrl = axiosInstance.defaults.baseURL
@@ -143,7 +143,7 @@ export default {
         data: param
       })
         .then(res => {
-          if(res.data && !res.data.status && res.data.message && o.handleError){
+          if (res.data && !res.data.status && res.data.message && o.handleError) {
             CommonTip.error(`${res.data.message}${res.data.exception ? ':' + res.data.exception.message : ''}`, { })
           }
           resolve(res)
@@ -157,7 +157,7 @@ export default {
         })
     })
   },
-  //delete 请求
+  // delete 请求
   delete(url, param, options, baseUrl = null) {
     let o = Object.assign(this.defaultOptions, options)
     const defaultUrl = axiosInstance.defaults.baseURL
@@ -170,7 +170,7 @@ export default {
         data: param
       })
         .then(res => {
-          if(res.data && !res.data.status && res.data.message && o.handleError){
+          if (res.data && !res.data.status && res.data.message && o.handleError) {
             CommonTip.error(`${res.data.message}${res.data.exception ? ':' + res.data.exception.message : ''}`, { })
           }
           resolve(res)
@@ -184,7 +184,7 @@ export default {
         })
     })
   },
-  //all get请求
+  // all get请求
   allGet(fnArr) {
     return axios.all(fnArr)
   }

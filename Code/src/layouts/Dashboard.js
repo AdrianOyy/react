@@ -69,8 +69,8 @@ const MainContent = styled(Paper)`
   }
 `
 
-const Dashboard = ({children, routes, width}) => {
-  const [mobileOpen, setMobileOpen] = useState(false)
+const Dashboard = ({ children, routes, width }) => {
+  const [ mobileOpen, setMobileOpen ] = useState(false)
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen)

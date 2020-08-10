@@ -1,8 +1,8 @@
 import request from '../utils/request'
 
-// const prefix = ''
+const prefix = ''
 // const url = 'http://127.0.0.1:7001'
-const prefix = '/AAA'
+// const prefix = '/AAA'
 const url = null
 
 class adGroup {
@@ -21,7 +21,7 @@ class adGroup {
   deleteMany(params) {
     return request.delete(`${prefix}/ad_group/deleteMany`, params, {}, url)
   }
-  checkName(id,name) {
+  checkName(id, name) {
     return request.get(`${prefix}/ad_group/checkName?id=${id}&name=${name}`, {}, {}, url)
   }
 }

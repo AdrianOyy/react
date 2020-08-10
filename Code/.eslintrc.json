@@ -25,6 +25,7 @@
             "avoidQuotes": true,
             "ignoreConstructors": false
           }],
+      "react/prop-types": 0,
         "react/display-name": [ "off", { "ignoreTranspilerName": false }],
         "react/jsx-curly-spacing": [ "error", "never", { "allowMultiline": true }],
         "react/jsx-no-duplicate-props": [ "error", { "ignoreCase": true }],

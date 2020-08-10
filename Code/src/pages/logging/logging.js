@@ -36,7 +36,7 @@ import {
 } from "@material-ui/icons"
 
 import { spacing } from "@material-ui/system"
-import {makeStyles} from "@material-ui/core/styles"
+import { makeStyles } from "@material-ui/core/styles"
 
 const NavLink = React.forwardRef((props, ref) => (
   <RouterNavLink innerRef={ref} {...props} />
@@ -90,7 +90,7 @@ function getComparator(order, orderBy) {
 }
 
 function stableSort(array, comparator) {
-  const stabilizedThis = array.map((el, index) => [el, index])
+  const stabilizedThis = array.map((el, index) => [ el, index ])
   stabilizedThis.sort((a, b) => {
     const order = comparator(a[0], b[0])
     if (order !== 0) return order
@@ -113,29 +113,29 @@ function EmptyCard(props) {
   return (
     <div className={classes.root}>
       <TextField size="small" id="Message" onChange={onHandelTextChange.bind(this)} className={classes.textField} label="Message"  />
-        <TextField
-          id="datetime-local"
-          label="Start Date"
-          type="date"
-          className={classes.textField}
-          defaultValue="2020-07-01"
-          onChange={onHandelStartDateChange.bind(this)}
-          InputLabelProps={{
-            shrink: true
-          }}/>
-        <TextField
-          id="datetime-local"
-          label="End Date"
-          type="date"
-          defaultValue="2020-07-31"
-          className={classes.textField}
-          onChange={onHandelEndDateChange.bind(this)}
-          InputLabelProps={{
-            shrink: true
-          }}/>
-        <Button variant="contained"  className={classes.button} color="primary" onClick={onSearchButton} >
+      <TextField
+        id="datetime-local"
+        label="Start Date"
+        type="date"
+        className={classes.textField}
+        defaultValue="2020-07-01"
+        onChange={onHandelStartDateChange.bind(this)}
+        InputLabelProps={{
+          shrink: true
+        }}/>
+      <TextField
+        id="datetime-local"
+        label="End Date"
+        type="date"
+        defaultValue="2020-07-31"
+        className={classes.textField}
+        onChange={onHandelEndDateChange.bind(this)}
+        InputLabelProps={{
+          shrink: true
+        }}/>
+      <Button variant="contained"  className={classes.button} color="primary" onClick={onSearchButton} >
           Search
-        </Button>
+      </Button>
     </div>
   )
 }
@@ -216,18 +216,18 @@ let EnhancedTableToolbar = props => {
 }
 
 function EnhancedTable() {
-  const [order, setOrder] = React.useState('desc')
-  const [orderBy, setOrderBy] = React.useState('createdAt')
-  const [selected, setSelected] = React.useState([])
-  const [page, setPage] = React.useState(0)
-  const [rowsPerPage, setRowsPerPage] = React.useState(10)
-  const [total, setTotal] = React.useState(0)
-  const [emptyRows, setEmptyRows] = React.useState(0)
+  const [ order, setOrder ] = React.useState('desc')
+  const [ orderBy, setOrderBy ] = React.useState('createdAt')
+  const [ selected, setSelected ] = React.useState([])
+  const [ page, setPage ] = React.useState(0)
+  const [ rowsPerPage, setRowsPerPage ] = React.useState(10)
+  const [ total, setTotal ] = React.useState(0)
+  const [ emptyRows, setEmptyRows ] = React.useState(0)
 
-  const [text, setText] = React.useState('')
-  const [startDate, setStartDate] = React.useState('')
-  const [endDate, setEndDate] = React.useState('')
-  const [query, setQuery] = React.useState({})
+  const [ text, setText ] = React.useState('')
+  const [ startDate, setStartDate ] = React.useState('')
+  const [ endDate, setEndDate ] = React.useState('')
+  const [ query, setQuery ] = React.useState({})
 
   const handelTextChange = (event) => {
     setText(event.target.value)
@@ -254,21 +254,21 @@ function EnhancedTable() {
     setOrder(isAsc ? 'desc' : 'asc')
     setOrderBy(property)
   }
-  const [rows, setRows] = useState([])
+  const [ rows, setRows ] = useState([])
 
   useEffect(() => {
     loggingAPI.list(Object.assign(
       {},
       query,
-      { orderBy, order, limit: rowsPerPage, page: page+1 })
-      ).then(response => {
+      { orderBy, order, limit: rowsPerPage, page: page + 1 })
+    ).then(response => {
       setTotal(response.data.total)
       setRows(response.data.data)
       const length = response.data.data.length
       const emptyrow = rowsPerPage - length
       setEmptyRows(emptyrow)
     })
-  }, [page, rowsPerPage, query, orderBy, order])
+  }, [ page, rowsPerPage, query, orderBy, order ])
   // const [rows, setRows] = useState([]);
 
   // useEffect(() => {
@@ -326,7 +326,7 @@ function EnhancedTable() {
 
   const handleDelete = (event, id) => {
     // console.log('1111111111111111')
-    loggingAPI.delete({id}).then(({data}) => {
+    loggingAPI.delete({ id }).then(({ data }) => {
       CommonTip.success('delete success')
       setQuery({
         message: text,
@@ -386,7 +386,7 @@ function EnhancedTable() {
                       tabIndex={-1}
                       key={`${row.id}-${index}`}
                       selected={isItemSelected}
-                      >
+                    >
                       <TableCell padding="checkbox">
                         <Checkbox
                           checked={isItemSelected}
@@ -420,7 +420,7 @@ function EnhancedTable() {
           </Table>
         </TableContainer>
         <TablePagination
-          rowsPerPageOptions={[5, 10, 25]}
+          rowsPerPageOptions={[ 5, 10, 25 ]}
           component="div"
           count={total}
           rowsPerPage={rowsPerPage}

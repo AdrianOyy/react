@@ -58,7 +58,7 @@ const Heading = styled(ListItem)`
 
 const Spacer = styled.div(spacing)
 
-let Demos = function({dispatch}) {
+let Demos = function({ dispatch }) {
   return (
     <Wrapper>
       <Heading>Select a demo</Heading>
@@ -127,7 +127,7 @@ let Demos = function({dispatch}) {
 Demos = connect()(Demos)
 
 function Settings() {
-  const [state, setState] = useState({
+  const [ state, setState ] = useState({
     isOpen: false
   })
 

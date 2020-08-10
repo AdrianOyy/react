@@ -34,7 +34,7 @@ function Default({ theme }) {
             Welcome back, Lucy
           </Typography>
           <Typography variant="body2" ml={2} display="inline">
-          {`Monday, 29 April ${new Date().getFullYear()}`}
+            {`Monday, 29 April ${new Date().getFullYear()}`}
           </Typography>
         </Grid>
 
