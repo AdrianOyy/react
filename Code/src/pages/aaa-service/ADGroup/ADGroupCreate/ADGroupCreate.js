@@ -1,15 +1,15 @@
-import React, {useEffect, useState} from 'react'
+import React, { useEffect, useState } from 'react'
 import { useHistory } from 'react-router-dom'
 
 import DetailPage from "../../../../components/DetailPage"
 import CommonTip from "../../../../components/CommonTip"
 import ADGroupApi from "../../../../api/adGroup"
-import {checkEmpty, getCheckExist} from "../untils/ADGroupCheck"
+import { checkEmpty, getCheckExist } from "../untils/ADGroupCheck"
 
 const listPath = '/aaa-service/adgroup'
 const formTitle = 'AD Group Create'
 const breadcrumbsList = [
-  { title: 'AAA Service'},
+  { title: 'AAA Service' },
   { title: 'AD Group', path: listPath },
   { title: 'Create' },
 ]
@@ -22,14 +22,14 @@ function Create() {
   const [ nameError, setNameError ] = useState(false)
   const [ nameHelperText, setNameHelperText ] = useState("")
 
-  const handelClick = async() => {
+  const handelClick = async () => {
     const nameErr = await nameCheck()
     if (nameErr || saving) return
     setSaving(true)
     ADGroupApi.create({ name })
       .then(() => {
         CommonTip.success("Success")
-        history.push({pathname: listPath})
+        history.push({ pathname: listPath })
       })
       .catch(() => {
         setSaving(false)
@@ -41,10 +41,10 @@ function Create() {
       { id: 'name', label: 'Name', type: 'text', required: true, readOnly: false, value: name, error: nameError, helperText: nameHelperText },
     ]
     setFormFieldList(list)
-  },[name, nameError, nameHelperText])
+  }, [ name, nameError, nameHelperText ])
   const onFormFieldChange = (e, id) => {
     const { value } = e.target
-    switch(id) {
+    switch (id) {
       case 'name':
         setName(value)
         break

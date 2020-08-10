@@ -1,5 +1,5 @@
-import React, {useEffect, useState} from 'react'
-import {useParams} from "react-router-dom"
+import React, { useEffect, useState } from 'react'
+import { useParams } from "react-router-dom"
 import dayjs from "dayjs"
 
 import DetailPage from "../../../../components/DetailPage"
@@ -8,7 +8,7 @@ import UserApi from "../../../../api/user"
 const listPath = '/aaa-service/user'
 const formTitle = 'User Profile Detail'
 const breadcrumbsList = [
-  { title: 'AAA Service'},
+  { title: 'AAA Service' },
   { title: 'User Profile', path: listPath },
   { title: 'Detail' },
 ]
@@ -60,7 +60,7 @@ function Detail() {
       setCreatedAt(createdAt)
       setUpdastedAt(updatedAt)
     })
-  }, [id])
+  }, [ id ])
 
   useEffect(() => {
     const list = [
@@ -82,12 +82,12 @@ function Detail() {
       { id: 'updatedAt', label: 'Updated At', type: 'text', disabled: true, readOnly: true, value: formatDateTime(updatedAt) },
     ]
     setFormFieldList(list)
-  },[ corpId, alias, surname, givenname, title, displayname,
+  }, [ corpId, alias, surname, givenname, title, displayname,
     email, proxyAddresses, cluster, hospital, department,
     passwordLastSet, UACCode, UACDesc, createdAt, updatedAt ])
   const onFormFieldChange = (e, id) => {
     const { value } = e.target
-    switch(id) {
+    switch (id) {
       case 'displayname':
         setDisplayname(value)
         break
@@ -97,12 +97,12 @@ function Detail() {
   }
   return (
     <React.Fragment>
-        <DetailPage
-          breadcrumbsList = {breadcrumbsList}
-          formTitle = {formTitle}
-          onFormFieldChange = {onFormFieldChange}
-          formFieldList = {formFieldList}
-        />
+      <DetailPage
+        breadcrumbsList = {breadcrumbsList}
+        formTitle = {formTitle}
+        onFormFieldChange = {onFormFieldChange}
+        formFieldList = {formFieldList}
+      />
     </React.Fragment>
   )
 }

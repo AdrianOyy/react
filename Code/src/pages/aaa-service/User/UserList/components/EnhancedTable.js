@@ -36,7 +36,7 @@ function getComparator(order, orderBy) {
 }
 
 function stableSort(array, comparator) {
-  const stabilizedThis = array.map((el, index) => [el, index])
+  const stabilizedThis = array.map((el, index) => [ el, index ])
   stabilizedThis.sort((a, b) => {
     const order = comparator(a[0], b[0])
     if (order !== 0) return order
@@ -62,7 +62,7 @@ function EnhancedTable(props) {
     setOrder(isAsc ? 'desc' : 'asc')
     setOrderBy(property)
   }
-  
+
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
       // eslint-disable-next-line react/prop-types
@@ -76,7 +76,7 @@ function EnhancedTable(props) {
   const handleClick = (_, id) => {
     const selectedIndex = selected.indexOf(id)
     let newSelected = []
-  
+
     if (selectedIndex === -1) {
       newSelected = newSelected.concat(selected, id)
     } else if (selectedIndex === 0) {
@@ -89,10 +89,10 @@ function EnhancedTable(props) {
         selected.slice(selectedIndex + 1),
       )
     }
-  
+
     setSelected(newSelected)
   }
-  
+
   const handleDetail = (_, id) => {
     const path = {
       pathname: detailPath + id,
@@ -116,74 +116,74 @@ function EnhancedTable(props) {
     { id: 'updatedAt', alignment: 'center', label: 'UpdatedAt' },
     { id: 'actions', alignment: 'right', label: 'Actions' },
   ]
-  
+
   return (
     <React.Fragment>
-        <EnhancedTableToolbar
-          numSelected={selected.length}
-          tableName='User Profile'
-        />
-        <TableContainer>
-          <Table
-            aria-labelledby="tableTitle"
-            size={'medium'}
-            aria-label="enhanced table"
-          >
-            <EnhancedTableHead
-              numSelected={selected.length}
-              order={order}
-              orderBy={orderBy}
-              onSelectAllClick={handleSelectAllClick}
-              onRequestSort={handleRequestSort}
-              // eslint-disable-next-line react/prop-types
-              rowCount={rows.length}
-              headCells={headCells}
-            />
-            <TableBody>
-              {stableSort(rows, getComparator(order, orderBy))
-                .map((row, index) => {
-                  const isItemSelected = isSelected(row.id)
-                  const labelId = `enhanced-table-checkbox-${index}`
-                  return (
-                    <TableRow
-                      hover
-                      role="checkbox"
-                      aria-checked={isItemSelected}
-                      tabIndex={-1}
-                      key={`${row.id}-${index}`}
-                      selected={isItemSelected}
-                      >
-                      <TableCell padding="checkbox">
-                        <Checkbox
-                          checked={isItemSelected}
-                          inputProps={{ 'aria-labelledby': labelId }}
-                          onClick={(event) => handleClick(event, row.id)}
-                        />
-                      </TableCell>
-                      <TableCell align="center">{row.alias}</TableCell>
-                      <TableCell align="center">{row.surname}</TableCell>
-                      <TableCell align="center">{row.givenname}</TableCell>
-                      <TableCell align="center">{row.title}</TableCell>
-                      <TableCell align="center">{row.displayname}</TableCell>
-                      <TableCell align="center">{row.email}</TableCell>
-                      {/* <TableCell align="center">{row.cluster}</TableCell>
+      <EnhancedTableToolbar
+        numSelected={selected.length}
+        tableName='User Profile'
+      />
+      <TableContainer>
+        <Table
+          aria-labelledby="tableTitle"
+          size={'medium'}
+          aria-label="enhanced table"
+        >
+          <EnhancedTableHead
+            numSelected={selected.length}
+            order={order}
+            orderBy={orderBy}
+            onSelectAllClick={handleSelectAllClick}
+            onRequestSort={handleRequestSort}
+            // eslint-disable-next-line react/prop-types
+            rowCount={rows.length}
+            headCells={headCells}
+          />
+          <TableBody>
+            {stableSort(rows, getComparator(order, orderBy))
+              .map((row, index) => {
+                const isItemSelected = isSelected(row.id)
+                const labelId = `enhanced-table-checkbox-${index}`
+                return (
+                  <TableRow
+                    hover
+                    role="checkbox"
+                    aria-checked={isItemSelected}
+                    tabIndex={-1}
+                    key={`${row.id}-${index}`}
+                    selected={isItemSelected}
+                  >
+                    <TableCell padding="checkbox">
+                      <Checkbox
+                        checked={isItemSelected}
+                        inputProps={{ 'aria-labelledby': labelId }}
+                        onClick={(event) => handleClick(event, row.id)}
+                      />
+                    </TableCell>
+                    <TableCell align="center">{row.alias}</TableCell>
+                    <TableCell align="center">{row.surname}</TableCell>
+                    <TableCell align="center">{row.givenname}</TableCell>
+                    <TableCell align="center">{row.title}</TableCell>
+                    <TableCell align="center">{row.displayname}</TableCell>
+                    <TableCell align="center">{row.email}</TableCell>
+                    {/* <TableCell align="center">{row.cluster}</TableCell>
                       <TableCell align="center">{row.hospital}</TableCell>
                       <TableCell align="center">{row.department}</TableCell> */}
-                      <TableCell align="center">{formatDateTime(row.createdAt)}</TableCell>
-                      <TableCell align="center">{formatDateTime(row.createdAt)}</TableCell>
-                      <TableCell padding="none" align="right">
-                        <Box mr={2}>
-                          <IconButton aria-label="detail" onClick={(event) => handleDetail(event, row.id)}>
-                            <RemoveRedEyeIcon />
-                          </IconButton>
-                        </Box>
-                      </TableCell>
-                    </TableRow>
-                  )
-                })}
-            </TableBody>
-          </Table>
-        </TableContainer>
+                    <TableCell align="center">{formatDateTime(row.createdAt)}</TableCell>
+                    <TableCell align="center">{formatDateTime(row.createdAt)}</TableCell>
+                    <TableCell padding="none" align="right">
+                      <Box mr={2}>
+                        <IconButton aria-label="detail" onClick={(event) => handleDetail(event, row.id)}>
+                          <RemoveRedEyeIcon />
+                        </IconButton>
+                      </Box>
+                    </TableCell>
+                  </TableRow>
+                )
+              })}
+          </TableBody>
+        </Table>
+      </TableContainer>
     </React.Fragment>
   )
 }

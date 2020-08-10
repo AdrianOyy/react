@@ -1,16 +1,16 @@
-import React, {useEffect, useState} from 'react'
-import { useParams, useHistory} from "react-router-dom"
+import React, { useEffect, useState } from 'react'
+import { useParams, useHistory } from "react-router-dom"
 import dayjs from "dayjs"
 
 import DetailPage from "../../../../components/DetailPage"
 import CommonTip from "../../../../components/CommonTip"
 import ADGroupApi from "../../../../api/adGroup"
-import {checkEmpty, getCheckExist} from "../untils/ADGroupCheck"
+import { checkEmpty, getCheckExist } from "../untils/ADGroupCheck"
 
 const listPath = '/aaa-service/adgroup'
 const formTitle = 'AD Group Update'
 const breadcrumbsList = [
-  { title: 'AAA Service'},
+  { title: 'AAA Service' },
   { title: 'AD Group', path: listPath },
   { title: 'Update' },
 ]
@@ -29,14 +29,14 @@ function Update() {
     return dayjs(new Date(str)).format('YYYY-MM-DD HH:mm')
   }
 
-  const hanleClick = async() => {
+  const hanleClick = async () => {
     const nameErr = await nameCheck()
     if (nameErr || saving) return
     setSaving(true)
     ADGroupApi.update(id, { name })
       .then(() => {
         CommonTip.success("Success")
-        history.push({pathname: listPath})
+        history.push({ pathname: listPath })
       })
       .catch(() => {
         setSaving(false)
@@ -51,7 +51,7 @@ function Update() {
       setUpdastedAt(updatedAt)
       setSaving(false)
     })
-  }, [id])
+  }, [ id ])
 
   useEffect(() => {
     const list = [
@@ -60,10 +60,10 @@ function Update() {
       { id: 'updatedAt', label: 'Updated At', type: 'text', disabled: true, readOnly: true, value: formatDateTime(updatedAt) },
     ]
     setFormFieldList(list)
-  },[name, createdAt, updatedAt, nameError, nameHelperText ])
+  }, [ name, createdAt, updatedAt, nameError, nameHelperText ])
   const onFormFieldChange = (e, id) => {
     const { value } = e.target
-    switch(id) {
+    switch (id) {
       case 'name':
         setName(value)
         break

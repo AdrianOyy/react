@@ -1,11 +1,11 @@
-import React, {useEffect, useState} from 'react'
+import React, { useEffect, useState } from 'react'
 
 import {
   Grid,
   TablePagination,
   Paper as MuiPaper,
 } from "@material-ui/core"
-import {NaviHeader, SearchBar} from '../../../../components'
+import { NaviHeader, SearchBar } from '../../../../components'
 import EnhancedTable from './components/EnhancedTable'
 import styled from "styled-components"
 import { spacing } from "@material-ui/system"
@@ -13,7 +13,7 @@ import UserApi from "../../../../api/user"
 
 const Paper = styled(MuiPaper)(spacing)
 const naviHeaderTitle = 'User Profile'
-const breadcrumbsList = [{ title: 'AAA Service'}, { title: naviHeaderTitle }]
+const breadcrumbsList = [{ title: 'AAA Service' }, { title: naviHeaderTitle }]
 
 function List() {
   const [ surname, setSurname ] = React.useState('')
@@ -26,12 +26,12 @@ function List() {
   const [ total, setTotal ] = React.useState(0)
 
   useEffect(() => {
-    UserApi.list({ ...query, limit: rowsPerPage, page: page+1 })
+    UserApi.list({ ...query, limit: rowsPerPage, page: page + 1 })
       .then(response => {
         setTotal(response.data.data.count)
         setRows(response.data.data.rows)
       })
-  }, [page, rowsPerPage, query])
+  }, [ page, rowsPerPage, query ])
 
   const handelFieldChange = (e, id) => {
     const { value } = e.target
@@ -71,7 +71,7 @@ function List() {
     { id: 'createdAt', label: 'Created At', type: 'date', disabled: false, readOnly: false, value: createdAt },
     { id: 'updatedAt', label: 'Updated At', type: 'date', disabled: false, readOnly: false, value: updatedAt },
   ]
-  
+
   return (
     <React.Fragment>
       <NaviHeader title={naviHeaderTitle} breadcrumbsList={breadcrumbsList} />
@@ -88,7 +88,7 @@ function List() {
               rows = {rows}
             />
             <TablePagination
-              rowsPerPageOptions={[10, 50, 100]}
+              rowsPerPageOptions={[ 10, 50, 100 ]}
               component="div"
               count={total}
               rowsPerPage={rowsPerPage}
