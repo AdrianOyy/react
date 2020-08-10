@@ -73,7 +73,7 @@ function AssignCreate(props) {
       {
         id: 'assign', label: 'Tenant + Group + Role', isSelector: true, value: assignId,
         itemList: assignList, labelField: 'value', valueField: 'id', width: 1.4,
-        error: assignError, helperText: assignHelperText,
+        error: assignError, helperText: assignHelperText, labelWidth: 150,
       },
       {
         id: 'user', label: 'User', isSelector: true, value: userId,

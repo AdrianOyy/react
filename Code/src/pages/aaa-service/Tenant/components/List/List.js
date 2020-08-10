@@ -98,6 +98,8 @@ function List(props) {
   }
 
   const handleFieldChange = (e, id) => {
+    console.log(e)
+    console.log(id)
     const { value } = e.target
     switch (id) {
       case "name":

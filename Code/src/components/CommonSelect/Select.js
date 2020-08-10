@@ -5,6 +5,7 @@ import MenuItem from '@material-ui/core/MenuItem'
 import FormHelperText from '@material-ui/core/FormHelperText'
 import FormControl from '@material-ui/core/FormControl'
 import Select from '@material-ui/core/Select'
+import { OutlinedInput } from "@material-ui/core"
 const useStyles = makeStyles((theme) => ({
   formControl: {
     margin: theme.spacing(1),
@@ -29,6 +30,7 @@ function CommonSelect(props) {
     valueField,
     labelField,
     hasMt,
+    labelWidth,
     width
   } = props
   return (
@@ -38,13 +40,18 @@ function CommonSelect(props) {
       variant={outlined ? "outlined" : undefined}
       style={hasMt ? { margin: "5ch 8ch 0 0" } : { margin: "0 8ch 0 0" }}
     >
-      <InputLabel id={id}> {label} </InputLabel>
+      <InputLabel  id={id}> {label} </InputLabel>
       <Select
         labelId={id}
         id={id}
         value={value}
         onChange={onSelectChange}
         style={{ minWidth: `${(width ? width : 1) * 150}px` }}
+        input={
+          outlined ? <OutlinedInput
+            labelWidth={labelWidth ? labelWidth : 60}
+          /> : undefined
+        }
       >
         {
           itemList && itemList.map((item, i) => (
