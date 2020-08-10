@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react'
 import styled from "styled-components"
 import { NavLink as RouterNavLink } from "react-router-dom"
-// import syncUserAPI from '../../api/user.js'
 import { getProcessDefinitions }  from '../../api/workFlow.js'
 import Helmet from 'react-helmet'
 import CommonTip from '../../components/CommonTip'
-// import dayjs from 'dayjs';
+
 
 import {
+  // Box,
   Breadcrumbs as MuiBreadcrumbs,
   Button,
   Checkbox,
@@ -127,13 +127,13 @@ const headCells = [
 ]
 
 function EmptyCard(props) {
-  const { onHandelTextChange, onSearchButton, openActivitiDesign } = props
+  const { onHandleTextChange, onSearchButton, openActivitiDesign } = props
   const classes = useStyles()
   return (
     <div className={classes.root}>
       <TextField
         id="surname"
-        onChange={onHandelTextChange.bind(this)}
+        onChange={onHandleTextChange.bind(this)}
         label="surname"
         className={classes.textField}/>
       <Button
@@ -236,34 +236,23 @@ function EnhancedTable() {
   const [ page, setPage ] = React.useState(0)
   const [ rowsPerPage, setRowsPerPage ] = React.useState(1)
   const [ total, setTotal ] = React.useState(0)
-  const [ emptyRows, setEmptyRows ] = React.useState(0)
-  const [ text, setText ] = React.useState('')
-  const [ query, setQuery ] = React.useState({})
+  // const [emptyRows, setEmptyRows] = React.useState(0)
+  // const [text, setText] = React.useState('')
+  // const [query, setQuery] = React.useState({})
 
-  console.log(setTotal)
-  console.log(setEmptyRows)
-  console.log(query)
-
-  const handelTextChange = (event) => {
-    setText(event.target.value)
+  const handleTextChange = () => {
+    // setText(event.target.value)
   }
 
-  const handlSearch =  () => {
-    setQuery({
-      surname: text
-    })
+  const handleSearch =  () => {
+    // setQuery({
+    //   surname: text
+    // })
   }
 
   const openActivitiDesign = () => {
-    // openDesigner().then(response=>{
-    //   console.log(response)
-
-    // })
+    // eslint-disable-next-line
     window.open(process.env.REACT_APP_BASE_API_WORKFLOW + "/create?token=" + localStorage.getItem("token"))
-  //  createModel(localStorage.getItem("token")).then(response =>{
-  //    console.log(response.data)
-  //    openDesigner(response.data.data.modelId)
-  //   })
   }
 
   const handleRequestSort = (event, property) => {
@@ -275,7 +264,7 @@ function EnhancedTable() {
 
   useEffect(() => {
     getProcessDefinitions().then(response => {
-      // setTotal(response.data.data.total);
+      setTotal(response.data.total)
       console.log(response.data)
       if (response.data && response.data.data) {
         const newArr = response.data.data.filter(item => item.sourceExtraUrl != null)
@@ -284,8 +273,8 @@ function EnhancedTable() {
       }
 
       //  const length = response.data.data.length
-      //  const emptyrow = rowsPerPage - length;
-      //  setEmptyRows(emptyrow);
+      //  const emptyRow = rowsPerPage - length;
+      //  setEmptyRows(emptyRow);
     }).catch(error => {
       CommonTip.error(error.message, { })
     })
@@ -293,8 +282,8 @@ function EnhancedTable() {
 
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
-      const newSelecteds = rows.map((n) => n.id)
-      setSelected(newSelecteds)
+      const newSelected = rows.map((n) => n.id)
+      setSelected(newSelected)
       return
     }
     setSelected([])
@@ -350,8 +339,8 @@ function EnhancedTable() {
   return (
     <div>
       <EmptyCard
-        onHandelTextChange={handelTextChange}
-        onSearchButton={handlSearch}
+        onHandleTextChange={handleTextChange}
+        onSearchButton={handleSearch}
         openActivitiDesign={openActivitiDesign}
       />
       <Paper>
@@ -409,11 +398,11 @@ function EnhancedTable() {
                     </TableRow>
                   )
                 })}
-              {emptyRows > 0 && (
+              {/* {emptyRows > 0 && (
                 <TableRow style={{ height: (53) * emptyRows }}>
                   <TableCell colSpan={8} />
                 </TableRow>
-              )}
+              )} */}
             </TableBody>
           </Table>
         </TableContainer>
@@ -443,7 +432,7 @@ function SyncList() {
       >
         <Grid item>
           <Typography variant="h3" gutterBottom display="inline">
-          Workflow Setting
+            Workflow Setting
           </Typography>
 
           <Breadcrumbs aria-label="Breadcrumb" mt={2}>
