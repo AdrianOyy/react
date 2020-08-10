@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react'
 import styled from "styled-components"
 import { NavLink as RouterNavLink } from "react-router-dom"
-// import syncUserAPI from '../../api/user.js'
-import {getProcessDefinitions,openDesigner,createModel}  from '../../api/workFlow.js'
+import {getProcessDefinitions}  from '../../api/workFlow.js'
 import Helmet from 'react-helmet'
 import CommonTip from '../../components/CommonTip'
-// import dayjs from 'dayjs';
+
+
 
 import {
-  Box,
+  //Box,
   Breadcrumbs as MuiBreadcrumbs,
   Button,
   Checkbox,
@@ -237,30 +237,22 @@ function EnhancedTable() {
   const [page, setPage] = React.useState(0)
   const [rowsPerPage, setRowsPerPage] = React.useState(1)
   const [total, setTotal] = React.useState(0)
-  const [emptyRows, setEmptyRows] = React.useState(0)
-  const [text, setText] = React.useState('')
-  const [query, setQuery] = React.useState({})
+  //const [emptyRows, setEmptyRows] = React.useState(0)
+  //const [text, setText] = React.useState('')
+  //const [query, setQuery] = React.useState({})
   
   const handelTextChange = (event) => {
-    setText(event.target.value)
+   // setText(event.target.value)
   }
 
   const handlSearch =  () => {
-    setQuery({
-      surname: text
-    })
+    // setQuery({
+    //   surname: text
+    // })
   }
 
   const openActivitiDesign = () => {
-    // openDesigner().then(response=>{
-    //   console.log(response)
-      
-    // })
-    window.open(process.env.REACT_APP_BASE_API_WORKFLOW+"/create?token="+localStorage.getItem("token"))
-  //  createModel(localStorage.getItem("token")).then(response =>{
-  //    console.log(response.data)
-  //    openDesigner(response.data.data.modelId)
-  //   })
+    window.open(process.env.REACT_APP_BASE_API_WORKFLOW+"/create?token="+localStorage.getItem("token"));
   }
 
   const handleRequestSort = (event, property) => {
@@ -272,7 +264,7 @@ function EnhancedTable() {
   
   useEffect(() => {
     getProcessDefinitions().then(response => {
-       // setTotal(response.data.data.total);
+        setTotal(response.data.total);
        console.log(response.data)
        if(response.data && response.data.data){
         const newArr = response.data.data.filter(item => item.sourceExtraUrl!=null)
@@ -406,11 +398,11 @@ function EnhancedTable() {
                     </TableRow>
                   )
                 })}
-              {emptyRows > 0 && (
+              {/* {emptyRows > 0 && (
                 <TableRow style={{ height: (53) * emptyRows }}>
                   <TableCell colSpan={8} />
                 </TableRow>
-              )}
+              )} */}
             </TableBody>
           </Table>
         </TableContainer>
@@ -467,3 +459,4 @@ function SyncList() {
 }
 
 export default SyncList
+
