@@ -32,7 +32,7 @@ const ExpPanels = async(() => import("../pages/components/ExpansionPanels"))
 const Analytics = async(() => import("../pages/dashboards/Analytics"))
 
 // logging components
-const logging = async(() => import("../pages/logging/logging"))
+const logging = async(() => import("../pages/logging/Log"))
 
 // user components
 const user = async(() => import("../pages/aaa-service/User"))

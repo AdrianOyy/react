@@ -56,6 +56,7 @@ function EnhancedTable(props) {
     fieldList,
     hideDetail,
     hideUpdate,
+    hideCreate,
   } = props
   const history = useHistory()
   const [ order, setOrder ] = useState('asc')
@@ -131,6 +132,7 @@ function EnhancedTable(props) {
         tableName={tableName}
         createPath={`${path}/create`}
         onDelete={handleDelete}
+        hideCreate={hideCreate}
       />
       <TableContainer>
         <Table

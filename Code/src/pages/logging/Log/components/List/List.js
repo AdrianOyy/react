@@ -5,30 +5,32 @@ import {
   TablePagination,
   Paper as MuiPaper,
 } from "@material-ui/core"
-import { SearchBar } from '../../../../../components'
+
+import { CommonTable, SearchBar } from '../../../../../components'
+import API from "../../../../../api/logging"
 import styled from "styled-components"
 import { spacing } from "@material-ui/system"
-import API from "../../../../../api/user"
 import dayjs from "dayjs"
-import { CommonTable } from "../../../../../components"
 
 const Paper = styled(MuiPaper)(spacing)
 const formatDateTime = (str) => {
   return dayjs(new Date(str)).format('YYYY-MM-DD HH:MM')
 }
-const tableName = 'User Profile List'
+const tableName = 'Log List'
 
 function List(props) {
   const { onMount, path } = props
 
-  const [ surname, setSurname ] = React.useState('')
-  const [ createdAt, setCreatedAt ] = React.useState('')
-  const [ updatedAt, setUpdateAt ] = React.useState('')
-  const [ query, setQuery ] = React.useState({})
+  const [ logType, setLogType ] = useState('')
+  const [ request, setRequest ] = useState('')
+  const [ response, setResponse ] = useState('')
+  const [ startDate, setStartDate ] = useState('')
+  const [ endDate, setEndDate ] = useState('')
+  const [ query, setQuery ] = useState({})
   const [ rows, setRows ] = useState([])
-  const [ page, setPage ] = React.useState(0)
-  const [ rowsPerPage, setRowsPerPage ] = React.useState(10)
-  const [ total, setTotal ] = React.useState(0)
+  const [ page, setPage ] = useState(0)
+  const [ rowsPerPage, setRowsPerPage ] = useState(10)
+  const [ total, setTotal ] = useState(0)
 
   // 用于更新面包屑
   useEffect(() => {
@@ -39,8 +41,8 @@ function List(props) {
   useEffect(() => {
     API.list({ ...query, limit: rowsPerPage, page: page + 1 })
       .then(response => {
-        setTotal(response.data.data.count)
-        handleData(response.data.data.rows)
+        setTotal(response.data.total)
+        handleData(response.data.data)
       })
   }, [ page, rowsPerPage, query ])
 
@@ -49,14 +51,10 @@ function List(props) {
     rawDataList.forEach((el) => {
       const rowModel = {
         id: el.id,
-        alias: el.alias,
-        surname: el.surname,
-        givenname: el.givenname,
-        title: el.title,
-        displayname: el.displayname,
-        email: el.email,
+        logType: el.logType,
+        request: el.request,
+        response: el.response,
         createdAt: formatDateTime(el.createdAt),
-        updatedAt: formatDateTime(el.updatedAt),
       }
       rows.push(rowModel)
     })
@@ -65,65 +63,70 @@ function List(props) {
 
   // 表头字段列表
   const headCells = [
-    { id: 'alias', alignment: 'center', label: 'Alias' },
-    { id: 'surname', alignment: 'center', label: 'Surname' },
-    { id: 'givenname', alignment: 'center', label: 'Given Name' },
-    { id: 'title', alignment: 'center', label: 'Title' },
-    { id: 'displayname', alignment: 'center', label: 'Display Name' },
-    { id: 'email', alignment: 'center', label: 'Email' },
+    { id: 'logType', alignment: 'center', label: 'Log Type' },
+    { id: 'request', alignment: 'center', label: 'Request' },
+    { id: 'response', alignment: 'center', label: 'Response' },
     { id: 'createdAt', alignment: 'center', label: 'Created At' },
-    { id: 'updatedAt', alignment: 'center', label: 'Updated At' },
-    { id: 'action', alignment: 'right', label: 'Actions' },
   ]
 
   // 每行显示的字段
   const fieldList = [
-    { field: 'alias', align: 'center' },
-    { field: 'surname', align: 'center' },
-    { field: 'givenname', align: 'center' },
-    { field: 'title', align: 'center' },
-    { field: 'displayname', align: 'center' },
-    { field: 'email', align: 'center' },
+    { field: 'logType', align: 'center' },
+    { field: 'request', align: 'center' },
+    { field: 'response', align: 'center' },
     { field: 'createdAt', align: 'center' },
-    { field: 'updatedAt', align: 'center' }
   ]
 
   const searchBarFieldList = [
-    { id: 'surname', label: 'Surname', type: 'text', disabled: false, readOnly: false, value: surname },
-    { id: 'createdAt', label: 'Created At', type: 'date', disabled: false, readOnly: false, value: createdAt },
-    { id: 'updatedAt', label: 'Updated At', type: 'date', disabled: false, readOnly: false, value: updatedAt },
+    { id: 'logType', label: 'LogType', type: 'text', disabled: false, value: logType },
+    { id: 'request', label: 'Request', type: 'text', disabled: false, value: request },
+    { id: 'response', label: 'Response', type: 'text', disabled: false, value: response },
+    { id: 'startDate', label: 'Start Date', type: 'date', disabled: false, readOnly: false, value: startDate },
+    { id: 'endDate', label: 'End Date', type: 'date', disabled: false, readOnly: false, value: endDate },
   ]
 
   const handleClear = () => {
-    setSurname('')
-    setCreatedAt('')
-    setUpdateAt('')
+    setLogType('')
+    setRequest('')
+    setResponse('')
+    setStartDate('')
+    setEndDate('')
     setQuery({
-      surname: '',
-      createdAt: '',
-      updatedAt: '',
+      logType: '',
+      request: '',
+      response: '',
+      startDate: '',
+      endDate: '',
     })
   }
 
   const handleSearch = () => {
     setQuery({
-      surname,
-      createdAt,
-      updatedAt,
+      logType,
+      request,
+      response,
+      startDate,
+      endDate,
     })
   }
 
   const handleFieldChange = (e, id) => {
     const { value } = e.target
     switch (id) {
-      case "surname":
-        setSurname(value)
+      case "logType":
+        setLogType(value)
         break
-      case "createdAt":
-        setCreatedAt(value)
+      case "request":
+        setRequest(value)
         break
-      case "updatedAt":
-        setUpdateAt(value)
+      case "response":
+        setResponse(value)
+        break
+      case "startDate":
+        setStartDate(value)
+        break
+      case "endDate":
+        setEndDate(value)
         break
       default:
         break
@@ -153,9 +156,10 @@ function List(props) {
             <CommonTable
               rows={rows}
               tableName={tableName}
-              hideUpdate={true}
               deleteAPI={API.deleteMany}
               handleSearch={handleSearch}
+              hideUpdate={true}
+              hideDetail={true}
               path={path}
               headCells={headCells}
               fieldList={fieldList}

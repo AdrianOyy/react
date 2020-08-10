@@ -23,7 +23,7 @@ const Spacer = styled.div`
 `
 
 function EnhancedTableToolbar(props) {
-  const { numSelected, tableName, createPath, onDelete } = props
+  const { numSelected, tableName, createPath, onDelete, hideCreate } = props
   const history = useHistory()
   const toCreatePage = () => {
     history.push(createPath)
@@ -50,13 +50,14 @@ function EnhancedTableToolbar(props) {
                 <DeleteIcon />
               </IconButton>
             </Tooltip>
-          ) : (
+          ) : !hideCreate ? ((
             <Tooltip title="Create">
               <IconButton aria-label="Create" onClick={toCreatePage}>
                 <AddIcon />
               </IconButton>
             </Tooltip>
-          )}
+          )) : null
+          }
         </div>
       </Toolbar>
     </React.Fragment>

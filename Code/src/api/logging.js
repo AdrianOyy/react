@@ -7,7 +7,7 @@ class Logging {
   }
 
   delete(data, options) {
-    return request.delete(`/logging/delete`, data, options)
+    return request.delete(`${prefix}/logging/delete`, data, options)
   }
 
   deleteMany(params) {
