@@ -57,6 +57,8 @@ function EnhancedTable(props) {
     hideDetail,
     hideUpdate,
     hideCreate,
+    hideCheckBox,
+    customCreate,
   } = props
   const history = useHistory()
   const [ order, setOrder ] = useState('asc')
@@ -133,6 +135,7 @@ function EnhancedTable(props) {
         createPath={`${path}/create`}
         onDelete={handleDelete}
         hideCreate={hideCreate}
+        customCreate={customCreate}
       />
       <TableContainer>
         <Table
@@ -148,6 +151,7 @@ function EnhancedTable(props) {
             onRequestSort={handleRequestSort}
             rowCount={rows.length}
             headCells={headCells}
+            hideCheckBox={hideCheckBox}
           />
           <TableBody>
             {stableSort(rows, getComparator(order, orderBy))
@@ -163,13 +167,17 @@ function EnhancedTable(props) {
                     key={`${row.id}-${index}`}
                     selected={isItemSelected}
                   >
-                    <TableCell padding="checkbox">
-                      <Checkbox
-                        checked={isItemSelected}
-                        inputProps={{ 'aria-labelledby': labelId }}
-                        onClick={(event) => handleSelect(event, row.id)}
-                      />
-                    </TableCell>
+                    {
+                      !hideCheckBox && (
+                        <TableCell padding="checkbox">
+                          <Checkbox
+                            checked={isItemSelected}
+                            inputProps={{ 'aria-labelledby': labelId }}
+                            onClick={(event) => handleSelect(event, row.id)}
+                          />
+                        </TableCell>
+                      )
+                    }
                     {
                       fieldList && fieldList.map((el, i) => (
                         <TableCell key={el.field + '__' + i} align={el.align}>

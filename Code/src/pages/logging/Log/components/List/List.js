@@ -7,7 +7,7 @@ import {
 } from "@material-ui/core"
 
 import { CommonTable, SearchBar } from '../../../../../components'
-import API from "../../../../../api/logging"
+import API from "../../../../../api/log"
 import styled from "styled-components"
 import { spacing } from "@material-ui/system"
 import dayjs from "dayjs"

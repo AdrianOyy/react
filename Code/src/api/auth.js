@@ -1,9 +1,14 @@
 import request from '../utils/request'
+import envPrefix from "../utils/prefix"
+import envUrl from "../utils/baseUrl"
+
+const prefix = envPrefix.aaa
+const url = envUrl.auth
+
 
 class Auth {
   login(params, options) {
-    // return request.post('/AAA/user/login', params, options)
-    return request.post('/user/login', params, options, 'http://127.0.0.1:7001')
+    return request.post(`${prefix}/user/login`, params, options, url)
   }
 }
 

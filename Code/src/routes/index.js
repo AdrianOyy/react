@@ -42,7 +42,7 @@ const user = async(() => import("../pages/aaa-service/User"))
 // const Presentation = async(() => import("../pages/docs/Presentation"));
 
 // workFlow
-const WorkflowSetting = async(() => import("../pages/workFlow/workFlowSetting"))
+const WorkflowSetting = async(() => import("../pages/workFlow/WorkflowSetting"))
 
 // management
 const management = async(() => import("../pages/aaa-service/Management"))

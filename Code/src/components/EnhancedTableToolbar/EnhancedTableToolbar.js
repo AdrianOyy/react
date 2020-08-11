@@ -23,10 +23,10 @@ const Spacer = styled.div`
 `
 
 function EnhancedTableToolbar(props) {
-  const { numSelected, tableName, createPath, onDelete, hideCreate } = props
+  const { numSelected, tableName, createPath, onDelete, hideCreate, customCreate } = props
   const history = useHistory()
   const toCreatePage = () => {
-    history.push(createPath)
+    customCreate ? customCreate() : history.push(createPath)
   }
   return (
     <React.Fragment>

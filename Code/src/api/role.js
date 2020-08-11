@@ -1,7 +1,7 @@
 import request from '../utils/request'
+import envPrefix from "../utils/prefix"
 
-const prefix = ''
-// const prefix = '/AAA'
+const prefix = envPrefix.aaa
 
 class role {
   list(params, options) {

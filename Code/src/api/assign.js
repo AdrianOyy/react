@@ -1,6 +1,7 @@
 import request from '../utils/request'
+import envPrefix from "../utils/prefix"
 
-const prefix = ''
+const prefix = envPrefix.aaa
 
 class assign {
   list(params) {

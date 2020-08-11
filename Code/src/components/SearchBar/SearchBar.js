@@ -38,6 +38,8 @@ function SearchBar(props) {
     onClearButton,
     onSearchButton,
     fieldList,
+    extendButtonList,
+    onExtendButtonClick
   } = props
   const classes = useStyles()
   const handleDataChange = (value, id) => {
@@ -118,6 +120,19 @@ function SearchBar(props) {
         >
           Search
         </Button>
+        {
+          extendButtonList && extendButtonList.map((item, i) => (
+            <Button
+              key={i + "__" + item.id}
+              variant="contained"
+              color={item.color}
+              onClick={onExtendButtonClick ? (e) => onExtendButtonClick(e, item.id) : null}
+              className={classes.button}
+            >
+              {item.label}
+            </Button>
+          ))
+        }
       </ButtonGroup>
     </div>
   )

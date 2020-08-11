@@ -1,9 +1,9 @@
 import request from '../utils/request'
+import envPrefix from "../utils/prefix"
+import envUrl from "../utils/baseUrl"
 
-const prefix = ''
-// const url = 'http://127.0.0.1:7001'
-// const prefix = '/AAA'
-const url = null
+const prefix = envPrefix.aaa
+const url = envUrl.user
 
 class User {
   list(params, options) {

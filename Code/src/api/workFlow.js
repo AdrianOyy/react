@@ -1,35 +1,20 @@
-import request from '../utils/requestWorkflow'
+import request from '../utils/request'
+import envPrefix from "../utils/prefix"
+import envUrl from "../utils/baseUrl"
 
-// class WorkFlow {
+const prefix = envPrefix.workflow
+const url = envUrl.workflow
 
-
-export function getProcessDefinitions() {
-  return request({
-    url: '/repository/models',
-    method: 'get',
-  })
+class WorkFlow {
+  getProcessDefinitions(params, options) {
+    return request.get(`${prefix}/repository/models`, params, options, url)
+  }
+  createModel(params, options) {
+    return request.get(`${prefix}/create`, params, options, url)
+  }
+  openDesigner(params, options) {
+    return request.get(`${prefix}/openDesigner`, params, options, url)
+  }
 }
 
-export function createModel() {
-  return request({
-    url: '/create',
-    method: 'get',
-  })
-}
-
-export function openDesigner() {
-  return request({
-    url: '/openDesigner',
-    method: 'get',
-  })
-}
-// deleteDeployment(params){
-//   return request.delete(`repository/models/${params}`)
-// }
-
-// publish(params){
-//   return request.get(`publish/${params}`)
-// }
-// }
-
-// export default new WorkFlow()
+export default new WorkFlow()
