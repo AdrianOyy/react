@@ -9,8 +9,8 @@ const devUrl = {
   user: null,
   auth: null,
   group: null,
-  // workflow: 'http://127.0.0.1:8888'
-  workflow: 'http://10.231.131.123:3004',
+  workflow: 'http://127.0.0.1:8888'
+  // workflow: 'http://10.231.131.123:3004',
 }
 
 // eslint-disable-next-line
