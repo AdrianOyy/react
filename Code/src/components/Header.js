@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useState,  } from "react"
 import styled, { withTheme } from "styled-components"
 import { connect } from "react-redux"
 // import { darken } from "polished";
@@ -23,6 +23,7 @@ import {
   // Search as SearchIcon,
   Power
 } from "react-feather"
+import { useHistory } from "react-router-dom"
 
 const AppBar = styled(MuiAppBar)`
   background: ${props => props.theme.header.background};
@@ -140,6 +141,7 @@ const Indicator = styled(Badge)`
 // }
 
 function UserMenu() {
+  const history = useHistory()
   const [ anchorMenu, setAnchorMenu ] = useState(null)
 
   const toggleMenu = event => {
@@ -148,6 +150,11 @@ function UserMenu() {
 
   const closeMenu = () => {
     setAnchorMenu(null)
+  }
+
+  const signOut = () => {
+    window.localStorage.removeItem('token')
+    history.push('/')
   }
 
   return (
@@ -169,7 +176,7 @@ function UserMenu() {
         <MenuItem onClick={closeMenu}>
           Profile
         </MenuItem>
-        <MenuItem onClick={closeMenu}>
+        <MenuItem onClick={signOut}>
           Sign out
         </MenuItem>
       </Menu>
