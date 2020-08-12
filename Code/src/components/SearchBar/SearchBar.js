@@ -74,7 +74,7 @@ function SearchBar(props) {
           ) : (field.type === 'date' ?
             (
               <KeyboardDatePicker
-                clearable
+                clearable='true'
                 variant="inline"
                 key = {field.id + field.label}
                 format="yyyy/MM/dd"
