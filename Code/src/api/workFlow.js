@@ -15,6 +15,9 @@ class WorkFlow {
   openDesigner(params, options) {
     return request.get(`${prefix}/openDesigner`, params, options, url)
   }
+  getMyRequest(params) {
+    return request.get(`${prefix}/ReuqestTask/getMyRequest`, params, {}, url)
+  }
 }
 
 export default new WorkFlow()
