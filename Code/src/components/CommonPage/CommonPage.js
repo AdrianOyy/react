@@ -1,14 +1,15 @@
 import React, { useState } from "react"
 import {
-  BrowserRouter as Router,
+  HashRouter as Router,
   Switch,
   Route
 } from "react-router-dom"
 import { NaviHeader } from "../index"
 
+const path = '/'
+
 function CommonPage(props) {
   const {
-    path,
     parentTitle,
     title,
     List,
@@ -58,31 +59,31 @@ function CommonPage(props) {
       <Router>
         <NaviHeader title={title} breadcrumbsList={breadcrumbsList} />
         <Switch>
-          <Route path={`${path}/detail/:id`}>
+          <Route path={`/detail/:id`}>
             {
               Detail && (() => (
-                <Detail onMount={onMount} path={path} />
+                <Detail onMount={onMount} path={''} />
               ))
             }
           </Route>
-          <Route path={`${path}/update/:id`}>
+          <Route path={`/update/:id`}>
             {
               Update && (() => (
-                <Update onMount={onMount} path={path} />
+                <Update onMount={onMount} path={''} />
               ))
             }
           </Route>
-          <Route path={`${path}/create`}>
+          <Route path={`/create`}>
             {
               Create && (() => (
-                <Create onMount={onMount} path={path} />
+                <Create onMount={onMount} path={''} />
               ))
             }
           </Route>
           <Route path="/">
             {
               List && (() => (
-                <List onMount={onMount} path={path} />
+                <List onMount={onMount} path={''} />
               ))
             }
           </Route>

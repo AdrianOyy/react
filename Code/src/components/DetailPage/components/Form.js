@@ -67,11 +67,10 @@ function Form(props) {
                     width = {field.width}
                     labelWidth = {field.labelWidth}
                     onSelectChange = {(event) => onFormFieldChange(event, field.id)}
-                  />
-                ) : (field.type === 'date' ?
+                  />) : (field.type === 'date' ?
                   (
                     <KeyboardDatePicker
-                      clearable
+                      clearable='true'
                       variant="inline"
                       inputVariant="outlined"
                       key = {field.id + field.label}

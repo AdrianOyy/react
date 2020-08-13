@@ -1,7 +1,8 @@
 import React from "react"
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom"
+import { BrowserRouter as Router, Route, Switch, Redirect  } from "react-router-dom"
 import { createBrowserHistory } from "history"
 import { dashboard as dashboardRoutes, auth as authRoutes } from "./index"
+import auth from "../utils/auth"
 
 import DashboardLayout from "../layouts/Dashboard"
 import AuthLayout from "../layouts/Auth"
@@ -18,7 +19,9 @@ const childRoutes = (Layout, routes) =>
           exact
           render={props => (
             <Layout>
-              <Component {...props} />
+              {
+                auth(path) ? <Component {...props} /> : <Redirect to={{ path: '/auth/sign-in' }} />
+              }
             </Layout>
           )}
         />
@@ -31,7 +34,9 @@ const childRoutes = (Layout, routes) =>
         exact
         render={props => (
           <Layout>
-            <Component {...props} />
+            {
+              auth(path) ? <Component {...props} /> : <Redirect to={{ path: '/auth/sign-in' }} />
+            }
           </Layout>
         )}
       />

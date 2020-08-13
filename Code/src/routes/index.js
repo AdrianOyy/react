@@ -130,7 +130,7 @@ const dashboardsRoutes = {
 
 const logRoutes = {
   id: "Log",
-  path: "/logging",
+  path: "/logging/",
   icon: <Monitor />,
   component: logging,
   children: null
@@ -181,42 +181,42 @@ const aaaServiceRoutes = {
   icon: <Grid />,
   children: [
     {
-      path: "/aaa-service/user",
+      path: "/aaa-service/user/",
       name: "User Profile",
       component: user
     },
     {
-      path: "/aaa-service/tenant",
+      path: "/aaa-service/tenant/",
       name: "Tenant",
       component: tenant,
     },
     {
-      path: "/aaa-service/role",
+      path: "/aaa-service/role/",
       name: "Role",
       component: role,
     },
     {
-      path: "/aaa-service/assign",
+      path: "/aaa-service/assign/",
       name: "Assign",
       component: assign
     },
     {
-      path: "/aaa-service/management",
+      path: "/aaa-service/management/",
       name: "Management",
       component: management,
     },
     {
-      path: "/aaa-service/adgroup",
+      path: "/aaa-service/adgroup/",
       name: "AD Group",
       component: ADGroup,
     },
     {
-      path: "/aaa-service/tenantAdGroupMapping",
+      path: "/aaa-service/tenantAdGroupMapping/",
       name: "Tenant AD Group Mapping",
       component: tenantGroupMapping,
     },
     {
-      path: "/aaa-service/expiry",
+      path: "/aaa-service/expiry/",
       name: "Expiry",
       component: expiry,
     }
