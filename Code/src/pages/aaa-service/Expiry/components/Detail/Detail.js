@@ -34,10 +34,18 @@ function AssignDetail(props) {
         const { user, assign, expiryDate, createdAt, updatedAt } = data.data
         const { tenant_group_mapping, role } = assign
         const { ad_group, tenant } = tenant_group_mapping
-        setTenant(tenant.name)
-        setAdGroup(ad_group.name)
-        setRole(role.label)
-        setUser(user.displayname)
+        if (tenant && tenant.name) {
+          setTenant(tenant.name)
+        }
+        if (ad_group && ad_group.name) {
+          setAdGroup(ad_group.name)
+        }
+        if (role && role.label) {
+          setRole(role.label)
+        }
+        if (user && user.displayname) {
+          setUser(user.displayname)
+        }
         setExpiryDate(expiryDate)
         setCreatedAt(createdAt)
         setUpdastedAt(updatedAt)

@@ -9,29 +9,44 @@ import API from "../../../../../api/tenant"
 import styled from "styled-components"
 import { spacing } from "@material-ui/system"
 import dayjs from "dayjs"
+import adGroupApi from "../../../../../api/adGroup"
 
 const Paper = styled(MuiPaper)(spacing)
 const formatDateTime = (str) => {
-  return dayjs(new Date(str)).format('YYYY-MM-DD HH:MM')
+  return dayjs(new Date(str)).format('YYYY-MM-DD HH:mm')
 }
 const tableName = 'Tenant List'
 
 function List(props) {
   const { onMount, path } = props
 
-  const [ name, setName ] = React.useState('')
-  const [ createdAt, setCreatedAt ] = React.useState('')
-  const [ updatedAt, setUpdateAt ] = React.useState('')
-  const [ query, setQuery ] = React.useState({})
+  const [ name, setName ] = useState('')
+  const [ code, setCode ] = useState('')
+  const [ managerGroupId, setManagerGroupId ] = useState('')
+  const [ supporterGroupId, setSupporterGroupId ] = useState('')
+  const [ createdAt, setCreatedAt ] = useState('')
+  const [ updatedAt, setUpdateAt ] = useState('')
+  const [ query, setQuery ] = useState({})
   const [ rows, setRows ] = useState([])
-  const [ page, setPage ] = React.useState(0)
-  const [ rowsPerPage, setRowsPerPage ] = React.useState(10)
-  const [ total, setTotal ] = React.useState(0)
+  const [ page, setPage ] = useState(0)
+  const [ rowsPerPage, setRowsPerPage ] = useState(10)
+  const [ total, setTotal ] = useState(0)
+  const [ groupList, setGroupList ] = useState([])
 
   // 用于更新面包屑
   useEffect(() => {
     onMount('list')
     // eslint-disable-next-line
+  }, [])
+
+  // 获取 groupList
+  useEffect(() => {
+    adGroupApi.list({ limit: 999, page: 1 }).then(({ data }) => {
+      if (data && data.data) {
+        const { rows } = data.data
+        setGroupList(rows)
+      }
+    })
   }, [])
 
   useEffect(() => {
@@ -48,6 +63,9 @@ function List(props) {
       const rowModel = {
         id: el.id,
         name: el.name,
+        code: el.code,
+        managerGroupId: el.manager_group ? el.manager_group.name : '',
+        supporterGroupId: el.supporter_group ? el.supporter_group.name : '',
         createdAt: formatDateTime(el.createdAt),
         updatedAt: formatDateTime(el.updatedAt),
       }
@@ -58,7 +76,10 @@ function List(props) {
 
   // 表头字段列表
   const headCells = [
+    { id: 'code', alignment: 'center', label: 'Code' },
     { id: 'name', alignment: 'center', label: 'Name' },
+    { id: 'managerGroupId', alignment: 'center', label: 'Manager Group' },
+    { id: 'supporterGroupId', alignment: 'center', label: 'Supporter Group' },
     { id: 'createdAt', alignment: 'center', label: 'Created At' },
     { id: 'updatedAt', alignment: 'center', label: 'Updated At' },
     { id: 'action', alignment: 'right', label: 'Actions' },
@@ -66,24 +87,42 @@ function List(props) {
 
   // 每行显示的字段
   const fieldList = [
+    { field: 'code', align: 'center' },
     { field: 'name', align: 'center' },
+    { field: 'managerGroupId', align: 'center' },
+    { field: 'supporterGroupId', align: 'center' },
     { field: 'createdAt', align: 'center' },
     { field: 'updatedAt', align: 'center' }
   ]
 
   // 搜索栏字段列表
   const searchBarFieldList = [
+    { id: 'code', label: 'Code', type: 'text', disabled: false, readOnly: false, value: name },
     { id: 'name', label: 'Name', type: 'text', disabled: false, readOnly: false, value: name },
+    { id: 'managerGroupId', label: 'Manager Group', type: 'text', disabled: false,
+      value: managerGroupId, isSelector: true, itemList: groupList,
+      labelField: 'name', valueField: 'id'
+    },
+    { id: 'supporterGroupId', label: 'Supporter Group', type: 'text', disabled: false,
+      value: supporterGroupId, isSelector: true, itemList: groupList,
+      labelField: 'name', valueField: 'id'
+    },
     { id: 'createdAt', label: 'Created At', type: 'date', disabled: false, readOnly: false, value: createdAt },
     { id: 'updatedAt', label: 'Updated At', type: 'date', disabled: false, readOnly: false, value: updatedAt },
   ]
 
   const handleClear = () => {
     setName('')
+    setCode('')
+    setManagerGroupId('')
+    setSupporterGroupId('')
     setCreatedAt('')
     setUpdateAt('')
     setQuery({
       name: '',
+      code: '',
+      managerGroupId: '',
+      supporterGroupId: '',
       createdAt: '',
       updatedAt: '',
     })
@@ -92,18 +131,28 @@ function List(props) {
   const handleSearch = () => {
     setQuery({
       name,
+      code,
+      manager_group_id: managerGroupId,
+      supporter_group_id: supporterGroupId,
       createdAt,
       updatedAt,
     })
   }
 
   const handleFieldChange = (e, id) => {
-    console.log(e)
-    console.log(id)
     const { value } = e.target
     switch (id) {
       case "name":
         setName(value)
+        break
+      case "code":
+        setCode(value)
+        break
+      case "managerGroupId":
+        setManagerGroupId(value)
+        break
+      case "supporterGroupId":
+        setSupporterGroupId(value)
         break
       case "createdAt":
         setCreatedAt(value)
@@ -139,6 +188,7 @@ function List(props) {
             <CommonTable
               rows={rows}
               tableName={tableName}
+              hideCheckBox={true}
               deleteAPI={API.deleteMany}
               handleSearch={handleSearch}
               path={path}

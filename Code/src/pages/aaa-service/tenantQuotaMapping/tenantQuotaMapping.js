@@ -3,9 +3,9 @@ import CommonPage from "../../../components/CommonPage"
 import { List, Detail, Update, Create } from './components'
 
 const parentTitle = 'AAA-Service'
-const title = 'Management'
+const title = 'Tenant Quota Mapping'
 
-function Management() {
+function TenantQuotaMapping() {
   const props = {
     title,
     parentTitle,
@@ -23,4 +23,4 @@ function Management() {
   )
 }
 
-export default Management
+export default TenantQuotaMapping

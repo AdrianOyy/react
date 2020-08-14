@@ -44,8 +44,8 @@ const user = async(() => import("../pages/aaa-service/User"))
 // workFlow
 const WorkflowSetting = async(() => import("../pages/workFlow/WorkflowSetting"))
 
-// management
-const management = async(() => import("../pages/aaa-service/Management"))
+// tenant quota mapping
+const tenantQuotaMapping = async(() => import("../pages/aaa-service/tenantQuotaMapping"))
 
 // tenant
 const tenant = async(() => import("../pages/aaa-service/Tenant"))
@@ -64,6 +64,9 @@ const assign = async(() => import("../pages/aaa-service/Assign"))
 
 // expiry
 const expiry = async(() => import("../pages/aaa-service/Expiry"))
+
+// TODO: delete this route after testing
+const test = async(() => import("../pages/aaa-service/Test"))
 
 const authRoutes = {
   id: "Auth",
@@ -179,6 +182,12 @@ const aaaServiceRoutes = {
   path: "/aaa-service",
   icon: <Grid />,
   children: [
+    // TODO: remove this route after testing
+    {
+      path: "/aaa-service/test/",
+      name: "Test",
+      component: test,
+    },
     {
       path: "/aaa-service/user/",
       name: "User Profile",
@@ -190,6 +199,11 @@ const aaaServiceRoutes = {
       component: tenant,
     },
     {
+      path: "/aaa-service/tenantQuotaMapping/",
+      name: "Tenant Quota Mapping",
+      component: tenantQuotaMapping,
+    },
+    {
       path: "/aaa-service/role/",
       name: "Role",
       component: role,
@@ -198,11 +212,6 @@ const aaaServiceRoutes = {
       path: "/aaa-service/assign/",
       name: "Assign",
       component: assign
-    },
-    {
-      path: "/aaa-service/management/",
-      name: "Management",
-      component: management,
     },
     {
       path: "/aaa-service/adgroup/",

@@ -10,7 +10,7 @@ import {
   Grid
 } from "@material-ui/core"
 
-import CommonSelect from "../../CommonSelect"
+import CommonSelect from "../CommonSelect"
 
 import { spacing } from "@material-ui/system"
 import styled from "styled-components"
@@ -23,9 +23,10 @@ const TextField = styled(TextFieldSpacing)`width: 200px;`
 
 const Button = styled(MuiButton)(spacing)
 
-function Form(props) {
+function CommonForm(props) {
   const {
     formTitle,
+    titleLevel,
     formFieldList,
     onFormFieldChange,
     showBtn,
@@ -44,10 +45,10 @@ function Form(props) {
   return (
     <Card mb={6}>
       <CardContent>
-        <Typography variant="h6" gutterBottom>
+        <Typography variant={titleLevel ? `h${titleLevel}` : 'h2'} gutterBottom>
           { formTitle }
         </Typography>
-        <Paper mt={10}>
+        <Paper mt={0}>
           <form noValidate autoComplete="off">
             <Grid container spacing={spacing ? spacing : 3}>
               {
@@ -74,8 +75,11 @@ function Form(props) {
                       variant="inline"
                       inputVariant="outlined"
                       key = {field.id + field.label}
-                      format="yyyy/MM/dd"
+                      views={field.views ? field.views : undefined}
+                      format={field.views ? 'yyyy' : 'yyyy / MM / dd'}
                       label = {field.label}
+                      error = {field.error || false}
+                      helperText = {field.helperText || ''}
                       value = {field.value === '' ? null : field.value}
                       style={{ marginTop: "5ch", marginRight: "10ch" }}
                       disabled = {field.readOnly}
@@ -116,12 +120,13 @@ function Form(props) {
               direction="row"
               justify="flex-end"
               alignItems="center"
+              style={{ marginTop: '5ch' }}
             >
               <Button
                 color="primary"
                 variant="contained"
                 onClick={() => onBtnClick()}>
-                  Save
+                Save
               </Button>
             </Grid>
           )
@@ -131,4 +136,4 @@ function Form(props) {
   )
 }
 
-export default Form
+export default CommonForm

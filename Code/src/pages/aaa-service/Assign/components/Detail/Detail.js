@@ -31,8 +31,12 @@ function Detail(props) {
         console.log("data: ", data.data)
         const { role, tenant_group_mapping, createdAt, updatedAt } = data.data
         const { ad_group, tenant } = tenant_group_mapping
-        setTenant(tenant.name)
-        setAdGroup(ad_group.name)
+        if (tenant && tenant.name) {
+          setTenant(tenant.name)
+        }
+        if (ad_group && ad_group.name) {
+          setAdGroup(ad_group.name)
+        }
         setRole(role.label)
         setCreatedAt(createdAt)
         setUpdastedAt(updatedAt)
