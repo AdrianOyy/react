@@ -2,22 +2,37 @@ import React from "react"
 import CommonForm from "../CommonForm"
 import {
   Paper,
-  Divider
+  Divider as MuiDivider,
+  Button,
+  ButtonGroup, Typography,
 } from "@material-ui/core"
-import styled from "styled-components"
 import FormTable from "../FormTable"
+import { spacing } from "@material-ui/system"
+import { makeStyles } from '@material-ui/core/styles'
+import styled from "styled-components"
 
-const Wrapper = styled(Paper)`
-  padding: ${props => props.theme.spacing(6)}px;
-  width: 100%;
+const Divider = styled(MuiDivider)(spacing)
 
-  ${props => props.theme.breakpoints.up("md")} {
-    padding: ${props => props.theme.spacing(6)}px;
+
+const useStyles = makeStyles((theme) => ({
+  paper: {
+    padding: `${theme.spacing(10)}px`,
+    width: '100%',
+  },
+  button: {
+    marginRight: theme.spacing(10),
+  },
+  buttonGroup: {
+    display: 'flex',
+    justifyContent: 'center',
+    marginTop: '20ch'
   }
-`
+}))
+
 
 export default function ComplexForm(props) {
-  const { moduleList } = props
+  const { moduleList, buttonList, title, titleLevel } = props
+  const classes = useStyles()
 
   const formHandle = (module) => {
     const {
@@ -28,7 +43,7 @@ export default function ComplexForm(props) {
       showBtn,
       onBtnClick,
       onFormFieldBlur,
-      showHR
+      showHR,
     } = module
 
     return (
@@ -83,7 +98,13 @@ export default function ComplexForm(props) {
 
   return (
     <React.Fragment>
-      <Wrapper>
+      <Paper className={classes.paper}>
+        <Typography
+          variant={titleLevel ? `h${titleLevel}` : 'h1'}
+          id="tableTitle">
+          { title }
+        </Typography>
+        <Divider my={6} />
         {
           moduleList && moduleList.map((module, i) => {
             switch (module.type) {
@@ -108,7 +129,25 @@ export default function ComplexForm(props) {
             }
           })
         }
-      </Wrapper>
+        <ButtonGroup className={classes.buttonGroup}>
+          {
+            buttonList && buttonList.map((el, i) => {
+              return (
+                <Button
+                  className={classes.button}
+                  key={i + '__' + el.id}
+                  variant="contained"
+                  color={el.color}
+                  onClick={el.onClick ? (e) => el.onClick(e, el.id) : null}
+                  disabled={el.disabled}
+                >
+                  { el.label }
+                </Button>
+              )
+            })
+          }
+        </ButtonGroup>
+      </Paper>
     </React.Fragment>
   )
 }

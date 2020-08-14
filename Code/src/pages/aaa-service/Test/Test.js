@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from "react"
-import CommonForm from '../../../components/CommonForm'
+import React, { useState } from "react"
 import dayjs from "dayjs"
-import FormTable from "../../../components/FormTable"
+import ComplexForm from "../../../components/ComplexForm"
 
 const formatDateTime = (str) => {
   return dayjs(new Date(str)).format('YYYY-MM-DD HH:mm')
@@ -35,7 +34,8 @@ export default function Test() {
   }
 
   const formProp = {
-    formTitle: 'Test Form',
+    type: 'form',
+    title: 'Test Form',
     titleLevel: 3,
     formFieldList: [
       {
@@ -56,6 +56,7 @@ export default function Test() {
     ]
   }
   const tableProp = {
+    type: 'table',
     headCells: [
       { id: 'code', alignment: 'center', label: 'Code' },
       { id: 'name', alignment: 'center', label: 'Name' },
@@ -71,14 +72,23 @@ export default function Test() {
     ],
     handleDelete,
   }
+
+  const handleClick = (_, id) => {
+    alert(id)
+  }
+
+  const buttonList = [
+    { id: 'check', label: 'Check', color: 'primary', onClick: handleClick, disabled: false },
+    { id: 'submit', label: 'Submit', color: 'secondary', onClick: handleClick, disabled: false },
+    { id: 'cancel', label: 'Cancel', color: 'default', onClick: handleClick, disabled: false },
+  ]
   return (
     <React.Fragment>
-      <CommonForm
-        {...formProp}
-      />
-      <FormTable
-        rows={rows}
-        {...tableProp}
+      <ComplexForm
+        title={'Test'}
+        titleLevel={1}
+        moduleList={[ formProp, tableProp ]}
+        buttonList={buttonList}
       />
     </React.Fragment>
   )

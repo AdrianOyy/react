@@ -45,7 +45,7 @@ const user = async(() => import("../pages/aaa-service/User"))
 const WorkflowSetting = async(() => import("../pages/workFlow/WorkflowSetting"))
 const request = async(() => import("../pages/workFlow/MyRequest"))
 
-//IP Assignment
+// IP Assignment
 const IPAssignment = async(() => import("../pages/workFlow/IPAssignment/"))
 
 // tenant quota mapping
