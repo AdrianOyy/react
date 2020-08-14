@@ -43,6 +43,7 @@ const user = async(() => import("../pages/aaa-service/User"))
 
 // workFlow
 const WorkflowSetting = async(() => import("../pages/workFlow/WorkflowSetting"))
+const request = async(() => import("../pages/workFlow/MyRequest"))
 
 //IP Assignment
 const IPAssignment = async(() => import("../pages/workFlow/IPAssignment/"))
@@ -162,7 +163,7 @@ const workflowRoutes = {
     {
       path: "/workflow/request",
       name: "My Request",
-      component: Alerts
+      component: request
     },
     {
       path: "/workflow/approval",
