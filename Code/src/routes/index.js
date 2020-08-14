@@ -43,6 +43,10 @@ const user = async(() => import("../pages/aaa-service/User"))
 
 // workFlow
 const WorkflowSetting = async(() => import("../pages/workFlow/WorkflowSetting"))
+const request = async(() => import("../pages/workFlow/MyRequest"))
+
+//IP Assignment
+const IPAssignment = async(() => import("../pages/workFlow/IPAssignment/"))
 
 // tenant quota mapping
 const tenantQuotaMapping = async(() => import("../pages/aaa-service/tenantQuotaMapping"))
@@ -162,7 +166,7 @@ const workflowRoutes = {
     {
       path: "/workflow/request",
       name: "My Request",
-      component: Alerts
+      component: request
     },
     {
       path: "/workflow/approval",
@@ -173,6 +177,11 @@ const workflowRoutes = {
       path: "/workflow/workflowSetting",
       name: "Workflow Setting",
       component: WorkflowSetting
+    },
+    {
+      path: "/workflow/IPAssignment",
+      name: "IP Assignment",
+      component: IPAssignment
     },
   ]
 }
