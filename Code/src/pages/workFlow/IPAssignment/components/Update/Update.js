@@ -16,6 +16,11 @@ function Update(props) {
   const [ ip, setIP ] = useState('')
   const [ dc, setDC ] = useState('')
   const [ hostname, setHostname ] = useState('')
+  const [ projectTeam, setProjectTeam ] = useState('')
+  const [ networkType, setNetworkType ] = useState('')
+  const [ ipPool, setIpPool ] = useState('')
+  const [ vlanId, setVlanId ] = useState('')
+  const [ remark, setRemark ] = useState('')
   const [ formFieldList, setFormFieldList ] = useState([])
   const [ saving, setSaving ] = useState(true)
   const [ nameError, setNameError ] = useState(false)
@@ -44,10 +49,15 @@ function Update(props) {
   useEffect(() => {
     API.detail(id).then(({ data }) => {
       console.log(data.data)
-      const { ip, dc, hostname } = data.data
+      const { ip, dc, hostname, projectTeam, networkType, ipPool, vlanId, remark } = data.data
       setIP(ip)
       setDC(dc)
       setHostname(hostname)
+      setProjectTeam(projectTeam)
+      setNetworkType(networkType)
+      setIpPool(ipPool)
+      setVlanId(vlanId)
+      setRemark(remark)
       setSaving(false)
     })
   }, [ id ])
@@ -57,9 +67,14 @@ function Update(props) {
       { id: 'ip', label: 'IP', type: 'text', required: true, readOnly: false, value: ip, error: nameError, helperText: nameHelperText },
       { id: 'dc', label: 'DC', type: 'text', required: false, readOnly: false, value: dc, error: nameError, helperText: nameHelperText },
       { id: 'hostname', label: 'Hostname', type: 'text', required: false, readOnly: false, value: hostname, error: nameError, helperText: nameHelperText },
+      { id: 'projectTeam', label: 'Project Team', type: 'text', required: false, readOnly: false, value: projectTeam, error: nameError, helperText: nameHelperText },
+      { id: 'networkType', label: 'Network Type', type: 'text', required: false, readOnly: false, value: networkType, error: nameError, helperText: nameHelperText },
+      { id: 'ipPool', label: 'Ip Pool', type: 'text', required: false, readOnly: false, value: ipPool, error: nameError, helperText: nameHelperText },
+      { id: 'vlanId', label: 'Vlan ID', type: 'text', required: false, readOnly: false, value: vlanId, error: nameError, helperText: nameHelperText },
+      { id: 'remark', label: 'Remark', type: 'text', required: false, readOnly: false, value: remark, error: nameError, helperText: nameHelperText },
     ]
     setFormFieldList(list)
-  }, [ ip, dc, hostname, nameError, nameHelperText ])
+  }, [ ip, dc, hostname, projectTeam, networkType, ipPool, vlanId, remark, nameError, nameHelperText ])
 
   const onFormFieldChange = (e, id) => {
     const { value } = e.target
@@ -72,6 +87,21 @@ function Update(props) {
         break
       case 'hostname':
         setHostname(value)
+        break
+      case 'projectTeam':
+        setProjectTeam(value)
+        break
+      case 'networkType':
+        setNetworkType(value)
+        break
+      case 'ipPool':
+        setIpPool(value)
+        break
+      case 'vlanId':
+        setVlanId(value)
+        break
+      case 'remark':
+        setRemark(value)
         break
       default:
         break
