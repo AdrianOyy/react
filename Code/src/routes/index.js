@@ -44,6 +44,7 @@ const user = async(() => import("../pages/aaa-service/User"))
 // workFlow
 const WorkflowSetting = async(() => import("../pages/workFlow/WorkflowSetting"))
 const request = async(() => import("../pages/workFlow/MyRequest"))
+const approval = async(() => import("../pages/workFlow/MyApproval"))
 
 // management
 const management = async(() => import("../pages/aaa-service/Management"))
@@ -165,7 +166,7 @@ const workflowRoutes = {
     {
       path: "/workflow/approval",
       name: "My Approval",
-      component: Alerts
+      component: approval
     },
     {
       path: "/workflow/workflowSetting",
