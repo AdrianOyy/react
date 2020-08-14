@@ -44,6 +44,9 @@ const user = async(() => import("../pages/aaa-service/User"))
 // workFlow
 const WorkflowSetting = async(() => import("../pages/workFlow/WorkflowSetting"))
 
+//IP Assignment
+const IPAssignment = async(() => import("../pages/workFlow/IPAssignment/"))
+
 // management
 const management = async(() => import("../pages/aaa-service/Management"))
 
@@ -170,6 +173,11 @@ const workflowRoutes = {
       path: "/workflow/workflowSetting",
       name: "Workflow Setting",
       component: WorkflowSetting
+    },
+    {
+      path: "/workflow/IPAssignment",
+      name: "IP Assignment",
+      component: IPAssignment
     },
   ]
 }
