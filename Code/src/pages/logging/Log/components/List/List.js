@@ -14,7 +14,7 @@ import dayjs from "dayjs"
 
 const Paper = styled(MuiPaper)(spacing)
 const formatDateTime = (str) => {
-  return dayjs(new Date(str)).format('YYYY-MM-DD HH:MM')
+  return dayjs(new Date(str)).format('YYYY-MM-DD HH:mm')
 }
 const tableName = 'Log List'
 

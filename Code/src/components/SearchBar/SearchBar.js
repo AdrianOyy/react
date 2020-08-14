@@ -77,7 +77,10 @@ function SearchBar(props) {
                 clearable='true'
                 variant="inline"
                 key = {field.id + field.label}
-                format="yyyy/MM/dd"
+                error = {field.error || false}
+                helperText = {field.helperText || ''}
+                views={field.views ? field.views : undefined}
+                format={field.views ? 'yyyy' : 'yyyy / MM / dd'}
                 label = {field.label}
                 value = {field.value === '' ? null : field.value}
                 style={{ marginRight: "8ch" }}

@@ -19,8 +19,8 @@ class tenant {
   deleteMany(params) {
     return request.delete(`${prefix}/tenant/deleteMany`, params)
   }
-  checkName(id, name) {
-    return request.get(`${prefix}/tenant/checkName?id=${id}&name=${name}`)
+  checkExist(id, code) {
+    return request.get(`${prefix}/tenant/checkExist?id=${id}&code=${code}`)
   }
 }
 

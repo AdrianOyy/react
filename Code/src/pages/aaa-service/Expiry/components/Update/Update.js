@@ -57,20 +57,29 @@ function AssignUpdate(props) {
   }
 
   useEffect(() => {
-    API.detail(id).then(({ data }) => {
-      if (data && data.data) {
-        const { user, assign, expiryDate, createdAt, updatedAt } = data.data
-        const { tenant_group_mapping, role } = assign
-        const { ad_group, tenant } = tenant_group_mapping
-        setTenant(tenant.name)
-        setGroup(ad_group.name)
-        setRole(role.label)
-        setUser(user.displayname)
-        setExpiryDate(dayjs(new Date(expiryDate)).format('YYYY-MM-DD'))
-        setCreatedAt(createdAt)
-        setUpdastedAt(updatedAt)
-      }
-    })
+    API.detail(id)
+      .then(({ data }) => {
+        if (data && data.data) {
+          const { user, assign, expiryDate, createdAt, updatedAt } = data.data
+          const { tenant_group_mapping, role } = assign
+          const { ad_group, tenant } = tenant_group_mapping
+          if (tenant && tenant.name) {
+            setTenant(tenant.name)
+          }
+          if (ad_group && ad_group.name) {
+            setGroup(ad_group.name)
+          }
+          if (role && role.label) {
+            setRole(role.label)
+          }
+          if (user && user.displayname) {
+            setUser(user.displayname)
+          }
+          setExpiryDate(dayjs(new Date(expiryDate)).format('YYYY-MM-DD'))
+          setCreatedAt(createdAt)
+          setUpdastedAt(updatedAt)
+        }
+      })
   }, [ id ])
 
   useEffect(() => {

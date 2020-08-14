@@ -1,5 +1,5 @@
 import React from "react"
-import Form from './components/Form'
+import CommonForm from '../CommonForm'
 
 function DetailPage(props) {
   const {
@@ -12,7 +12,7 @@ function DetailPage(props) {
   } = props
   return (
     <React.Fragment>
-      <Form
+      <CommonForm
         formTitle={formTitle}
         formFieldList = {formFieldList}
         onFormFieldChange = {onFormFieldChange}

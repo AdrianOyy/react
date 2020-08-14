@@ -24,15 +24,20 @@ function Detail(props) {
   }, [])
 
   useEffect(() => {
-    tenantGroupMappingApi.detail(id).then(({ data }) => {
-      if (data && data.data) {
-        const { tenant, ad_group, createdAt, updatedAt } = data.data
-        setTenant(tenant.name)
-        setAdGroup(ad_group.name)
-        setCreatedAt(createdAt)
-        setUpdastedAt(updatedAt)
-      }
-    })
+    tenantGroupMappingApi.detail(id)
+      .then(({ data }) => {
+        if (data && data.data) {
+          const { tenant, ad_group, createdAt, updatedAt } = data.data
+          if (tenant && tenant.name) {
+            setTenant(tenant.name)
+          }
+          if (ad_group && ad_group.name) {
+            setAdGroup(ad_group.name)
+          }
+          setCreatedAt(createdAt)
+          setUpdastedAt(updatedAt)
+        }
+      })
   }, [ id ])
 
   useEffect(() => {

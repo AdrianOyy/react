@@ -72,14 +72,16 @@ function EnhancedTable(props) {
   const handleDelete = () => {
     if (loading) return
     setLoading(true)
-    deleteAPI({ idList: selected }).then(() => {
-      CommentTip.success('success')
-      handleSearch()
-      setLoading(false)
-      setSelected([])
-    }).catch(() => {
-      setLoading(false)
-    })
+    deleteAPI({ idList: selected })
+      .then(() => {
+        CommentTip.success('success')
+        handleSearch()
+        setLoading(false)
+        setSelected([])
+      })
+      .catch(() => {
+        setLoading(false)
+      })
   }
 
   const handleRequestSort = (_, property) => {
@@ -183,8 +185,10 @@ function EnhancedTable(props) {
                     }
                     {
                       fieldList && fieldList.map((el, i) => (
-                        <TableCell key={el.field + '__' + i} align={el.align}>
-                          {row[el.field]}
+                        <TableCell key={el.field + '__' + i} align={el.align} >
+                          <div style={{ marginRight: '26px' }}>
+                            {row[el.field]}
+                          </div>
                         </TableCell>
                       ))
                     }

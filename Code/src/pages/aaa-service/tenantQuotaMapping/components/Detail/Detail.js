@@ -1,0 +1,68 @@
+import React, { useEffect, useState } from 'react'
+
+import DetailPage from "../../../../../components/DetailPage"
+import API from "../../../../../api/tenantQuotaMapping"
+import { useParams } from "react-router-dom"
+import dayjs from "dayjs"
+
+const formatDateTime = (str) => {
+  return dayjs(new Date(str)).format('YYYY-MM-DD HH:mm')
+}
+
+function Detail(props) {
+  const { onMount } = props
+  const { id } = useParams()
+  const [ tenant, setTenant ] = React.useState('')
+  const [ type, setType ] = React.useState('')
+  const [ year, setYear ] = useState('')
+  const [ quota, setQuota ] = useState('')
+  const [ createdAt, setCreatedAt ] = useState('')
+  const [ updatedAt, setUpdastedAt ] = useState('')
+  const [ formFieldList, setFormFieldList ] = useState([])
+
+  // 用于更新面包屑
+  useEffect(() => {
+    onMount('detail')
+    // eslint-disable-next-line
+  }, [])
+
+  useEffect(() => {
+    API.detail(id)
+      .then(({ data }) => {
+        if (data && data.data) {
+          const { tenant, type, year, quota, createdAt, updatedAt } = data.data
+          if (tenant && tenant.name) {
+            setTenant(tenant.name)
+          }
+          setType(type)
+          setYear(year)
+          setQuota(quota)
+          setCreatedAt(createdAt)
+          setUpdastedAt(updatedAt)
+        }
+      })
+  }, [ id ])
+
+  useEffect(() => {
+    const list = [
+      { id: 'tenant', label: 'Tenant', type: 'text', disabled: true, readOnly: true, value: tenant },
+      { id: 'type', label: 'Type', type: 'text', disabled: true, readOnly: true, value: type },
+      { id: 'quota', label: 'Quota', type: 'text', disabled: true, readOnly: true, value: quota },
+      { id: 'year', label: 'Year', type: 'text', disabled: true, readOnly: true, value: year },
+      { id: 'createdAt', label: 'Created At', type: 'text', disabled: true, readOnly: true, value: formatDateTime(createdAt) },
+      { id: 'updatedAt', label: 'Updated At', type: 'text', disabled: true, readOnly: true, value: formatDateTime(updatedAt) },
+    ]
+    setFormFieldList(list)
+  }, [ tenant, type, quota, year, createdAt, updatedAt ])
+
+  return (
+    <React.Fragment>
+      <DetailPage
+        formTitle = 'Tenant_quota_mapping List'
+        formFieldList = {formFieldList}
+      />
+    </React.Fragment>
+  )
+}
+
+export default Detail
