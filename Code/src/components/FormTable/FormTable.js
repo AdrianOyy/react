@@ -1,7 +1,5 @@
 import React, { useState } from 'react'
-import { useHistory } from 'react-router-dom'
 import { EnhancedTableToolbar, EnhancedTableHead } from '../index'
-import CommentTip from '../CommonTip'
 import {
   Box,
   Checkbox,
@@ -13,86 +11,30 @@ import {
   TableRow,
 } from '@material-ui/core'
 
-import {
-  RemoveRedEye as RemoveRedEyeIcon,
-  BorderColorOutlined as BorderColorIcon,
-  AspectRatio as AspectRatioIcon
-} from "@material-ui/icons"
 
-
-function descendingComparator(a, b, orderBy) {
-  if (b[orderBy] < a[orderBy]) {
-    return -1
-  }
-  if (b[orderBy] > a[orderBy]) {
-    return 1
-  }
-  return 0
-}
-
-function getComparator(order, orderBy) {
-  return order === 'desc'
-    ? (a, b) => descendingComparator(a, b, orderBy)
-    : (a, b) => -descendingComparator(a, b, orderBy)
-}
-
-function stableSort(array, comparator) {
-  const stabilizedThis = array.map((el, index) => [ el, index ])
-  stabilizedThis.sort((a, b) => {
-    const order = comparator(a[0], b[0])
-    if (order !== 0) return order
-    return a[1] - b[1]
-  })
-  return stabilizedThis.map((el) => el[0])
-}
-
-function EnhancedTable(props) {
+function FormTable(props) {
   const {
     rows,
-    tableName,
-    deleteAPI,
-    handleSearch,
-    path,
+    title,
+    titleLevel,
+    handleDelete,
     headCells,
     fieldList,
-    hideDetail,
-    hideUpdate,
+    actionList,
     hideCreate,
     hideCheckBox,
-    hideImage,
     customCreate,
-    handleImage
   } = props
-  const history = useHistory()
-  const [ order, setOrder ] = useState('asc')
-  const [ orderBy, setOrderBy ] = useState('customer')
   const [ selected, setSelected ] = useState([])
-  const [ loading, setLoading ] = useState(false)
 
-  const handleDelete = () => {
-    if (loading) return
-    setLoading(true)
-    deleteAPI({ idList: selected })
-      .then(() => {
-        CommentTip.success('success')
-        handleSearch()
-        setLoading(false)
-        setSelected([])
-      })
-      .catch(() => {
-        setLoading(false)
-      })
-  }
-
-  const handleRequestSort = (_, property) => {
-    const isAsc = orderBy === property && order === 'asc'
-    setOrder(isAsc ? 'desc' : 'asc')
-    setOrderBy(property)
-  }
 
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
-      const newSelectedList = rows.map((n) => n.id)
+      let rowList = []
+      if (rows) {
+        rowList = rows
+      }
+      const newSelectedList = rowList.map((n) => n.id)
       setSelected(newSelectedList)
       return
     }
@@ -122,23 +64,15 @@ function EnhancedTable(props) {
     setSelected(newSelected)
   }
 
-  const handleDetail = (_, id) => {
-    history.push({ pathname: `${path}/detail/${id}` })
-  }
-
-  const handleUpdate = (_, id) => {
-    history.push({ pathname: `${path}/update/${id}` })
-  }
-
   const isSelected = (id) => selected.indexOf(id) !== -1
 
   return (
     <React.Fragment>
       <EnhancedTableToolbar
         numSelected={selected.length}
-        tableName={tableName}
-        createPath={`${path}/create`}
-        onDelete={handleDelete}
+        tableName={title}
+        titleLevel={titleLevel}
+        onDelete={(e) => handleDelete(e, selected)}
         hideCreate={hideCreate}
         customCreate={customCreate}
       />
@@ -150,17 +84,14 @@ function EnhancedTable(props) {
         >
           <EnhancedTableHead
             numSelected={selected.length}
-            order={order}
-            orderBy={orderBy}
             onSelectAllClick={handleSelectAllClick}
-            onRequestSort={handleRequestSort}
-            rowCount={rows.length}
+            rowCount={rows ? rows.length : 0}
             headCells={headCells}
             hideCheckBox={hideCheckBox}
           />
           <TableBody>
-            {stableSort(rows, getComparator(order, orderBy))
-              .map((row, index) => {
+            {
+              rows && rows.map((row, index) => {
                 const isItemSelected = isSelected(row.id)
                 const labelId = `enhanced-table-checkbox-${index}`
                 return (
@@ -195,29 +126,17 @@ function EnhancedTable(props) {
                     <TableCell padding="none" align="right">
                       <Box mt={2}>
                         {
-                          !hideDetail && (() => (
-                            <IconButton aria-label="detail" onClick={(event) => handleDetail(event, row.id)}>
-                              <RemoveRedEyeIcon />
-                            </IconButton>
-                          ))
-                        }
-                      </Box>
-                      <Box>
-                        {
-                          !hideUpdate && (() => (
-                            <IconButton aria-label="update" onClick={(event) => handleUpdate(event, row.id)}>
-                              <BorderColorIcon />
-                            </IconButton>
-                          ))
-                        }
-                      </Box>
-                      <Box>
-                        {
-                          hideImage === true && (() => (
-                            <IconButton aria-label="update" onClick={(event) => handleImage(event, row)}>
-                              <AspectRatioIcon />
-                            </IconButton>
-                          ))
+                          actionList && actionList.map((action, i) => {
+                            return (
+                              <IconButton
+                                key={i + '__' + action.label}
+                                aria-label={action.label}
+                                onClick={(e) => action.handleClick(e, i)}
+                              >
+                                {action.icon}
+                              </IconButton>
+                            )
+                          })
                         }
                       </Box>
                     </TableCell>
@@ -231,4 +150,4 @@ function EnhancedTable(props) {
   )
 }
 
-export default EnhancedTable
+export default FormTable

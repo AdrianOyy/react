@@ -3,34 +3,32 @@ import React, { useEffect, useState } from 'react'
 import {
   Grid,
   TablePagination,
-  Paper as MuiPaper,
+  Paper as MuiPaper, Dialog, DialogTitle, DialogContent, DialogActions, Button,
 } from "@material-ui/core"
 
 import { CommonTable, SearchBar } from '../../../../../components'
-import API from "../../../../../api/log"
+import API from "../../../../../api/workFlow"
 import styled from "styled-components"
 import { spacing } from "@material-ui/system"
 import dayjs from "dayjs"
 
 const Paper = styled(MuiPaper)(spacing)
 const formatDateTime = (str) => {
-  return dayjs(new Date(str)).format('YYYY-MM-DD HH:mm')
+  return dayjs(new Date(str)).format('YYYY-MM-DD HH:MM')
 }
-const tableName = 'Log List'
+const tableName = 'My Approval'
 
 function List(props) {
   const { onMount, path } = props
-
-  const [ logType, setLogType ] = useState('')
-  const [ request, setRequest ] = useState('')
-  const [ response, setResponse ] = useState('')
-  const [ startDate, setStartDate ] = useState('')
-  const [ endDate, setEndDate ] = useState('')
+  const [ startTime, setStartTime ] = useState('')
+  const [ endTime, setEndTime ] = useState('')
   const [ query, setQuery ] = useState({})
   const [ rows, setRows ] = useState([])
   const [ page, setPage ] = useState(0)
   const [ rowsPerPage, setRowsPerPage ] = useState(10)
   const [ total, setTotal ] = useState(0)
+  const [ open, setOpen ] = useState(false)
+  const [ image, setImage ] = useState('')
 
   // 用于更新面包屑
   useEffect(() => {
@@ -39,10 +37,10 @@ function List(props) {
   }, [])
 
   useEffect(() => {
-    API.list({ ...query, limit: rowsPerPage, page: page + 1 })
+    API.getMyApproval({ ...query, userName: 'kk', limit: rowsPerPage, page: page + 1 })
       .then(response => {
-        setTotal(response.data.total)
-        handleData(response.data.data)
+        setTotal(response.data.data.total)
+        handleData(response.data.data.items)
       })
   }, [ page, rowsPerPage, query ])
 
@@ -50,11 +48,11 @@ function List(props) {
     const rows = []
     rawDataList.forEach((el) => {
       const rowModel = {
-        id: el.id,
-        logType: el.logType,
-        request: el.request,
-        response: el.response,
-        createdAt: formatDateTime(el.createdAt),
+        name: el.name,
+        startTime: formatDateTime(el.startTime),
+        endTime: formatDateTime(el.endTime),
+        state: el.state === 1 ? "进行中" : "已完成",
+        assignee: el.assignee,
       }
       rows.push(rowModel)
     })
@@ -63,70 +61,51 @@ function List(props) {
 
   // 表头字段列表
   const headCells = [
-    { id: 'logType', alignment: 'center', label: 'Log Type' },
-    { id: 'request', alignment: 'center', label: 'Request' },
-    { id: 'response', alignment: 'center', label: 'Response' },
-    { id: 'createdAt', alignment: 'center', label: 'Created At' },
+    { id: 'name', alignment: 'center', label: 'Work Flow' },
+    { id: 'startTime', alignment: 'center', label: 'Start Date' },
+    { id: 'endTime', alignment: 'center', label: 'End Date' },
+    { id: 'state', alignment: 'center', label: 'State' },
+    { id: 'assignee', alignment: 'center', label: 'Assignee' },
   ]
 
   // 每行显示的字段
   const fieldList = [
-    { field: 'logType', align: 'center' },
-    { field: 'request', align: 'center' },
-    { field: 'response', align: 'center' },
-    { field: 'createdAt', align: 'center' },
+    { field: 'name', align: 'center' },
+    { field: 'startTime', align: 'center' },
+    { field: 'endTime', align: 'center' },
+    { field: 'state', align: 'center' },
+    { field: 'assignee', align: 'center' },
   ]
 
   const searchBarFieldList = [
-    { id: 'logType', label: 'LogType', type: 'text', disabled: false, value: logType },
-    { id: 'request', label: 'Request', type: 'text', disabled: false, value: request },
-    { id: 'response', label: 'Response', type: 'text', disabled: false, value: response },
-    { id: 'startDate', label: 'Start Date', type: 'date', disabled: false, readOnly: false, value: startDate },
-    { id: 'endDate', label: 'End Date', type: 'date', disabled: false, readOnly: false, value: endDate },
+    { id: 'startTime', label: 'Start Date', type: 'date', disabled: false, readOnly: false, value: startTime },
+    { id: 'endTime', label: 'End Date', type: 'date', disabled: false, readOnly: false, value: endTime },
   ]
 
   const handleClear = () => {
-    setLogType('')
-    setRequest('')
-    setResponse('')
-    setStartDate('')
-    setEndDate('')
+    setStartTime('')
+    setEndTime('')
     setQuery({
-      logType: '',
-      request: '',
-      response: '',
-      startDate: '',
-      endDate: '',
+      startTime: '',
+      endTime: ''
     })
   }
 
   const handleSearch = () => {
     setQuery({
-      logType,
-      request,
-      response,
-      startDate,
-      endDate,
+      startTime,
+      endTime,
     })
   }
 
   const handleFieldChange = (e, id) => {
     const { value } = e.target
     switch (id) {
-      case "logType":
-        setLogType(value)
+      case "startTime":
+        setStartTime(value)
         break
-      case "request":
-        setRequest(value)
-        break
-      case "response":
-        setResponse(value)
-        break
-      case "startDate":
-        setStartDate(value)
-        break
-      case "endDate":
-        setEndDate(value)
+      case "endTime":
+        setEndTime(value)
         break
       default:
         break
@@ -140,6 +119,20 @@ function List(props) {
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(parseInt(event.target.value, 10))
     setPage(0)
+  }
+
+  const handleImage = (event, row) => {
+    console.log(event)
+    console.log(row.procInstId)
+    API.getDiagram('260008').then(response => {
+      let blob = new Blob([ response.data ])
+      setImage(window.URL.createObjectURL(blob))
+      setOpen(true)
+    })
+  }
+
+  const handleClose = () => {
+    setOpen(false)
   }
 
   return (
@@ -160,11 +153,28 @@ function List(props) {
               handleSearch={handleSearch}
               hideUpdate={true}
               hideDetail={true}
+              hideImage={true}
               path={path}
               headCells={headCells}
               fieldList={fieldList}
+              handleImage={handleImage}
               hideCreate={true}
             />
+            <Dialog
+              open={open}
+              aria-labelledby="image-modal-title"
+              aria-describedby="iamge-modal-description"
+            >
+              <DialogTitle id="form-dialog-title">Activiti</DialogTitle>
+              <DialogContent>
+                <img alt="" src={image} />
+              </DialogContent>
+              <DialogActions>
+                <Button onClick={handleClose} color="primary">
+                  Close
+                </Button>
+              </DialogActions>
+            </Dialog>
             <TablePagination
               rowsPerPageOptions={[ 10, 50, 100 ]}
               component="div"

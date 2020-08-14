@@ -5,17 +5,21 @@ import API from "../../../../../api/tenant"
 import { useParams } from "react-router-dom"
 import dayjs from "dayjs"
 
+const formTitle = 'Tenant Detail'
+const formatDateTime = (str) => {
+  return dayjs(new Date(str)).format('YYYY-MM-DD HH:mm')
+}
 
 function Detail(props) {
   const { id } = useParams()
   const { onMount } = props
   const [ name, setName ] = useState('')
+  const [ code, setCode ] = useState('')
+  const [ managerGroup, setManagerGroup ] = useState('')
+  const [ supporterGroup, setSupporterGroup ] = useState('')
   const [ createdAt, setCreatedAt ] = useState('')
   const [ updatedAt, setUpdatedAt ] = useState('')
   const [ formFieldList, setFormFieldList ] = useState([])
-  const formatDateTime = (str) => {
-    return dayjs(new Date(str)).format('YYYY-MM-DD HH:mm')
-  }
 
   useEffect(() => {
     onMount('detail')
@@ -24,39 +28,40 @@ function Detail(props) {
 
   // 获取详情
   useEffect(() => {
-    API.detail(id).then(({ data }) => {
-      if (data && data.data) {
-        const { name, createdAt, updatedAt } = data.data
-        setName(name)
-        setCreatedAt(createdAt)
-        setUpdatedAt(updatedAt)
-      }
-    })
+    API.detail(id)
+      .then(({ data }) => {
+        if (data && data.data) {
+          const { name, code, manager_group, supporter_group, createdAt, updatedAt } = data.data
+          setName(name)
+          setCode(code)
+          setCreatedAt(createdAt)
+          setUpdatedAt(updatedAt)
+          if (manager_group && manager_group.name) {
+            setManagerGroup(manager_group.name)
+          }
+          if (supporter_group && supporter_group.name) {
+            setSupporterGroup(supporter_group.name)
+          }
+        }
+      })
   }, [ id ])
 
   useEffect(() => {
     const list = [
+      { id: 'code', label: 'Code', type: 'text', disabled: true, readOnly: true, value: code },
       { id: 'name', label: 'Name', type: 'text', disabled: true, readOnly: true, value: name },
+      { id: 'managerGroup', label: 'Mangager Group', type: 'text', disabled: true, readOnly: true, value: managerGroup },
+      { id: 'supporterGroup', label: 'SupporterGroup', type: 'text', disabled: true, readOnly: true, value: supporterGroup },
       { id: 'createdAt', label: 'Created At', type: 'text', disabled: true, readOnly: true, value: formatDateTime(createdAt) },
       { id: 'updatedAt', label: 'Updated At', type: 'text', disabled: true, readOnly: true, value: formatDateTime(updatedAt) },
     ]
     setFormFieldList(list)
-  }, [ name, createdAt, updatedAt ])
-  const onFormFieldChange = (e, id) => {
-    const { value } = e.target
-    switch (id) {
-      case 'name':
-        setName(value)
-        break
-      default:
-        break
-    }
-  }
+  }, [ name, code, managerGroup, supporterGroup, createdAt, updatedAt ])
+
   return (
     <React.Fragment>
       <DetailPage
-        formTitle = 'Tenant List'
-        onFormFieldChange = {onFormFieldChange}
+        formTitle = {formTitle}
         formFieldList = {formFieldList}
       />
     </React.Fragment>

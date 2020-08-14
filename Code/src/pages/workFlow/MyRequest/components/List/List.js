@@ -4,6 +4,11 @@ import {
   Grid,
   TablePagination,
   Paper as MuiPaper,
+  Dialog,
+  DialogTitle,
+  DialogActions,
+  DialogContent,
+  Button
 } from "@material-ui/core"
 
 import { CommonTable, SearchBar } from '../../../../../components'
@@ -16,17 +21,19 @@ const Paper = styled(MuiPaper)(spacing)
 const formatDateTime = (str) => {
   return dayjs(new Date(str)).format('YYYY-MM-DD HH:MM')
 }
-const tableName = 'Log List'
+const tableName = 'My Request'
 
 function List(props) {
   const { onMount, path } = props
   const [ startTime, setStartTime ] = useState('')
+  const [ open, setOpen ] = useState(false)
   const [ endTime, setEndTime ] = useState('')
   const [ query, setQuery ] = useState({})
   const [ rows, setRows ] = useState([])
   const [ page, setPage ] = useState(0)
   const [ rowsPerPage, setRowsPerPage ] = useState(10)
   const [ total, setTotal ] = useState(0)
+  const [ image, setImage ] = useState('')
 
   // 用于更新面包屑
   useEffect(() => {
@@ -46,17 +53,21 @@ function List(props) {
     const rows = []
     rawDataList.forEach((el) => {
       const rowModel = {
+        procInstId: el.procInstId,
         name: el.name,
         startTime: formatDateTime(el.startTime),
         endTime: formatDateTime(el.endTime),
-        state: el.state,
-        assignee: formatDateTime(el.assignee),
+        state: el.state === 1 ? "进行中" : "已完成",
+        assignee: el.assignee,
       }
       rows.push(rowModel)
     })
     setRows(rows)
   }
 
+  const handleClose = () => {
+    setOpen(false)
+  }
   // 表头字段列表
   const headCells = [
     { id: 'name', alignment: 'center', label: 'Work Flow' },
@@ -64,6 +75,7 @@ function List(props) {
     { id: 'endTime', alignment: 'center', label: 'End Date' },
     { id: 'state', alignment: 'center', label: 'State' },
     { id: 'assignee', alignment: 'center', label: 'Assignee' },
+    { id: 'action', alignment: 'center', label: 'Action' },
   ]
 
   // 每行显示的字段
@@ -93,6 +105,16 @@ function List(props) {
     setQuery({
       startTime,
       endTime,
+    })
+  }
+
+  const handleImage = (event, row) => {
+    console.log(event)
+    console.log(row.procInstId)
+    API.getDiagram('260008').then(response => {
+      let blob = new Blob([ response.data ])
+      setImage(window.URL.createObjectURL(blob))
+      setOpen(true)
     })
   }
 
@@ -137,11 +159,28 @@ function List(props) {
               handleSearch={handleSearch}
               hideUpdate={true}
               hideDetail={true}
+              hideImage={true}
               path={path}
               headCells={headCells}
               fieldList={fieldList}
+              handleImage={handleImage}
               hideCreate={true}
             />
+            <Dialog
+              open={open}
+              aria-labelledby="image-modal-title"
+              aria-describedby="iamge-modal-description"
+            >
+              <DialogTitle id="form-dialog-title">Activiti</DialogTitle>
+              <DialogContent>
+                <img alt="" src={image} />
+              </DialogContent>
+              <DialogActions>
+                <Button onClick={handleClose} color="primary">
+                  Close
+                </Button>
+              </DialogActions>
+            </Dialog>
             <TablePagination
               rowsPerPageOptions={[ 10, 50, 100 ]}
               component="div"

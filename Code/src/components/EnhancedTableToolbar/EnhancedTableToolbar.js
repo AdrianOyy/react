@@ -15,7 +15,7 @@ import {
 } from "@material-ui/icons"
 
 const ToolbarTitle = styled.div`
-  min-width: 300px;
+  min-width: 400px;
 `
 
 const Spacer = styled.div`
@@ -23,7 +23,9 @@ const Spacer = styled.div`
 `
 
 function EnhancedTableToolbar(props) {
-  const { numSelected, tableName, createPath, onDelete, hideCreate, customCreate } = props
+  const { numSelected, tableName, createPath,
+    onDelete, hideCreate, customCreate, titleLevel,
+  } = props
   const history = useHistory()
   const toCreatePage = () => {
     customCreate ? customCreate() : history.push(createPath)
@@ -37,7 +39,7 @@ function EnhancedTableToolbar(props) {
               {numSelected} selected
             </Typography>
           ) : (
-            <Typography variant="h6" id="tableTitle">
+            <Typography variant={titleLevel ? `h${titleLevel}` : 'h2'} id="tableTitle">
               { tableName }
             </Typography>
           )}

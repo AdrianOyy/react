@@ -14,7 +14,7 @@ export function checkEmpty(key, value) {
 
 export function getCheckExist() {
   return async function(id, value) {
-    const { data } = await tenantApi.checkName(id, value)
+    const { data } = await tenantApi.checkExist(id, value)
     if (data.data < 1) {
       return {
         error: false,
