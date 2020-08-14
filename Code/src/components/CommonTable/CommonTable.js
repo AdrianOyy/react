@@ -15,7 +15,8 @@ import {
 
 import {
   RemoveRedEye as RemoveRedEyeIcon,
-  BorderColorOutlined as BorderColorIcon
+  BorderColorOutlined as BorderColorIcon,
+  AspectRatio as AspectRatioIcon
 } from "@material-ui/icons"
 
 
@@ -58,7 +59,9 @@ function EnhancedTable(props) {
     hideUpdate,
     hideCreate,
     hideCheckBox,
+    hideImage,
     customCreate,
+    handleImage
   } = props
   const history = useHistory()
   const [ order, setOrder ] = useState('asc')
@@ -204,6 +207,15 @@ function EnhancedTable(props) {
                           !hideUpdate && (() => (
                             <IconButton aria-label="update" onClick={(event) => handleUpdate(event, row.id)}>
                               <BorderColorIcon />
+                            </IconButton>
+                          ))
+                        }
+                      </Box>
+                      <Box>
+                        {
+                          hideImage === true && (() => (
+                            <IconButton aria-label="update" onClick={(event) => handleImage(event, row)}>
+                              <AspectRatioIcon />
                             </IconButton>
                           ))
                         }

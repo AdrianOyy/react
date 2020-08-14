@@ -18,6 +18,12 @@ class WorkFlow {
   getMyRequest(params) {
     return request.get(`${prefix}/ReuqestTask/getMyRequest`, params, {}, url)
   }
+  getMyApproval(params) {
+    return request.get(`${prefix}/ReuqestTask/getMyApproval`, params, {}, url)
+  }
+  getDiagram(id) {
+    return request.getBuffer(`${prefix}/runtime/process-instances/${id}/diagram`, {}, { }, url)
+  }
 }
 
 export default new WorkFlow()

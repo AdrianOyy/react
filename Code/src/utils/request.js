@@ -51,6 +51,32 @@ export default {
     }
   },
   // get 请求
+  getBuffer(url, param, options, baseUrl = null) {
+    let o = Object.assign(this.defaultOptions, options)
+    const defaultUrl = axiosInstance.defaults.baseURL
+    this.changeBaseUrl(baseUrl, baseUrl !== null)
+    return new Promise((resolve, reject) => {
+      axiosInstance({
+        method: 'get',
+        responseType: 'arraybuffer',
+        url,
+        params: param
+      })
+        .then(res => {
+          if (res.data && !res.data.status && res.data.message && o.handleError) {
+            CommonTip.error(`${res.data.message}${res.data.exception ? ':' + res.data.exception.message : ''}`, { })
+          }
+          resolve(res)
+        })
+        .catch(error => {
+          CommonTip.error(error.message, { })
+          reject(error)
+        })
+        .finally(() => {
+          this.changeBaseUrl(defaultUrl, baseUrl !== null)
+        })
+    })
+  },
   get(url, param, options, baseUrl = null) {
     let o = Object.assign(this.defaultOptions, options)
     const defaultUrl = axiosInstance.defaults.baseURL

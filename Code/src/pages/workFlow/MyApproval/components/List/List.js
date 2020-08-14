@@ -3,12 +3,7 @@ import React, { useEffect, useState } from 'react'
 import {
   Grid,
   TablePagination,
-  Paper as MuiPaper,
-  Dialog,
-  DialogTitle,
-  DialogActions,
-  DialogContent,
-  Button
+  Paper as MuiPaper, Dialog, DialogTitle, DialogContent, DialogActions, Button,
 } from "@material-ui/core"
 
 import { CommonTable, SearchBar } from '../../../../../components'
@@ -21,18 +16,18 @@ const Paper = styled(MuiPaper)(spacing)
 const formatDateTime = (str) => {
   return dayjs(new Date(str)).format('YYYY-MM-DD HH:MM')
 }
-const tableName = 'My Request'
+const tableName = 'My Approval'
 
 function List(props) {
   const { onMount, path } = props
   const [ startTime, setStartTime ] = useState('')
-  const [ open, setOpen ] = useState(false)
   const [ endTime, setEndTime ] = useState('')
   const [ query, setQuery ] = useState({})
   const [ rows, setRows ] = useState([])
   const [ page, setPage ] = useState(0)
   const [ rowsPerPage, setRowsPerPage ] = useState(10)
   const [ total, setTotal ] = useState(0)
+  const [ open, setOpen ] = useState(false)
   const [ image, setImage ] = useState('')
 
   // 用于更新面包屑
@@ -42,7 +37,7 @@ function List(props) {
   }, [])
 
   useEffect(() => {
-    API.getMyRequest({ ...query, userName: 'kk', limit: rowsPerPage, page: page + 1 })
+    API.getMyApproval({ ...query, userName: 'kk', limit: rowsPerPage, page: page + 1 })
       .then(response => {
         setTotal(response.data.data.total)
         handleData(response.data.data.items)
@@ -53,7 +48,6 @@ function List(props) {
     const rows = []
     rawDataList.forEach((el) => {
       const rowModel = {
-        procInstId: el.procInstId,
         name: el.name,
         startTime: formatDateTime(el.startTime),
         endTime: formatDateTime(el.endTime),
@@ -65,9 +59,6 @@ function List(props) {
     setRows(rows)
   }
 
-  const handleClose = () => {
-    setOpen(false)
-  }
   // 表头字段列表
   const headCells = [
     { id: 'name', alignment: 'center', label: 'Work Flow' },
@@ -75,7 +66,6 @@ function List(props) {
     { id: 'endTime', alignment: 'center', label: 'End Date' },
     { id: 'state', alignment: 'center', label: 'State' },
     { id: 'assignee', alignment: 'center', label: 'Assignee' },
-    { id: 'action', alignment: 'center', label: 'Action' },
   ]
 
   // 每行显示的字段
@@ -108,16 +98,6 @@ function List(props) {
     })
   }
 
-  const handleImage = (event, row) => {
-    console.log(event)
-    console.log(row.procInstId)
-    API.getDiagram('260008').then(response => {
-      let blob = new Blob([ response.data ])
-      setImage(window.URL.createObjectURL(blob))
-      setOpen(true)
-    })
-  }
-
   const handleFieldChange = (e, id) => {
     const { value } = e.target
     switch (id) {
@@ -139,6 +119,20 @@ function List(props) {
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(parseInt(event.target.value, 10))
     setPage(0)
+  }
+
+  const handleImage = (event, row) => {
+    console.log(event)
+    console.log(row.procInstId)
+    API.getDiagram('260008').then(response => {
+      let blob = new Blob([ response.data ])
+      setImage(window.URL.createObjectURL(blob))
+      setOpen(true)
+    })
+  }
+
+  const handleClose = () => {
+    setOpen(false)
   }
 
   return (

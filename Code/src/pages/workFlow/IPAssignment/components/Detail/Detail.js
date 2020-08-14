@@ -40,14 +40,14 @@ function Detail(props) {
 
   useEffect(() => {
     const list = [
-      { id: 'ip', label: 'IP', type: 'text', required: false, readOnly: true },
-      { id: 'dc', label: 'DC', type: 'text', required: false, readOnly: true },
-      { id: 'hostname', label: 'Hostname', type: 'text', required: false, readOnly: true },
-      { id: 'projectTeam', label: 'Project Team', type: 'text', required: false, readOnly: true },
-      { id: 'networkType', label: 'Network Type', type: 'text', required: false, readOnly: true },
-      { id: 'ipPool', label: 'Ip Pool', type: 'text', required: false, readOnly: true },
-      { id: 'vlanId', label: 'Vlan ID', type: 'text', required: false, readOnly: true },
-      { id: 'remark', label: 'Remark', type: 'text', required: false, readOnly: true },
+      { id: 'ip', label: 'IP', type: 'text', required: false, readOnly: true, value: ip },
+      { id: 'dc', label: 'DC', type: 'text', required: false, readOnly: true, value: dc },
+      { id: 'hostname', label: 'Hostname', type: 'text', required: false, readOnly: true, value: hostname },
+      { id: 'projectTeam', label: 'Project Team', type: 'text', required: false, readOnly: true, value: projectTeam },
+      { id: 'networkType', label: 'Network Type', type: 'text', required: false, readOnly: true, value: networkType },
+      { id: 'ipPool', label: 'Ip Pool', type: 'text', required: false, readOnly: true, value: ipPool },
+      { id: 'vlanId', label: 'Vlan ID', type: 'text', required: false, readOnly: true, value: vlanId },
+      { id: 'remark', label: 'Remark', type: 'text', required: false, readOnly: true, value: remark },
     ]
     setFormFieldList(list)
   }, [ ip, dc, hostname, projectTeam, networkType, ipPool, vlanId, remark])
