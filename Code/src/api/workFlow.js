@@ -24,6 +24,18 @@ class WorkFlow {
   getDiagram(id) {
     return request.getBuffer(`${prefix}/runtime/process-instances/${id}/diagram`, {}, { }, url)
   }
+  getStartFormJson(id) {
+    return request.get(`${prefix}/formsetting/getStartFormJson/${id}`, {}, { }, url)
+  }
+  getPublishModel(id) {
+    return request.get(`${prefix}/publish/${id}`, {}, { }, url)
+  }
+  startProcess(data) {
+    return request.post(`${prefix}/process/startProcess/`, data, { }, url)
+  }
+  getProcessList() {
+    return request.get(`${prefix}/repository/process-definitions`, {}, {}, url)
+  }
 }
 
 export default new WorkFlow()

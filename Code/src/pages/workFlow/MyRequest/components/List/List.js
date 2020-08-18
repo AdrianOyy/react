@@ -164,7 +164,7 @@ function List(props) {
               headCells={headCells}
               fieldList={fieldList}
               handleImage={handleImage}
-              hideCreate={true}
+              hideCreate={false}
             />
             <Dialog
               open={open}
