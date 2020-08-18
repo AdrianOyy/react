@@ -19,7 +19,6 @@ class VMProvisioning {
     return request.put(`${prefix}/VmProvisioningRequest/updateVmProvisioningRequest?id=${id}`, params, {}, url)
   }
   deleteMany(params) {
-    console.log(params)
     return request.delete(`${prefix}/VmProvisioningRequest/deleteVmProvisioningRequest`, params, {}, url)
   }
 }
