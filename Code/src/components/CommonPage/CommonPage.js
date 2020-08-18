@@ -15,7 +15,8 @@ function CommonPage(props) {
     List,
     Detail,
     Update,
-    Create
+    Create,
+    CreateWithId
   } = props
   const [ breadcrumbsList, setBreadcrumbsList ] = useState([])
 
@@ -73,7 +74,7 @@ function CommonPage(props) {
               ))
             }
           </Route>
-          <Route path={`/create`}>
+          <Route path={CreateWithId ? `/create/:id` : `/create`}>
             {
               Create && (() => (
                 <Create onMount={onMount} path={''} />

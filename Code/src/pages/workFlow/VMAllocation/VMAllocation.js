@@ -1,10 +1,10 @@
 import React from "react"
 import CommonPage from "../../../components/CommonPage"
-import { List, Detail, Create } from './components'
+import { List, Create } from './components'
 
-const path = '/workflow/request'
-const parentTitle = 'My Request'
-const title = 'My Request'
+const path = '/workflow/vm'
+const parentTitle = 'VM Allocation'
+const title = 'VM Allocation'
 
 function MyRequest() {
   const props = {
@@ -12,8 +12,8 @@ function MyRequest() {
     title,
     parentTitle,
     List,
-    Detail,
-    Create
+    Create,
+    CreateWithId: true
   }
   return (
     <React.Fragment>

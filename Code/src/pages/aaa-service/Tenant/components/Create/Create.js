@@ -10,25 +10,60 @@ import adGroupApi from "../../../../../api/adGroup"
 function Create(props) {
   const { onMount } = props
   const history = useHistory()
+
   const [ name, setName ] = useState('')
+  const [ nameError, setNameError ] = useState(false)
+  const [ nameInit, setNameInit ] = useState(false)
+  const [ nameHelperText, setNameHelperText ] = useState("")
   const [ code, setCode ] = useState('')
+  const [ codeError, setCodeError ] = useState(false)
+  const [ codeInit, setCodeInit ] = useState(false)
+  const [ codeHelperText, setCodeHelperText ] = useState("")
   const [ managerGroupId, setManagerGroupId ] = useState('')
+  const [ managerGroupIdError, setManagerGroupIdError ] = useState(false)
+  const [ managerGroupIdInit, setManagerGroupIdInit ] = useState(false)
+  const [ managerGroupIdHelperText, setManagerGroupIdHelperText ] = useState("")
   const [ supporterGroupId, setSupporterGroupId ] = useState('')
+  const [ supporterGroupIdError, setSupporterGroupIdError ] = useState(false)
+  const [ supporterGroupIdHelperText, setSupporterGroupIdHelperText ] = useState("")
+  const [ supporterGroupIdInit, setSupporterGroupIdInit ] = useState(false)
+
+  const [ project_code, setproject_code ] = useState('')
+  const [ project_codeError, setproject_codeError ] = useState(false)
+  const [ project_codeHelperText, setproject_codeHelperText ] = useState("")
+  const [ project_codeInit, setproject_codeInit ] = useState(false)
+  const [ project_name, setproject_name ] = useState('')
+  const [ project_nameError, setproject_nameError ] = useState(false)
+  const [ project_nameHelperText, setproject_nameHelperText ] = useState("")
+  const [ project_nameInit, setproject_nameInit ] = useState(false)
+  const [ justification, setjustification ] = useState('')
+  const [ justificationError, setjustificationError ] = useState(false)
+  const [ justificationHelperText, setjustificationHelperText ] = useState("")
+  const [ justificationInit, setjustificationInit ] = useState(false)
+  const [ budget_type, setbudget_type ] = useState('')
+  const [ budget_typeError, setbudget_typeError ] = useState(false)
+  const [ budget_typeHelperText, setbudget_typeHelperText ] = useState("")
+  const [ budget_typeInit, setbudget_typeInit ] = useState(false)
+  const [ project_owner, setproject_owner ] = useState('')
+  const [ project_ownerError, setproject_ownerError ] = useState(false)
+  const [ project_ownerHelperText, setproject_ownerHelperText ] = useState("")
+  const [ project_ownerInit, setproject_ownerInit ] = useState(false)
+  const [ contact_person, setcontact_person ] = useState('')
+  const [ contact_personError, setcontact_personError ] = useState(false)
+  const [ contact_personHelperText, setcontact_personHelperText ] = useState("")
+  const [ contact_personInit, setcontact_personInit ] = useState(false)
+  const [ project_estimation, setproject_estimation ] = useState('')
+  const [ project_estimationError, setproject_estimationError ] = useState(false)
+  const [ project_estimationHelperText, setproject_estimationHelperText ] = useState("")
+  const [ project_estimationInit, setproject_estimationInit ] = useState(false)
+  const [ methodology_text, setmethodology_text ] = useState('')
+  const [ methodology_textError, setmethodology_textError ] = useState(false)
+  const [ methodology_textHelperText, setmethodology_textHelperText ] = useState("")
+  const [ methodology_textInit, setmethodology_textInit ] = useState(false)
+
   const [ formFieldList, setFormFieldList ] = useState([])
   const [ saving, setSaving ] = useState(false)
-  const [ nameError, setNameError ] = useState(false)
-  const [ codeError, setCodeError ] = useState(false)
-  const [ managerGroupIdError, setManagerGroupIdError ] = useState(false)
-  const [ supporterGroupIdError, setSupporterGroupIdError ] = useState(false)
-  const [ nameHelperText, setNameHelperText ] = useState("")
-  const [ codeHelperText, setCodeHelperText ] = useState("")
-  const [ managerGroupIdHelperText, setManagerGroupIdHelperText ] = useState("")
-  const [ supporterGroupIdHelperText, setSupporterGroupIdHelperText ] = useState("")
   const [ groupList, setGroupList ] = useState([])
-  const [ nameInit, setNameInit ] = useState(false)
-  const [ codeInit, setCodeInit ] = useState(false)
-  const [ managerGroupIdInit, setManagerGroupIdInit ] = useState(false)
-  const [ supporterGroupIdInit, setSupporterGroupIdInit ] = useState(false)
 
   useEffect(() => {
     onMount('create')
@@ -50,9 +85,29 @@ function Create(props) {
     const codeErr = await codeCheck()
     const manaErr = await managerGroupCheck()
     const suppErr = await supporterGroupCheck()
-    if (nameErr || codeErr || manaErr || suppErr || saving) return
+    const project_codeErr = await project_codeCheck()
+    const project_nameErr = await project_nameCheck()
+    const justificationErr = await justificationCheck()
+    const budget_typeErr = await budget_typeCheck()
+    const project_ownerErr = await project_ownerCheck()
+    const contact_personErr = await contact_personCheck()
+    const project_estimatioErr = await project_estimationCheck()
+    const methodology_textErr = await methodology_textCheck()
+    if ( nameErr || codeErr || manaErr || suppErr || project_codeErr
+      || project_nameErr || justificationErr || budget_typeErr
+      || project_ownerErr || contact_personErr || project_estimatioErr
+      || methodology_textErr || saving ) { 
+        return
+      }
     setSaving(true)
-    API.create({ name, code, manager_group_id: managerGroupId, supporter_group_id: supporterGroupId })
+    API.create({
+      name, code,
+      manager_group_id: managerGroupId,
+      supporter_group_id: supporterGroupId,
+      project_code, project_name, justification,
+      budget_type, project_owner, contact_person,
+      project_estimation, methodology_text
+    })
       .then(() => {
         CommonTip.success("Success")
         history.push({ pathname: '/aaa-service/tenant' })
@@ -82,11 +137,63 @@ function Create(props) {
         isSelector: true, labelField: 'name', valueField: 'id', value: supporterGroupId,
         error: supporterGroupIdError, helperText: supporterGroupIdHelperText, width: 1.2, labelWidth: 108
       },
+      {
+        id: 'project_code', label: 'Project Code', type: 'text', required: true, readOnly: false,
+        value: project_code,
+        error: project_codeError, helperText: project_codeHelperText
+      },
+      {
+        id: 'project_name', label: 'project_name', type: 'text', required: true, readOnly: false,
+        value: project_name,
+        error: project_nameError, helperText: project_nameHelperText
+      },
+      {
+        id: 'justification', label: 'justification', type: 'text', required: true, readOnly: false,
+        value: justification,
+        error: justificationError, helperText: justificationHelperText
+      },
+      {
+        id: 'budget_type', label: 'budget_type', type: 'text', required: true, readOnly: false,
+        value: budget_type,
+        error: budget_typeError, helperText: budget_typeHelperText
+      },
+      {
+        id: 'project_owner', label: 'project_owner', type: 'text', required: true, readOnly: false,
+        value: project_owner,
+        error: project_ownerError, helperText: project_ownerHelperText
+      },
+      {
+        id: 'contact_person', label: 'contact_person', type: 'text', required: true, readOnly: false,
+        value: contact_person,
+        error: contact_personError, helperText: contact_personHelperText
+      },
+      {
+        id: 'project_estimation', label: 'project_estimation', type: 'text', required: true, readOnly: false,
+        value: project_estimation,
+        error: project_estimationError, helperText: project_estimationHelperText
+      },
+      {
+        id: 'methodology_text', label: 'methodology_text', type: 'text', required: true, readOnly: false,
+        value: methodology_text,
+        error: methodology_textError, helperText: methodology_textHelperText
+      },
     ]
     setFormFieldList(list)
-  }, [ name, nameError, nameHelperText, code, codeError, groupList,
+  }, [
+    name, nameError, nameHelperText, code, codeError, groupList,
     codeHelperText, managerGroupId, managerGroupIdError, managerGroupIdHelperText,
     supporterGroupId, supporterGroupIdError, supporterGroupIdHelperText,
+    project_code, project_name, justification,
+    budget_type, project_owner, contact_person,
+    project_estimation, methodology_text,
+    project_codeError, project_codeHelperText,
+    project_nameError, project_nameHelperText,
+    justificationError, justificationHelperText,
+    budget_typeError, budget_typeHelperText,
+    project_ownerError, project_ownerHelperText,
+    contact_personError, contact_personHelperText,
+    project_estimationError, project_estimationHelperText,
+    methodology_textError, methodology_textHelperText,
   ])
 
   const onFormFieldChange = (e, id) => {
@@ -103,6 +210,30 @@ function Create(props) {
         break
       case 'supporterGroupId':
         setSupporterGroupId(value)
+        break
+      case 'project_code':
+        setproject_code(value)
+        break
+      case 'project_name':
+        setproject_name(value)
+        break
+      case 'justification':
+        setjustification(value)
+        break
+      case 'budget_type':
+        setbudget_type(value)
+        break
+      case 'project_owner':
+        setproject_owner(value)
+        break
+      case 'contact_person':
+        setcontact_person(value)
+        break
+      case 'project_estimation':
+        setproject_estimation(value)
+        break
+      case 'methodology_text':
+        setmethodology_text(value)
         break
       default:
         break
@@ -151,6 +282,63 @@ function Create(props) {
     return emptyCheck.error
   }
 
+  const project_codeCheck = async () => {
+    console.log('333333333')
+    const emptyCheck = checkEmpty("project_code", project_code)
+    setproject_codeError(emptyCheck.error)
+    setproject_codeHelperText(emptyCheck.msg)
+    return emptyCheck.error
+  }
+
+  const project_nameCheck = async () => {
+    const emptyCheck = checkEmpty("project_name", project_name)
+    setproject_nameError(emptyCheck.error)
+    setproject_nameHelperText(emptyCheck.msg)
+    return emptyCheck.error
+  }
+
+  const justificationCheck = async () => {
+    const emptyCheck = checkEmpty("justification", justification)
+    setjustificationError(emptyCheck.error)
+    setjustificationHelperText(emptyCheck.msg)
+    return emptyCheck.error
+  }
+
+  const budget_typeCheck = async () => {
+    const emptyCheck = checkEmpty("budget_type", budget_type)
+    setbudget_typeError(emptyCheck.error)
+    setbudget_typeHelperText(emptyCheck.msg)
+    return emptyCheck.error
+  }
+
+  const project_ownerCheck = async () => {
+    const emptyCheck = checkEmpty("project_owner", project_owner)
+    setproject_ownerError(emptyCheck.error)
+    setproject_ownerHelperText(emptyCheck.msg)
+    return emptyCheck.error
+  }
+
+  const contact_personCheck = async () => {
+    const emptyCheck = checkEmpty("contact_person", contact_person)
+    setcontact_personError(emptyCheck.error)
+    setcontact_personHelperText(emptyCheck.msg)
+    return emptyCheck.error
+  }
+
+  const project_estimationCheck = async () => {
+    const emptyCheck = checkEmpty("project_estimation", project_estimation)
+    setproject_estimationError(emptyCheck.error)
+    setproject_estimationHelperText(emptyCheck.msg)
+    return emptyCheck.error
+  }
+
+  const methodology_textCheck = async () => {
+    const emptyCheck = checkEmpty("methodology_text", methodology_text)
+    setmethodology_textError(emptyCheck.error)
+    setmethodology_textHelperText(emptyCheck.msg)
+    return emptyCheck.error
+  }
+
   useEffect(() => {
     if (nameInit) {
       nameCheck()
@@ -186,6 +374,81 @@ function Create(props) {
     }
     // eslint-disable-next-line
   }, [supporterGroupId])
+
+  useEffect(() => {
+    if (project_codeInit) {
+      project_codeCheck()
+      console.log('1111111')
+    } else {
+      console.log('22222')
+      setproject_codeInit(true)
+    }
+    // eslint-disable-next-line
+  }, [project_code])
+
+  useEffect(() => {
+    if (project_nameInit) {
+      project_nameCheck()
+    } else {
+      setproject_nameInit(true)
+    }
+    // eslint-disable-next-line
+  }, [project_name])
+
+  useEffect(() => {
+    if (justificationInit) {
+      justificationCheck()
+    } else {
+      setjustificationInit(true)
+    }
+    // eslint-disable-next-line
+  }, [justification])
+
+  useEffect(() => {
+    if (budget_typeInit) {
+      budget_typeCheck()
+    } else {
+      setbudget_typeInit(true)
+    }
+    // eslint-disable-next-line
+  }, [budget_type])
+
+  useEffect(() => {
+    if (project_ownerInit) {
+      project_ownerCheck()
+    } else {
+      setproject_ownerInit(true)
+    }
+    // eslint-disable-next-line
+  }, [project_owner])
+
+  useEffect(() => {
+    if (contact_personInit) {
+      contact_personCheck()
+    } else {
+      setcontact_personInit(true)
+    }
+    // eslint-disable-next-line
+  }, [contact_person])
+
+  useEffect(() => {
+    if (project_estimationInit) {
+      project_estimationCheck()
+    } else {
+      setproject_estimationInit(true)
+    }
+    // eslint-disable-next-line
+  }, [project_estimation])
+
+  useEffect(() => {
+    if (methodology_textInit) {
+      methodology_textCheck()
+    } else {
+      setmethodology_textInit(true)
+    }
+    // eslint-disable-next-line
+  }, [methodology_text])
+  
 
   return (
     <React.Fragment>

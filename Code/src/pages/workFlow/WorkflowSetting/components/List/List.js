@@ -9,6 +9,11 @@ import { CommonTable } from '../../../../../components'
 import styled from "styled-components"
 import { spacing } from "@material-ui/system"
 import envUrl from '../../../../../utils/baseUrl'
+import CommonTip from "../../../../../components/CommonTip"
+import {
+  EventAvailable as EventAvailableIcon,
+  BorderColorOutlined as BorderColorIcon,
+} from "@material-ui/icons"
 
 const createUrl = envUrl.workflow
 const Paper = styled(MuiPaper)(spacing)
@@ -38,6 +43,7 @@ function List(props) {
       })
   }, [ page, rowsPerPage ])
 
+
   const handleData = (rawDataList) => {
     const rows = []
     rawDataList.forEach((el) => {
@@ -60,6 +66,7 @@ function List(props) {
     { id: 'name', alignment: 'center', label: 'Name' },
     { id: 'deploymentId', alignment: 'center', label: 'Deployment Id' },
     { id: 'deploymentUrl', alignment: 'center', label: 'Deployment Url' },
+    { id: 'action', alignment: 'right', label: 'Action' },
   ]
 
   // 每行显示的字段
@@ -80,6 +87,23 @@ function List(props) {
     setPage(0)
   }
 
+  const handlePublish = (event, row) => {
+    API.getPublishModel(row.id).then(() => {
+      CommonTip.success("Success")
+      setRows([])
+    })
+  }
+
+  const customEdit = (e, row) => {
+    window.open(createUrl + `/editor?modelId=${row.id}&token=` + localStorage.getItem("token"))
+  }
+
+  // 自定义action
+  const actionList = [
+    { label: 'edit', icon: <BorderColorIcon />, handleClick: customEdit },
+    { label: 'event', icon: <EventAvailableIcon />, handleClick: handlePublish },
+  ]
+
   const customCreate = () => {
     window.open(createUrl + "/create?token=" + localStorage.getItem("token"))
   }
@@ -99,6 +123,7 @@ function List(props) {
               hideDetail={true}
               hideCheckBox={true}
               customCreate={customCreate}
+              actionList={actionList}
             />
             <TablePagination
               rowsPerPageOptions={[ 10, 50, 100 ]}
