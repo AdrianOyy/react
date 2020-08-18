@@ -8,11 +8,11 @@ import {
 import { CommonTable } from '../../../../../components'
 import styled from "styled-components"
 import { spacing } from "@material-ui/system"
-//import envUrl from '../../../../../utils/baseUrl'
+// import envUrl from '../../../../../utils/baseUrl'
 
 
 const Paper = styled(MuiPaper)(spacing)
-const tableName = 'VM Provisioning Request List'
+const tableName = 'VM'
 
 
 function List(props) {
@@ -84,8 +84,6 @@ function List(props) {
     setRowsPerPage(parseInt(event.target.value, 10))
     setPage(0)
   }
-
-  
 
   return (
     <React.Fragment>

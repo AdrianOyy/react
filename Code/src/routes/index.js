@@ -21,7 +21,6 @@ const Page500 = async(() => import("../pages/auth/Page500"))
 // Components components
 const Alerts = async(() => import("../pages/components/Alerts"))
 const Avatars = async(() => import("../pages/components/Avatars"))
-const Badges = async(() => import("../pages/components/Badges"))
 const Buttons = async(() => import("../pages/components/Buttons"))
 const Cards = async(() => import("../pages/components/Cards"))
 const Chips = async(() => import("../pages/components/Chips"))
@@ -71,7 +70,7 @@ const assign = async(() => import("../pages/aaa-service/Assign"))
 const expiry = async(() => import("../pages/aaa-service/Expiry"))
 
 // TODO: delete this route after testing
-const test = async(() => import("../pages/aaa-service/Test"))
+// const test = async(() => import("../pages/aaa-service/Test"))
 
 const authRoutes = {
   id: "Auth",
@@ -178,17 +177,7 @@ const workflowRoutes = {
       path: "/workflow/workflowSetting",
       name: "Workflow Setting",
       component: WorkflowSetting
-    },
-    {
-      path: "/workflow/IPAssignment",
-      name: "IP Assignment",
-      component: IPAssignment
-    },
-    {
-      path: "/workflow/VMProvisioning",
-      name: "VM Provisioning Request",
-      component: VMProvisioning
-    },
+    }
   ]
 }
 
@@ -198,10 +187,20 @@ const aaaServiceRoutes = {
   icon: <Grid />,
   children: [
     // TODO: remove this route after testing
+    // {
+    //   path: "/aaa-service/test/",
+    //   name: "Test",
+    //   component: test,
+    // },
     {
-      path: "/aaa-service/test/",
-      name: "Test",
-      component: test,
+      path: "/aaa-service/role/",
+      name: "Role",
+      component: role,
+    },
+    {
+      path: "/aaa-service/adgroup/",
+      name: "AD Group",
+      component: ADGroup,
     },
     {
       path: "/aaa-service/user/",
@@ -214,29 +213,14 @@ const aaaServiceRoutes = {
       component: tenant,
     },
     {
-      path: "/aaa-service/tenantQuotaMapping/",
-      name: "Tenant Quota Mapping",
-      component: tenantQuotaMapping,
-    },
-    {
-      path: "/aaa-service/role/",
-      name: "Role",
-      component: role,
+      path: "/aaa-service/tenantAdGroupMapping/",
+      name: "Tenant AD Group Mapping",
+      component: tenantGroupMapping,
     },
     {
       path: "/aaa-service/assign/",
       name: "Assign",
       component: assign
-    },
-    {
-      path: "/aaa-service/adgroup/",
-      name: "AD Group",
-      component: ADGroup,
-    },
-    {
-      path: "/aaa-service/tenantAdGroupMapping/",
-      name: "Tenant AD Group Mapping",
-      component: tenantGroupMapping,
     },
     {
       path: "/aaa-service/expiry/",
@@ -254,7 +238,7 @@ const resourceRoutes = {
     {
       path: "/resources/vm",
       name: "VM",
-      component: Alerts
+      component: VMProvisioning
     },
     {
       path: "/resources/port",
@@ -262,9 +246,9 @@ const resourceRoutes = {
       component: Avatars
     },
     {
-      path: "/resources/ip",
+      path: "/workflow/IPAssignment",
       name: "IP Address",
-      component: Badges
+      component: IPAssignment
     },
     {
       path: "/resources/network",
@@ -299,7 +283,18 @@ const recordRoutes = {
   path: "/allocation",
   icon: <List />,
   component: Dialogs,
-  children: null
+  children: [
+    {
+      path: "/aaa-service/tenantQuotaMapping/",
+      name: "Quota",
+      component: tenantQuotaMapping,
+    },
+    {
+      path: "/aaa-service/tenantQuotaMapping/",
+      name: "Record",
+      component: tenantQuotaMapping,
+    },
+  ]
 }
 
 export const dashboard = [

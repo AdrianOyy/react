@@ -2,8 +2,8 @@ import React from "react"
 import CommonPage from "../../../components/CommonPage"
 import { List, Create, Update, Detail } from './components'
 
-const parentTitle = 'Workflow'
-const title = 'IP Assignment'
+const parentTitle = 'Resource'
+const title = 'IP Address'
 
 function IPAssignment() {
   const props = {
