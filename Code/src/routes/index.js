@@ -45,7 +45,7 @@ const user = async(() => import("../pages/aaa-service/User"))
 const WorkflowSetting = async(() => import("../pages/workFlow/WorkflowSetting"))
 const request = async(() => import("../pages/workFlow/MyRequest"))
 const approval = async(() => import("../pages/workFlow/MyApproval"))
-
+const VMProvisioning = async(() => import("../pages/workFlow/VMProvisioning/"))
 // IP Assignment
 const IPAssignment = async(() => import("../pages/workFlow/IPAssignment/"))
 
@@ -183,6 +183,11 @@ const workflowRoutes = {
       path: "/workflow/IPAssignment",
       name: "IP Assignment",
       component: IPAssignment
+    },
+    {
+      path: "/workflow/VMProvisioning",
+      name: "VM Provisioning Request",
+      component: VMProvisioning
     },
   ]
 }
