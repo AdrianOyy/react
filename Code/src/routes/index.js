@@ -247,7 +247,7 @@ const resourceRoutes = {
       component: Avatars
     },
     {
-      path: "/workflow/IPAssignment",
+      path: "/resources/IPAddress",
       name: "IP Address",
       component: IPAssignment
     },

@@ -6,8 +6,8 @@ import CommonTip from "../../../../../components/CommonTip"
 import API from "../../../../../api/IPAssignment"
 import { checkEmpty } from "../../untils/IPAssignmentCheck"
 
-const listPath = '/workflow/IPAssignment'
-const formTitle = 'IP Assignment Create'
+const listPath = '/resources/IPAddress'
+const formTitle = 'Create'
 
 function Create(props) {
   const { onMount } = props
@@ -34,7 +34,7 @@ function Create(props) {
     const nameErr = await nameCheck()
     if (nameErr || saving) return
     setSaving(true)
-    API.create({ ip, dc, hostname, projectTeam,networkType, ipPool, vlanId, remark })
+    API.create({ ip, dc, hostname, projectTeam, networkType, ipPool, vlanId, remark })
       .then(() => {
         CommonTip.success("Success")
         history.push({ pathname: listPath })
@@ -51,8 +51,8 @@ function Create(props) {
       { id: 'hostname', label: 'Hostname', type: 'text', required: false, readOnly: false, value: hostname },
       { id: 'projectTeam', label: 'Project Team', type: 'text', required: false, readOnly: false, value: projectTeam },
       { id: 'networkType', label: 'Network Type', type: 'text', required: false, readOnly: false, value: networkType },
-      { id: 'ipPool', label: 'Ip Pool', type: 'text', required: false, readOnly: false, value: ipPool },
-      { id: 'vlanId', label: 'Vlan ID', type: 'text', required: false, readOnly: false, value: vlanId },
+      { id: 'ipPool', label: 'IP Pool', type: 'text', required: false, readOnly: false, value: ipPool },
+      { id: 'vlanId', label: 'VLan ID', type: 'text', required: false, readOnly: false, value: vlanId },
       { id: 'remark', label: 'Remark', type: 'text', required: false, readOnly: false, value: remark },
     ]
     setFormFieldList(list)

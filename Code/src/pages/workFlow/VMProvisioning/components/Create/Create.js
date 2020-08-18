@@ -6,8 +6,8 @@ import CommonTip from "../../../../../components/CommonTip"
 import API from "../../../../../api/VMProvisioning"
 import { checkEmpty } from "../../untils/VMProvisioningCheck"
 
-const listPath = '/workflow/VMProvisioning'
-const formTitle = 'VM Provisioning Request Create'
+const listPath = '/resources/VM'
+const formTitle = 'Create'
 
 function Create(props) {
   const { onMount } = props
@@ -136,7 +136,7 @@ function Create(props) {
       case 'cpuRequestNumber':
         setCpuRequestNumber(value)
         break
-       case 'cpuGrowthPercentage':
+      case 'cpuGrowthPercentage':
         setCpuGrowthPercentage(value)
         break
       case 'cpuGrowthNumber':

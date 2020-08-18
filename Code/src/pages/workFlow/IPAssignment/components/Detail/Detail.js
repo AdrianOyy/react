@@ -17,7 +17,6 @@ function Detail(props) {
   const [ vlanId, setVlanId ] = useState('')
   const [ remark, setRemark ] = useState('')
   const [ formFieldList, setFormFieldList ] = useState([])
- 
 
   useEffect(() => {
     onMount('detail')
@@ -45,12 +44,12 @@ function Detail(props) {
       { id: 'hostname', label: 'Hostname', type: 'text', required: false, readOnly: true, value: hostname },
       { id: 'projectTeam', label: 'Project Team', type: 'text', required: false, readOnly: true, value: projectTeam },
       { id: 'networkType', label: 'Network Type', type: 'text', required: false, readOnly: true, value: networkType },
-      { id: 'ipPool', label: 'Ip Pool', type: 'text', required: false, readOnly: true, value: ipPool },
-      { id: 'vlanId', label: 'Vlan ID', type: 'text', required: false, readOnly: true, value: vlanId },
+      { id: 'ipPool', label: 'IP Pool', type: 'text', required: false, readOnly: true, value: ipPool },
+      { id: 'vlanId', label: 'VLan ID', type: 'text', required: false, readOnly: true, value: vlanId },
       { id: 'remark', label: 'Remark', type: 'text', required: false, readOnly: true, value: remark },
     ]
     setFormFieldList(list)
-  }, [ ip, dc, hostname, projectTeam, networkType, ipPool, vlanId, remark])
+  }, [ ip, dc, hostname, projectTeam, networkType, ipPool, vlanId, remark ])
 
   const onFormFieldChange = (e, id) => {
     const { value } = e.target
@@ -87,7 +86,7 @@ function Detail(props) {
   return (
     <React.Fragment>
       <DetailPage
-        formTitle = 'IP Assignment Detail'
+        formTitle = 'Detail'
         onFormFieldChange = {onFormFieldChange}
         formFieldList = {formFieldList}
       />

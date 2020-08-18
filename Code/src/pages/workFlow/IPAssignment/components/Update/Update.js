@@ -6,8 +6,8 @@ import CommonTip from "../../../../../components/CommonTip"
 import API from "../../../../../api/IPAssignment"
 import { checkEmpty } from "../../untils/IPAssignmentCheck"
 
-const listPath = '/workflow/IPAssignment'
-const formTitle = 'IP Assignment Update'
+const listPath = '/resources/IPAddress'
+const formTitle = 'Update'
 
 function Update(props) {
   const { onMount } = props
@@ -24,8 +24,7 @@ function Update(props) {
   const [ formFieldList, setFormFieldList ] = useState([])
   const [ saving, setSaving ] = useState(true)
   const [ nameError, setNameError ] = useState(false)
-  const [ nameHelperText, setNameHelperText ] = useState("")
-  
+  const [ nameHelperText, setNameHelperText ] = useState('')
 
   useEffect(() => {
     onMount('update')
@@ -36,7 +35,7 @@ function Update(props) {
     const nameErr = await nameCheck()
     if (nameErr || saving) return
     setSaving(true)
-    API.update(id, { ip, dc, hostname})
+    API.update(id, { ip, dc, hostname })
       .then(() => {
         CommonTip.success("Success")
         history.push({ pathname: listPath })
@@ -107,7 +106,7 @@ function Update(props) {
         break
     }
   }
-  
+
   const nameCheck = async () => {
     const emptyCheck = checkEmpty("IP", ip)
     setNameError(emptyCheck.error)

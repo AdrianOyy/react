@@ -38,9 +38,7 @@ function Detail(props) {
   const [ room, setRoom ] = useState('')
   const [ rack, setRack ] = useState('')
   const [ rlu, setRlu ] = useState('')
-  
   const [ formFieldList, setFormFieldList ] = useState([])
- 
 
   useEffect(() => {
     onMount('detail')
@@ -49,11 +47,7 @@ function Detail(props) {
 
   useEffect(() => {
     API.detail(id).then(({ data }) => {
-      const { phase, platform, hostname, environmentType, networkZone, dataCenter, applicationType, cpuRequestNumber,
-           cpuGrowthPercentage, cpuGrowthNumber, ramRequestNumber, ramGrowthPercentage, ramGrowthNumber, dataStorageRequestNumber,
-           dataStorageGrowthPercentage, dataStorageGrowthNumber, backupVolume, backupSechedule, backupRetention,
-           backupGrowthPercentage, backupGrowthNumber, remarks, vmCluster, vmMaster, osIp, atlIp,
-           csv, room, rack, rlu } = data.data
+      const { phase, platform, hostname, environmentType, networkZone, dataCenter, applicationType, cpuRequestNumber, cpuGrowthPercentage, cpuGrowthNumber, ramRequestNumber, ramGrowthPercentage, ramGrowthNumber, dataStorageRequestNumber, dataStorageGrowthPercentage, dataStorageGrowthNumber, backupVolume, backupSechedule, backupRetention, backupGrowthPercentage, backupGrowthNumber, remarks, vmCluster, vmMaster, osIp, atlIp, csv, room, rack, rlu } = data.data
       setPhase(phase)
       setPlatform(platform)
       setHostname(hostname)
@@ -125,7 +119,7 @@ function Detail(props) {
     cpuGrowthPercentage, cpuGrowthNumber, ramRequestNumber, ramGrowthPercentage, ramGrowthNumber, dataStorageRequestNumber,
     dataStorageGrowthPercentage, dataStorageGrowthNumber, backupVolume, backupSechedule, backupRetention,
     backupGrowthPercentage, backupGrowthNumber, remarks, vmCluster, vmMaster, osIp, atlIp,
-    csv, room, rack, rlu])
+    csv, room, rack, rlu ])
 
   const onFormFieldChange = (e, id) => {
     const { value } = e.target
@@ -154,7 +148,7 @@ function Detail(props) {
       case 'cpuRequestNumber':
         setCpuRequestNumber(value)
         break
-       case 'cpuGrowthPercentage':
+      case 'cpuGrowthPercentage':
         setCpuGrowthPercentage(value)
         break
       case 'cpuGrowthNumber':

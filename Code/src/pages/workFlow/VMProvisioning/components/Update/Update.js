@@ -6,8 +6,8 @@ import CommonTip from "../../../../../components/CommonTip"
 import API from "../../../../../api/VMProvisioning"
 import { checkEmpty } from "../../untils/VMProvisioningCheck"
 
-const listPath = '/workflow/VMProvisioning'
-const formTitle = 'VM Provisioning Request Update'
+const listPath = '/resources/VM'
+const formTitle = 'Update'
 
 function Update(props) {
   const { onMount } = props
@@ -47,7 +47,6 @@ function Update(props) {
   const [ saving, setSaving ] = useState(true)
   const [ nameError, setNameError ] = useState(false)
   const [ nameHelperText, setNameHelperText ] = useState("")
-  
 
   useEffect(() => {
     onMount('update')
@@ -180,7 +179,7 @@ function Update(props) {
       case 'cpuRequestNumber':
         setCpuRequestNumber(value)
         break
-       case 'cpuGrowthPercentage':
+      case 'cpuGrowthPercentage':
         setCpuGrowthPercentage(value)
         break
       case 'cpuGrowthNumber':
@@ -250,7 +249,7 @@ function Update(props) {
         break
     }
   }
-  
+
   const nameCheck = async () => {
     const emptyCheck = checkEmpty("Hostname", hostname)
     setNameError(emptyCheck.error)
