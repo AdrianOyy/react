@@ -86,7 +86,12 @@ function Detail(props) {
       { id: 'updatedAt', label: 'Updated At', type: 'text', disabled: true, readOnly: true, value: formatDateTime(updatedAt) },
     ]
     setFormFieldList(list)
-  }, [ name, code, managerGroup, supporterGroup, createdAt, updatedAt ])
+  }, [
+    name, code, managerGroup,
+    project_code, project_name, justification,
+    budget_type, project_owner, contact_person,
+    project_estimation, methodology_text,
+    supporterGroup, createdAt, updatedAt ])
 
   return (
     <React.Fragment>
