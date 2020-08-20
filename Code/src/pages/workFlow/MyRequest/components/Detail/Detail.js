@@ -24,7 +24,7 @@ function Detail() {
       const form = []
       for (let i = 0; i < dist.length; i++) {
         const row = {
-          id: dist[i].id, label: dist[i].columnKey, type: caseType(dist[i].type), readOnly: dist[i].isWritable === "FALSE", disabled: false, value: ''
+          id: dist[i].id, label: dist[i].columnKey, type: caseType(dist[i].type), readOnly: true, disabled: false, value: ''
         }
         form.push(row)
       }
@@ -121,8 +121,8 @@ function Detail() {
   }
 
   const buttonList = [
-    { id: 'check', label: 'Check', color: 'primary', onClick: handleClick, disabled: false },
-    { id: 'submit', label: 'Submit', color: 'secondary', onClick: handleClick, disabled: false },
+    // { id: 'check', label: 'Check', color: 'primary', onClick: handleClick, disabled: false },
+    // { id: 'submit', label: 'Submit', color: 'secondary', onClick: handleClick, disabled: false },
     { id: 'cancel', label: 'Cancel', color: 'default', onClick: handleClick, disabled: false },
   ]
   return (

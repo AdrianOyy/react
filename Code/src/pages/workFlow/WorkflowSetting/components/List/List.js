@@ -95,7 +95,7 @@ function List(props) {
   }
 
   const customEdit = (e, row) => {
-    window.open(createUrl + `/editor?modelId=${row.id}&token=` + localStorage.getItem("token"))
+    window.open(createUrl + `/openEditor?modelId=${row.id}&token=` + localStorage.getItem("token"))
   }
 
   // 自定义action

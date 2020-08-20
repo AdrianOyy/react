@@ -31,7 +31,7 @@ function CommonSelect(props) {
     labelField,
     hasMt,
     labelWidth,
-    width
+    width,
   } = props
   return (
     <FormControl

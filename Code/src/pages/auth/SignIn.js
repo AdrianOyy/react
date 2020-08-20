@@ -65,11 +65,14 @@ function SignIn() {
           setOpen(true)
           setMessage('Failed')
         } else {
-          localStorage.setItem('token', response.data.data)
-          setSeverity('success')
-          setOpen(true)
-          setMessage('Success')
-          history.push('/dashboard/analytics')
+          if (response.data.data) {
+            localStorage.setItem('token', response.data.data.token)
+            localStorage.setItem('user', response.data.data.user)
+            setSeverity('success')
+            setOpen(true)
+            setMessage('Success')
+            history.push('/dashboard/analytics')
+          }
           // console.log(response.data.data)
         }
       })

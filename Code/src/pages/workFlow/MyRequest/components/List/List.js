@@ -16,6 +16,7 @@ import API from "../../../../../api/workFlow"
 import styled from "styled-components"
 import { spacing } from "@material-ui/system"
 import dayjs from "dayjs"
+import getUser from "../../../../../utils/user"
 
 const Paper = styled(MuiPaper)(spacing)
 const formatDateTime = (str) => {
@@ -42,7 +43,7 @@ function List(props) {
   }, [])
 
   useEffect(() => {
-    API.getMyRequest({ ...query, userName: 'kk', limit: rowsPerPage, page: page + 1 })
+    API.getMyRequest({ ...query, userName: getUser().id.toString(), limit: rowsPerPage, page: page + 1 })
       .then(response => {
         setTotal(response.data.data.total)
         handleData(response.data.data.items)
