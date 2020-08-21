@@ -134,12 +134,12 @@ function TenantDetail(props) {
         value: name, error: nameError, helperText: nameHelperText
       },
       {
-        id: 'managerGroupId', label: 'Manager Group', type: 'text', type: "Select",
+        id: 'managerGroupId', label: 'Manager Group', type: "Select",
         readOnly: false, itemList: groupList, value: managerGroupId,
         labelField: 'name', valueField: 'id',
       },
       {
-        id: 'supporterGroupId', label: 'Supporter Group', type: 'text', type: "Select",
+        id: 'supporterGroupId', label: 'Supporter Group', type: "Select",
         readOnly: false, itemList: groupList, value: supporterGroupId,
         labelField: 'name', valueField: 'id',
       },
