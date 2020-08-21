@@ -28,14 +28,6 @@ function Create(props) {
   const [ supporterGroupIdHelperText, setSupporterGroupIdHelperText ] = useState("")
   const [ supporterGroupIdInit, setSupporterGroupIdInit ] = useState(false)
 
-  const [ project_code, setproject_code ] = useState('')
-  const [ project_codeError, setproject_codeError ] = useState(false)
-  const [ project_codeHelperText, setproject_codeHelperText ] = useState("")
-  const [ project_codeInit, setproject_codeInit ] = useState(false)
-  const [ project_name, setproject_name ] = useState('')
-  const [ project_nameError, setproject_nameError ] = useState(false)
-  const [ project_nameHelperText, setproject_nameHelperText ] = useState("")
-  const [ project_nameInit, setproject_nameInit ] = useState(false)
   const [ justification, setjustification ] = useState('')
   const [ justificationError, setjustificationError ] = useState(false)
   const [ justificationHelperText, setjustificationHelperText ] = useState("")
@@ -75,6 +67,7 @@ function Create(props) {
     adGroupApi.list({ limit: 999, page: 1 }).then(({ data }) => {
       if (data && data.data) {
         const { rows } = data.data
+        console.log("111111", rows)
         setGroupList(rows)
       }
     })
@@ -85,16 +78,14 @@ function Create(props) {
     const codeErr = await codeCheck()
     const manaErr = await managerGroupCheck()
     const suppErr = await supporterGroupCheck()
-    const project_codeErr = await project_codeCheck()
-    const project_nameErr = await project_nameCheck()
     const justificationErr = await justificationCheck()
     const budget_typeErr = await budget_typeCheck()
     const project_ownerErr = await project_ownerCheck()
     const contact_personErr = await contact_personCheck()
     const project_estimatioErr = await project_estimationCheck()
     const methodology_textErr = await methodology_textCheck()
-    if ( nameErr || codeErr || manaErr || suppErr || project_codeErr
-      || project_nameErr || justificationErr || budget_typeErr
+    if ( nameErr || codeErr || manaErr || suppErr
+      || justificationErr || budget_typeErr
       || project_ownerErr || contact_personErr || project_estimatioErr
       || methodology_textErr || saving ) { 
         return
@@ -104,7 +95,7 @@ function Create(props) {
       name, code,
       manager_group_id: managerGroupId,
       supporter_group_id: supporterGroupId,
-      project_code, project_name, justification,
+      justification,
       budget_type, project_owner, contact_person,
       project_estimation, methodology_text
     })
@@ -129,23 +120,13 @@ function Create(props) {
       },
       {
         id: 'managerGroupId', label: 'Manager Group', required: true, itemList: groupList,
-        isSelector: true, labelField: 'name', valueField: 'id', value: managerGroupId,
+        type: "Select", labelField: 'name', valueField: 'id', value: managerGroupId,
         error: managerGroupIdError, helperText: managerGroupIdHelperText, width: 1.2, labelWidth: 104
       },
       {
         id: 'supporterGroupId', label: 'Supporter Group', required: true, itemList: groupList,
-        isSelector: true, labelField: 'name', valueField: 'id', value: supporterGroupId,
+        type: "Select", labelField: 'name', valueField: 'id', value: supporterGroupId,
         error: supporterGroupIdError, helperText: supporterGroupIdHelperText, width: 1.2, labelWidth: 108
-      },
-      {
-        id: 'project_code', label: 'Project Code', type: 'text', required: true, readOnly: false,
-        value: project_code,
-        error: project_codeError, helperText: project_codeHelperText
-      },
-      {
-        id: 'project_name', label: 'project_name', type: 'text', required: true, readOnly: false,
-        value: project_name,
-        error: project_nameError, helperText: project_nameHelperText
       },
       {
         id: 'justification', label: 'justification', type: 'text', required: true, readOnly: false,
@@ -183,11 +164,9 @@ function Create(props) {
     name, nameError, nameHelperText, code, codeError, groupList,
     codeHelperText, managerGroupId, managerGroupIdError, managerGroupIdHelperText,
     supporterGroupId, supporterGroupIdError, supporterGroupIdHelperText,
-    project_code, project_name, justification,
+    justification,
     budget_type, project_owner, contact_person,
     project_estimation, methodology_text,
-    project_codeError, project_codeHelperText,
-    project_nameError, project_nameHelperText,
     justificationError, justificationHelperText,
     budget_typeError, budget_typeHelperText,
     project_ownerError, project_ownerHelperText,
@@ -210,12 +189,6 @@ function Create(props) {
         break
       case 'supporterGroupId':
         setSupporterGroupId(value)
-        break
-      case 'project_code':
-        setproject_code(value)
-        break
-      case 'project_name':
-        setproject_name(value)
         break
       case 'justification':
         setjustification(value)
@@ -279,21 +252,6 @@ function Create(props) {
     const emptyCheck = checkEmpty("Supporter Group", supporterGroupId)
     setSupporterGroupIdError(emptyCheck.error)
     setSupporterGroupIdHelperText(emptyCheck.msg)
-    return emptyCheck.error
-  }
-
-  const project_codeCheck = async () => {
-    console.log('333333333')
-    const emptyCheck = checkEmpty("project_code", project_code)
-    setproject_codeError(emptyCheck.error)
-    setproject_codeHelperText(emptyCheck.msg)
-    return emptyCheck.error
-  }
-
-  const project_nameCheck = async () => {
-    const emptyCheck = checkEmpty("project_name", project_name)
-    setproject_nameError(emptyCheck.error)
-    setproject_nameHelperText(emptyCheck.msg)
     return emptyCheck.error
   }
 
@@ -374,26 +332,6 @@ function Create(props) {
     }
     // eslint-disable-next-line
   }, [supporterGroupId])
-
-  useEffect(() => {
-    if (project_codeInit) {
-      project_codeCheck()
-      console.log('1111111')
-    } else {
-      console.log('22222')
-      setproject_codeInit(true)
-    }
-    // eslint-disable-next-line
-  }, [project_code])
-
-  useEffect(() => {
-    if (project_nameInit) {
-      project_nameCheck()
-    } else {
-      setproject_nameInit(true)
-    }
-    // eslint-disable-next-line
-  }, [project_name])
 
   useEffect(() => {
     if (justificationInit) {

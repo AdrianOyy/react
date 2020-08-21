@@ -20,12 +20,6 @@ function TenantDetail(props) {
   const [ managerGroupId, setManagerGroupId ] = useState('')
   const [ supporterGroupId, setSupporterGroupId ] = useState('')
   
-  const [ project_code, setproject_code ] = useState('')
-  const [ project_codeError, setproject_codeError ] = useState(false)
-  const [ project_codeHelperText, setproject_codeHelperText ] = useState("")
-  const [ project_name, setproject_name ] = useState('')
-  const [ project_nameError, setproject_nameError ] = useState(false)
-  const [ project_nameHelperText, setproject_nameHelperText ] = useState("")
   const [ justification, setjustification ] = useState('')
   const [ justificationError, setjustificationError ] = useState(false)
   const [ justificationHelperText, setjustificationHelperText ] = useState("")
@@ -75,15 +69,13 @@ function TenantDetail(props) {
 
   const handleClick = async () => {
     const nameErr = await nameCheck()
-    const project_codeErr = await project_codeCheck()
-    const project_nameErr = await project_nameCheck()
     const justificationErr = await justificationCheck()
     const budget_typeErr = await budget_typeCheck()
     const project_ownerErr = await project_ownerCheck()
     const contact_personErr = await contact_personCheck()
     const project_estimatioErr = await project_estimationCheck()
     const methodology_textErr = await methodology_textCheck()
-    if ( nameErr || project_codeErr || project_nameErr
+    if ( nameErr
      || justificationErr || budget_typeErr || project_ownerErr
      || contact_personErr || project_estimatioErr || methodology_textErr
      || saving ) { 
@@ -94,7 +86,7 @@ function TenantDetail(props) {
       { name,
         manager_group_id: managerGroupId,
         supporter_group_id: supporterGroupId,
-        project_code, project_name, justification,
+        justification,
         budget_type, project_owner, contact_person,
         project_estimation, methodology_text
       })
@@ -111,7 +103,7 @@ function TenantDetail(props) {
     API.detail(id).then(({ data }) => {
       const {
         name, code, manager_group_id, supporter_group_id,
-        project_code, project_name, justification,
+        justification,
         budget_type, project_owner, contact_person,
         project_estimation, methodology_text,
         createdAt, updatedAt
@@ -120,8 +112,6 @@ function TenantDetail(props) {
       setCode(code)
       setManagerGroupId(manager_group_id)
       setSupporterGroupId(supporter_group_id)
-      setproject_code(project_code)
-      setproject_name(project_name)
       setjustification(justification)
       setbudget_type(budget_type)
       setproject_owner(project_owner)
@@ -144,24 +134,14 @@ function TenantDetail(props) {
         value: name, error: nameError, helperText: nameHelperText
       },
       {
-        id: 'managerGroupId', label: 'Manager Group', type: 'text', isSelector: true,
+        id: 'managerGroupId', label: 'Manager Group', type: 'text', type: "Select",
         readOnly: false, itemList: groupList, value: managerGroupId,
         labelField: 'name', valueField: 'id',
       },
       {
-        id: 'supporterGroupId', label: 'Supporter Group', type: 'text', isSelector: true,
+        id: 'supporterGroupId', label: 'Supporter Group', type: 'text', type: "Select",
         readOnly: false, itemList: groupList, value: supporterGroupId,
         labelField: 'name', valueField: 'id',
-      },
-      {
-        id: 'project_code', label: 'Project Code', type: 'text', required: true, readOnly: false,
-        value: project_code,
-        error: project_codeError, helperText: project_codeHelperText
-      },
-      {
-        id: 'project_name', label: 'project_name', type: 'text', required: true, readOnly: false,
-        value: project_name,
-        error: project_nameError, helperText: project_nameHelperText
       },
       {
         id: 'justification', label: 'justification', type: 'text', required: true, readOnly: false,
@@ -205,12 +185,10 @@ function TenantDetail(props) {
     setFormFieldList(list)
   }, [
     name, code, managerGroupId, supporterGroupId, groupList,
-    project_code, project_name, justification,
+    justification,
     budget_type, project_owner, contact_person,
     project_estimation, methodology_text,
     createdAt, updatedAt, nameError, nameHelperText,
-    project_codeError, project_codeHelperText,
-    project_nameError, project_nameHelperText,
     justificationError, justificationHelperText,
     budget_typeError, budget_typeHelperText,
     project_ownerError, project_ownerHelperText,
@@ -230,12 +208,6 @@ function TenantDetail(props) {
         break
       case 'supporterGroupId':
         setSupporterGroupId(value)
-        break
-      case 'project_code':
-        setproject_code(value)
-        break
-      case 'project_name':
-        setproject_name(value)
         break
       case 'justification':
         setjustification(value)
@@ -264,20 +236,6 @@ function TenantDetail(props) {
     const emptyCheck = checkEmpty("name", name)
     setNameError(emptyCheck.error)
     setNameHelperText(emptyCheck.msg)
-    return emptyCheck.error
-  }
-
-  const project_codeCheck = async () => {
-    const emptyCheck = checkEmpty("project_code", project_code)
-    setproject_codeError(emptyCheck.error)
-    setproject_codeHelperText(emptyCheck.msg)
-    return emptyCheck.error
-  }
-
-  const project_nameCheck = async () => {
-    const emptyCheck = checkEmpty("project_name", project_name)
-    setproject_nameError(emptyCheck.error)
-    setproject_nameHelperText(emptyCheck.msg)
     return emptyCheck.error
   }
 
@@ -327,12 +285,6 @@ function TenantDetail(props) {
     switch (id) {
       case "name":
         nameCheck()
-        break
-      case "project_code":
-        project_codeCheck()
-        break
-      case "project_name":
-        project_nameCheck()
         break
       case "justification":
         justificationCheck()

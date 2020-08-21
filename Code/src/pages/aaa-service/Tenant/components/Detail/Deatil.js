@@ -17,8 +17,6 @@ function Detail(props) {
   const [ code, setCode ] = useState('')
   const [ managerGroup, setManagerGroup ] = useState('')
   const [ supporterGroup, setSupporterGroup ] = useState('')
-  const [ project_code, setproject_code ] = useState('')
-  const [ project_name, setproject_name ] = useState('')
   const [ justification, setjustification ] = useState('')
   const [ budget_type, setbudget_type ] = useState('')
   const [ project_owner, setproject_owner ] = useState('')
@@ -41,15 +39,13 @@ function Detail(props) {
         if (data && data.data) {
           const {
             name, code, manager_group, supporter_group,
-            project_code, project_name, justification,
+            justification,
             budget_type, project_owner, contact_person,
             project_estimation, methodology_text,
             createdAt, updatedAt
           } = data.data
           setName(name)
           setCode(code)
-          setproject_code(project_code)
-          setproject_name(project_name)
           setjustification(justification)
           setbudget_type(budget_type)
           setproject_owner(project_owner)
@@ -74,8 +70,6 @@ function Detail(props) {
       { id: 'name', label: 'Name', type: 'text', disabled: true, readOnly: true, value: name },
       { id: 'managerGroup', label: 'Mangager Group', type: 'text', disabled: true, readOnly: true, value: managerGroup },
       { id: 'supporterGroup', label: 'SupporterGroup', type: 'text', disabled: true, readOnly: true, value: supporterGroup },
-      { id: 'project_code', label: 'Project Code', type: 'text', disabled: true, readOnly: true, value: project_code },
-      { id: 'project_name', label: 'Project Name', type: 'text', disabled: true, readOnly: true, value: project_name },
       { id: 'justification', label: 'Justification', type: 'text', disabled: true, readOnly: true, value: justification },
       { id: 'budget_type', label: 'Budget Type', type: 'text', disabled: true, readOnly: true, value: budget_type },
       { id: 'project_owner', label: 'Project Owner', type: 'text', disabled: true, readOnly: true, value: project_owner },
@@ -88,7 +82,7 @@ function Detail(props) {
     setFormFieldList(list)
   }, [
     name, code, managerGroup,
-    project_code, project_name, justification,
+    justification,
     budget_type, project_owner, contact_person,
     project_estimation, methodology_text,
     supporterGroup, createdAt, updatedAt ])
