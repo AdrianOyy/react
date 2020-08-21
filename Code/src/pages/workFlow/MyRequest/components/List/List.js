@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-
+import { useHistory } from "react-router-dom"
 import {
   Grid,
   TablePagination,
@@ -16,7 +16,11 @@ import API from "../../../../../api/workFlow"
 import styled from "styled-components"
 import { spacing } from "@material-ui/system"
 import dayjs from "dayjs"
-import getUser from "../../../../../utils/user"
+import { getUser } from "../../../../../utils/user"
+import {
+  EventAvailable as EventAvailableIcon,
+  BorderColorOutlined as BorderColorIcon,
+} from "@material-ui/icons"
 
 const Paper = styled(MuiPaper)(spacing)
 const formatDateTime = (str) => {
@@ -26,6 +30,7 @@ const tableName = 'My Request'
 
 function List(props) {
   const { onMount, path } = props
+  const history = useHistory()
   const [ startTime, setStartTime ] = useState('')
   const [ open, setOpen ] = useState(false)
   const [ endTime, setEndTime ] = useState('')
@@ -45,6 +50,7 @@ function List(props) {
   useEffect(() => {
     API.getMyRequest({ ...query, userName: getUser().id.toString(), limit: rowsPerPage, page: page + 1 })
       .then(response => {
+        console.log(response)
         setTotal(response.data.data.total)
         handleData(response.data.data.items)
       })
@@ -55,10 +61,11 @@ function List(props) {
     rawDataList.forEach((el) => {
       const rowModel = {
         procInstId: el.procInstId,
+        procDefId: el.procDefId,
         name: el.name,
         startTime: formatDateTime(el.startTime),
-        endTime: formatDateTime(el.endTime),
-        state: el.state === 1 ? "进行中" : "已完成",
+        endTime: el.endTime ? formatDateTime(el.endTime) : '',
+        state: el.endTime ?  "已完成" : "进行中",
         assignee: el.assignee,
       }
       rows.push(rowModel)
@@ -76,7 +83,7 @@ function List(props) {
     { id: 'endTime', alignment: 'center', label: 'End Date' },
     { id: 'state', alignment: 'center', label: 'State' },
     { id: 'assignee', alignment: 'center', label: 'Assignee' },
-    { id: 'action', alignment: 'center', label: 'Action' },
+    { id: 'action', alignment: 'right', label: 'Action' },
   ]
 
   // 每行显示的字段
@@ -112,7 +119,7 @@ function List(props) {
   const handleImage = (event, row) => {
     console.log(event)
     console.log(row.procInstId)
-    API.getDiagram('260008').then(response => {
+    API.getDiagram(row.procInstId).then(response => {
       let blob = new Blob([ response.data ])
       setImage(window.URL.createObjectURL(blob))
       setOpen(true)
@@ -142,6 +149,16 @@ function List(props) {
     setPage(0)
   }
 
+  const handleDetail = (event, row) => {
+    history.push({ pathname: `/detail/${row.procInstId}`, state: { procDefId: row.procDefId } })
+  }
+
+  // 自定义action
+  const actionList = [
+    { label: 'edit', icon: <BorderColorIcon />, handleClick: handleDetail  },
+    { label: 'image', icon: <EventAvailableIcon />, handleClick: handleImage },
+  ]
+
   return (
     <React.Fragment>
       <Grid container spacing={6}>
@@ -160,12 +177,11 @@ function List(props) {
               handleSearch={handleSearch}
               hideUpdate={true}
               hideDetail={true}
-              hideImage={true}
               path={path}
               headCells={headCells}
               fieldList={fieldList}
-              handleImage={handleImage}
               hideCreate={false}
+              actionList={actionList}
             />
             <Dialog
               open={open}

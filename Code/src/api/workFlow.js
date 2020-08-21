@@ -36,6 +36,9 @@ class WorkFlow {
   getProcessList() {
     return request.get(`${prefix}/repository/process-definitions`, {}, {}, url)
   }
+  getTaskListByGroup(data) {
+    return request.post(`${prefix}/runtime/getTaskListByGroup/`, data, { }, url)
+  }
 }
 
 export default new WorkFlow()

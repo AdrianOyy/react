@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react"
 import ComplexForm from "../../../../../components/ComplexForm"
 import Api from "../../../../../api/workFlow"
+import { useParams, useLocation } from "react-router-dom"
 // import { cloneDeep } from "lodash"
 
 // const formatDateTime = (str) => {
@@ -16,10 +17,13 @@ function Detail() {
   //     id: 2, name: 'row2', code: 'r2', createdAt: formatDateTime(new Date()), updatedAt: formatDateTime(new Date()),
   //   }
   // ])
+  const { id } = useParams()
+  const { procDefId } = useLocation().state
+  console.log(procDefId)
   const [ formFieldList, setFormFieldList ] = useState([])
 
   useEffect(() => {
-    Api.getStartFormJson("process:4:300007").then(({ data }) => {
+    Api.getStartFormJson(procDefId).then(({ data }) => {
       const dist = data.data
       const form = []
       for (let i = 0; i < dist.length; i++) {
@@ -31,7 +35,7 @@ function Detail() {
       console.log(form)
       setFormFieldList(form)
     })
-  }, [])
+  }, [ procDefId ])
 
   const caseType = (type) => {
     let display = "text"

@@ -191,7 +191,7 @@ function EnhancedTable(props) {
                       ))
                     }
                     <TableCell padding="none" align="right">
-                      <Box mt={2}>
+                      <Box mt={3}>
                         {
                           !hideDetail && (() => (
                             <IconButton aria-label="detail" onClick={(event) => handleDetail(event, row.id)}>

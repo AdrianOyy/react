@@ -1,3 +1,6 @@
-export default function getUser() {
-  return window.localStorage.getItem("user")
+
+
+export function getUser() {
+  return JSON.parse(window.localStorage.getItem("user"))
 }
+

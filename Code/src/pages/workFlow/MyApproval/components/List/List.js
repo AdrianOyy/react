@@ -8,7 +8,9 @@ import {
 
 import { CommonTable, SearchBar } from '../../../../../components'
 import API from "../../../../../api/workFlow"
+// import { user } from "../../../../../api/workFlow"
 import styled from "styled-components"
+import { getUser } from "../../../../../utils/user"
 import { spacing } from "@material-ui/system"
 import dayjs from "dayjs"
 
@@ -37,22 +39,26 @@ function List(props) {
   }, [])
 
   useEffect(() => {
-    API.getMyApproval({ ...query, userName: 'kk', limit: rowsPerPage, page: page + 1 })
-      .then(response => {
-        setTotal(response.data.data.total)
-        handleData(response.data.data.items)
-      })
+    // const groupList = getUser().groupList
+    const groupList = [ "yang666" ]
+    API.getTaskListByGroup({ groupList }).then(response => {
+      setTotal(response.data.data.length)
+      handleData(response.data.data)
+    })
+    // API.getMyApproval({ ...query, userName: 'kk', limit: rowsPerPage, page: page + 1 })
+    //   .then(response => {
+    //     setTotal(response.data.data.total)
+    //     handleData(response.data.data.items)
+    //   })
   }, [ page, rowsPerPage, query ])
 
   const handleData = (rawDataList) => {
     const rows = []
     rawDataList.forEach((el) => {
       const rowModel = {
+        id: el.id,
         name: el.name,
-        startTime: formatDateTime(el.startTime),
-        endTime: formatDateTime(el.endTime),
-        state: el.state === 1 ? "进行中" : "已完成",
-        assignee: el.assignee,
+        createTime: formatDateTime(el.createTime),
       }
       rows.push(rowModel)
     })
@@ -61,20 +67,16 @@ function List(props) {
 
   // 表头字段列表
   const headCells = [
-    { id: 'name', alignment: 'center', label: 'Work Flow' },
-    { id: 'startTime', alignment: 'center', label: 'Start Date' },
-    { id: 'endTime', alignment: 'center', label: 'End Date' },
-    { id: 'state', alignment: 'center', label: 'State' },
-    { id: 'assignee', alignment: 'center', label: 'Assignee' },
+    { id: 'id', alignment: 'center', label: 'Id' },
+    { id: 'name', alignment: 'center', label: 'name' },
+    { id: 'createTime', alignment: 'center', label: 'Create Time' },
   ]
 
   // 每行显示的字段
   const fieldList = [
+    { field: 'id', align: 'center' },
     { field: 'name', align: 'center' },
-    { field: 'startTime', align: 'center' },
-    { field: 'endTime', align: 'center' },
-    { field: 'state', align: 'center' },
-    { field: 'assignee', align: 'center' },
+    { field: 'createTime', align: 'center' },
   ]
 
   const searchBarFieldList = [

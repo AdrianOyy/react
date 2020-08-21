@@ -66,8 +66,10 @@ function SignIn() {
           setMessage('Failed')
         } else {
           if (response.data.data) {
+            console.log(response.data.data)
             localStorage.setItem('token', response.data.data.token)
-            localStorage.setItem('user', response.data.data.user)
+            localStorage.setItem('user', JSON.stringify(response.data.data.user))
+            localStorage.setItem('groupList', JSON.stringify(response.data.data.groupList))
             setSeverity('success')
             setOpen(true)
             setMessage('Success')
