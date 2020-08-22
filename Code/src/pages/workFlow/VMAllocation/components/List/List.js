@@ -34,7 +34,6 @@ function List(props) {
   useEffect(() => {
     API.getProcessList()
       .then(response => {
-        console.log(response)
         setTotal(response.data.total)
         handleData(response.data.data)
       })

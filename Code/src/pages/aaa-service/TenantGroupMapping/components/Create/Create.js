@@ -67,7 +67,7 @@ function TenantGroupMappingCreate(props) {
       {
         id: 'tenant',
         label: 'Tenant',
-        isSelector: true,
+        type: 'select',
         value: tenantId,
         itemList: tenantList,
         labelField: 'name',
@@ -78,7 +78,7 @@ function TenantGroupMappingCreate(props) {
       {
         id: 'group',
         label: 'AD Group',
-        isSelector: true,
+        type: 'select',
         value: groupId,
         itemList: adGroupList,
         labelField: 'name',

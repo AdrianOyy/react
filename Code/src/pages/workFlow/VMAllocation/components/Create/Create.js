@@ -4,14 +4,13 @@ import DialogForm from "../../../../../components/DialogForm"
 import Api from  "../../../../../api/dynamicForm"
 import { useParams, useHistory, useLocation } from "react-router-dom"
 import deepClone from "../../../../../utils/deepClone"
+import getLogic from "../../../../../utils/dynamicFormLogic"
 import { getQueryString, getUser } from "../../../../../utils/user"
-import dayjs from "dayjs"
 
-const formatDateTime = (str) => {
-  return dayjs(new Date(str)).format('YYYY-MM-DD HH:mm')
-}
 
-function Create() {
+
+function Create(props) {
+  const { onMount } = props
   const { id } = useParams()
   const history = useHistory()
   const user = getUser()
@@ -22,35 +21,41 @@ function Create() {
   const [ formFieldList, setFormFieldList ] = useState([])
   const [ dynamicForm, setDynamicForm ] = useState(null)
   const [ sonForm, setSonForm ] = useState(null)
+  const [ logic, setLogic ] = useState(null)
   const [ sonFormList, setSonFormList ] = useState([])
   const [ sonDetailList, setSonDetailList ] = useState([])
   const [ moduleList, setModuleList ] = useState([])
-  const onFormFieldChange = (e, id) => {
-    const { value } = e.target
-    const values = deepClone(formFieldList)
-    for (let i = 0; i < values.length; i++) {
-      if (values[i].id === id) {
-        if (values[i].type === 'date') {
-          values[i].value = formatDateTime(value)
-        } else {
-          values[i].value = value
-        }
-      }
+  const onFormFieldChange = async (e, id) => {
+    if (logic) {
+      const newValue = await logic.onFormFieldChange(e, id, deepClone(formFieldList))
+      setFormFieldList(newValue)
     }
-    setFormFieldList(values)
   }
 
+  // 用于更新面包屑
   useEffect(() => {
-    Api.getDynamicForm({ deploymentId, userId }).then(({ data }) => {
-      const dyform = data.data
-      setDynamicForm(dyform.dynamicForm)
-      setFormFieldList(dyform.detailList)
-      setSonForm(dyform.sonForm)
-      setSonFormList(dyform.sonFormList)
-      setSonDetailList(dyform.sonDetailList)
-      // DialogField(dyform.dynamicSon, dyform.sonList)
-    })
+    onMount('create')
+    // eslint-disable-next-line
+  }, [])
+
+  useEffect(() => {
+    Api.getDynamicForm({ deploymentId, userId })
+      .then(({ data }) => {
+        const dyform = data.data
+        setDynamicForm(dyform.dynamicForm)
+        setFormFieldList(dyform.detailList)
+        setSonForm(dyform.sonForm)
+        setSonFormList(dyform.sonFormList)
+        setSonDetailList(dyform.sonDetailList)
+        // DialogField(dyform.dynamicSon, dyform.sonList)
+      })
   }, [ deploymentId, userId ])
+
+  useEffect(() => {
+    if (dynamicForm && dynamicForm.formKey) {
+      setLogic(getLogic(dynamicForm.formKey))
+    }
+  }, dynamicForm)
 
   useEffect(() => {
     const display = []
@@ -90,43 +95,44 @@ function Create() {
   }
 
   const customCreate = () => {
+    const values = deepClone(sonFormList)
+    for (const value of values) {
+      value.value = ''
+    }
+    setSonFormList(values)
     setOpen(true)
   }
 
   const  handleClose = () => {
     setOpen(false)
+    // const values = deepClone(sonDetailList)
+    // for (const value of values) {
+    //   value.value = ''
+    // }
+    // setSonDetailList(values)
   }
 
-  const handleSaveClick = () => {
-    setOpen(false)
+  const handleSaveClick = async () => {
     const form = {
       id: sonFormList.length + 1
     }
-    console.log(sonFormList)
     for (let i = 0; i < sonFormList.length; i++) {
       form[sonFormList[i].label] = sonFormList[i].value
     }
     const values = deepClone(sonDetailList)
-    values.push(form)
-    console.log(values)
-    setSonDetailList(values)
+    const pass = await logic.checkDialog(form)
+    if (pass) {
+      values.push(form)
+      setSonDetailList(values)
+      setOpen(false)
+    }
   }
 
-  const onDialogFieldChange = (e, id) => {
-    const { value } = e.target
-    const values = deepClone(sonFormList)
-    console.log(values)
-    for (let i = 0; i < values.length; i++) {
-      if (values[i].id === id) {
-        if (values[i].type === 'date') {
-          values[i].value = formatDateTime(value)
-        } else {
-          values[i].value = value
-        }
-      }
+  const onDialogFieldChange = async (e, id) => {
+    if (logic) {
+      const newValue = await logic.onDialogFieldChange(e, id, deepClone(sonFormList))
+      setSonFormList(newValue)
     }
-    console.log(values)
-    setSonFormList(values)
   }
 
   const handleSubmitClick = () => {
@@ -140,9 +146,10 @@ function Create() {
       sonDetailList,
       sonFormList
     }
-    Api.save(form).then(() => {
-      history.push({ pathname: `/workflow/vm` })
-    })
+    Api.save(form)
+      .then(() => {
+        history.push({ pathname: `/workflow/vm` })
+      })
   }
 
   const handleClick = (_, id) => {
@@ -162,12 +169,18 @@ function Create() {
 
   return (
     <React.Fragment>
-      <ComplexForm
-        title={dynamicForm ? dynamicForm.formKey : ''}
-        titleLevel={1}
-        moduleList={[ formProp, ...moduleList ]}
-        buttonList={buttonList}
-      />
+      {
+        dynamicForm && dynamicForm.formKey && (
+          <ComplexForm
+            title={dynamicForm ? dynamicForm.formKey : ''}
+            formKey={dynamicForm ? dynamicForm.formKey : ''}
+            titleLevel={1}
+            moduleList={[ formProp, ...moduleList ]}
+            buttonList={buttonList}
+          />
+        )
+      }
+
       <DialogForm
         title={sonForm ? sonForm.formKey : ''}
         handleClose={handleClose}

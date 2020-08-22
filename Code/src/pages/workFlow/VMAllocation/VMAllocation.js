@@ -2,13 +2,11 @@ import React from "react"
 import CommonPage from "../../../components/CommonPage"
 import { List, Create } from './components'
 
-const path = '/workflow/vm'
 const parentTitle = 'Workflow'
 const title = 'VM Allocation'
 
 function MyRequest() {
   const props = {
-    path,
     title,
     parentTitle,
     List,
