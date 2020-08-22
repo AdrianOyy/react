@@ -121,8 +121,8 @@ function CommonForm(props) {
                           disabled={field.disabled || false}
                           outlined={true}
                           itemList={field.itemList}
-                          labelField={field.foreignDisplayKey}
-                          valueField={field.foreignKey}
+                          labelField={field.labelField}
+                          valueField={field.valueField}
                           width={1}
                           hasMt={true}
                           onSelectChange={!field.readOnly ? (event) => onFormFieldChange(event, field.id) : null}
