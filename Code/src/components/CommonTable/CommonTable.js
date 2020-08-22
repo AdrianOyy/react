@@ -211,9 +211,10 @@ function EnhancedTable(props) {
                       </Box>
                       <Box>
                         {
-                          actionList && actionList.map((action) => {
+                          actionList && actionList.map((action, i) => {
                             return (
                               <IconButton
+                                key = {i + '_' + action.label}
                                 aria-label={action.label}
                                 onClick={(e) => action.handleClick(e, row)}
                               >

@@ -59,7 +59,7 @@ function CommonForm(props) {
                     case 'text':
                       return (
                         <TextField
-                          id={field.id}
+                          id={field.id.toString()}
                           key={field.id + field.label}
                           label={field.label}
                           type={field.type}
@@ -112,7 +112,7 @@ function CommonForm(props) {
                     case 'select':
                       return  (
                         <CommonSelect
-                          id = {field.id}
+                          id = {field.id.toString()}
                           key = {field.id + field.label}
                           label = {field.label}
                           error = {field.error || false}

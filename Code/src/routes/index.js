@@ -150,32 +150,32 @@ const workflowRoutes = {
   component: logging,
   children: [
     {
-      path: "/workflow/account",
+      path: "/workflow/account/",
       name: "Account management",
       component: Alerts
     },
     {
-      path: "/workflow/vm",
+      path: "/workflow/vm/",
       name: "VM Allocation",
       component: VMAllocation
     },
     {
-      path: "/workflow/movein",
+      path: "/workflow/movein/",
       name: "Move-in",
       component: Alerts
     },
     {
-      path: "/workflow/request",
+      path: "/workflow/request/",
       name: "My Request",
       component: request
     },
     {
-      path: "/workflow/approval",
+      path: "/workflow/approval/",
       name: "My Approval",
       component: approval
     },
     {
-      path: "/workflow/workflowSetting",
+      path: "/workflow/workflowSetting/",
       name: "Workflow Setting",
       component: WorkflowSetting
     }
