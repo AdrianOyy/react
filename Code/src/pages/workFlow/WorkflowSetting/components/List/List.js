@@ -88,7 +88,11 @@ function List(props) {
   const handlePublish = (event, row) => {
     API.getPublishModel(row.id).then(() => {
       CommonTip.success("Success")
-      setRows([])
+      API.getProcessDefinitions({ limit: rowsPerPage, page: page + 1 })
+        .then(({ data }) => {
+          setTotal(data.total)
+          handleData(data.list)
+        })
     })
   }
 
