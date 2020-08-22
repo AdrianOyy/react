@@ -7,7 +7,7 @@ const url = envUrl.workflow
 
 class WorkFlow {
   getProcessDefinitions(params, options) {
-    return request.get(`${prefix}/repository/models`, params, options, url)
+    return request.get(`${prefix}/repository/modelList`, params, options, url)
   }
   createModel(params, options) {
     return request.get(`${prefix}/create`, params, options, url)

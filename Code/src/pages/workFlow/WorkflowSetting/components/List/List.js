@@ -46,7 +46,7 @@ function List(props) {
 
   const handleData = (rawDataList) => {
     const rows = []
-    rawDataList.forEach((el) => {
+    rawDataList && rawDataList.forEach((el) => {
       const rowModel = {
         id: el.id,
         version: el.version,
@@ -65,7 +65,6 @@ function List(props) {
     { id: 'version', alignment: 'center', label: 'Version' },
     { id: 'name', alignment: 'center', label: 'Name' },
     { id: 'deploymentId', alignment: 'center', label: 'Deployment Id' },
-    { id: 'deploymentUrl', alignment: 'center', label: 'Deployment Url' },
     { id: 'action', alignment: 'right', label: 'Action' },
   ]
 
@@ -75,7 +74,6 @@ function List(props) {
     { field: 'version', align: 'center' },
     { field: 'name', align: 'center' },
     { field: 'deploymentId', align: 'center' },
-    { field: 'deploymentUrl', align: 'center' },
   ]
 
   const handleChangePage = (_, newPage) => {

@@ -3,7 +3,7 @@ import CommonPage from "../../../components/CommonPage"
 import { List, Create } from './components'
 
 const path = '/workflow/vm'
-const parentTitle = 'VM Allocation'
+const parentTitle = 'Workflow'
 const title = 'VM Allocation'
 
 function MyRequest() {
