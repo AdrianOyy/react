@@ -39,7 +39,7 @@ function List(props) {
     API.getProcessDefinitions({ limit: rowsPerPage, page: page + 1 })
       .then(({ data }) => {
         setTotal(data.total)
-        handleData(data.data)
+        handleData(data.list)
       })
   }, [ page, rowsPerPage ])
 

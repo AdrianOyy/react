@@ -84,12 +84,12 @@ function Create(props) {
     const contact_personErr = await contact_personCheck()
     const project_estimatioErr = await project_estimationCheck()
     const methodology_textErr = await methodology_textCheck()
-    if ( nameErr || codeErr || manaErr || suppErr
+    if (nameErr || codeErr || manaErr || suppErr
       || justificationErr || budget_typeErr
       || project_ownerErr || contact_personErr || project_estimatioErr
-      || methodology_textErr || saving ) { 
-        return
-      }
+      || methodology_textErr || saving) {
+      return
+    }
     setSaving(true)
     API.create({
       name, code,
@@ -120,12 +120,12 @@ function Create(props) {
       },
       {
         id: 'managerGroupId', label: 'Manager Group', required: true, itemList: groupList,
-        type: "Select", labelField: 'name', valueField: 'id', value: managerGroupId,
+        type: "select", labelField: 'name', valueField: 'id', value: managerGroupId,
         error: managerGroupIdError, helperText: managerGroupIdHelperText, width: 1.2, labelWidth: 104
       },
       {
         id: 'supporterGroupId', label: 'Supporter Group', required: true, itemList: groupList,
-        type: "Select", labelField: 'name', valueField: 'id', value: supporterGroupId,
+        type: "select", labelField: 'name', valueField: 'id', value: supporterGroupId,
         error: supporterGroupIdError, helperText: supporterGroupIdHelperText, width: 1.2, labelWidth: 108
       },
       {
@@ -386,7 +386,7 @@ function Create(props) {
     }
     // eslint-disable-next-line
   }, [methodology_text])
-  
+
 
   return (
     <React.Fragment>
