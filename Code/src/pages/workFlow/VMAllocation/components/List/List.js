@@ -72,7 +72,7 @@ function List(props) {
   ]
 
   const handleRunClick = (e, row) => {
-    history.push({ pathname: `${path}/create/${row.id}`, state: { deploymentId: row.deploymentId } })
+    history.push({ pathname: `${path}/create/${row.id}`, query: { deploymentId: row.deploymentId } })
   }
 
   // 自定义action

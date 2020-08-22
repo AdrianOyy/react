@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react"
 import ComplexForm from "../../../../../components/ComplexForm"
 import DialogForm from "../../../../../components/DialogForm"
 import Api from  "../../../../../api/dynamicForm"
-import { useParams, useHistory } from "react-router-dom"
+import { useParams, useHistory, useLocation } from "react-router-dom"
 import deepClone from "../../../../../utils/deepClone"
 import { getUser } from "../../../../../utils/user"
 import dayjs from "dayjs"
@@ -16,8 +16,9 @@ function Create() {
   const history = useHistory()
   const user = getUser()
   const userId = user.id
-  const deploymentId = 67501
-  // const { deploymentId } = useLocation().state
+  // const deploymentId = 67501
+  console.log(useLocation())
+  const { deploymentId } = useLocation().query
   const [ open, setOpen ] = useState(false)
   const [ formFieldList, setFormFieldList ] = useState([])
   const [ dynamicForm, setDynamicForm ] = useState(null)
