@@ -13,6 +13,9 @@ class dynamicForm {
   save(data) {
     return request.post(`${prefix}/dynamicForm/save`, data, {}, url)
   }
+  getDynamicFormDetail(params) {
+    return request.get(`${prefix}/dynamicForm/getDynamicFormDetail`, params, {}, url)
+  }
 }
 
 export default new dynamicForm()

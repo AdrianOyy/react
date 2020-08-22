@@ -2,9 +2,10 @@ import React, { useEffect, useState } from "react"
 import ComplexForm from "../../../../../components/ComplexForm"
 import DialogForm from "../../../../../components/DialogForm"
 import Api from  "../../../../../api/dynamicForm"
+import workflowApi from  "../../../../../api/workFlow"
 import { useParams, useHistory, useLocation } from "react-router-dom"
 import deepClone from "../../../../../utils/deepClone"
-import { getQueryString, getUser } from "../../../../../utils/user"
+import { getUser, getQueryString } from "../../../../../utils/user"
 import dayjs from "dayjs"
 
 const formatDateTime = (str) => {
@@ -17,7 +18,7 @@ function Create() {
   const user = getUser()
   const userId = user.id
   const arr = getQueryString(useLocation().search)
-  const deploymentId = arr['deploymentId']
+  const processDefinitionId = arr['processDefinitionId']
   const [ open, setOpen ] = useState(false)
   const [ formFieldList, setFormFieldList ] = useState([])
   const [ dynamicForm, setDynamicForm ] = useState(null)
@@ -41,16 +42,20 @@ function Create() {
   }
 
   useEffect(() => {
-    Api.getDynamicForm({ deploymentId, userId }).then(({ data }) => {
-      const dyform = data.data
-      setDynamicForm(dyform.dynamicForm)
-      setFormFieldList(dyform.detailList)
-      setSonForm(dyform.sonForm)
-      setSonFormList(dyform.sonFormList)
-      setSonDetailList(dyform.sonDetailList)
-      // DialogField(dyform.dynamicSon, dyform.sonList)
+    workflowApi.getStartFormKeyAndDeploymentId({ taskId: id, processDefinitionId }).then(({ data }) => {
+      console.log(data)
+      const key = data.data
+      Api.getDynamicFormDetail({ deploymentId: key.deploymentId, formId: key.formId, userId }).then(({ data }) => {
+        const dyform = data.data
+        setDynamicForm(dyform.dynamicForm)
+        setFormFieldList(dyform.detailList)
+        setSonForm(dyform.sonForm)
+        setSonFormList(dyform.sonFormList)
+        setSonDetailList(dyform.sonDetailList)
+        // DialogField(dyform.dynamicSon, dyform.sonList)
+      })
     })
-  }, [ deploymentId, userId ])
+  }, [ id, processDefinitionId, userId ])
 
   useEffect(() => {
     const display = []
@@ -71,7 +76,6 @@ function Create() {
     }
     const tableProp = {
       type: 'table',
-      title: sonForm ? sonForm.formKey : '',
       headCells,
       fieldList,
       rows: sonDetailList,
@@ -129,29 +133,49 @@ function Create() {
     setSonFormList(values)
   }
 
-  const handleSubmitClick = () => {
-    const form = {
-      dynamicForm,
-      deploymentId,
-      processDefinitionId: id,
-      startUser: getUser().id.toString(),
-      formFieldList,
-      sonForm,
-      sonDetailList,
-      sonFormList
-    }
-    Api.save(form).then(() => {
-      history.push({ pathname: `/workflow/vm` })
-    })
-  }
+  // const handleSubmitClick = () => {
+  //   const form = {
+  //     dynamicForm,
+  //     deploymentId,
+  //     processDefinitionId: id,
+  //     startUser: getUser().id.toString(),
+  //     formFieldList,
+  //     sonForm,
+  //     sonDetailList,
+  //     sonFormList
+  //   }
+  //   Api.save(form).then(() => {
+  //     history.push({ pathname: `/workflow/vm` })
+  //   })
+  // }
 
   const handleClick = (_, id) => {
     alert(id)
   }
 
+  const handleRejectTaskClick = () => {
+    const data = {
+      taskId: id,
+      variables: { leaderCheck: false },
+    }
+    workflowApi.actionTask(data).then(() => {
+      history.push({ pathname: `/MyApproval` })
+    })
+  }
+
+  const handleAgrreTaskClick = () => {
+    const data = {
+      taskId: id,
+      variables: { leaderCheck: true },
+    }
+    workflowApi.actionTask(data).then(() => {
+      history.push({ pathname: `/MyApproval` })
+    })
+  }
+
   const buttonList = [
-    { id: 'check', label: 'Check', color: 'primary', onClick: handleClick, disabled: false },
-    { id: 'submit', label: 'Submit', color: 'secondary', onClick: handleSubmitClick, disabled: false },
+    { id: 'reject', label: 'reject', color: 'primary', onClick: handleRejectTaskClick, disabled: false },
+    { id: 'agree', label: 'agree', color: 'secondary', onClick: handleAgrreTaskClick, disabled: false },
     { id: 'cancel', label: 'Cancel', color: 'default', onClick: handleClick, disabled: false },
   ]
 
@@ -169,7 +193,7 @@ function Create() {
         buttonList={buttonList}
       />
       <DialogForm
-        title={sonForm ? sonForm.formKey : ''}
+        title={'text'}
         handleClose={handleClose}
         open={open}
         titleLevel={1}
