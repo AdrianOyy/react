@@ -15,6 +15,7 @@ export default function Test() {
       id: 2, name: 'row2', code: 'r2', createdAt: formatDateTime(new Date()), updatedAt: formatDateTime(new Date()),
     }
   ])
+  const [ name, setName ] = useState('name')
   const handleDelete = (_, idList) => {
     for (let i = 0; i < rows.length; i++) {
       for (let j = 0; j < idList.length; j++) {
@@ -33,6 +34,17 @@ export default function Test() {
     console.log(rows)
   }
 
+  const onFormFieldChange = (e, id) => {
+    const { value } = e.target
+    switch (id) {
+      case 'name':
+        setName(value)
+        break
+      default:
+        break
+    }
+  }
+
   const formProp = {
     type: 'form',
     title: 'Test Form',
@@ -43,7 +55,7 @@ export default function Test() {
       },
       {
         id: 'name', label: 'Name', type: 'text', required: true, readOnly: false,
-        value: 'name'
+        value: name
       },
       {
         id: 'createdAt', label: 'Created At', type: 'text', disabled: true,
@@ -53,7 +65,8 @@ export default function Test() {
         id: 'updatedAt', label: 'Updated At', type: 'text', disabled: true,
         readOnly: true, value: formatDateTime(new Date())
       },
-    ]
+    ],
+    onFormFieldChange
   }
   const tableProp = {
     type: 'table',

@@ -32,6 +32,12 @@ export function getCheckTypeExist() {
 export function getCheckYearExist() {
   return async function(id, value) {
     const { tenantId, year } = value
+    if (isNaN(year.getTime())) {
+      return {
+        error: true,
+        msg: "Invalid Year"
+      }
+    }
     const { data } = await API.checkYearExist(id, tenantId, year)
     if (data.data < 1) {
       return {

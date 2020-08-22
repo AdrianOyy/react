@@ -39,7 +39,7 @@ function EnhancedTableToolbar(props) {
               {numSelected} selected
             </Typography>
           ) : (
-            <Typography variant={titleLevel ? `h${titleLevel}` : 'h2'} id="tableTitle">
+            <Typography variant={titleLevel ? `h${titleLevel}` : 'h4'} id="tableTitle">
               { tableName }
             </Typography>
           )}
