@@ -10,9 +10,11 @@ import { CommonTable, SearchBar } from '../../../../../components'
 import API from "../../../../../api/workFlow"
 // import { user } from "../../../../../api/workFlow"
 import styled from "styled-components"
+import { useHistory } from "react-router-dom"
 import { getUser } from "../../../../../utils/user"
 import { spacing } from "@material-ui/system"
 import dayjs from "dayjs"
+import { BorderColorOutlined as BorderColorIcon } from "@material-ui/icons"
 
 const Paper = styled(MuiPaper)(spacing)
 const formatDateTime = (str) => {
@@ -22,6 +24,7 @@ const tableName = 'My Approval'
 
 function List(props) {
   const { onMount, path } = props
+  const history = useHistory()
   const [ startTime, setStartTime ] = useState('')
   const [ endTime, setEndTime ] = useState('')
   const [ query, setQuery ] = useState({})
@@ -58,6 +61,7 @@ function List(props) {
       const rowModel = {
         id: el.id,
         name: el.name,
+        processDefinitionId: el.processDefinitionId,
         createTime: formatDateTime(el.createTime),
       }
       rows.push(rowModel)
@@ -70,6 +74,7 @@ function List(props) {
     { id: 'id', alignment: 'center', label: 'Id' },
     { id: 'name', alignment: 'center', label: 'name' },
     { id: 'createTime', alignment: 'center', label: 'Create Time' },
+    { id: 'action', alignment: 'right', label: 'Action' },
   ]
 
   // 每行显示的字段
@@ -133,6 +138,14 @@ function List(props) {
     })
   }
 
+  const handleDetail = (event, row) => {
+    history.push({ pathname: `/detail/${row.id}`, search: `processDefinitionId=${row.processDefinitionId}` })
+  }
+
+  const actionList = [
+    { label: 'edit', icon: <BorderColorIcon />, handleClick: handleDetail  },
+  ]
+
   const handleClose = () => {
     setOpen(false)
   }
@@ -160,6 +173,7 @@ function List(props) {
               headCells={headCells}
               fieldList={fieldList}
               handleImage={handleImage}
+              actionList={actionList}
               hideCreate={true}
             />
             <Dialog

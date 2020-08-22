@@ -81,18 +81,20 @@ export default function ComplexForm(props) {
 
     return (
       <React.Fragment>
-        <FormTable
-          rows={rows}
-          title={title}
-          titleLevel={titleLevel}
-          handleDelete={handleDelete}
-          headCells={headCells}
-          fieldList={fieldList}
-          actionList={actionList}
-          hideCreate={hideCreate}
-          hideCheckBox={hideCheckBox}
-          customCreate={customCreate}
-        />
+        <div style={{ width: 1300 }}>
+          <FormTable
+            rows={rows}
+            title={title}
+            titleLevel={titleLevel}
+            handleDelete={handleDelete}
+            headCells={headCells}
+            fieldList={fieldList}
+            actionList={actionList}
+            hideCreate={hideCreate}
+            hideCheckBox={hideCheckBox}
+            customCreate={customCreate}
+          />
+        </div>
       </React.Fragment>
     )
   }

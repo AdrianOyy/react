@@ -39,6 +39,12 @@ class WorkFlow {
   getTaskListByGroup(data) {
     return request.post(`${prefix}/runtime/getTaskListByGroup/`, data, { }, url)
   }
+  actionTask(data) {
+    return request.post(`${prefix}/runtime/actionTask`, data, { }, url)
+  }
+  getStartFormKeyAndDeploymentId(data) {
+    return request.get(`${prefix}/runtime/getStartFormKeyAndDeploymentId`, data, { }, url)
+  }
 }
 
 export default new WorkFlow()
