@@ -71,12 +71,12 @@ function AssignCreate(props) {
   useEffect(() => {
     const list = [
       {
-        id: 'assign', label: 'Tenant + Group + Role', isSelector: true, value: assignId,
+        id: 'assign', label: 'Tenant + Group + Role', type: 'select', value: assignId,
         itemList: assignList, labelField: 'value', valueField: 'id', width: 1.4,
         error: assignError, helperText: assignHelperText, labelWidth: 150,
       },
       {
-        id: 'user', label: 'User', isSelector: true, value: userId,
+        id: 'user', label: 'User', type: 'select', value: userId,
         itemList: userList, labelField: 'displayname', valueField: 'id',
         error: userError, helperText: userHelperText,
       },

@@ -101,7 +101,7 @@ function AssignUpdate(props) {
       { id: 'tenant', label: 'Tenant', type: 'text', disabled: true, readOnly: true, value: tenant },
       { id: 'adGroup', label: 'AD Group', type: 'text', disabled: true, readOnly: true, value: group },
       {
-        id: 'role', label: 'Role', isSelector: true, required: true,
+        id: 'role', label: 'Role', type: 'select', required: true,
         readOnly: false, value: roleId, error: roleError, helperText: roleHelperText,
         itemList: roleList, labelField: "label", valueField: "id"
       },

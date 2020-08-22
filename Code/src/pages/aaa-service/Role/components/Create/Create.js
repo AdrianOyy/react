@@ -54,7 +54,7 @@ function RoleCreate(props) {
       {
         id: 'value',
         label: 'Value',
-        isSelector: true,
+        type: 'select',
         value, itemList: [
           { label: "Read Only", value: "Read Only" },
           { label: "Read & Write", value: "Read && Write" },

@@ -129,12 +129,12 @@ function TenantGroupMappingUpdate(props) {
   useEffect(() => {
     const list = [
       {
-        id: 'tenant', label: 'Tenant', isSelector: true, required: true,
+        id: 'tenant', label: 'Tenant', type: 'select', required: true,
         readOnly: false, value: tenantId, error: tenantError, helperText: tenantHelperText,
         itemList: tenantList, labelField: "name", valueField: "id"
       },
       {
-        id: 'group', label: 'AD Group', isSelector: true, required: true,
+        id: 'group', label: 'AD Group', type: 'select', required: true,
         readOnly: false, value: groupId, error: groupError, helperText: groupHelperText,
         itemList: adGroupList, labelField: "name", valueField: "id"
       },

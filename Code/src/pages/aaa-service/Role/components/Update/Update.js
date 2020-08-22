@@ -57,7 +57,7 @@ function TenantDetail(props) {
   useEffect(() => {
     const list = [
       { id: 'label', label: 'Label', type: 'text', required: true, readOnly: false, value: label, error: labelError, helperText: labelHelperText },
-      { id: 'value', label: 'Value', isSelector: true, value,
+      { id: 'value', label: 'Value', type: 'select', value,
         itemList: [
           { label: "Read Only", value: "Read Only" },
           { label: "Read & Write", value: "Read && Write" },

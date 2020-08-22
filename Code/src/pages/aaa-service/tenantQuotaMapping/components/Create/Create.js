@@ -67,7 +67,7 @@ function Create(props) {
   useEffect(() => {
     const list = [
       {
-        id: 'tenant', label: 'Tenant', isSelector: true, value: tenantId,
+        id: 'tenant', label: 'Tenant', type: 'select', value: tenantId,
         itemList: tenantList, labelField: 'name', valueField: 'id',
         error: tenantError, helperText: tenantHelperText,
       },

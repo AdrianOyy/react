@@ -64,12 +64,12 @@ function AssignCreate(props) {
   useEffect(() => {
     const list = [
       {
-        id: 'mapping', label: 'Tenant + Group', isSelector: true, value: mappingId,
+        id: 'mapping', label: 'Tenant + Group', type: 'select', value: mappingId,
         itemList: mappingList, labelField: 'name', valueField: 'id',
         error: mappingError, helperText: mappingHelperText,
       },
       {
-        id: 'role', label: 'Role', isSelector: true, value: roleId,
+        id: 'role', label: 'Role', type: 'select', value: roleId,
         itemList: roleList, labelField: 'label', valueField: 'id',
         error: roleError, helperText: roleHelperText,
       },
