@@ -11,6 +11,7 @@ import { spacing } from "@material-ui/system"
 import { makeStyles } from '@material-ui/core/styles'
 import styled from "styled-components"
 
+
 const Divider = styled(MuiDivider)(spacing)
 
 
@@ -125,7 +126,7 @@ export default function ComplexForm(props) {
                   </div>
                 )
               default:
-                return <h1 key={i + 'other'}>other</h1>
+                return <div></div>
             }
           })
         }

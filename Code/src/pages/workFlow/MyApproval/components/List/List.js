@@ -39,8 +39,8 @@ function List(props) {
   }, [])
 
   useEffect(() => {
-    // const groupList = getUser().groupList
-    const groupList = [ "yang666" ]
+    const groupList = getUser().groupList
+    // const groupList = [ "yang666" ]
     API.getTaskListByGroup({ groupList }).then(response => {
       setTotal(response.data.data.length)
       handleData(response.data.data)

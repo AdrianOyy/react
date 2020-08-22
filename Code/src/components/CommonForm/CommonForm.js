@@ -109,7 +109,7 @@ function CommonForm(props) {
                           style={{ marginTop: "5ch", marginRight: "10ch" }}
                         />
                       )
-                    case 'Select':
+                    case 'select':
                       return  (
                         <CommonSelect
                           id = {field.id}
@@ -121,8 +121,8 @@ function CommonForm(props) {
                           disabled={field.disabled || false}
                           outlined={true}
                           itemList={field.itemList}
-                          labelField={field.labelField}
-                          valueField={field.valueField}
+                          labelField={field.foreignDisplayKey}
+                          valueField={field.foreignKey}
                           width={1}
                           hasMt={true}
                           onSelectChange={!field.readOnly ? (event) => onFormFieldChange(event, field.id) : null}

@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from "react"
 import ComplexForm from "../../../../../components/ComplexForm"
 import DialogForm from "../../../../../components/DialogForm"
-// import Api from "../../../../../api/workFlow"
-import vmApi from  "../../../../../api/vmLocation"
+import Api from  "../../../../../api/dynamicForm"
 import { useParams, useHistory } from "react-router-dom"
 import deepClone from "../../../../../utils/deepClone"
-// import { getUser } from "../../../../../utils/user"
+import { getUser } from "../../../../../utils/user"
 import dayjs from "dayjs"
 
 const formatDateTime = (str) => {
@@ -15,80 +14,17 @@ const formatDateTime = (str) => {
 function Create() {
   const { id } = useParams()
   const history = useHistory()
-  const [ formFieldList, setFormFieldList ] = useState([])
-  const [ dialogFormList, setDialogFormList ] = useState([])
+  const user = getUser()
+  const userId = user.id
+  const deploymentId = 67501
+  // const { deploymentId } = useLocation().state
   const [ open, setOpen ] = useState(false)
-  const [ rows, setRows ] = useState([])
-  const fieldList = [
-    { field: 'code', align: 'center' },
-    { field: 'name', align: 'center' },
-  ]
-  useEffect(() => {
-    // Api.getStartFormJson(id).then(({ data }) => {
-    //   const dist = data.data
-    //   const form = []
-    //   for (let i = 0; i < dist.length; i++) {
-    //     const row = {
-    //       id: dist[i].id, label: dist[i].columnKey, type: casttype(dist[i].type), readOnly: dist[i].isWritable === "FALSE", disabled: false, value: '',
-    //     }
-    //     form.push(row)
-    //   }
-    //   setFormFieldList(form)
-    // })
-    // const itemList = [
-    //   {
-    //     id: 1,
-    //     value: 'test1'
-    //   },
-    //   {
-    //     id: 2,
-    //     value: 'test2'
-    //   }
-    // ]
-    //
-    const test = [
-      {
-        id: 'code', label: 'Code', type: 'text', readOnly: false, value: '',
-      },
-      {
-        id: 'name', label: 'Name', type: 'text', required: true, readOnly: false,
-        value: ''
-      },
-      // {
-      //   id: 'createdAt', label: 'Created At', type: 'date',
-      //   readOnly: false, value: ''
-      // },
-      // {
-      //   id: 'updatedAt', label: 'Updated At', type: 'date',
-      //   readOnly: false, value: ''
-      // },
-      // {
-      //   id: 'temacnt', label: 'temacnt', type: 'Select',
-      //   readOnly: false, value: null, itemList, labelField: 'value', valueField: 'id'
-      // },
-    ]
-    setFormFieldList(test)
-    setDialogFormList(test)
-  }, [ id ])
-
-  // const casttype = (type) => {
-  //   let display = "text"
-  //   switch (type) {
-  //     case "string" :
-  //       display = "text"
-  //       break
-  //     case "long":
-  //       display = "number"
-  //       break
-  //     case "date":
-  //       display = "date"
-  //       break
-  //     default:
-  //       break
-  //   }
-  //   return display
-  // }
-
+  const [ formFieldList, setFormFieldList ] = useState([])
+  const [ dynamicForm, setDynamicForm ] = useState(null)
+  const [ sonForm, setSonForm ] = useState(null)
+  const [ sonFormList, setSonFormList ] = useState([])
+  const [ sonDetailList, setSonDetailList ] = useState([])
+  const [ moduleList, setModuleList ] = useState([])
   const onFormFieldChange = (e, id) => {
     const { value } = e.target
     const values = deepClone(formFieldList)
@@ -104,9 +40,80 @@ function Create() {
     setFormFieldList(values)
   }
 
+  useEffect(() => {
+    Api.getDynamicForm({ deploymentId, userId }).then(({ data }) => {
+      const dyform = data.data
+      setDynamicForm(dyform.dynamicForm)
+      setFormFieldList(dyform.detailList)
+      setSonForm(dyform.sonForm)
+      setSonFormList(dyform.sonFormList)
+      setSonDetailList(dyform.sonDetailList)
+      // DialogField(dyform.dynamicSon, dyform.sonList)
+    })
+  }, [ deploymentId, userId ])
+
+  useEffect(() => {
+    const display = []
+    const fieldList = []
+    const headCells = []
+    for (const son of sonFormList) {
+      const head = {
+        id: son.label,
+        alignment: 'center',
+        label: son.label
+      }
+      const field = {
+        field: son.label,
+        align: 'center'
+      }
+      headCells.push(head)
+      fieldList.push(field)
+    }
+    const tableProp = {
+      type: 'table',
+      headCells,
+      fieldList,
+      rows: sonDetailList,
+      customCreate
+    }
+    display.push(tableProp)
+    setModuleList(display)
+  }, [ sonForm, sonFormList, sonDetailList ])
+
+  const formProp = {
+    type: 'form',
+    title: dynamicForm ? dynamicForm.formKey + ' Form' : '',
+    titleLevel: 3,
+    formFieldList,
+    onFormFieldChange
+  }
+
+  const customCreate = () => {
+    setOpen(true)
+  }
+
+  const  handleClose = () => {
+    setOpen(false)
+  }
+
+  const handleSaveClick = () => {
+    setOpen(false)
+    const form = {
+      id: sonFormList.length + 1
+    }
+    console.log(sonFormList)
+    for (let i = 0; i < sonFormList.length; i++) {
+      form[sonFormList[i].label] = sonFormList[i].value
+    }
+    const values = deepClone(sonDetailList)
+    values.push(form)
+    console.log(values)
+    setSonDetailList(values)
+  }
+
   const onDialogFieldChange = (e, id) => {
     const { value } = e.target
-    const values = deepClone(dialogFormList)
+    const values = deepClone(sonFormList)
     console.log(values)
     for (let i = 0; i < values.length; i++) {
       if (values[i].id === id) {
@@ -118,72 +125,21 @@ function Create() {
       }
     }
     console.log(values)
-    setDialogFormList(values)
-  }
-
-  const handleClose = () => {
-    setOpen(false)
-  }
-
-  const customCreate = () => {
-    setOpen(true)
-  }
-
-  const handleSaveClick = () => {
-    setOpen(false)
-    const form = {
-      id: dialogFormList.length + 1
-    }
-    console.log(dialogFormList)
-    for (let i = 0; i < dialogFormList.length; i++) {
-      form[dialogFormList[i].id] = dialogFormList[i].value
-    }
-    const values = deepClone(rows)
-    values.push(form)
-    console.log(values)
-    setRows(values)
-  }
-
-  const formProp = {
-    type: 'form',
-    title: 'Test Form',
-    titleLevel: 3,
-    formFieldList,
-    onFormFieldChange
-  }
-  const tableProp = {
-    type: 'table',
-    headCells: [
-      { id: 'code', alignment: 'center', label: 'Code' },
-      { id: 'name', alignment: 'center', label: 'Name' },
-      // { id: 'action', alignment: 'right', label: 'Actions' },
-    ],
-    fieldList,
-    // handleDelete,
-    customCreate,
-    rows,
+    setSonFormList(values)
   }
 
   const handleSubmitClick = () => {
-    // const form = {
-    //   processDefinitionId: id,
-    //   startUser: getUser().id.toString()
-    // }
-    // for (let i = 0; i < formFieldList.length; i++) {
-    //   form[formFieldList[i].id] = formFieldList[i].value
-    // }
     const form = {
+      dynamicForm,
+      deploymentId,
+      processDefinitionId: id,
+      startUser: getUser().id.toString(),
       formFieldList,
-      dialogFormList,
-      dialogValueList: rows,
-      dynamicForm: {
-        name: 'vm_location'
-      },
-      vmlocation: {
-        name: 'vm_design'
-      }
+      sonForm,
+      sonDetailList,
+      sonFormList
     }
-    vmApi.create(form).then(() => {
+    Api.save(form).then(() => {
       history.push({ pathname: `/workflow/vm` })
     })
   }
@@ -202,12 +158,13 @@ function Create() {
     { id: 'save', label: 'Save', color: 'primary', onClick: handleSaveClick, disabled: false },
     { id: 'cancel', label: 'Cancel', color: 'default', onClick: handleClose, disabled: false },
   ]
+
   return (
     <React.Fragment>
       <ComplexForm
-        title={'Test'}
+        title={dynamicForm ? dynamicForm.formKey : ''}
         titleLevel={1}
-        moduleList={[ formProp, tableProp ]}
+        moduleList={[ formProp, ...moduleList ]}
         buttonList={buttonList}
       />
       <DialogForm
@@ -215,7 +172,7 @@ function Create() {
         handleClose={handleClose}
         open={open}
         titleLevel={1}
-        formFieldList = {dialogFormList}
+        formFieldList = {sonFormList}
         onFormFieldChange = {onDialogFieldChange}
         buttonList={dialogButtonList}
       />

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react"
 import ComplexForm from "../../../../../components/ComplexForm"
 import Api from "../../../../../api/workFlow"
-import { useParams, useLocation } from "react-router-dom"
+import { useLocation } from "react-router-dom"
 // import { cloneDeep } from "lodash"
 
 // const formatDateTime = (str) => {
@@ -17,7 +17,7 @@ function Detail() {
   //     id: 2, name: 'row2', code: 'r2', createdAt: formatDateTime(new Date()), updatedAt: formatDateTime(new Date()),
   //   }
   // ])
-  const { id } = useParams()
+  // const { id } = useParams()
   const { procDefId } = useLocation().state
   console.log(procDefId)
   const [ formFieldList, setFormFieldList ] = useState([])
