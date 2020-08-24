@@ -79,7 +79,7 @@ function Create() {
       headCells,
       fieldList,
       rows: sonDetailList,
-      customCreate
+      // customCreate
     }
     display.push(tableProp)
     setModuleList(display)
@@ -87,15 +87,17 @@ function Create() {
 
   const formProp = {
     type: 'form',
-    title: dynamicForm ? dynamicForm.formKey + ' Form' : '',
+    // title: dynamicForm ? dynamicForm.formKey + ' Form' : '',
+    title: 'VM',
     titleLevel: 3,
+    isCommon: true,
     formFieldList,
     onFormFieldChange
   }
 
-  const customCreate = () => {
-    setOpen(true)
-  }
+  // const customCreate = () => {
+  //   setOpen(true)
+  // }
 
   const  handleClose = () => {
     setOpen(false)
@@ -147,8 +149,8 @@ function Create() {
   //   })
   // }
 
-  const handleClick = (_, id) => {
-    alert(id)
+  const handleClick = () => {
+    history.push({ pathname: `/MyApproval` })
   }
 
   const handleRejectTaskClick = () => {
@@ -185,13 +187,15 @@ function Create() {
   return (
     <React.Fragment>
       <ComplexForm
-        title={dynamicForm ? dynamicForm.formKey : ''}
+        // title={dynamicForm ? dynamicForm.formKey : ''}
+        title={'VM'}
         titleLevel={1}
         moduleList={[ formProp, ...moduleList ]}
         buttonList={buttonList}
       />
       <DialogForm
-        title={'text'}
+        // title={'text'}
+        title={'VM'}
         handleClose={handleClose}
         open={open}
         titleLevel={1}

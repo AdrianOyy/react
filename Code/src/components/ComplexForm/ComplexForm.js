@@ -10,6 +10,7 @@ import FormTable from "../FormTable"
 import { spacing } from "@material-ui/system"
 import { makeStyles } from '@material-ui/core/styles'
 import styled from "styled-components"
+import CommonForm from "../CommonForm"
 
 
 const Divider = styled(MuiDivider)(spacing)
@@ -43,17 +44,30 @@ export default function ComplexForm(props) {
       onBtnClick,
       onFormFieldBlur,
       showHR,
+      isCommon,
     } = module
 
     return (
       <React.Fragment>
-        <DynamicForm
-          formFieldList = {formFieldList}
-          onFormFieldChange = {onFormFieldChange}
-          showBtn = {showBtn}
-          onBtnClick = {onBtnClick}
-          onFormFieldBlur = {onFormFieldBlur}
-        />
+        {
+          isCommon ? (
+            <CommonForm
+              formFieldList={formFieldList}
+              onFormFieldChange={onFormFieldChange}
+              showBtn={showBtn}
+              onBtnClick={onBtnClick}
+              onFormFieldBlur={onFormFieldBlur}
+            />) :
+            (
+              <DynamicForm
+                formFieldList={formFieldList}
+                onFormFieldChange={onFormFieldChange}
+                showBtn={showBtn}
+                onBtnClick={onBtnClick}
+                onFormFieldBlur={onFormFieldBlur}
+              />
+            )
+        }
         {
           showHR && <Divider my={6} />
         }

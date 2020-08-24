@@ -62,6 +62,8 @@ function List(props) {
       const rowModel = {
         procInstId: el.procInstId,
         procDefId: el.procDefId,
+        deploymentId: el.deploymentId,
+        name: el.name,
         startTime: formatDateTime(el.startTime),
         endTime: el.endTime ? formatDateTime(el.endTime) : '',
         state: el.endTime ?  "已完成" : "进行中",
@@ -78,6 +80,7 @@ function List(props) {
   // 表头字段列表
   const headCells = [
     { id: 'procDefId', alignment: 'center', label: 'Id' },
+    { id: 'name', alignment: 'center', label: 'Name' },
     { id: 'startTime', alignment: 'center', label: 'Start Date' },
     { id: 'endTime', alignment: 'center', label: 'End Date' },
     { id: 'state', alignment: 'center', label: 'State' },
@@ -87,6 +90,7 @@ function List(props) {
   // 每行显示的字段
   const fieldList = [
     { field: 'procDefId', align: 'center' },
+    { field: 'name', align: 'center' },
     { field: 'startTime', align: 'center' },
     { field: 'endTime', align: 'center' },
     { field: 'state', align: 'center' }
