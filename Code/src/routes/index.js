@@ -48,6 +48,7 @@ const VMAllocation = async(() => import("../pages/workFlow/VMAllocation"))
 const VMProvisioning = async(() => import("../pages/workFlow/VMProvisioning/"))
 // IP Assignment
 const IPAssignment = async(() => import("../pages/workFlow/IPAssignment/"))
+const Platform = async(() => import("../pages/resources/Platform/"))
 
 // tenant quota mapping
 const tenantQuotaMapping = async(() => import("../pages/aaa-service/tenantQuotaMapping"))
@@ -274,7 +275,7 @@ const resourceRoutes = {
     {
       path: "/resources/platform",
       name: "Platform",
-      component: ExpPanels
+      component: Platform
     },
   ]
 }
