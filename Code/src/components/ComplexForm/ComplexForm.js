@@ -1,5 +1,5 @@
 import React from "react"
-import CommonForm from "../CommonForm"
+import DynamicForm from '../DynamicForm'
 import {
   Paper,
   Divider as MuiDivider,
@@ -37,8 +37,6 @@ export default function ComplexForm(props) {
 
   const formHandle = (module) => {
     const {
-      title,
-      titleLevel,
       formFieldList,
       onFormFieldChange,
       showBtn,
@@ -49,9 +47,7 @@ export default function ComplexForm(props) {
 
     return (
       <React.Fragment>
-        <CommonForm
-          formTitle={title}
-          titleLevel={titleLevel}
+        <DynamicForm
           formFieldList = {formFieldList}
           onFormFieldChange = {onFormFieldChange}
           showBtn = {showBtn}
@@ -128,7 +124,7 @@ export default function ComplexForm(props) {
                   </div>
                 )
               default:
-                return <div></div>
+                return <div key={i + '__' + module.title}></div>
             }
           })
         }

@@ -6,7 +6,6 @@ import {
   Card as MuiCard,
   Paper as MuiPaper,
   TextField as MuiTextField,
-  Typography,
   Grid,
   Switch
 } from "@material-ui/core"
@@ -25,10 +24,8 @@ const TextField = styled(TextFieldSpacing)`width: 200px;`
 
 const Button = styled(MuiButton)(spacing)
 
-function CommonForm(props) {
+function DynamicForm(props) {
   const {
-    formTitle,
-    titleLevel,
     formFieldList,
     onFormFieldChange,
     showBtn,
@@ -36,7 +33,8 @@ function CommonForm(props) {
     onFormFieldBlur,
     spacing,
   } = props
-  const handleDataChange = (value, id) => {
+
+  const handleDataChange = (value, id, i) => {
     const data = {
       target: {
         value
@@ -47,9 +45,6 @@ function CommonForm(props) {
   return (
     <Card mb={6}>
       <CardContent>
-        <Typography variant={titleLevel ? `h${titleLevel}` : 'h2'} gutterBottom>
-          { formTitle }
-        </Typography>
         <Paper mt={0}>
           <form noValidate autoComplete="off">
             <Grid container spacing={spacing ? spacing : 3}>
@@ -68,9 +63,8 @@ function CommonForm(props) {
                           disabled={field.disabled || false}
                           variant="outlined"
                           required={field.required || false}
-                          onChange={!field.readOnly ? (event) => onFormFieldChange(event, field.id) : null}
+                          onChange={!field.readOnly && onFormFieldChange ? (event) => onFormFieldChange(event, field.id, i) : null}
                           onBlur={!field.readOnly && onFormFieldBlur ? (e) => onFormFieldBlur(e, field.id) : null}
-                          value={field.value}
                           InputProps={{
                             readOnly: field.readOnly
                           }}
@@ -95,14 +89,14 @@ function CommonForm(props) {
                           value = {field.value === '' ? null : field.value}
                           style={{ marginTop: "5ch", marginRight: "10ch" }}
                           disabled = {field.readOnly}
-                          onChange = {(event) => handleDataChange(event, field.id)}
+                          onChange = {(event) => handleDataChange(event, field.id, i)}
                         />
                       )
                     case 'boolean':
                       return  (
                         <Switch
                           checked={field.value}
-                          onChange={(event) => handleDataChange(event, field.id)}
+                          onChange={(event) => handleDataChange(event, field.id, i)}
                           color="primary"
                           key = {field.id + field.label}
                           inputProps={{ 'aria-label': 'primary checkbox' }}
@@ -117,7 +111,7 @@ function CommonForm(props) {
                           label = {field.label}
                           error = {field.error || false}
                           helperText = {field.helperText || ''}
-                          value={field.value || ''}
+                          // value={field.value || ''}
                           disabled={field.disabled || false}
                           outlined={true}
                           itemList={field.itemList}
@@ -125,7 +119,7 @@ function CommonForm(props) {
                           valueField={field.valueField}
                           width={1}
                           hasMt={true}
-                          onSelectChange={!field.readOnly ? (event) => onFormFieldChange(event, field.id) : null}
+                          onSelectChange={!field.readOnly ? (event) => onFormFieldChange(event, field.id, i) : null}
                         />
                       )
                     default:
@@ -181,4 +175,4 @@ function CommonForm(props) {
   )
 }
 
-export default CommonForm
+export default DynamicForm
