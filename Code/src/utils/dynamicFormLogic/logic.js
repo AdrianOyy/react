@@ -1,11 +1,12 @@
-import vmAllocation from "./vmAllocation"
+import VMAllocation from "./VMAllocation"
+import Common from "./Common"
 
-function getLogic(formKey) {
-  switch (formKey) {
-    case 'vmAllocation3':
-      return new vmAllocation()
+function getLogic(workflowName) {
+  switch (workflowName) {
+    case 'VM Allocation':
+      return new VMAllocation()
     default:
-      break
+      return new Common()
   }
 }
 

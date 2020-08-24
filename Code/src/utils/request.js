@@ -8,7 +8,7 @@ import CommonTip from '../components/CommonTip'
 axios.defaults.baseURL = process.env.REACT_APP_BASE_API
 axios.defaults.headers.common['Content-Type'] =
   'application/json, charset=UTF-8'
-// axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*'
+// axios.defaults.headers.Common['Access-Control-Allow-Origin'] = '*'
 
 
 const axiosInstance = axios.create({

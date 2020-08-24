@@ -123,7 +123,7 @@ const dashboardsRoutes = {
   containsHome: true,
   children: [
     // {
-    //   path: "/dashboard/default",
+    //   path: "/dashboard/Common",
     //   name: "Default",
     //   component: Default
     // },

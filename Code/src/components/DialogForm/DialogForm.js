@@ -10,7 +10,7 @@ import {
 } from '@material-ui/core'
 
 import CloseIcon from '@material-ui/icons/Close'
-import CommonForm from "../CommonForm"
+import DynamicForm from "../DynamicForm"
 
 const useStyles = makeStyles((theme) => ({
   appBar: {
@@ -59,7 +59,7 @@ function DialogForm(props) {
             {/* </Button>*/}
           </Toolbar>
         </AppBar>
-        <CommonForm
+        <DynamicForm
           formTitle={title}
           titleLevel={titleLevel}
           formFieldList = {formFieldList}

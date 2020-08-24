@@ -106,13 +106,11 @@ function Create() {
     const form = {
       id: sonFormList.length + 1
     }
-    console.log(sonFormList)
     for (let i = 0; i < sonFormList.length; i++) {
       form[sonFormList[i].label] = sonFormList[i].value
     }
     const values = deepClone(sonDetailList)
     values.push(form)
-    console.log(values)
     setSonDetailList(values)
   }
 
