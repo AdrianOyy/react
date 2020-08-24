@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useHistory } from "react-router-dom"
+import { withStyles } from '@material-ui/core/styles';
 import {
   Grid,
   TablePagination,
@@ -10,7 +11,7 @@ import {
   DialogContent,
   Button
 } from "@material-ui/core"
-
+import MuiDialogTitle from '@material-ui/core/DialogTitle';
 import { CommonTable, SearchBar } from '../../../../../components'
 import API from "../../../../../api/workFlow"
 import styled from "styled-components"
@@ -20,12 +21,41 @@ import { getUser } from "../../../../../utils/user"
 import {
   EventAvailable as EventAvailableIcon,
   BorderColorOutlined as BorderColorIcon,
+  Close as CloseIcon,
 } from "@material-ui/icons"
 
 const Paper = styled(MuiPaper)(spacing)
 const formatDateTime = (str) => {
   return dayjs(new Date(str)).format('YYYY-MM-DD HH:mm')
 }
+
+const styles = (theme) => ({
+  root: {
+    margin: 0,
+    padding: theme.spacing(2),
+  },
+  closeButton: {
+    position: 'absolute',
+    right: theme.spacing(1),
+    top: theme.spacing(1),
+    color: theme.palette.grey[500],
+  },
+});
+
+const DialogTitle = withStyles(styles)((props) => {
+  const { children, classes, onClose, ...other } = props;
+  return (
+    <MuiDialogTitle disableTypography className={classes.root} {...other}>
+      <Typography variant="h6">{children}</Typography>
+      {onClose ? (
+        <IconButton aria-label="close" className={classes.closeButton} onClick={onClose}>
+          <CloseIcon />
+        </IconButton>
+      ) : null}
+    </MuiDialogTitle>
+  );
+});
+
 const tableName = 'My Request'
 
 function List(props) {
@@ -62,7 +92,6 @@ function List(props) {
       const rowModel = {
         procInstId: el.procInstId,
         procDefId: el.procDefId,
-        name: el.name,
         startTime: formatDateTime(el.startTime),
         endTime: el.endTime ? formatDateTime(el.endTime) : '',
         state: el.endTime ?  "已完成" : "进行中",
@@ -78,21 +107,19 @@ function List(props) {
   }
   // 表头字段列表
   const headCells = [
-    { id: 'name', alignment: 'center', label: 'Work Flow' },
+    { id: 'procDefId', alignment: 'center', label: 'Id' },
     { id: 'startTime', alignment: 'center', label: 'Start Date' },
     { id: 'endTime', alignment: 'center', label: 'End Date' },
     { id: 'state', alignment: 'center', label: 'State' },
-    { id: 'assignee', alignment: 'center', label: 'Assignee' },
     { id: 'action', alignment: 'right', label: 'Action' },
   ]
 
   // 每行显示的字段
   const fieldList = [
-    { field: 'name', align: 'center' },
+    { field: 'procDefId', align: 'center' },
     { field: 'startTime', align: 'center' },
     { field: 'endTime', align: 'center' },
-    { field: 'state', align: 'center' },
-    { field: 'assignee', align: 'center' },
+    { field: 'state', align: 'center' }
   ]
 
   const searchBarFieldList = [
@@ -185,10 +212,15 @@ function List(props) {
             />
             <Dialog
               open={open}
+              fullWidth={true}
+              maxWidth="lg"
               aria-labelledby="image-modal-title"
               aria-describedby="iamge-modal-description"
             >
-              <DialogTitle id="form-dialog-title">Activiti</DialogTitle>
+              {/*<DialogTitle id="form-dialog-title">Activiti</DialogTitle>*/}
+              <DialogTitle id="customized-dialog-title" onClose={handleClose}>
+                Activiti
+              </DialogTitle>
               <DialogContent>
                 <img alt="" src={image} />
               </DialogContent>
