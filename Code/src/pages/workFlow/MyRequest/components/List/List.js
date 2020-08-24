@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import { useHistory } from "react-router-dom"
-import { withStyles } from '@material-ui/core/styles';
 import {
   Grid,
   TablePagination,
@@ -11,7 +10,7 @@ import {
   DialogContent,
   Button
 } from "@material-ui/core"
-import MuiDialogTitle from '@material-ui/core/DialogTitle';
+
 import { CommonTable, SearchBar } from '../../../../../components'
 import API from "../../../../../api/workFlow"
 import styled from "styled-components"
@@ -21,41 +20,12 @@ import { getUser } from "../../../../../utils/user"
 import {
   EventAvailable as EventAvailableIcon,
   BorderColorOutlined as BorderColorIcon,
-  Close as CloseIcon,
 } from "@material-ui/icons"
 
 const Paper = styled(MuiPaper)(spacing)
 const formatDateTime = (str) => {
   return dayjs(new Date(str)).format('YYYY-MM-DD HH:mm')
 }
-
-const styles = (theme) => ({
-  root: {
-    margin: 0,
-    padding: theme.spacing(2),
-  },
-  closeButton: {
-    position: 'absolute',
-    right: theme.spacing(1),
-    top: theme.spacing(1),
-    color: theme.palette.grey[500],
-  },
-});
-
-const DialogTitle = withStyles(styles)((props) => {
-  const { children, classes, onClose, ...other } = props;
-  return (
-    <MuiDialogTitle disableTypography className={classes.root} {...other}>
-      <Typography variant="h6">{children}</Typography>
-      {onClose ? (
-        <IconButton aria-label="close" className={classes.closeButton} onClick={onClose}>
-          <CloseIcon />
-        </IconButton>
-      ) : null}
-    </MuiDialogTitle>
-  );
-});
-
 const tableName = 'My Request'
 
 function List(props) {
@@ -217,10 +187,7 @@ function List(props) {
               aria-labelledby="image-modal-title"
               aria-describedby="iamge-modal-description"
             >
-              {/*<DialogTitle id="form-dialog-title">Activiti</DialogTitle>*/}
-              <DialogTitle id="customized-dialog-title" onClose={handleClose}>
-                Activiti
-              </DialogTitle>
+              <DialogTitle id="form-dialog-title">Activiti</DialogTitle>
               <DialogContent>
                 <img alt="" src={image} />
               </DialogContent>
