@@ -10,7 +10,7 @@ import { checkEmpty } from "../../untils/tenantFieldCheck"
 import adGroupApi from "../../../../../api/adGroup"
 
 
-function TenantDetail(props) {
+function Update(props) {
   const { onMount } = props
   const { id } = useParams()
   const history = useHistory()
@@ -19,6 +19,7 @@ function TenantDetail(props) {
   const [ name, setName ] = useState('')
   const [ managerGroupId, setManagerGroupId ] = useState('')
   const [ supporterGroupId, setSupporterGroupId ] = useState('')
+  const [ groupId, setGroupId ] = useState('')
   
   const [ justification, setjustification ] = useState('')
   const [ justificationError, setjustificationError ] = useState(false)
@@ -45,6 +46,7 @@ function TenantDetail(props) {
   const [ saving, setSaving ] = useState(true)
   const [ nameError, setNameError ] = useState(false)
   const [ nameHelperText, setNameHelperText ] = useState("")
+  const [ adGroupList, setAdGroupList ] = useState([])
   const [ groupList, setGroupList ] = useState([])
 
   useEffect(() => {
@@ -52,15 +54,22 @@ function TenantDetail(props) {
     // eslint-disable-next-line
   }, [])
 
-  // 获取 groupList
+  // 获取 adGroupList groupList
   useEffect(() => {
     adGroupApi.list({ limit: 999, page: 1 })
       .then(({ data }) => {
         if (data && data.data) {
           const { rows } = data.data
-          setGroupList(rows)
+          console.log(rows)
+          setAdGroupList(rows)
         }
       })
+    API.listGroup({ limit: 999, page: 1 }).then(({ data }) => {
+      if (data && data.data) {
+        const { rows } = data.data
+        setGroupList(rows)
+      }
+    })
   }, [])
 
   const formatDateTime = (str) => {
@@ -86,6 +95,7 @@ function TenantDetail(props) {
       { name,
         manager_group_id: managerGroupId,
         supporter_group_id: supporterGroupId,
+        group_id: groupId,
         justification,
         budget_type, project_owner, contact_person,
         project_estimation, methodology_text
@@ -102,7 +112,7 @@ function TenantDetail(props) {
   useEffect(() => {
     API.detail(id).then(({ data }) => {
       const {
-        name, code, manager_group_id, supporter_group_id,
+        name, code, manager_group_id, supporter_group_id, group_id,
         justification,
         budget_type, project_owner, contact_person,
         project_estimation, methodology_text,
@@ -112,6 +122,7 @@ function TenantDetail(props) {
       setCode(code)
       setManagerGroupId(manager_group_id)
       setSupporterGroupId(supporter_group_id)
+      setGroupId(group_id)
       setjustification(justification)
       setbudget_type(budget_type)
       setproject_owner(project_owner)
@@ -134,14 +145,18 @@ function TenantDetail(props) {
         value: name, error: nameError, helperText: nameHelperText
       },
       {
-        id: 'managerGroupId', label: 'Manager Group', type: "Select",
-        readOnly: false, itemList: groupList, value: managerGroupId,
+        id: 'managerGroupId', label: 'Manager Group', type: "select",
+        readOnly: false, itemList: adGroupList, value: managerGroupId,
         labelField: 'name', valueField: 'id',
       },
       {
-        id: 'supporterGroupId', label: 'Supporter Group', type: "Select",
-        readOnly: false, itemList: groupList, value: supporterGroupId,
+        id: 'supporterGroupId', label: 'Supporter Group', type: "select",
+        readOnly: false, itemList: adGroupList, value: supporterGroupId,
         labelField: 'name', valueField: 'id',
+      },
+      {
+        id: 'groupId', label: 'Group', required: true, itemList: groupList,
+        type: "select", labelField: 'name', valueField: 'id', value: groupId,
       },
       {
         id: 'justification', label: 'justification', type: 'text', required: true, readOnly: false,
@@ -184,7 +199,8 @@ function TenantDetail(props) {
     ]
     setFormFieldList(list)
   }, [
-    name, code, managerGroupId, supporterGroupId, groupList,
+    name, code, managerGroupId, supporterGroupId, adGroupList,
+    groupId, groupList,
     justification,
     budget_type, project_owner, contact_person,
     project_estimation, methodology_text,
@@ -208,6 +224,9 @@ function TenantDetail(props) {
         break
       case 'supporterGroupId':
         setSupporterGroupId(value)
+        break
+      case 'groupId':
+        setGroupId(value)
         break
       case 'justification':
         setjustification(value)
@@ -323,4 +342,4 @@ function TenantDetail(props) {
   )
 }
 
-export default TenantDetail
+export default Update

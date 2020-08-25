@@ -7,6 +7,9 @@ class tenant {
   list(params, options) {
     return request.get(`${prefix}/tenant/list`, params, options)
   }
+  listGroup(params, options) {
+    return request.get(`${prefix}/group/list`, params, options)
+  }
   create(params) {
     return request.post(`${prefix}/tenant/create`, params)
   }

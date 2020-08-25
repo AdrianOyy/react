@@ -27,6 +27,10 @@ function Create(props) {
   const [ supporterGroupIdError, setSupporterGroupIdError ] = useState(false)
   const [ supporterGroupIdHelperText, setSupporterGroupIdHelperText ] = useState("")
   const [ supporterGroupIdInit, setSupporterGroupIdInit ] = useState(false)
+  const [ groupId, setgroupId ] = useState('')
+  const [ groupIdError, setgroupIdError ] = useState(false)
+  const [ groupIdHelperText, setgroupIdHelperText ] = useState("")
+  const [ groupIdInit, setgroupIdInit ] = useState(false)
 
   const [ justification, setjustification ] = useState('')
   const [ justificationError, setjustificationError ] = useState(false)
@@ -55,6 +59,7 @@ function Create(props) {
 
   const [ formFieldList, setFormFieldList ] = useState([])
   const [ saving, setSaving ] = useState(false)
+  const [ adGroupList, setAdGroupList ] = useState([])
   const [ groupList, setGroupList ] = useState([])
 
   useEffect(() => {
@@ -62,12 +67,18 @@ function Create(props) {
     // eslint-disable-next-line
   }, [])
 
-  // 获取 groupList
+  // 获取 adGroupList groupList
   useEffect(() => {
     adGroupApi.list({ limit: 999, page: 1 }).then(({ data }) => {
       if (data && data.data) {
         const { rows } = data.data
-        console.log("111111", rows)
+        setAdGroupList(rows)
+      }
+    })
+    API.listGroup({ limit: 999, page: 1 }).then(({ data }) => {
+      if (data && data.data) {
+        const { rows } = data.data
+        console.log('111', rows)
         setGroupList(rows)
       }
     })
@@ -78,13 +89,14 @@ function Create(props) {
     const codeErr = await codeCheck()
     const manaErr = await managerGroupCheck()
     const suppErr = await supporterGroupCheck()
+    const groupIdErr = await groupIdCheck()
     const justificationErr = await justificationCheck()
     const budget_typeErr = await budget_typeCheck()
     const project_ownerErr = await project_ownerCheck()
     const contact_personErr = await contact_personCheck()
     const project_estimatioErr = await project_estimationCheck()
     const methodology_textErr = await methodology_textCheck()
-    if (nameErr || codeErr || manaErr || suppErr
+    if (nameErr || codeErr || manaErr || suppErr || groupIdErr
       || justificationErr || budget_typeErr
       || project_ownerErr || contact_personErr || project_estimatioErr
       || methodology_textErr || saving) {
@@ -95,6 +107,7 @@ function Create(props) {
       name, code,
       manager_group_id: managerGroupId,
       supporter_group_id: supporterGroupId,
+      group_id: groupId,
       justification,
       budget_type, project_owner, contact_person,
       project_estimation, methodology_text
@@ -119,14 +132,19 @@ function Create(props) {
         value: name, error: nameError, helperText: nameHelperText
       },
       {
-        id: 'managerGroupId', label: 'Manager Group', required: true, itemList: groupList,
+        id: 'managerGroupId', label: 'Manager Group', required: true, itemList: adGroupList,
         type: "select", labelField: 'name', valueField: 'id', value: managerGroupId,
         error: managerGroupIdError, helperText: managerGroupIdHelperText, width: 1.2, labelWidth: 104
       },
       {
-        id: 'supporterGroupId', label: 'Supporter Group', required: true, itemList: groupList,
+        id: 'supporterGroupId', label: 'Supporter Group', required: true, itemList: adGroupList,
         type: "select", labelField: 'name', valueField: 'id', value: supporterGroupId,
         error: supporterGroupIdError, helperText: supporterGroupIdHelperText, width: 1.2, labelWidth: 108
+      },
+      {
+        id: 'groupId', label: 'Group', required: true, itemList: groupList,
+        type: "select", labelField: 'name', valueField: 'id', value: groupId,
+        error: groupIdError, helperText: groupIdHelperText, width: 1.2, labelWidth: 108
       },
       {
         id: 'justification', label: 'justification', type: 'text', required: true, readOnly: false,
@@ -161,9 +179,10 @@ function Create(props) {
     ]
     setFormFieldList(list)
   }, [
-    name, nameError, nameHelperText, code, codeError, groupList,
+    name, nameError, nameHelperText, code, codeError, adGroupList,
     codeHelperText, managerGroupId, managerGroupIdError, managerGroupIdHelperText,
     supporterGroupId, supporterGroupIdError, supporterGroupIdHelperText,
+    groupId, groupIdError, groupIdHelperText,
     justification,
     budget_type, project_owner, contact_person,
     project_estimation, methodology_text,
@@ -189,6 +208,9 @@ function Create(props) {
         break
       case 'supporterGroupId':
         setSupporterGroupId(value)
+        break
+      case 'groupId':
+        setgroupId(value)
         break
       case 'justification':
         setjustification(value)
@@ -252,6 +274,13 @@ function Create(props) {
     const emptyCheck = checkEmpty("Supporter Group", supporterGroupId)
     setSupporterGroupIdError(emptyCheck.error)
     setSupporterGroupIdHelperText(emptyCheck.msg)
+    return emptyCheck.error
+  }
+
+  const groupIdCheck = async () => {
+    const emptyCheck = checkEmpty("groupId", groupId)
+    setgroupIdError(emptyCheck.error)
+    setgroupIdHelperText(emptyCheck.msg)
     return emptyCheck.error
   }
 
@@ -332,6 +361,15 @@ function Create(props) {
     }
     // eslint-disable-next-line
   }, [supporterGroupId])
+
+  useEffect(() => {
+    if (groupIdInit) {
+      groupIdCheck()
+    } else {
+      setgroupIdInit(true)
+    }
+    // eslint-disable-next-line
+  }, [groupId])
 
   useEffect(() => {
     if (justificationInit) {
