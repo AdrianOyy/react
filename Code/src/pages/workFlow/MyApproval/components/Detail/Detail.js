@@ -79,6 +79,7 @@ function Create() {
       headCells,
       fieldList,
       rows: sonDetailList,
+      hideCreate: false,
       // customCreate
     }
     display.push(tableProp)
@@ -174,8 +175,8 @@ function Create() {
   }
 
   const buttonList = [
-    { id: 'reject', label: 'reject', color: 'primary', onClick: handleRejectTaskClick, disabled: false },
-    { id: 'agree', label: 'agree', color: 'secondary', onClick: handleAgrreTaskClick, disabled: false },
+    { id: 'reject', label: 'Reject', color: 'primary', onClick: handleRejectTaskClick, disabled: false },
+    { id: 'pass', label: 'Pass', color: 'secondary', onClick: handleAgrreTaskClick, disabled: false },
     { id: 'cancel', label: 'Cancel', color: 'default', onClick: handleClick, disabled: false },
   ]
 

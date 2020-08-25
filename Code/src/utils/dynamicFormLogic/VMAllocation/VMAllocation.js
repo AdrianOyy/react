@@ -27,8 +27,10 @@ export default class VMAllocation {
               ramInput.value = 8 * parseInt(value)
               const next = ramInput.nextElementSibling || ramInput.nextSibling
               const target = next.firstChild || next.firstElementChild
-              target.className = 'PrivateNotchedOutline-legendLabelled-508 PrivateNotchedOutline-legendNotched-509'
+              target.style = "width: auto;height: 11px;display: block;padding: 0;font-size: 0.75em;max-width: 0.01px;text-align: left;transition: max-width 50ms cubic-bezier(0.0, 0, 0.2, 1) 0ms;visibility: hidden;max-width: 1000px;transition: max-width 100ms cubic-bezier(0.0, 0, 0.2, 1) 50ms;"
+              // target.className = 'jss508 jss509 PrivateNotchedOutline-legendLabelled-508 PrivateNotchedOutline-legendNotched-509'
               const ramLabel = document.getElementById('RAMRequestNumber-label')
+              // console.log(ramLabel)
               ramLabel.className = 'MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined MuiFormLabel-filled'
               break
             }

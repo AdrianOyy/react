@@ -60,13 +60,13 @@ function List(props) {
     const rows = []
     rawDataList.forEach((el) => {
       const rowModel = {
-        procInstId: el.procInstId,
+        id: el.procInstId,
         procDefId: el.procDefId,
         deploymentId: el.deploymentId,
         name: el.name,
         startTime: formatDateTime(el.startTime),
         endTime: el.endTime ? formatDateTime(el.endTime) : '',
-        state: el.endTime ?  "已完成" : "进行中",
+        state: el.endTime ?  "completed" : "processing",
         assignee: el.assignee,
       }
       rows.push(rowModel)
@@ -174,6 +174,7 @@ function List(props) {
             <CommonTable
               rows={rows}
               tableName={tableName}
+              hideCheckBox={true}
               deleteAPI={API.deleteMany}
               handleSearch={handleSearch}
               hideUpdate={true}
@@ -181,7 +182,7 @@ function List(props) {
               path={path}
               headCells={headCells}
               fieldList={fieldList}
-              hideCreate={false}
+              hideCreate={true}
               actionList={actionList}
             />
             <Dialog

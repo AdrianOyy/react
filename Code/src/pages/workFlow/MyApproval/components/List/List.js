@@ -166,6 +166,7 @@ function List(props) {
               tableName={tableName}
               deleteAPI={API.deleteMany}
               handleSearch={handleSearch}
+              hideCheckBox={true}
               hideUpdate={true}
               hideDetail={true}
               hideImage={true}
