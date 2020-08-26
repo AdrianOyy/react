@@ -83,7 +83,7 @@ const Brand = styled(ListItem)`
 // const BrandChip = styled(Chip)`
 //   background-color: ${green[700]};
 //   border-radius: 5px;
-//   color: ${props => props.theme.palette.common.white};
+//   color: ${props => props.theme.palette.Common.white};
 //   font-size: 60%;
 //   height: 20px;
 //   margin-left: 2px;

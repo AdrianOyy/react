@@ -11,6 +11,7 @@ import API from "../../../../../api/workFlow"
 import PlayCircleFilledWhiteOutlinedIcon from '@material-ui/icons/PlayCircleFilledWhiteOutlined'
 import styled from "styled-components"
 import { spacing } from "@material-ui/system"
+import formatDateTime from "../../../../../utils/formatDateTime"
 
 const Paper = styled(MuiPaper)(spacing)
 const tableName = 'VM Allocation'
@@ -32,21 +33,22 @@ function List(props) {
   }, [])
 
   useEffect(() => {
-    API.getProcessList()
-      .then(response => {
-        setTotal(response.data.total)
-        handleData(response.data.data)
+    API.getProcessList({ ...query, limit: rowsPerPage, page: page + 1 })
+      .then(({ data }) => {
+        setTotal(data.total)
+        handleData(data.list)
       })
   }, [ page, rowsPerPage, query ])
 
   const handleData = (rawDataList) => {
     const rows = []
-    rawDataList.forEach((el) => {
+    rawDataList && rawDataList.forEach((el) => {
       const rowModel = {
         id: el.id,
         deploymentId: el.deploymentId,
-        deploymentUrl: el.deploymentUrl,
-        category: el.category,
+        version: el.version,
+        workflowName: el.name,
+        deployTime: formatDateTime(el.deployTime)
       }
       rows.push(rowModel)
     })
@@ -55,19 +57,21 @@ function List(props) {
 
   // 表头字段列表
   const headCells = [
-    { id: 'id', alignment: 'center', label: 'Id' },
+    // { id: 'id', alignment: 'center', label: 'Id' },
     { id: 'deploymentId', alignment: 'center', label: 'Deployment Id' },
-    { id: 'deploymentUrl', alignment: 'center', label: 'Deployment Url' },
-    { id: 'category', alignment: 'center', label: 'Category' },
+    { id: 'version', alignment: 'center', label: 'Version' },
+    { id: 'workflowName', alignment: 'center', label: 'Workflow name' },
+    { id: 'deployTime', alignment: 'center', label: 'Deploy Time' },
     { id: 'action', alignment: 'right', label: 'Action' },
   ]
 
   // 每行显示的字段
   const fieldList = [
-    { field: 'id', align: 'center' },
+    // { field: 'id', align: 'center' },
     { field: 'deploymentId', align: 'center' },
-    { field: 'deploymentUrl', align: 'center' },
-    { field: 'category', align: 'center' },
+    { field: 'version', align: 'center' },
+    { field: 'workflowName', align: 'center' },
+    { field: 'deployTime', align: 'center' },
   ]
 
   const handleRunClick = (e, row) => {

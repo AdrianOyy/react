@@ -33,8 +33,8 @@ class WorkFlow {
   startProcess(data) {
     return request.post(`${prefix}/process/startProcess/`, data, { }, url)
   }
-  getProcessList() {
-    return request.get(`${prefix}/repository/process-definitions`, {}, {}, url)
+  getProcessList(params) {
+    return request.get(`${prefix}/deployment/getProcessDefinitions`, params, {}, url)
   }
   getTaskListByGroup(data) {
     return request.post(`${prefix}/runtime/getTaskListByGroup/`, data, { }, url)

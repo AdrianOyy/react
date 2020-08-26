@@ -94,8 +94,8 @@ function CommonForm(props) {
                           helperText = {field.helperText || ''}
                           value = {field.value === '' ? null : field.value}
                           style={{ marginTop: "5ch", marginRight: "10ch" }}
-                          disabled = {field.readOnly}
-                          onChange = {(event) => handleDataChange(event, field.id)}
+                          readOnly = {field.readOnly}
+                          onChange = {handleDataChange && ((event) => handleDataChange(event, field.id))}
                         />
                       )
                     case 'boolean':
@@ -123,7 +123,8 @@ function CommonForm(props) {
                           itemList={field.itemList}
                           labelField={field.labelField}
                           valueField={field.valueField}
-                          width={1}
+                          width={field.width}
+                          labelWidth={field.labelWidth}
                           hasMt={true}
                           onSelectChange={!field.readOnly ? (event) => onFormFieldChange(event, field.id) : null}
                         />

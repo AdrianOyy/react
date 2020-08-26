@@ -78,7 +78,7 @@ function AssignCreate(props) {
       {
         id: 'user', label: 'User', type: 'select', value: userId,
         itemList: userList, labelField: 'displayname', valueField: 'id',
-        error: userError, helperText: userHelperText,
+        error: userError, helperText: userHelperText, labelWidth: 30,
       },
       { id: 'expiryDate', label: 'Expiry Date', type: 'date', disabled: false, readOnly: false,
         required: true, value: expiryDate, error: expiryDateError, helperText: expiryDateHelperText },

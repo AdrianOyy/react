@@ -1,33 +1,27 @@
 import request from '../utils/request'
 import envPrefix from "../utils/prefix"
-import envUrl from "../utils/baseUrl"
 
 const prefix = envPrefix.workflow
-const url = envUrl.workflow
 
 class IPAssignment {
-  list(params, options) {
-    return request.get(`${prefix}/IPAssignment/getIPAssignment`, params, options, url)
+  list(params) {
+    return request.get(`${prefix}/ipAssign/list`, params)
   }
-  create(params) {
-    return request.post(`${prefix}/IPAssignment/createIPAssignment`, params, {}, url)
+  create(data) {
+    return request.post(`${prefix}/ipAssign/create`, data)
   }
-  detail(id) {
-    return request.get(`${prefix}/IPAssignment/getIPAssignmentById?id=${id}`, {}, {}, url)
+  detail(params) {
+    return request.get(`${prefix}/ipAssign/detail`, params)
   }
   update(id, params) {
-    return request.put(`${prefix}/IPAssignment/updateIPAssignment?id=${id}`, params, {}, url)
+    return request.put(`${prefix}/ipAssign/update?id=${id}`, params)
   }
   deleteMany(params) {
-    console.log(params)
-    return request.delete(`${prefix}/IPAssignment/deleteIPAssignment`, params, {}, url)
+    return request.delete(`${prefix}/ipAssign/deleteMany`, params)
   }
-//   createModel(params, options) {
-//     return request.get(`${prefix}/create`, params, options, url)
-//   }
-//   openDesigner(params, options) {
-//     return request.get(`${prefix}/openDesigner`, params, options, url)
-//   }
+  checkIpExist(params) {
+    return request.get(`${prefix}/ipAssign/checkIpExist`, params)
+  }
 }
 
 export default new IPAssignment()

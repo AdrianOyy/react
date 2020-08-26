@@ -16,6 +16,9 @@ class dynamicForm {
   getDynamicFormDetail(params) {
     return request.get(`${prefix}/dynamicForm/getDynamicFormDetail`, params, {}, url)
   }
+  test(params) {
+    return request.get(`${prefix}/dynamicForm/test`, params)
+  }
 }
 
 export default new dynamicForm()

@@ -47,7 +47,8 @@ const approval = async(() => import("../pages/workFlow/MyApproval"))
 const VMAllocation = async(() => import("../pages/workFlow/VMAllocation"))
 const VMProvisioning = async(() => import("../pages/workFlow/VMProvisioning/"))
 // IP Assignment
-const IPAssignment = async(() => import("../pages/workFlow/IPAssignment/"))
+// const IPAssignment = async(() => import("../pages/workFlow/IPAssignment/"))
+const IPAddress = async(() => import("../pages/resources/IPAddress"))
 const Platform = async(() => import("../pages/resources/Platform/"))
 
 // tenant quota mapping
@@ -72,7 +73,7 @@ const assign = async(() => import("../pages/aaa-service/Assign"))
 const expiry = async(() => import("../pages/aaa-service/Expiry"))
 
 // TODO: delete this route after testing
-// const test = async(() => import("../pages/aaa-service/Test"))
+const test = async(() => import("../pages/aaa-service/Test"))
 
 const authRoutes = {
   id: "Auth",
@@ -189,11 +190,11 @@ const aaaServiceRoutes = {
   icon: <Grid />,
   children: [
     // TODO: remove this route after testing
-    // {
-    //   path: "/aaa-service/test/",
-    //   name: "Test",
-    //   component: test,
-    // },
+    {
+      path: "/aaa-service/test/",
+      name: "Test",
+      component: test,
+    },
     {
       path: "/aaa-service/role/",
       name: "Role",
@@ -248,9 +249,9 @@ const resourceRoutes = {
       component: Avatars
     },
     {
-      path: "/resources/IPAddress",
+      path: "/resources/IPAddress/",
       name: "IP Address",
-      component: IPAssignment
+      component: IPAddress
     },
     {
       path: "/resources/network",

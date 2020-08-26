@@ -1,108 +1,38 @@
-import React, { useState } from "react"
-import dayjs from "dayjs"
-import ComplexForm from "../../../components/ComplexForm"
+import React, { useState, useEffect } from "react"
+import Api from "../../../api/dynamicForm"
 
-const formatDateTime = (str) => {
-  return dayjs(new Date(str)).format('YYYY-MM-DD HH:mm')
-}
-
-export default function Test() {
-  const [ rows, setRows ] = useState([
-    {
-      id: 1, name: 'row1', code: 'r1', createdAt: formatDateTime(new Date()), updatedAt: formatDateTime(new Date()),
-    },
-    {
-      id: 2, name: 'row2', code: 'r2', createdAt: formatDateTime(new Date()), updatedAt: formatDateTime(new Date()),
-    }
-  ])
-  const [ name, setName ] = useState('name')
-  const handleDelete = (_, idList) => {
-    for (let i = 0; i < rows.length; i++) {
-      for (let j = 0; j < idList.length; j++) {
-        if (rows[i].id === idList[j]) {
-          // const list = rows
-          // list.splice(i, 1)
-          let list = [
-            {
-              id: 2, name: 'row2', code: 'r2', createdAt: formatDateTime(new Date()), updatedAt: formatDateTime(new Date()),
-            }]
-          setRows(list)
-          break
+function Test() {
+  const [ deploymentId, setDeploymentId ] = useState(0)
+  const [ formKey, setFormKey ] = useState('')
+  const [ workflowName, setWorkflowName ] = useState('')
+  const [ parentFormDetail, setParentFormDetail ] = useState({})
+  const [ sonFormKey, setSonFormKey ] = useState('')
+  const [ sonFormDetail, setSonFormDetail ] = useState({})
+  // 获取渲染表
+  useEffect(() => {
+    Api.test({ deploymentId: 7501 })
+      .then(({ data }) => {
+        console.log('data ================= data')
+        console.log(data.data)
+        console.log('data ================= data')
+        const { deploymentId, formKey, workflowName, dynamicFormDetail, childTable, } = data.data
+        setDeploymentId(deploymentId)
+        setFormKey(formKey)
+        setWorkflowName(workflowName)
+        setParentFormDetail(dynamicFormDetail)
+        if (childTable && childTable.length > 0) {
+          setSonFormKey(childTable[0].formKey)
+          setSonFormDetail(childTable[0].dynamicFormDetail)
         }
-      }
-    }
-    console.log(rows)
-  }
-
-  const onFormFieldChange = (e, id) => {
-    const { value } = e.target
-    switch (id) {
-      case 'name':
-        setName(value)
-        break
-      default:
-        break
-    }
-  }
-
-  const formProp = {
-    type: 'form',
-    title: 'Test Form',
-    titleLevel: 3,
-    formFieldList: [
-      {
-        id: 'code', label: 'Code', type: 'text', readOnly: true, disabled: true, value: 'code',
-      },
-      {
-        id: 'name', label: 'Name', type: 'text', required: true, readOnly: false,
-        value: name
-      },
-      {
-        id: 'createdAt', label: 'Created At', type: 'text', disabled: true,
-        readOnly: true, value: formatDateTime(new Date())
-      },
-      {
-        id: 'updatedAt', label: 'Updated At', type: 'text', disabled: true,
-        readOnly: true, value: formatDateTime(new Date())
-      },
-    ],
-    onFormFieldChange
-  }
-  const tableProp = {
-    type: 'table',
-    headCells: [
-      { id: 'code', alignment: 'center', label: 'Code' },
-      { id: 'name', alignment: 'center', label: 'Name' },
-      { id: 'createdAt', alignment: 'center', label: 'Created At' },
-      { id: 'updatedAt', alignment: 'center', label: 'Updated At' },
-      { id: 'action', alignment: 'right', label: 'Actions' },
-    ],
-    fieldList: [
-      { field: 'code', align: 'center' },
-      { field: 'name', align: 'center' },
-      { field: 'createdAt', align: 'center' },
-      { field: 'updatedAt', align: 'center' }
-    ],
-    handleDelete,
-  }
-
-  const handleClick = (_, id) => {
-    alert(id)
-  }
-
-  const buttonList = [
-    { id: 'check', label: 'Check', color: 'primary', onClick: handleClick, disabled: false },
-    { id: 'submit', label: 'Submit', color: 'secondary', onClick: handleClick, disabled: false },
-    { id: 'cancel', label: 'Cancel', color: 'default', onClick: handleClick, disabled: false },
-  ]
+      })
+  }, [])
   return (
     <React.Fragment>
-      <ComplexForm
-        title={'Test'}
-        titleLevel={1}
-        moduleList={[ formProp, tableProp ]}
-        buttonList={buttonList}
-      />
+      <div>
+        hi
+      </div>
     </React.Fragment>
   )
 }
+
+export default Test
