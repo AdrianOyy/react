@@ -17,6 +17,7 @@ function Detail(props) {
   const [ code, setCode ] = useState('')
   const [ managerGroup, setManagerGroup ] = useState('')
   const [ supporterGroup, setSupporterGroup ] = useState('')
+  const [ group, setGroup ] = useState('')
   const [ justification, setjustification ] = useState('')
   const [ budget_type, setbudget_type ] = useState('')
   const [ project_owner, setproject_owner ] = useState('')
@@ -38,7 +39,7 @@ function Detail(props) {
       .then(({ data }) => {
         if (data && data.data) {
           const {
-            name, code, manager_group, supporter_group,
+            name, code, manager_group, supporter_group, group,
             justification,
             budget_type, project_owner, contact_person,
             project_estimation, methodology_text,
@@ -60,6 +61,9 @@ function Detail(props) {
           if (supporter_group && supporter_group.name) {
             setSupporterGroup(supporter_group.name)
           }
+          if (group && group.name) {
+            setGroup(group.name)
+          }
         }
       })
   }, [ id ])
@@ -70,6 +74,7 @@ function Detail(props) {
       { id: 'name', label: 'Name', type: 'text', disabled: true, readOnly: true, value: name },
       { id: 'managerGroup', label: 'Mangager Group', type: 'text', disabled: true, readOnly: true, value: managerGroup },
       { id: 'supporterGroup', label: 'SupporterGroup', type: 'text', disabled: true, readOnly: true, value: supporterGroup },
+      { id: 'group', label: 'Group', type: 'text', disabled: true, readOnly: true, value: group },
       { id: 'justification', label: 'Justification', type: 'text', disabled: true, readOnly: true, value: justification },
       { id: 'budget_type', label: 'Budget Type', type: 'text', disabled: true, readOnly: true, value: budget_type },
       { id: 'project_owner', label: 'Project Owner', type: 'text', disabled: true, readOnly: true, value: project_owner },
@@ -85,7 +90,7 @@ function Detail(props) {
     justification,
     budget_type, project_owner, contact_person,
     project_estimation, methodology_text,
-    supporterGroup, createdAt, updatedAt ])
+    supporterGroup, group, createdAt, updatedAt ])
 
   return (
     <React.Fragment>

@@ -45,11 +45,12 @@ const WorkflowSetting = async(() => import("../pages/workFlow/WorkflowSetting"))
 const request = async(() => import("../pages/workFlow/MyRequest"))
 const approval = async(() => import("../pages/workFlow/MyApproval"))
 const VMAllocation = async(() => import("../pages/workFlow/VMAllocation"))
-const VMProvisioning = async(() => import("../pages/workFlow/VMProvisioning/"))
+// const VMProvisioning = async(() => import("../pages/workFlow/VMProvisioning/"))
 // IP Assignment
 // const IPAssignment = async(() => import("../pages/workFlow/IPAssignment/"))
 const IPAddress = async(() => import("../pages/resources/IPAddress"))
 const Platform = async(() => import("../pages/resources/Platform/"))
+const VM = async(() => import("../pages/resources/VM/"))
 
 // tenant quota mapping
 const tenantQuotaMapping = async(() => import("../pages/aaa-service/tenantQuotaMapping"))
@@ -241,7 +242,7 @@ const resourceRoutes = {
     {
       path: "/resources/vm",
       name: "VM",
-      component: VMProvisioning
+      component: VM
     },
     {
       path: "/resources/port",
