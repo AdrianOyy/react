@@ -10,6 +10,9 @@ class platform {
   list(params, options) {
     return request.get(`${prefix}/platform/list`, params, options, url)
   }
+  listType(params, options) {
+    return request.get(`${prefix}/platform/listType`, params, options, url)
+  }
   create(params) {
     return request.post(`${prefix}/platform/create`, params, {}, url)
   }

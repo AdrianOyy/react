@@ -11,10 +11,14 @@ function Create(props) {
   const { onMount } = props
   const history = useHistory()
   const [ name, setName ] = useState('')
-  const [ formFieldList, setFormFieldList ] = useState([])
-  const [ saving, setSaving ] = useState(false)
   const [ nameError, setNameError ] = useState(false)
   const [ nameHelperText, setNameHelperText ] = useState("")
+  const [ typeId, setTypeId ] = useState('')
+  const [ typeIdError, setTypeIdError ] = useState(false)
+  const [ typeIdHelperText, setTypeIdHelperText ] = useState("")
+  const [ formFieldList, setFormFieldList ] = useState([])
+  const [ saving, setSaving ] = useState(false)
+  const [ typeList, setTypeList ] = useState([])
 
   useEffect(() => {
     onMount('create')
@@ -23,9 +27,10 @@ function Create(props) {
 
   const handleClick = async () => {
     const nameError = await nameCheck()
-    if (nameError || saving) return
+    const typeIdErr = await typeIdCheck()
+    if (nameError || typeIdErr || saving) return
     setSaving(true)
-    API.create({ name })
+    API.create({ name, typeId })
       .then(() => {
         CommonTip.success("Success")
         history.push({ pathname: '/resources/platform' })
@@ -34,17 +39,44 @@ function Create(props) {
         setSaving(false)
       })
   }
+
+  useEffect(() => {
+    API.listType({ limit: 999, page: 1 }).then(({ data }) => {
+      if (data && data.data) {
+        const { rows } = data.data
+        console.log(rows)
+        setTypeList(rows)
+      }
+    })
+  }, [])
   useEffect(() => {
     const list = [
-      { id: 'name', label: 'Name', type: 'text', required: true, readOnly: false, value: name, error: nameError, helperText: nameHelperText },
+      {
+        id: 'name', label: 'Name', type: 'text',
+        required: true, readOnly: false, value: name,
+        error: nameError, helperText: nameHelperText
+      },
+      {
+        id: 'typeId', label: 'Type', type: 'select',
+        value: typeId, itemList: typeList,
+        labelField: 'name', valueField: 'id',
+        error: typeIdError, helperText: typeIdHelperText,
+      },
     ]
     setFormFieldList(list)
-  }, [ name, nameError, nameHelperText ])
+  }, [
+    name, nameError, nameHelperText,
+    typeId, typeIdError, typeIdHelperText,
+    typeList,
+  ])
   const onFormFieldChange = (e, id) => {
     const { value } = e.target
     switch (id) {
       case 'name':
         setName(value)
+        break
+      case 'typeId':
+        setTypeId(value)
         break
       default:
         break
@@ -64,10 +96,20 @@ function Create(props) {
     return emptyCheck.error
   }
 
+  const typeIdCheck = async () => {
+    const emptyCheck = checkEmpty("typeId", typeId)
+    setTypeIdError(emptyCheck.error)
+    setTypeIdHelperText(emptyCheck.msg)
+    return emptyCheck.error
+  }
+
   const onFormFieldBlur = (_, id) => {
     switch (id) {
       case "name":
         nameCheck()
+        break
+      case "typeId":
+        typeIdCheck()
         break
       default:
         break
