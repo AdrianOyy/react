@@ -123,6 +123,7 @@ function Create(props) {
       sonDetailList: sonFormList,
       sonFormList: sonFieldList
     }
+    console.log(form)
     Api.save(form)
       .then(() => {
         history.push({ pathname: '/' })
@@ -135,7 +136,13 @@ function Create(props) {
       id: sonFieldList.length + 1
     }
     for (let i = 0; i < sonFieldList.length; i++) {
-      form[sonFieldList[i].label] = sonFieldList[i].value
+      if (sonFieldList[i].type === 'select') {
+        const item = sonFieldList[i].itemList.find(t => t[sonFieldList[i].foreignKey] === sonFieldList[i].value)
+        form[sonFieldList[i].label] = item ? item[sonFieldList[i].foreignDisplayKey] : sonFieldList[i].value
+        form[sonFieldList[i].label + '_svalue'] = sonFieldList[i].value
+      } else {
+        form[sonFieldList[i].label] = sonFieldList[i].value
+      }
     }
     const values = [ ...sonFormList ]
     const pass = sonFormProps.checkDialog(form)
