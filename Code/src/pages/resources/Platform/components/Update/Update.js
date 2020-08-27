@@ -13,12 +13,16 @@ function TenantDetail(props) {
   const { id } = useParams()
   const history = useHistory()
   const [ name, setName ] = useState('')
+  const [ nameError, setNameError ] = useState(false)
+  const [ nameHelperText, setNameHelperText ] = useState("")
+  const [ typeId, setTypeId ] = useState('')
+  const [ typeIdError, setTypeIdError ] = useState(false)
+  const [ typeIdHelperText, setTypeIdHelperText ] = useState("")
   const [ createdAt, setCreatedAt ] = useState('')
   const [ updatedAt, setUpdastedAt ] = useState('')
   const [ formFieldList, setFormFieldList ] = useState([])
   const [ saving, setSaving ] = useState(true)
-  const [ nameError, setNameError ] = useState(false)
-  const [ nameHelperText, setNameHelperText ] = useState("")
+  const [ typeList, setTypeList ] = useState([])
   const formatDateTime = (str) => {
     return dayjs(new Date(str)).format('YYYY-MM-DD HH:mm')
   }
@@ -30,9 +34,10 @@ function TenantDetail(props) {
 
   const hanleClick = async () => {
     const nameErr = await nameCheck()
-    if (nameErr || saving) return
+    const typeIdErr = await typeIdCheck()
+    if (nameErr|| typeIdErr || saving) return
     setSaving(true)
-    API.update(id, { name })
+    API.update(id, { name, typeId })
       .then(() => {
         CommonTip.success("Success")
         history.push({ pathname: '/resources/platform' })
@@ -44,8 +49,9 @@ function TenantDetail(props) {
 
   useEffect(() => {
     API.detail(id).then(({ data }) => {
-      const { name, createdAt, updatedAt } = data.data
+      const { name, typeId, createdAt, updatedAt } = data.data
       setName(name)
+      setTypeId(typeId)
       setCreatedAt(createdAt)
       setUpdastedAt(updatedAt)
       setSaving(false)
@@ -53,18 +59,50 @@ function TenantDetail(props) {
   }, [ id ])
 
   useEffect(() => {
+    API.listType({ limit: 999, page: 1 }).then(({ data }) => {
+      if (data && data.data) {
+        const { rows } = data.data
+        setTypeList(rows)
+      }
+    })
+  }, [])
+
+  useEffect(() => {
     const list = [
-      { id: 'name', label: 'Name', type: 'text', required: true, readOnly: false, value: name, error: nameError, helperText: nameHelperText },
-      { id: 'createdAt', label: 'Created At', type: 'text', disabled: true, readOnly: true, value: formatDateTime(createdAt) },
-      { id: 'updatedAt', label: 'Updated At', type: 'text', disabled: true, readOnly: true, value: formatDateTime(updatedAt) },
+      {
+        id: 'name', label: 'Name', type: 'text',
+        required: true, readOnly: false, value: name,
+        error: nameError, helperText: nameHelperText
+      },
+      {
+        id: 'typeId', label: 'Type', type: 'select',
+        value: typeId, itemList: typeList,
+        labelField: 'name', valueField: 'id',
+        error: typeIdError, helperText: typeIdHelperText,
+      },
+      {
+        id: 'createdAt', label: 'Created At', type: 'text',
+        disabled: true, readOnly: true, value: formatDateTime(createdAt)
+      },
+      {
+        id: 'updatedAt', label: 'Updated At', type: 'text',
+        disabled: true, readOnly: true, value: formatDateTime(updatedAt)
+      },
     ]
     setFormFieldList(list)
-  }, [ name, nameError, nameHelperText, createdAt, updatedAt ])
+  }, [
+    name, nameError, nameHelperText,
+    typeId, typeIdError, typeIdHelperText,
+    createdAt, updatedAt, typeList
+  ])
   const onFormFieldChange = (e, id) => {
     const { value } = e.target
     switch (id) {
       case 'name':
         setName(value)
+        break
+      case 'typeId':
+        setTypeId(value)
         break
       default:
         break
@@ -83,10 +121,19 @@ function TenantDetail(props) {
     }
     return emptyCheck.error
   }
+  const typeIdCheck = async () => {
+    const emptyCheck = checkEmpty("typeId", typeId)
+    setTypeIdError(emptyCheck.error)
+    setTypeIdHelperText(emptyCheck.msg)
+    return emptyCheck.error
+  }
   const onFormFieldBlur = (_, id) => {
     switch (id) {
       case "name":
         nameCheck()
+        break
+      case "typeId":
+        typeIdCheck()
         break
       default:
         break
