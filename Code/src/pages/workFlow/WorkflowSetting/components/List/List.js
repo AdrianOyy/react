@@ -9,6 +9,7 @@ import { CommonTable } from '../../../../../components'
 import styled from "styled-components"
 import { spacing } from "@material-ui/system"
 import envUrl from '../../../../../utils/baseUrl'
+import prefix from '../../../../../utils/prefix'
 import CommonTip from "../../../../../components/CommonTip"
 import {
   EventAvailable as EventAvailableIcon,
@@ -16,6 +17,7 @@ import {
 } from "@material-ui/icons"
 
 const createUrl = envUrl.workflow
+const createPrefix = prefix.workflow
 const Paper = styled(MuiPaper)(spacing)
 const tableName = 'Workflow Setting List'
 
@@ -97,7 +99,7 @@ function List(props) {
   }
 
   const customEdit = (e, row) => {
-    window.open(createUrl + `/openEditor?modelId=${row.id}&token=` + localStorage.getItem("token"))
+    window.open(createUrl + createPrefix + `/openEditor?modelId=${row.id}&token=` + localStorage.getItem("token"))
   }
 
   // 自定义action
@@ -107,7 +109,7 @@ function List(props) {
   ]
 
   const customCreate = () => {
-    window.open(createUrl + "/create?token=" + localStorage.getItem("token"))
+    window.open(createUrl + createPrefix + "/create?token=" + localStorage.getItem("token"))
   }
 
   return (

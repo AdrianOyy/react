@@ -5,11 +5,8 @@ export function getUser() {
 }
 
 export function getQueryString(str) {
-  console.log(str)
   const url = str.split('?')[1]
-  console.log(url)
   const items = url.split('&')
-  console.log(items)
   const result = {}
   let arr = ''
 
