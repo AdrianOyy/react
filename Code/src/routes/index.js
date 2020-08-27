@@ -25,7 +25,7 @@ const Buttons = async(() => import("../pages/components/Buttons"))
 const Cards = async(() => import("../pages/components/Cards"))
 const Chips = async(() => import("../pages/components/Chips"))
 const Dialogs = async(() => import("../pages/components/Dialogs"))
-const ExpPanels = async(() => import("../pages/components/ExpansionPanels"))
+// const ExpPanels = async(() => import("../pages/components/ExpansionPanels"))
 
 // Dashboards components
 const Analytics = async(() => import("../pages/dashboards/Analytics"))

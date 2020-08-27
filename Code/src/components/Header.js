@@ -23,7 +23,7 @@ import {
   // Search as SearchIcon,
   Power
 } from "react-feather"
-import { useHistory } from "react-router-dom"
+import signOut from "../utils/signOut"
 
 const AppBar = styled(MuiAppBar)`
   background: ${props => props.theme.header.background};
@@ -141,7 +141,6 @@ const Indicator = styled(Badge)`
 // }
 
 function UserMenu() {
-  const history = useHistory()
   const [ anchorMenu, setAnchorMenu ] = useState(null)
 
   const toggleMenu = event => {
@@ -152,10 +151,6 @@ function UserMenu() {
     setAnchorMenu(null)
   }
 
-  const signOut = () => {
-    window.localStorage.removeItem('token')
-    history.push('/')
-  }
 
   return (
     <React.Fragment>

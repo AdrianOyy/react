@@ -2,6 +2,7 @@ import axios from 'axios'
 // import store from '@/store'
 // import { getToken } from 'utils/auth'
 import CommonTip from '../components/CommonTip'
+import signOut from "./signOut"
 
 // 这个baseUrl要根据实际情况进行改变
 // eslint-disable-next-line
@@ -46,7 +47,6 @@ export default {
   enableChangeBaseApi: true,
   changeBaseUrl(baseUrl, flag = false) {
     if (flag && baseUrl && this.enableChangeBaseApi) {
-      // console.log('changeBaseUrl', axiosInstance.defaults.baseURL + '->' + baseUrl)
       axiosInstance.defaults.baseURL = baseUrl
     }
   },
@@ -77,6 +77,7 @@ export default {
         })
     })
   },
+
   get(url, param, options, baseUrl = null) {
     let o = Object.assign(this.defaultOptions, options)
     const defaultUrl = axiosInstance.defaults.baseURL
@@ -94,7 +95,7 @@ export default {
           resolve(res)
         })
         .catch(error => {
-          CommonTip.error(error.message, { })
+          callback(error.response.status)
           reject(error)
         })
         .finally(() => {
@@ -186,4 +187,23 @@ export default {
   allGet(fnArr) {
     return axios.all(fnArr)
   }
+}
+
+
+function callback(statusCode) {
+  switch (statusCode) {
+    case 400:
+      showTip('Bad Request')
+      break
+    case 401:
+      showTip('Unauthorized')
+      signOut()
+      break
+    default:
+      showTip('System Busy')
+  }
+}
+
+function showTip(message) {
+  CommonTip.error(message)
 }

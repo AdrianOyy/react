@@ -183,7 +183,7 @@ function Create(props) {
     codeHelperText, managerGroupId, managerGroupIdError, managerGroupIdHelperText,
     supporterGroupId, supporterGroupIdError, supporterGroupIdHelperText,
     groupId, groupIdError, groupIdHelperText,
-    justification,
+    justification, groupList,
     budget_type, project_owner, contact_person,
     project_estimation, methodology_text,
     justificationError, justificationHelperText,

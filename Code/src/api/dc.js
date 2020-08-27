@@ -1,6 +1,5 @@
 import request from '../utils/request'
 import envPrefix from "../utils/prefix"
-import envUrl from "../utils/baseUrl"
 
 const prefix = envPrefix.aaa
 
