@@ -56,7 +56,7 @@ function Create(props) {
           }
         })
       })
-  }, [])
+  }, [ deploymentId, userId ])
 
   const customCreate = () => {
     const values = [ ...sonFormList ]

@@ -21,7 +21,7 @@ function Create() {
   const processDefinitionId = arr['processDefinitionId']
   const [ open, setOpen ] = useState(false)
   const [ formFieldList, setFormFieldList ] = useState([])
-  const [ dynamicForm, setDynamicForm ] = useState(null)
+  // const [ dynamicForm, setDynamicForm ] = useState(null)
   const [ sonForm, setSonForm ] = useState(null)
   const [ sonFormList, setSonFormList ] = useState([])
   const [ sonDetailList, setSonDetailList ] = useState([])
@@ -42,19 +42,20 @@ function Create() {
   }
 
   useEffect(() => {
-    workflowApi.getStartFormKeyAndDeploymentId({ taskId: id, processDefinitionId }).then(({ data }) => {
-      console.log(data)
-      const key = data.data
-      Api.getDynamicFormDetail({ deploymentId: key.deploymentId, formId: key.formId, userId }).then(({ data }) => {
-        const dyform = data.data
-        setDynamicForm(dyform.dynamicForm)
-        setFormFieldList(dyform.detailList)
-        setSonForm(dyform.sonForm)
-        setSonFormList(dyform.sonFormList)
-        setSonDetailList(dyform.sonDetailList)
-        // DialogField(dyform.dynamicSon, dyform.sonList)
+    workflowApi.getStartFormKeyAndDeploymentId({ taskId: id, processDefinitionId })
+      .then(({ data }) => {
+        console.log(data)
+        const key = data.data
+        Api.getDynamicFormDetail({ deploymentId: key.deploymentId, formId: key.formId, userId }).then(({ data }) => {
+          const dyform = data.data
+          // setDynamicForm(dyform.dynamicForm)
+          setFormFieldList(dyform.detailList)
+          setSonForm(dyform.sonForm)
+          setSonFormList(dyform.sonFormList)
+          setSonDetailList(dyform.sonDetailList)
+          // DialogField(dyform.dynamicSon, dyform.sonList)
+        })
       })
-    })
   }, [ id, processDefinitionId, userId ])
 
   useEffect(() => {

@@ -20,7 +20,7 @@ function Update(props) {
   const [ managerGroupId, setManagerGroupId ] = useState('')
   const [ supporterGroupId, setSupporterGroupId ] = useState('')
   const [ groupId, setGroupId ] = useState('')
-  
+
   const [ justification, setjustification ] = useState('')
   const [ justificationError, setjustificationError ] = useState(false)
   const [ justificationHelperText, setjustificationHelperText ] = useState("")
@@ -84,12 +84,12 @@ function Update(props) {
     const contact_personErr = await contact_personCheck()
     const project_estimatioErr = await project_estimationCheck()
     const methodology_textErr = await methodology_textCheck()
-    if ( nameErr
+    if (nameErr
      || justificationErr || budget_typeErr || project_ownerErr
      || contact_personErr || project_estimatioErr || methodology_textErr
-     || saving ) { 
-       return
-     }
+     || saving) {
+      return
+    }
     setSaving(true)
     API.update(id,
       { name,
