@@ -16,11 +16,14 @@ function Create(props) {
   const arr = getQueryString(useLocation().search)
   const deploymentId = arr['deploymentId']
 
-  const [ dynamicForm, setDynamicForm ] = useState({})
-  const [ sonForm, setSonForm ] = useState({})
+  // const [ dynamicForm, setDynamicForm ] = useState({})
+  const [ formKey, setFormKey ] = useState('')
+  // const [ sonForm, setSonForm ] = useState({})
+  const [ childFormKey, setChildFormKey ] = useState('')
   const [ formProps, setFormProps ] = useState({})
   const [ sonFormProps, setSonFormProps ] = useState({})
   const [ formFieldList, setFormFieldList ] = useState([])
+  // const [ formFieldList, setFormFieldList ] = useState([])
   const [ sonFieldList, setSonFieldList ] = useState([])
   const [ sonFormList, setSonFormList ] = useState([])
   const [ open, setOpen ] = useState(false)
@@ -28,34 +31,68 @@ function Create(props) {
 
   // 获取渲染表
   useEffect(() => {
-    Api.getDynamicForm({ deploymentId, userId })
-      .then(({ data }) => {
-        const { dynamicForm, sonForm, detailList, sonFormList } = data.data
-        const logic = getLogic(dynamicForm.workflowName)
-        setDynamicForm(dynamicForm)
-        setSonForm(sonForm)
-        setFormFieldList(detailList)
-        setSonFieldList(sonFormList)
-        setFormProps({
-          type: 'form',
-          formFieldList: detailList,
-          onFormFieldChange: async (el, id, i) => {
-            const { value } = el.target
-            await logic.onFormFieldChange(value, id, i, detailList)
-          }
-        })
-        setSonFormProps({
-          type: 'table',
-          formFieldList: sonFormList,
-          onFormFieldChange: async (el, id, i) => {
-            const { value } = el.target
-            await logic.onDialogFieldChange(value, id, i, sonFormList)
-          },
-          checkDialog: async (form) => {
-            await logic.checkDialog(form)
-          }
-        })
+    Api.test({ deploymentId }).then(({ data }) => {
+      // eslint-disable-next-line no-unused-vars
+      const { workflowName, formKey, parentFormDetail, childFormDetail, childFormKey } = data.data
+      const logic = getLogic(workflowName)
+      setFormKey(formKey)
+      setChildFormKey(childFormKey)
+      for (const parentForm of parentFormDetail) {
+        parentForm.id = parentForm.fieldName
+      }
+      setFormFieldList(parentFormDetail)
+      for (const childForm of childFormDetail) {
+        childForm.id = childForm.fieldName
+      }
+      setSonFieldList(childFormDetail)
+      setFormProps({
+        type: 'form',
+        formFieldList: parentFormDetail,
+        onFormFieldChange: async (el, id, i) => {
+          const { value } = el.target
+          await logic.onFormFieldChange(value, id, i, parentFormDetail)
+        }
       })
+      setSonFormProps({
+        type: 'table',
+        formFieldList: childFormDetail,
+        onFormFieldChange: async (el, id, i) => {
+          const { value } = el.target
+          await logic.onDialogFieldChange(value, id, i, childFormDetail)
+        },
+        checkDialog: async (form) => {
+          await logic.checkDialog(form)
+        }
+      })
+    })
+    // Api.getDynamicForm({ deploymentId, userId })
+    //   .then(({ data }) => {
+    //     const { dynamicForm, sonForm, detailList, sonFormList } = data.data
+    //     const logic = getLogic(dynamicForm.workflowName)
+    //     setDynamicForm(dynamicForm)
+    //     setSonForm(sonForm)
+    //     setFormFieldList(detailList)
+    //     setSonFieldList(sonFormList)
+    //     setFormProps({
+    //       type: 'form',
+    //       formFieldList: detailList,
+    //       onFormFieldChange: async (el, id, i) => {
+    //         const { value } = el.target
+    //         await logic.onFormFieldChange(value, id, i, detailList)
+    //       }
+    //     })
+    //     setSonFormProps({
+    //       type: 'table',
+    //       formFieldList: sonFormList,
+    //       onFormFieldChange: async (el, id, i) => {
+    //         const { value } = el.target
+    //         await logic.onDialogFieldChange(value, id, i, sonFormList)
+    //       },
+    //       checkDialog: async (form) => {
+    //         await logic.checkDialog(form)
+    //       }
+    //     })
+    //   })
   }, [ deploymentId, userId ])
 
   const customCreate = () => {
@@ -72,21 +109,23 @@ function Create(props) {
     const fieldList = []
     const headCells = []
     for (const son of sonFieldList) {
-      const head = {
-        id: son.label,
-        alignment: 'center',
-        label: son.label
+      if (son.showOnRequest) {
+        const head = {
+          id: son.label,
+          alignment: 'center',
+          label: son.label
+        }
+        const field = {
+          field: son.label,
+          align: 'center'
+        }
+        headCells.push(head)
+        fieldList.push(field)
       }
-      const field = {
-        field: son.label,
-        align: 'center'
-      }
-      headCells.push(head)
-      fieldList.push(field)
     }
     const tableProp = {
       type: 'table',
-      title: sonForm ? sonForm.formKey : '',
+      title: childFormKey ? childFormKey : '',
       headCells,
       fieldList,
       rows: sonFormList,
@@ -95,7 +134,7 @@ function Create(props) {
     display.push(tableProp)
     setModuleList(display)
     // eslint-disable-next-line
-  }, [ sonForm, sonFormList, sonFieldList ])
+  }, [ sonFormList, sonFieldList ])
 
 
   // 用于更新面包屑
@@ -114,12 +153,12 @@ function Create(props) {
 
   const handleSubmitClick = () => {
     const form = {
-      dynamicForm,
+      formKey,
       deploymentId,
       processDefinitionId: id,
       startUser: getUser().id.toString(),
       formFieldList,
-      sonForm,
+      childFormKey,
       sonDetailList: sonFormList,
       sonFormList: sonFieldList
     }
@@ -168,7 +207,7 @@ function Create(props) {
   return (
     <React.Fragment>
       {
-        dynamicForm && dynamicForm.formKey && (
+        formKey && (
           <ComplexForm
             title={'Form'}
             titleLevel={3}
@@ -178,7 +217,7 @@ function Create(props) {
         )
       }
       <DialogForm
-        title={sonForm ? sonForm.formKey : ''}
+        title={childFormKey ? childFormKey : ''}
         handleClose={handleClose}
         open={open}
         titleLevel={3}
