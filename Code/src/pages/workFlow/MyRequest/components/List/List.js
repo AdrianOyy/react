@@ -68,6 +68,7 @@ function List(props) {
         endTime: el.endTime ? formatDateTime(el.endTime) : '',
         state: el.endTime ?  "completed" : "processing",
         assignee: el.assignee,
+        status: el.status,
       }
       rows.push(rowModel)
     })
@@ -84,6 +85,7 @@ function List(props) {
     { id: 'startTime', alignment: 'center', label: 'Start Date' },
     { id: 'endTime', alignment: 'center', label: 'End Date' },
     { id: 'state', alignment: 'center', label: 'State' },
+    { id: 'status', alignment: 'center', label: 'Status' },
     { id: 'action', alignment: 'right', label: 'Action' },
   ]
 
@@ -93,7 +95,8 @@ function List(props) {
     { field: 'name', align: 'center' },
     { field: 'startTime', align: 'center' },
     { field: 'endTime', align: 'center' },
-    { field: 'state', align: 'center' }
+    { field: 'state', align: 'center' },
+    { field: 'status', align: 'center' }
   ]
 
   const searchBarFieldList = [
