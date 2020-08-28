@@ -19,7 +19,7 @@ const formatDateTime = (str) => {
   return dayjs(new Date(str)).format('YYYY-MM-DD HH:mm')
 }
 
-const tableName = 'Tenant Group Mapping List'
+const tableName = 'Tenant AD Group Mapping List'
 
 function List(props) {
   const { onMount, path } = props
