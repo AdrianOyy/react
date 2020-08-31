@@ -24,7 +24,7 @@ function TenantDetail(props) {
   const [ saving, setSaving ] = useState(true)
   const [ typeList, setTypeList ] = useState([])
   const formatDateTime = (str) => {
-    return dayjs(new Date(str)).format('YYYY-MM-DD HH:mm')
+    return dayjs(new Date(str)).format('DD-MMM-YYYY HH:mm')
   }
 
   useEffect(() => {

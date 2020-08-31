@@ -9,7 +9,7 @@ import { useHistory } from 'react-router-dom'
 import { checkEmpty, getCheckTypeExist, getCheckYearExist } from "../../untils/ManagementFieldCheck"
 
 const formatDateTime = (str) => {
-  return dayjs(new Date(str)).format('YYYY-MM-DD HH:mm')
+  return dayjs(new Date(str)).format('DD-MMM-YYYY HH:mm')
 }
 
 

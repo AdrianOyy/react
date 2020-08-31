@@ -7,7 +7,7 @@ import dayjs from "dayjs"
 
 const formTitle = 'Tenant Detail'
 const formatDateTime = (str) => {
-  return dayjs(new Date(str)).format('YYYY-MM-DD HH:mm')
+  return dayjs(new Date(str)).format('DD-MMM-YYYY HH:mm')
 }
 
 function Detail(props) {

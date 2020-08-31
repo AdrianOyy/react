@@ -6,7 +6,7 @@ import { useParams } from "react-router-dom"
 import dayjs from "dayjs"
 
 const formatDateTime = (str) => {
-  return dayjs(new Date(str)).format('YYYY-MM-DD HH:mm')
+  return dayjs(new Date(str)).format('DD-MMM-YYYY HH:mm')
 }
 
 function Detail(props) {

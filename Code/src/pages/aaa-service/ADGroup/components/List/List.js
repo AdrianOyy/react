@@ -12,7 +12,7 @@ import dayjs from "dayjs"
 
 const Paper = styled(MuiPaper)(spacing)
 const formatDateTime = (str) => {
-  return dayjs(new Date(str)).format('YYYY-MM-DD HH:mm')
+  return dayjs(new Date(str)).format('DD-MMM-YYYY HH:mm')
 }
 const tableName = 'AD Group List'
 
@@ -58,17 +58,17 @@ function List(props) {
 
   // 表头字段列表
   const headCells = [
-    { id: 'name', alignment: 'center', label: 'Name' },
-    { id: 'createdAt', alignment: 'center', label: 'Created At' },
-    { id: 'updatedAt', alignment: 'center', label: 'Updated At' },
+    { id: 'name', alignment: 'left', label: 'Name' },
+    { id: 'createdAt', alignment: 'left', label: 'Created At' },
+    { id: 'updatedAt', alignment: 'left', label: 'Updated At' },
     { id: 'action', alignment: 'right', label: 'Actions' },
   ]
 
   // 每行显示的字段
   const fieldList = [
-    { field: 'name', align: 'center' },
-    { field: 'createdAt', align: 'center' },
-    { field: 'updatedAt', align: 'center' }
+    { field: 'name', align: 'left' },
+    { field: 'createdAt', align: 'left' },
+    { field: 'updatedAt', align: 'left' }
   ]
 
   // 搜索栏字段列表

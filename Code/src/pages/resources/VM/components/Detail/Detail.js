@@ -34,7 +34,7 @@ function Detail(props) {
   const [ updatedAt, setUpdastedAt ] = useState('')
   const [ formFieldList, setFormFieldList ] = useState([])
   const formatDateTime = (str) => {
-    return dayjs(new Date(str)).format('YYYY-MM-DD HH:mm')
+    return dayjs(new Date(str)).format('DD-MMM-YYYY HH:mm')
   }
 
   useEffect(() => {
