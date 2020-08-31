@@ -18,7 +18,7 @@ import { BorderColorOutlined as BorderColorIcon } from "@material-ui/icons"
 
 const Paper = styled(MuiPaper)(spacing)
 const formatDateTime = (str) => {
-  return dayjs(new Date(str)).format('YYYY-MM-DD HH:MM')
+  return dayjs(new Date(str)).format('YYYY-MM-DD HH:mm')
 }
 const tableName = 'My Approval'
 
