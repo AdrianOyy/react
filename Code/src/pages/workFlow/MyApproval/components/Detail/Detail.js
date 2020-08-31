@@ -89,6 +89,7 @@ function Create() {
           // DialogField(dyform.dynamicSon, dyform.sonList)
         })
       })
+  // eslint-disable-next-line
   }, [ id, processDefinitionId, userId ])
 
   useEffect(() => {
@@ -209,24 +210,16 @@ function Create() {
   }
 
   const handleT1FollowUpClick = () => {
-    const data = {
-      taskId: id,
-      variables: { followUp: 'T1' },
-    }
+    // const data = {
+    //   taskId: id,
+    //   variables: { followUp: 'T1' },
+    // }
     alert('T1 followUp')
   }
   const handleT2FollowUpClick = () => {
-    const data = {
-      taskId: id,
-      variables: { followUp: 'T2' },
-    }
     alert('T2 followUp')
   }
   const handleT6FollowUpClick = () => {
-    const data = {
-      taskId: id,
-      variables: { followUp: 'T6' },
-    }
     alert('T6 followUp')
   }
 
