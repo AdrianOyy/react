@@ -40,6 +40,7 @@ function DialogForm(props) {
     formFieldList,
     onFormFieldChange,
     buttonList,
+    isAll,
   } = props
   const classes = useStyles()
 
@@ -64,6 +65,7 @@ function DialogForm(props) {
           titleLevel={titleLevel}
           formFieldList = {formFieldList}
           onFormFieldChange = {onFormFieldChange}
+          isAll={isAll}
         />
         <ButtonGroup className={classes.buttonGroup}>
           {
