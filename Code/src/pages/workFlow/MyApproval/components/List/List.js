@@ -18,7 +18,7 @@ import { BorderColorOutlined as BorderColorIcon } from "@material-ui/icons"
 
 const Paper = styled(MuiPaper)(spacing)
 const formatDateTime = (str) => {
-  return dayjs(new Date(str)).format('YYYY-MM-DD HH:MM')
+  return dayjs(new Date(str)).format('YYYY-MM-DD HH:mm')
 }
 const tableName = 'My Approval'
 
@@ -62,6 +62,7 @@ function List(props) {
         id: el.id,
         name: el.name,
         processDefinitionId: el.processDefinitionId,
+        createBy: el.createBy,
         createTime: formatDateTime(el.createTime),
       }
       rows.push(rowModel)
@@ -73,6 +74,7 @@ function List(props) {
   const headCells = [
     { id: 'id', alignment: 'center', label: 'Id' },
     { id: 'name', alignment: 'center', label: 'name' },
+    { id: 'createBy', alignment: 'center', label: 'Create By' },
     { id: 'createTime', alignment: 'center', label: 'Create Time' },
     { id: 'action', alignment: 'right', label: 'Action' },
   ]
@@ -81,6 +83,7 @@ function List(props) {
   const fieldList = [
     { field: 'id', align: 'center' },
     { field: 'name', align: 'center' },
+    { field: 'createBy', align: 'center' },
     { field: 'createTime', align: 'center' },
   ]
 
