@@ -26,6 +26,7 @@ function Create() {
   const [ sonFormList, setSonFormList ] = useState([])
   const [ sonDetailList, setSonDetailList ] = useState([])
   const [ moduleList, setModuleList ] = useState([])
+  const [ buttonList, setButtonList ] = useState([])
   const onFormFieldChange = (e, id) => {
     const { value } = e.target
     const values = deepClone(formFieldList)
@@ -45,6 +46,38 @@ function Create() {
     workflowApi.getStartFormKeyAndDeploymentId({ taskId: id, processDefinitionId })
       .then(({ data }) => {
         console.log(data)
+        const tempButtonList = [
+          {
+            id: 'reject', label: 'Reject', color: 'primary',
+            onClick: handleRejectTaskClick, disabled: false
+          },
+          {
+            id: 'pass', label: 'Pass', color: 'secondary',
+            onClick: handleAgrreTaskClick, disabled: false
+          },
+          {
+            id: 'cancel', label: 'Cancel', color: 'default',
+            onClick: handleClick, disabled: false
+          },
+        ]
+        if (data && data.data && data.data.name === 'T3 adjust VM infomation') {
+
+          tempButtonList.push(
+            {
+              id: 'T1', label: 'T1 Follow Up', color: 'secondary',
+              onClick: handleT1FollowUpClick, disabled: false
+            },
+            {
+              id: 'T2', label: 'T2 Follow Up', color: 'secondary',
+              onClick: handleT2FollowUpClick, disabled: false
+            },
+            {
+              id: 'T6', label: 'T6 Follow Up', color: 'secondary',
+              onClick: handleT6FollowUpClick, disabled: false
+            },
+          )
+        }
+        setButtonList(tempButtonList)
         const key = data.data
         Api.getDynamicFormDetail({ deploymentId: key.deploymentId, formId: key.formId, userId }).then(({ data }) => {
           const dyform = data.data
@@ -175,11 +208,34 @@ function Create() {
     })
   }
 
-  const buttonList = [
-    { id: 'reject', label: 'Reject', color: 'primary', onClick: handleRejectTaskClick, disabled: false },
-    { id: 'pass', label: 'Pass', color: 'secondary', onClick: handleAgrreTaskClick, disabled: false },
-    { id: 'cancel', label: 'Cancel', color: 'default', onClick: handleClick, disabled: false },
-  ]
+  const handleT1FollowUpClick = () => {
+    const data = {
+      taskId: id,
+      variables: { followUp: 'T1' },
+    }
+    alert('T1 followUp')
+  }
+  const handleT2FollowUpClick = () => {
+    const data = {
+      taskId: id,
+      variables: { followUp: 'T2' },
+    }
+    alert('T2 followUp')
+  }
+  const handleT6FollowUpClick = () => {
+    const data = {
+      taskId: id,
+      variables: { followUp: 'T6' },
+    }
+    alert('T6 followUp')
+  }
+
+  // const buttonList = [
+  //   { id: 'reject', label: 'Reject', color: 'primary', onClick: handleRejectTaskClick, disabled: false },
+  //   { id: 'pass', label: 'Pass', color: 'secondary', onClick: handleAgrreTaskClick, disabled: false },
+  //   { id: 'T1', label: 'T1 Follow Up', color: 'secondary', onClick: handleT1FollowUpClick, disabled: false },
+  //   { id: 'cancel', label: 'Cancel', color: 'default', onClick: handleClick, disabled: false },
+  // ]
 
   const dialogButtonList = [
     { id: 'save', label: 'Save', color: 'primary', onClick: handleSaveClick, disabled: false },
