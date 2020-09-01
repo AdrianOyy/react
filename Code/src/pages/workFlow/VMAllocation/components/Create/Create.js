@@ -39,12 +39,10 @@ function Create(props) {
       setChildFormKey(childFormKey)
       for (const parentForm of parentFormDetail) {
         parentForm.id = parentForm.fieldName
-        parentForm.value = null
       }
       setFormFieldList(parentFormDetail)
       for (const childForm of childFormDetail) {
         childForm.id = childForm.fieldName
-        childForm.value = ''
       }
       setSonFieldList(childFormDetail)
       setFormProps({

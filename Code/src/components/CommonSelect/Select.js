@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import InputLabel from '@material-ui/core/InputLabel'
 import MenuItem from '@material-ui/core/MenuItem'
@@ -18,6 +18,7 @@ const useStyles = makeStyles((theme) => ({
 
 function CommonSelect(props) {
   const classes = useStyles()
+
   const {
     value,
     itemList,
@@ -33,6 +34,11 @@ function CommonSelect(props) {
     labelWidth,
     width,
   } = props
+  const [ selectValue, setSelectValue ] = useState(value)
+  const onCommonSelectChange = (e) => {
+    setSelectValue(e.target.value)
+    onSelectChange(e)
+  }
   return (
     <FormControl
       className={classes.formControl}
@@ -44,8 +50,8 @@ function CommonSelect(props) {
       <Select
         labelId={id}
         id={id}
-        value={value}
-        onChange={onSelectChange}
+        value={selectValue}
+        onChange={onCommonSelectChange}
         style={{ minWidth: `${(width ? width : 1) * 150}px` }}
         input={
           outlined ? <OutlinedInput
