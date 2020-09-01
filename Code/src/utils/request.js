@@ -95,7 +95,11 @@ export default {
           resolve(res)
         })
         .catch(error => {
-          callback(error.response.status)
+          if (error.response && error.response.status) {
+            callback(error)
+          } else {
+            CommonTip.error(error.message)
+          }
           reject(error)
         })
         .finally(() => {
@@ -190,10 +194,11 @@ export default {
 }
 
 
-function callback(statusCode) {
-  switch (statusCode) {
+function callback(error) {
+  const { status, message } = error.response
+  switch (status) {
     case 400:
-      showTip('Bad Request')
+      showTip(message ? message : 'Bad Request')
       break
     case 401:
       showTip('Unauthorized')
