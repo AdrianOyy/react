@@ -3,6 +3,8 @@ import formatDateTime from "../../formatDateTime"
 
 export default class VMAllocation {
   async onFormFieldChange(value, id, i, dataList) {
+    console.log(dataList)
+    console.log(i)
     if (dataList[i].type === 'date') {
       dataList[i].value = formatDateTime(value)
     } else {
@@ -31,8 +33,9 @@ export default class VMAllocation {
   }
 
   async onDialogFieldChange(value, id, i, dataList) {
-    console.log(i)
+    console.log(id)
     console.log(dataList)
+    console.log(value)
     if (dataList[i].type === 'date') {
       dataList[i].value = formatDateTime(value)
     } else {

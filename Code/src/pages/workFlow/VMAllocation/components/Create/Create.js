@@ -116,7 +116,7 @@ function Create(props) {
           label: son.label
         }
         const field = {
-          field: son.label,
+          field: son.fieldName,
           align: 'center'
         }
         headCells.push(head)
@@ -177,10 +177,10 @@ function Create(props) {
     for (let i = 0; i < sonFieldList.length; i++) {
       if (sonFieldList[i].type === 'select') {
         const item = sonFieldList[i].itemList.find(t => t[sonFieldList[i].foreignKey] === sonFieldList[i].value)
-        form[sonFieldList[i].label] = item ? item[sonFieldList[i].foreignDisplayKey] : sonFieldList[i].value
-        form[sonFieldList[i].label + '_svalue'] = sonFieldList[i].value
+        form[sonFieldList[i].fieldName] = item ? item[sonFieldList[i].foreignDisplayKey] : sonFieldList[i].value
+        form[sonFieldList[i].fieldName + '_svalue'] = sonFieldList[i].value
       } else {
-        form[sonFieldList[i].label] = sonFieldList[i].value
+        form[sonFieldList[i].fieldName] = sonFieldList[i].value
       }
     }
     const values = [ ...sonFormList ]

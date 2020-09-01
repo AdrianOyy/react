@@ -32,6 +32,7 @@ function DynamicForm(props) {
     onBtnClick,
     onFormFieldBlur,
     spacing,
+    isAll,
   } = props
 
   const handleDataChange = (value, id, i) => {
@@ -50,7 +51,7 @@ function DynamicForm(props) {
             <Grid container spacing={spacing ? spacing : 3}>
               {
                 formFieldList && formFieldList.map((field, i) => {
-                  if (field.showOnRequest) {
+                  if (isAll || field.showOnRequest) {
                     switch (field.type) {
                       case 'text':
                         return (
@@ -59,6 +60,7 @@ function DynamicForm(props) {
                             key={field.id + field.label}
                             label={field.label}
                             type={field.type}
+                            defaultValue={field.value || ''}
                             error={field.error || false}
                             helperText={field.helperText || ''}
                             disabled={field.disabled || false}
@@ -113,6 +115,7 @@ function DynamicForm(props) {
                             error={field.error || false}
                             helperText={field.helperText || ''}
                             // value={field.value || ''}
+                            value={field.value || ''}
                             disabled={field.disabled || false}
                             outlined={true}
                             itemList={field.itemList}

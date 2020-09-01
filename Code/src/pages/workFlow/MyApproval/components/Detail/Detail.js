@@ -7,6 +7,7 @@ import { useParams, useHistory, useLocation } from "react-router-dom"
 import deepClone from "../../../../../utils/deepClone"
 import { getUser, getQueryString } from "../../../../../utils/user"
 import dayjs from "dayjs"
+import { BorderColorOutlined as BorderColorIcon } from "@material-ui/icons"
 
 const formatDateTime = (str) => {
   return dayjs(new Date(str)).format('YYYY-MM-DD HH:mm')
@@ -21,6 +22,7 @@ function Create() {
   const processDefinitionId = arr['processDefinitionId']
   const [ open, setOpen ] = useState(false)
   const [ formFieldList, setFormFieldList ] = useState([])
+  const [ index, setIndex ] = useState(0)
   // const [ dynamicForm, setDynamicForm ] = useState(null)
   const [ sonForm, setSonForm ] = useState(null)
   const [ sonFormList, setSonFormList ] = useState([])
@@ -92,6 +94,26 @@ function Create() {
   // eslint-disable-next-line
   }, [ id, processDefinitionId, userId ])
 
+  const handleEditDetail = (event, index) => {
+    setIndex(index)
+    const sonDetail = sonDetailList[index]
+    const values = deepClone(sonFormList)
+    for (const value of values) {
+      if (value.type === 'select') {
+        value.value = sonDetail[value.label + '_svalue']
+      } else {
+        value.value = sonDetail[value.label]
+      }
+    }
+    setSonFormList(values)
+    setOpen(true)
+  }
+
+  // 自定义action
+  const actionList = [
+    { label: 'edit', icon: <BorderColorIcon />, handleClick: handleEditDetail  },
+  ]
+
   useEffect(() => {
     const display = []
     const fieldList = []
@@ -109,12 +131,18 @@ function Create() {
       headCells.push(head)
       fieldList.push(field)
     }
+    headCells.push({
+      id: 'action',
+      alignment: 'right',
+      label: 'action'
+    })
     const tableProp = {
       type: 'table',
       headCells,
       fieldList,
       rows: sonDetailList,
-      hideCreate: false,
+      hideCreate: true,
+      actionList,
       // customCreate
     }
     display.push(tableProp)
@@ -141,15 +169,34 @@ function Create() {
 
   const handleSaveClick = () => {
     setOpen(false)
-    const form = {
-      id: sonFormList.length + 1
-    }
-    for (let i = 0; i < sonFormList.length; i++) {
-      form[sonFormList[i].label] = sonFormList[i].value
-    }
     const values = deepClone(sonDetailList)
-    values.push(form)
+    const sonDetail = values[index]
+    for (const from of sonFormList) {
+      if (from.type === 'select') {
+        const item = from.itemList.find(t => t[from.foreignKey] === from.value)
+        sonDetail[from.label]  = item ? item[from.foreignDisplayKey] : from.value
+        sonDetail[from.label + '_svalue'] = from.value
+      } else  {
+        sonDetail[from.label] = from.value
+      }
+
+      // if (value.type === 'select') {
+      //   value.value = parseInt(sonDetail[value.label])
+      // } else {
+      //   value.value = sonDetail[value.label]
+      // }
+    }
+    console.log(values)
     setSonDetailList(values)
+    // const form = {
+    //   id: sonFormList.length + 1
+    // }
+    // for (let i = 0; i < sonFormList.length; i++) {
+    //   form[sonDetailList[i].label] = sonFormList[i].value
+    // }
+    // const values = deepClone(sonDetailList)
+    // values.push(form)
+    // setSonDetailList(values)
   }
 
   const onDialogFieldChange = (e, id) => {
@@ -250,6 +297,7 @@ function Create() {
         handleClose={handleClose}
         open={open}
         titleLevel={1}
+        isAll={true}
         formFieldList = {sonFormList}
         onFormFieldChange = {onDialogFieldChange}
         buttonList={dialogButtonList}
