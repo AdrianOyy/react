@@ -31,7 +31,7 @@ function Create(props) {
 
   // 获取渲染表
   useEffect(() => {
-    Api.test({ deploymentId }).then(({ data }) => {
+    Api.getDynamicForm({ deploymentId }).then(({ data }) => {
       // eslint-disable-next-line no-unused-vars
       const { workflowName, formKey, parentFormDetail, childFormDetail, childFormKey } = data.data
       const logic = getLogic(workflowName)
