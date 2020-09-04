@@ -8,7 +8,7 @@ import ADGroupApi from "../../../../../api/adGroup"
 import { checkEmpty, getCheckExist } from "../../untils/ADGroupCheck"
 
 const listPath = '/aaa-service/adgroup'
-const formTitle = 'AD Group Create'
+const formTitle = 'Update'
 
 function Update(props) {
   const { onMount } = props

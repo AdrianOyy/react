@@ -5,7 +5,7 @@ import dayjs from "dayjs"
 import DetailPage from "../../../../../components/DetailPage"
 import API from "../../../../../api/adGroup"
 
-const formTitle = 'AD Group Detail'
+const formTitle = 'Detail'
 
 function Detail(props) {
   const { onMount } = props

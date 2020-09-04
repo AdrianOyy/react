@@ -121,7 +121,7 @@ function AssignUpdate(props) {
   return (
     <React.Fragment>
       <DetailPage
-        formTitle = 'Expiry Update'
+        formTitle = 'Update'
         onFormFieldChange = {onFormFieldChange}
         formFieldList = {formFieldList}
         showBtn ={true}

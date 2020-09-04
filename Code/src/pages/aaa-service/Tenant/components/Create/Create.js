@@ -78,7 +78,7 @@ function Create(props) {
     API.listGroup({ limit: 999, page: 1 }).then(({ data }) => {
       if (data && data.data) {
         const { rows } = data.data
-        console.log('111', rows)
+        // console.log('111', rows)
         setGroupList(rows)
       }
     })

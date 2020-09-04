@@ -5,7 +5,7 @@ import API from "../../../../../api/tenant"
 import { useParams } from "react-router-dom"
 import dayjs from "dayjs"
 
-const formTitle = 'Tenant Detail'
+const formTitle = 'Detail'
 const formatDateTime = (str) => {
   return dayjs(new Date(str)).format('DD-MMM-YYYY HH:mm')
 }
@@ -27,7 +27,7 @@ function Detail(props) {
   const [ createdAt, setCreatedAt ] = useState('')
   const [ updatedAt, setUpdatedAt ] = useState('')
   const [ formFieldList, setFormFieldList ] = useState([])
-  
+
   useEffect(() => {
     onMount('detail')
     // eslint-disable-next-line

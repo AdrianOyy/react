@@ -105,7 +105,7 @@ function TenantDetail(props) {
   return (
     <React.Fragment>
       <DetailPage
-        formTitle = 'Role Update'
+        formTitle = 'Update'
         onFormFieldChange = {onFormFieldChange}
         onFormFieldBlur = {onFormFieldBlur}
         formFieldList = {formFieldList}

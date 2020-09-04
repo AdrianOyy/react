@@ -202,7 +202,7 @@ function Create(props) {
   return (
     <React.Fragment>
       <DetailPage
-        formTitle = 'Tenant_quota_mapping Create'
+        formTitle = 'Create'
         onFormFieldChange = {onFormFieldChange}
         formFieldList = {formFieldList}
         showBtn ={true}

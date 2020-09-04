@@ -110,7 +110,7 @@ function RoleCreate(props) {
   return (
     <React.Fragment>
       <DetailPage
-        formTitle = 'Role Create'
+        formTitle = 'Create'
         onFormFieldChange = {onFormFieldChange}
         onFormFieldBlur = {onFormFieldBlur}
         formFieldList = {formFieldList}

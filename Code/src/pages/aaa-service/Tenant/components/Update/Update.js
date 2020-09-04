@@ -331,7 +331,7 @@ function Update(props) {
   return (
     <React.Fragment>
       <DetailPage
-        formTitle = 'Tenant Update'
+        formTitle = 'Update'
         onFormFieldChange = {onFormFieldChange}
         onFormFieldBlur = {onFormFieldBlur}
         formFieldList = {formFieldList}
