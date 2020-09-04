@@ -75,6 +75,7 @@ export default function ChildForm(props) {
     onChange,
     childFormTitle,
     defaultValues,
+    pid,
   } = props
 
   // const [ initData, setInitData ] = useState({})
@@ -92,6 +93,7 @@ export default function ChildForm(props) {
         <Title>{childFormTitle}</Title>
         <Content dividers={true}>
           <DIYForm
+            pid={pid}
             dataList={formDetail}
             defaultValues={defaultValues}
             hideTitle={true}
