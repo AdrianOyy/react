@@ -77,6 +77,8 @@ function CommonWorkflowForm(props) {
   const [ formKey, setFormKey ] = useState('')
   const [ childFormKey, setChildFormKey ] = useState('')
 
+  const [ create, setCreate ] = useState(false)
+
   const [ current, setCurrent ] = useState(-1)
 
   const [ isNew, setIsNew ] = useState(false)
@@ -139,6 +141,7 @@ function CommonWorkflowForm(props) {
           if (!pid) return
           API.detail({ pid })
             .then(({ data }) => {
+              setCreate(true)
               const { parentData, childDataList } = data.data
               setParentDefaultValues(parentData)
               const childList = []
@@ -147,13 +150,22 @@ function CommonWorkflowForm(props) {
                 const childModel = {}
                 for (let key in el) {
                   const child = childDataListMap.get(key)
-                  if (!child) continue
-                  const model = {
-                    id: child.fieldName,
-                    value: child.type === 'select' ? child.itemList.find(t => t[child.valueField] == el[key])[child.valueField] : el[key],
-                    label: child.type === 'select' ? child.itemList.find(t => t[child.valueField] == el[key])[child.labelField] : el[key],
+                  if (key === 'id') {
+                    const model = {
+                      id: 'id',
+                      value: el[key],
+                      label: el[key],
+                    }
+                    Object.assign(childModel, { ['id']: model })
+                  } else {
+                    if (!child) continue
+                    const model = {
+                      id: child.fieldName,
+                      value: child.type === 'select' ? child.itemList.find(t => t[child.valueField] == el[key])[child.valueField] : el[key],
+                      label: child.type === 'select' ? child.itemList.find(t => t[child.valueField] == el[key])[child.labelField] : el[key],
+                    }
+                    Object.assign(childModel, { [child.fieldName]: model })
                   }
-                  Object.assign(childModel, { [child.fieldName]: model })
                 }
                 childList.push(childModel)
               }
@@ -214,6 +226,10 @@ function CommonWorkflowForm(props) {
     openChildForm()
   }
 
+  const handleCheck = () => {
+    console.log('check')
+  }
+
   // 提交表单
   const handleSubmit = () => {
     const form = {
@@ -230,6 +246,10 @@ function CommonWorkflowForm(props) {
         history.push('/')
       })
     } else {
+      const formUpdate = {
+        pid
+      }
+      // API.
       // approve
       // TODO check pass, if pass then save and call ansable, else throw a error
       // API.check.then(({ data }) => {
@@ -246,6 +266,7 @@ function CommonWorkflowForm(props) {
   // 子表按钮
   const buttonList = [
     { id: 'save', label: 'Save', color: 'primary', onClick: handleSave, disabled: false },
+    { id: 'check', label: 'Check', color: 'primary', onClick: handleCheck, disabled: false },
     { id: 'cancel', label: 'Cancel', color: 'default', onClick: handleClose, disabled: false },
   ]
 
@@ -253,6 +274,7 @@ function CommonWorkflowForm(props) {
     <React.Fragment>
       <Paper ref={container}>
         <DIYForm
+          pid={pid}
           htmlId={'DynamicParentForm'}
           dataList={parentFormDetail}
           formTitle={workflowName}
@@ -262,6 +284,7 @@ function CommonWorkflowForm(props) {
         <HATable
           id={'DynamicTable'}
           rows={childDataList}
+          hideCreate={create}
           actionList={actionList}
           tableName={logic.getChildTableTitle && logic.getChildTableTitle()}
           headCells={tableHeader}
@@ -271,6 +294,7 @@ function CommonWorkflowForm(props) {
         />
         <ChildForm
           id={'DynamicDialog'}
+          pid={pid}
           open={open}
           formDetail={childFormDetail}
           defaultValues={childDefaultValues}

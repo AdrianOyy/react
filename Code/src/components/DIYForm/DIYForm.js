@@ -41,9 +41,10 @@ export default function DIYForm(props) {
     hideTitle,
     defaultValues,
     htmlId,
+    pid,
     isNew,
   } = props
-
+  console.log(pid)
   const classes = useStyles()
 
 
@@ -68,7 +69,7 @@ export default function DIYForm(props) {
           dataList && dataList.map((el, i) => {
             switch (el.type) {
               case 'select':
-                return el.showOnRequest ? (
+                return pid || el.showOnRequest ? (
                   <div
                     className={classes.grid}
                     key={el.fieldName + '_' + i}
@@ -87,7 +88,7 @@ export default function DIYForm(props) {
                   </div>
                 ) : null
               case 'date':
-                return el.showOnRequest ? (
+                return pid || el.showOnRequest ? (
                   <div
                     className={classes.grid}
                     key={el.fieldName + '_' + i}
@@ -102,7 +103,7 @@ export default function DIYForm(props) {
                   </div>
                 ) : null
               default:
-                return el.showOnRequest ? (
+                return pid || el.showOnRequest ? (
                   <div
                     className={classes.grid}
                     key={el.fieldName + '_' + i}
