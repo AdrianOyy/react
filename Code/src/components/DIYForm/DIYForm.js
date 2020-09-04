@@ -42,6 +42,7 @@ export default function DIYForm(props) {
     defaultValues,
     htmlId,
     pid,
+    isNew,
   } = props
   console.log(pid)
   const classes = useStyles()
@@ -76,6 +77,7 @@ export default function DIYForm(props) {
                     <HASelect
                       id={el.fieldName}
                       defaultValue={defaultValues ? defaultValues[el.fieldName] : null}
+                      isNew={isNew}
                       onChange={onChange}
                       label={el.fieldDisplayName}
                       valueField={el.valueField}

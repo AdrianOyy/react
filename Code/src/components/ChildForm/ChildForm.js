@@ -76,6 +76,7 @@ export default function ChildForm(props) {
     childFormTitle,
     defaultValues,
     pid,
+    isNew,
   } = props
 
   // const [ initData, setInitData ] = useState({})
@@ -99,6 +100,7 @@ export default function ChildForm(props) {
             hideTitle={true}
             onChange={onChange}
             formTitle={childFormTitle}
+            isNew={isNew}
           />
         </Content>
         <Actions disableSpacing={true}>

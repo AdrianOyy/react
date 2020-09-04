@@ -81,6 +81,8 @@ function CommonWorkflowForm(props) {
 
   const [ current, setCurrent ] = useState(-1)
 
+  const [ isNew, setIsNew ] = useState(false)
+
   // const [ processInstanceId, setProcessInstanceId ] = useState(0)
 
   const parentDataMap = new Map()
@@ -186,6 +188,7 @@ function CommonWorkflowForm(props) {
   // 子表关闭
   const handleClose = () => {
     setOpen(false)
+    setIsNew(false)
     setCurrent(-1)
     setChildDefaultValues({})
   }
@@ -210,11 +213,17 @@ function CommonWorkflowForm(props) {
   // 子表改动
   const onChildChange = (data) => (logic.onFieldChange(data, childDataMap, container))
 
+  // 打开新表
+  const openNewDialog = () => {
+    setIsNew(true)
+    openChildForm()
+  }
+
   // 打开详情表
   const handleDetail = (e, index) => {
     setCurrent(index)
     setChildDefaultValues(childDataList[index])
-    openChildForm(index)
+    openChildForm()
   }
 
   const handleCheck = () => {
@@ -280,7 +289,7 @@ function CommonWorkflowForm(props) {
           tableName={logic.getChildTableTitle && logic.getChildTableTitle()}
           headCells={tableHeader}
           fieldList={fieldList}
-          addChild={openChildForm}
+          addChild={openNewDialog}
           marginTop={8}
         />
         <ChildForm
@@ -292,6 +301,7 @@ function CommonWorkflowForm(props) {
           onChange={onChildChange}
           childFormTitle={logic.getChildFormTitle && logic.getChildFormTitle()}
           buttonList={buttonList}
+          isNew={isNew}
         />
         <ButtonGroup className={classes.buttonGroup}>
           <Button
