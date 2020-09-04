@@ -79,25 +79,35 @@ function CommonWorkflowForm(props) {
 
   const [ current, setCurrent ] = useState(-1)
 
+  // const [ processInstanceId, setProcessInstanceId ] = useState(0)
+
   const parentDataMap = new Map()
   const childDataMap = new Map()
+  const childDataListMap = new Map()
 
   // 获取渲染表
   useEffect(() => {
     Api.getDynamicForm({ deploymentId })
       .then(({ data }) => {
         const {
-          workflowName, parentFormDetail, parentData,
-          childFormDetail, childDataList, formKey, childFormKey,
+          workflowName, parentFormDetail,
+          childFormDetail, formKey, childFormKey,
         } = data.data
         setFormKey(formKey)
         setChildFormKey(childFormKey)
         setWorkflowName(workflowName)
-        setChildDataList(childDataList ? childDataList : [])
-        setParentDefaultValues(parentData)
         setParentFormDetail(parentFormDetail)
         if (childFormDetail && childFormDetail.length > 0) {
           setChildFormDetail(childFormDetail)
+          childFormDetail.forEach(el => {
+            childDataListMap.set(el.fieldName, {
+              type: el.inputType,
+              fieldName: el.fieldName,
+              itemList: el.itemList,
+              labelField: el.labelField,
+              valueField: el.valueField
+            })
+          })
           // 设置表头
           const headerList = []
           const fileList = []
@@ -122,6 +132,31 @@ function CommonWorkflowForm(props) {
           })
           setTableHeader(headerList)
           setFieldList(fileList)
+
+          // 获取数据
+          if (!pid) return
+          API.detail({ pid })
+            .then(({ data }) => {
+              const { parentData, childDataList } = data.data
+              setParentDefaultValues(parentData)
+              const childList = []
+              for (let i = 0; i < childDataList.length; i++) {
+                const el = childDataList[i]
+                const childModel = {}
+                for (let key in el) {
+                  const child = childDataListMap.get(key)
+                  if (!child) continue
+                  const model = {
+                    id: child.fieldName,
+                    value: child.type === 'select' ? child.itemList.find(t => t[child.valueField] == el[key])[child.valueField] : el[key],
+                    label: child.type === 'select' ? child.itemList.find(t => t[child.valueField] == el[key])[child.labelField] : el[key],
+                  }
+                  Object.assign(childModel, { [child.fieldName]: model })
+                }
+                childList.push(childModel)
+              }
+              setChildDataList(childList)
+            })
         }
       })
   }, [])

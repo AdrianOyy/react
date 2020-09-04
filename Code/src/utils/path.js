@@ -13,4 +13,4 @@ class path {
   }
 }
 
-export default new path();
+export default new path()

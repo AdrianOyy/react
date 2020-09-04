@@ -1,5 +1,9 @@
+import React from "react"
+import HAInput from "../../../components/HAInput"
 import CommonTip from "../../../components/CommonTip"
 import formatDateTime from "../../formatDateTime"
+
+import tenantAPI from '../../../api/tenant'
 
 export default class VMAllocation {
   async onFormFieldChange(value, id, i, dataList) {
@@ -85,9 +89,13 @@ export default class VMAllocation {
   // =================================================
   //                     新方法
   // =================================================
-  async onFieldChange(data, dataMap) {
+  async onFieldChange(data, dataMap, ref) {
     const { id } = data
     switch (id) {
+      case 'tenant':
+        await handleTenantChange(data, ref)
+        dataMap.set(id, data)
+        break
       case 'cpu_request_number':
         checkCPU(data, dataMap)
         break
@@ -136,4 +144,57 @@ function checkCPU(data, dataMap) {
     helperText = "CPU only receive a integer"
   }
   dataMap.set(id, Object.assign(data, { error, helperText }))
+}
+
+async function handleTenantChange(tenantData) {
+  const { value } = tenantData
+  const { data }  = await tenantAPI.detail(value)
+  const tenant = data.data
+  if (tenant) {
+    const {
+      code, budget_type, justification, project_owner,
+      contact_person, project_estimation, methodology_text
+    } = tenant
+    // const node = (
+    //   <div>
+    //     <HAInput
+    //       diabled={true}
+    //       label={'code'}
+    //       default={code}
+    //     />
+    //     <HAInput
+    //       diabled={true}
+    //       label={'Budget Bype'}
+    //       default={budget_type}
+    //     />
+    //     <HAInput
+    //       diabled={true}
+    //       label={'Justification'}
+    //       default={justification}
+    //     />
+    //     <HAInput
+    //       diabled={true}
+    //       label={'Project Owner'}
+    //       default={project_owner}
+    //     />
+    //     <HAInput
+    //       diabled={true}
+    //       label={'Contact Person'}
+    //       default={contact_person}
+    //     />
+    //     <HAInput
+    //       diabled={true}
+    //       label={'Project Estimation'}
+    //       default={project_estimation}
+    //     />
+    //     <HAInput
+    //       diabled={true}
+    //       label={'Methodology Text'}
+    //       default={methodology_text}
+    //     />
+    //   </div>
+    // )
+    // const parentForm = document.getElementById('DynamicParentForm')
+    // parentForm.appendChild(node)
+  }
 }

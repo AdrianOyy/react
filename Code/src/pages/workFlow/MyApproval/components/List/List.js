@@ -59,8 +59,9 @@ function List(props) {
     const rows = []
     rawDataList.forEach((el) => {
       const rowModel = {
-        id: el.id,
+        id: el.processInstanceId,
         name: el.name,
+        deploymentId: el.deploymentId,
         processDefinitionId: el.processDefinitionId,
         createBy: el.createBy,
         createTime: formatDateTime(el.createTime),
@@ -142,7 +143,7 @@ function List(props) {
   }
 
   const handleDetail = (event, row) => {
-    history.push({ pathname: `/detail/${row.id}`, search: `processDefinitionId=${row.processDefinitionId}` })
+    history.push({ pathname: `/detail/${row.id}`, search: `processDefinitionId=${row.processDefinitionId}&deploymentId=${row.deploymentId}` })
   }
 
   const actionList = [
