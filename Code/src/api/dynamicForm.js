@@ -19,6 +19,9 @@ class dynamicForm {
   test(params) {
     return request.get(`${prefix}/dynamicForm/test`, params)
   }
+  create(data) {
+    return request.post(`${prefix}/diyForm/create`)
+  }
 }
 
 export default new dynamicForm()

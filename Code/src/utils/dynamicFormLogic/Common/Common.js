@@ -29,4 +29,12 @@ export default class VMAllocation {
     console.log('values ================= values')
     return true
   }
+
+  getChildTableTitle() {
+    return 'Child Table'
+  }
+
+  getChildFormTitle() {
+    return 'Child Form'
+  }
 }

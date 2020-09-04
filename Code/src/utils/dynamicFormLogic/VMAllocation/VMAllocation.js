@@ -64,20 +64,76 @@ export default class VMAllocation {
     }
   }
 
-  async checkDialog(values) {
-    const { cpu_request_number, ram_request_number } = values
+  async checkDialog(childFormData) {
+    if (!childFormData) return false
+    const { cpu_request_number, ram_request_number } = childFormData
     if (isNaN(parseInt(cpu_request_number))) {
-      CommonTip.err('cpu only receive a integer')
+      CommonTip.error('cpu only receive a integer')
       return false
     }
     if (isNaN(parseInt(ram_request_number))) {
-      CommonTip.err('ram only receive a integer')
+      CommonTip.error('ram only receive a integer')
       return false
     }
     if (parseInt(ram_request_number) / parseInt(cpu_request_number) > 8) {
-      CommonTip.err('ram is 8 times larger than cpu')
+      CommonTip.error('ram is 8 times larger than cpu')
       return false
     }
     return true
   }
+
+  // =================================================
+  //                     新方法
+  // =================================================
+  async onFieldChange(data, dataMap) {
+    const { id } = data
+    switch (id) {
+      case 'cpu_request_number':
+        checkCPU(data, dataMap)
+        break
+      default:
+        dataMap.set(id, data)
+    }
+  }
+
+  async checkChildForm(childDataMap) {
+    const cpu_request_number = childDataMap.get('cpu_request_number') && childDataMap.get('cpu_request_number').value
+    const ram_request_number = childDataMap.get('ram_request_number') && childDataMap.get('ram_request_number').value
+    if (isNaN(parseInt(cpu_request_number))) {
+      CommonTip.error('cpu only receive a integer')
+      return false
+    }
+    if (isNaN(parseInt(ram_request_number))) {
+      CommonTip.error('ram only receive a integer')
+      return false
+    }
+    if (parseInt(ram_request_number) / parseInt(cpu_request_number) > 8) {
+      CommonTip.error('ram is 8 times larger than cpu')
+      return false
+    }
+    return true
+  }
+
+
+  getChildTableTitle() {
+    return 'VM List'
+  }
+
+  getChildFormTitle() {
+    return 'VM'
+  }
+
+
+}
+
+function checkCPU(data, dataMap) {
+  const { id, value } = data
+  let error = false
+  let helperText = ''
+
+  if (isNaN(parseInt(value))) {
+    error = true
+    helperText = "CPU only receive a integer"
+  }
+  dataMap.set(id, Object.assign(data, { error, helperText }))
 }

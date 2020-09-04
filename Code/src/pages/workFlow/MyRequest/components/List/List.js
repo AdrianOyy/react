@@ -80,8 +80,8 @@ function List(props) {
   }
   // 表头字段列表
   const headCells = [
-    { id: 'procDefId', alignment: 'center', label: 'Id' },
     { id: 'name', alignment: 'center', label: 'Name' },
+    { id: 'procDefId', alignment: 'center', label: 'Id' },
     { id: 'startTime', alignment: 'center', label: 'Start Date' },
     { id: 'endTime', alignment: 'center', label: 'End Date' },
     { id: 'state', alignment: 'center', label: 'State' },
@@ -91,8 +91,8 @@ function List(props) {
 
   // 每行显示的字段
   const fieldList = [
-    { field: 'procDefId', align: 'center' },
     { field: 'name', align: 'center' },
+    { field: 'procDefId', align: 'center' },
     { field: 'startTime', align: 'center' },
     { field: 'endTime', align: 'center' },
     { field: 'state', align: 'center' },
@@ -121,9 +121,7 @@ function List(props) {
   }
 
   const handleImage = (event, row) => {
-    console.log(event)
-    console.log(row.procInstId)
-    API.getDiagram(row.procInstId).then(response => {
+    API.getDiagram(row.id).then(response => {
       let blob = new Blob([ response.data ])
       setImage(window.URL.createObjectURL(blob))
       setOpen(true)

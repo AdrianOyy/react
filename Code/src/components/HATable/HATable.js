@@ -1,7 +1,5 @@
 import React, { useState } from 'react'
-import { useHistory } from 'react-router-dom'
-import { EnhancedTableToolbar, EnhancedTableHead } from '../index'
-import CommentTip from '../CommonTip'
+import { EnhancedTableHead } from '../index'
 import {
   Box,
   Checkbox,
@@ -11,13 +9,25 @@ import {
   TableCell,
   TableContainer,
   TableRow,
+  Toolbar,
+  Tooltip,
+  Typography,
 } from '@material-ui/core'
 
 import {
-  RemoveRedEye as RemoveRedEyeIcon,
-  BorderColorOutlined as BorderColorIcon,
+  AddOutlined as AddIcon,
 } from "@material-ui/icons"
 
+import styled from "styled-components"
+
+
+const ToolbarTitle = styled.div`
+  min-width: 400px;
+`
+
+const Spacer = styled.div`
+  flex: 1 1 100%;
+`
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -46,43 +56,25 @@ function stableSort(array, comparator) {
   return stabilizedThis.map((el) => el[0])
 }
 
-function CommonTable(props) {
+function HATable(props) {
   const {
     rows,
     tableName,
-    deleteAPI,
-    handleSearch,
-    path,
     headCells,
     fieldList,
-    hideDetail,
-    hideUpdate,
-    hideCreate,
-    hideCheckBox,
-    customCreate,
     actionList,
     marginTop,
+    titleLevel,
+    hideCheckBox,
+    addChild,
+    hideCreate,
+    complexActionList,
   } = props
-  const history = useHistory()
+
   const [ order, setOrder ] = useState('asc')
   const [ orderBy, setOrderBy ] = useState('customer')
   const [ selected, setSelected ] = useState([])
-  const [ loading, setLoading ] = useState(false)
 
-  const handleDelete = () => {
-    if (loading) return
-    setLoading(true)
-    deleteAPI({ idList: selected })
-      .then(() => {
-        CommentTip.success('success')
-        handleSearch()
-        setLoading(false)
-        setSelected([])
-      })
-      .catch(() => {
-        setLoading(false)
-      })
-  }
 
   const handleRequestSort = (_, property) => {
     const isAsc = orderBy === property && order === 'asc'
@@ -122,26 +114,48 @@ function CommonTable(props) {
     setSelected(newSelected)
   }
 
-  const handleDetail = (_, id) => {
-    history.push({ pathname: `${path}/detail/${id}` })
-  }
+  const isSelected = (index) => selected.indexOf(index) !== -1
 
-  const handleUpdate = (_, id) => {
-    history.push({ pathname: `${path}/update/${id}` })
+  const handleShow = (row, el) => {
+    return (
+      el.field && row[el.field] ? row[el.field].label : ''
+    )
   }
-
-  const isSelected = (id) => selected.indexOf(id) !== -1
 
   return (
     <div style={{ marginTop: marginTop ? marginTop + 'vh' : 0 }}>
-      <EnhancedTableToolbar
-        numSelected={selected.length}
-        tableName={tableName}
-        createPath={`${path}/create`}
-        onDelete={handleDelete}
-        hideCreate={hideCreate}
-        customCreate={customCreate}
-      />
+      <Toolbar>
+        <ToolbarTitle>
+          {selected.length > 0 ? (
+            <Typography color="inherit" variant="subtitle1">
+              {selected.length} selected
+            </Typography>
+          ) : (
+            <Typography variant={titleLevel ? `h${titleLevel}` : 'h4'} id="tableTitle">
+              { tableName }
+            </Typography>
+          )}
+        </ToolbarTitle>
+        <Spacer />
+        <div>
+          {selected.length > 0 && complexActionList ?
+            complexActionList.map((el, i) => (
+              <Tooltip title={el.title} key={el.title + '__' + i}>
+                <IconButton aria-label="el.title" onClick={el.onClick}>
+                  { el.icon }
+                </IconButton>
+              </Tooltip>
+            ))
+            : !hideCreate ? ((
+              <Tooltip title="Create">
+                <IconButton aria-label="Create" onClick={addChild}>
+                  <AddIcon />
+                </IconButton>
+              </Tooltip>
+            )) : null
+          }
+        </div>
+      </Toolbar>
       <TableContainer>
         <Table
           aria-labelledby="tableTitle"
@@ -161,7 +175,7 @@ function CommonTable(props) {
           <TableBody>
             {rows && stableSort(rows, getComparator(order, orderBy))
               .map((row, index) => {
-                const isItemSelected = isSelected(row.id)
+                const isItemSelected = isSelected(index)
                 const labelId = `enhanced-table-checkbox-${index}`
                 return (
                   <TableRow
@@ -169,7 +183,7 @@ function CommonTable(props) {
                     role="checkbox"
                     aria-checked={isItemSelected}
                     tabIndex={-1}
-                    key={`${row.id}-${index}`}
+                    key={`${row[fieldList[0].field]}-${index}`}
                     selected={isItemSelected}
                   >
                     {
@@ -187,30 +201,14 @@ function CommonTable(props) {
                       fieldList && fieldList.map((el, i) => (
                         <TableCell key={el.field + '__' + i} align={el.align} >
                           <div style={{ marginRight: '26px' }}>
-                            {row[el.field]}
+                            {
+                              handleShow(row, el)
+                            }
                           </div>
                         </TableCell>
                       ))
                     }
                     <TableCell padding="none" align="right">
-                      <Box mt={3}>
-                        {
-                          !hideDetail && (() => (
-                            <IconButton aria-label="detail" onClick={(event) => handleDetail(event, row.id)}>
-                              <RemoveRedEyeIcon />
-                            </IconButton>
-                          ))
-                        }
-                      </Box>
-                      <Box>
-                        {
-                          !hideUpdate && (() => (
-                            <IconButton aria-label="update" onClick={(event) => handleUpdate(event, row.id)}>
-                              <BorderColorIcon />
-                            </IconButton>
-                          ))
-                        }
-                      </Box>
                       <Box>
                         {
                           actionList && actionList.map((action, i) => {
@@ -218,7 +216,7 @@ function CommonTable(props) {
                               <IconButton
                                 key = {i + '_' + action.label}
                                 aria-label={action.label}
-                                onClick={(e) => action.handleClick(e, row)}
+                                onClick={action.onClick && ((e) => action.onClick(e, index))}
                               >
                                 {action.icon}
                               </IconButton>
@@ -237,4 +235,4 @@ function CommonTable(props) {
   )
 }
 
-export default CommonTable
+export default HATable

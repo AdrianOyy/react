@@ -8,13 +8,10 @@ import { SearchBar, CommonTable } from '../../../../../components'
 import API from "../../../../../api/tenant"
 import styled from "styled-components"
 import { spacing } from "@material-ui/system"
-import dayjs from "dayjs"
 import adGroupApi from "../../../../../api/adGroup"
+import formatDateTime from "../../../../../utils/formatDateTime"
 
 const Paper = styled(MuiPaper)(spacing)
-const formatDateTime = (str) => {
-  return dayjs(new Date(str)).format('DD-MMM-YYYY HH:mm')
-}
 const tableName = 'Tenant List'
 
 function List(props) {

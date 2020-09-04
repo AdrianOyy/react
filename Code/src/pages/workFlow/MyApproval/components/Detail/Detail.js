@@ -13,7 +13,7 @@ const formatDateTime = (str) => {
   return dayjs(new Date(str)).format('YYYY-MM-DD HH:mm')
 }
 
-function Create() {
+function Detail() {
   const { id } = useParams()
   const history = useHistory()
   const user = getUser()
@@ -61,14 +61,14 @@ function Create() {
             id: 'cancel', label: 'Cancel', color: 'default',
             onClick: handleClick, disabled: false
           },
+          {
+            id: 'T1', label: 'T1 Follow Up', color: 'secondary',
+            onClick: handleT1FollowUpClick, disabled: false
+          },
         ]
         if (data && data.data && data.data.name === 'T3 adjust VM infomation') {
 
           tempButtonList.push(
-            {
-              id: 'T1', label: 'T1 Follow Up', color: 'secondary',
-              onClick: handleT1FollowUpClick, disabled: false
-            },
             {
               id: 'T2', label: 'T2 Follow Up', color: 'secondary',
               onClick: handleT2FollowUpClick, disabled: false
@@ -261,7 +261,10 @@ function Create() {
     //   taskId: id,
     //   variables: { followUp: 'T1' },
     // }
-    alert('T1 followUp')
+    // alert('T1 followUp')
+    console.log('sonDetailList ================= sonDetailList')
+    console.log(sonDetailList)
+    console.log('sonDetailList ================= sonDetailList')
   }
   const handleT2FollowUpClick = () => {
     alert('T2 followUp')
@@ -305,4 +308,4 @@ function Create() {
     </React.Fragment>
   )
 }
-export default Create
+export default Detail

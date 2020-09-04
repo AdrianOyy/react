@@ -58,9 +58,9 @@ function List(props) {
   // 表头字段列表
   const headCells = [
     // { id: 'id', alignment: 'center', label: 'Id' },
+    { id: 'workflowName', alignment: 'center', label: 'Workflow name' },
     { id: 'deploymentId', alignment: 'center', label: 'Deployment Id' },
     { id: 'version', alignment: 'center', label: 'Version' },
-    { id: 'workflowName', alignment: 'center', label: 'Workflow name' },
     { id: 'deployTime', alignment: 'center', label: 'Deploy Time' },
     { id: 'action', alignment: 'right', label: 'Action' },
   ]
@@ -68,9 +68,9 @@ function List(props) {
   // 每行显示的字段
   const fieldList = [
     // { field: 'id', align: 'center' },
+    { field: 'workflowName', align: 'center' },
     { field: 'deploymentId', align: 'center' },
     { field: 'version', align: 'center' },
-    { field: 'workflowName', align: 'center' },
     { field: 'deployTime', align: 'center' },
   ]
 
