@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react"
 import Api from "../../../api/dynamicForm"
-import DiyForm from "../../../components/DiyForm"
+import DiyForm from "../../../components/DIYForm"
 
 const did = 615083
 
@@ -12,19 +12,20 @@ function Test() {
 
   // 获取渲染表
   useEffect(() => {
-    Api.test({ deploymentId: did })
-      .then(({ data }) => {
-        console.log('data.data ================= data.data')
-        console.log(data.data)
-        console.log('data.data ================= data.data')
-        const { workflowName, formKey, parentFormDetail, childFormDetail } = data.data
-        setFormKey(formKey)
-        setWorkflowName(workflowName)
-        setParentFormDetail(parentFormDetail)
-        if (childFormDetail && childFormDetail.length > 0) {
-          setChildFormDetail(childFormDetail)
-        }
-      })
+    Api.designTest({ formKey: 'VMAllocation', formId: 1 }).then(() => {})
+    // Api.test({ deploymentId: did })
+    //   .then(({ data }) => {
+    //     console.log('data.data ================= data.data')
+    //     console.log(data.data)
+    //     console.log('data.data ================= data.data')
+    //     const { workflowName, formKey, parentFormDetail, childFormDetail } = data.data
+    //     setFormKey(formKey)
+    //     setWorkflowName(workflowName)
+    //     setParentFormDetail(parentFormDetail)
+    //     if (childFormDetail && childFormDetail.length > 0) {
+    //       setChildFormDetail(childFormDetail)
+    //     }
+    //   })
   }, [])
 
   useEffect(() => {
