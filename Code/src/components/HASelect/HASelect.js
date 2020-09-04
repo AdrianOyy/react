@@ -35,6 +35,7 @@ export default function HASelect(props) {
     labelField,
     valueField,
     defaultValue,
+    isNew,
   } = props
 
   const [ newValue, setNewValue ] = useState('')
@@ -47,6 +48,12 @@ export default function HASelect(props) {
     setNewValue(defaultValue ? (defaultValue.value ? defaultValue.value : defaultValue) : '')
     defaultValue && onChange && onChange(defaultValue)
   }, [ defaultValue ])
+
+  useEffect(() => {
+    if (isNew) {
+      setNewValue('')
+    }
+  }, [ isNew ])
 
   useEffect(() => {
     let label = ''

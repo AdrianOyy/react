@@ -41,6 +41,7 @@ export default function DIYForm(props) {
     hideTitle,
     defaultValues,
     htmlId,
+    isNew,
   } = props
 
   const classes = useStyles()
@@ -75,6 +76,7 @@ export default function DIYForm(props) {
                     <HASelect
                       id={el.fieldName}
                       defaultValue={defaultValues ? defaultValues[el.fieldName] : null}
+                      isNew={isNew}
                       onChange={onChange}
                       label={el.fieldDisplayName}
                       valueField={el.valueField}
