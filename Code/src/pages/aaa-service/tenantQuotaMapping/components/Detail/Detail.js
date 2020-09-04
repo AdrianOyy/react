@@ -58,7 +58,7 @@ function Detail(props) {
   return (
     <React.Fragment>
       <DetailPage
-        formTitle = 'Tenant_quota_mapping List'
+        formTitle = 'Detail'
         formFieldList = {formFieldList}
       />
     </React.Fragment>

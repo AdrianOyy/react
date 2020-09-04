@@ -198,7 +198,7 @@ function ManagementUpdate(props) {
   return (
     <React.Fragment>
       <DetailPage
-        formTitle = 'Tenant_quota_mapping Update'
+        formTitle = 'Update'
         onFormFieldChange = {onFormFieldChange}
         formFieldList = {formFieldList}
         showBtn ={true}

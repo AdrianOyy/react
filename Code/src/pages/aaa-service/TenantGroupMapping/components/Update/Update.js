@@ -160,7 +160,7 @@ function TenantGroupMappingUpdate(props) {
   return (
     <React.Fragment>
       <DetailPage
-        formTitle = 'Tenant AD Group Mapping Update'
+        formTitle = 'Update'
         onFormFieldChange = {onFormFieldChange}
         formFieldList = {formFieldList}
         showBtn ={true}

@@ -16,7 +16,7 @@ const Paper = styled(MuiPaper)(spacing)
 const formatDateTime = (str) => {
   return dayjs(new Date(str)).format('DD-MMM-YYYY HH:mm')
 }
-const tableName = 'User Profile List'
+const tableName = 'List'
 
 function List(props) {
   const { onMount, path } = props

@@ -92,7 +92,7 @@ function AssignDetail(props) {
   return (
     <React.Fragment>
       <DetailPage
-        formTitle = 'Expiry Date Detail'
+        formTitle = 'Detail'
         onFormFieldChange = {onFormFieldChange}
         formFieldList = {formFieldList}
       />

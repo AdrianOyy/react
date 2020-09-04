@@ -163,7 +163,7 @@ function TenantGroupMappingCreate(props) {
   return (
     <React.Fragment>
       <DetailPage
-        formTitle = 'Tenant AD Group Mapping Create'
+        formTitle = 'Create'
         onFormFieldChange = {onFormFieldChange}
         formFieldList = {formFieldList}
         showBtn ={true}

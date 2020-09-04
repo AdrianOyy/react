@@ -8,7 +8,7 @@ import UserApi from "../../../../../api/user"
 const formatDateTime = (str) => {
   return dayjs(new Date(str)).format('DD-MMM-YYYY HH:mm')
 }
-const formTitle = 'User Profile Detail'
+const formTitle = 'Detail'
 
 function Detail(props) {
   const { onMount } = props

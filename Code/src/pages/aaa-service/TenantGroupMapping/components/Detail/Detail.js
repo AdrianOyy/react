@@ -67,7 +67,7 @@ function Detail(props) {
   return (
     <React.Fragment>
       <DetailPage
-        formTitle = 'Tenant AD Group Mapping Detail'
+        formTitle = 'Detail'
         onFormFieldChange = {onFormFieldChange}
         formFieldList = {formFieldList}
       />

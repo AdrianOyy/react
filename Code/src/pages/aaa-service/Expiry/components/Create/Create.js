@@ -183,7 +183,7 @@ function AssignCreate(props) {
   return (
     <React.Fragment>
       <DetailPage
-        formTitle = 'Expiry Create'
+        formTitle = 'Create'
         onFormFieldChange = {onFormFieldChange}
         formFieldList = {formFieldList}
         showBtn ={true}
