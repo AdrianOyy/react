@@ -40,13 +40,14 @@ export default function DIYForm(props) {
     formTitle,
     hideTitle,
     defaultValues,
+    htmlId,
   } = props
 
   const classes = useStyles()
 
 
   return (
-    <React.Fragment>
+    <div>
       {
         !hideTitle ? (
           <React.Fragment>
@@ -61,7 +62,7 @@ export default function DIYForm(props) {
           </React.Fragment>
         ) : null
       }
-      <div className={classes.flex}>
+      <div className={classes.flex} id={htmlId}>
         {
           dataList && dataList.map((el, i) => {
             switch (el.type) {
@@ -117,6 +118,6 @@ export default function DIYForm(props) {
           })
         }
       </div>
-    </React.Fragment>
+    </div>
   )
 }

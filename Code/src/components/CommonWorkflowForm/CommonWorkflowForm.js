@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect, useRef } from "react"
 import Api from "../../api/dynamicForm"
 import DIYForm from "../../components/DIYForm"
 import { makeStyles, withStyles } from "@material-ui/core/styles"
@@ -15,6 +15,8 @@ import {
   ButtonGroup,
 } from '@material-ui/core'
 import API from '../../api/diyForm'
+import CommonTip from "../CommonTip"
+import { useHistory } from "react-router-dom"
 
 const Paper = withStyles(() => ({
   root: {
@@ -42,12 +44,16 @@ const useStyles = makeStyles(() => ({
   }
 }))
 
-export default function CommonWorkflowForm(props) {
+
+function CommonWorkflowForm(props) {
   const {
-    id,
+    processDefinitionId,
+    pid,
     deploymentId,
     tableHeaderLength,
   } = props
+  const history = useHistory()
+  const container = useRef(null)
   const classes = useStyles()
   const [ logic, setLogic ] = useState({})
   const [ workflowName, setWorkflowName ] = useState('')
@@ -152,10 +158,10 @@ export default function CommonWorkflowForm(props) {
   }
 
   // 父表改动
-  const onParentChange = (data) => (logic.onFieldChange(data, parentDataMap))
+  const onParentChange = (data) => (logic.onFieldChange(data, parentDataMap, container))
 
   // 子表改动
-  const onChildChange = (data) => (logic.onFieldChange(data, childDataMap))
+  const onChildChange = (data) => (logic.onFieldChange(data, childDataMap, container))
 
   // 打开详情表
   const handleDetail = (e, index) => {
@@ -167,13 +173,25 @@ export default function CommonWorkflowForm(props) {
   // 提交表单
   const handleSubmit = () => {
     const form = {
-      processDefinitionId: id,
+      processDefinitionId,
       formKey,
       childFormKey,
       parentData: map2object(parentDataMap),
       childDataList,
     }
-    API.create(form)
+    if (processDefinitionId) {
+      // create
+      API.create(form).then(() => {
+        CommonTip.success('Success')
+        history.push('/')
+      })
+    } else {
+      // approve
+      // TODO check pass, if pass then save and call ansable, else throw a error
+      // API.check.then(({ data }) => {
+      //   const resultList = data.data
+      // })
+    }
   }
 
   // 子表行内按钮列表
@@ -189,14 +207,16 @@ export default function CommonWorkflowForm(props) {
 
   return (
     <React.Fragment>
-      <Paper>
+      <Paper ref={container}>
         <DIYForm
+          htmlId={'DynamicParentForm'}
           dataList={parentFormDetail}
           formTitle={workflowName}
           onChange={onParentChange}
           defaultValues={parentDefaultValues}
         />
         <HATable
+          id={'DynamicTable'}
           rows={childDataList}
           actionList={actionList}
           tableName={logic.getChildTableTitle && logic.getChildTableTitle()}
@@ -206,6 +226,7 @@ export default function CommonWorkflowForm(props) {
           marginTop={8}
         />
         <ChildForm
+          id={'DynamicDialog'}
           open={open}
           formDetail={childFormDetail}
           defaultValues={childDefaultValues}
@@ -228,3 +249,4 @@ export default function CommonWorkflowForm(props) {
   )
 }
 
+export default CommonWorkflowForm
