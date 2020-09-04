@@ -1,4 +1,5 @@
 import React from "react"
+import ReactDOM from 'react-dom'
 import HAInput from "../../../components/HAInput"
 import CommonTip from "../../../components/CommonTip"
 import formatDateTime from "../../formatDateTime"
@@ -150,51 +151,121 @@ async function handleTenantChange(tenantData) {
   const { value } = tenantData
   const { data }  = await tenantAPI.detail(value)
   const tenant = data.data
+
+  const parentForm = document.getElementById('DynamicParentForm')
+  const oldChild = document.getElementById('dynamicDiv')
+  if (oldChild) {
+    ReactDOM.unmountComponentAtNode(parentForm)
+  }
   if (tenant) {
     const {
       code, budget_type, justification, project_owner,
       contact_person, project_estimation, methodology_text
     } = tenant
-    // const node = (
-    //   <div>
-    //     <HAInput
-    //       diabled={true}
-    //       label={'code'}
-    //       default={code}
-    //     />
-    //     <HAInput
-    //       diabled={true}
-    //       label={'Budget Bype'}
-    //       default={budget_type}
-    //     />
-    //     <HAInput
-    //       diabled={true}
-    //       label={'Justification'}
-    //       default={justification}
-    //     />
-    //     <HAInput
-    //       diabled={true}
-    //       label={'Project Owner'}
-    //       default={project_owner}
-    //     />
-    //     <HAInput
-    //       diabled={true}
-    //       label={'Contact Person'}
-    //       default={contact_person}
-    //     />
-    //     <HAInput
-    //       diabled={true}
-    //       label={'Project Estimation'}
-    //       default={project_estimation}
-    //     />
-    //     <HAInput
-    //       diabled={true}
-    //       label={'Methodology Text'}
-    //       default={methodology_text}
-    //     />
-    //   </div>
-    // )
-    // const parentForm = document.getElementById('DynamicParentForm')
+
+    const node = (
+      <div
+        id={'dynamicDiv'}
+        style={{
+          marginTop: '1vh',
+          width: '100%',
+          marginBottom: '1vh',
+        }}>
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'space-between'
+          }}
+        >
+          <div>
+            {'Code: '}
+          </div>
+          <div>
+            { code }
+          </div>
+        </div>
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'space-between'
+          }}
+        >
+          <div>
+            {'Budget Type: '}
+          </div>
+          <div>
+            { budget_type }
+          </div>
+        </div>
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'space-between'
+          }}
+        >
+          <div>
+            {'Justification: '}
+          </div>
+          <div>
+            { justification }
+          </div>
+        </div>
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'space-between'
+          }}
+        >
+          <div>
+            {'Project Owner: '}
+          </div>
+          <div>
+            { project_owner }
+          </div>
+        </div>
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'space-between'
+          }}
+        >
+          <div>
+            {'Contact Person: '}
+          </div>
+          <div>
+            { contact_person }
+          </div>
+        </div>
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'space-between'
+          }}
+        >
+          <div>
+            {'Project Estimation: '}
+          </div>
+          <div>
+            { project_estimation }
+          </div>
+        </div>
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'space-between'
+          }}
+        >
+          <div>
+            {'Methodology Text: '}
+          </div>
+          <div>
+            { methodology_text }
+          </div>
+        </div>
+      </div>
+    )
+
+    ReactDOM.render(node, parentForm)
     // parentForm.appendChild(node)
   }
 }

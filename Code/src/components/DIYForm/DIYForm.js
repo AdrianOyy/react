@@ -63,7 +63,7 @@ export default function DIYForm(props) {
           </React.Fragment>
         ) : null
       }
-      <div className={classes.flex} id={htmlId}>
+      <div className={classes.flex}>
         {
           dataList && dataList.map((el, i) => {
             switch (el.type) {
@@ -120,6 +120,7 @@ export default function DIYForm(props) {
           })
         }
       </div>
+      <div id={htmlId}></div>
     </div>
   )
 }
