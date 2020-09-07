@@ -14,7 +14,7 @@ import { spacing } from "@material-ui/system"
 import formatDateTime from "../../../../../utils/formatDateTime"
 
 const Paper = styled(MuiPaper)(spacing)
-const tableName = 'VM Allocation'
+const tableName = ''
 
 function List(props) {
   const { onMount, path } = props

@@ -19,7 +19,7 @@ import {
 const createUrl = envUrl.workflow
 const createPrefix = prefix.workflow
 const Paper = styled(MuiPaper)(spacing)
-const tableName = 'Workflow Setting List'
+const tableName = 'List'
 
 
 function List(props) {

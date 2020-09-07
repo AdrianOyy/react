@@ -76,7 +76,7 @@ function Detail(props) {
   return (
     <React.Fragment>
       <DetailPage
-        formTitle = 'Platform Detail'
+        formTitle = 'Detail'
         onFormFieldChange = {onFormFieldChange}
         formFieldList = {formFieldList}
       />

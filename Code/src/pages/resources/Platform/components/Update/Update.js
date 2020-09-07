@@ -35,7 +35,7 @@ function TenantDetail(props) {
   const hanleClick = async () => {
     const nameErr = await nameCheck()
     const typeIdErr = await typeIdCheck()
-    if (nameErr|| typeIdErr || saving) return
+    if (nameErr || typeIdErr || saving) return
     setSaving(true)
     API.update(id, { name, typeId })
       .then(() => {
@@ -142,7 +142,7 @@ function TenantDetail(props) {
   return (
     <React.Fragment>
       <DetailPage
-        formTitle = 'Platform Update'
+        formTitle = 'Update'
         onFormFieldChange = {onFormFieldChange}
         onFormFieldBlur = {onFormFieldBlur}
         formFieldList = {formFieldList}
