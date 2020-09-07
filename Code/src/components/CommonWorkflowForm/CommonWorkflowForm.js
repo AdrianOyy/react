@@ -150,6 +150,7 @@ function CommonWorkflowForm(props) {
             .then(({ data }) => {
               setCreate(true)
               const { parentData, childDataList } = data.data
+              setParentDefaultValues(parentData)
               setFormId(parentData.id)
               const childList = []
               for (let i = 0; i < childDataList.length; i++) {
@@ -190,7 +191,6 @@ function CommonWorkflowForm(props) {
 
   // 打开子表
   const openChildForm = () => {
-    setParentDefaultValues(map2object(parentDataMap))
     setOpen(true)
   }
 
@@ -287,58 +287,54 @@ function CommonWorkflowForm(props) {
       parentData: map2object(parentDataMap),
       childDataList,
     }
-    if (!form.parentData.tenent) {
-      form.parentData = parentDefaultValues
-    }
-    if (!form.parentData.tenent) {
-      CommonTip.error('please select tenant')
+    if (processDefinitionId) {
+      // create
+      // console.log(form)
+      API.create(form).then(() => {
+        CommonTip.success('Success')
+        history.push('/')
+      })
     } else {
-      if (processDefinitionId) {
-        // create
-        // console.log(form)
-        API.create(form).then(() => {
-          CommonTip.success('Success')
-          history.push('/')
-        })
-      } else {
-        const formUpdate = {
-          pid,
-          formKey,
-          childFormKey,
-          parentData: map2object(parentDataMap),
-          childDataList,
+      const formUpdate = {
+        pid,
+        formKey,
+        childFormKey,
+        taskId,
+        parentData: map2object(parentDataMap),
+        childDataList,
+      }
+      if (stepName === 't3') {
+        let ischeck = true
+        for (const child of childDataList) {
+          console.log(child)
+          if (!child.checkState) {
+            ischeck = false
+            CommonTip.error('please check vm list')
+            break
+          }
         }
-        if (stepName === 't3') {
-          let ischeck = true
-          for (const child of childDataList) {
-            console.log(child)
-            if (!child.checkState) {
-              ischeck = false
-              CommonTip.error('please check vm list')
-              break
-            }
-          }
-          if (ischeck) {
-            API.update(formUpdate).then(() => {
-              CommonTip.success('Success')
-            })
-          }
-        } else {
+        if (ischeck) {
           API.update(formUpdate).then(() => {
             CommonTip.success('Success')
+            history.push({ pathname: `/MyApproval` })
           })
         }
-        // if (checkCount != childDataList.length) {
-        //   CommonTip.error('please check VM LIST')
-        // } else {
-        //
-        // }
-        // approve
-        // TODO check pass, if pass then save and call ansable, else throw a error
-        // API.check.then(({ data }) => {
-        //   const resultList = data.data
-        // })
+      } else {
+        API.update(formUpdate).then(() => {
+          CommonTip.success('Success')
+          history.push({ pathname: `/MyApproval` })
+        })
       }
+      // if (checkCount != childDataList.length) {
+      //   CommonTip.error('please check VM LIST')
+      // } else {
+      //
+      // }
+      // approve
+      // TODO check pass, if pass then save and call ansable, else throw a error
+      // API.check.then(({ data }) => {
+      //   const resultList = data.data
+      // })
     }
   }
 
@@ -381,38 +377,38 @@ function CommonWorkflowForm(props) {
   const handleT1FollowUpClick = () => {
     const childData = map2object(childDataMap)
     console.log(childData)
-    childData.status.value = 'follow'
+    childData.status.value = 'skip'
     childData.checkState = true
     childData.id = childDataList[current].id
     childDataList[current] = childData
     handleClose()
-    alert('T1 followUp')
+    CommonTip.success('T1 Follow Up Success')
   }
   const handleT2FollowUpClick = () => {
     const childData = map2object(childDataMap)
-    childData.status.value = 'follow'
+    childData.status.value = 'skip'
     childData.checkState = true
     childData.id = childDataList[current].id
     childDataList[current] = childData
     handleClose()
-    alert('T2 followUp')
+    CommonTip.success('T2 Follow Up Success')
   }
   const handleT6FollowUpClick = () => {
     const childData = map2object(childDataMap)
-    childData.status.value = 'follow'
+    childData.status.value = 'skip'
     childData.checkState = true
     childData.id = childDataList[current].id
     childDataList[current] = childData
     handleClose()
-    alert('T6 followUp')
+    CommonTip.success('T6 Follow Up Success')
   }
 
   const t3buttonList = [
     // { id: 'save', label: 'Save', color: 'primary', onClick: handleSave, disabled: false },
     { id: 'check', label: 'Check', color: 'primary', onClick: handleCheck, disabled: false },
-    { id: 'T1', label: 'T1 Follow', color: 'secondary', onClick: handleT1FollowUpClick, disabled: false },
-    { id: 'T2', label: 'T2 Follow', color: 'secondary', onClick: handleT2FollowUpClick, disabled: false },
-    { id: 'T6', label: 'T6 Follow', color: 'secondary', onClick: handleT6FollowUpClick, disabled: false },
+    { id: 'T1', label: 'T1', color: 'secondary', onClick: handleT1FollowUpClick, disabled: false },
+    { id: 'T2', label: 'T2', color: 'secondary', onClick: handleT2FollowUpClick, disabled: false },
+    { id: 'T6', label: 'T6', color: 'secondary', onClick: handleT6FollowUpClick, disabled: false },
     { id: 'cancel', label: 'Cancel', color: 'default', onClick: handleClose, disabled: false },
   ]
 
@@ -468,7 +464,7 @@ function CommonWorkflowForm(props) {
                   color='primary'
                   onClick={handleAgrreTaskClick}
                 >
-                  pass
+                  Pass
                 </Button>
                 <Button
                   className={classes.button}
@@ -476,7 +472,7 @@ function CommonWorkflowForm(props) {
                   color='primary'
                   onClick={handleRejectTaskClick}
                 >
-                reject
+                Reject
                 </Button>
               </React.Fragment>
             )

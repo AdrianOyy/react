@@ -62,6 +62,7 @@ function CommonTable(props) {
     customCreate,
     actionList,
     marginTop,
+    checkAction,
   } = props
   const history = useHistory()
   const [ order, setOrder ] = useState('asc')
@@ -128,6 +129,15 @@ function CommonTable(props) {
 
   const handleUpdate = (_, id) => {
     history.push({ pathname: `${path}/update/${id}` })
+  }
+
+  const display = (action, row) => {
+    if (action.display) {
+      if (row.state == 'completed') {
+        return false
+      }
+    }
+    return true
   }
 
   const isSelected = (id) => selected.indexOf(id) !== -1
@@ -215,13 +225,15 @@ function CommonTable(props) {
                         {
                           actionList && actionList.map((action, i) => {
                             return (
-                              <IconButton
-                                key = {i + '_' + action.label}
-                                aria-label={action.label}
-                                onClick={(e) => action.handleClick(e, row)}
-                              >
-                                {action.icon}
-                              </IconButton>
+                              display(action, row) ? (
+                                <IconButton
+                                  key={i + '_' + action.label}
+                                  aria-label={action.label}
+                                  onClick={(e) => action.handleClick(e, row)}
+                                >
+                                  {action.icon}
+                                </IconButton>
+                              ) : null
                             )
                           })
                         }

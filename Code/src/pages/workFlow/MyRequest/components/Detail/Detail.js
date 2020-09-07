@@ -1,184 +1,29 @@
-import React, { useEffect, useState } from "react"
-import ComplexForm from "../../../../../components/ComplexForm"
-import DialogForm from "../../../../../components/DialogForm"
-import Api from  "../../../../../api/dynamicForm"
-import { useParams, useHistory, useLocation } from "react-router-dom"
-import deepClone from "../../../../../utils/deepClone"
-import { getUser } from "../../../../../utils/user"
-import dayjs from "dayjs"
+import React, { useEffect } from "react"
+import path from '../../../../../utils/path'
+import { useParams, useLocation } from "react-router-dom"
+import CommonWorkflowForm from "../../../../../components/CommonWorkflowForm"
 
-const formatDateTime = (str) => {
-  return dayjs(new Date(str)).format('YYYY-MM-DD HH:mm')
-}
 
-function Create() {
+function Create(props) {
+  const { onMount } = props
   const { id } = useParams()
-  const history = useHistory()
-  const user = getUser()
-  const userId = user.id
-  const deploymentId = 475001
-  const formId = 11
-  console.log(useLocation())
-  // const { deploymentId } = useLocation().query
-  const [ open, setOpen ] = useState(false)
-  const [ formFieldList, setFormFieldList ] = useState([])
-  const [ dynamicForm, setDynamicForm ] = useState(null)
-  const [ sonForm, setSonForm ] = useState(null)
-  const [ sonFormList, setSonFormList ] = useState([])
-  const [ sonDetailList, setSonDetailList ] = useState([])
-  const [ moduleList, setModuleList ] = useState([])
-  const onFormFieldChange = (e, id) => {
-    const { value } = e.target
-    const values = deepClone(formFieldList)
-    for (let i = 0; i < values.length; i++) {
-      if (values[i].id === id) {
-        if (values[i].type === 'date') {
-          values[i].value = formatDateTime(value)
-        } else {
-          values[i].value = value
-        }
-      }
-    }
-    setFormFieldList(values)
-  }
-
+  const arr = path.getQueryString(useLocation().search)
+  const deploymentId = arr['deploymentId']
+  // 用于更新面包屑
   useEffect(() => {
-    Api.getDynamicFormDetail({ deploymentId, formId, userId }).then(({ data }) => {
-      const dyform = data.data
-      setDynamicForm(dyform.dynamicForm)
-      setFormFieldList(dyform.detailList)
-      setSonForm(dyform.sonForm)
-      setSonFormList(dyform.sonFormList)
-      setSonDetailList(dyform.sonDetailList)
-      // DialogField(dyform.dynamicSon, dyform.sonList)
-    })
-  }, [ deploymentId, userId ])
-
-  useEffect(() => {
-    const display = []
-    const fieldList = []
-    const headCells = []
-    for (const son of sonFormList) {
-      const head = {
-        id: son.label,
-        alignment: 'center',
-        label: son.label
-      }
-      const field = {
-        field: son.label,
-        align: 'center'
-      }
-      headCells.push(head)
-      fieldList.push(field)
-    }
-    const tableProp = {
-      type: 'table',
-      headCells,
-      fieldList,
-      rows: sonDetailList,
-      customCreate
-    }
-    display.push(tableProp)
-    setModuleList(display)
-  }, [ sonForm, sonFormList, sonDetailList ])
-
-  const formProp = {
-    type: 'form',
-    title: dynamicForm ? dynamicForm.formKey + ' Form' : '',
-    titleLevel: 3,
-    formFieldList,
-    onFormFieldChange
-  }
-
-  const customCreate = () => {
-    setOpen(true)
-  }
-
-  const  handleClose = () => {
-    setOpen(false)
-  }
-
-  const handleSaveClick = () => {
-    setOpen(false)
-    const form = {
-      id: sonFormList.length + 1
-    }
-    console.log(sonFormList)
-    for (let i = 0; i < sonFormList.length; i++) {
-      form[sonFormList[i].label] = sonFormList[i].value
-    }
-    const values = deepClone(sonDetailList)
-    values.push(form)
-    console.log(values)
-    setSonDetailList(values)
-  }
-
-  const onDialogFieldChange = (e, id) => {
-    const { value } = e.target
-    const values = deepClone(sonFormList)
-    console.log(values)
-    for (let i = 0; i < values.length; i++) {
-      if (values[i].id === id) {
-        if (values[i].type === 'date') {
-          values[i].value = formatDateTime(value)
-        } else {
-          values[i].value = value
-        }
-      }
-    }
-    console.log(values)
-    setSonFormList(values)
-  }
-
-  const handleSubmitClick = () => {
-    const form = {
-      dynamicForm,
-      deploymentId,
-      processDefinitionId: id,
-      startUser: getUser().id.toString(),
-      formFieldList,
-      sonForm,
-      sonDetailList,
-      sonFormList
-    }
-    Api.save(form).then(() => {
-      history.push({ pathname: `/workflow/vm` })
-    })
-  }
-
-  const handleClick = (_, id) => {
-    alert(id)
-  }
-
-  const buttonList = [
-    { id: 'check', label: 'Check', color: 'primary', onClick: handleClick, disabled: false },
-    { id: 'submit', label: 'Submit', color: 'secondary', onClick: handleSubmitClick, disabled: false },
-    { id: 'cancel', label: 'Cancel', color: 'default', onClick: handleClick, disabled: false },
-  ]
-
-  const dialogButtonList = [
-    { id: 'save', label: 'Save', color: 'primary', onClick: handleSaveClick, disabled: false },
-    { id: 'cancel', label: 'Cancel', color: 'default', onClick: handleClose, disabled: false },
-  ]
-
+    onMount('Detail')
+    // eslint-disable-next-line
+  }, [])
   return (
     <React.Fragment>
-      <ComplexForm
-        title={dynamicForm ? dynamicForm.formKey : ''}
-        titleLevel={1}
-        moduleList={[ formProp, ...moduleList ]}
-        buttonList={buttonList}
-      />
-      <DialogForm
-        title={'text'}
-        handleClose={handleClose}
-        open={open}
-        titleLevel={1}
-        formFieldList = {sonFormList}
-        onFormFieldChange = {onDialogFieldChange}
-        buttonList={dialogButtonList}
+      <CommonWorkflowForm
+        pid={id}
+        deploymentId={deploymentId}
+        tableHeaderLength={5}
       />
     </React.Fragment>
   )
+
 }
+
 export default Create

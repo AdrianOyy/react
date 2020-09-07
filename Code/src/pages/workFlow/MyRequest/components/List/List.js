@@ -85,7 +85,6 @@ function List(props) {
     { id: 'startTime', alignment: 'center', label: 'Start Date' },
     { id: 'endTime', alignment: 'center', label: 'End Date' },
     { id: 'state', alignment: 'center', label: 'State' },
-    { id: 'status', alignment: 'center', label: 'Status' },
     { id: 'action', alignment: 'right', label: 'Action' },
   ]
 
@@ -96,7 +95,6 @@ function List(props) {
     { field: 'startTime', align: 'center' },
     { field: 'endTime', align: 'center' },
     { field: 'state', align: 'center' },
-    { field: 'status', align: 'center' }
   ]
 
   const searchBarFieldList = [
@@ -152,13 +150,20 @@ function List(props) {
   }
 
   const handleDetail = (event, row) => {
-    history.push({ pathname: `/detail/${row.procInstId}`, state: { procDefId: row.procDefId } })
+    history.push({ pathname: `/detail/${row.id}`, search: `deploymentId=${row.deploymentId}` })
   }
+
+  // const display = (row) => {
+  //   if (row.state === 'completed') {
+  //     return true
+  //   }
+  //   return false
+  // }
 
   // 自定义action
   const actionList = [
     { label: 'edit', icon: <BorderColorIcon />, handleClick: handleDetail  },
-    { label: 'image', icon: <EventAvailableIcon />, handleClick: handleImage },
+    { label: 'image', icon: <EventAvailableIcon />, handleClick: handleImage, display: true },
   ]
 
   return (
