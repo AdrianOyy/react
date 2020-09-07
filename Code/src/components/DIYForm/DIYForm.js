@@ -44,7 +44,6 @@ export default function DIYForm(props) {
     pid,
     isNew,
   } = props
-  console.log(pid)
   const classes = useStyles()
 
 

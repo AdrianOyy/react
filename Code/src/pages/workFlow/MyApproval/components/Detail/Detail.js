@@ -9,6 +9,8 @@ function Create(props) {
   const { id } = useParams()
   const arr = path.getQueryString(useLocation().search)
   const deploymentId = arr['deploymentId']
+  const stepName = arr['name']
+  const taskId = arr['taskId']
   // 用于更新面包屑
   useEffect(() => {
     onMount('Detail')
@@ -18,6 +20,8 @@ function Create(props) {
     <React.Fragment>
       <CommonWorkflowForm
         pid={id}
+        stepName={stepName}
+        taskId={taskId}
         deploymentId={deploymentId}
         tableHeaderLength={5}
       />

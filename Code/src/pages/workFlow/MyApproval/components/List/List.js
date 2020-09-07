@@ -60,6 +60,7 @@ function List(props) {
     rawDataList.forEach((el) => {
       const rowModel = {
         id: el.processInstanceId,
+        taskId: el.id,
         name: el.name,
         deploymentId: el.deploymentId,
         processDefinitionId: el.processDefinitionId,
@@ -143,7 +144,8 @@ function List(props) {
   }
 
   const handleDetail = (event, row) => {
-    history.push({ pathname: `/detail/${row.id}`, search: `processDefinitionId=${row.processDefinitionId}&deploymentId=${row.deploymentId}` })
+    const name = row.name === 'T3 adjust VM infomation' ? 't3' : 'club'
+    history.push({ pathname: `/detail/${row.id}`, search: `processDefinitionId=${row.processDefinitionId}&deploymentId=${row.deploymentId}&name=${name}&taskId=${row.taskId}` })
   }
 
   const actionList = [

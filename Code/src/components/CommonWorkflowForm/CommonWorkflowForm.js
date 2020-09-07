@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react"
 import Api from "../../api/dynamicForm"
+import workflowApi from "../../api/workFlow"
 import DIYForm from "../../components/DIYForm"
 import { makeStyles, withStyles } from "@material-ui/core/styles"
 import { Paper as HAPaper } from "@material-ui/core"
@@ -51,6 +52,8 @@ function CommonWorkflowForm(props) {
     pid,
     deploymentId,
     tableHeaderLength,
+    stepName,
+    taskId,
   } = props
   const history = useHistory()
   const container = useRef(null)
@@ -80,6 +83,10 @@ function CommonWorkflowForm(props) {
   const [ create, setCreate ] = useState(false)
 
   const [ current, setCurrent ] = useState(-1)
+
+  const [ checkCount, setCheckCount ] = useState(0)
+
+  const [ formId, setFormId ] = useState(0)
 
   const [ isNew, setIsNew ] = useState(false)
 
@@ -143,7 +150,7 @@ function CommonWorkflowForm(props) {
             .then(({ data }) => {
               setCreate(true)
               const { parentData, childDataList } = data.data
-              setParentDefaultValues(parentData)
+              setFormId(parentData.id)
               const childList = []
               for (let i = 0; i < childDataList.length; i++) {
                 const el = childDataList[i]
@@ -157,6 +164,7 @@ function CommonWorkflowForm(props) {
                       label: el[key],
                     }
                     Object.assign(childModel, { ['id']: model })
+                    Object.assign(childModel, { ['checkState']: false })
                   } else {
                     if (!child) continue
                     const model = {
@@ -182,6 +190,7 @@ function CommonWorkflowForm(props) {
 
   // 打开子表
   const openChildForm = () => {
+    setParentDefaultValues(map2object(parentDataMap))
     setOpen(true)
   }
 
@@ -201,6 +210,7 @@ function CommonWorkflowForm(props) {
       if (current < 0) {
         childDataList.push(childData)
       } else {
+        childData.id = childDataList[current].id
         childDataList[current] = childData
       }
       handleClose()
@@ -226,8 +236,46 @@ function CommonWorkflowForm(props) {
     openChildForm()
   }
 
-  const handleCheck = () => {
-    console.log('check')
+  const handleCheck = async () => {
+    // await handleSave()
+    const childData = map2object(childDataMap)
+    childData.id = childDataList[current].id
+    childData.checkState = false
+    const form = {
+      formId,
+      formKey,
+      childDataList: childData
+    }
+    API.check(form).then(({ data }) => {
+      if (data) {
+        const fileList = data.data
+        let isError = false
+        for (const item of fileList) {
+          if (item.error) {
+            isError = true
+            CommonTip.error(item.message)
+            break
+          }
+        }
+        if (!isError) {
+          childData.checkState = true
+          setCheckCount(checkCount + 1)
+          childDataList[current] = childData
+          CommonTip.success('check success')
+          handleClose()
+        }
+      }
+      // if (data) {
+      //
+      // }else {
+      //
+      //   setCheckCount(checkCount + 1)
+      //   CommonTip.success('Success')
+      // }
+    })
+    // console.log()
+    // setCheckCount(checkCount + 1)
+    // console.log('check')
   }
 
   // 提交表单
@@ -239,23 +287,83 @@ function CommonWorkflowForm(props) {
       parentData: map2object(parentDataMap),
       childDataList,
     }
-    if (processDefinitionId) {
-      // create
-      API.create(form).then(() => {
-        CommonTip.success('Success')
-        history.push('/')
-      })
-    } else {
-      const formUpdate = {
-        pid
-      }
-      // API.
-      // approve
-      // TODO check pass, if pass then save and call ansable, else throw a error
-      // API.check.then(({ data }) => {
-      //   const resultList = data.data
-      // })
+    if (!form.parentData.tenent) {
+      form.parentData = parentDefaultValues
     }
+    if (!form.parentData.tenent) {
+      CommonTip.error('please select tenant')
+    } else {
+      if (processDefinitionId) {
+        // create
+        // console.log(form)
+        API.create(form).then(() => {
+          CommonTip.success('Success')
+          history.push('/')
+        })
+      } else {
+        const formUpdate = {
+          pid,
+          formKey,
+          childFormKey,
+          parentData: map2object(parentDataMap),
+          childDataList,
+        }
+        if (stepName === 't3') {
+          let ischeck = true
+          for (const child of childDataList) {
+            console.log(child)
+            if (!child.checkState) {
+              ischeck = false
+              CommonTip.error('please check vm list')
+              break
+            }
+          }
+          if (ischeck) {
+            API.update(formUpdate).then(() => {
+              CommonTip.success('Success')
+            })
+          }
+        } else {
+          API.update(formUpdate).then(() => {
+            CommonTip.success('Success')
+          })
+        }
+        // if (checkCount != childDataList.length) {
+        //   CommonTip.error('please check VM LIST')
+        // } else {
+        //
+        // }
+        // approve
+        // TODO check pass, if pass then save and call ansable, else throw a error
+        // API.check.then(({ data }) => {
+        //   const resultList = data.data
+        // })
+      }
+    }
+  }
+
+  const handleRejectTaskClick = () => {
+    // alert('reject')
+    const data = {
+      taskId,
+      variables: { leaderCheck: false },
+    }
+    workflowApi.actionTask(data).then(() => {
+      CommonTip.success('success')
+      history.push({ pathname: `/MyApproval` })
+    })
+  }
+
+  const handleAgrreTaskClick = () => {
+    // alert('agree')
+    const data = {
+      taskId,
+      variables: { leaderCheck: true },
+    }
+    workflowApi.actionTask(data).then(() => {
+      CommonTip.success('success')
+      history.push({ pathname: `/MyApproval` })
+    })
   }
 
   // 子表行内按钮列表
@@ -266,7 +374,45 @@ function CommonWorkflowForm(props) {
   // 子表按钮
   const buttonList = [
     { id: 'save', label: 'Save', color: 'primary', onClick: handleSave, disabled: false },
+    // { id: 'check', label: 'Check', color: 'primary', onClick: handleCheck, disabled: false },
+    { id: 'cancel', label: 'Cancel', color: 'default', onClick: handleClose, disabled: false },
+  ]
+
+  const handleT1FollowUpClick = () => {
+    const childData = map2object(childDataMap)
+    console.log(childData)
+    childData.status.value = 'follow'
+    childData.checkState = true
+    childData.id = childDataList[current].id
+    childDataList[current] = childData
+    handleClose()
+    alert('T1 followUp')
+  }
+  const handleT2FollowUpClick = () => {
+    const childData = map2object(childDataMap)
+    childData.status.value = 'follow'
+    childData.checkState = true
+    childData.id = childDataList[current].id
+    childDataList[current] = childData
+    handleClose()
+    alert('T2 followUp')
+  }
+  const handleT6FollowUpClick = () => {
+    const childData = map2object(childDataMap)
+    childData.status.value = 'follow'
+    childData.checkState = true
+    childData.id = childDataList[current].id
+    childDataList[current] = childData
+    handleClose()
+    alert('T6 followUp')
+  }
+
+  const t3buttonList = [
+    // { id: 'save', label: 'Save', color: 'primary', onClick: handleSave, disabled: false },
     { id: 'check', label: 'Check', color: 'primary', onClick: handleCheck, disabled: false },
+    { id: 'T1', label: 'T1 Follow', color: 'secondary', onClick: handleT1FollowUpClick, disabled: false },
+    { id: 'T2', label: 'T2 Follow', color: 'secondary', onClick: handleT2FollowUpClick, disabled: false },
+    { id: 'T6', label: 'T6 Follow', color: 'secondary', onClick: handleT6FollowUpClick, disabled: false },
     { id: 'cancel', label: 'Cancel', color: 'default', onClick: handleClose, disabled: false },
   ]
 
@@ -300,18 +446,41 @@ function CommonWorkflowForm(props) {
           defaultValues={childDefaultValues}
           onChange={onChildChange}
           childFormTitle={logic.getChildFormTitle && logic.getChildFormTitle()}
-          buttonList={buttonList}
+          buttonList={stepName === 't3' ? t3buttonList : buttonList}
           isNew={isNew}
         />
         <ButtonGroup className={classes.buttonGroup}>
-          <Button
-            className={classes.button}
-            variant="contained"
-            color='primary'
-            onClick={handleSubmit}
-          >
-            Submit
-          </Button>
+          {
+            (!pid || stepName === 't3') ? (
+              <Button
+                className={classes.button}
+                variant="contained"
+                color='primary'
+                onClick={handleSubmit}
+              >
+                Submit
+              </Button>
+            ) : (
+              <React.Fragment>
+                <Button
+                  className={classes.button}
+                  variant="contained"
+                  color='primary'
+                  onClick={handleAgrreTaskClick}
+                >
+                  pass
+                </Button>
+                <Button
+                  className={classes.button}
+                  variant="contained"
+                  color='primary'
+                  onClick={handleRejectTaskClick}
+                >
+                reject
+                </Button>
+              </React.Fragment>
+            )
+          }
         </ButtonGroup>
       </Paper>
     </React.Fragment>
