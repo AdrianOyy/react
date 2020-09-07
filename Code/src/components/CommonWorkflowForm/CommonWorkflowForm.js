@@ -278,6 +278,10 @@ function CommonWorkflowForm(props) {
     // console.log('check')
   }
 
+  const handleCancel = () => {
+    history.push({ pathname: `/MyRequest` })
+  }
+
   // 提交表单
   const handleSubmit = () => {
     const form = {
@@ -369,7 +373,7 @@ function CommonWorkflowForm(props) {
 
   // 子表按钮
   const buttonList = [
-    { id: 'save', label: 'Save', color: 'primary', onClick: handleSave, disabled: false },
+    { id: 'save', label: 'Save', color: 'primary', onClick: handleSave, disabled: stepName == 'detail' },
     // { id: 'check', label: 'Check', color: 'primary', onClick: handleCheck, disabled: false },
     { id: 'cancel', label: 'Cancel', color: 'default', onClick: handleClose, disabled: false },
   ]
@@ -457,24 +461,37 @@ function CommonWorkflowForm(props) {
                 Submit
               </Button>
             ) : (
-              <React.Fragment>
-                <Button
-                  className={classes.button}
-                  variant="contained"
-                  color='primary'
-                  onClick={handleAgrreTaskClick}
-                >
-                  Pass
-                </Button>
-                <Button
-                  className={classes.button}
-                  variant="contained"
-                  color='primary'
-                  onClick={handleRejectTaskClick}
-                >
-                Reject
-                </Button>
-              </React.Fragment>
+              (stepName === 'detail') ?
+                (
+                  <Button
+                    className={classes.button}
+                    variant="contained"
+                    color='primary'
+                    onClick={handleCancel}
+                  >
+                    Cancel
+                  </Button>
+                ) :
+                (
+                  <React.Fragment>
+                    <Button
+                      className={classes.button}
+                      variant="contained"
+                      color='primary'
+                      onClick={handleAgrreTaskClick}
+                    >
+                      Pass
+                    </Button>
+                    <Button
+                      className={classes.button}
+                      variant="contained"
+                      color='primary'
+                      onClick={handleRejectTaskClick}
+                    >
+                    Reject
+                    </Button>
+                  </React.Fragment>
+                )
             )
           }
         </ButtonGroup>

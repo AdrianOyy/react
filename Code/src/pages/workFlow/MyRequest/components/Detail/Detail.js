@@ -18,6 +18,7 @@ function Create(props) {
     <React.Fragment>
       <CommonWorkflowForm
         pid={id}
+        stepName={'detail'}
         deploymentId={deploymentId}
         tableHeaderLength={5}
       />
