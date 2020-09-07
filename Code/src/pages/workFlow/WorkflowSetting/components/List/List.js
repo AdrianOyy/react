@@ -104,7 +104,7 @@ function List(props) {
   }
 
   const customEdit = (e, row) => {
-    window.open(createUrl + createPrefix + `/openEditor?modelId=${row.id}&token=` + localStorage.getItem("token"))
+    window.open(`http://10.231.131.123:3004/openEditor?modelId=${row.id}&token=` + localStorage.getItem("token"))
   }
 
   // 自定义action
@@ -114,7 +114,7 @@ function List(props) {
   ]
 
   const customCreate = () => {
-    window.open(createUrl + createPrefix + "/create?token=" + localStorage.getItem("token"))
+    window.open("http://10.231.131.123:3004/create?token=" + localStorage.getItem("token"))
   }
 
   return (

@@ -285,7 +285,7 @@ function CommonWorkflowForm(props) {
           childData.checkState = true
           setCheckCount(checkCount + 1)
           childDataList[current] = childData
-          CommonTip.success('check success')
+          CommonTip.success('Check successfully')
           handleClose()
         }
       }
@@ -375,20 +375,26 @@ function CommonWorkflowForm(props) {
       variables: { leaderCheck: false },
     }
     workflowApi.actionTask(data).then(() => {
-      CommonTip.success('success')
+      CommonTip.success('Success')
       history.push({ pathname: `/MyApproval` })
     })
   }
 
   const handleAgrreTaskClick = () => {
     // alert('agree')
-    const data = {
+    const agreeModel = {
       taskId,
       variables: { leaderCheck: true },
     }
-    workflowApi.actionTask(data).then(() => {
-      CommonTip.success('success')
-      history.push({ pathname: `/MyApproval` })
+    workflowApi.actionTask(agreeModel).then(({ data }) => {
+      console.log(data)
+      if (data.status === 400) {
+        CommonTip.error(data.data)
+        // history.push({ pathname: `/MyApproval` })
+      } else {
+        CommonTip.success('Success')
+        history.push({ pathname: `/MyApproval` })
+      }
     })
   }
 
@@ -506,7 +512,7 @@ function CommonWorkflowForm(props) {
       ram_request_number: "8",
       remarks: null,
       resource_ready_date: null,
-      status: "follow",
+      status: null,
       updateBy: null,
       updatedAt: "2020-09-06T19:55:38.000Z",
       vm_cluster: "devesxi02cs",

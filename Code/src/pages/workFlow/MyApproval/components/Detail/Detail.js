@@ -23,7 +23,7 @@ function Create(props) {
         stepName={stepName}
         taskId={taskId}
         deploymentId={deploymentId}
-        tableHeaderLength={5}
+        tableHeaderLength={6}
       />
     </React.Fragment>
   )

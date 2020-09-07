@@ -21,7 +21,7 @@ function Create(props) {
         altCheck={altCheck}
         processDefinitionId={id}
         deploymentId={deploymentId}
-        tableHeaderLength={5}
+        tableHeaderLength={6}
       />
     </React.Fragment>
   )

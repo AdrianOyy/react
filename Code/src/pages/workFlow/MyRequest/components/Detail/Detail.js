@@ -20,7 +20,7 @@ function Create(props) {
         pid={id}
         stepName={'detail'}
         deploymentId={deploymentId}
-        tableHeaderLength={5}
+        tableHeaderLength={6}
       />
     </React.Fragment>
   )

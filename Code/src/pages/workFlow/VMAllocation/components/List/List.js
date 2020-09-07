@@ -183,7 +183,6 @@ function List(props) {
               onChangeRowsPerPage={handleChangeRowsPerPage}
             />
             <Dialog open={open} fullWidth={true}  aria-labelledby="form-dialog-title">
-              <DialogTitle id="form-dialog-title">Subscribe</DialogTitle>
               <DialogContent>
                 <DialogContentText>
                   Please input CPS ID
@@ -202,7 +201,7 @@ function List(props) {
                   Cancel
                 </Button>
                 <Button onClick={handleAltClick}  color="primary">
-                  Subscribe
+                  Submit
                 </Button>
               </DialogActions>
             </Dialog>
