@@ -183,7 +183,7 @@ function Detail(props) {
         id: 'section', label: 'Section', type: 'text',
         disabled: true, readOnly: true, value: section,
       },
-      { 
+      {
         id: 'createdAt', label: 'Created At', type: 'text',
         disabled: true, readOnly: true, value: formatDateTime(createdAt)
       },
@@ -281,7 +281,7 @@ function Detail(props) {
   return (
     <React.Fragment>
       <DetailPage
-        formTitle = 'VM Detail'
+        formTitle = 'Detail'
         onFormFieldChange = {onFormFieldChange}
         formFieldList = {formFieldList}
       />

@@ -289,12 +289,12 @@ const recordRoutes = {
   component: Dialogs,
   children: [
     {
-      path: "/aaa-service/tenantQuotaMapping/",
+      path: "/allocation/tenantQuotaMapping/",
       name: "Quota",
       component: tenantQuotaMapping,
     },
     {
-      path: "/aaa-service/tenantQuotaMapping/",
+      path: "/allocation/tenantQuotaMapping/",
       name: "Record",
       component: tenantQuotaMapping,
     },

@@ -112,12 +112,10 @@ function Detail(props) {
         projectManager,
         section
       }
-    )
-    .then(() => {
+    ).then(() => {
       CommonTip.success("Success")
       history.push({ pathname: '/resources/vm' })
-    })
-    .catch(() => {
+    }).catch(() => {
       setSaving(false)
     })
   }
@@ -465,7 +463,7 @@ function Detail(props) {
   return (
     <React.Fragment>
       <DetailPage
-        formTitle = 'VM Update'
+        formTitle = 'Update'
         onFormFieldChange = {onFormFieldChange}
         onFormFieldBlur = {onFormFieldBlur}
         formFieldList = {formFieldList}

@@ -396,7 +396,7 @@ function Create(props) {
   return (
     <React.Fragment>
       <DetailPage
-        formTitle = 'VM Create'
+        formTitle = 'Create'
         onFormFieldChange = {onFormFieldChange}
         onFormFieldBlur = {onFormFieldBlur}
         formFieldList = {formFieldList}
