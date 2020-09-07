@@ -75,7 +75,7 @@ function List(props) {
   // 表头字段列表
   const headCells = [
     { id: 'id', alignment: 'center', label: 'Id' },
-    { id: 'name', alignment: 'center', label: 'name' },
+    { id: 'name', alignment: 'center', label: 'Name' },
     { id: 'createBy', alignment: 'center', label: 'Create By' },
     { id: 'createTime', alignment: 'center', label: 'Create Time' },
     { id: 'action', alignment: 'right', label: 'Action' },

@@ -8,6 +8,7 @@ import ChildForm from "../../components/ChildForm"
 import getLogic from "../../utils/dynamicFormLogic"
 import map2object from "../../utils/map2object"
 import HATable from "../../components/HATable"
+import Loading from "../../components/Loading"
 import {
   BorderColorOutlined as BorderColorIcon,
 } from "@material-ui/icons"
@@ -246,7 +247,9 @@ function CommonWorkflowForm(props) {
       formKey,
       childDataList: childData
     }
+    Loading.show()
     API.check(form).then(({ data }) => {
+      Loading.hide()
       if (data) {
         const fileList = data.data
         let isError = false
