@@ -55,6 +55,7 @@ function CommonWorkflowForm(props) {
     tableHeaderLength,
     stepName,
     taskId,
+    altCheck
   } = props
   const history = useHistory()
   const container = useRef(null)
@@ -146,6 +147,26 @@ function CommonWorkflowForm(props) {
           setFieldList(fileList)
 
           // 获取数据
+          if (altCheck == 20) {
+            const childList = []
+            for (let i = 0; i < msg.length; i++) {
+              const el = msg[i]
+              const childModel = {}
+              for (let key in el) {
+                const child = childDataListMap.get(key)
+                if (!child) continue
+                const model = {
+                  id: child.fieldName,
+                  value: child.type === 'select' ? child.itemList.find(t => t[child.valueField] == el[key])[child.valueField] : el[key],
+                  label: child.type === 'select' ? child.itemList.find(t => t[child.valueField] == el[key])[child.labelField] : el[key],
+                }
+                Object.assign(childModel, { [child.fieldName]: model })
+              }
+              childList.push(childModel)
+            }
+            setChildDataList(childList)
+          }
+
           if (!pid) return
           API.detail({ pid })
             .then(({ data }) => {
@@ -275,6 +296,8 @@ function CommonWorkflowForm(props) {
       //   setCheckCount(checkCount + 1)
       //   CommonTip.success('Success')
       // }
+    }).catch(() => {
+      Loading.hide()
     })
     // console.log()
     // setCheckCount(checkCount + 1)
@@ -409,6 +432,87 @@ function CommonWorkflowForm(props) {
     handleClose()
     CommonTip.success('T6 Follow Up Success')
   }
+
+  const msg = [
+    {
+      application_type: "3",
+      atl_ip: "10.231.131.2",
+      backup_growth_number: null,
+      backup_growth_percentage: null,
+      backup_retention: null,
+      backup_schedule: null,
+      backup_volume: null,
+      cpu_growth_number: null,
+      cpu_growth_rercentage: null,
+      cpu_request_number: "1",
+      createBy: null,
+      createdAt: "2020-09-06T19:55:38.000Z",
+      csv: null,
+      data_center: "3",
+      data_storage_growth_number: null,
+      data_storage_growth_percentage: null,
+      data_storage_request_number: "500",
+      deletedAt: null,
+      environment_type: "3",
+      hostname: "WCDCShared File SystemA1a",
+      id: 24,
+      network_zone: "3",
+      os_ip: "10.231.131.1",
+      parentId: 23,
+      phase: "T1",
+      pid: 752544,
+      platform: "1",
+      ram_growth_number: null,
+      ram_growth_percentage: null,
+      ram_request_number: "8",
+      remarks: null,
+      resource_ready_date: null,
+      status: null,
+      updateBy: null,
+      updatedAt: "2020-09-06T19:55:38.000Z",
+      vm_cluster: "devesxi03cs",
+      vm_master: "devesxi03b.corpdev.hadev.org.hk"
+    },
+    {
+      application_type: "3",
+      atl_ip: "10.231.131.5",
+      backup_growth_number: null,
+      backup_growth_percentage: null,
+      backup_retention: null,
+      backup_schedule: null,
+      backup_volume: null,
+      cpu_growth_number: null,
+      cpu_growth_rercentage: null,
+      cpu_request_number: "1",
+      createBy: null,
+      createdAt: "2020-09-06T19:55:38.000Z",
+      csv: null,
+      data_center: "3",
+      data_storage_growth_number: null,
+      data_storage_growth_percentage: null,
+      data_storage_request_number: "600",
+      deletedAt: null,
+      environment_type: "3",
+      hostname: "WCDCShared File SystemA1b",
+      id: 25,
+      network_zone: "3",
+      os_ip: "10.231.131.4",
+      parentId: 23,
+      phase: "T2",
+      pid: 752544,
+      platform: "3",
+      ram_growth_number: null,
+      ram_growth_percentage: null,
+      ram_request_number: "8",
+      remarks: null,
+      resource_ready_date: null,
+      status: "follow",
+      updateBy: null,
+      updatedAt: "2020-09-06T19:55:38.000Z",
+      vm_cluster: "devesxi02cs",
+      vm_master: "devesxi02a.corpdev.hadev.org.hk",
+    }
+  ]
 
   const t3buttonList = [
     // { id: 'save', label: 'Save', color: 'primary', onClick: handleSave, disabled: false },

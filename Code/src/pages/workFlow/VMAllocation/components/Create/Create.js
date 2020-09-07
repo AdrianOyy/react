@@ -9,6 +9,7 @@ function Create(props) {
   const { id } = useParams()
   const arr = path.getQueryString(useLocation().search)
   const deploymentId = arr['deploymentId']
+  const altCheck = arr['altCheck']
   // 用于更新面包屑
   useEffect(() => {
     onMount('create')
@@ -17,6 +18,7 @@ function Create(props) {
   return (
     <React.Fragment>
       <CommonWorkflowForm
+        altCheck={altCheck}
         processDefinitionId={id}
         deploymentId={deploymentId}
         tableHeaderLength={5}

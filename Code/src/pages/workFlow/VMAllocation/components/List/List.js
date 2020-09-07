@@ -5,10 +5,19 @@ import {
   TablePagination,
   Paper as MuiPaper,
 } from "@material-ui/core"
+import Button from '@material-ui/core/Button'
+import TextField from '@material-ui/core/TextField'
+import Dialog from '@material-ui/core/Dialog'
+import DialogActions from '@material-ui/core/DialogActions'
+import DialogContent from '@material-ui/core/DialogContent'
+import DialogContentText from '@material-ui/core/DialogContentText'
+import DialogTitle from '@material-ui/core/DialogTitle'
+
 import { useHistory } from 'react-router-dom'
 import { CommonTable, SearchBar } from '../../../../../components'
 import API from "../../../../../api/workFlow"
 import PlayCircleFilledWhiteOutlinedIcon from '@material-ui/icons/PlayCircleFilledWhiteOutlined'
+import ListAltIcon from '@material-ui/icons/ListAlt'
 import styled from "styled-components"
 import { spacing } from "@material-ui/system"
 import formatDateTime from "../../../../../utils/formatDateTime"
@@ -25,6 +34,8 @@ function List(props) {
   const [ page, setPage ] = useState(0)
   const [ rowsPerPage, setRowsPerPage ] = useState(10)
   const [ total, setTotal ] = useState(0)
+  const [ open, setOpen ] = useState(false)
+  const [ srow, setSrow ] = useState({})
 
   // 用于更新面包屑
   useEffect(() => {
@@ -55,6 +66,7 @@ function List(props) {
     setRows(rows)
   }
 
+
   // 表头字段列表
   const headCells = [
     // { id: 'id', alignment: 'center', label: 'Id' },
@@ -78,10 +90,25 @@ function List(props) {
     history.push({ pathname: `${path}/create/${row.id}`, search: `deploymentId=${row.deploymentId}` })
   }
 
+  const handleAltClick = () => {
+    history.push({ pathname: `${path}/create/${srow.id}`, search: `deploymentId=${srow.deploymentId}&altCheck=20` })
+  }
+
+  const openDiaglo = (e, row) => {
+    setSrow(row)
+    setOpen(true)
+  }
+
+  const closeOpen = () => {
+    setOpen(false)
+  }
+
   // 自定义action
   const actionList = [
     { label: 'run', icon: <PlayCircleFilledWhiteOutlinedIcon />, handleClick: handleRunClick },
+    { label: 'run', icon: <ListAltIcon />, handleClick: openDiaglo },
   ]
+
 
   const searchBarFieldList = [
     { id: 'name', label: 'name', type: 'text', disabled: false, readOnly: false, value: name },
@@ -155,6 +182,30 @@ function List(props) {
               onChangePage={handleChangePage}
               onChangeRowsPerPage={handleChangeRowsPerPage}
             />
+            <Dialog open={open} fullWidth={true}  aria-labelledby="form-dialog-title">
+              <DialogTitle id="form-dialog-title">Subscribe</DialogTitle>
+              <DialogContent>
+                <DialogContentText>
+                  Please input CPS ID
+                </DialogContentText>
+                <TextField
+                  autoFocus
+                  margin="dense"
+                  id="name"
+                  label="CPS ID"
+                  type="email"
+                  fullWidth
+                />
+              </DialogContent>
+              <DialogActions>
+                <Button onClick={closeOpen} color="primary">
+                  Cancel
+                </Button>
+                <Button onClick={handleAltClick}  color="primary">
+                  Subscribe
+                </Button>
+              </DialogActions>
+            </Dialog>
           </Paper>
         </Grid>
       </Grid>

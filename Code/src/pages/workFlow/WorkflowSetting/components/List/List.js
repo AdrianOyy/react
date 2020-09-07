@@ -11,6 +11,7 @@ import { spacing } from "@material-ui/system"
 import envUrl from '../../../../../utils/baseUrl'
 import prefix from '../../../../../utils/prefix'
 import CommonTip from "../../../../../components/CommonTip"
+import Loading from "../../../../../components/Loading"
 import {
   EventAvailable as EventAvailableIcon,
   BorderColorOutlined as BorderColorIcon,
@@ -88,13 +89,17 @@ function List(props) {
   }
 
   const handlePublish = (event, row) => {
+    Loading.show()
     API.getPublishModel(row.id).then(() => {
       CommonTip.success("Success")
+      Loading.hide()
       API.getProcessDefinitions({ limit: rowsPerPage, page: page + 1 })
         .then(({ data }) => {
           setTotal(data.total)
           handleData(data.list)
         })
+    }).catch(() => {
+      Loading.hide()
     })
   }
 
