@@ -83,15 +83,15 @@ function checkCPU(data, dataMap) {
     helperText = "CPU only receive a integer"
   }
   dataMap.set(id, Object.assign(data, { error, helperText }))
-  dataMap.set('ram_request_number', {
-    id: 'ram_request_number',
-    label: parseInt(value) * 8,
-    value: parseInt(value) * 8,
-    error: false,
-    helperText: '',
-  })
-  const ram = document.getElementById('ram_request_number')
-  ram.value = parseInt(value) * 8
+  // dataMap.set('ram_request_number', {
+  //   id: 'ram_request_number',
+  //   label: parseInt(value) * 8,
+  //   value: parseInt(value) * 8,
+  //   error: false,
+  //   helperText: '',
+  // })
+  // const ram = document.getElementById('ram_request_number')
+  // ram.value = parseInt(value) * 8
 
 }
 
@@ -107,7 +107,7 @@ async function handleTenantChange(tenantData) {
   }
   if (tenant) {
     const {
-      code, budget_type, justification, project_owner,
+      code, budget_type, project_owner,
       contact_person, project_estimation, methodology_text
     } = tenant
 
@@ -145,19 +145,19 @@ async function handleTenantChange(tenantData) {
             { budget_type }
           </div>
         </div>
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'space-between'
-          }}
-        >
-          <div>
-            {'Justification: '}
-          </div>
-          <div>
-            { justification }
-          </div>
-        </div>
+        {/* <div*/}
+        {/*  style={{*/}
+        {/*    display: 'flex',*/}
+        {/*    justifyContent: 'space-between'*/}
+        {/*  }}*/}
+        {/* >*/}
+        {/*  <div>*/}
+        {/*    {'Justification: '}*/}
+        {/*  </div>*/}
+        {/*  <div>*/}
+        {/*    { justification }*/}
+        {/*  </div>*/}
+        {/* </div>*/}
         <div
           style={{
             display: 'flex',
