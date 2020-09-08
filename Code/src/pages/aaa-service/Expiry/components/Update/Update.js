@@ -49,7 +49,7 @@ function AssignUpdate(props) {
     API.update(id, { expiryDate })
       .then(() => {
         CommonTip.success("Success")
-        history.push({ pathname: '/aaa-service/assign' })
+        history.push({ pathname: '/' })
       })
       .catch(() => {
         setSaving(false)
