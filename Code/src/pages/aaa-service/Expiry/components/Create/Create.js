@@ -9,7 +9,7 @@ import userApi from "../../../../../api/user"
 import dayjs from "dayjs"
 
 
-function AssignCreate(props) {
+export default function Create(props) {
   const { onMount } = props
   const history = useHistory()
   const [ assignId, setAssignId ] = useState('')
@@ -45,7 +45,7 @@ function AssignCreate(props) {
     API.create({ assignId, userId, expiryDate })
       .then(() => {
         CommonTip.success("Success")
-        history.push({ pathname: '/aaa-service/expiry' })
+        history.push({ pathname: '/' })
       })
       .catch(() => {
         setSaving(false)
@@ -192,5 +192,3 @@ function AssignCreate(props) {
     </React.Fragment>
   )
 }
-
-export default AssignCreate

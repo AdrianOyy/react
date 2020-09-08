@@ -47,7 +47,7 @@ const useStyles = makeStyles(() => ({
 }))
 
 
-function CommonWorkflowForm(props) {
+export default function CommonWorkflowForm(props) {
   const {
     processDefinitionId,
     pid,
@@ -80,6 +80,7 @@ function CommonWorkflowForm(props) {
   const [ parentDefaultValues, setParentDefaultValues ] = useState({})
 
   const [ formKey, setFormKey ] = useState('')
+
   const [ childFormKey, setChildFormKey ] = useState('')
 
   const [ create, setCreate ] = useState(false)
@@ -92,9 +93,9 @@ function CommonWorkflowForm(props) {
 
   const [ isNew, setIsNew ] = useState(false)
 
-  // const [ processInstanceId, setProcessInstanceId ] = useState(0)
+  const [ parentDataMap ] = useState(new Map())
 
-  const parentDataMap = new Map()
+  // const parentDataMap = new Map()
   const childDataMap = new Map()
   const childDataListMap = new Map()
 
@@ -222,11 +223,12 @@ function CommonWorkflowForm(props) {
     setIsNew(false)
     setCurrent(-1)
     setChildDefaultValues({})
+    setParentDefaultValues(map2object(parentDataMap))
   }
 
   // 子表保存
   const handleSave = async () => {
-    const pass = logic.checkDialog && await logic.checkChildForm(childDataMap)
+    const pass = logic.checkChildForm && await logic.checkChildForm(childDataMap)
     if (pass) {
       const childData = map2object(childDataMap)
       if (current < 0) {
@@ -289,13 +291,6 @@ function CommonWorkflowForm(props) {
           handleClose()
         }
       }
-      // if (data) {
-      //
-      // }else {
-      //
-      //   setCheckCount(checkCount + 1)
-      //   CommonTip.success('Success')
-      // }
     }).catch(() => {
       Loading.hide()
     })
@@ -309,62 +304,54 @@ function CommonWorkflowForm(props) {
   }
 
   // 提交表单
-  const handleSubmit = () => {
-    const form = {
-      processDefinitionId,
-      formKey,
-      childFormKey,
-      parentData: map2object(parentDataMap),
-      childDataList,
-    }
-    if (processDefinitionId) {
-      // create
-      // console.log(form)
-      API.create(form).then(() => {
-        CommonTip.success('Success')
-        history.push('/')
-      })
-    } else {
-      const formUpdate = {
-        pid,
+  const handleSubmit = async () => {
+    // 验证父表
+    const pass = logic.checkForm && await logic.checkForm(parentFormDetail, parentDataMap)
+    if (pass) {
+      const form = {
+        processDefinitionId,
         formKey,
         childFormKey,
-        taskId,
         parentData: map2object(parentDataMap),
         childDataList,
       }
-      if (stepName === 't3') {
-        let ischeck = true
-        for (const child of childDataList) {
-          console.log(child)
-          if (!child.checkState) {
-            ischeck = false
-            CommonTip.error('please check vm list')
-            break
-          }
+      if (processDefinitionId) {
+        API.create(form).then(() => {
+          CommonTip.success('Success')
+          history.push('/')
+        })
+      } else {
+        const formUpdate = {
+          pid,
+          formKey,
+          childFormKey,
+          taskId,
+          parentData: map2object(parentDataMap),
+          childDataList,
         }
-        if (ischeck) {
+        if (stepName === 't3') {
+          let ischeck = true
+          for (const child of childDataList) {
+            console.log(child)
+            if (!child.checkState) {
+              ischeck = false
+              CommonTip.error('please check vm list')
+              break
+            }
+          }
+          if (ischeck) {
+            API.update(formUpdate).then(() => {
+              CommonTip.success('Success')
+              history.push({ pathname: `/MyApproval` })
+            })
+          }
+        } else {
           API.update(formUpdate).then(() => {
             CommonTip.success('Success')
             history.push({ pathname: `/MyApproval` })
           })
         }
-      } else {
-        API.update(formUpdate).then(() => {
-          CommonTip.success('Success')
-          history.push({ pathname: `/MyApproval` })
-        })
       }
-      // if (checkCount != childDataList.length) {
-      //   CommonTip.error('please check VM LIST')
-      // } else {
-      //
-      // }
-      // approve
-      // TODO check pass, if pass then save and call ansable, else throw a error
-      // API.check.then(({ data }) => {
-      //   const resultList = data.data
-      // })
     }
   }
 
@@ -601,7 +588,7 @@ function CommonWorkflowForm(props) {
                       color='primary'
                       onClick={handleRejectTaskClick}
                     >
-                    Reject
+                      Reject
                     </Button>
                   </React.Fragment>
                 )
@@ -613,4 +600,3 @@ function CommonWorkflowForm(props) {
   )
 }
 
-export default CommonWorkflowForm

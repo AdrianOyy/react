@@ -23,7 +23,7 @@ function AssignDetail(props) {
 
   // 用于更新面包屑
   useEffect(() => {
-    onMount('create')
+    onMount('Detail')
     // eslint-disable-next-line
   }, [])
 

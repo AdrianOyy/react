@@ -1,33 +1,27 @@
-import formatDateTime from "../../formatDateTime"
+import CommonTip from "../../../components/CommonTip"
 
-export default class VMAllocation {
-  async onFormFieldChange(value, id, i, dataList) {
-    if (dataList[i].type === 'date') {
-      dataList[i].value = formatDateTime(value)
-    } else {
-      switch (id) {
-        default:
-          dataList[i].value = value
-      }
-    }
+export default class Common {
+  // eslint-disable-next-line
+  async onFieldChange(data, dataMap, ref) {
   }
 
-  async onDialogFieldChange(value, id, i, dataList) {
-    if (dataList[i].type === 'date') {
-      dataList[i].value = formatDateTime(value)
-    } else {
-      switch (id) {
-        default:
-          dataList[i].value = value
-      }
-    }
-  }
-
-  async checkDialog(values) {
-    console.log('values ================= values')
-    console.log(values)
-    console.log('values ================= values')
+  // eslint-disable-next-line
+  async checkChildForm(childDataMap) {
     return true
+  }
+
+  async checkForm(parentFormDetail, parentDataMap) {
+    let pass = true
+    // 验证必填字段
+    for (let i = 0; i < parentFormDetail.length; i++) {
+      const { required, fieldName, fieldDisplayName } = parentFormDetail[i]
+      if (required && (!parentDataMap.get(fieldName) || !parentDataMap.get(fieldName).value)) {
+        CommonTip.error(`${fieldDisplayName} is required`)
+        pass = false
+        break
+      }
+    }
+    return pass
   }
 
   getChildTableTitle() {
@@ -35,6 +29,7 @@ export default class VMAllocation {
   }
 
   getChildFormTitle() {
-    return 'Child Form'
+    return 'Child'
   }
 }
+

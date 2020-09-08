@@ -79,7 +79,6 @@ export default function ChildForm(props) {
     isNew,
   } = props
 
-  // const [ initData, setInitData ] = useState({})
 
   const classes = useStyles()
 
