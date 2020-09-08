@@ -4,6 +4,11 @@ export function getUser() {
   return JSON.parse(window.localStorage.getItem("user"))
 }
 
+export function getUrl() {
+  const url = process.env.REACT_APP_BASE_API
+  return url
+}
+
 export function getQueryString(str) {
   const url = str.split('?')[1]
   const items = url.split('&')
