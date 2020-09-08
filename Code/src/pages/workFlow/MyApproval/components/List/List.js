@@ -61,6 +61,7 @@ function List(props) {
       const rowModel = {
         id: el.processInstanceId,
         taskId: el.id,
+        workflowName: 'VM Allocation',
         name: el.name,
         deploymentId: el.deploymentId,
         processDefinitionId: el.processDefinitionId,
@@ -75,6 +76,7 @@ function List(props) {
   // 表头字段列表
   const headCells = [
     { id: 'id', alignment: 'center', label: 'Id' },
+    { id: 'workflowName', alignment: 'center', label: 'Workflow Name' },
     { id: 'name', alignment: 'center', label: 'Name' },
     { id: 'createBy', alignment: 'center', label: 'Create By' },
     { id: 'createTime', alignment: 'center', label: 'Create Time' },
@@ -84,6 +86,7 @@ function List(props) {
   // 每行显示的字段
   const fieldList = [
     { field: 'id', align: 'center' },
+    { field: 'workflowName', align: 'center' },
     { field: 'name', align: 'center' },
     { field: 'createBy', align: 'center' },
     { field: 'createTime', align: 'center' },
