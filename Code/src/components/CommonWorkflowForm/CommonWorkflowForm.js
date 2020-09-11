@@ -112,6 +112,7 @@ export default function CommonWorkflowForm(props) {
         setWorkflowName(workflowName)
         setParentFormDetail(parentFormDetail)
         if (childFormDetail && childFormDetail.length > 0) {
+          getLogic(workflowName).getChildFormData(childFormDetail)
           setChildFormDetail(childFormDetail)
           childFormDetail.forEach(el => {
             childDataListMap.set(el.fieldName, {
