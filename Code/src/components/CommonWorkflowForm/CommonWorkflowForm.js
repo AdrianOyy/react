@@ -55,7 +55,7 @@ export default function CommonWorkflowForm(props) {
     tableHeaderLength,
     stepName,
     taskId,
-    altCheck
+    altCheck,
   } = props
   const history = useHistory()
   const container = useRef(null)
@@ -394,7 +394,6 @@ export default function CommonWorkflowForm(props) {
   // 子表按钮
   const buttonList = [
     { id: 'save', label: 'Save', color: 'primary', onClick: handleSave, disabled: stepName == 'detail' },
-    // { id: 'check', label: 'Check', color: 'primary', onClick: handleCheck, disabled: false },
     { id: 'cancel', label: 'Cancel', color: 'default', onClick: handleClose, disabled: false },
   ]
 
@@ -574,7 +573,7 @@ export default function CommonWorkflowForm(props) {
                   </Button>
                 ) :
                 (
-                  <React.Fragment>
+                  <>
                     <Button
                       className={classes.button}
                       variant="contained"
@@ -591,7 +590,7 @@ export default function CommonWorkflowForm(props) {
                     >
                       Reject
                     </Button>
-                  </React.Fragment>
+                  </>
                 )
             )
           }

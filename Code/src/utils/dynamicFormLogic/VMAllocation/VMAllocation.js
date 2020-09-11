@@ -97,17 +97,18 @@ function checkCPU(data, dataMap) {
   if (isNaN(parseInt(value))) {
     error = true
     helperText = "CPU only receive a integer"
+  } else {
+    dataMap.set(id, Object.assign(data, { error, helperText }))
+    dataMap.set('ram_request_number', {
+      id: 'ram_request_number',
+      label: parseInt(value) * 8,
+      value: parseInt(value) * 8,
+      error: false,
+      helperText: '',
+    })
+    const ram = document.getElementById('ram_request_number')
+    ram.value = parseInt(value) * 8
   }
-  dataMap.set(id, Object.assign(data, { error, helperText }))
-  // dataMap.set('ram_request_number', {
-  //   id: 'ram_request_number',
-  //   label: parseInt(value) * 8,
-  //   value: parseInt(value) * 8,
-  //   error: false,
-  //   helperText: '',
-  // })
-  // const ram = document.getElementById('ram_request_number')
-  // ram.value = parseInt(value) * 8
 
 }
 

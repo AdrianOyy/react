@@ -1,7 +1,7 @@
 import VMAllocation from "./VMAllocation"
 import Common from "./Common"
 
-function getLogic(workflowName, DynamicFormEl) {
+function getLogic(workflowName) {
   switch (workflowName) {
     case 'VM Allocation':
       return new VMAllocation()
