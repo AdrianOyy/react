@@ -133,7 +133,7 @@ function CommonTable(props) {
 
   const display = (action, row) => {
     if (action.display) {
-      if (row.state == 'completed') {
+      if (row.state === 'completed') {
         return false
       }
     }

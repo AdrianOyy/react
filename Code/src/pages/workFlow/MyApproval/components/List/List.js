@@ -67,6 +67,7 @@ function List(props) {
         processDefinitionId: el.processDefinitionId,
         createBy: el.createBy,
         createTime: formatDateTime(el.createTime),
+        stepName: el.taskDefinitionKey,
       }
       rows.push(rowModel)
     })
@@ -147,8 +148,7 @@ function List(props) {
   }
 
   const handleDetail = (event, row) => {
-    const name = row.name === 'T3 adjust VM infomation' ? 't3' : 'club'
-    history.push({ pathname: `/detail/${row.id}`, search: `processDefinitionId=${row.processDefinitionId}&deploymentId=${row.deploymentId}&name=${name}&taskId=${row.taskId}` })
+    history.push({ pathname: `/detail/${row.id}`, search: `processDefinitionId=${row.processDefinitionId}&deploymentId=${row.deploymentId}&stepName=${row.stepName}&taskId=${row.taskId}` })
   }
 
   const actionList = [

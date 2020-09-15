@@ -74,7 +74,7 @@ const assign = async(() => import("../pages/aaa-service/Assign"))
 const expiry = async(() => import("../pages/aaa-service/Expiry"))
 
 // TODO: delete this route after testing
-const test = async(() => import("../pages/aaa-service/Test"))
+// const test = async(() => import("../pages/aaa-service/Test"))
 
 const authRoutes = {
   id: "Auth",
@@ -191,11 +191,11 @@ const aaaServiceRoutes = {
   icon: <Grid />,
   children: [
     // TODO: remove this route after testing
-    {
-      path: "/aaa-service/test/",
-      name: "Test",
-      component: test,
-    },
+    // {
+    //   path: "/aaa-service/test/",
+    //   name: "Test",
+    //   component: test,
+    // },
     {
       path: "/aaa-service/role/",
       name: "Role",

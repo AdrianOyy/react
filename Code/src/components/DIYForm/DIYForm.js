@@ -13,23 +13,6 @@ import HASelect from "../HASelect/HASelect"
 import HADatePicker from "../HADatePicker/HADatePicker"
 
 
-const useStyles = makeStyles(() => ({
-  flex: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    width: '100%',
-    marginTop: '6vh'
-  },
-  grid: {
-    width: '50%',
-    height: '10vh',
-    marginBottom: '2vh',
-  }
-}))
-
-
 const Divider = styled(MuiDivider)(spacing)
 
 export default function DIYForm(props) {
@@ -43,12 +26,30 @@ export default function DIYForm(props) {
     htmlId,
     pid,
     isNew,
+    containerStyle,
   } = props
+
+  const useStyles = makeStyles(() => ({
+    containerStyle,
+    flex: {
+      display: 'flex',
+      justifyContent: 'space-between',
+      flexDirection: 'row',
+      flexWrap: 'wrap',
+      width: '100%',
+      marginTop: '6vh'
+    },
+    grid: {
+      width: '50%',
+      height: '10vh',
+      marginBottom: '2vh',
+    }
+  }))
   const classes = useStyles()
 
 
   return (
-    <div>
+    <div className={classes.containerStyle}>
       {
         !hideTitle ? (
           <React.Fragment>
