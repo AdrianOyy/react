@@ -45,6 +45,10 @@ class WorkFlow {
   getStartFormKeyAndDeploymentId(data) {
     return request.get(`${prefix}/runtime/getStartFormKeyAndDeploymentId`, data, { }, url)
   }
+  getProcessPoint(params) {
+    return request.get(`${prefix}/tree/getProcessPoint`, params, { }, url)
+  }
+
 }
 
 export default new WorkFlow()

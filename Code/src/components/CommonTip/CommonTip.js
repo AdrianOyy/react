@@ -5,6 +5,7 @@ import {
 } from "@material-ui/core"
 import MuiAlert from '@material-ui/lab/Alert'
 import styled from "styled-components"
+import { lang } from "../../lang/lang"
 import { spacing } from "@material-ui/system"
 
 class CommonTip extends Component {
@@ -21,6 +22,8 @@ class CommonTip extends Component {
     this.showtip({ msg, severity: 'error' })
   }
   static showtip(options) {
+    const ex_us = lang.ex_us
+    options.msg = ex_us[options.msg] ? ex_us[options.msg] : options.msg
     let defaultOptions = {
       msg: '',
       severity: 'info',
