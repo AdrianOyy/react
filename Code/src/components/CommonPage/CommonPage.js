@@ -16,6 +16,7 @@ function CommonPage(props) {
     Detail,
     Update,
     Create,
+    Step,
     CreateWithId
   } = props
   const [ breadcrumbsList, setBreadcrumbsList ] = useState([])
@@ -50,6 +51,13 @@ function CommonPage(props) {
           { title: 'Create' }
         ])
         break
+      case 'Step':
+        setBreadcrumbsList([
+          { title: parentTitle },
+          { title, path },
+          { title: 'Step' }
+        ])
+        break
       default:
         break
     }
@@ -78,6 +86,13 @@ function CommonPage(props) {
             {
               Create && (() => (
                 <Create onMount={onMount} path={''} />
+              ))
+            }
+          </Route>
+          <Route path={`/step/:id`}>
+            {
+              Step && (() => (
+                <Step onMount={onMount} path={''} />
               ))
             }
           </Route>

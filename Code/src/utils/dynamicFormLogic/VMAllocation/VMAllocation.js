@@ -20,14 +20,16 @@ export default class VMAllocation {
     }
   }
 
-  getChildFormData(childDate) {
+  getChildFormData(childDate, stepName) {
     for (const data of childDate) {
       const { fieldName } = data
       switch (fieldName) {
         case 'platform':
           // eslint-disable-next-line no-case-declarations
-          const itemList = data.itemList.filter(t => t.name === "Windows")
-          data.itemList = itemList
+          if (stepName != 't3') {
+            const itemList = data.itemList.filter(t => t.name === "Windows")
+            data.itemList = itemList
+          }
           continue
         default:
           continue
