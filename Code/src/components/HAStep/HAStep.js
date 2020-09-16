@@ -34,7 +34,7 @@ function HAStep(props) {
           const pointRow = {
             assignee: pointUser.assignee,
             groupName: pointUser.group ? pointUser.group.name : null,
-            name: pointUser.taskInstance.name,
+            name: pointUser.taskInstance.activityName,
             startDate: formatDateTime(new Date(pointUser.taskInstance.startTime)),
             endDate: pointUser.taskInstance.endTime ? formatDateTime(new Date(pointUser.taskInstance.endTime)) : null,
           }
