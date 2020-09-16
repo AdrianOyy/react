@@ -51,6 +51,7 @@ const VMAllocation = async(() => import("../pages/workFlow/VMAllocation"))
 const IPAddress = async(() => import("../pages/resources/IPAddress"))
 const Platform = async(() => import("../pages/resources/Platform/"))
 const VM = async(() => import("../pages/resources/VM/"))
+const Network = async(() => import("../pages/resources/Network/"))
 
 // tenant quota mapping
 const tenantQuotaMapping = async(() => import("../pages/aaa-service/tenantQuotaMapping"))
@@ -257,7 +258,7 @@ const resourceRoutes = {
     {
       path: "/resources/network",
       name: "Network",
-      component: Buttons
+      component: Network
     },
     {
       path: "/resources/storage",
