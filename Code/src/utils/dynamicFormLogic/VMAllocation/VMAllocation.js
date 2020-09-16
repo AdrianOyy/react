@@ -80,6 +80,133 @@ export default class VMAllocation {
     return pass
   }
 
+  // 处理父表渲染表
+  handleParentData(rawData, stepName) {
+    rawData.forEach(el => {
+      if (stepName) {
+        el.showOnRequest = true
+      }
+    })
+    switch (stepName) {
+      default:
+        return rawData
+    }
+  }
+
+  // 处理子表渲染表
+  handleChildData(rawData, stepName, pageName) {
+    rawData.forEach(el => {
+      if (stepName) {
+        el.showOnRequest = true
+      }
+    })
+    switch (stepName) {
+      case 'T3':
+        return rawData
+      default:
+        return handleStartChildTableData(rawData)
+    }
+  }
+
+  // 获取子表表头字段
+  getHeaderList(childDataMap, stepName) {
+    const list = [
+      {
+        id: childDataMap.get("platform").fieldName,
+        label: childDataMap.get("platform").fieldDisplayName,
+        align: 'center'
+      },
+      {
+        id: childDataMap.get("cpu_request_number").fieldName,
+        label: childDataMap.get("cpu_request_number").fieldDisplayName,
+        align: 'center'
+      },
+      {
+        id: childDataMap.get("ram_request_number").fieldName,
+        label: childDataMap.get("ram_request_number").fieldDisplayName,
+        align: 'center'
+      },
+      {
+        id: childDataMap.get("data_storage_request_number").fieldName,
+        label: childDataMap.get("data_storage_request_number").fieldDisplayName,
+        align: 'center'
+      },
+    ]
+    if (stepName && stepName !== 'teamManager') {
+      list.push({
+        id: childDataMap.get("status").fieldName,
+        label: childDataMap.get("status").fieldDisplayName,
+        align: 'center'
+      })
+    }
+    return list
+  }
+
+  // 获取子表每行显示数据
+  getFieldList(childDataMap, stepName) {
+    const list = [
+      {
+        field: childDataMap.get("platform").fieldName,
+        align: 'center'
+      },
+      {
+        field: childDataMap.get("cpu_request_number").fieldName,
+        align: 'center'
+      },
+      {
+        field: childDataMap.get("ram_request_number").fieldName,
+        align: 'center'
+      },
+      {
+        field: childDataMap.get("data_storage_request_number").fieldName,
+        align: 'center'
+      },
+    ]
+    if (stepName && stepName !== 'teamManager') {
+      list.push({
+        id: childDataMap.get("status").fieldName,
+        align: 'center'
+      })
+    }
+    return list
+  }
+
+  // 处理父表数据表
+  handleParentDefaultData(rawData, stepName) {
+    return rawData
+  }
+
+  // 处理子表数据表
+  handleChildDefaultData(rawData, childDataListMap) {
+    const childList = []
+    for (let i = 0; i < rawData.length; i++) {
+      const el = rawData[i]
+      const childModel = {}
+      for (let key in el) {
+        const child = childDataListMap.get(key)
+        if (key === 'id') {
+          const model = {
+            id: 'id',
+            value: el[key],
+            label: el[key],
+          }
+          Object.assign(childModel, { ['id']: model })
+          Object.assign(childModel, { ['checkState']: false })
+        } else {
+          if (!child) continue
+          const model = {
+            id: child.fieldName,
+            value: child.type === 'select' ? child.itemList.find(t => t[child.valueField].toString() === el[key].toString())[child.valueField] : el[key],
+            label: child.type === 'select' ? child.itemList.find(t => t[child.valueField].toString() === el[key].toString())[child.labelField] : el[key],
+          }
+          Object.assign(childModel, { [child.fieldName]: model })
+        }
+      }
+      childList.push(childModel)
+    }
+    return childList
+  }
+
   getChildTableTitle() {
     return 'VM List'
   }
@@ -234,5 +361,27 @@ async function handleTenantChange(tenantData) {
 
     ReactDOM.render(node, parentForm)
     // parentForm.appendChild(node)
+  }
+}
+
+function handleStartChildTableData(rawData) {
+  for (let i = 0; i < rawData.length; i++) {
+    switch (rawData[i].fieldName) {
+      case 'platform':
+        rawData[i].itemList = handlePlatForm(rawData[i].itemList).itemList
+    }
+  }
+  return rawData
+}
+
+function handlePlatForm(itemList) {
+  const handledItemList = []
+  for (let i = 0; i < itemList.length; i++) {
+    if (itemList[i].name === "Windows") {
+      handledItemList.push(itemList[i])
+    }
+  }
+  return {
+    itemList: handledItemList
   }
 }

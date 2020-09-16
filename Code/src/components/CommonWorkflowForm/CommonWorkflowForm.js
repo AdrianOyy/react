@@ -52,15 +52,16 @@ export default function CommonWorkflowForm(props) {
     processDefinitionId,
     pid,
     deploymentId,
-    tableHeaderLength,
     stepName,
+    pageName,
     taskId,
-    altCheck,
   } = props
   const history = useHistory()
   const container = useRef(null)
   const classes = useStyles()
+  // 业务逻辑
   const [ logic, setLogic ] = useState({})
+  // 流程名称
   const [ workflowName, setWorkflowName ] = useState('')
   // 父表渲染表
   const [ parentFormDetail, setParentFormDetail ] = useState([])
@@ -94,13 +95,17 @@ export default function CommonWorkflowForm(props) {
   const [ isNew, setIsNew ] = useState(false)
 
   const [ parentDataMap ] = useState(new Map())
-
-  // const parentDataMap = new Map()
+  // 原始渲染数据
+  const [ rawData, setRawData ] = useState(null)
+  // 原始数据
+  const [ rawDefaultData, setRawDefaultData ] = useState(null)
+  // 子表渲染数据 Map
   const childDataMap = new Map()
   const childDataListMap = new Map()
 
-  // 获取渲染表
+  // 获取原始渲染数据、流程实例数据
   useEffect(() => {
+    // 获取渲染表
     Api.getDynamicForm({ deploymentId })
       .then(({ data }) => {
         const {
@@ -110,101 +115,21 @@ export default function CommonWorkflowForm(props) {
         setFormKey(formKey)
         setChildFormKey(childFormKey)
         setWorkflowName(workflowName)
-        setParentFormDetail(parentFormDetail)
-        if (childFormDetail && childFormDetail.length > 0) {
-          getLogic(workflowName).getChildFormData(childFormDetail)
-          setChildFormDetail(childFormDetail)
-          childFormDetail.forEach(el => {
-            childDataListMap.set(el.fieldName, {
-              type: el.inputType,
-              fieldName: el.fieldName,
-              itemList: el.itemList,
-              labelField: el.labelField,
-              valueField: el.valueField
+        setRawData({
+          parentFormDetail,
+          childFormDetail
+        })
+        // 获取数据表
+        if (!pid) return
+        API.detail({ pid })
+          .then(({ data }) => {
+            setCreate(true)
+            const { parentData, childDataList } = data.data
+            setRawDefaultData({
+              parentData,
+              childDataList
             })
           })
-          // 设置表头
-          const headerList = []
-          const fileList = []
-          for (let i = 0; i < childFormDetail.length; i++) {
-            if (headerList.length >= (tableHeaderLength ? tableHeaderLength : 5)) break
-            if (childFormDetail[i].showOnRequest) {
-              headerList.push({
-                id: childFormDetail[i].fieldName,
-                alignment: 'center',
-                label: childFormDetail[i].fieldDisplayName,
-              })
-              fileList.push({
-                field: childFormDetail[i].fieldName,
-                align: 'center',
-              })
-            }
-          }
-          headerList.push({
-            id: 'action',
-            alignment: 'right',
-            label: 'Actions',
-          })
-          setTableHeader(headerList)
-          setFieldList(fileList)
-
-          // 获取数据
-          if (altCheck == 20) {
-            const childList = []
-            for (let i = 0; i < msg.length; i++) {
-              const el = msg[i]
-              const childModel = {}
-              for (let key in el) {
-                const child = childDataListMap.get(key)
-                if (!child) continue
-                const model = {
-                  id: child.fieldName,
-                  value: child.type === 'select' ? child.itemList.find(t => t[child.valueField] == el[key])[child.valueField] : el[key],
-                  label: child.type === 'select' ? child.itemList.find(t => t[child.valueField] == el[key])[child.labelField] : el[key],
-                }
-                Object.assign(childModel, { [child.fieldName]: model })
-              }
-              childList.push(childModel)
-            }
-            setChildDataList(childList)
-          }
-
-          if (!pid) return
-          API.detail({ pid })
-            .then(({ data }) => {
-              setCreate(true)
-              const { parentData, childDataList } = data.data
-              setParentDefaultValues(parentData)
-              setFormId(parentData.id)
-              const childList = []
-              for (let i = 0; i < childDataList.length; i++) {
-                const el = childDataList[i]
-                const childModel = {}
-                for (let key in el) {
-                  const child = childDataListMap.get(key)
-                  if (key === 'id') {
-                    const model = {
-                      id: 'id',
-                      value: el[key],
-                      label: el[key],
-                    }
-                    Object.assign(childModel, { ['id']: model })
-                    Object.assign(childModel, { ['checkState']: false })
-                  } else {
-                    if (!child) continue
-                    const model = {
-                      id: child.fieldName,
-                      value: child.type === 'select' ? child.itemList.find(t => t[child.valueField] == el[key])[child.valueField] : el[key],
-                      label: child.type === 'select' ? child.itemList.find(t => t[child.valueField] == el[key])[child.labelField] : el[key],
-                    }
-                    Object.assign(childModel, { [child.fieldName]: model })
-                  }
-                }
-                childList.push(childModel)
-              }
-              setChildDataList(childList)
-            })
-        }
       })
   }, [])
 
@@ -212,6 +137,56 @@ export default function CommonWorkflowForm(props) {
   useEffect(() => {
     setLogic(getLogic(workflowName))
   }, [ workflowName ])
+
+  // 处理原始渲染数据和具体数据
+  useEffect(() => {
+    if (!logic || !rawData) return
+    const { parentFormDetail, childFormDetail } = rawData
+
+    // 处理父表渲染表
+    const parentDetail = logic.handleParentData(parentFormDetail, stepName, pageName)
+    setParentFormDetail(parentDetail)
+
+    // 处理子表渲染表
+    if (!childFormDetail || !childFormDetail.length) return
+    const childDetail = logic.handleChildData(childFormDetail, stepName, pageName)
+    if (childDetail && childDetail.length > 0) {
+      setChildFormDetail(childDetail)
+      childDetail.forEach(el => {
+        childDataListMap.set(el.fieldName, {
+          type: el.inputType,
+          fieldName: el.fieldName,
+          fieldDisplayName: el.fieldDisplayName,
+          itemList: el.itemList,
+          labelField: el.labelField,
+          valueField: el.valueField
+        })
+      })
+    }
+
+    // 获取表头
+    const headerList = logic.getHeaderList(childDataListMap, stepName, pageName)
+    headerList.push({
+      id: 'action',
+      alignment: 'right',
+      label: 'Actions',
+    })
+    setTableHeader(headerList)
+
+    // 获取表格每行显示字段
+    const fieldList = logic.getFieldList(childDataListMap, stepName, pageName)
+    setFieldList(fieldList)
+
+    // 处理数据
+    if (!rawDefaultData) return
+    const { parentData, childDataList } = rawDefaultData
+    setFormId(parentData.id)
+    const handledParentData = logic.handleParentDefaultData(parentData, stepName)
+    setParentDefaultValues(handledParentData)
+    const handledChildData = logic.handleChildDefaultData(childDataList, childDataListMap)
+    setChildDataList(handledChildData)
+    // eslint-disable-next-line
+  }, [ logic, rawData, rawDefaultData ])
 
   // 打开子表
   const openChildForm = () => {
@@ -272,29 +247,31 @@ export default function CommonWorkflowForm(props) {
       childDataList: childData
     }
     Loading.show()
-    API.check(form).then(({ data }) => {
-      Loading.hide()
-      if (data) {
-        const fileList = data.data
-        let isError = false
-        for (const item of fileList) {
-          if (item.error) {
-            isError = true
-            CommonTip.error(item.message)
-            break
+    API.check(form)
+      .then(({ data }) => {
+        Loading.hide()
+        if (data) {
+          const fileList = data.data
+          let isError = false
+          for (const item of fileList) {
+            if (item.error) {
+              isError = true
+              CommonTip.error(item.message)
+              break
+            }
+          }
+          if (!isError) {
+            childData.checkState = true
+            setCheckCount(checkCount + 1)
+            childDataList[current] = childData
+            CommonTip.success('Check successfully')
+            handleClose()
           }
         }
-        if (!isError) {
-          childData.checkState = true
-          setCheckCount(checkCount + 1)
-          childDataList[current] = childData
-          CommonTip.success('Check successfully')
-          handleClose()
-        }
-      }
-    }).catch(() => {
-      Loading.hide()
-    })
+      })
+      .catch(() => {
+        Loading.hide()
+      })
     // console.log()
     // setCheckCount(checkCount + 1)
     // console.log('check')
@@ -317,10 +294,11 @@ export default function CommonWorkflowForm(props) {
         childDataList,
       }
       if (processDefinitionId) {
-        API.create(form).then(() => {
-          CommonTip.success('Success')
-          history.push('/')
-        })
+        API.create(form)
+          .then(() => {
+            CommonTip.success('Success')
+            history.push('/')
+          })
       } else {
         const formUpdate = {
           pid,
@@ -362,28 +340,27 @@ export default function CommonWorkflowForm(props) {
       taskId,
       variables: { leaderCheck: false },
     }
-    workflowApi.actionTask(data).then(() => {
-      CommonTip.success('Success')
-      history.push({ pathname: `/MyApproval` })
-    })
+    workflowApi.actionTask(data)
+      .then(() => {
+        CommonTip.success('Success')
+        history.push({ pathname: `/MyApproval` })
+      })
   }
 
   const handleAgrreTaskClick = () => {
-    // alert('agree')
     const agreeModel = {
       taskId,
       variables: { leaderCheck: true },
     }
-    workflowApi.actionTask(agreeModel).then(({ data }) => {
-      console.log(data)
-      if (data.status === 400) {
-        CommonTip.error(data.data)
-        // history.push({ pathname: `/MyApproval` })
-      } else {
-        CommonTip.success('Success')
-        history.push({ pathname: `/MyApproval` })
-      }
-    })
+    workflowApi.actionTask(agreeModel)
+      .then(({ data }) => {
+        if (data.status === 400) {
+          CommonTip.error(data.data)
+        } else {
+          CommonTip.success('Success')
+          history.push({ pathname: `/MyApproval` })
+        }
+      })
   }
 
   // 子表行内按钮列表
@@ -393,7 +370,7 @@ export default function CommonWorkflowForm(props) {
 
   // 子表按钮
   const buttonList = [
-    { id: 'save', label: 'Save', color: 'primary', onClick: handleSave, disabled: stepName == 'detail' },
+    { id: 'save', label: 'Save', color: 'primary', onClick: handleSave, disabled: stepName === 'teamManager' },
     { id: 'cancel', label: 'Cancel', color: 'default', onClick: handleClose, disabled: false },
   ]
 
@@ -426,86 +403,6 @@ export default function CommonWorkflowForm(props) {
     CommonTip.success('T6 Follow Up Success')
   }
 
-  const msg = [
-    {
-      application_type: "3",
-      atl_ip: "10.231.131.2",
-      backup_growth_number: null,
-      backup_growth_percentage: null,
-      backup_retention: null,
-      backup_schedule: null,
-      backup_volume: null,
-      cpu_growth_number: null,
-      cpu_growth_rercentage: null,
-      cpu_request_number: "1",
-      createBy: null,
-      createdAt: "2020-09-06T19:55:38.000Z",
-      csv: null,
-      data_center: "3",
-      data_storage_growth_number: null,
-      data_storage_growth_percentage: null,
-      data_storage_request_number: "500",
-      deletedAt: null,
-      environment_type: "3",
-      hostname: "WCDCShared File SystemA1a",
-      id: 24,
-      network_zone: "3",
-      os_ip: "10.231.131.1",
-      parentId: 23,
-      phase: "T1",
-      pid: 752544,
-      platform: "1",
-      ram_growth_number: null,
-      ram_growth_percentage: null,
-      ram_request_number: "8",
-      remarks: null,
-      resource_ready_date: null,
-      status: null,
-      updateBy: null,
-      updatedAt: "2020-09-06T19:55:38.000Z",
-      vm_cluster: "devesxi03cs",
-      vm_master: "devesxi03b.corpdev.hadev.org.hk"
-    },
-    {
-      application_type: "3",
-      atl_ip: "10.231.131.5",
-      backup_growth_number: null,
-      backup_growth_percentage: null,
-      backup_retention: null,
-      backup_schedule: null,
-      backup_volume: null,
-      cpu_growth_number: null,
-      cpu_growth_rercentage: null,
-      cpu_request_number: "1",
-      createBy: null,
-      createdAt: "2020-09-06T19:55:38.000Z",
-      csv: null,
-      data_center: "3",
-      data_storage_growth_number: null,
-      data_storage_growth_percentage: null,
-      data_storage_request_number: "600",
-      deletedAt: null,
-      environment_type: "3",
-      hostname: "WCDCShared File SystemA1b",
-      id: 25,
-      network_zone: "3",
-      os_ip: "10.231.131.4",
-      parentId: 23,
-      phase: "T2",
-      pid: 752544,
-      platform: "3",
-      ram_growth_number: null,
-      ram_growth_percentage: null,
-      ram_request_number: "8",
-      remarks: null,
-      resource_ready_date: null,
-      status: null,
-      updateBy: null,
-      updatedAt: "2020-09-06T19:55:38.000Z",
-      vm_cluster: "devesxi02cs",
-      vm_master: "devesxi02a.corpdev.hadev.org.hk",
-    }
-  ]
 
   const t3buttonList = [
     // { id: 'save', label: 'Save', color: 'primary', onClick: handleSave, disabled: false },
@@ -573,7 +470,7 @@ export default function CommonWorkflowForm(props) {
                   </Button>
                 ) :
                 (
-                  <>
+                  <div>
                     <Button
                       className={classes.button}
                       variant="contained"
@@ -590,7 +487,7 @@ export default function CommonWorkflowForm(props) {
                     >
                       Reject
                     </Button>
-                  </>
+                  </div>
                 )
             )
           }

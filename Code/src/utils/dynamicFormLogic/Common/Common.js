@@ -24,6 +24,20 @@ export default class Common {
     return pass
   }
 
+  handleParentData(rawData, stepName, pageName) {
+    rawData.forEach(el => {
+      if (stepName) {
+        el.showOnRequest = true
+      }
+    })
+    switch (stepName) {
+      case 'T3':
+        break
+      default:
+        return rawData
+    }
+  }
+
   getChildTableTitle() {
     return 'Child Table'
   }
