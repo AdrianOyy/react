@@ -32,10 +32,11 @@ function HAStep(props) {
         const pointUserList = []
         for  (const pointUser of process.processPointUser) {
           const pointRow = {
+            assignee: pointUser.assignee,
             groupName: pointUser.group.name,
             name: pointUser.taskInstance.name,
-            startDate: formatDateTime(pointUser.taskInstance.startTime),
-            endDate: pointUser.taskInstance.endTime ? formatDateTime(pointUser.taskInstance.endTime) : null,
+            startDate: formatDateTime(new Date(pointUser.taskInstance.startTime)),
+            endDate: pointUser.taskInstance.endTime ? formatDateTime(new Date(pointUser.taskInstance.endTime)) : null,
           }
           pointUserList.push(pointRow)
         }
@@ -48,6 +49,7 @@ function HAStep(props) {
 
   // 表头字段列表
   const headCells = [
+    { id: 'assignee', alignment: 'center', label: 'Assignee' },
     { id: 'groupName', alignment: 'center', label: 'Group' },
     { id: 'name', alignment: 'center', label: 'Name' },
     { id: 'startDate', alignment: 'center', label: 'Start Date' },
@@ -56,6 +58,7 @@ function HAStep(props) {
 
   // 每行显示的字段
   const fieldList = [
+    { field: 'assignee', align: 'center' },
     { field: 'groupName', align: 'center' },
     { field: 'name', align: 'center' },
     { field: 'startDate', align: 'center' },
