@@ -308,7 +308,7 @@ export default function CommonWorkflowForm(props) {
           parentData: map2object(parentDataMap),
           childDataList,
         }
-        if (stepName === 't3') {
+        if (stepName === 'T3') {
           let ischeck = true
           for (const child of childDataList) {
             console.log(child)
@@ -443,12 +443,12 @@ export default function CommonWorkflowForm(props) {
           defaultValues={childDefaultValues}
           onChange={onChildChange}
           childFormTitle={logic.getChildFormTitle && logic.getChildFormTitle()}
-          buttonList={stepName === 't3' ? t3buttonList : buttonList}
+          buttonList={stepName === 'T3' ? t3buttonList : buttonList}
           isNew={isNew}
         />
         <ButtonGroup className={classes.buttonGroup}>
           {
-            (!pid || stepName === 't3') ? (
+            (!pid || stepName === 'T3') ? (
               <Button
                 className={classes.button}
                 variant="contained"
