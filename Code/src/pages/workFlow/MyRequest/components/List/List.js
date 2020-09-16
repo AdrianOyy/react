@@ -153,6 +153,10 @@ function List(props) {
     history.push({ pathname: `/detail/${row.id}`, search: `deploymentId=${row.deploymentId}` })
   }
 
+  const handleStep = (event, row) => {
+    history.push({ pathname: `/step/${row.id}`, search: `deploymentId=${row.deploymentId}` })
+  }
+
   // const display = (row) => {
   //   if (row.state === 'completed') {
   //     return true
@@ -163,6 +167,7 @@ function List(props) {
   // 自定义action
   const actionList = [
     { label: 'edit', icon: <BorderColorIcon />, handleClick: handleDetail  },
+    { label: 'step', icon: <BorderColorIcon />, handleClick: handleStep  },
     { label: 'image', icon: <EventAvailableIcon />, handleClick: handleImage, display: true },
   ]
 
