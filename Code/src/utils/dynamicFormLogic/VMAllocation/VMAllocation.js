@@ -82,7 +82,7 @@ export default class VMAllocation {
 
   // 处理父表渲染表
   handleParentData(rawData, stepName) {
-    rawData.forEach(el => {
+    rawData && rawData.forEach(el => {
       if (stepName) {
         el.showOnRequest = true
       }
@@ -95,7 +95,7 @@ export default class VMAllocation {
 
   // 处理子表渲染表
   handleChildData(rawData, stepName, pageName) {
-    rawData.forEach(el => {
+    rawData && rawData.forEach(el => {
       if (stepName) {
         el.showOnRequest = true
       }

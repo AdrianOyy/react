@@ -25,7 +25,7 @@ export default class Common {
   }
 
   handleParentData(rawData, stepName, pageName) {
-    rawData.forEach(el => {
+    rawData && rawData.forEach(el => {
       if (stepName) {
         el.showOnRequest = true
       }
