@@ -21,6 +21,9 @@ import ListAltIcon from '@material-ui/icons/ListAlt'
 import styled from "styled-components"
 import { spacing } from "@material-ui/system"
 import formatDateTime from "../../../../../utils/formatDateTime"
+import { getUser } from "../../../../../utils/user"
+import CommonTip from "../../../../../components/CommonTip"
+import Loading from "../../../../../components/Loading"
 
 const Paper = styled(MuiPaper)(spacing)
 const tableName = ''
@@ -44,7 +47,7 @@ function List(props) {
   }, [])
 
   useEffect(() => {
-    API.getProcessList({ ...query, name: 'VM Allocation', limit: rowsPerPage, page: page + 1 })
+    API.getProcessList({ ...query, name: 'Move-in', limit: rowsPerPage, page: page + 1 })
       .then(({ data }) => {
         setTotal(data.total)
         handleData(data.list)
@@ -87,7 +90,18 @@ function List(props) {
   ]
 
   const handleRunClick = (e, row) => {
-    history.push({ pathname: `${path}/create/${row.id}`, search: `deploymentId=${row.deploymentId}` })
+    Loading.show()
+    const groupList = getUser().groupList
+    const userId = getUser().id.toString()
+    const data = {
+        processDefinitionId : row.id,
+        variables : { manager_group_id : groupList },
+        startUser : userId
+    }
+    API.startProcess(data).then(() => {
+        CommonTip.success("Success")
+        Loading.hide()
+    })
   }
 
   const handleAltClick = () => {
