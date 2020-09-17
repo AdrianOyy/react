@@ -14,7 +14,7 @@ import { useHistory } from "react-router-dom"
 import { getUser } from "../../../../../utils/user"
 import { spacing } from "@material-ui/system"
 import dayjs from "dayjs"
-import { BorderColorOutlined as BorderColorIcon } from "@material-ui/icons"
+import { BorderColorOutlined as BorderColorIcon, Reorder as ReorderIcon } from "@material-ui/icons"
 
 const Paper = styled(MuiPaper)(spacing)
 const formatDateTime = (str) => {
@@ -151,7 +151,12 @@ function List(props) {
     history.push({ pathname: `/detail/${row.id}`, search: `processDefinitionId=${row.processDefinitionId}&deploymentId=${row.deploymentId}&stepName=${row.stepName}&taskId=${row.taskId}` })
   }
 
+  const handleStep = (event, row) => {
+    history.push({ pathname: `/step/${row.id}` })
+  }
+
   const actionList = [
+    { label: 'step', icon: <ReorderIcon />, handleClick: handleStep  },
     { label: 'edit', icon: <BorderColorIcon />, handleClick: handleDetail  },
   ]
 

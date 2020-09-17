@@ -20,6 +20,7 @@ import { getUser } from "../../../../../utils/user"
 import {
   EventAvailable as EventAvailableIcon,
   BorderColorOutlined as BorderColorIcon,
+  Reorder as ReorderIcon,
 } from "@material-ui/icons"
 
 const Paper = styled(MuiPaper)(spacing)
@@ -167,7 +168,7 @@ function List(props) {
   // 自定义action
   const actionList = [
     { label: 'edit', icon: <BorderColorIcon />, handleClick: handleDetail  },
-    { label: 'step', icon: <BorderColorIcon />, handleClick: handleStep  },
+    { label: 'step', icon: <ReorderIcon />, handleClick: handleStep  },
     { label: 'image', icon: <EventAvailableIcon />, handleClick: handleImage, display: true },
   ]
 

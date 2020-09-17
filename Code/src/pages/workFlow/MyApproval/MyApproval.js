@@ -1,6 +1,6 @@
 import React from "react"
 import CommonPage from "../../../components/CommonPage"
-import { List, Detail } from './components'
+import { List, Detail, Step } from './components'
 
 const path = '/workflow/request'
 const parentTitle = 'Workflow'
@@ -13,6 +13,7 @@ function MyRequest() {
     parentTitle,
     List,
     Detail,
+    Step
   }
   return (
     <React.Fragment>
