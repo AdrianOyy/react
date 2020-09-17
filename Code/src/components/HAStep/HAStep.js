@@ -35,7 +35,6 @@ function HAStep(props) {
             assignee: pointUser.assignee,
             groupName: pointUser.group ? pointUser.group.name : null,
             name: pointUser.taskInstance.activityName,
-            startDate: formatDateTime(new Date(pointUser.taskInstance.startTime)),
             endDate: pointUser.taskInstance.endTime ? formatDateTime(new Date(pointUser.taskInstance.endTime)) : null,
           }
           pointUserList.push(pointRow)
@@ -52,7 +51,6 @@ function HAStep(props) {
     { id: 'assignee', alignment: 'center', label: 'Assignee' },
     { id: 'groupName', alignment: 'center', label: 'Group' },
     { id: 'name', alignment: 'center', label: 'Name' },
-    { id: 'startDate', alignment: 'center', label: 'Start Date' },
     { id: 'endDate', alignment: 'center', label: 'End Date' },
   ]
 
@@ -61,7 +59,6 @@ function HAStep(props) {
     { field: 'assignee', align: 'center' },
     { field: 'groupName', align: 'center' },
     { field: 'name', align: 'center' },
-    { field: 'startDate', align: 'center' },
     { field: 'endDate', align: 'center' },
   ]
 
