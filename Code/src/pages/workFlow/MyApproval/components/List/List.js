@@ -57,11 +57,12 @@ function List(props) {
 
   const handleData = (rawDataList) => {
     const rows = []
+    console.log(rawDataList)
     rawDataList.forEach((el) => {
       const rowModel = {
         id: el.processInstanceId,
         taskId: el.id,
-        workflowName: 'VM Allocation',
+        workflowName: el.processName,
         name: el.name,
         deploymentId: el.deploymentId,
         processDefinitionId: el.processDefinitionId,
