@@ -49,6 +49,8 @@ function List(props) {
       const rowModel = {
         id: el.id,
         _ID: el._ID,
+        UnitCode: el.UnitCode,
+        AssetID: el.AssetID,
         createdAt: formatDateTime(el.createdAt),
         updatedAt: formatDateTime(el.updatedAt),
       }
@@ -60,6 +62,8 @@ function List(props) {
   // 表头字段列表
   const headCells = [
     { id: '_ID', alignment: 'center', label: 'Ref. ID' },
+    { id: 'UnitCode', alignment: 'center', label: 'New' },
+    { id: 'AssetID', alignment: 'center', label: 'Asset No' },
     { id: 'createdAt', alignment: 'center', label: 'Created At' },
     { id: 'updatedAt', alignment: 'center', label: 'Updated At' },
     { id: 'action', alignment: 'right', label: 'Actions' },
@@ -68,6 +72,8 @@ function List(props) {
   // 每行显示的字段
   const fieldList = [
     { field: '_ID', align: 'center' },
+    { field: 'UnitCode', align: 'center' },
+    { field: 'AssetID', align: 'center' },
     { field: 'createdAt', align: 'center' },
     { field: 'updatedAt', align: 'center' }
   ]
