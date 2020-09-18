@@ -6,18 +6,13 @@ import {
   Paper as MuiPaper,
 } from "@material-ui/core"
 import Button from '@material-ui/core/Button'
-import TextField from '@material-ui/core/TextField'
 import Dialog from '@material-ui/core/Dialog'
 import DialogActions from '@material-ui/core/DialogActions'
-import DialogContent from '@material-ui/core/DialogContent'
-import DialogContentText from '@material-ui/core/DialogContentText'
-import DialogTitle from '@material-ui/core/DialogTitle'
 
 import { useHistory } from 'react-router-dom'
 import { CommonTable, SearchBar } from '../../../../../components'
 import API from "../../../../../api/workFlow"
 import PlayCircleFilledWhiteOutlinedIcon from '@material-ui/icons/PlayCircleFilledWhiteOutlined'
-import ListAltIcon from '@material-ui/icons/ListAlt'
 import styled from "styled-components"
 import { spacing } from "@material-ui/system"
 import formatDateTime from "../../../../../utils/formatDateTime"
@@ -90,18 +85,19 @@ function List(props) {
   ]
 
   const handleRunClick = (e, row) => {
-    Loading.show()
-    const groupList = getUser().groupList
-    const userId = getUser().id.toString()
-    const data = {
-        processDefinitionId : row.id,
-        variables : { manager_group_id : groupList },
-        startUser : userId
-    }
-    API.startProcess(data).then(() => {
-        CommonTip.success("Success")
-        Loading.hide()
-    })
+    history.push({ pathname: `${path}/create/${row.id}`, search: `deploymentId=${row.deploymentId}` })
+    // Loading.show()
+    // const groupList = getUser().groupList
+    // const userId = getUser().id.toString()
+    // const data = {
+    //     processDefinitionId : row.id,
+    //     variables : { manager_group_id : groupList },
+    //     startUser : userId
+    // }
+    // API.startProcess(data).then(() => {
+    //     CommonTip.success("Success")
+    //     Loading.hide()
+    // })
   }
 
   const handleAltClick = () => {
@@ -120,7 +116,6 @@ function List(props) {
   // 自定义action
   const actionList = [
     { label: 'run', icon: <PlayCircleFilledWhiteOutlinedIcon />, handleClick: handleRunClick },
-    { label: 'run', icon: <ListAltIcon />, handleClick: openDiaglo },
   ]
 
 
@@ -197,19 +192,7 @@ function List(props) {
               onChangeRowsPerPage={handleChangeRowsPerPage}
             />
             <Dialog open={open} fullWidth={true}  aria-labelledby="form-dialog-title">
-              <DialogContent>
-                <DialogContentText>
-                  Please input CPS ID
-                </DialogContentText>
-                <TextField
-                  autoFocus
-                  margin="dense"
-                  id="name"
-                  label="CPS ID"
-                  type="email"
-                  fullWidth
-                />
-              </DialogContent>
+
               <DialogActions>
                 <Button onClick={closeOpen} color="primary">
                   Cancel
