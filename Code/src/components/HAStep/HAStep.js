@@ -36,6 +36,7 @@ function HAStep(props) {
             groupName: pointUser.group ? pointUser.group.name : null,
             name: pointUser.taskInstance.activityName,
             endDate: pointUser.taskInstance.endTime ? formatDateTime(new Date(pointUser.taskInstance.endTime)) : null,
+            status: pointUser.status ? null : 'Reject',
           }
           pointUserList.push(pointRow)
         }
@@ -52,6 +53,7 @@ function HAStep(props) {
     { id: 'groupName', alignment: 'center', label: 'Group' },
     { id: 'name', alignment: 'center', label: 'Name' },
     { id: 'endDate', alignment: 'center', label: 'End Date' },
+    { id: 'status', alignment: 'center', label: 'Status' },
   ]
 
   // 每行显示的字段
@@ -60,6 +62,7 @@ function HAStep(props) {
     { field: 'groupName', align: 'center' },
     { field: 'name', align: 'center' },
     { field: 'endDate', align: 'center' },
+    { field: 'status', align: 'center' },
   ]
 
   return (
