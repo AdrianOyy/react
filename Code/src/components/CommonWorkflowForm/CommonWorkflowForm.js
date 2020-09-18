@@ -477,7 +477,7 @@ export default function CommonWorkflowForm(props) {
                       color='primary'
                       onClick={handleAgrreTaskClick}
                     >
-                      Pass
+                      Approval
                     </Button>
                     <Button
                       className={classes.button}

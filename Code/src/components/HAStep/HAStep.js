@@ -49,20 +49,20 @@ function HAStep(props) {
 
   // 表头字段列表
   const headCells = [
+    { id: 'name', alignment: 'center', label: 'Name' },
     { id: 'assignee', alignment: 'center', label: 'Assignee' },
     { id: 'groupName', alignment: 'center', label: 'Group' },
-    { id: 'name', alignment: 'center', label: 'Name' },
-    { id: 'endDate', alignment: 'center', label: 'End Date' },
     { id: 'status', alignment: 'center', label: 'Status' },
+    { id: 'endDate', alignment: 'center', label: 'End Date' },
   ]
 
   // 每行显示的字段
   const fieldList = [
+    { field: 'name', align: 'center' },
     { field: 'assignee', align: 'center' },
     { field: 'groupName', align: 'center' },
-    { field: 'name', align: 'center' },
-    { field: 'endDate', align: 'center' },
     { field: 'status', align: 'center' },
+    { field: 'endDate', align: 'center' },
   ]
 
   return (
