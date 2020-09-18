@@ -36,7 +36,7 @@ function HAStep(props) {
             groupName: pointUser.group ? pointUser.group.name : null,
             name: pointUser.taskInstance.activityName,
             endDate: pointUser.taskInstance.endTime ? formatDateTime(new Date(pointUser.taskInstance.endTime)) : null,
-            status: pointUser.status ? null : 'Reject',
+            status: pointUser.status ? null : 'Rejected',
           }
           pointUserList.push(pointRow)
         }
