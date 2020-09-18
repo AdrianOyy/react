@@ -43,16 +43,11 @@ function List(props) {
 
   useEffect(() => {
     const groupList = getUser().groupList
-    // const groupList = [ "yang666" ]
-    API.getTaskListByGroup({ groupList }).then(response => {
-      setTotal(response.data.data.length)
-      handleData(response.data.data)
+    API.getTaskListByGroup({ groupList, limit: rowsPerPage, page: page + 1 }).then(response => {
+      console.log(response)
+      setTotal(response.data.data.total)
+      handleData(response.data.data.mapList)
     })
-    // API.getMyApproval({ ...query, userName: 'kk', limit: rowsPerPage, page: page + 1 })
-    //   .then(response => {
-    //     setTotal(response.data.data.total)
-    //     handleData(response.data.data.items)
-    //   })
   }, [ page, rowsPerPage, query ])
 
   const handleData = (rawDataList) => {
