@@ -9,7 +9,7 @@ import PerfectScrollbar from "react-perfect-scrollbar"
 import "../vendor/perfect-scrollbar.css"
 
 import { spacing } from "@material-ui/system"
-
+import { getUser } from "../utils/user"
 import {
   Avatar,
   Badge,
@@ -31,7 +31,7 @@ import { ExpandLess, ExpandMore } from "@material-ui/icons"
 import routes from "../routes/index"
 
 // import { Layers } from "react-feather";
-
+const user = getUser();
 const NavLink = React.forwardRef((props, ref) => (
   <RouterNavLink innerRef={ref} {...props} />
 ))
@@ -251,8 +251,8 @@ function SidebarCategory({
         isOpen ? (
           <CategoryIconMore />
         ) : (
-          <CategoryIconLess />
-        )
+            <CategoryIconLess />
+          )
       ) : null}
       {badge ? <CategoryBadge label={badge} /> : ""}
     </Category>
@@ -293,7 +293,7 @@ function Sidebar({ classes, staticContext, location, ...rest }) {
     return _routes
   }
 
-  const [ openRoutes, setOpenRoutes ] = useState(() => initOpenRoutes())
+  const [openRoutes, setOpenRoutes] = useState(() => initOpenRoutes())
 
   const toggle = index => {
     // Collapse all elements
@@ -355,17 +355,17 @@ function Sidebar({ classes, staticContext, location, ...rest }) {
                     </Collapse>
                   </React.Fragment>
                 ) : (
-                  <SidebarCategory
-                    isCollapsable={false}
-                    name={category.id}
-                    to={category.path}
-                    activeClassName="active"
-                    component={NavLink}
-                    icon={category.icon}
-                    exact
-                    badge={category.badge}
-                  />
-                )}
+                    <SidebarCategory
+                      isCollapsable={false}
+                      name={category.id}
+                      to={category.path}
+                      activeClassName="active"
+                      component={NavLink}
+                      icon={category.icon}
+                      exact
+                      badge={category.badge}
+                    />
+                  )}
               </React.Fragment>
             ))}
           </Items>
@@ -387,7 +387,7 @@ function Sidebar({ classes, staticContext, location, ...rest }) {
           </Grid>
           <Grid item>
             <SidebarFooterText variant="body2">
-              Lucy Lavender
+              {user.displayName}
             </SidebarFooterText>
             <SidebarFooterSubText variant="caption">
               UX Designer
