@@ -53,7 +53,7 @@ function List(props) {
       .then(response => {
         console.log(response)
         setTotal(response.data.data.total)
-        handleData(response.data.data.items)
+        handleData(response.data.data.list)
       })
   }, [ page, rowsPerPage, query ])
 
