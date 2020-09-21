@@ -54,8 +54,9 @@ TabPanel.propTypes = {
   value: PropTypes.any.isRequired,
 };
 
-function a11yProps(index) {
+function allProps(label, index) {
   return {
+    label,
     id: `simple-tab-${index}`,
     'aria-controls': `simple-tabpanel-${index}`,
   };
@@ -133,6 +134,7 @@ function Detail(props) {
   const [ DeliveryDate, setDeliveryDate ] = useState('')
   const [ DeliveryNoteReceivedDate, setDeliveryNoteReceivedDate ] = useState('')
   const [ MaintID, setMaintID ] = useState('')
+  const [ EquipType, setEquipType ] = useState('')
   const [ createdAt, setCreatedAt ] = useState('')
   const [ updatedAt, setUpdastedAt ] = useState('')
 
@@ -142,6 +144,8 @@ function Detail(props) {
   const [ portAssignments, setPortAssignments ] = useState([])
   const [ powerInputs, setPowerInputs ] = useState([])
   const [ powerOutputs, setPowerOutputs ] = useState([])
+
+  const [ showProps, setShowProps ] = useState([])
 
   const formatDateTime = (str) => {
     return dayjs(new Date(str)).format('DD-MMM-YYYY HH:mm')
@@ -172,7 +176,7 @@ function Detail(props) {
               {
                 show && show.labels.map((_, i) => {
                   if (i >= 1 && i <= show.index) {
-                  return <TableCell>{_}</TableCell>
+                    return <TableCell>{_}</TableCell>
                   }
                 })
               }
@@ -203,12 +207,12 @@ function Detail(props) {
   
     return (
       <React.Fragment>
-        <TableRow key={key} className={classes.root}>
+        <TableRow key={key}>
           {
             listrows.map((_, i) => {
               if (i === 0) {
                 return <TableCell component="th" scope="row">{_.value}</TableCell>
-              } else if (i >= 1 && i <= show.index) {
+              } else if (i >= 1 && i < show.index) {
                 return <TableCell>{_.value}</TableCell>
               }
             })
@@ -227,7 +231,7 @@ function Detail(props) {
                   <Grid container spacing={ 3 }>
                     {
                       listrows.map((_, i) => {
-                        return <TextField disabled label={_.label} value={_.value} variant="outlined" style={{ marginTop: "5ch", marginRight: "10ch" }}/>
+                        return <TextField disabled label={_.label} value={_.value} variant="outlined" style={{ marginTop: "5ch",  marginRight: "10ch" }}/>
                       })
                     }
                   </Grid>
@@ -251,7 +255,7 @@ function Detail(props) {
         console.log(data.data)
         const {
           _ID, UnitCode, AssetID, ModelCode, ModelDesc, ClosetID,
-          Rack, RLU, ItemOwner, status, Remark, UnitNo, PortQty, ReqNo,
+          Rack, RLU, ItemOwner, status, Remark, equipType, UnitNo, PortQty, ReqNo,
           DOB, DeliveryDate, DeliveryNoteReceivedDate, MaintID,
           createdAt, updatedAt, policy, equipPort, powerInput, powerOutput
         } = data.data
@@ -266,6 +270,7 @@ function Detail(props) {
         setItemOwner(ItemOwner)
         setServiceStatus(status ? status.ServiceStatus : '')
         setRemark(Remark)
+        setEquipType(equipType ? equipType.Type : '')
         setUnitNo(UnitNo)
         setPortQty(PortQty)
         setReqNo(ReqNo)
@@ -291,6 +296,28 @@ function Detail(props) {
         }
         if (powerOutput && powerOutput.length > 0) {
           setPowerOutputs(powerOutput)
+        }
+        if (equipType && equipType.Type === 'EqNetwork') {
+          setShowProps([
+            {
+              label: 'Network',
+              id: `simple-tab-0`,
+              'aria-controls': `simple-tabpanel-0`,
+            },
+            {
+              label: 'Assigment',
+              id: `simple-tab-1`,
+              'aria-controls': `simple-tabpanel-1`,
+            },
+          ])
+        } else {
+          setShowProps([
+            {
+              label: 'Network',
+              id: `simple-tab-0`,
+              'aria-controls': `simple-tabpanel-0`,
+            },
+          ])
         }
       }
     })
@@ -341,6 +368,10 @@ function Detail(props) {
       {
         id: 'Remark', label: 'Remark', type: 'text',
         disabled: true, readOnly: true, value: Remark
+      },
+      {
+        id: 'EquipType', label: 'EquipType', type: 'text',
+        disabled: true, readOnly: true, value: EquipType
       },
       {
         id: 'UnitNo', label: 'Unit No', type: 'text',
@@ -444,6 +475,9 @@ function Detail(props) {
       case 'MaintID' :
         setMaintID(value)
         break
+      case 'EquipType' :
+        setEquipType(value)
+        break
       default:
         break
     }
@@ -458,8 +492,15 @@ function Detail(props) {
       />
       <div className={classes.root}>
         <Tabs value={value} onChange={handleChange} aria-label="ant example">
-          <Tab label="Network" {...a11yProps(0)} />
-          <Tab label="Assigment" {...a11yProps(1)} />
+          {/* <Tab label="Network" {...allProps(0)} />
+          <Tab label="Assigment" {...allProps(1)} /> */}
+          {/* <Tab {...allProps("Network", 0)} />
+          <Tab {...allProps("Assigment", 1)} /> */}
+          {
+            showProps.map(_ => {
+              return  <Tab {..._} />;
+            })
+          }
         </Tabs>
         <TabPanel value={value} index={0}>
           <Typography variant={ 'h3' } gutterBottom>

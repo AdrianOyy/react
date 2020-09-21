@@ -33,6 +33,7 @@ function Create(props) {
   const [ DeliveryDate, setDeliveryDate ] = useState('')
   const [ DeliveryNoteReceivedDate, setDeliveryNoteReceivedDate ] = useState('')
   const [ MaintID, setMaintID ] = useState('')
+  const [ EquipType, setEquipType ] = useState('')
   const [ inventory, setInventory ] = useState([])
 
   // const [ Slot, setSlot ] = useState('')
@@ -66,10 +67,6 @@ function Create(props) {
     const _IDError = await _IDCheck()
     if (_IDError || saving) return
     setSaving(true)
-    let EquipType
-    if (EquipTypes && EquipTypes.length > 0) {
-      EquipType = EquipTypes[0].id
-    }
     API.create(
         {
           _ID, UnitCode, AssetID, ModelCode, ModelDesc, ClosetID,
@@ -167,6 +164,11 @@ function Create(props) {
       {
         id: 'Remark', label: 'Remark', type: 'text',
         required: false, readOnly: false, value: Remark
+      },
+      {
+        id: 'EquipType', label: 'EquipType', type: 'select',
+        value: EquipType, itemList: EquipTypes,
+        labelField: 'Type', valueField: 'id',
       },
       {
         id: 'UnitNo', label: 'Unit No', type: 'text',
@@ -355,6 +357,9 @@ function Create(props) {
         break
       case 'MaintID' :
         setMaintID(value)
+        break
+      case 'EquipType' :
+        setEquipType(value)
         break
       // case 'Slot' :
       //   setSlot(value)
