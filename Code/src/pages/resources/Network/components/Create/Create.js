@@ -55,6 +55,7 @@ function Create(props) {
   
   const [ saving, setSaving ] = useState(false)
   const [ InventoryStatus, setInventoryStatus ] = useState([])
+  const [ EquipTypes, setEquipTypes ] = useState([])
 
   useEffect(() => {
     onMount('create')
@@ -65,11 +66,15 @@ function Create(props) {
     const _IDError = await _IDCheck()
     if (_IDError || saving) return
     setSaving(true)
+    let EquipType
+    if (EquipTypes && EquipTypes.length > 0) {
+      EquipType = EquipTypes[0].id
+    }
     API.create(
         {
           _ID, UnitCode, AssetID, ModelCode, ModelDesc, ClosetID,
           Rack, RLU, ItemOwner, Status, Remark, UnitNo, PortQty, ReqNo,
-          DOB, DeliveryDate, DeliveryNoteReceivedDate, MaintID
+          DOB, DeliveryDate, DeliveryNoteReceivedDate, MaintID, EquipType
           // ,
           // Slot, Port, RequesterTeam, PortUsage, PortAssignStatus,
           // PortAssignDate, PortAssignerID, PortAssignerDisplayName,
@@ -89,8 +94,14 @@ function Create(props) {
   useEffect(() => {
     API.listStatus({ limit: 999, page: 1 }).then(({ data }) => {
       if (data && data.data) {
-        console.log(data.data)
         setInventoryStatus(data.data)
+      }
+    })
+  }, [])
+  useEffect(() => {
+    API.listEquipType({ limit: 999, page: 1 }).then(({ data }) => {
+      if (data && data.data) {
+        setEquipTypes(data.data)
       }
     })
   }, [])
