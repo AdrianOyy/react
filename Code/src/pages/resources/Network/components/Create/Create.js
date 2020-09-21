@@ -283,7 +283,8 @@ function Create(props) {
     DeliveryDate,
     DeliveryNoteReceivedDate,
     MaintID,
-    InventoryStatus
+    InventoryStatus,
+    EquipTypes
     // ,
     // Slot,
     // Port,

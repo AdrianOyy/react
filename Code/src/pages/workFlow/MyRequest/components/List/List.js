@@ -169,7 +169,6 @@ function List(props) {
   const actionList = [
     { label: 'edit', icon: <BorderColorIcon />, handleClick: handleDetail  },
     { label: 'step', icon: <ReorderIcon />, handleClick: handleStep  },
-    { label: 'image', icon: <EventAvailableIcon />, handleClick: handleImage, display: true },
   ]
 
   return (
