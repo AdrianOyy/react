@@ -226,17 +226,13 @@ function Detail(props) {
         <TableRow>
           <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
             <Collapse in={open} timeout="auto" unmountOnExit>
-              <Paper mt={0}>
-                <form noValidate autoComplete="off">
-                  <Grid container spacing={ 3 }>
-                    {
-                      listrows.map((_, i) => {
-                        return <TextField disabled label={_.label} value={_.value} variant="outlined" style={{ marginTop: "5ch",  marginRight: "10ch" }}/>
-                      })
-                    }
-                  </Grid>
-                </form>
-              </Paper>
+              <Box margin={1}>
+                {
+                  listrows.map((_, i) => {
+                    return <TextField disabled label={_.label} value={_.value} variant="outlined" style={{ marginTop: "5ch",  marginRight: "10ch" }}/>
+                  })
+                }
+              </Box>
             </Collapse>
           </TableCell>
         </TableRow>
