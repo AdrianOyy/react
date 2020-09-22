@@ -17,10 +17,16 @@ class dynamicForm {
     return request.get(`${prefix}/dynamicForm/getDynamicFormDetail`, params, {}, url)
   }
   test(params) {
-    return request.get(`${prefix}/dynamicForm/test`, params)
+    return request.get(`${prefix}/workflow/createTable`, params)
   }
   create(data) {
-    return request.post(`${prefix}/diyForm/create`)
+    return request.post(`${prefix}/diyForm/create`, data)
+  }
+  createWorkFlow(data) {
+    return request.post(`${prefix}/workflow/create`, data)
+  }
+  workFlowDetail(params) {
+    return request.get(`${prefix}/workflow/detail`, params)
   }
 }
 

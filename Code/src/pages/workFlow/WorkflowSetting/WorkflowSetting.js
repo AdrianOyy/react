@@ -1,6 +1,6 @@
 import React from "react"
 import CommonPage from "../../../components/CommonPage"
-import { List } from './components'
+import { List, Detail } from './components'
 
 const parentTitle = 'Workflow'
 const title = 'Workflow Setting'
@@ -10,6 +10,7 @@ function WorkflowSetting() {
     title,
     parentTitle,
     List,
+    Detail
   }
   return (
     <React.Fragment>

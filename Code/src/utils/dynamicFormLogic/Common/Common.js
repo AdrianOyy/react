@@ -3,6 +3,8 @@ import CommonTip from "../../../components/CommonTip"
 export default class Common {
   // eslint-disable-next-line
   async onFieldChange(data, dataMap, ref) {
+    const { id } = data
+    dataMap.set(id, data)
   }
 
   // eslint-disable-next-line

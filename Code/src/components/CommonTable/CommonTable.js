@@ -229,7 +229,7 @@ function CommonTable(props) {
                                 <IconButton
                                   key={i + '_' + action.label}
                                   aria-label={action.label}
-                                  onClick={(e) => action.handleClick(e, row)}
+                                  onClick={(e) => action.handleClick(e, row, index)}
                                 >
                                   {action.icon}
                                 </IconButton>

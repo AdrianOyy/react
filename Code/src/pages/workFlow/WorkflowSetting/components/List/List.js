@@ -8,6 +8,7 @@ import {
 import { CommonTable } from '../../../../../components'
 import styled from "styled-components"
 import { spacing } from "@material-ui/system"
+import { useHistory } from 'react-router-dom'
 import { getUrl } from '../../../../../utils/user'
 import prefix from '../../../../../utils/prefix'
 import CommonTip from "../../../../../components/CommonTip"
@@ -15,6 +16,7 @@ import Loading from "../../../../../components/Loading"
 import {
   EventAvailable as EventAvailableIcon,
   BorderColorOutlined as BorderColorIcon,
+  Settings as SettingsIcon,
 } from "@material-ui/icons"
 
 const createPrefix = prefix.workflow
@@ -25,7 +27,7 @@ const tableName = 'List'
 function List(props) {
 
   const { onMount, path } = props
-
+  const history = useHistory()
   const [ rows, setRows ] = useState([])
   const [ page, setPage ] = useState(0)
   const [ rowsPerPage, setRowsPerPage ] = useState(10)
@@ -106,9 +108,14 @@ function List(props) {
     window.open(getUrl() + `${createPrefix}/openEditor?modelId=${row.id}&token=` + localStorage.getItem("token"))
   }
 
+  const handleSetting = (event, row) => {
+    history.push({ pathname: `/detail/${row.id}`, search: `name=${row.name}` })
+  }
+
   // 自定义action
   const actionList = [
     { label: 'edit', icon: <BorderColorIcon />, handleClick: customEdit },
+    { label: 'setting', icon: <SettingsIcon />, handleClick: handleSetting },
     { label: 'event', icon: <EventAvailableIcon />, handleClick: handlePublish },
   ]
 

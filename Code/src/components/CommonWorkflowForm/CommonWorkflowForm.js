@@ -6,8 +6,9 @@ import { makeStyles, withStyles } from "@material-ui/core/styles"
 import { Paper as HAPaper } from "@material-ui/core"
 import ChildForm from "../../components/ChildForm"
 import getLogic from "../../utils/dynamicFormLogic"
-import map2object from "../../utils/map2object"
+import { map2object } from "../../utils/map2object"
 import HATable from "../../components/HATable"
+import DialogText from "../../components/DialogText"
 import Loading from "../../components/Loading"
 import {
   BorderColorOutlined as BorderColorIcon,
@@ -84,6 +85,8 @@ export default function CommonWorkflowForm(props) {
 
   const [ childFormKey, setChildFormKey ] = useState('')
 
+  const [ version, setVersion ] = useState('')
+
   const [ create, setCreate ] = useState(false)
 
   const [ current, setCurrent ] = useState(-1)
@@ -110,9 +113,10 @@ export default function CommonWorkflowForm(props) {
       .then(({ data }) => {
         const {
           workflowName, parentFormDetail,
-          childFormDetail, formKey, childFormKey,
+          childFormDetail, formKey, childFormKey, version
         } = data.data
         setFormKey(formKey)
+        setVersion(version)
         setChildFormKey(childFormKey)
         setWorkflowName(workflowName)
         setRawData({
@@ -121,7 +125,7 @@ export default function CommonWorkflowForm(props) {
         })
         // 获取数据表
         if (!pid) return
-        API.detail({ pid })
+        API.detail({ pid, deploymentId })
           .then(({ data }) => {
             setCreate(true)
             const { parentData, childDataList } = data.data
@@ -244,6 +248,7 @@ export default function CommonWorkflowForm(props) {
     const form = {
       formId,
       formKey,
+      version,
       childDataList: childData
     }
     Loading.show()
@@ -292,6 +297,7 @@ export default function CommonWorkflowForm(props) {
         childFormKey,
         parentData: map2object(parentDataMap),
         childDataList,
+        version
       }
       if (processDefinitionId) {
         API.create(form)
@@ -305,6 +311,7 @@ export default function CommonWorkflowForm(props) {
           formKey,
           childFormKey,
           taskId,
+          version,
           parentData: map2object(parentDataMap),
           childDataList,
         }
@@ -446,6 +453,14 @@ export default function CommonWorkflowForm(props) {
           buttonList={stepName === 'T3' ? t3buttonList : buttonList}
           isNew={isNew}
         />
+        {/* <DialogText*/}
+        {/*  title={'Remark'}*/}
+        {/*  detail={'Please Input Remark'}*/}
+        {/*  label={'Remark'}*/}
+        {/*  open={diaLogOpen}*/}
+        {/*  handleSubmit={'Remark'}*/}
+        {/*  handleClose={'Remark'}*/}
+        {/* />*/}
         <ButtonGroup className={classes.buttonGroup}>
           {
             (!pid || stepName === 'T3') ? (
