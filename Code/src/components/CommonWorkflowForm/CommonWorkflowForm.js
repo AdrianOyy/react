@@ -353,8 +353,8 @@ export default function CommonWorkflowForm(props) {
     onSubmit: (value) => {
       const data = {
         taskId,
-        variables: { leaderCheck: false },
-        reason: value
+        variables: { pass: false },
+        rejectReason: value
       }
       rejectActions(data)
     },
@@ -384,7 +384,7 @@ export default function CommonWorkflowForm(props) {
   const handleAgrreTaskClick = () => {
     const agreeModel = {
       taskId,
-      variables: { leaderCheck: true },
+      variables: { pass: true },
     }
     workflowApi.actionTask(agreeModel)
       .then(({ data }) => {
