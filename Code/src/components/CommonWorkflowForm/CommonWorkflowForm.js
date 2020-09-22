@@ -18,6 +18,9 @@ import {
 } from '@material-ui/core'
 import API from '../../api/diyForm'
 import CommonTip from "../CommonTip"
+
+import InputTip from "../InputTip"
+import ReactDOM from "react-dom"
 import { useHistory } from "react-router-dom"
 
 const Paper = withStyles(() => ({
@@ -60,45 +63,45 @@ export default function CommonWorkflowForm(props) {
   const container = useRef(null)
   const classes = useStyles()
   // 业务逻辑
-  const [ logic, setLogic ] = useState({})
+  const [logic, setLogic] = useState({})
   // 流程名称
-  const [ workflowName, setWorkflowName ] = useState('')
+  const [workflowName, setWorkflowName] = useState('')
   // 父表渲染表
-  const [ parentFormDetail, setParentFormDetail ] = useState([])
+  const [parentFormDetail, setParentFormDetail] = useState([])
   // 子表渲染表
-  const [ childFormDetail, setChildFormDetail ] = useState([])
+  const [childFormDetail, setChildFormDetail] = useState([])
   // VM list
-  const [ childDataList, setChildDataList ] = useState([])
+  const [childDataList, setChildDataList] = useState([])
   // 子表表头字段
-  const [ tableHeader, setTableHeader ] = useState([])
+  const [tableHeader, setTableHeader] = useState([])
   // 子表 body 字段
-  const [ fieldList, setFieldList ] = useState([])
+  const [fieldList, setFieldList] = useState([])
   // 子表打开标识
-  const [ open, setOpen ] = useState(false)
+  const [open, setOpen] = useState(false)
   // 子表初始数据
-  const [ childDefaultValues, setChildDefaultValues ] = useState({})
+  const [childDefaultValues, setChildDefaultValues] = useState({})
   // 父表初始数据
-  const [ parentDefaultValues, setParentDefaultValues ] = useState({})
+  const [parentDefaultValues, setParentDefaultValues] = useState({})
 
-  const [ formKey, setFormKey ] = useState('')
+  const [formKey, setFormKey] = useState('')
 
-  const [ childFormKey, setChildFormKey ] = useState('')
+  const [childFormKey, setChildFormKey] = useState('')
 
-  const [ create, setCreate ] = useState(false)
+  const [create, setCreate] = useState(false)
 
-  const [ current, setCurrent ] = useState(-1)
+  const [current, setCurrent] = useState(-1)
 
-  const [ checkCount, setCheckCount ] = useState(0)
+  const [checkCount, setCheckCount] = useState(0)
 
-  const [ formId, setFormId ] = useState(0)
+  const [formId, setFormId] = useState(0)
 
-  const [ isNew, setIsNew ] = useState(false)
+  const [isNew, setIsNew] = useState(false)
 
-  const [ parentDataMap ] = useState(new Map())
+  const [parentDataMap] = useState(new Map())
   // 原始渲染数据
-  const [ rawData, setRawData ] = useState(null)
+  const [rawData, setRawData] = useState(null)
   // 原始数据
-  const [ rawDefaultData, setRawDefaultData ] = useState(null)
+  const [rawDefaultData, setRawDefaultData] = useState(null)
   // 子表渲染数据 Map
   const childDataMap = new Map()
   const childDataListMap = new Map()
@@ -136,7 +139,7 @@ export default function CommonWorkflowForm(props) {
   // 获取业务逻辑
   useEffect(() => {
     setLogic(getLogic(workflowName))
-  }, [ workflowName ])
+  }, [workflowName])
 
   // 处理原始渲染数据和具体数据
   useEffect(() => {
@@ -186,7 +189,7 @@ export default function CommonWorkflowForm(props) {
     const handledChildData = logic.handleChildDefaultData(childDataList, childDataListMap)
     setChildDataList(handledChildData)
     // eslint-disable-next-line
-  }, [ logic, rawData, rawDefaultData ])
+  }, [logic, rawData, rawDefaultData])
 
   // 打开子表
   const openChildForm = () => {
@@ -333,13 +336,27 @@ export default function CommonWorkflowForm(props) {
       }
     }
   }
-
+  const dialogForms = {
+    title: 'Reject Reason',
+    formField:
+    {
+      id: 'reason', label: 'Season', type: 'text', disabled: false, readOnly: false, required: true, helperText: 'Not Allow Empty'
+    },
+    onFormFieldChange: () => { },
+    onSubmit: (value) => {
+      if (!value) return;
+      const data = {
+        taskId,
+        variables: { leaderCheck: false },
+        reason: value
+      }
+      rejectActions(data)
+    },
+  }
   const handleRejectTaskClick = () => {
-    // alert('reject')
-    const data = {
-      taskId,
-      variables: { leaderCheck: false },
-    }
+    InputTip.show(dialogForms)
+  }
+  const rejectActions = (data) => {
     workflowApi.actionTask(data)
       .then(() => {
         CommonTip.success('Success')
@@ -458,38 +475,38 @@ export default function CommonWorkflowForm(props) {
                 Submit
               </Button>
             ) : (
-              (stepName === 'detail') ?
-                (
-                  <Button
-                    className={classes.button}
-                    variant="contained"
-                    color='primary'
-                    onClick={handleCancel}
-                  >
-                    Cancel
-                  </Button>
-                ) :
-                (
-                  <div>
+                (stepName === 'detail') ?
+                  (
                     <Button
                       className={classes.button}
                       variant="contained"
                       color='primary'
-                      onClick={handleAgrreTaskClick}
+                      onClick={handleCancel}
                     >
-                      Approval
+                      Cancel
                     </Button>
-                    <Button
-                      className={classes.button}
-                      variant="contained"
-                      color='primary'
-                      onClick={handleRejectTaskClick}
-                    >
-                      Reject
+                  ) :
+                  (
+                    <div>
+                      <Button
+                        className={classes.button}
+                        variant="contained"
+                        color='primary'
+                        onClick={handleAgrreTaskClick}
+                      >
+                        Approval
                     </Button>
-                  </div>
-                )
-            )
+                      <Button
+                        className={classes.button}
+                        variant="contained"
+                        color='primary'
+                        onClick={handleRejectTaskClick}
+                      >
+                        Reject
+                    </Button>
+                    </div>
+                  )
+              )
           }
         </ButtonGroup>
       </Paper>
