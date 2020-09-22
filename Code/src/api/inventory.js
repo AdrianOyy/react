@@ -13,6 +13,9 @@ class inventory {
   listStatus(params, options) {
     return request.get(`${prefix}/inventory/listStatus`, params, options, url)
   }
+  listEquipType(params, options) {
+    return request.get(`${prefix}/inventory/listEquipType`, params, options, url)
+  }
   create(params) {
     return request.post(`${prefix}/inventory/create`, params, {}, url)
   }

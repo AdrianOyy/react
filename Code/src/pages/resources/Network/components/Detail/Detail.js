@@ -1,9 +1,116 @@
 import React, { useEffect, useState } from 'react'
 
 import DetailPage from "../../../../../components/DetailPage"
+import ExpandTable from "../../../../../components/ExpandTable"
 import API from "../../../../../api/inventory"
 import { useParams } from "react-router-dom"
 import dayjs from "dayjs"
+import PropTypes from 'prop-types';
+import { makeStyles } from '@material-ui/core/styles';
+
+
+import {
+  Box,
+  Tab,
+  Tabs,
+  Typography,
+} from '@material-ui/core'
+
+function TabPanel(props) {
+  const { children, value, index, ...other } = props;
+
+  return (
+    <div
+      role="tabpanel"
+      hidden={value !== index}
+      id={`simple-tabpanel-${index}`}
+      aria-labelledby={`simple-tab-${index}`}
+      {...other}
+    >
+      {value === index && (
+        <Box p={3}>
+          <Typography>{children}</Typography>
+        </Box>
+      )}
+    </div>
+  );
+}
+
+TabPanel.propTypes = {
+  children: PropTypes.node,
+  index: PropTypes.any.isRequired,
+  value: PropTypes.any.isRequired,
+};
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    flexGrow: 1,
+    backgroundColor: theme.palette.background.paper,
+  },
+}));
+
+const showPolicy = {
+  index: 4,
+  list: [
+    'id', '_ID', 'InventoryID', 'DefGateway', 'SubnetMask', 'ConfigFile',
+    'CurVer', 'NxBtVer', 'BlockDHCP', 'MedicalNW', 'NetworkApplied', 'Group'
+  ],
+  labels: [
+    'id', '_ID', 'InventoryID', 'Gateway', 'Subnet', 'Config File',
+    'Current Firmware Version', 'Next Boot Firmware Version',
+    'DHCP Snooping', 'MedicalNW', 'Network Applied', 'Group'
+  ]
+}
+
+const showPowerInput = {
+  index: 4,
+  list: [
+    'id', '_ID', 'PowerID', 'InputType', 'InventoryID',
+  ],
+  labels: [
+    'id', '_ID', 'Power ID', 'Inlet Type', 'Inventory ID'
+  ]
+}
+
+const showEquipmentPort = {
+  index: 4,
+  list: [ 
+    'id', '_ID', 'InventoryID', 'SlotID', 'PortID', 'PortType', 'OutletID',
+    'Remark', 'PortStatus', 'PortSecurity', 'Polarity', 'PortSpeed',
+    'Duplex', 'VLanID', 'PortPolicyType', 'PortPolicy', 'ConnectingInventory'
+  ],
+  labels: [
+    'id', '_ID', 'Unit Code', 'Slot', 'Port', 'Port Type', 'Outlet ID',
+    'Remark of Equipment Port', 'Outlet Status', 'Port Security', 'Port Polarity', 'Port Speed',
+    'Duplex', 'VLAN', 'Port Policy Type', 'Port Policy', 'Connecting Inventory'
+  ]
+}
+
+const showPortAssignment = {
+  index: 4,
+  list: [ 
+    'id', '_ID', 'EquipPortID', 'Slot', 'Port', 'RequesterTeam', 'PortUsage', 'PortAssignStatus',
+    'PortAssignDate', 'PortAssignerID', 'PortAssignerDisplayName', 'PortTeamingEquip',
+    'PortTeamingEquipPort', 'MoveInRef', 'MachineIP', 'MachineHostName',
+    'PortAssignmentRemarks', 'IPAddRef'
+  ],
+  labels: [
+    'id', '_ID', 'EquipPortID', 'Slot', 'Port', 'Requester Team', 'Port Usage', 'Port Assign Status',
+    'Port Assign Date', 'Port Assigner ID', 'Port Assigner Display Name', 'Port Teaming Equip',
+    'PortTeaming Equip Port', 'Move In Ref', 'Machine IP', 'Machine Host Name',
+    'Port Assignment Remarks', 'IP Add Ref'
+  ]
+}
+
+const showPowerOutput = {
+  index: 4,
+  list: [
+    'id', '_ID', 'PowerID', 'OutletType', 'InventoryID',
+  ],
+  labels: [
+    'id', '_ID', 'Power ID', 'Outlet Type', 'Inventory ID'
+  ]
+}
 
 function Detail(props) {
   const { onMount } = props
@@ -27,31 +134,29 @@ function Detail(props) {
   const [ DeliveryDate, setDeliveryDate ] = useState('')
   const [ DeliveryNoteReceivedDate, setDeliveryNoteReceivedDate ] = useState('')
   const [ MaintID, setMaintID ] = useState('')
+  const [ EquipType, setEquipType ] = useState('')
   const [ createdAt, setCreatedAt ] = useState('')
   const [ updatedAt, setUpdastedAt ] = useState('')
 
-  // const [ Slot, setSlot ] = useState('')
-  // const [ Port, setPort ] = useState('')
-  // const [ RequesterTeam, setRequesterTeam ] = useState('')
-  // const [ PortUsage, setPortUsage ] = useState('')
-  // const [ PortAssignStatus, setPortAssignStatus ] = useState('')
-  // const [ PortAssignDate, setPortAssignDate ] = useState('')
-  // const [ PortAssignerID, setPortAssignerID ] = useState('')
-  // const [ PortAssignerDisplayName, setPortAssignerDisplayName ] = useState('')
-  // const [ PortTeamingEquip, setPortTeamingEquip ] = useState('')
-  // const [ PortTeamingEquipPort, setPortTeamingEquipPort ] = useState('')
-  // const [ MoveInRef, setMoveInRef ] = useState('')
-  // const [ MachineIP, setMachineIP ] = useState('')
-  // const [ MachineHostName, setMachineHostName ] = useState('')
-  // const [ PortAssignmentRemarks, setPortAssignmentRemarks ] = useState('')
-  // const [ IPAddRef, setIPAddRef ] = useState('')
-
   const [ inventory, setInventory ] = useState([])
-  // const [ portAssignment, setPortAssignment ] = useState([])
+  const [ policys, setPolicys ] = useState([])
+  const [ equipmentPorts, setEquipmentPorts ] = useState([])
+  const [ portAssignments, setPortAssignments ] = useState([])
+  const [ powerInputs, setPowerInputs ] = useState([])
+  const [ powerOutputs, setPowerOutputs ] = useState([])
+
+  const [ showProps, setShowProps ] = useState([])
 
   const formatDateTime = (str) => {
     return dayjs(new Date(str)).format('DD-MMM-YYYY HH:mm')
   }
+
+  const classes = useStyles();
+  const [value, setValue] = React.useState(0);
+
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+  };
 
   useEffect(() => {
     onMount('detail')
@@ -61,12 +166,11 @@ function Detail(props) {
   useEffect(() => {
     API.detail(id).then(({ data }) => {
       if (data && data.data) {
-        console.log(data.data)
         const {
           _ID, UnitCode, AssetID, ModelCode, ModelDesc, ClosetID,
-          Rack, RLU, ItemOwner, status, Remark, UnitNo, PortQty, ReqNo,
+          Rack, RLU, ItemOwner, status, Remark, equipType, UnitNo, PortQty, ReqNo,
           DOB, DeliveryDate, DeliveryNoteReceivedDate, MaintID,
-          createdAt, updatedAt
+          createdAt, updatedAt, policy, equipPort, powerInput, powerOutput
         } = data.data
         set_ID(_ID)
         setUnitCode(UnitCode)
@@ -79,6 +183,7 @@ function Detail(props) {
         setItemOwner(ItemOwner)
         setServiceStatus(status ? status.ServiceStatus : '')
         setRemark(Remark)
+        setEquipType(equipType ? equipType.Type : '')
         setUnitNo(UnitNo)
         setPortQty(PortQty)
         setReqNo(ReqNo)
@@ -88,21 +193,50 @@ function Detail(props) {
         setMaintID(MaintID)
         setCreatedAt(createdAt)
         setUpdastedAt(updatedAt)
-        // setSlot()
-        // setPort()
-        // setRequesterTeam()
-        // setPortUsage()
-        // setPortAssignStatus()
-        // setPortAssignDate()
-        // setPortAssignerID()
-        // setPortAssignerDisplayName()
-        // setPortTeamingEquip()
-        // setPortTeamingEquipPort()
-        // setMoveInRef()
-        // setMachineIP()
-        // setMachineHostName()
-        // setPortAssignmentRemarks()
-        // setIPAddRef()
+        if (policy && policy.length > 0) {
+          setPolicys(policy)
+        }
+        if (powerInput && powerInput.length > 0) {
+          setPowerInputs(powerInput)
+        }
+        if (equipPort && equipPort.length > 0) {
+          setEquipmentPorts(equipPort)
+          const tempPortAssignments = []
+          equipPort.map(_ => {
+            tempPortAssignments.push(_.portAssignment);
+          })
+          setPortAssignments(tempPortAssignments)
+        }
+        if (powerOutput && powerOutput.length > 0) {
+          setPowerOutputs(powerOutput)
+        }
+        if (equipType && equipType.Type === 'EqNetwork') {
+          setShowProps([
+            {
+              label: 'Network',
+              id: `simple-tab-0`,
+              'aria-controls': `simple-tabpanel-0`,
+            },
+            {
+              label: 'Assigment',
+              id: `simple-tab-1`,
+              'aria-controls': `simple-tabpanel-1`,
+            },
+          ])
+        } else if (
+          equipType &&
+          (equipType.Type === 'EqUPS' ||
+          equipType.Type === 'EqPDU' ||
+          equipType.Type === 'EqATS')
+        ) {
+          setShowProps([
+            {
+              label: 'Network',
+              id: `simple-tab-0`,
+              'aria-controls': `simple-tabpanel-0`,
+            },
+          ])
+        }
       }
     })
   }, [ id ])
@@ -154,6 +288,10 @@ function Detail(props) {
         disabled: true, readOnly: true, value: Remark
       },
       {
+        id: 'EquipType', label: 'EquipType', type: 'text',
+        disabled: true, readOnly: true, value: EquipType
+      },
+      {
         id: 'UnitNo', label: 'Unit No', type: 'text',
         disabled: true, readOnly: true, value: UnitNo
       },
@@ -191,79 +329,11 @@ function Detail(props) {
       },
     ]
     setInventory(inventoryList)
-    // const portAssignmentList = [
-    //   {
-    //     id: 'Slot', label: 'Slot', type: 'text',
-    //     disabled: true, readOnly: true, value: Slot
-    //   },
-    //   {
-    //     id: 'Port', label: 'Port', type: 'text',
-    //     disabled: true, readOnly: true, value: Port
-    //   },
-    //   {
-    //     id: 'RequesterTeam', label: 'RequesterTeam', type: 'text',
-    //     disabled: true, readOnly: true, value: RequesterTeam
-    //   },
-    //   {
-    //     id: 'PortUsage', label: 'PortUsage', type: 'text',
-    //     disabled: true, readOnly: true, value: PortUsage
-    //   },
-    //   {
-    //     id: 'PortAssignStatus', label: 'PortAssignStatus', type: 'text',
-    //     disabled: true, readOnly: true, value: PortAssignStatus
-    //   },
-    //   {
-    //     id: 'PortAssignDate', label: 'PortAssignDate', type: 'text',
-    //     disabled: true, readOnly: true, value: PortAssignDate
-    //   },
-    //   {
-    //     id: 'PortAssignerID', label: 'PortAssignerID', type: 'text',
-    //     disabled: true, readOnly: true, value: PortAssignerID
-    //   },
-    //   {
-    //     id: 'PortAssignerDisplayName', label: 'PortAssigner Display Name', type: 'text',
-    //     disabled: true, readOnly: true, value: PortAssignerDisplayName
-    //   },
-    //   {
-    //     id: 'PortTeamingEquip', label: 'PortTeamingEquip', type: 'text',
-    //     disabled: true, readOnly: true, value: PortTeamingEquip
-    //   },
-    //   {
-    //     id: 'PortTeamingEquipPort', label: 'PortTeamingEquipPort', type: 'text',
-    //     disabled: true, readOnly: true, value: PortTeamingEquipPort
-    //   },
-    //   {
-    //     id: 'MoveInRef', label: 'MoveInRef', type: 'text',
-    //     disabled: true, readOnly: true, value: MoveInRef
-    //   },
-    //   {
-    //     id: 'MachineIP', label: 'MachineIP', type: 'text',
-    //     disabled: true, readOnly: true, value: MachineIP
-    //   },
-    //   {
-    //     id: 'MachineHostName', label: 'MachineHostName', type: 'text',
-    //     disabled: true, readOnly: true, value: MachineHostName
-    //   },
-    //   {
-    //     id: 'PortAssignmentRemarks', label: 'PortAssignmentRemarks', type: 'text',
-    //     disabled: true, readOnly: true, value: PortAssignmentRemarks
-    //   },
-    //   {
-    //     id: 'IPAddRef', label: 'IPAddRef', type: 'text',
-    //     disabled: true, readOnly: true, value: IPAddRef
-    //   },
-    // ]
-    // setPortAssignment(portAssignmentList)
   }, [
     _ID, UnitCode, AssetID, ModelCode, ModelDesc, ClosetID,
     Rack, RLU, ItemOwner, ServiceStatus, Remark, UnitNo, PortQty, ReqNo,
     DOB, DeliveryDate, DeliveryNoteReceivedDate, MaintID,
     createdAt, updatedAt
-    // ,
-    // Slot, Port, RequesterTeam, PortUsage, PortAssignStatus,
-    // PortAssignDate, PortAssignerID, PortAssignerDisplayName,
-    // PortTeamingEquip, PortTeamingEquipPort, MoveInRef, MachineIP,
-    // MachineHostName, PortAssignmentRemarks, IPAddRef
   ])
 
   const onFormFieldChange = (e, id) => {
@@ -323,51 +393,9 @@ function Detail(props) {
       case 'MaintID' :
         setMaintID(value)
         break
-      // case 'Slot' :
-      //   setSlot(value)
-      //   break
-      // case 'Port' :
-      //   setPort(value)
-      //   break
-      // case 'RequesterTeam' :
-      //   setRequesterTeam(value)
-      //   break
-      // case 'PortUsage' :
-      //   setPortUsage(value)
-      //   break
-      // case 'PortAssignStatus' :
-      //   setPortAssignStatus(value)
-      //   break
-      // case 'PortAssignDate' :
-      //   setPortAssignDate(value)
-      //   break
-      // case 'PortAssignerID' :
-      //   setPortAssignerID(value)
-      //   break
-      // case 'PortAssignerDisplayName' :
-      //   setPortAssignerDisplayName(value)
-      //   break
-      // case 'PortTeamingEquip' :
-      //   setPortTeamingEquip(value)
-      //   break
-      // case 'PortTeamingEquipPort' :
-      //   setPortTeamingEquipPort(value)
-      //   break
-      // case 'MoveInRef' :
-      //   setMoveInRef(value)
-      //   break
-      // case 'MachineIP' :
-      //   setMachineIP(value)
-      //   break
-      // case 'MachineHostName' :
-      //   setMachineHostName(value)
-      //   break
-      // case 'PortAssignmentRemarks' :
-      //   setPortAssignmentRemarks(value)
-      //   break
-      // case 'IPAddRef' :
-      //   setIPAddRef(value)
-      //   break
+      case 'EquipType' :
+        setEquipType(value)
+        break
       default:
         break
     }
@@ -380,11 +408,52 @@ function Detail(props) {
         onFormFieldChange = {onFormFieldChange}
         formFieldList = {inventory}
       />
-      {/* <DetailPage
-        formTitle = 'Port Assignment'
-        onFormFieldChange = {onFormFieldChange}
-        formFieldList = {portAssignment}
-      /> */}
+      <div className={classes.root}>
+        <Tabs value={value} onChange={handleChange} aria-label="ant example">
+          {
+            showProps.map(_ => {
+              return  <Tab {..._} />;
+            })
+          }
+        </Tabs>
+        <TabPanel value={value} index={0}>
+          <ExpandTable
+            label="Policy"
+            rows={policys}
+            show={showPolicy}
+          />
+          <ExpandTable
+            label="PowerInput"
+            rows={powerInputs}
+            show={showPowerInput}
+          />
+          {
+            (EquipType === 'EqUPS' || EquipType === 'EqPDU' || EquipType === 'EqATS') ?
+            <ExpandTable
+              label="PowerOutput"
+              rows={powerOutputs}
+              show={showPowerOutput}
+            /> : null
+          }
+        </TabPanel>
+        <TabPanel value={value} index={1}>
+          <ExpandTable
+            label="Equipment Port"
+            rows={equipmentPorts}
+            show={showEquipmentPort}
+          />
+          <ExpandTable
+            label="Port Assignment"
+            rows={portAssignments}
+            show={showPortAssignment}
+          />
+          <ExpandTable
+            label="PowerOutput"
+            rows={powerOutputs}
+            show={showPowerOutput}
+          />
+        </TabPanel>
+      </div>
     </React.Fragment>
   )
 }
