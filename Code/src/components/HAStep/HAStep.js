@@ -7,12 +7,35 @@ import API from "../../api/workFlow"
 import Paper from "@material-ui/core/Paper"
 import formatDateTime from "../../utils/formatDateTime"
 
+import DialogContentText from '@material-ui/core/DialogContentText'
+import DialogContent from '@material-ui/core/DialogContent'
+import DialogActions from '@material-ui/core/DialogActions'
+import DialogTitle from '@material-ui/core/DialogTitle'
+import Dialog from '@material-ui/core/Dialog'
+import MButton from '@material-ui/core/Button'
+import withStyles from "@material-ui/core/styles/withStyles"
+import BorderColorIcon from "@material-ui/icons/BorderColorOutlined"
+import { lang } from "../../lang/lang"
 function HAStep(props) {
-  const { processInstanceId } = props
+  const ex_us = lang.ex_us
+  const Button = withStyles((() => ({
+    root: {
+      width: '5vw',
+    }
+  })))(MButton)
+
+  const [shown, setShown] = useState(false)
+  const [reason, setReason] = useState('')
+  const handleDetail = (event, row) => {
+    setReason(row.reason)
+    setShown(true)
+  }
+  const actionList = [{ display: 'reason', label: 'Reject Reason', icon: <BorderColorIcon />, handleClick: handleDetail }]
+  const { processInstanceId, actions } = props
   // const processInstanceId = 827520
-  const [ steps, setSteps ] = useState([])
-  const [ activeStep, setActiveStep ] = useState(0)
-  const [ rows, setRows ] = useState([])
+  const [steps, setSteps] = useState([])
+  const [activeStep, setActiveStep] = useState(0)
+  const [rows, setRows] = useState([])
 
   useEffect(() => {
     API.getProcessPoint({ id: processInstanceId }).then(({ data }) => {
@@ -30,13 +53,14 @@ function HAStep(props) {
         setSteps(pointList)
         setActiveStep(parseInt(active))
         const pointUserList = []
-        for  (const pointUser of process.processPointUser) {
+        for (const pointUser of process.processPointUser) {
           const pointRow = {
             assignee: pointUser.assignee,
             groupName: pointUser.group ? pointUser.group.name : null,
             name: pointUser.taskInstance.activityName,
             endDate: pointUser.taskInstance.endTime ? formatDateTime(new Date(pointUser.taskInstance.endTime)) : null,
             status: pointUser.status ? null : 'Rejected',
+            reason: pointUser.rejectReason || '',
           }
           pointUserList.push(pointRow)
         }
@@ -54,6 +78,7 @@ function HAStep(props) {
     { id: 'groupName', alignment: 'center', label: 'Group' },
     { id: 'status', alignment: 'center', label: 'Status' },
     { id: 'endDate', alignment: 'center', label: 'End Date' },
+    { id: 'reason', alignment: 'right', label: 'Reject Reason' }
   ]
 
   // 每行显示的字段
@@ -84,8 +109,31 @@ function HAStep(props) {
           headCells={headCells}
           fieldList={fieldList}
           hideCreate={true}
+          actionList={actionList}
         />
       </Paper>
+      <Dialog
+        open={shown}
+        onClose={() => { setShown(false) }}
+        fullWidth={true}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="form-dialog-title">{ex_us['RejectReason'] || 'Reject Reason'}</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            {reason}
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button
+            fullwidth
+            variant="contained"
+            color="primary"
+            onClick={() => { setShown(false) }}
+            style={{ marginRight: '2ch' }} >{ex_us['Close'] || 'Close'}</Button>
+        </DialogActions>
+      </Dialog>
     </React.Fragment>
   )
 }

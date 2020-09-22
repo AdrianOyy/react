@@ -9,6 +9,12 @@ import getLogic from "../../utils/dynamicFormLogic"
 import map2object from "../../utils/map2object"
 import HATable from "../../components/HATable"
 import Loading from "../../components/Loading"
+import { lang } from "../../lang/lang"
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import Dialog from '@material-ui/core/Dialog';
+import TextField from '@material-ui/core/TextField';
 import {
   BorderColorOutlined as BorderColorIcon,
 } from "@material-ui/icons"
@@ -19,8 +25,6 @@ import {
 import API from '../../api/diyForm'
 import CommonTip from "../CommonTip"
 
-import InputTip from "../InputTip"
-import ReactDOM from "react-dom"
 import { useHistory } from "react-router-dom"
 
 const Paper = withStyles(() => ({
@@ -105,6 +109,9 @@ export default function CommonWorkflowForm(props) {
   // 子表渲染数据 Map
   const childDataMap = new Map()
   const childDataListMap = new Map()
+  const [shown, setShown] = useState(false)
+
+  const ex_us = lang.ex_us
 
   // 获取原始渲染数据、流程实例数据
   useEffect(() => {
@@ -336,15 +343,14 @@ export default function CommonWorkflowForm(props) {
       }
     }
   }
-  const dialogForms = {
-    title: 'Reject Reason',
+  const dialogReason = {
+    title: ex_us['RejectReason'] || 'Reject Reason',
+    value: '',
     formField:
     {
-      id: 'reason', label: 'Season', type: 'text', disabled: false, readOnly: false, required: true, helperText: 'Not Allow Empty'
+      id: 'reason', label: ex_us['Reason'] || 'Reason', type: 'text', disabled: false, readOnly: false, required: true, helperText: ex_us['NotEmpty'] || 'Not Allow Empty'
     },
-    onFormFieldChange: () => { },
     onSubmit: (value) => {
-      if (!value) return;
       const data = {
         taskId,
         variables: { leaderCheck: false },
@@ -353,12 +359,23 @@ export default function CommonWorkflowForm(props) {
       rejectActions(data)
     },
   }
-  const handleRejectTaskClick = () => {
-    InputTip.show(dialogForms)
+  const handleReasonSubmit = () => {
+    if (dialogReason.value && dialogReason.value.length > 0) {
+      let data = {
+        taskId,
+        variables: { leaderCheck: false },
+        reason: dialogReason.value
+      }
+      rejectActions(data)
+    }
+  }
+  const handleReasonChange = (event, id) => {
+    dialogReason.value = event.target.value;
   }
   const rejectActions = (data) => {
     workflowApi.actionTask(data)
       .then(() => {
+        setShown(false)
         CommonTip.success('Success')
         history.push({ pathname: `/MyApproval` })
       })
@@ -374,7 +391,7 @@ export default function CommonWorkflowForm(props) {
         if (data.status === 400) {
           CommonTip.error(data.data)
         } else {
-          CommonTip.success('Success')
+          CommonTip.success(ex_us['Success'] || 'Success')
           history.push({ pathname: `/MyApproval` })
         }
       })
@@ -500,16 +517,54 @@ export default function CommonWorkflowForm(props) {
                         className={classes.button}
                         variant="contained"
                         color='primary'
-                        onClick={handleRejectTaskClick}
-                      >
-                        Reject
+                        onClick={() => { setShown(true) }}
+                      >Reject
                     </Button>
                     </div>
                   )
               )
           }
         </ButtonGroup>
+
       </Paper>
+
+      <Dialog
+        open={shown}
+        fullWidth={true}
+        aria-labelledby="form-dialog-title"
+      >
+        <DialogTitle id="form-dialog-title">{dialogReason.title}</DialogTitle>
+        <DialogContent>
+          <form autoComplete="off">
+            <TextField
+              fullWidth={true}
+              id={dialogReason.formField.id.toString()}
+              key={dialogReason.formField.id + dialogReason.formField.label}
+              label={dialogReason.formField.label}
+              type={dialogReason.formField.type}
+              error={dialogReason.formField.error || false}
+              helperText={dialogReason.formField.helperText || ''}
+              disabled={dialogReason.formField.disabled || false}
+              required={dialogReason.formField.required || false}
+              onChange={!dialogReason.formField.readOnly ? (event) => handleReasonChange(event, dialogReason.formFieldId) : null}
+              value={dialogReason.formField.value}
+              multiline
+            />
+          </form>
+        </DialogContent>
+        <DialogActions>
+          <Button
+            variant="contained"
+            fullwidth
+            onClick={() => { setShown(false) }}>{ex_us['Cancel'] || 'Cancel'}</Button>
+          <Button
+            fullwidth
+            variant="contained"
+            color="primary"
+            style={{ marginRight: '2ch' }}
+            onClick={handleReasonSubmit}>{ex_us['Submit'] || 'Submit'}</Button>
+        </DialogActions>
+      </Dialog>
     </React.Fragment>
   )
 }
