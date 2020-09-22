@@ -19,6 +19,9 @@ import {
 } from '@material-ui/core'
 import API from '../../api/diyForm'
 import CommonTip from "../CommonTip"
+
+import InputTip from "../InputTip"
+import ReactDOM from "react-dom"
 import { useHistory } from "react-router-dom"
 
 const Paper = withStyles(() => ({
@@ -190,7 +193,7 @@ export default function CommonWorkflowForm(props) {
     const handledChildData = logic.handleChildDefaultData(childDataList, childDataListMap)
     setChildDataList(handledChildData)
     // eslint-disable-next-line
-  }, [ logic, rawData, rawDefaultData ])
+  }, [logic, rawData, rawDefaultData])
 
   // 打开子表
   const openChildForm = () => {
@@ -340,13 +343,27 @@ export default function CommonWorkflowForm(props) {
       }
     }
   }
-
+  const dialogForms = {
+    title: 'Reject Reason',
+    formField:
+    {
+      id: 'reason', label: 'Season', type: 'text', disabled: false, readOnly: false, required: true, helperText: 'Not Allow Empty'
+    },
+    onFormFieldChange: () => { },
+    onSubmit: (value) => {
+      if (!value) return
+      const data = {
+        taskId,
+        variables: { pass: false },
+        rejectReason: value
+      }
+      rejectActions(data)
+    },
+  }
   const handleRejectTaskClick = () => {
-    // alert('reject')
-    const data = {
-      taskId,
-      variables: { leaderCheck: false },
-    }
+    InputTip.show(dialogForms)
+  }
+  const rejectActions = (data) => {
     workflowApi.actionTask(data)
       .then(() => {
         CommonTip.success('Success')
@@ -357,7 +374,7 @@ export default function CommonWorkflowForm(props) {
   const handleAgrreTaskClick = () => {
     const agreeModel = {
       taskId,
-      variables: { leaderCheck: true },
+      variables: { pass: true },
     }
     workflowApi.actionTask(agreeModel)
       .then(({ data }) => {
@@ -481,7 +498,7 @@ export default function CommonWorkflowForm(props) {
                     color='primary'
                     onClick={handleCancel}
                   >
-                    Cancel
+                      Cancel
                   </Button>
                 ) :
                 (
@@ -492,7 +509,7 @@ export default function CommonWorkflowForm(props) {
                       color='primary'
                       onClick={handleAgrreTaskClick}
                     >
-                      Approval
+                        Approval
                     </Button>
                     <Button
                       className={classes.button}
@@ -500,7 +517,7 @@ export default function CommonWorkflowForm(props) {
                       color='primary'
                       onClick={handleRejectTaskClick}
                     >
-                      Reject
+                        Reject
                     </Button>
                   </div>
                 )

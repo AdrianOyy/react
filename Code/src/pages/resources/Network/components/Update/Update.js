@@ -33,27 +33,12 @@ function Detail(props) {
   const [ DeliveryDate, setDeliveryDate ] = useState('')
   const [ DeliveryNoteReceivedDate, setDeliveryNoteReceivedDate ] = useState('')
   const [ MaintID, setMaintID ] = useState('')
+  const [ EquipType, setEquipType ] = useState('')
   const [ inventory, setInventory ] = useState([])
-
-  // const [ Slot, setSlot ] = useState('')
-  // const [ Port, setPort ] = useState('')
-  // const [ RequesterTeam, setRequesterTeam ] = useState('')
-  // const [ PortUsage, setPortUsage ] = useState('')
-  // const [ PortAssignStatus, setPortAssignStatus ] = useState('')
-  // const [ PortAssignDate, setPortAssignDate ] = useState('')
-  // const [ PortAssignerID, setPortAssignerID ] = useState('')
-  // const [ PortAssignerDisplayName, setPortAssignerDisplayName ] = useState('')
-  // const [ PortTeamingEquip, setPortTeamingEquip ] = useState('')
-  // const [ PortTeamingEquipPort, setPortTeamingEquipPort ] = useState('')
-  // const [ MoveInRef, setMoveInRef ] = useState('')
-  // const [ MachineIP, setMachineIP ] = useState('')
-  // const [ MachineHostName, setMachineHostName ] = useState('')
-  // const [ PortAssignmentRemarks, setPortAssignmentRemarks ] = useState('')
-  // const [ IPAddRef, setIPAddRef ] = useState('')
-  // const [ portAssignment, setPortAssignment ] = useState([])
   
   const [ saving, setSaving ] = useState(true)
   const [ InventoryStatus, setInventoryStatus ] = useState([])
+  const [ EquipTypes, setEquipTypes ] = useState([])
 
   useEffect(() => {
     onMount('update')
@@ -68,12 +53,7 @@ function Detail(props) {
       {
         _ID, UnitCode, AssetID, ModelCode, ModelDesc, ClosetID,
         Rack, RLU, ItemOwner, Status, Remark, UnitNo, PortQty, ReqNo,
-        DOB, DeliveryDate, DeliveryNoteReceivedDate, MaintID
-        // ,
-        // Slot, Port, RequesterTeam, PortUsage, PortAssignStatus,
-        // PortAssignDate, PortAssignerID, PortAssignerDisplayName,
-        // PortTeamingEquip, PortTeamingEquipPort, MoveInRef, MachineIP,
-        // MachineHostName, PortAssignmentRemarks, IPAddRef
+        DOB, DeliveryDate, DeliveryNoteReceivedDate, MaintID, EquipType
       }
     )
       .then(() => {
@@ -91,7 +71,7 @@ function Detail(props) {
       const {
         _ID, UnitCode, AssetID, ModelCode, ModelDesc, ClosetID,
         Rack, RLU, ItemOwner, Status, Remark, UnitNo, PortQty, ReqNo,
-        DOB, DeliveryDate, DeliveryNoteReceivedDate, MaintID
+        DOB, DeliveryDate, DeliveryNoteReceivedDate, MaintID, EquipType
       } = data.data
       set_ID(_ID)
       setUnitCode(UnitCode)
@@ -104,6 +84,7 @@ function Detail(props) {
       setItemOwner(ItemOwner)
       setStatus(Status)
       setRemark(Remark)
+      setEquipType(EquipType)
       setUnitNo(UnitNo)
       setPortQty(PortQty)
       setReqNo(ReqNo)
@@ -118,8 +99,13 @@ function Detail(props) {
   useEffect(() => {
     API.listStatus({ limit: 999, page: 1 }).then(({ data }) => {
       if (data && data.data) {
-        console.log(data.data)
         setInventoryStatus(data.data)
+      }
+    })
+    API.listEquipType({ limit: 999, page: 1 }).then(({ data }) => {
+      if (data && data.data) {
+        console.log('11111111111111111111')
+        setEquipTypes(data.data)
       }
     })
   }, [])
@@ -173,6 +159,11 @@ function Detail(props) {
         required: false, readOnly: false, value: Remark
       },
       {
+        id: 'EquipType', label: 'EquipType', type: 'select',
+        value: EquipType, itemList: EquipTypes,
+        labelField: 'Type', valueField: 'id',
+      },
+      {
         id: 'UnitNo', label: 'Unit No', type: 'text',
         required: false, readOnly: false, value: UnitNo
       },
@@ -202,69 +193,6 @@ function Detail(props) {
       },
     ]
     setInventory(inventoryList)
-    // const portAssignmentList = [
-    //   {
-    //     id: 'Slot', label: 'Slot', type: 'text',
-    //     required: false, readOnly: false, value: Slot
-    //   },
-    //   {
-    //     id: 'Port', label: 'Port', type: 'text',
-    //     required: false, readOnly: false, value: Port
-    //   },
-    //   {
-    //     id: 'RequesterTeam', label: 'RequesterTeam', type: 'text',
-    //     required: false, readOnly: false, value: RequesterTeam
-    //   },
-    //   {
-    //     id: 'PortUsage', label: 'PortUsage', type: 'text',
-    //     required: false, readOnly: false, value: PortUsage
-    //   },
-    //   {
-    //     id: 'PortAssignStatus', label: 'PortAssignStatus', type: 'text',
-    //     required: false, readOnly: false, value: PortAssignStatus
-    //   },
-    //   {
-    //     id: 'PortAssignDate', label: 'PortAssignDate', type: 'text',
-    //     required: false, readOnly: false, value: PortAssignDate
-    //   },
-    //   {
-    //     id: 'PortAssignerID', label: 'PortAssignerID', type: 'text',
-    //     required: false, readOnly: false, value: PortAssignerID
-    //   },
-    //   {
-    //     id: 'PortAssignerDisplayName', label: 'PortAssigner Display Name', type: 'text',
-    //     required: false, readOnly: false, value: PortAssignerDisplayName
-    //   },
-    //   {
-    //     id: 'PortTeamingEquip', label: 'PortTeamingEquip', type: 'text',
-    //     required: false, readOnly: false, value: PortTeamingEquip
-    //   },
-    //   {
-    //     id: 'PortTeamingEquipPort', label: 'PortTeamingEquipPort', type: 'text',
-    //     required: false, readOnly: false, value: PortTeamingEquipPort
-    //   },
-    //   {
-    //     id: 'MoveInRef', label: 'MoveInRef', type: 'text',
-    //     required: false, readOnly: false, value: MoveInRef
-    //   },
-    //   {
-    //     id: 'MachineIP', label: 'MachineIP', type: 'text',
-    //     required: false, readOnly: false, value: MachineIP
-    //   },
-    //   {
-    //     id: 'MachineHostName', label: 'MachineHostName', type: 'text',
-    //     required: false, readOnly: false, value: MachineHostName
-    //   },
-    //   {
-    //     id: 'PortAssignmentRemarks', label: 'PortAssignmentRemarks', type: 'text',
-    //     required: false, readOnly: false, value: PortAssignmentRemarks
-    //   },
-    //   {
-    //     id: 'IPAddRef', label: 'IPAddRef', type: 'text',
-    //     required: false, readOnly: false, value: IPAddRef
-    //   },
-    // ]
-    // setPortAssignment(portAssignmentList)
   }, [
     _ID, _IDError, _IDHelperText, 
     UnitCode,
@@ -284,23 +212,8 @@ function Detail(props) {
     DeliveryDate,
     DeliveryNoteReceivedDate,
     MaintID,
-    InventoryStatus
-    // ,
-    // Slot,
-    // Port,
-    // RequesterTeam,
-    // PortUsage,
-    // PortAssignStatus,
-    // PortAssignDate,
-    // PortAssignerID,
-    // PortAssignerDisplayName,
-    // PortTeamingEquip,
-    // PortTeamingEquipPort,
-    // MoveInRef,
-    // MachineIP,
-    // MachineHostName,
-    // PortAssignmentRemarks,
-    // IPAddRef
+    InventoryStatus,
+    EquipTypes
   ])
   const onFormFieldChange = (e, id) => {
     const { value } = e.target
@@ -338,6 +251,9 @@ function Detail(props) {
       case 'Remark' :
         setRemark(value)
         break
+      case 'EquipType' :
+        setEquipType(value)
+        break
       case 'UnitNo' :
         setUnitNo(value)
         break
@@ -359,51 +275,6 @@ function Detail(props) {
       case 'MaintID' :
         setMaintID(value)
         break
-      // case 'Slot' :
-      //   setSlot(value)
-      //   break
-      // case 'Port' :
-      //   setPort(value)
-      //   break
-      // case 'RequesterTeam' :
-      //   setRequesterTeam(value)
-      //   break
-      // case 'PortUsage' :
-      //   setPortUsage(value)
-      //   break
-      // case 'PortAssignStatus' :
-      //   setPortAssignStatus(value)
-      //   break
-      // case 'PortAssignDate' :
-      //   setPortAssignDate(value)
-      //   break
-      // case 'PortAssignerID' :
-      //   setPortAssignerID(value)
-      //   break
-      // case 'PortAssignerDisplayName' :
-      //   setPortAssignerDisplayName(value)
-      //   break
-      // case 'PortTeamingEquip' :
-      //   setPortTeamingEquip(value)
-      //   break
-      // case 'PortTeamingEquipPort' :
-      //   setPortTeamingEquipPort(value)
-      //   break
-      // case 'MoveInRef' :
-      //   setMoveInRef(value)
-      //   break
-      // case 'MachineIP' :
-      //   setMachineIP(value)
-      //   break
-      // case 'MachineHostName' :
-      //   setMachineHostName(value)
-      //   break
-      // case 'PortAssignmentRemarks' :
-      //   setPortAssignmentRemarks(value)
-      //   break
-      // case 'IPAddRef' :
-      //   setIPAddRef(value)
-      //   break
       default:
         break
     }
@@ -440,14 +311,6 @@ function Detail(props) {
         showBtn ={true}
         onBtnClick = {handleClick}
       />
-      {/* <DetailPage
-        formTitle = 'Port Assignment'
-        onFormFieldChange = {onFormFieldChange}
-        onFormFieldBlur = {onFormFieldBlur}
-        formFieldList = {portAssignment}
-        showBtn ={true}
-        onBtnClick = {handleClick}
-      /> */}
     </React.Fragment>
   )
 }

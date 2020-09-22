@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 
 import DetailPage from "../../../../../components/DetailPage"
+import ExpandTable from "../../../../../components/ExpandTable"
 import API from "../../../../../api/inventory"
 import { useParams } from "react-router-dom"
 import dayjs from "dayjs"
@@ -10,23 +11,10 @@ import { makeStyles } from '@material-ui/core/styles';
 
 import {
   Box,
-  Collapse,
-  Grid,
-  Paper,
   Tab,
   Tabs,
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableRow,
-  TableContainer,
-  TextField,
   Typography,
-  IconButton,
 } from '@material-ui/core'
-import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
-import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -54,13 +42,6 @@ TabPanel.propTypes = {
   value: PropTypes.any.isRequired,
 };
 
-function a11yProps(index) {
-  return {
-    id: `simple-tab-${index}`,
-    'aria-controls': `simple-tabpanel-${index}`,
-  };
-}
-
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
@@ -78,6 +59,16 @@ const showPolicy = {
     'id', '_ID', 'InventoryID', 'Gateway', 'Subnet', 'Config File',
     'Current Firmware Version', 'Next Boot Firmware Version',
     'DHCP Snooping', 'MedicalNW', 'Network Applied', 'Group'
+  ]
+}
+
+const showPowerInput = {
+  index: 4,
+  list: [
+    'id', '_ID', 'PowerID', 'InputType', 'InventoryID',
+  ],
+  labels: [
+    'id', '_ID', 'Power ID', 'Inlet Type', 'Inventory ID'
   ]
 }
 
@@ -111,6 +102,16 @@ const showPortAssignment = {
   ]
 }
 
+const showPowerOutput = {
+  index: 4,
+  list: [
+    'id', '_ID', 'PowerID', 'OutletType', 'InventoryID',
+  ],
+  labels: [
+    'id', '_ID', 'Power ID', 'Outlet Type', 'Inventory ID'
+  ]
+}
+
 function Detail(props) {
   const { onMount } = props
   
@@ -133,6 +134,7 @@ function Detail(props) {
   const [ DeliveryDate, setDeliveryDate ] = useState('')
   const [ DeliveryNoteReceivedDate, setDeliveryNoteReceivedDate ] = useState('')
   const [ MaintID, setMaintID ] = useState('')
+  const [ EquipType, setEquipType ] = useState('')
   const [ createdAt, setCreatedAt ] = useState('')
   const [ updatedAt, setUpdastedAt ] = useState('')
 
@@ -142,6 +144,8 @@ function Detail(props) {
   const [ portAssignments, setPortAssignments ] = useState([])
   const [ powerInputs, setPowerInputs ] = useState([])
   const [ powerOutputs, setPowerOutputs ] = useState([])
+
+  const [ showProps, setShowProps ] = useState([])
 
   const formatDateTime = (str) => {
     return dayjs(new Date(str)).format('DD-MMM-YYYY HH:mm')
@@ -154,92 +158,6 @@ function Detail(props) {
     setValue(newValue);
   };
 
-  const useRowStyles = makeStyles({
-    root: {
-      '& > *': {
-        borderBottom: 'unset',
-      },
-    },
-  });
-
-  function ExpandTable(props) {
-    const { rows, show } = props;
-    return (
-      <TableContainer component={Paper}>
-        <Table>
-          <TableHead>
-            <TableRow>
-              {
-                show && show.labels.map((_, i) => {
-                  if (i >= 1 && i <= show.index) {
-                  return <TableCell>{_}</TableCell>
-                  }
-                })
-              }
-              <TableCell />
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {rows && rows.map((row) => (
-              <DetailRow key={row[0]} show={show} row={row}/>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
-    )
-  }
-  
-  function DetailRow(props) {
-    const { key, row, show } = props;
-    const [open, setOpen] = React.useState(false);
-    const classes = useRowStyles();
-    // 不包括id
-    const listrows = []
-    show.list.map((_, i) => {
-      if (i !== 0) {
-        listrows.push({ label: show.labels[i], value: row[_] });
-      }
-    })
-  
-    return (
-      <React.Fragment>
-        <TableRow key={key} className={classes.root}>
-          {
-            listrows.map((_, i) => {
-              if (i === 0) {
-                return <TableCell component="th" scope="row">{_.value}</TableCell>
-              } else if (i >= 1 && i <= show.index) {
-                return <TableCell>{_.value}</TableCell>
-              }
-            })
-          }
-          <TableCell>
-            <IconButton aria-label="expand row" size="small" onClick={() => setOpen(!open)}>
-              {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
-            </IconButton>
-          </TableCell>
-        </TableRow>
-        <TableRow>
-          <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
-            <Collapse in={open} timeout="auto" unmountOnExit>
-              <Paper mt={0}>
-                <form noValidate autoComplete="off">
-                  <Grid container spacing={ 3 }>
-                    {
-                      listrows.map((_, i) => {
-                        return <TextField disabled label={_.label} value={_.value} variant="outlined" style={{ marginTop: "5ch", marginRight: "10ch" }}/>
-                      })
-                    }
-                  </Grid>
-                </form>
-              </Paper>
-            </Collapse>
-          </TableCell>
-        </TableRow>
-      </React.Fragment>
-    );
-  }
-
   useEffect(() => {
     onMount('detail')
     // eslint-disable-next-line
@@ -248,10 +166,9 @@ function Detail(props) {
   useEffect(() => {
     API.detail(id).then(({ data }) => {
       if (data && data.data) {
-        console.log(data.data)
         const {
           _ID, UnitCode, AssetID, ModelCode, ModelDesc, ClosetID,
-          Rack, RLU, ItemOwner, status, Remark, UnitNo, PortQty, ReqNo,
+          Rack, RLU, ItemOwner, status, Remark, equipType, UnitNo, PortQty, ReqNo,
           DOB, DeliveryDate, DeliveryNoteReceivedDate, MaintID,
           createdAt, updatedAt, policy, equipPort, powerInput, powerOutput
         } = data.data
@@ -266,6 +183,7 @@ function Detail(props) {
         setItemOwner(ItemOwner)
         setServiceStatus(status ? status.ServiceStatus : '')
         setRemark(Remark)
+        setEquipType(equipType ? equipType.Type : '')
         setUnitNo(UnitNo)
         setPortQty(PortQty)
         setReqNo(ReqNo)
@@ -291,6 +209,33 @@ function Detail(props) {
         }
         if (powerOutput && powerOutput.length > 0) {
           setPowerOutputs(powerOutput)
+        }
+        if (equipType && equipType.Type === 'EqNetwork') {
+          setShowProps([
+            {
+              label: 'Network',
+              id: `simple-tab-0`,
+              'aria-controls': `simple-tabpanel-0`,
+            },
+            {
+              label: 'Assigment',
+              id: `simple-tab-1`,
+              'aria-controls': `simple-tabpanel-1`,
+            },
+          ])
+        } else if (
+          equipType &&
+          (equipType.Type === 'EqUPS' ||
+          equipType.Type === 'EqPDU' ||
+          equipType.Type === 'EqATS')
+        ) {
+          setShowProps([
+            {
+              label: 'Network',
+              id: `simple-tab-0`,
+              'aria-controls': `simple-tabpanel-0`,
+            },
+          ])
         }
       }
     })
@@ -341,6 +286,10 @@ function Detail(props) {
       {
         id: 'Remark', label: 'Remark', type: 'text',
         disabled: true, readOnly: true, value: Remark
+      },
+      {
+        id: 'EquipType', label: 'EquipType', type: 'text',
+        disabled: true, readOnly: true, value: EquipType
       },
       {
         id: 'UnitNo', label: 'Unit No', type: 'text',
@@ -444,6 +393,9 @@ function Detail(props) {
       case 'MaintID' :
         setMaintID(value)
         break
+      case 'EquipType' :
+        setEquipType(value)
+        break
       default:
         break
     }
@@ -458,75 +410,48 @@ function Detail(props) {
       />
       <div className={classes.root}>
         <Tabs value={value} onChange={handleChange} aria-label="ant example">
-          <Tab label="Network" {...a11yProps(0)} />
-          <Tab label="Assigment" {...a11yProps(1)} />
+          {
+            showProps.map(_ => {
+              return  <Tab {..._} />;
+            })
+          }
         </Tabs>
         <TabPanel value={value} index={0}>
-          <Typography variant={ 'h3' } gutterBottom>
-            Policy
-          </Typography>
-          <ExpandTable rows={policys} show={showPolicy} />
-
-          <Typography variant={ 'h3' } gutterBottom>
-            PowerInput
-          </Typography>
-          <TableContainer component={Paper}>
-            <Table aria-label="PowerInput">
-              <TableHead>
-                <TableRow>
-                  <TableCell>_ID</TableCell>
-                  <TableCell>Power ID</TableCell>
-                  <TableCell>Inlet Type</TableCell>
-                  <TableCell>Inventory ID</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {powerInputs.map((row) => (
-                  <TableRow key={row.id}>
-                    <TableCell>{row._ID}</TableCell>
-                    <TableCell>{row.PowerID}</TableCell>
-                    <TableCell>{row.InputType}</TableCell>
-                    <TableCell>{row.InventoryID}</TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
+          <ExpandTable
+            label="Policy"
+            rows={policys}
+            show={showPolicy}
+          />
+          <ExpandTable
+            label="PowerInput"
+            rows={powerInputs}
+            show={showPowerInput}
+          />
+          {
+            (EquipType === 'EqUPS' || EquipType === 'EqPDU' || EquipType === 'EqATS') ?
+            <ExpandTable
+              label="PowerOutput"
+              rows={powerOutputs}
+              show={showPowerOutput}
+            /> : null
+          }
         </TabPanel>
         <TabPanel value={value} index={1}>
-          <Typography variant={ 'h3' } gutterBottom>
-            Equipment Port
-          </Typography>
-          <ExpandTable rows={equipmentPorts} show={showEquipmentPort} />
-          <Typography variant={ 'h3' } gutterBottom>
-            Port Assignment
-          </Typography>
-          <ExpandTable rows={portAssignments} show={showPortAssignment} />
-          <Typography variant={ 'h3' } gutterBottom>
-            PowerOutput
-          </Typography>
-          <TableContainer component={Paper}>
-            <Table aria-label="PowerOutput">
-              <TableHead>
-                <TableRow>
-                  <TableCell>_ID</TableCell>
-                  <TableCell align="right">Power ID</TableCell>
-                  <TableCell align="right">Outlet Type</TableCell>
-                  <TableCell align="right">Inventory ID</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {powerOutputs.map((row) => (
-                  <TableRow key={row.id}>
-                    <TableCell>{row._ID}</TableCell>
-                    <TableCell align="right">{row.PowerID}</TableCell>
-                    <TableCell align="right">{row.OutletType}</TableCell>
-                    <TableCell align="right">{row.InventoryID}</TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
+          <ExpandTable
+            label="Equipment Port"
+            rows={equipmentPorts}
+            show={showEquipmentPort}
+          />
+          <ExpandTable
+            label="Port Assignment"
+            rows={portAssignments}
+            show={showPortAssignment}
+          />
+          <ExpandTable
+            label="PowerOutput"
+            rows={powerOutputs}
+            show={showPowerOutput}
+          />
         </TabPanel>
       </div>
     </React.Fragment>

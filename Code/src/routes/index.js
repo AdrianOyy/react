@@ -246,11 +246,11 @@ const resourceRoutes = {
       name: "VM",
       component: VM
     },
-    {
-      path: "/resources/port",
-      name: "Network Port",
-      component: Avatars
-    },
+    // {
+    //   path: "/resources/port",
+    //   name: "Network Port",
+    //   component: Avatars
+    // },
     {
       path: "/resources/IPAddress/",
       name: "IP Address",
@@ -261,16 +261,11 @@ const resourceRoutes = {
       name: "Network",
       component: Network
     },
-    {
-      path: "/resources/storage",
-      name: "Storage",
-      component: Cards
-    },
-    {
-      path: "/resources/firewall",
-      name: "Firewall",
-      component: Chips
-    },
+    // {
+    //   path: "/resources/storage",
+    //   name: "Storage",
+    //   component: Cards
+    // },
     {
       path: "/resources/server",
       name: "Server",
@@ -280,6 +275,11 @@ const resourceRoutes = {
       path: "/resources/platform",
       name: "Platform",
       component: Platform
+    },
+    {
+      path: "/resources/life-cycle",
+      name: "Life Cycle",
+      component: Chips
     },
   ]
 }
