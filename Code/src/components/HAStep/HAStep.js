@@ -121,7 +121,7 @@ function HAStep(props) {
       >
         <DialogTitle id="form-dialog-title">{ex_us['RejectReason'] || 'Reject Reason'}</DialogTitle>
         <DialogContent>
-          <DialogContentText>
+          <DialogContentText style={{ wordBreak: 'break-word' }}>
             {reason}
           </DialogContentText>
         </DialogContent>
@@ -134,7 +134,7 @@ function HAStep(props) {
             style={{ marginRight: '2ch' }} >{ex_us['Close'] || 'Close'}</Button>
         </DialogActions>
       </Dialog>
-    </React.Fragment>
+    </React.Fragment >
   )
 }
 export default HAStep
