@@ -13,9 +13,11 @@ import getLogic from "../../../../../utils/dynamicFormLogic"
 import API from "../../../../../api/dynamicForm"
 import {
   BorderColorOutlined as BorderColorIcon,
+  Delete as DeleteIcon,
 } from "@material-ui/icons"
 import { useLocation, useParams } from "react-router-dom"
 import path from "../../../../../utils/path"
+import deepClone from "../../../../../utils/deepClone"
 import CommonTip from "../../../../../components/CommonTip"
 
 const useStyles = makeStyles(() => ({
@@ -180,8 +182,6 @@ export default function MaterialTableDemo() {
       }
     }
     setChildDefaultValues({})
-    console.log(parentValues)
-    console.log(parentRows)
     setIsNew(false)
     setOpen(false)
   }
@@ -207,6 +207,20 @@ export default function MaterialTableDemo() {
     setOpen(true)
   }
 
+  const handleDelete = (e, row, index) =>  {
+    const values = deepClone(parentValues)
+    values.splice(index, 1)
+    setParentValues(values)
+    parentRows.splice(index, 1)
+  }
+
+  const handleChildDelete = (e, row, index) =>  {
+    const values = deepClone(childValues)
+    values.splice(index, 1)
+    setChildValues(values)
+    childRows.splice(index, 1)
+  }
+
   const handleChildDetail = (e, row, index) => {
     setType('child')
     setCurrent(index)
@@ -216,10 +230,12 @@ export default function MaterialTableDemo() {
 
   // 子表行内按钮列表
   const actionList = [
+    { label: 'delete', icon: <DeleteIcon />, handleClick: handleDelete },
     { label: 'Detail', icon: <BorderColorIcon />, handleClick: handleDetail },
   ]
 
   const actionChildList = [
+    { label: 'delete', icon: <DeleteIcon />, handleClick: handleChildDelete },
     { label: 'Detail', icon: <BorderColorIcon />, handleClick: handleChildDetail },
   ]
 
@@ -293,8 +309,8 @@ export default function MaterialTableDemo() {
         />
       </div>
       <ButtonGroup className={classes.buttonGroup}>
-        <Button variant="contained" onClick={handleSubmit} color='primary'>Submit</Button>
-        <Button variant="contained" onClick={handleCancle} color='primary'>Cancle</Button>
+        <Button  variant="contained" className={classes.button} onClick={handleSubmit} color='primary'>Submit</Button>
+        <Button  variant="contained" className={classes.button} onClick={handleCancle} >Cancle</Button>
       </ButtonGroup>
     </div>
   )
