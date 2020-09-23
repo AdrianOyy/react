@@ -9,12 +9,12 @@ import getLogic from "../../utils/dynamicFormLogic"
 import map2object from "../../utils/map2object"
 import HATable from "../../components/HATable"
 import Loading from "../../components/Loading"
-import { lang } from "../../lang/lang"
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import Dialog from '@material-ui/core/Dialog';
-import TextField from '@material-ui/core/TextField';
+import DialogContent from '@material-ui/core/DialogContent'
+import DialogActions from '@material-ui/core/DialogActions'
+import DialogTitle from '@material-ui/core/DialogTitle'
+import Dialog from '@material-ui/core/Dialog'
+import TextField from '@material-ui/core/TextField'
+import { L } from "../../utils/lang"
 import {
   BorderColorOutlined as BorderColorIcon,
 } from "@material-ui/icons"
@@ -24,9 +24,7 @@ import {
 } from '@material-ui/core'
 import API from '../../api/diyForm'
 import CommonTip from "../CommonTip"
-
 import { useHistory } from "react-router-dom"
-
 const Paper = withStyles(() => ({
   root: {
     padding: '4vh 2vw 2vh 2vw',
@@ -34,13 +32,11 @@ const Paper = withStyles(() => ({
     maxWidth: '75vw',
   },
 }))(HAPaper)
-
 const Button = withStyles((() => ({
   root: {
     width: '5vw',
   }
 })))(HAButton)
-
 const useStyles = makeStyles(() => ({
   buttonGroup: {
     display: 'flex',
@@ -52,8 +48,6 @@ const useStyles = makeStyles(() => ({
     marginRight: '1vw',
   }
 }))
-
-
 export default function CommonWorkflowForm(props) {
   const {
     processDefinitionId,
@@ -67,51 +61,49 @@ export default function CommonWorkflowForm(props) {
   const container = useRef(null)
   const classes = useStyles()
   // 业务逻辑
-  const [logic, setLogic] = useState({})
+  const [ logic, setLogic ] = useState({})
   // 流程名称
-  const [workflowName, setWorkflowName] = useState('')
+  const [ workflowName, setWorkflowName ] = useState('')
   // 父表渲染表
-  const [parentFormDetail, setParentFormDetail] = useState([])
+  const [ parentFormDetail, setParentFormDetail ] = useState([])
   // 子表渲染表
-  const [childFormDetail, setChildFormDetail] = useState([])
+  const [ childFormDetail, setChildFormDetail ] = useState([])
   // VM list
-  const [childDataList, setChildDataList] = useState([])
+  const [ childDataList, setChildDataList ] = useState([])
   // 子表表头字段
-  const [tableHeader, setTableHeader] = useState([])
+  const [ tableHeader, setTableHeader ] = useState([])
   // 子表 body 字段
-  const [fieldList, setFieldList] = useState([])
+  const [ fieldList, setFieldList ] = useState([])
   // 子表打开标识
-  const [open, setOpen] = useState(false)
+  const [ open, setOpen ] = useState(false)
   // 子表初始数据
-  const [childDefaultValues, setChildDefaultValues] = useState({})
+  const [ childDefaultValues, setChildDefaultValues ] = useState({})
   // 父表初始数据
-  const [parentDefaultValues, setParentDefaultValues] = useState({})
+  const [ parentDefaultValues, setParentDefaultValues ] = useState({})
 
-  const [formKey, setFormKey] = useState('')
+  const [ formKey, setFormKey ] = useState('')
 
-  const [childFormKey, setChildFormKey] = useState('')
+  const [ childFormKey, setChildFormKey ] = useState('')
 
-  const [create, setCreate] = useState(false)
+  const [ create, setCreate ] = useState(false)
 
-  const [current, setCurrent] = useState(-1)
+  const [ current, setCurrent ] = useState(-1)
 
-  const [checkCount, setCheckCount] = useState(0)
+  const [ checkCount, setCheckCount ] = useState(0)
 
-  const [formId, setFormId] = useState(0)
+  const [ formId, setFormId ] = useState(0)
 
-  const [isNew, setIsNew] = useState(false)
+  const [ isNew, setIsNew ] = useState(false)
 
-  const [parentDataMap] = useState(new Map())
+  const [ parentDataMap ] = useState(new Map())
   // 原始渲染数据
-  const [rawData, setRawData] = useState(null)
+  const [ rawData, setRawData ] = useState(null)
   // 原始数据
-  const [rawDefaultData, setRawDefaultData] = useState(null)
+  const [ rawDefaultData, setRawDefaultData ] = useState(null)
   // 子表渲染数据 Map
   const childDataMap = new Map()
   const childDataListMap = new Map()
-  const [shown, setShown] = useState(false)
-
-  const ex_us = lang.ex_us
+  const [ shown, setShown ] = useState(false)
 
   // 获取原始渲染数据、流程实例数据
   useEffect(() => {
@@ -146,7 +138,7 @@ export default function CommonWorkflowForm(props) {
   // 获取业务逻辑
   useEffect(() => {
     setLogic(getLogic(workflowName))
-  }, [workflowName])
+  }, [ workflowName ])
 
   // 处理原始渲染数据和具体数据
   useEffect(() => {
@@ -179,7 +171,7 @@ export default function CommonWorkflowForm(props) {
     headerList.push({
       id: 'action',
       alignment: 'right',
-      label: 'Actions',
+      label: L('Actions'),
     })
     setTableHeader(headerList)
 
@@ -274,7 +266,7 @@ export default function CommonWorkflowForm(props) {
             childData.checkState = true
             setCheckCount(checkCount + 1)
             childDataList[current] = childData
-            CommonTip.success('Check successfully')
+            CommonTip.success(L('Check successfully'))
             handleClose()
           }
         }
@@ -306,7 +298,7 @@ export default function CommonWorkflowForm(props) {
       if (processDefinitionId) {
         API.create(form)
           .then(() => {
-            CommonTip.success('Success')
+            CommonTip.success(L('Success'))
             history.push('/')
           })
       } else {
@@ -324,19 +316,19 @@ export default function CommonWorkflowForm(props) {
             console.log(child)
             if (!child.checkState) {
               ischeck = false
-              CommonTip.error('please check vm list')
+              CommonTip.error(L('please check vm list'))
               break
             }
           }
           if (ischeck) {
             API.update(formUpdate).then(() => {
-              CommonTip.success('Success')
+              CommonTip.success(L('Success'))
               history.push({ pathname: `/MyApproval` })
             })
           }
         } else {
           API.update(formUpdate).then(() => {
-            CommonTip.success('Success')
+            CommonTip.success(L('Success'))
             history.push({ pathname: `/MyApproval` })
           })
         }
@@ -344,11 +336,11 @@ export default function CommonWorkflowForm(props) {
     }
   }
   const dialogReason = {
-    title: ex_us['RejectReason'] || 'Reject Reason',
+    title: L('Reject Reason'),
     value: '',
     formField:
     {
-      id: 'reason', label: ex_us['Reason'] || 'Reason', type: 'text', disabled: false, readOnly: false, required: true, helperText: ex_us['NotEmpty'] || 'Not Allow Empty'
+      id: 'reason', label: L('Reason'), type: 'text', disabled: false, readOnly: false, required: true, helperText: L('NotEmpty')
     },
     onSubmit: (value) => {
       const data = {
@@ -369,14 +361,14 @@ export default function CommonWorkflowForm(props) {
       rejectActions(data)
     }
   }
-  const handleReasonChange = (event, id) => {
-    dialogReason.value = event.target.value;
+  const handleReasonChange = (event) => {
+    dialogReason.value = event.target.value
   }
   const rejectActions = (data) => {
     workflowApi.actionTask(data)
       .then(() => {
         setShown(false)
-        CommonTip.success('Success')
+        CommonTip.success(L('Success'))
         history.push({ pathname: `/MyApproval` })
       })
   }
@@ -391,7 +383,7 @@ export default function CommonWorkflowForm(props) {
         if (data.status === 400) {
           CommonTip.error(data.data)
         } else {
-          CommonTip.success(ex_us['Success'] || 'Success')
+          CommonTip.success(L('Success'))
           history.push({ pathname: `/MyApproval` })
         }
       })
@@ -399,13 +391,13 @@ export default function CommonWorkflowForm(props) {
 
   // 子表行内按钮列表
   const actionList = [
-    { label: 'Detail', icon: <BorderColorIcon />, onClick: handleDetail },
+    { label: L('Detail'), icon: <BorderColorIcon />, onClick: handleDetail },
   ]
 
   // 子表按钮
   const buttonList = [
-    { id: 'save', label: 'Save', color: 'primary', onClick: handleSave, disabled: stepName === 'teamManager' },
-    { id: 'cancel', label: 'Cancel', color: 'default', onClick: handleClose, disabled: false },
+    { id: 'save', label: L('Save'), color: 'primary', onClick: handleSave, disabled: stepName === 'teamManager' },
+    { id: 'cancel', label: L('Cancel'), color: 'default', onClick: handleClose, disabled: false },
   ]
 
   const handleT1FollowUpClick = () => {
@@ -416,7 +408,7 @@ export default function CommonWorkflowForm(props) {
     childData.id = childDataList[current].id
     childDataList[current] = childData
     handleClose()
-    CommonTip.success('T1 Follow Up Success')
+    CommonTip.success(L('T1 Follow Up Success'))
   }
   const handleT2FollowUpClick = () => {
     const childData = map2object(childDataMap)
@@ -425,7 +417,7 @@ export default function CommonWorkflowForm(props) {
     childData.id = childDataList[current].id
     childDataList[current] = childData
     handleClose()
-    CommonTip.success('T2 Follow Up Success')
+    CommonTip.success(L('T2 Follow Up Success'))
   }
   const handleT6FollowUpClick = () => {
     const childData = map2object(childDataMap)
@@ -434,17 +426,17 @@ export default function CommonWorkflowForm(props) {
     childData.id = childDataList[current].id
     childDataList[current] = childData
     handleClose()
-    CommonTip.success('T6 Follow Up Success')
+    CommonTip.success(L('T6 Follow Up Success'))
   }
 
 
   const t3buttonList = [
     // { id: 'save', label: 'Save', color: 'primary', onClick: handleSave, disabled: false },
-    { id: 'check', label: 'Check', color: 'primary', onClick: handleCheck, disabled: false },
-    { id: 'T1', label: 'T1', color: 'secondary', onClick: handleT1FollowUpClick, disabled: false },
-    { id: 'T2', label: 'T2', color: 'secondary', onClick: handleT2FollowUpClick, disabled: false },
-    { id: 'T6', label: 'T6', color: 'secondary', onClick: handleT6FollowUpClick, disabled: false },
-    { id: 'cancel', label: 'Cancel', color: 'default', onClick: handleClose, disabled: false },
+    { id: 'check', label: L('Check'), color: 'primary', onClick: handleCheck, disabled: false },
+    { id: 'T1', label: L('T1'), color: 'secondary', onClick: handleT1FollowUpClick, disabled: false },
+    { id: 'T2', label: L('T2'), color: 'secondary', onClick: handleT2FollowUpClick, disabled: false },
+    { id: 'T6', label: L('T6'), color: 'secondary', onClick: handleT6FollowUpClick, disabled: false },
+    { id: 'cancel', label: L('Cancel'), color: 'default', onClick: handleClose, disabled: false },
   ]
 
   return (
@@ -488,41 +480,39 @@ export default function CommonWorkflowForm(props) {
                 variant="contained"
                 color='primary'
                 onClick={handleSubmit}
-              >
-                Submit
+              >{L('Submit')}
               </Button>
             ) : (
-                (stepName === 'detail') ?
-                  (
+              (stepName === 'detail') ?
+                (
+                  <Button
+                    className={classes.button}
+                    variant="contained"
+                    color='primary'
+                    onClick={handleCancel}
+                  >
+                    {L('Cancel')}
+                  </Button>
+                ) :
+                (
+                  <div>
                     <Button
                       className={classes.button}
                       variant="contained"
                       color='primary'
-                      onClick={handleCancel}
-                    >
-                      Cancel
+                      onClick={handleAgrreTaskClick}
+                    >{ L('Approval') }
                     </Button>
-                  ) :
-                  (
-                    <div>
-                      <Button
-                        className={classes.button}
-                        variant="contained"
-                        color='primary'
-                        onClick={handleAgrreTaskClick}
-                      >
-                        Approval
+                    <Button
+                      className={classes.button}
+                      variant="contained"
+                      color='primary'
+                      onClick={() => { setShown(true) }}
+                    >{L('Reject')}
                     </Button>
-                      <Button
-                        className={classes.button}
-                        variant="contained"
-                        color='primary'
-                        onClick={() => { setShown(true) }}
-                      >Reject
-                    </Button>
-                    </div>
-                  )
-              )
+                  </div>
+                )
+            )
           }
         </ButtonGroup>
 
@@ -556,13 +546,13 @@ export default function CommonWorkflowForm(props) {
           <Button
             variant="contained"
             fullwidth
-            onClick={() => { setShown(false) }}>{ex_us['Cancel'] || 'Cancel'}</Button>
+            onClick={() => { setShown(false) }}>{L('Cancel')}</Button>
           <Button
             fullwidth
             variant="contained"
             color="primary"
             style={{ marginRight: '2ch' }}
-            onClick={handleReasonSubmit}>{ex_us['Submit'] || 'Submit'}</Button>
+            onClick={handleReasonSubmit}>{L('Submit')}</Button>
         </DialogActions>
       </Dialog>
     </React.Fragment>

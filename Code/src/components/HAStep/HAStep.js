@@ -15,27 +15,26 @@ import Dialog from '@material-ui/core/Dialog'
 import MButton from '@material-ui/core/Button'
 import withStyles from "@material-ui/core/styles/withStyles"
 import BorderColorIcon from "@material-ui/icons/BorderColorOutlined"
-import { lang } from "../../lang/lang"
+import { L } from "../../utils/lang"
 function HAStep(props) {
-  const ex_us = lang.ex_us
   const Button = withStyles((() => ({
     root: {
       width: '5vw',
     }
   })))(MButton)
 
-  const [shown, setShown] = useState(false)
-  const [reason, setReason] = useState('')
+  const [ shown, setShown ] = useState(false)
+  const [ reason, setReason ] = useState('')
   const handleDetail = (event, row) => {
     setReason(row.reason)
     setShown(true)
   }
-  const actionList = [{ display: 'reason', label: 'Reject Reason', icon: <BorderColorIcon />, handleClick: handleDetail }]
-  const { processInstanceId, actions } = props
+  const actionList = [{ display: 'reason', label: L('Reject Reason'), icon: <BorderColorIcon />, handleClick: handleDetail }]
+  const { processInstanceId } = props
   // const processInstanceId = 827520
-  const [steps, setSteps] = useState([])
-  const [activeStep, setActiveStep] = useState(0)
-  const [rows, setRows] = useState([])
+  const [ steps, setSteps ] = useState([])
+  const [ activeStep, setActiveStep ] = useState(0)
+  const [ rows, setRows ] = useState([])
 
   useEffect(() => {
     API.getProcessPoint({ id: processInstanceId }).then(({ data }) => {
@@ -59,7 +58,7 @@ function HAStep(props) {
             groupName: pointUser.group ? pointUser.group.name : null,
             name: pointUser.taskInstance.activityName,
             endDate: pointUser.taskInstance.endTime ? formatDateTime(new Date(pointUser.taskInstance.endTime)) : null,
-            status: pointUser.status ? null : 'Rejected',
+            status: pointUser.status ? null : L('Rejected'),
             reason: pointUser.rejectReason || '',
           }
           pointUserList.push(pointRow)
@@ -68,17 +67,15 @@ function HAStep(props) {
       }
     })
   }, [])
-
   // const steps = [ 'Select master blaster campaign settings', 'Create an ad group', 'Create an ad' ]
-
   // 表头字段列表
   const headCells = [
-    { id: 'name', alignment: 'center', label: 'Name' },
-    { id: 'assignee', alignment: 'center', label: 'Assignee' },
-    { id: 'groupName', alignment: 'center', label: 'Group' },
-    { id: 'status', alignment: 'center', label: 'Status' },
-    { id: 'endDate', alignment: 'center', label: 'End Date' },
-    { id: 'reason', alignment: 'right', label: 'Reject Reason' }
+    { id: 'name', alignment: 'center', label: L('Name') },
+    { id: 'assignee', alignment: 'center', label: L('Assignee') },
+    { id: 'groupName', alignment: 'center', label: L('Group') },
+    { id: 'status', alignment: 'center', label: L('Status') },
+    { id: 'endDate', alignment: 'center', label: L('End Date') },
+    { id: 'reason', alignment: 'right', label: L('Reject Reason') }
   ]
 
   // 每行显示的字段
@@ -102,7 +99,7 @@ function HAStep(props) {
         </Stepper>
         <CommonTable
           rows={rows}
-          tableName='History List'
+          tableName={L('History List')}
           hideCheckBox={true}
           hideUpdate={true}
           hideDetail={true}
@@ -119,7 +116,7 @@ function HAStep(props) {
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        <DialogTitle id="form-dialog-title">{ex_us['RejectReason'] || 'Reject Reason'}</DialogTitle>
+        <DialogTitle id="form-dialog-title">{L('Reject Reason')}</DialogTitle>
         <DialogContent>
           <DialogContentText style={{ wordBreak: 'break-word' }}>
             {reason}
@@ -131,7 +128,7 @@ function HAStep(props) {
             variant="contained"
             color="primary"
             onClick={() => { setShown(false) }}
-            style={{ marginRight: '2ch' }} >{ex_us['Close'] || 'Close'}</Button>
+            style={{ marginRight: '2ch' }} >{L('Close')}</Button>
         </DialogActions>
       </Dialog>
     </React.Fragment >
