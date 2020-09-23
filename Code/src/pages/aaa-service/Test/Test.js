@@ -12,7 +12,7 @@ function Test() {
 
   // 获取渲染表
   useEffect(() => {
-    Api.designTest({ formKey: 'VMAllocation', formId: 1 }).then(() => {})
+    Api.test({ formKey: 'VMAllocation', formId: 1 }).then(() => {})
     // Api.test({ deploymentId: did })
     //   .then(({ data }) => {
     //     console.log('data.data ================= data.data')

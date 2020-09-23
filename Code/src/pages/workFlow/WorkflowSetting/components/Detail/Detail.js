@@ -291,7 +291,7 @@ export default function MaterialTableDemo() {
         formDetail={childFormDetail}
         defaultValues={childDefaultValues}
         onChange={onChildChange}
-        childFormTitle={'VMLIST'}
+        childFormTitle={'Detail'}
         buttonList={buttonList}
         isNew={isNew}
       />

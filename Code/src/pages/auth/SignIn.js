@@ -96,11 +96,16 @@ function SignIn() {
     }
   }
 
+  const handleKeyDown = (event) => {
+    if (event.keyCode === 13) { // 主要区别就是这里，可以直接获取到keyCode的值
+      login()
+    }
+  }
+
   const handleClose = (event, reason) => {
     if (reason === 'clickaway') {
       return
     }
-
     setOpen(false)
   }
 
@@ -134,6 +139,7 @@ function SignIn() {
           <InputLabel htmlFor="password">Password</InputLabel>
           <Input
             onChange={(event) => handleChange(event, 'password')}
+            onKeyDown={(event) => handleKeyDown(event)}
             name="password"
             type="password"
             id="password"
