@@ -24,18 +24,18 @@ function HAStep(props) {
     }
   })))(MButton)
 
-  const [shown, setShown] = useState(false)
-  const [reason, setReason] = useState('')
+  const [ shown, setShown ] = useState(false)
+  const [ reason, setReason ] = useState('')
   const handleDetail = (event, row) => {
     setReason(row.reason)
     setShown(true)
   }
   const actionList = [{ display: 'reason', label: 'Reject Reason', icon: <BorderColorIcon />, handleClick: handleDetail }]
-  const { processInstanceId, actions } = props
+  const { processInstanceId } = props
   // const processInstanceId = 827520
-  const [steps, setSteps] = useState([])
-  const [activeStep, setActiveStep] = useState(0)
-  const [rows, setRows] = useState([])
+  const [ steps, setSteps ] = useState([])
+  const [ activeStep, setActiveStep ] = useState(0)
+  const [ rows, setRows ] = useState([])
 
   useEffect(() => {
     API.getProcessPoint({ id: processInstanceId }).then(({ data }) => {
@@ -67,7 +67,7 @@ function HAStep(props) {
         setRows(pointUserList)
       }
     })
-  }, [])
+  }, [ processInstanceId ])
 
   // const steps = [ 'Select master blaster campaign settings', 'Create an ad group', 'Create an ad' ]
 

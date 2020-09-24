@@ -8,7 +8,6 @@ import ChildForm from "../../components/ChildForm"
 import getLogic from "../../utils/dynamicFormLogic"
 import { map2object } from "../../utils/map2object"
 import HATable from "../../components/HATable"
-import DialogText from "../../components/DialogText"
 import Loading from "../../components/Loading"
 import { lang } from "../../lang/lang"
 import DialogContent from '@material-ui/core/DialogContent'
@@ -146,7 +145,7 @@ export default function CommonWorkflowForm(props) {
             })
           })
       })
-  }, [])
+  }, [ deploymentId, pid ])
 
   // 获取业务逻辑
   useEffect(() => {

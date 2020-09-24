@@ -46,8 +46,8 @@ export default class Common {
             value: el[key],
             label: el[key],
           }
-          Object.assign(childModel, { ['id']: model })
-          Object.assign(childModel, { ['checkState']: false })
+          Object.assign(childModel, { id: model })
+          Object.assign(childModel, { checkState: false })
         } else {
           if (!child) continue
           const model = {

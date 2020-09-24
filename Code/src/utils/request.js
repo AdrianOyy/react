@@ -41,6 +41,7 @@ axios.interceptors.response.use(
 export default {
   instance: axiosInstance,
   // 默认选项, 留着备用
+  // 默认选项, 留着备用
   defaultOptions: {
     handleError: true // 是否自动解析结果并提示
   },
@@ -126,6 +127,7 @@ export default {
           resolve(res)
         })
         .catch(error => {
+          console.log(error)
           CommonTip.error(error.message, { })
           reject(error)
         })

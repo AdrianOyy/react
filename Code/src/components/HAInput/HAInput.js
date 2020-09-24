@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react"
+import React, { useEffect } from "react"
 import {
   InputLabel as Label,
   InputBase,
@@ -46,7 +46,7 @@ export default function HAInput(props) {
   useEffect(() => {
     const value = defaultValue ? (defaultValue.value ? defaultValue : { id, label: defaultValue, value: defaultValue }) : null
     value && onBlur && onBlur(value)
-  }, [ defaultValue ])
+  }, [ defaultValue, onBlur, id ])
 
   const handleBlur = (e) => {
     const { value } = e.target
@@ -140,7 +140,7 @@ export default function HAInput(props) {
         <BootstrapInput
           id={id}
           disabled={disabled}
-          defaultValue={defaultValue ? (defaultValue.value ? defaultValue.value : defaultValue) : ''}
+          defaultValue={defaultValue ? (defaultValue.value !== undefined ? defaultValue.value : defaultValue) : ''}
           autoComplete={autoComplete}
           autoFocus={autoFocus}
           startAdornment={startAdornment}

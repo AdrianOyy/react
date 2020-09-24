@@ -1,6 +1,4 @@
-import React, { useState } from 'react'
-import { makeStyles } from '@material-ui/core/styles'
-// import dayjs from 'dayjs'
+import React from 'react'
 import {
   TextField,
   FormControlLabel,
@@ -11,25 +9,6 @@ import {
 } from '@material-ui/pickers'
 import CommonSelect from "../CommonSelect"
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    display: 'flex',
-    flexWrap: 'wrap',
-    margin: theme.spacing(2),
-    border: '2ch'
-  },
-  textField: {
-    marginRight: theme.spacing(10),
-    width: '25ch',
-  },
-  KeyboardDatePicker: {
-    marginRight: theme.spacing(10),
-    width: '25ch',
-  },
-  button: {
-    marginRight: theme.spacing(10),
-  },
-}))
 
 function SearchBar(props) {
   const {

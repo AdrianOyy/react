@@ -26,7 +26,7 @@ export default class VMAllocation {
       switch (fieldName) {
         case 'platform':
           // eslint-disable-next-line no-case-declarations
-          if (stepName != 't3') {
+          if (stepName !== 't3') {
             const itemList = data.itemList.filter(t => t.name === "Windows")
             data.itemList = itemList
           }
@@ -190,8 +190,8 @@ export default class VMAllocation {
             value: el[key],
             label: el[key],
           }
-          Object.assign(childModel, { ['id']: model })
-          Object.assign(childModel, { ['checkState']: false })
+          Object.assign(childModel, { id: model })
+          Object.assign(childModel, { checkState: false })
         } else {
           if (!child) continue
           const model = {
@@ -369,6 +369,8 @@ function handleStartChildTableData(rawData) {
     switch (rawData[i].fieldName) {
       case 'platform':
         rawData[i].itemList = handlePlatForm(rawData[i].itemList).itemList
+        break
+      default:
     }
   }
   return rawData
