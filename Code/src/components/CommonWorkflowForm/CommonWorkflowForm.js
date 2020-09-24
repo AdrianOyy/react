@@ -139,6 +139,7 @@ export default function CommonWorkflowForm(props) {
           .then(({ data }) => {
             setCreate(true)
             const { parentData, childDataList } = data.data
+            console.log(data.data)
             setRawDefaultData({
               parentData,
               childDataList
@@ -156,49 +157,51 @@ export default function CommonWorkflowForm(props) {
   useEffect(() => {
     if (!logic || !rawData) return
     const { parentFormDetail, childFormDetail } = rawData
-
     // 处理父表渲染表
     const parentDetail = logic.handleParentData(parentFormDetail, stepName, pageName)
     setParentFormDetail(parentDetail)
 
     // 处理子表渲染表
-    if (!childFormDetail || !childFormDetail.length) return
-    const childDetail = logic.handleChildData(childFormDetail, stepName, pageName)
-    if (childDetail && childDetail.length > 0) {
-      setChildFormDetail(childDetail)
-      childDetail.forEach(el => {
-        childDataListMap.set(el.fieldName, {
-          type: el.inputType,
-          fieldName: el.fieldName,
-          fieldDisplayName: el.fieldDisplayName,
-          itemList: el.itemList,
-          labelField: el.labelField,
-          valueField: el.valueField
+    if (childFormDetail && childFormDetail.length > 0) {
+      const childDetail = logic.handleChildData(childFormDetail, stepName, pageName)
+      if (childDetail && childDetail.length > 0) {
+        setChildFormDetail(childDetail)
+        childDetail.forEach(el => {
+          childDataListMap.set(el.fieldName, {
+            type: el.inputType,
+            fieldName: el.fieldName,
+            fieldDisplayName: el.fieldDisplayName,
+            itemList: el.itemList,
+            labelField: el.labelField,
+            valueField: el.valueField
+          })
         })
+      }
+
+      console.log('==============================1')
+      // 获取表头
+      const headerList = logic.getHeaderList(childDataListMap, stepName, pageName)
+      headerList.push({
+        id: 'action',
+        alignment: 'right',
+        label: 'Actions',
       })
+      setTableHeader(headerList)
+
+      // 获取表格每行显示字段
+      const fieldList = logic.getFieldList(childDataListMap, stepName, pageName)
+      setFieldList(fieldList)
     }
-
-    // 获取表头
-    const headerList = logic.getHeaderList(childDataListMap, stepName, pageName)
-    headerList.push({
-      id: 'action',
-      alignment: 'right',
-      label: 'Actions',
-    })
-    setTableHeader(headerList)
-
-    // 获取表格每行显示字段
-    const fieldList = logic.getFieldList(childDataListMap, stepName, pageName)
-    setFieldList(fieldList)
-
     // 处理数据
     if (!rawDefaultData) return
     const { parentData, childDataList } = rawDefaultData
     setFormId(parentData.id)
     const handledParentData = logic.handleParentDefaultData(parentData, stepName)
     setParentDefaultValues(handledParentData)
-    const handledChildData = logic.handleChildDefaultData(childDataList, childDataListMap)
-    setChildDataList(handledChildData)
+    if (childFormDetail.length > 0) {
+      const handledChildData = logic.handleChildDefaultData(childDataList, childDataListMap)
+      setChildDataList(handledChildData)
+    }
     // eslint-disable-next-line
   }, [logic, rawData, rawDefaultData])
 
@@ -466,35 +469,40 @@ export default function CommonWorkflowForm(props) {
           onChange={onParentChange}
           defaultValues={parentDefaultValues}
         />
-        <HATable
-          id={'DynamicTable'}
-          rows={childDataList}
-          hideCreate={create}
-          actionList={actionList}
-          tableName={logic.getChildTableTitle && logic.getChildTableTitle()}
-          headCells={tableHeader}
-          fieldList={fieldList}
-          addChild={openNewDialog}
-          marginTop={8}
-        />
-        <ChildForm
-          id={'DynamicDialog'}
-          pid={pid}
-          open={open}
-          formDetail={childFormDetail}
-          defaultValues={childDefaultValues}
-          onChange={onChildChange}
-          childFormTitle={logic.getChildFormTitle && logic.getChildFormTitle()}
-          buttonList={stepName === 'T3' ? t3buttonList : buttonList}
-          isNew={isNew}
-        />
+        {
+          (childFormDetail.length > 0) ? (
+            <React.Fragment>
+              <HATable
+                id={'DynamicTable'}
+                rows={childDataList}
+                hideCreate={create}
+                actionList={actionList}
+                tableName={logic.getChildTableTitle && logic.getChildTableTitle()}
+                headCells={tableHeader}
+                fieldList={fieldList}
+                addChild={openNewDialog}
+                marginTop={8}
+              />
+              <ChildForm
+                id={'DynamicDialog'}
+                pid={pid}
+                open={open}
+                formDetail={childFormDetail}
+                defaultValues={childDefaultValues}
+                onChange={onChildChange}
+                childFormTitle={logic.getChildFormTitle && logic.getChildFormTitle()}
+                buttonList={stepName === 'T3' ? t3buttonList : buttonList}
+                isNew={isNew}
+              /></React.Fragment>
+          ) : ''
+        }
         {/* <DialogText*/}
-        {/*  title={'Remark'}*/}
-        {/*  detail={'Please Input Remark'}*/}
-        {/*  label={'Remark'}*/}
-        {/*  open={diaLogOpen}*/}
-        {/*  handleSubmit={'Remark'}*/}
-        {/*  handleClose={'Remark'}*/}
+        {/* title={'Remark'}*/}
+        {/* detail={'Please Input Remark'}*/}
+        {/* label={'Remark'}*/}
+        {/* open={diaLogOpen}*/}
+        {/* handleSubmit={'Remark'}*/}
+        {/* handleClose={'Remark'}*/}
         {/* />*/}
         <ButtonGroup className={classes.buttonGroup}>
           {

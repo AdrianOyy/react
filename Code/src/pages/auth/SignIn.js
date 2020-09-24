@@ -52,7 +52,8 @@ function SignIn() {
 
   const login =  () => {
     let pwd = password
-
+    localStorage.setItem('token', null)
+    localStorage.setItem('user', JSON.stringify({}))
     // let pwd = Base64.stringify(AES.encrypt(password, 'secret key 123'));
     if (account && pwd) {
 
@@ -66,7 +67,6 @@ function SignIn() {
           setMessage('Failed')
         } else {
           if (response.data.data) {
-            console.log(response.data.data)
             localStorage.setItem('token', response.data.data.token)
             localStorage.setItem('user', JSON.stringify(response.data.data.user))
             setSeverity('success')
