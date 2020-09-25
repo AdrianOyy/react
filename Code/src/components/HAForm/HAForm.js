@@ -102,7 +102,7 @@ export default function HAForm(props) {
                   </div>
                 )
               default:
-                return  (
+                return (
                   <div
                     className={classes.grid}
                     key={el.fieldName + '_' + i}
@@ -110,6 +110,7 @@ export default function HAForm(props) {
                     <HAInput
                       id={el.fieldName}
                       onBlur={onChange}
+                      showRequest={el.showRequest}
                       defaultValue={defaultValues ? defaultValues[el.fieldName] : null}
                       label={el.fieldDisplayName}
                       required={el.required}

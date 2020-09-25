@@ -38,6 +38,7 @@ export default function HAInput(props) {
     onBlur,
     placeholder,
     readOnly,
+    showRequest,
     rows,
     rowsMax,
     rowsMin,
@@ -94,6 +95,7 @@ export default function HAInput(props) {
   const InputLabel = withStyles((theme) => ({
     root: {
       fontSize: '1.1rem',
+      display: showRequest === false ? 'none' : 'block',
       color: 'rgba(0,0,0,.85)',
       '-webkit-user-select': 'none',
       '-moz-user-select': 'none',
@@ -113,6 +115,7 @@ export default function HAInput(props) {
       marginTop: '0.5em',
       borderRadius: 4,
       position: 'relative',
+      display: showRequest === false ? 'none' : 'block',
       backgroundColor: theme.palette.common.white,
       border: props.error ? `1px solid ${theme.palette.error.main}` : '1px solid #ced4da',
       fontSize: 16,
@@ -130,6 +133,7 @@ export default function HAInput(props) {
     <div className={classes.root}>
       <InputLabel
         htmlFor={id}
+        id={id + 'label'}
         disabled={disabled}
       >
         { required && (<font color="red">*</font>)}
