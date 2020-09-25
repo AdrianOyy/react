@@ -151,6 +151,8 @@ function DynamicForm(props) {
                           />
                         )
                     }
+                  } else {
+                    return  ''
                   }
                 })
               }

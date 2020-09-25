@@ -19,10 +19,10 @@ const Page404 = async(() => import("../pages/auth/Page404"))
 const Page500 = async(() => import("../pages/auth/Page500"))
 
 // Components components
-const Alerts = async(() => import("../pages/components/Alerts"))
-const Avatars = async(() => import("../pages/components/Avatars"))
-const Buttons = async(() => import("../pages/components/Buttons"))
-const Cards = async(() => import("../pages/components/Cards"))
+// const Alerts = async(() => import("../pages/components/Alerts"))
+// const Avatars = async(() => import("../pages/components/Avatars"))
+// const Buttons = async(() => import("../pages/components/Buttons"))
+// const Cards = async(() => import("../pages/components/Cards"))
 const Chips = async(() => import("../pages/components/Chips"))
 const Dialogs = async(() => import("../pages/components/Dialogs"))
 // const ExpPanels = async(() => import("../pages/components/ExpansionPanels"))
@@ -45,6 +45,7 @@ const WorkflowSetting = async(() => import("../pages/workFlow/WorkflowSetting"))
 const request = async(() => import("../pages/workFlow/MyRequest"))
 const approval = async(() => import("../pages/workFlow/MyApproval"))
 const VMAllocation = async(() => import("../pages/workFlow/VMAllocation"))
+const Account = async(() => import("../pages/workFlow/Account"))
 const MoveIn = async(() => import("../pages/workFlow/MoveIn"))
 // const VMProvisioning = async(() => import("../pages/workFlow/VMProvisioning/"))
 // IP Assignment
@@ -157,7 +158,7 @@ const workflowRoutes = {
     {
       path: "/workflow/account/",
       name: "Account management",
-      component: Alerts
+      component: Account
     },
     {
       path: "/workflow/vm/",

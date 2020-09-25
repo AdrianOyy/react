@@ -5,8 +5,8 @@ import ExpandTable from "../../../../../components/ExpandTable"
 import API from "../../../../../api/inventory"
 import { useParams } from "react-router-dom"
 import dayjs from "dayjs"
-import PropTypes from 'prop-types';
-import { makeStyles } from '@material-ui/core/styles';
+import PropTypes from 'prop-types'
+import { makeStyles } from '@material-ui/core/styles'
 
 
 import {
@@ -17,7 +17,7 @@ import {
 } from '@material-ui/core'
 
 function TabPanel(props) {
-  const { children, value, index, ...other } = props;
+  const { children, value, index, ...other } = props
 
   return (
     <div
@@ -33,21 +33,21 @@ function TabPanel(props) {
         </Box>
       )}
     </div>
-  );
+  )
 }
 
 TabPanel.propTypes = {
   children: PropTypes.node,
   index: PropTypes.any.isRequired,
   value: PropTypes.any.isRequired,
-};
+}
 
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
     backgroundColor: theme.palette.background.paper,
   },
-}));
+}))
 
 const showPolicy = {
   index: 4,
@@ -74,7 +74,7 @@ const showPowerInput = {
 
 const showEquipmentPort = {
   index: 4,
-  list: [ 
+  list: [
     'id', '_ID', 'InventoryID', 'SlotID', 'PortID', 'PortType', 'OutletID',
     'Remark', 'PortStatus', 'PortSecurity', 'Polarity', 'PortSpeed',
     'Duplex', 'VLanID', 'PortPolicyType', 'PortPolicy', 'ConnectingInventory'
@@ -88,7 +88,7 @@ const showEquipmentPort = {
 
 const showPortAssignment = {
   index: 4,
-  list: [ 
+  list: [
     'id', '_ID', 'EquipPortID', 'Slot', 'Port', 'RequesterTeam', 'PortUsage', 'PortAssignStatus',
     'PortAssignDate', 'PortAssignerID', 'PortAssignerDisplayName', 'PortTeamingEquip',
     'PortTeamingEquipPort', 'MoveInRef', 'MachineIP', 'MachineHostName',
@@ -114,7 +114,7 @@ const showPowerOutput = {
 
 function Detail(props) {
   const { onMount } = props
-  
+
   const { id } = useParams()
   const [ _ID, set_ID ] = useState('')
   const [ UnitCode, setUnitCode ] = useState('')
@@ -151,12 +151,12 @@ function Detail(props) {
     return dayjs(new Date(str)).format('DD-MMM-YYYY HH:mm')
   }
 
-  const classes = useStyles();
-  const [value, setValue] = React.useState(0);
+  const classes = useStyles()
+  const [ value, setValue ] = React.useState(0)
 
   const handleChange = (event, newValue) => {
-    setValue(newValue);
-  };
+    setValue(newValue)
+  }
 
   useEffect(() => {
     onMount('detail')
@@ -202,8 +202,9 @@ function Detail(props) {
         if (equipPort && equipPort.length > 0) {
           setEquipmentPorts(equipPort)
           const tempPortAssignments = []
-          equipPort.map(_ => {
-            tempPortAssignments.push(_.portAssignment);
+          equipPort.map((_) => {
+            tempPortAssignments.push(_.portAssignment)
+            return _
           })
           setPortAssignments(tempPortAssignments)
         }
@@ -333,7 +334,7 @@ function Detail(props) {
     _ID, UnitCode, AssetID, ModelCode, ModelDesc, ClosetID,
     Rack, RLU, ItemOwner, ServiceStatus, Remark, UnitNo, PortQty, ReqNo,
     DOB, DeliveryDate, DeliveryNoteReceivedDate, MaintID,
-    createdAt, updatedAt
+    createdAt, updatedAt, EquipType
   ])
 
   const onFormFieldChange = (e, id) => {
@@ -412,7 +413,7 @@ function Detail(props) {
         <Tabs value={value} onChange={handleChange} aria-label="ant example">
           {
             showProps.map(_ => {
-              return  <Tab {..._} />;
+              return  <Tab {..._} />
             })
           }
         </Tabs>
@@ -429,11 +430,11 @@ function Detail(props) {
           />
           {
             (EquipType === 'EqUPS' || EquipType === 'EqPDU' || EquipType === 'EqATS') ?
-            <ExpandTable
-              label="PowerOutput"
-              rows={powerOutputs}
-              show={showPowerOutput}
-            /> : null
+              <ExpandTable
+                label="PowerOutput"
+                rows={powerOutputs}
+                show={showPowerOutput}
+              /> : null
           }
         </TabPanel>
         <TabPanel value={value} index={1}>

@@ -52,7 +52,8 @@ function SignIn() {
 
   const login =  () => {
     let pwd = password
-
+    localStorage.setItem('token', null)
+    localStorage.setItem('user', JSON.stringify({}))
     // let pwd = Base64.stringify(AES.encrypt(password, 'secret key 123'));
     if (account && pwd) {
 
@@ -66,7 +67,6 @@ function SignIn() {
           setMessage('Failed')
         } else {
           if (response.data.data) {
-            console.log(response.data.data)
             localStorage.setItem('token', response.data.data.token)
             localStorage.setItem('user', JSON.stringify(response.data.data.user))
             setSeverity('success')
@@ -96,11 +96,16 @@ function SignIn() {
     }
   }
 
+  const handleKeyDown = (event) => {
+    if (event.keyCode === 13) { // 主要区别就是这里，可以直接获取到keyCode的值
+      login()
+    }
+  }
+
   const handleClose = (event, reason) => {
     if (reason === 'clickaway') {
       return
     }
-
     setOpen(false)
   }
 
@@ -134,6 +139,7 @@ function SignIn() {
           <InputLabel htmlFor="password">Password</InputLabel>
           <Input
             onChange={(event) => handleChange(event, 'password')}
+            onKeyDown={(event) => handleKeyDown(event)}
             name="password"
             type="password"
             id="password"

@@ -47,11 +47,11 @@ export default function HAInput(props) {
 
   useEffect(() => {
     setNewValue(defaultValue && defaultValue.label ? defaultValue.label : '')
-  }, [])
+  }, [ defaultValue ])
 
   useEffect(() => {
     defaultValue && onChange && onChange(defaultValue)
-  }, [ defaultValue ])
+  }, [ defaultValue, onChange ])
 
   useEffect(() => {
     onChange && onChange({ id, label: newValue, value: new Date(newValue) })

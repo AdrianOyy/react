@@ -1,16 +1,17 @@
 import React from "react"
 import CommonPage from "../../../components/CommonPage"
-import { List, Detail } from './components'
+import { List, Create } from './components'
 
 const parentTitle = 'Workflow'
-const title = 'Workflow Setting'
+const title = 'Move In'
 
-function WorkflowSetting() {
+function Account() {
   const props = {
     title,
     parentTitle,
     List,
-    Detail
+    Create,
+    CreateWithId: true
   }
   return (
     <React.Fragment>
@@ -21,4 +22,4 @@ function WorkflowSetting() {
   )
 }
 
-export default WorkflowSetting
+export default Account

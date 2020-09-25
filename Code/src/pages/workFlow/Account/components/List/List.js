@@ -1,33 +1,26 @@
 import React, { useEffect, useState } from 'react'
-import { useHistory } from "react-router-dom"
+
 import {
   Grid,
   TablePagination,
   Paper as MuiPaper,
 } from "@material-ui/core"
 
+import { useHistory } from 'react-router-dom'
 import { CommonTable, SearchBar } from '../../../../../components'
 import API from "../../../../../api/workFlow"
+import PlayCircleFilledWhiteOutlinedIcon from '@material-ui/icons/PlayCircleFilledWhiteOutlined'
 import styled from "styled-components"
 import { spacing } from "@material-ui/system"
-import dayjs from "dayjs"
-import { getUser } from "../../../../../utils/user"
-import {
-  BorderColorOutlined as BorderColorIcon,
-  Reorder as ReorderIcon,
-} from "@material-ui/icons"
+import formatDateTime from "../../../../../utils/formatDateTime"
 
 const Paper = styled(MuiPaper)(spacing)
-const formatDateTime = (str) => {
-  return dayjs(new Date(str)).format('YYYY-MM-DD HH:mm')
-}
 const tableName = ''
 
 function List(props) {
   const { onMount, path } = props
   const history = useHistory()
-  const [ startTime, setStartTime ] = useState('')
-  const [ endTime, setEndTime ] = useState('')
+  const [ name, setName ] = useState('')
   const [ query, setQuery ] = useState({})
   const [ rows, setRows ] = useState([])
   const [ page, setPage ] = useState(0)
@@ -41,81 +34,94 @@ function List(props) {
   }, [])
 
   useEffect(() => {
-    API.getMyRequest({ ...query, userName: getUser().id.toString(), limit: rowsPerPage, page: page + 1 })
-      .then(response => {
-        console.log(response)
-        setTotal(response.data.data.total)
-        handleData(response.data.data.list)
+    API.getProcessList({ ...query, name: 'Account management', limit: rowsPerPage, page: page + 1 })
+      .then(({ data }) => {
+        setTotal(data.total)
+        handleData(data.list)
       })
   }, [ page, rowsPerPage, query ])
 
   const handleData = (rawDataList) => {
     const rows = []
-    rawDataList.forEach((el) => {
+    rawDataList && rawDataList.forEach((el) => {
       const rowModel = {
-        id: el.procInstId,
-        procDefId: el.procDefId,
+        id: el.id,
         deploymentId: el.deploymentId,
-        name: el.name,
-        startTime: formatDateTime(el.startTime),
-        endTime: el.endTime ? formatDateTime(el.endTime) : '',
-        state: el.endTime ?  "completed" : "processing",
-        assignee: el.assignee,
-        status: el.status,
+        version: el.version,
+        workflowName: el.name,
+        deployTime: formatDateTime(el.deployTime)
       }
       rows.push(rowModel)
     })
     setRows(rows)
   }
 
+
   // 表头字段列表
   const headCells = [
-    { id: 'name', alignment: 'center', label: 'Name' },
-    { id: 'procDefId', alignment: 'center', label: 'Id' },
-    { id: 'startTime', alignment: 'center', label: 'Start Date' },
-    { id: 'endTime', alignment: 'center', label: 'End Date' },
-    { id: 'state', alignment: 'center', label: 'State' },
+    // { id: 'id', alignment: 'center', label: 'Id' },
+    { id: 'workflowName', alignment: 'center', label: 'Workflow name' },
+    { id: 'deploymentId', alignment: 'center', label: 'Deployment Id' },
+    { id: 'version', alignment: 'center', label: 'Version' },
+    { id: 'deployTime', alignment: 'center', label: 'Deploy Time' },
     { id: 'action', alignment: 'right', label: 'Action' },
   ]
 
   // 每行显示的字段
   const fieldList = [
-    { field: 'name', align: 'center' },
-    { field: 'procDefId', align: 'center' },
-    { field: 'startTime', align: 'center' },
-    { field: 'endTime', align: 'center' },
-    { field: 'state', align: 'center' },
+    // { field: 'id', align: 'center' },
+    { field: 'workflowName', align: 'center' },
+    { field: 'deploymentId', align: 'center' },
+    { field: 'version', align: 'center' },
+    { field: 'deployTime', align: 'center' },
   ]
 
+  const handleRunClick = (e, row) => {
+    history.push({ pathname: `${path}/create/${row.id}`, search: `deploymentId=${row.deploymentId}` })
+    // Loading.show()
+    // const groupList = getUser().groupList
+    // const userId = getUser().id.toString()
+    // const data = {
+    //     processDefinitionId : row.id,
+    //     variables : { manager_group_id : groupList },
+    //     startUser : userId
+    // }
+    // API.startProcess(data).then(() => {
+    //     CommonTip.success("Success")
+    //     Loading.hide()
+    // })
+  }
+
+
+  // 自定义action
+  const actionList = [
+    { label: 'run', icon: <PlayCircleFilledWhiteOutlinedIcon />, handleClick: handleRunClick },
+  ]
+
+
   const searchBarFieldList = [
-    { id: 'startTime', label: 'Start Date', type: 'date', disabled: false, readOnly: false, value: startTime },
-    { id: 'endTime', label: 'End Date', type: 'date', disabled: false, readOnly: false, value: endTime },
+    { id: 'name', label: 'name', type: 'text', disabled: false, readOnly: false, value: name },
   ]
 
   const handleClear = () => {
-    setStartTime('')
-    setEndTime('')
+    setName('')
     setQuery({
-      startTime: '',
-      endTime: ''
+      name: '',
     })
   }
 
   const handleSearch = () => {
     setQuery({
-      startTime,
-      endTime,
+      name,
     })
   }
+
 
   const handleFieldChange = (e, id) => {
     const { value } = e.target
     switch (id) {
-      case "startTime":
-        setStartTime(value)
-        break
-      case "endTime":
-        setEndTime(value)
+      case "name":
+        setName(value)
         break
       default:
         break
@@ -131,27 +137,6 @@ function List(props) {
     setPage(0)
   }
 
-  const handleDetail = (event, row) => {
-    history.push({ pathname: `/detail/${row.id}`, search: `deploymentId=${row.deploymentId}` })
-  }
-
-  const handleStep = (event, row) => {
-    history.push({ pathname: `/step/${row.id}`, search: `deploymentId=${row.deploymentId}` })
-  }
-
-  // const display = (row) => {
-  //   if (row.state === 'completed') {
-  //     return true
-  //   }
-  //   return false
-  // }
-
-  // 自定义action
-  const actionList = [
-    { label: 'edit', icon: <BorderColorIcon />, handleClick: handleDetail  },
-    { label: 'step', icon: <ReorderIcon />, handleClick: handleStep  },
-  ]
-
   return (
     <React.Fragment>
       <Grid container spacing={6}>
@@ -166,16 +151,16 @@ function List(props) {
             <CommonTable
               rows={rows}
               tableName={tableName}
-              hideCheckBox={true}
               deleteAPI={API.deleteMany}
               handleSearch={handleSearch}
               hideUpdate={true}
               hideDetail={true}
+              hideImage={false}
               path={path}
               headCells={headCells}
               fieldList={fieldList}
-              hideCreate={true}
               actionList={actionList}
+              hideCreate={true}
             />
             <TablePagination
               rowsPerPageOptions={[ 10, 50, 100 ]}

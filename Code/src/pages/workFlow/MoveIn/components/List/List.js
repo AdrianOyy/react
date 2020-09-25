@@ -5,9 +5,6 @@ import {
   TablePagination,
   Paper as MuiPaper,
 } from "@material-ui/core"
-import Button from '@material-ui/core/Button'
-import Dialog from '@material-ui/core/Dialog'
-import DialogActions from '@material-ui/core/DialogActions'
 
 import { useHistory } from 'react-router-dom'
 import { CommonTable, SearchBar } from '../../../../../components'
@@ -16,9 +13,6 @@ import PlayCircleFilledWhiteOutlinedIcon from '@material-ui/icons/PlayCircleFill
 import styled from "styled-components"
 import { spacing } from "@material-ui/system"
 import formatDateTime from "../../../../../utils/formatDateTime"
-import { getUser } from "../../../../../utils/user"
-import CommonTip from "../../../../../components/CommonTip"
-import Loading from "../../../../../components/Loading"
 
 const Paper = styled(MuiPaper)(spacing)
 const tableName = ''
@@ -32,8 +26,6 @@ function List(props) {
   const [ page, setPage ] = useState(0)
   const [ rowsPerPage, setRowsPerPage ] = useState(10)
   const [ total, setTotal ] = useState(0)
-  const [ open, setOpen ] = useState(false)
-  const [ srow, setSrow ] = useState({})
 
   // 用于更新面包屑
   useEffect(() => {
@@ -98,19 +90,6 @@ function List(props) {
     //     CommonTip.success("Success")
     //     Loading.hide()
     // })
-  }
-
-  const handleAltClick = () => {
-    history.push({ pathname: `${path}/create/${srow.id}`, search: `deploymentId=${srow.deploymentId}&altCheck=20` })
-  }
-
-  const openDiaglo = (e, row) => {
-    setSrow(row)
-    setOpen(true)
-  }
-
-  const closeOpen = () => {
-    setOpen(false)
   }
 
   // 自定义action
@@ -191,17 +170,6 @@ function List(props) {
               onChangePage={handleChangePage}
               onChangeRowsPerPage={handleChangeRowsPerPage}
             />
-            <Dialog open={open} fullWidth={true}  aria-labelledby="form-dialog-title">
-
-              <DialogActions>
-                <Button onClick={closeOpen} color="primary">
-                  Cancel
-                </Button>
-                <Button onClick={handleAltClick}  color="primary">
-                  Submit
-                </Button>
-              </DialogActions>
-            </Dialog>
           </Paper>
         </Grid>
       </Grid>

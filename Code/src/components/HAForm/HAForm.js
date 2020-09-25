@@ -15,7 +15,7 @@ import HADatePicker from "../HADatePicker/HADatePicker"
 
 const Divider = styled(MuiDivider)(spacing)
 
-export default function DIYForm(props) {
+export default function HAForm(props) {
   const {
     dataList,
     onChange,
@@ -24,11 +24,10 @@ export default function DIYForm(props) {
     hideTitle,
     defaultValues,
     htmlId,
-    pid,
     isNew,
     containerStyle,
   } = props
-  console.log(props)
+
   const useStyles = makeStyles(() => ({
     containerStyle,
     flex: {
@@ -69,7 +68,7 @@ export default function DIYForm(props) {
           dataList && dataList.map((el, i) => {
             switch (el.type) {
               case 'select':
-                return pid || el.showOnRequest ? (
+                return (
                   <div
                     className={classes.grid}
                     key={el.fieldName + '_' + i}
@@ -86,9 +85,9 @@ export default function DIYForm(props) {
                       itemList={el.itemList}
                     />
                   </div>
-                ) : null
+                )
               case 'date':
-                return pid || el.showOnRequest ? (
+                return (
                   <div
                     className={classes.grid}
                     key={el.fieldName + '_' + i}
@@ -101,9 +100,9 @@ export default function DIYForm(props) {
                       required={el.required}
                     />
                   </div>
-                ) : null
+                )
               default:
-                return pid || el.showOnRequest ? (
+                return  (
                   <div
                     className={classes.grid}
                     key={el.fieldName + '_' + i}
@@ -116,7 +115,7 @@ export default function DIYForm(props) {
                       required={el.required}
                     />
                   </div>
-                ) : null
+                )
             }
           })
         }

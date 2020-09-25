@@ -62,7 +62,6 @@ function CommonTable(props) {
     customCreate,
     actionList,
     marginTop,
-    checkAction,
   } = props
   const history = useHistory()
   const [ order, setOrder ] = useState('asc')
@@ -136,7 +135,7 @@ function CommonTable(props) {
       if (row.state === 'completed') {
         return false
       }
-      if (!row['reason'] || row.reason.length == 0) return false;
+      if (!row['reason'] || row.reason.length === 0) return false
     }
     return true
   }
@@ -230,7 +229,7 @@ function CommonTable(props) {
                                 <IconButton
                                   key={i + '_' + action.label}
                                   aria-label={action.label}
-                                  onClick={(e) => action.handleClick(e, row)}
+                                  onClick={(e) => action.handleClick(e, row, index)}
                                 >
                                   {action.icon}
                                 </IconButton>

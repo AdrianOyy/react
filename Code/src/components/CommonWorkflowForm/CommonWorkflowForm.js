@@ -6,15 +6,15 @@ import { makeStyles, withStyles } from "@material-ui/core/styles"
 import { Paper as HAPaper } from "@material-ui/core"
 import ChildForm from "../../components/ChildForm"
 import getLogic from "../../utils/dynamicFormLogic"
-import map2object from "../../utils/map2object"
+import { map2object } from "../../utils/map2object"
 import HATable from "../../components/HATable"
 import Loading from "../../components/Loading"
+import { L } from "../../utils/lang"
 import DialogContent from '@material-ui/core/DialogContent'
 import DialogActions from '@material-ui/core/DialogActions'
 import DialogTitle from '@material-ui/core/DialogTitle'
 import Dialog from '@material-ui/core/Dialog'
 import TextField from '@material-ui/core/TextField'
-import { L } from "../../utils/lang"
 import {
   BorderColorOutlined as BorderColorIcon,
 } from "@material-ui/icons"
@@ -24,7 +24,9 @@ import {
 } from '@material-ui/core'
 import API from '../../api/diyForm'
 import CommonTip from "../CommonTip"
+
 import { useHistory } from "react-router-dom"
+
 const Paper = withStyles(() => ({
   root: {
     padding: '4vh 2vw 2vh 2vw',
@@ -32,11 +34,13 @@ const Paper = withStyles(() => ({
     maxWidth: '75vw',
   },
 }))(HAPaper)
+
 const Button = withStyles((() => ({
   root: {
     width: '5vw',
   }
 })))(HAButton)
+
 const useStyles = makeStyles(() => ({
   buttonGroup: {
     display: 'flex',
@@ -48,6 +52,8 @@ const useStyles = makeStyles(() => ({
     marginRight: '1vw',
   }
 }))
+
+
 export default function CommonWorkflowForm(props) {
   const {
     processDefinitionId,
@@ -85,6 +91,8 @@ export default function CommonWorkflowForm(props) {
 
   const [ childFormKey, setChildFormKey ] = useState('')
 
+  const [ version, setVersion ] = useState('')
+
   const [ create, setCreate ] = useState(false)
 
   const [ current, setCurrent ] = useState(-1)
@@ -112,9 +120,10 @@ export default function CommonWorkflowForm(props) {
       .then(({ data }) => {
         const {
           workflowName, parentFormDetail,
-          childFormDetail, formKey, childFormKey,
+          childFormDetail, formKey, childFormKey, version
         } = data.data
         setFormKey(formKey)
+        setVersion(version)
         setChildFormKey(childFormKey)
         setWorkflowName(workflowName)
         setRawData({
@@ -123,17 +132,18 @@ export default function CommonWorkflowForm(props) {
         })
         // 获取数据表
         if (!pid) return
-        API.detail({ pid })
+        API.detail({ pid, deploymentId })
           .then(({ data }) => {
             setCreate(true)
             const { parentData, childDataList } = data.data
+            console.log(data.data)
             setRawDefaultData({
               parentData,
               childDataList
             })
           })
       })
-  }, [])
+  }, [ deploymentId, pid ])
 
   // 获取业务逻辑
   useEffect(() => {
@@ -144,49 +154,51 @@ export default function CommonWorkflowForm(props) {
   useEffect(() => {
     if (!logic || !rawData) return
     const { parentFormDetail, childFormDetail } = rawData
-
     // 处理父表渲染表
     const parentDetail = logic.handleParentData(parentFormDetail, stepName, pageName)
     setParentFormDetail(parentDetail)
 
     // 处理子表渲染表
-    if (!childFormDetail || !childFormDetail.length) return
-    const childDetail = logic.handleChildData(childFormDetail, stepName, pageName)
-    if (childDetail && childDetail.length > 0) {
-      setChildFormDetail(childDetail)
-      childDetail.forEach(el => {
-        childDataListMap.set(el.fieldName, {
-          type: el.inputType,
-          fieldName: el.fieldName,
-          fieldDisplayName: el.fieldDisplayName,
-          itemList: el.itemList,
-          labelField: el.labelField,
-          valueField: el.valueField
+    if (childFormDetail && childFormDetail.length > 0) {
+      const childDetail = logic.handleChildData(childFormDetail, stepName, pageName)
+      if (childDetail && childDetail.length > 0) {
+        setChildFormDetail(childDetail)
+        childDetail.forEach(el => {
+          childDataListMap.set(el.fieldName, {
+            type: el.inputType,
+            fieldName: el.fieldName,
+            fieldDisplayName: el.fieldDisplayName,
+            itemList: el.itemList,
+            labelField: el.labelField,
+            valueField: el.valueField
+          })
         })
+      }
+
+      console.log('==============================1')
+      // 获取表头
+      const headerList = logic.getHeaderList(childDataListMap, stepName, pageName)
+      headerList.push({
+        id: 'action',
+        alignment: 'right',
+        label: L('Actions'),
       })
+      setTableHeader(headerList)
+
+      // 获取表格每行显示字段
+      const fieldList = logic.getFieldList(childDataListMap, stepName, pageName)
+      setFieldList(fieldList)
     }
-
-    // 获取表头
-    const headerList = logic.getHeaderList(childDataListMap, stepName, pageName)
-    headerList.push({
-      id: 'action',
-      alignment: 'right',
-      label: L('Actions'),
-    })
-    setTableHeader(headerList)
-
-    // 获取表格每行显示字段
-    const fieldList = logic.getFieldList(childDataListMap, stepName, pageName)
-    setFieldList(fieldList)
-
     // 处理数据
     if (!rawDefaultData) return
     const { parentData, childDataList } = rawDefaultData
     setFormId(parentData.id)
     const handledParentData = logic.handleParentDefaultData(parentData, stepName)
     setParentDefaultValues(handledParentData)
-    const handledChildData = logic.handleChildDefaultData(childDataList, childDataListMap)
-    setChildDataList(handledChildData)
+    if (childFormDetail.length > 0) {
+      const handledChildData = logic.handleChildDefaultData(childDataList, childDataListMap)
+      setChildDataList(handledChildData)
+    }
     // eslint-disable-next-line
   }, [logic, rawData, rawDefaultData])
 
@@ -246,6 +258,7 @@ export default function CommonWorkflowForm(props) {
     const form = {
       formId,
       formKey,
+      version,
       childDataList: childData
     }
     Loading.show()
@@ -294,6 +307,7 @@ export default function CommonWorkflowForm(props) {
         childFormKey,
         parentData: map2object(parentDataMap),
         childDataList,
+        version
       }
       if (processDefinitionId) {
         API.create(form)
@@ -307,6 +321,7 @@ export default function CommonWorkflowForm(props) {
           formKey,
           childFormKey,
           taskId,
+          version,
           parentData: map2object(parentDataMap),
           childDataList,
         }
@@ -343,6 +358,7 @@ export default function CommonWorkflowForm(props) {
       id: 'reason', label: L('Reason'), type: 'text', disabled: false, readOnly: false, required: true, helperText: L('NotEmpty')
     },
     onSubmit: (value) => {
+      if (!value) return
       const data = {
         taskId,
         variables: { pass: false },
@@ -361,7 +377,7 @@ export default function CommonWorkflowForm(props) {
       rejectActions(data)
     }
   }
-  const handleReasonChange = (event) => {
+  const handleReasonChange = (event, id) => {
     dialogReason.value = event.target.value
   }
   const rejectActions = (data) => {
@@ -450,28 +466,41 @@ export default function CommonWorkflowForm(props) {
           onChange={onParentChange}
           defaultValues={parentDefaultValues}
         />
-        <HATable
-          id={'DynamicTable'}
-          rows={childDataList}
-          hideCreate={create}
-          actionList={actionList}
-          tableName={logic.getChildTableTitle && logic.getChildTableTitle()}
-          headCells={tableHeader}
-          fieldList={fieldList}
-          addChild={openNewDialog}
-          marginTop={8}
-        />
-        <ChildForm
-          id={'DynamicDialog'}
-          pid={pid}
-          open={open}
-          formDetail={childFormDetail}
-          defaultValues={childDefaultValues}
-          onChange={onChildChange}
-          childFormTitle={logic.getChildFormTitle && logic.getChildFormTitle()}
-          buttonList={stepName === 'T3' ? t3buttonList : buttonList}
-          isNew={isNew}
-        />
+        {
+          (childFormDetail.length > 0) ? (
+            <React.Fragment>
+              <HATable
+                id={'DynamicTable'}
+                rows={childDataList}
+                hideCreate={create}
+                actionList={actionList}
+                tableName={logic.getChildTableTitle && logic.getChildTableTitle()}
+                headCells={tableHeader}
+                fieldList={fieldList}
+                addChild={openNewDialog}
+                marginTop={8}
+              />
+              <ChildForm
+                id={'DynamicDialog'}
+                pid={pid}
+                open={open}
+                formDetail={childFormDetail}
+                defaultValues={childDefaultValues}
+                onChange={onChildChange}
+                childFormTitle={logic.getChildFormTitle && logic.getChildFormTitle()}
+                buttonList={stepName === 'T3' ? t3buttonList : buttonList}
+                isNew={isNew}
+              /></React.Fragment>
+          ) : ''
+        }
+        {/* <DialogText*/}
+        {/* title={'Remark'}*/}
+        {/* detail={'Please Input Remark'}*/}
+        {/* label={'Remark'}*/}
+        {/* open={diaLogOpen}*/}
+        {/* handleSubmit={'Remark'}*/}
+        {/* handleClose={'Remark'}*/}
+        {/* />*/}
         <ButtonGroup className={classes.buttonGroup}>
           {
             (!pid || stepName === 'T3') ? (
@@ -480,7 +509,8 @@ export default function CommonWorkflowForm(props) {
                 variant="contained"
                 color='primary'
                 onClick={handleSubmit}
-              >{L('Submit')}
+              >
+                {L('Submit')}
               </Button>
             ) : (
               (stepName === 'detail') ?
@@ -491,7 +521,7 @@ export default function CommonWorkflowForm(props) {
                     color='primary'
                     onClick={handleCancel}
                   >
-                    {L('Cancel')}
+                      {L('Cancel')}
                   </Button>
                 ) :
                 (
@@ -501,14 +531,15 @@ export default function CommonWorkflowForm(props) {
                       variant="contained"
                       color='primary'
                       onClick={handleAgrreTaskClick}
-                    >{ L('Approval') }
+                    >
+                        {L('Approval')}
                     </Button>
                     <Button
                       className={classes.button}
                       variant="contained"
                       color='primary'
                       onClick={() => { setShown(true) }}
-                    >{L('Reject')}
+                      >{L('Reject')}
                     </Button>
                   </div>
                 )

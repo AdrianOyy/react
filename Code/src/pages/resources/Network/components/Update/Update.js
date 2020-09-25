@@ -35,7 +35,7 @@ function Detail(props) {
   const [ MaintID, setMaintID ] = useState('')
   const [ EquipType, setEquipType ] = useState('')
   const [ inventory, setInventory ] = useState([])
-  
+
   const [ saving, setSaving ] = useState(true)
   const [ InventoryStatus, setInventoryStatus ] = useState([])
   const [ EquipTypes, setEquipTypes ] = useState([])
@@ -49,7 +49,7 @@ function Detail(props) {
     const _IDError = await _IDCheck()
     if (_IDError || saving) return
     setSaving(true)
-    API.update(id, 
+    API.update(id,
       {
         _ID, UnitCode, AssetID, ModelCode, ModelDesc, ClosetID,
         Rack, RLU, ItemOwner, Status, Remark, UnitNo, PortQty, ReqNo,
@@ -104,7 +104,6 @@ function Detail(props) {
     })
     API.listEquipType({ limit: 999, page: 1 }).then(({ data }) => {
       if (data && data.data) {
-        console.log('11111111111111111111')
         setEquipTypes(data.data)
       }
     })
@@ -194,7 +193,7 @@ function Detail(props) {
     ]
     setInventory(inventoryList)
   }, [
-    _ID, _IDError, _IDHelperText, 
+    _ID, _IDError, _IDHelperText,
     UnitCode,
     AssetID,
     ModelCode,
@@ -213,7 +212,8 @@ function Detail(props) {
     DeliveryNoteReceivedDate,
     MaintID,
     InventoryStatus,
-    EquipTypes
+    EquipTypes,
+    EquipType
   ])
   const onFormFieldChange = (e, id) => {
     const { value } = e.target
