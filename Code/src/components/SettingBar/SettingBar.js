@@ -39,8 +39,6 @@ function SearchBar(props) {
       <div>
         {
           fieldList && fieldList.map((field, i) => {
-            console.log(field.value)
-            console.log(field.type)
             switch (field.type) {
               case 'text':
                 return (

@@ -1,10 +1,16 @@
 import CommonTip from "../../../components/CommonTip"
 
-export default class Common {
+export default class WorkFlowSetting {
   // eslint-disable-next-line
   async onFieldChange(data, dataMap, ref) {
     const { id } = data
-    dataMap.set(id, data)
+    switch (id) {
+      case 'inputType':
+        checkInputType(data, dataMap)
+        break
+      default:
+        dataMap.set(id, data)
+    }
   }
 
   // eslint-disable-next-line
@@ -30,6 +36,7 @@ export default class Common {
   handleParentDefaultData(rawData, stepName) {
     return rawData
   }
+
 
   // 处理子表数据表
   handleChildDefaultData(rawData, childDataListMap) {
@@ -85,3 +92,28 @@ export default class Common {
   }
 }
 
+function checkInputType(data, dataMap) {
+  const { id, value } = data
+  const foreignTable = document.getElementById('foreignTable')
+  const foreignKey = document.getElementById('foreignKey')
+  const foreignDisplayKey = document.getElementById('foreignDisplayKey')
+  const foreignTablelabel = document.getElementById('foreignTablelabel')
+  const foreignKeylabel = document.getElementById('foreignKeylabel')
+  const foreignDisplayKeylabel = document.getElementById('foreignDisplayKeylabel')
+  if (value === 'select') {
+    foreignTable.style = 'display:block'
+    foreignKey.style = 'display:block'
+    foreignDisplayKey.style = 'display:block'
+    foreignTablelabel.style = 'display:block'
+    foreignKeylabel.style = 'display:block'
+    foreignDisplayKeylabel.style = 'display:block'
+  } else {
+    foreignTable.style = 'display:none'
+    foreignKey.style = 'display:none'
+    foreignDisplayKey.style = 'display:none'
+    foreignTablelabel.style = 'display:none'
+    foreignKeylabel.style = 'display:none'
+    foreignDisplayKeylabel.style = 'display:none'
+  }
+  dataMap.set(id, data)
+}

@@ -52,7 +52,9 @@ export default function MaterialTableDemo() {
   const [ parentValues, setParentValues ] = useState([])
   const [ childValues, setChildValues ] = useState([])
   const [ current, setCurrent ] = useState(-1)
+  const [ showTable, setShowTable ] = useState(false)
   const [ type, setType ] = useState(null)
+  const [ childFormDetail, setChildFormDetail ] = useState(null)
   const [ childDefaultValues, setChildDefaultValues ] = useState({})
   const childDataMap = new Map()
 
@@ -107,6 +109,32 @@ export default function MaterialTableDemo() {
     setBarfieldList(searchBarFieldList)
   }, [ parentFormKey, selectChild, childFormKey ])
 
+  useEffect(() => {
+    const detail = [
+      { fieldDisplayName: "Field Name", fieldName: "fieldName", type: "text", valueField: null, labelField: null, required: true, showRequest: true },
+      { fieldDisplayName: "Field Display Name", fieldName: "fieldDisplayName", type: "text", valueField: null, labelField: null, showRequest: true, required: true },
+      {
+        fieldDisplayName: "Field Type", fieldName: "fieldType", type: "select", valueField: 'id', labelField: 'value', showRequest: true, required: false,
+        itemList: [{ id: 'string', value: 'string' }, { id: 'int', value: 'int' }, { id: 'date', value: 'date' }]
+      },
+      {
+        fieldDisplayName: "Input Type", fieldName: "inputType", type: "select", valueField: 'id', labelField: 'value', showRequest: true, required: false,
+        itemList: [{ id: 'text', value: 'text' }, { id: 'select', value: 'select' }, { id: 'date', value: 'date' }]
+      },
+      {
+        fieldDisplayName: "Show On Request", fieldName: "showOnRequest", type: "select", valueField: 'id', labelField: 'value', required: false, showRequest: true,
+        itemList: [{ id: '1', value: 'True' }, { id: '0', value: 'False' }]
+      },
+      { fieldDisplayName: "Required", fieldName: "required", type: "select", valueField: 'id', labelField: 'value', required: false, showRequest: true, itemList: [{ id: '1', value: 'True' }, { id: '0', value: 'False' }] },
+      { fieldDisplayName: "Readable", fieldName: "readable", type: "select", valueField: 'id', labelField: 'value', required: false, showRequest: true, itemList: [{ id: '1', value: 'True' }, { id: '0', value: 'False' }] },
+      { fieldDisplayName: "Writable", fieldName: "writable", type: "select", valueField: 'id', labelField: 'value', required: false, showRequest: true, itemList: [{ id: '1', value: 'True' }, { id: '0', value: 'False' }] },
+      { fieldDisplayName: "Foreign Table", fieldName: "foreignTable", type: "text", valueField: null, labelField: null, required: false, showRequest: false },
+      { fieldDisplayName: "Foreign Key", fieldName: "foreignKey", type: "text", valueField: null, labelField: null, required: false, showRequest: false },
+      { fieldDisplayName: "Foreign Display Key", fieldName: "foreignDisplayKey", type: "text", valueField: null, labelField: null, required: false, showRequest: false },
+    ]
+    setChildFormDetail(detail)
+  }, [ showTable ])
+
   // 表头字段列表
   const headCells = [
     { id: 'fieldName', alignment: 'center', label: 'Field Name' },
@@ -125,42 +153,17 @@ export default function MaterialTableDemo() {
   ]
 
   const handleClose = () => {
+    setChildDefaultValues({})
     setOpen(false)
   }
 
-  const onChildChange = (data) => (
-    getLogic().onFieldChange(data, childDataMap)
-  )
-
-  const childFormDetail = [
-    { fieldDisplayName: "Field Name", fieldName: "fieldName", type: "text", valueField: null, labelField: null, required: true },
-    { fieldDisplayName: "Field Display Name", fieldName: "fieldDisplayName", type: "text", valueField: null, labelField: null, required: true },
-    {
-      fieldDisplayName: "Field Type", fieldName: "fieldType", type: "select", valueField: 'id', labelField: 'value', required: false,
-      itemList: [{ id: 'string', value: 'string' }, { id: 'int', value: 'int' }, { id: 'date', value: 'date' }]
-    },
-    {
-      fieldDisplayName: "Input Type", fieldName: "inputType", type: "select", valueField: 'id', labelField: 'value', required: false,
-      itemList: [{ id: 'text', value: 'text' }, { id: 'select', value: 'select' }, { id: 'date', value: 'date' }]
-    },
-    {
-      fieldDisplayName: "Show On Request", fieldName: "showOnRequest", type: "select", valueField: 'id', labelField: 'value', required: false,
-      itemList: [{ id: '1', value: 'True' }, { id: '0', value: 'False' }]
-    },
-    { fieldDisplayName: "Foreign Table", fieldName: "foreignTable", type: "text", valueField: null, labelField: null, required: false },
-    { fieldDisplayName: "Foreign Key", fieldName: "foreignKey", type: "text", valueField: null, labelField: null, required: false },
-    { fieldDisplayName: "Foreign Display Key", fieldName: "foreignDisplayKey", type: "text", valueField: null, labelField: null, required: false },
-    { fieldDisplayName: "Required", fieldName: "required", type: "select", valueField: 'id', labelField: 'value', required: false, itemList: [{ id: '1', value: 'True' }, { id: '0', value: 'False' }] },
-    { fieldDisplayName: "Readable", fieldName: "readable", type: "select", valueField: 'id', labelField: 'value', required: false, itemList: [{ id: '1', value: 'True' }, { id: '0', value: 'False' }] },
-    { fieldDisplayName: "Writable", fieldName: "writable", type: "select", valueField: 'id', labelField: 'value', required: false, itemList: [{ id: '1', value: 'True' }, { id: '0', value: 'False' }] },
-  ]
+  const onChildChange = (data) => {
+    getLogic('WorkflowSetting').onFieldChange(data, childDataMap)
+  }
 
   const handleSave = async () => {
-    console.log(childDataMap)
     const childData = map2object(childDataMap)
     const data = {}
-    console.log(current)
-    console.log(type)
     for (const child in childData) {
       data[child] = childData[child].label
     }
