@@ -66,8 +66,10 @@ function HAStep(props) {
         setRows(pointUserList)
       }
     })
-  }, [])
+  }, [ processInstanceId ])
+
   // const steps = [ 'Select master blaster campaign settings', 'Create an ad group', 'Create an ad' ]
+
   // 表头字段列表
   const headCells = [
     { id: 'name', alignment: 'center', label: L('Name') },
