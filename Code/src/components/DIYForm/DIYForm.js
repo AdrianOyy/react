@@ -108,6 +108,7 @@ export default function DIYForm(props) {
                       isNew={isNew}
                       disabled={!el.writable}
                       onChange={onChange}
+                      selectChange={el.selectChange}
                       label={el.fieldDisplayName}
                       valueField={el.valueField}
                       labelField={el.labelField}

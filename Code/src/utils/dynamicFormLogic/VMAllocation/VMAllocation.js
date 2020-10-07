@@ -93,6 +93,11 @@ export default class VMAllocation {
     }
   }
 
+  handleParentStartData() {
+    const data = {}
+    return data
+  }
+
   // 处理子表渲染表
   handleChildData(rawData, stepName, pageName) {
     rawData && rawData.forEach(el => {

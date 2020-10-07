@@ -190,7 +190,11 @@ export default function CommonWorkflowForm(props) {
       setFieldList(fieldList)
     }
     // 处理数据
-    if (!rawDefaultData) return
+    if (!rawDefaultData) {
+      const parentStartData = logic.handleParentStartData(stepName)
+      setParentDefaultValues(parentStartData)
+      return
+    }
     const { parentData, childDataList } = rawDefaultData
     setFormId(parentData.id)
     const handledParentData = logic.handleParentDefaultData(parentData, stepName)
@@ -521,7 +525,7 @@ export default function CommonWorkflowForm(props) {
                     color='primary'
                     onClick={handleCancel}
                   >
-                      {L('Cancel')}
+                    {L('Cancel')}
                   </Button>
                 ) :
                 (
@@ -532,14 +536,14 @@ export default function CommonWorkflowForm(props) {
                       color='primary'
                       onClick={handleAgrreTaskClick}
                     >
-                        {L('Approval')}
+                      {L('Approval')}
                     </Button>
                     <Button
                       className={classes.button}
                       variant="contained"
                       color='primary'
                       onClick={() => { setShown(true) }}
-                      >{L('Reject')}
+                    >{L('Reject')}
                     </Button>
                   </div>
                 )

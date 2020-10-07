@@ -34,7 +34,15 @@ export default class AccountManagement {
 
   // 处理父表数据表
   handleParentDefaultData(rawData, stepName) {
+    console.log(rawData)
     return rawData
+  }
+
+  handleParentStartData() {
+    const data = {
+      account_type: 'CORP Account (Personal) Application'
+    }
+    return data
   }
 
   // 处理子表数据表
@@ -69,9 +77,18 @@ export default class AccountManagement {
   }
 
   handleParentData(rawData, stepName, pageName) {
+    console.log(rawData)
     rawData && rawData.forEach(el => {
       if (stepName) {
         el.showOnRequest = true
+      }
+      if (el.fieldName === 'account_type') {
+        el.selectChange = selectChange
+        el.itemList.forEach(t => {
+          if (t.type === 'CORP Account (Personal) Application') {
+            t.disabled = true
+          }
+        })
       }
     })
     switch (stepName) {
@@ -91,12 +108,21 @@ export default class AccountManagement {
   }
 }
 
+function selectChange(name, checked, data) {
+  if (name === 'IBRA Account Application' && checked) {
+    data['Internet Account Application'] = true
+  } else if (name === 'Internet Account Application' && !checked) {
+    data['IBRA Account Application'] = false
+  }
+}
+
 function accountType(data, dataMap) {
   const { id, value } = data
   dataMap.set(id, data)
   // eslint-disable-next-line no-empty
   const alias_div = document.getElementById('Internet_Email_alias_div')
   const display_name_div = document.getElementById('Internet_Email_display_name_div')
+  console.log(value)
   if (value.indexOf('Internet Account Application') > -1) {
     alias_div.style = 'display:block'
     display_name_div.style = 'display:block'
