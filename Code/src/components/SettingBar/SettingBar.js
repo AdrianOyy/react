@@ -32,123 +32,122 @@ function SearchBar(props) {
     onSearchFieldChange(data, id)
   }
   return (
-    <div style={{ marginBottom: '10px',  padding: '0 10px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-      {/*
-        type list, see: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#Form_%3Cinput%3E_types
-      */}
-      <div>
-        {
-          fieldList && fieldList.map((field, i) => {
-            switch (field.type) {
-              case 'text':
-                return (
-                  <TextField
-                    id={field.id.toString()}
-                    key={field.id + field.label}
-                    label={field.label}
-                    type={field.type}
-                    error={field.error || false}
-                    helperText={field.helperText || ''}
-                    disabled={field.disabled || false}
-                    variant="outlined"
-                    required={field.required || false}
-                    onChange={!field.readOnly ? (event) => onSearchFieldChange(event, field.id) : null}
-                    // onBlur={!field.readOnly && onFormFieldBlur ? (e) => onFormFieldBlur(e, field.id) : null}
-                    value={field.value ? field.value : ''}
-                    defaultValue={field.value ? field.value : ''}
-                    InputProps={{
-                      readOnly: field.readOnly
-                    }}
-                    InputLabelProps={{
-                      shrink: field.type === 'date' ? true : undefined
-                    }}
-                    style={{ marginTop: "5ch", marginRight: "10ch" }}
-                  />
-                )
-              case 'date':
-                return (
-                  <KeyboardDatePicker
-                    clearable='true'
-                    variant="inline"
-                    inputVariant="outlined"
-                    key={field.id + field.label}
-                    views={field.views ? field.views : undefined}
-                    format={field.views ? 'yyyy' : 'yyyy / MM / dd'}
-                    label={field.label}
-                    error={field.error || false}
-                    helperText={field.helperText || ''}
-                    value={field.value === '' ? null : field.value}
-                    style={{ marginTop: "5ch", marginRight: "10ch" }}
-                    readOnly={field.readOnly}
-                    onChange={handleDataChange && ((event) => handleDataChange(event, field.id))}
-                  />
-                )
-              case 'boolean':
-                return (
+    <React.Fragment>
+      <div style={{ marginBottom: '10px',  padding: '0 10px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <div>
+          {
+            fieldList && fieldList.map((field) => {
+              switch (field.type) {
+                case 'text':
+                  return (
+                    <TextField
+                      id={field.id.toString()}
+                      key={field.id + field.label}
+                      label={field.label}
+                      type={field.type}
+                      error={field.error || false}
+                      helperText={field.helperText || ''}
+                      disabled={field.disabled || false}
+                      variant="outlined"
+                      required={field.required || false}
+                      onChange={!field.readOnly ? (event) => onSearchFieldChange(event, field.id) : null}
+                      // onBlur={!field.readOnly && onFormFieldBlur ? (e) => onFormFieldBlur(e, field.id) : null}
+                      value={field.value ? field.value : ''}
+                      defaultValue={field.value ? field.value : ''}
+                      InputProps={{
+                        readOnly: field.readOnly
+                      }}
+                      InputLabelProps={{
+                        shrink: field.type === 'date' ? true : undefined
+                      }}
+                      style={{ marginTop: "5ch", marginRight: "10ch" }}
+                    />
+                  )
+                case 'date':
+                  return (
+                    <KeyboardDatePicker
+                      clearable='true'
+                      variant="inline"
+                      inputVariant="outlined"
+                      key={field.id + field.label}
+                      views={field.views ? field.views : undefined}
+                      format={field.views ? 'yyyy' : 'yyyy / MM / dd'}
+                      label={field.label}
+                      error={field.error || false}
+                      helperText={field.helperText || ''}
+                      value={field.value === '' ? null : field.value}
+                      style={{ marginTop: "5ch", marginRight: "10ch" }}
+                      readOnly={field.readOnly}
+                      onChange={handleDataChange && ((event) => handleDataChange(event, field.id))}
+                    />
+                  )
+                case 'boolean':
+                  return (
                   // eslint-disable-next-line react/jsx-no-undef
-                  <FormControlLabel
-                    key={field.id + field.label}
-                    style={{ marginTop: "5ch", marginRight: "10ch" }}
-                    control={
-                      <Switch
-                        checked={field.value === '' ? false : field.value}
-                        onChange={handleBoolChange && ((event) => handleBoolChange(event, field.id))}
-                        name={field.id}
-                        color="primary"
-                      />
-                    }
-                    label={field.label}
-                  />
-                )
-              case 'select':
-                return (
-                  <CommonSelect
-                    id={field.id.toString()}
-                    key={field.id + field.label}
-                    label={field.label}
-                    error={field.error || false}
-                    helperText={field.helperText || ''}
-                    value={field.value || ''}
-                    disabled={field.disabled || false}
-                    outlined={true}
-                    itemList={field.itemList}
-                    labelField={field.labelField}
-                    valueField={field.valueField}
-                    width={field.width}
-                    labelWidth={field.labelWidth}
-                    hasMt={true}
-                    onSelectChange={!field.readOnly ? (event) => onSearchFieldChange(event, field.id) : null}
-                  />
-                )
-              default:
-                return (
-                  <TextField
-                    id={field.id}
-                    key={field.id + field.label}
-                    label={field.label}
-                    type={field.type}
-                    error={field.error || false}
-                    helperText={field.helperText || ''}
-                    disabled={field.disabled || false}
-                    variant="outlined"
-                    required={field.required || false}
-                    onChange={!field.readOnly ? (event) => onSearchFieldChange(event, field.id) : null}
-                    // onBlur={!field.readOnly && onFormFieldBlur ? (e) => onFormFieldBlur(e, field.id) : null}
-                    value={field.value}
-                    InputProps={{
-                      readOnly: field.readOnly
-                    }}
-                    InputLabelProps={{
-                      shrink: field.type === 'date' ? true : undefined
-                    }}
-                    style={{ marginTop: "5ch", marginRight: "10ch" }}
-                  />
-                )
-            }
-          })
-        }
+                    <FormControlLabel
+                      key={field.id + field.label}
+                      style={{ marginTop: "5ch", marginRight: "10ch" }}
+                      control={
+                        <Switch
+                          checked={field.value === '' ? false : field.value}
+                          onChange={handleBoolChange && ((event) => handleBoolChange(event, field.id))}
+                          name={field.id}
+                          color="primary"
+                        />
+                      }
+                      label={field.label}
+                    />
+                  )
+                case 'select':
+                  return (
+                    <CommonSelect
+                      id={field.id.toString()}
+                      key={field.id + field.label}
+                      label={field.label}
+                      error={field.error || false}
+                      helperText={field.helperText || ''}
+                      value={field.value || ''}
+                      disabled={field.disabled || false}
+                      outlined={true}
+                      itemList={field.itemList}
+                      labelField={field.labelField}
+                      valueField={field.valueField}
+                      width={field.width}
+                      labelWidth={field.labelWidth}
+                      hasMt={true}
+                      onSelectChange={!field.readOnly ? (event) => onSearchFieldChange(event, field.id) : null}
+                    />
+                  )
+                default:
+                  return (
+                    <TextField
+                      id={field.id}
+                      key={field.id + field.label}
+                      label={field.label}
+                      type={field.type}
+                      error={field.error || false}
+                      helperText={field.helperText || ''}
+                      disabled={field.disabled || false}
+                      variant="outlined"
+                      required={field.required || false}
+                      onChange={!field.readOnly ? (event) => onSearchFieldChange(event, field.id) : null}
+                      // onBlur={!field.readOnly && onFormFieldBlur ? (e) => onFormFieldBlur(e, field.id) : null}
+                      value={field.value}
+                      InputProps={{
+                        readOnly: field.readOnly
+                      }}
+                      InputLabelProps={{
+                        shrink: field.type === 'date' ? true : undefined
+                      }}
+                      style={{ marginTop: "5ch", marginRight: "10ch" }}
+                    />
+                  )
+              }
+            })
+          }
+        </div>
       </div>
-    </div>
+    </React.Fragment>
   )
 }
 

@@ -19,7 +19,7 @@ import { useLocation, useParams } from "react-router-dom"
 import path from "../../../../../utils/path"
 import deepClone from "../../../../../utils/deepClone"
 import CommonTip from "../../../../../components/CommonTip"
-
+const logic = getLogic('WorkflowSetting')
 const useStyles = makeStyles(() => ({
   buttonGroup: {
     display: 'flex',
@@ -52,7 +52,6 @@ export default function MaterialTableDemo() {
   const [ parentValues, setParentValues ] = useState([])
   const [ childValues, setChildValues ] = useState([])
   const [ current, setCurrent ] = useState(-1)
-  const [ showTable, setShowTable ] = useState(false)
   const [ type, setType ] = useState(null)
   const [ childFormDetail, setChildFormDetail ] = useState(null)
   const [ childDefaultValues, setChildDefaultValues ] = useState({})
@@ -119,7 +118,7 @@ export default function MaterialTableDemo() {
       },
       {
         fieldDisplayName: "Input Type", fieldName: "inputType", type: "select", valueField: 'id', labelField: 'value', showRequest: true, required: false,
-        itemList: [{ id: 'text', value: 'text' }, { id: 'select', value: 'select' }, { id: 'date', value: 'date' }]
+        itemList: [{ id: 'text', value: 'text' }, { id: 'checkbox', value: 'checkbox' }, { id: 'select', value: 'select' }, { id: 'date', value: 'date' }]
       },
       {
         fieldDisplayName: "Show On Request", fieldName: "showOnRequest", type: "select", valueField: 'id', labelField: 'value', required: false, showRequest: true,
@@ -128,12 +127,12 @@ export default function MaterialTableDemo() {
       { fieldDisplayName: "Required", fieldName: "required", type: "select", valueField: 'id', labelField: 'value', required: false, showRequest: true, itemList: [{ id: '1', value: 'True' }, { id: '0', value: 'False' }] },
       { fieldDisplayName: "Readable", fieldName: "readable", type: "select", valueField: 'id', labelField: 'value', required: false, showRequest: true, itemList: [{ id: '1', value: 'True' }, { id: '0', value: 'False' }] },
       { fieldDisplayName: "Writable", fieldName: "writable", type: "select", valueField: 'id', labelField: 'value', required: false, showRequest: true, itemList: [{ id: '1', value: 'True' }, { id: '0', value: 'False' }] },
-      { fieldDisplayName: "Foreign Table", fieldName: "foreignTable", type: "text", valueField: null, labelField: null, required: false, showRequest: false },
-      { fieldDisplayName: "Foreign Key", fieldName: "foreignKey", type: "text", valueField: null, labelField: null, required: false, showRequest: false },
-      { fieldDisplayName: "Foreign Display Key", fieldName: "foreignDisplayKey", type: "text", valueField: null, labelField: null, required: false, showRequest: false },
+      { fieldDisplayName: "Foreign Table", fieldName: "foreignTable", type: "text", valueField: null, labelField: null, required: true, showRequest: false },
+      { fieldDisplayName: "Foreign Key", fieldName: "foreignKey", type: "text", valueField: null, labelField: null, required: true, showRequest: false },
+      { fieldDisplayName: "Foreign Display Key", fieldName: "foreignDisplayKey", type: "text", valueField: null, labelField: null, required: true, showRequest: false },
     ]
     setChildFormDetail(detail)
-  }, [ showTable ])
+  }, [ ])
 
   // 表头字段列表
   const headCells = [
@@ -158,7 +157,7 @@ export default function MaterialTableDemo() {
   }
 
   const onChildChange = (data) => {
-    getLogic('WorkflowSetting').onFieldChange(data, childDataMap)
+    logic.onFieldChange(data, childDataMap)
   }
 
   const handleSave = async () => {
@@ -167,26 +166,29 @@ export default function MaterialTableDemo() {
     for (const child in childData) {
       data[child] = childData[child].label
     }
-    if (current === -1) {
-      if (type === 'child') {
-        childValues.push(childData)
-        childRows.push(data)
+    const pass = logic.checkForm && await logic.checkForm(childFormDetail, childDataMap)
+    if (pass) {
+      if (current === -1) {
+        if (type === 'child') {
+          childValues.push(childData)
+          childRows.push(data)
+        } else {
+          parentValues.push(childData)
+          parentRows.push(data)
+        }
       } else {
-        parentValues.push(childData)
-        parentRows.push(data)
+        if (type === 'child') {
+          childValues[current] = childData
+          childRows[current] = data
+        } else {
+          parentValues[current] = childData
+          parentRows[current] = data
+        }
       }
-    } else {
-      if (type === 'child') {
-        childValues[current] = childData
-        childRows[current] = data
-      } else {
-        parentValues[current] = childData
-        parentRows[current] = data
-      }
+      setChildDefaultValues({})
+      setIsNew(false)
+      setOpen(false)
     }
-    setChildDefaultValues({})
-    setIsNew(false)
-    setOpen(false)
   }
 
   const customCreate = () => {

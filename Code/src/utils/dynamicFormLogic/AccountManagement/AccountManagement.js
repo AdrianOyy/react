@@ -1,12 +1,12 @@
 import CommonTip from "../../../components/CommonTip"
 
-export default class WorkFlowSetting {
+export default class AccountManagement {
   // eslint-disable-next-line
   async onFieldChange(data, dataMap, ref) {
     const { id } = data
     switch (id) {
-      case 'inputType':
-        checkInputType(data, dataMap)
+      case 'account_type':
+        accountType(data, dataMap)
         break
       default:
         dataMap.set(id, data)
@@ -20,23 +20,13 @@ export default class WorkFlowSetting {
 
   async checkForm(parentFormDetail, parentDataMap) {
     let pass = true
-    let putValue = ''
     // 验证必填字段
     for (let i = 0; i < parentFormDetail.length; i++) {
       const { required, fieldName, fieldDisplayName } = parentFormDetail[i]
-      if (fieldName === 'inputType') {
-        putValue = 'select'
-      }
       if (required && (!parentDataMap.get(fieldName) || !parentDataMap.get(fieldName).value)) {
-        if (putValue === 'select' && (fieldName === 'foreignTable' || fieldName === 'foreignKey' || fieldName === 'foreignDisplayKey')) {
-          CommonTip.error(`${fieldDisplayName} is required`)
-          pass = false
-          break
-        } else if (fieldName !== 'foreignTable' && fieldName !== 'foreignKey' && fieldName !== 'foreignDisplayKey') {
-          CommonTip.error(`${fieldDisplayName} is required`)
-          pass = false
-          break
-        }
+        CommonTip.error(`${fieldDisplayName} is required`)
+        pass = false
+        break
       }
     }
     return pass
@@ -46,7 +36,6 @@ export default class WorkFlowSetting {
   handleParentDefaultData(rawData, stepName) {
     return rawData
   }
-
 
   // 处理子表数据表
   handleChildDefaultData(rawData, childDataListMap) {
@@ -102,28 +91,42 @@ export default class WorkFlowSetting {
   }
 }
 
-function checkInputType(data, dataMap) {
+function accountType(data, dataMap) {
   const { id, value } = data
-  const foreignTable = document.getElementById('foreignTable')
-  const foreignKey = document.getElementById('foreignKey')
-  const foreignDisplayKey = document.getElementById('foreignDisplayKey')
-  const foreignTablelabel = document.getElementById('foreignTablelabel')
-  const foreignKeylabel = document.getElementById('foreignKeylabel')
-  const foreignDisplayKeylabel = document.getElementById('foreignDisplayKeylabel')
-  if (value === 'select' || value === 'checkbox') {
-    foreignTable.style = 'display:block'
-    foreignKey.style = 'display:block'
-    foreignDisplayKey.style = 'display:block'
-    foreignTablelabel.style = 'display:block'
-    foreignKeylabel.style = 'display:block'
-    foreignDisplayKeylabel.style = 'display:block'
-  } else {
-    foreignTable.style = 'display:none'
-    foreignKey.style = 'display:none'
-    foreignDisplayKey.style = 'display:none'
-    foreignTablelabel.style = 'display:none'
-    foreignKeylabel.style = 'display:none'
-    foreignDisplayKeylabel.style = 'display:none'
-  }
   dataMap.set(id, data)
+  // eslint-disable-next-line no-empty
+  const alias_div = document.getElementById('Internet_Email_alias_div')
+  const display_name_div = document.getElementById('Internet_Email_display_name_div')
+  if (value.indexOf('Internet Account Application') > -1) {
+    alias_div.style = 'display:block'
+    display_name_div.style = 'display:block'
+  } else {
+    alias_div.style = 'display:none'
+    display_name_div.style = 'display:none'
+  }
+  const HA_Internet_Account = document.getElementById('HA_Internet_Account_div')
+  const User_Name = document.getElementById('User_Name_div')
+  const OWA_Webmail_Hospital_home_page = document.getElementById('OWA_Webmail_Hospital_home_page_div')
+  const Clinical_Applications = document.getElementById('Clinical_Applications_div')
+  const NonClinical_Applications = document.getElementById('NonClinical_Applications_div')
+  const AuthenticationMethod = document.getElementById('AuthenticationMethod_div')
+  const Mobile_Phone_No_for_Receipt_of_SMS_OTP = document.getElementById('Mobile_Phone_No_for_Receipt_of_SMS_OTP_div')
+
+  if (value.indexOf('IBRA Account Application') > -1) {
+    HA_Internet_Account.style = 'display:block'
+    User_Name.style = 'display:block'
+    OWA_Webmail_Hospital_home_page.style = 'display:block'
+    Clinical_Applications.style = 'display:block'
+    NonClinical_Applications.style = 'display:block'
+    AuthenticationMethod.style = 'display:block'
+    Mobile_Phone_No_for_Receipt_of_SMS_OTP.style = 'display:block'
+  } else {
+    HA_Internet_Account.style = 'display:none'
+    User_Name.style = 'display:none'
+    OWA_Webmail_Hospital_home_page.style = 'display:none'
+    Clinical_Applications.style = 'display:none'
+    NonClinical_Applications.style = 'display:none'
+    AuthenticationMethod.style = 'display:none'
+    Mobile_Phone_No_for_Receipt_of_SMS_OTP.style = 'display:none'
+  }
 }
