@@ -20,13 +20,11 @@ export default class AccountManagement {
 
   async checkForm(parentFormDetail, parentDataMap) {
     let pass = true
-    console.log(parentFormDetail)
-    console.log(parentDataMap.get('account_type'))
-    console.log('=========================checkform')
+    const account_type = parentDataMap.get('account_type').value
     // 验证必填字段
     for (let i = 0; i < parentFormDetail.length; i++) {
       const { required, fieldName, fieldDisplayName } = parentFormDetail[i]
-      if (required && (!parentDataMap.get(fieldName) || !parentDataMap.get(fieldName).value)) {
+      if (required && (!parentDataMap.get(fieldName) || !parentDataMap.get(fieldName).value) && accountRequired(account_type, fieldName)) {
         CommonTip.error(`${fieldDisplayName} is required`)
         pass = false
         break
@@ -112,37 +110,49 @@ export default class AccountManagement {
 }
 
 function accountRequired(account_type, fieldName) {
+  let required = false
   if (account_type.indexOf('Internet Account Application') > -1) {
     switch (fieldName) {
       case 'internet_email_alias':
-        return true
+        required = true
+        break
       case 'internet_email_display_name':
-        return true
+        required = true
+        break
       default:
-        return false
+        required = false
+        break
     }
   }
   if (account_type.indexOf('IBRA Account Application') > -1) {
     switch (fieldName) {
       case 'ha_internet_account':
-        return true
+        required = true
+        break
       case 'user_name':
-        return true
+        required = true
+        break
       case 'owa_hospital_web':
-        return true
+        required = true
+        break
       case 'clinical_applications':
-        return true
+        required = true
+        break
       case 'nonclinical_applications':
-        return true
+        required = true
+        break
       case 'authenticationmethod':
-        return true
+        required = true
+        break
       case 'mobile_phone_no_for_receipt_of_sms_otp':
-        return true
+        required = true
+        break
       default:
-        return false
+        required = false
+        break
     }
   }
-  return false
+  return required
 }
 
 function selectChange(name, checked, data) {
