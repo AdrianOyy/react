@@ -120,8 +120,8 @@ function accountType(data, dataMap) {
   const { id, value } = data
   dataMap.set(id, data)
   // eslint-disable-next-line no-empty
-  const alias_div = document.getElementById('Internet_Email_alias_div')
-  const display_name_div = document.getElementById('Internet_Email_display_name_div')
+  const alias_div = document.getElementById('internet_email_alias_div')
+  const display_name_div = document.getElementById('internet_email_display_name_div')
   console.log(value)
   if (value.indexOf('Internet Account Application') > -1) {
     alias_div.style = 'display:block'
@@ -130,13 +130,13 @@ function accountType(data, dataMap) {
     alias_div.style = 'display:none'
     display_name_div.style = 'display:none'
   }
-  const HA_Internet_Account = document.getElementById('HA_Internet_Account_div')
-  const User_Name = document.getElementById('User_Name_div')
-  const OWA_Webmail_Hospital_home_page = document.getElementById('OWA_Webmail_Hospital_home_page_div')
-  const Clinical_Applications = document.getElementById('Clinical_Applications_div')
-  const NonClinical_Applications = document.getElementById('NonClinical_Applications_div')
-  const AuthenticationMethod = document.getElementById('AuthenticationMethod_div')
-  const Mobile_Phone_No_for_Receipt_of_SMS_OTP = document.getElementById('Mobile_Phone_No_for_Receipt_of_SMS_OTP_div')
+  const HA_Internet_Account = document.getElementById('ha_internet_account_div')
+  const User_Name = document.getElementById('user_name_div')
+  const OWA_Webmail_Hospital_home_page = document.getElementById('owa_webmail_hospital_home_page_div')
+  const Clinical_Applications = document.getElementById('clinical_applications_div')
+  const NonClinical_Applications = document.getElementById('nonclinical_applications_div')
+  const AuthenticationMethod = document.getElementById('authenticationmethod_div')
+  const Mobile_Phone_No_for_Receipt_of_SMS_OTP = document.getElementById('mobile_phone_no_for_receipt_of_sms_otp_div')
 
   if (value.indexOf('IBRA Account Application') > -1) {
     HA_Internet_Account.style = 'display:block'

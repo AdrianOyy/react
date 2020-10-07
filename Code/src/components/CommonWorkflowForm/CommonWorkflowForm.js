@@ -189,8 +189,10 @@ export default function CommonWorkflowForm(props) {
       const fieldList = logic.getFieldList(childDataListMap, stepName, pageName)
       setFieldList(fieldList)
     }
+    console.log(rawDefaultData)
     // 处理数据
     if (!rawDefaultData) {
+      console.log('==============================1')
       const parentStartData = logic.handleParentStartData(stepName)
       setParentDefaultValues(parentStartData)
       return
@@ -198,6 +200,7 @@ export default function CommonWorkflowForm(props) {
     const { parentData, childDataList } = rawDefaultData
     setFormId(parentData.id)
     const handledParentData = logic.handleParentDefaultData(parentData, stepName)
+    console.log(handledParentData)
     setParentDefaultValues(handledParentData)
     if (childFormDetail.length > 0) {
       const handledChildData = logic.handleChildDefaultData(childDataList, childDataListMap)
