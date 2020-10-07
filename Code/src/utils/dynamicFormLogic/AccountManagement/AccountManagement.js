@@ -20,6 +20,9 @@ export default class AccountManagement {
 
   async checkForm(parentFormDetail, parentDataMap) {
     let pass = true
+    console.log(parentFormDetail)
+    console.log(parentDataMap.get('account_type'))
+    console.log('=========================checkform')
     // 验证必填字段
     for (let i = 0; i < parentFormDetail.length; i++) {
       const { required, fieldName, fieldDisplayName } = parentFormDetail[i]
@@ -108,6 +111,40 @@ export default class AccountManagement {
   }
 }
 
+function accountRequired(account_type, fieldName) {
+  if (account_type.indexOf('Internet Account Application') > -1) {
+    switch (fieldName) {
+      case 'internet_email_alias':
+        return true
+      case 'internet_email_display_name':
+        return true
+      default:
+        return false
+    }
+  }
+  if (account_type.indexOf('IBRA Account Application') > -1) {
+    switch (fieldName) {
+      case 'ha_internet_account':
+        return true
+      case 'user_name':
+        return true
+      case 'owa_hospital_web':
+        return true
+      case 'clinical_applications':
+        return true
+      case 'nonclinical_applications':
+        return true
+      case 'authenticationmethod':
+        return true
+      case 'mobile_phone_no_for_receipt_of_sms_otp':
+        return true
+      default:
+        return false
+    }
+  }
+  return false
+}
+
 function selectChange(name, checked, data) {
   if (name === 'IBRA Account Application' && checked) {
     data['Internet Account Application'] = true
@@ -132,7 +169,7 @@ function accountType(data, dataMap) {
   }
   const HA_Internet_Account = document.getElementById('ha_internet_account_div')
   const User_Name = document.getElementById('user_name_div')
-  const OWA_Webmail_Hospital_home_page = document.getElementById('owa_webmail_hospital_home_page_div')
+  const OWA_Webmail_Hospital_home_page = document.getElementById('owa_hospital_web_div')
   const Clinical_Applications = document.getElementById('clinical_applications_div')
   const NonClinical_Applications = document.getElementById('nonclinical_applications_div')
   const AuthenticationMethod = document.getElementById('authenticationmethod_div')

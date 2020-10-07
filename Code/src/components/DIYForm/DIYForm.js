@@ -48,7 +48,7 @@ export default function DIYForm(props) {
     allgrid: {
       width: '100%',
       height: '10vh',
-      marginBottom: '2vh',
+      marginBottom: '4.5vh',
     }
   }))
   const classes = useStyles()
