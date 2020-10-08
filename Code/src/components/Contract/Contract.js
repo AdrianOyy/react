@@ -92,9 +92,11 @@ export default function Contract(props) {
     contentEl.current.addEventListener("scroll", handleScroll)
     window.addEventListener("resize", handleResize)
     return () => {
+      // eslint-disable-next-line
       contentEl.current.removeEventListener("scroll", handleScroll)
       window.removeEventListener("resize", handleResize)
     }
+    // eslint-disable-next-line
   }, [ contentEl.current ])
 
   const classes = useStyles()

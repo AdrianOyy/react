@@ -173,6 +173,7 @@ export default function CommonWorkflowForm(props) {
           history.push('/')
         })
     }
+    // eslint-disable-next-line
   }, [ argeeContract ])
 
   // 获取业务逻辑
