@@ -1,4 +1,5 @@
 import CommonTip from "../../../components/CommonTip"
+import Api from "../../../api/accountManagement"
 
 export default class AccountManagement {
   // eslint-disable-next-line
@@ -30,7 +31,70 @@ export default class AccountManagement {
         break
       }
     }
+    // if (pass) {
+    //   console.log(parentDataMap)
+    //   const distribution_list = parentDataMap.get('distribution_list')
+    //   if (distribution_list) {
+    //     pass = await this.userExistsMany(distribution_list.value)
+    //   }
+    //   if (pass) {
+    //     const supervisoremailaccount = parentDataMap.get('supervisoremailaccount')
+    //     if (supervisoremailaccount) {
+    //       pass = await this.getUsersByEmails(supervisoremailaccount.value)
+    //     }
+    //   }
+    // }
     return pass
+  }
+
+  async userExistsMany(users) {
+    if (users) {
+      const usernames = users.split(',')
+      return new Promise(function(reslove, reject) {
+        Api.userExistsMany({ usernames }).then(({ data }) => {
+          let pass = true
+          const results = data.data
+          for (const index in results) {
+            if (!results[index]) {
+              pass = false
+              CommonTip.error(`Already added Distribution List ${usernames[index]} is not found`)
+            }
+          }
+          if (pass) {
+            reslove(true)
+          } else {
+            reject(false)
+          }
+        })
+      })
+    } else {
+      return true
+    }
+  }
+
+  async getUsersByEmails(email) {
+    if (email) {
+      const emails = email.split(',')
+      return new Promise(function(reslove, reject) {
+        Api.getUsersByEmails({ emails }).then(({ data }) => {
+          let pass = true
+          const results = data.data
+          for (const index in results) {
+            if (!results[index]) {
+              pass = false
+              CommonTip.error(`Supervisor Email Account ${emails[index]} is not found`)
+            }
+          }
+          if (pass) {
+            reslove(true)
+          } else {
+            reject(false)
+          }
+        })
+      })
+    } else {
+      return true
+    }
   }
 
   // 处理父表数据表
@@ -111,46 +175,39 @@ export default class AccountManagement {
 
 function accountRequired(account_type, fieldName) {
   let required = false
-  if (account_type.indexOf('Internet Account Application') > -1) {
-    switch (fieldName) {
-      case 'internet_email_alias':
-        required = true
-        break
-      case 'internet_email_display_name':
-        required = true
-        break
-      default:
-        required = false
-        break
-    }
-  }
-  if (account_type.indexOf('IBRA Account Application') > -1) {
-    switch (fieldName) {
-      case 'ha_internet_account':
-        required = true
-        break
-      case 'user_name':
-        required = true
-        break
-      case 'owa_hospital_web':
-        required = true
-        break
-      case 'clinical_applications':
-        required = true
-        break
-      case 'nonclinical_applications':
-        required = true
-        break
-      case 'authenticationmethod':
-        required = true
-        break
-      case 'mobile_phone_no_for_receipt_of_sms_otp':
-        required = true
-        break
-      default:
-        required = false
-        break
-    }
+  const internet = account_type.indexOf('Internet Account Application') > -1
+  const ibra = account_type.indexOf('IBRA Account Application') > -1
+  switch (fieldName) {
+    case 'internet_email_alias':
+      required = internet
+      break
+    case 'internet_email_display_name':
+      required = internet
+      break
+    case 'ha_internet_account':
+      required = ibra
+      break
+    case 'user_name':
+      required = ibra
+      break
+    case 'owa_hospital_web':
+      required = ibra
+      break
+    case 'clinical_applications':
+      required = ibra
+      break
+    case 'nonclinical_applications':
+      required = ibra
+      break
+    case 'authenticationmethod':
+      required = ibra
+      break
+    case 'mobile_phone_no_for_receipt_of_sms_otp':
+      required = ibra
+      break
+    default:
+      required = false
+      break
   }
   return required
 }

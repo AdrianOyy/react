@@ -397,19 +397,32 @@ export default function CommonWorkflowForm(props) {
   }
 
   const handleAgrreTaskClick = () => {
-    const agreeModel = {
+    const formUpdate = {
+      pid,
+      formKey,
+      childFormKey,
       taskId,
-      variables: { pass: true },
+      version,
+      parentData: map2object(parentDataMap),
+      childDataList,
     }
-    workflowApi.actionTask(agreeModel)
-      .then(({ data }) => {
-        if (data.status === 400) {
-          CommonTip.error(data.data)
-        } else {
-          CommonTip.success(L('Success'))
-          history.push({ pathname: `/MyApproval` })
-        }
-      })
+    API.update(formUpdate).then(() => {
+      CommonTip.success(L('Success'))
+      history.push({ pathname: `/MyApproval` })
+    })
+    // const agreeModel = {
+    //   taskId,
+    //   variables: { pass: true },
+    // }
+    // workflowApi.actionTask(agreeModel)
+    //   .then(({ data }) => {
+    //     if (data.status === 400) {
+    //       CommonTip.error(data.data)
+    //     } else {
+    //       CommonTip.success(L('Success'))
+    //       history.push({ pathname: `/MyApproval` })
+    //     }
+    //   })
   }
 
   // 子表行内按钮列表
