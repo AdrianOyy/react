@@ -43,7 +43,10 @@ const Button = withStyles((() => ({
 
 const Title = withStyles((() => ({
   root: {
-    minHeight: '8vh'
+    height: '8vh',
+    display: 'flex',
+    alignItems: 'center',
+    maxHeight: '60px',
   }
 })))(DialogTitle)
 
@@ -77,10 +80,20 @@ export default function Contract(props) {
   const contentEl = useRef(null)
 
   useEffect(() => {
+    if (contentEl.current && contentEl.current.scrollTop + contentEl.current.clientHeight === contentEl.current.scrollHeight) {
+      setDisabled(false)
+    } else {
+      setDisabled(true)
+    }
+  }, [ index ])
+
+  useEffect(() => {
     if (!contentEl.current) return () => {}
     contentEl.current.addEventListener("scroll", handleScroll)
+    window.addEventListener("resize", handleResize)
     return () => {
       contentEl.current.removeEventListener("scroll", handleScroll)
+      window.removeEventListener("resize", handleResize)
     }
   }, [ contentEl.current ])
 
@@ -88,10 +101,10 @@ export default function Contract(props) {
 
   const rejectHandle = () => {
     onClose(false)
+    setDisabled(true)
     setIndex(0)
     if (contentEl && contentEl.current) {
       contentEl.current.scrollTop = 0
-      setDisabled(true)
     }
   }
 
@@ -119,11 +132,26 @@ export default function Contract(props) {
     }
   }
 
+  const handleResize = () => {
+    if (contentEl.current.scrollTop + contentEl.current.clientHeight === contentEl.current.scrollHeight) {
+      setDisabled(false)
+    }
+  }
+
+  const onEnter = () => {
+    if (contentEl.current.clientHeight === contentEl.current.scrollHeight) {
+      setDisabled(false)
+    } else {
+      setDisabled(true)
+    }
+  }
+
   return (
     <div>
       <Dialog
         open={open}
         keepMounted
+        onEnter={onEnter}
         onClose={onClose}
         disableBackdropClick
         disableEscapeKeyDown
