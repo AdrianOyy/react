@@ -44,9 +44,9 @@ function List(props) {
   useEffect(() => {
     const groupList = getUser().groupList
     API.getTaskListByGroup({ groupList, limit: rowsPerPage, page: page + 1 }).then(response => {
-      console.log(response)
+      console.log(response.data.data)
       setTotal(response.data.data.total)
-      handleData(response.data.data.mapList)
+      handleData(response.data.data.list)
     })
   }, [ page, rowsPerPage, query ])
 
