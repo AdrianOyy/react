@@ -6,6 +6,8 @@ export default class AccountManagement {
   // eslint-disable-next-line
   async onFieldChange(data, dataMap, ref) {
     const { id } = data
+    console.log(data)
+    console.log('============================333333333333333333333333333')
     switch (id) {
       case 'account_type':
         accountType(data, dataMap)
@@ -13,6 +15,7 @@ export default class AccountManagement {
       default:
         dataMap.set(id, data)
     }
+    console.log(dataMap)
   }
 
   // eslint-disable-next-line
@@ -32,19 +35,19 @@ export default class AccountManagement {
         break
       }
     }
-    // if (pass) {
-    //   console.log(parentDataMap)
-    //   const distribution_list = parentDataMap.get('distribution_list')
-    //   if (distribution_list) {
-    //     pass = await this.userExistsMany(distribution_list.value)
-    //   }
-    //   if (pass) {
-    //     const supervisoremailaccount = parentDataMap.get('supervisoremailaccount')
-    //     if (supervisoremailaccount) {
-    //       pass = await this.getUsersByEmails(supervisoremailaccount.value)
-    //     }
-    //   }
-    // }
+    if (pass) {
+      console.log(parentDataMap)
+      const distribution_list = parentDataMap.get('distribution_list')
+      if (distribution_list) {
+        pass = await this.userExistsMany(distribution_list.value)
+      }
+      if (pass) {
+        const supervisoremailaccount = parentDataMap.get('supervisoremailaccount')
+        if (supervisoremailaccount) {
+          pass = await this.getUsersByEmails(supervisoremailaccount.value)
+        }
+      }
+    }
     return pass
   }
 
@@ -77,7 +80,7 @@ export default class AccountManagement {
     if (email) {
       const emails = email.split(',')
       return new Promise(function(reslove, reject) {
-        Api.getUsersByEmails({ emails }).then(({ data }) => {
+        Api.checkUsers({ emails }).then(({ data }) => {
           let pass = true
           const results = data.data
           for (const index in results) {
@@ -177,6 +180,7 @@ export default class AccountManagement {
     const typeList = typeListString.value.split(',')
     if (typeList.length === 0) return false
     const res = []
+    res.push(ContractItems.get('CORP Account (Personal) Application'))
     typeList.forEach(el => {
       const model = ContractItems.get(el)
       if (model) {
@@ -188,7 +192,7 @@ export default class AccountManagement {
 }
 
 function accountRequired(account_type, fieldName) {
-  let required = false
+  let required = true
   const internet = account_type.indexOf('Internet Account Application') > -1
   const ibra = account_type.indexOf('IBRA Account Application') > -1
   switch (fieldName) {
@@ -220,7 +224,7 @@ function accountRequired(account_type, fieldName) {
       required = ibra
       break
     default:
-      required = false
+      required = true
       break
   }
   return required

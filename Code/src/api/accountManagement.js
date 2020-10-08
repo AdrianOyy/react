@@ -8,8 +8,8 @@ class accountManagement {
   userExistsMany(data) {
     return request.post(`${prefix}/accountManagement/userExistsMany`, data)
   }
-  getUsersByEmails(data) {
-    return request.post(`${prefix}/accountManagement/getUsersByEmails`, data)
+  checkUsers(data) {
+    return request.post(`${prefix}/accountManagement/checkUsers`, data)
   }
 }
 

@@ -104,7 +104,8 @@ export default function CommonWorkflowForm(props) {
 
   const [ isNew, setIsNew ] = useState(false)
 
-  const [ parentDataMap ] = useState(new Map())
+  let [ parentDataMap ] = useState(new Map())
+
   // 原始渲染数据
   const [ rawData, setRawData ] = useState(null)
   // 原始数据
@@ -219,8 +220,6 @@ export default function CommonWorkflowForm(props) {
     }
     // 处理数据
     if (!rawDefaultData) {
-      const parentStartData = logic.handleParentStartData(stepName)
-      setParentDefaultValues(parentStartData)
       return
     }
     const { parentData, childDataList } = rawDefaultData
@@ -455,6 +454,7 @@ export default function CommonWorkflowForm(props) {
 
   const onContractClose = (argee) => {
     setContractOpen(false)
+    // eslint-disable-next-line no-const-assign,no-undef
     setParentDefaultValues(map2object(parentDataMap))
     if (argee) {
       setArgeeContract(true)
