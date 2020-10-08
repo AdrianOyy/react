@@ -15,6 +15,7 @@ import DialogActions from '@material-ui/core/DialogActions'
 import DialogTitle from '@material-ui/core/DialogTitle'
 import Dialog from '@material-ui/core/Dialog'
 import TextField from '@material-ui/core/TextField'
+import Contract from "../../components/Contract"
 import {
   BorderColorOutlined as BorderColorIcon,
 } from "@material-ui/icons"
@@ -108,10 +109,18 @@ export default function CommonWorkflowForm(props) {
   const [ rawData, setRawData ] = useState(null)
   // 原始数据
   const [ rawDefaultData, setRawDefaultData ] = useState(null)
+  // reject dialog
+  const [ shown, setShown ] = useState(false)
+  // 协议对话框打开标识
+  const [ contractOpen, setContractOpen ] = useState(false)
+  // 同意协议标识
+  const [ argeeContract, setArgeeContract ] = useState(false)
+  const [ contractList, setContractList ] = useState([])
+  const childDataListMap = new Map()
   // 子表渲染数据 Map
   const childDataMap = new Map()
-  const childDataListMap = new Map()
-  const [ shown, setShown ] = useState(false)
+  // 协议列表
+
 
   // 获取原始渲染数据、流程实例数据
   useEffect(() => {
@@ -136,7 +145,6 @@ export default function CommonWorkflowForm(props) {
           .then(({ data }) => {
             setCreate(true)
             const { parentData, childDataList } = data.data
-            console.log(data.data)
             setRawDefaultData({
               parentData,
               childDataList
@@ -144,6 +152,27 @@ export default function CommonWorkflowForm(props) {
           })
       })
   }, [ deploymentId, pid ])
+
+  // 是否同意协议
+  useEffect(() => {
+    if (argeeContract) {
+      Loading.show()
+      const form = {
+        processDefinitionId,
+        formKey,
+        childFormKey,
+        parentData: map2object(parentDataMap),
+        childDataList,
+        version
+      }
+      API.create(form)
+        .then(() => {
+          Loading.hide()
+          CommonTip.success(L('Success'))
+          history.push('/')
+        })
+    }
+  }, [ argeeContract ])
 
   // 获取业务逻辑
   useEffect(() => {
@@ -175,7 +204,6 @@ export default function CommonWorkflowForm(props) {
         })
       }
 
-      console.log('==============================1')
       // 获取表头
       const headerList = logic.getHeaderList(childDataListMap, stepName, pageName)
       headerList.push({
@@ -189,10 +217,8 @@ export default function CommonWorkflowForm(props) {
       const fieldList = logic.getFieldList(childDataListMap, stepName, pageName)
       setFieldList(fieldList)
     }
-    console.log(rawDefaultData)
     // 处理数据
     if (!rawDefaultData) {
-      console.log('==============================1')
       const parentStartData = logic.handleParentStartData(stepName)
       setParentDefaultValues(parentStartData)
       return
@@ -200,7 +226,6 @@ export default function CommonWorkflowForm(props) {
     const { parentData, childDataList } = rawDefaultData
     setFormId(parentData.id)
     const handledParentData = logic.handleParentDefaultData(parentData, stepName)
-    console.log(handledParentData)
     setParentDefaultValues(handledParentData)
     if (childFormDetail.length > 0) {
       const handledChildData = logic.handleChildDefaultData(childDataList, childDataListMap)
@@ -294,9 +319,7 @@ export default function CommonWorkflowForm(props) {
       .catch(() => {
         Loading.hide()
       })
-    // console.log()
     // setCheckCount(checkCount + 1)
-    // console.log('check')
   }
 
   const handleCancel = () => {
@@ -317,11 +340,17 @@ export default function CommonWorkflowForm(props) {
         version
       }
       if (processDefinitionId) {
-        API.create(form)
-          .then(() => {
-            CommonTip.success(L('Success'))
-            history.push('/')
-          })
+        const list = logic.getContractList(parentDataMap)
+        if (list && list.length) {
+          setContractList(list)
+          setContractOpen(true)
+        } else {
+          API.create(form)
+            .then(() => {
+              CommonTip.success(L('Success'))
+              history.push('/')
+            })
+        }
       } else {
         const formUpdate = {
           pid,
@@ -335,7 +364,6 @@ export default function CommonWorkflowForm(props) {
         if (stepName === 'T3') {
           let ischeck = true
           for (const child of childDataList) {
-            console.log(child)
             if (!child.checkState) {
               ischeck = false
               CommonTip.error(L('please check vm list'))
@@ -412,6 +440,16 @@ export default function CommonWorkflowForm(props) {
       })
   }
 
+  const onContractClose = (argee) => {
+    setContractOpen(false)
+    setParentDefaultValues(map2object(parentDataMap))
+    if (argee) {
+      setArgeeContract(true)
+    } else {
+      setArgeeContract(false)
+    }
+  }
+
   // 子表行内按钮列表
   const actionList = [
     { label: L('Detail'), icon: <BorderColorIcon />, onClick: handleDetail },
@@ -425,7 +463,6 @@ export default function CommonWorkflowForm(props) {
 
   const handleT1FollowUpClick = () => {
     const childData = map2object(childDataMap)
-    console.log(childData)
     childData.status.value = 'skip'
     childData.checkState = true
     childData.id = childDataList[current].id
@@ -553,8 +590,13 @@ export default function CommonWorkflowForm(props) {
             )
           }
         </ButtonGroup>
-
       </Paper>
+
+      <Contract
+        open={contractOpen}
+        onClose={onContractClose}
+        contractList={contractList}
+      />
 
       <Dialog
         open={shown}

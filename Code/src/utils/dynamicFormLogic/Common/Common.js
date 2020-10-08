@@ -89,5 +89,9 @@ export default class Common {
   getChildFormTitle() {
     return 'Child'
   }
+
+  getContractList() {
+    return false
+  }
 }
 
