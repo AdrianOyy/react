@@ -41,7 +41,7 @@ function List(props) {
   }, [])
 
   useEffect(() => {
-    API.getMyRequest({ ...query, userName: getUser().id.toString(), limit: rowsPerPage, page: page + 1 })
+    API.getMyRequest({ ...query, userName: getUser() && getUser().id ? getUser().id.toString() : '0', limit: rowsPerPage, page: page + 1 })
       .then(response => {
         console.log(response)
         setTotal(response.data.data.total)

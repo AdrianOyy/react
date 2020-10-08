@@ -1,5 +1,6 @@
 import CommonTip from "../../../components/CommonTip"
 import Api from "../../../api/accountManagement"
+import ContractItems from "../../../components/ContractItems"
 
 export default class AccountManagement {
   // eslint-disable-next-line
@@ -99,7 +100,6 @@ export default class AccountManagement {
 
   // 处理父表数据表
   handleParentDefaultData(rawData, stepName) {
-    console.log(rawData)
     return rawData
   }
 
@@ -142,7 +142,6 @@ export default class AccountManagement {
   }
 
   handleParentData(rawData, stepName, pageName) {
-    console.log(rawData)
     rawData && rawData.forEach(el => {
       if (stepName) {
         el.showOnRequest = true
@@ -170,6 +169,21 @@ export default class AccountManagement {
 
   getChildFormTitle() {
     return 'Child'
+  }
+
+  getContractList(parentData) {
+    const typeListString = parentData.get('account_type')
+    if (!typeListString || !typeListString.value) return false
+    const typeList = typeListString.value.split(',')
+    if (typeList.length === 0) return false
+    const res = []
+    typeList.forEach(el => {
+      const model = ContractItems.get(el)
+      if (model) {
+        res.push(model)
+      }
+    })
+    return res
   }
 }
 
@@ -226,7 +240,6 @@ function accountType(data, dataMap) {
   // eslint-disable-next-line no-empty
   const alias_div = document.getElementById('internet_email_alias_div')
   const display_name_div = document.getElementById('internet_email_display_name_div')
-  console.log(value)
   if (value.indexOf('Internet Account Application') > -1) {
     alias_div.style = 'display:block'
     display_name_div.style = 'display:block'

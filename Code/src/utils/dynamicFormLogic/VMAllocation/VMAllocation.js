@@ -220,7 +220,9 @@ export default class VMAllocation {
     return 'VM'
   }
 
-
+  getContractList() {
+    return false
+  }
 }
 
 function checkCPU(data, dataMap) {
