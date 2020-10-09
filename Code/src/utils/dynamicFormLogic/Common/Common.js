@@ -12,6 +12,7 @@ export default class Common {
     return true
   }
 
+
   async checkForm(parentFormDetail, parentDataMap) {
     let pass = true
     // 验证必填字段
@@ -29,6 +30,11 @@ export default class Common {
   // 处理父表数据表
   handleParentDefaultData(rawData, stepName) {
     return rawData
+  }
+
+  handleParentStartData() {
+    const data = {}
+    return data
   }
 
   // 处理子表数据表
@@ -82,6 +88,10 @@ export default class Common {
 
   getChildFormTitle() {
     return 'Child'
+  }
+
+  getContractList() {
+    return false
   }
 }
 

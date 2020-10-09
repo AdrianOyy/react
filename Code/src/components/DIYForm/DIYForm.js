@@ -48,7 +48,7 @@ export default function DIYForm(props) {
     allgrid: {
       width: '100%',
       height: '10vh',
-      marginBottom: '2vh',
+      marginBottom: '4.5vh',
     }
   }))
   const classes = useStyles()
@@ -108,6 +108,7 @@ export default function DIYForm(props) {
                       isNew={isNew}
                       disabled={!el.writable}
                       onChange={onChange}
+                      selectChange={el.selectChange}
                       label={el.fieldDisplayName}
                       valueField={el.valueField}
                       labelField={el.labelField}

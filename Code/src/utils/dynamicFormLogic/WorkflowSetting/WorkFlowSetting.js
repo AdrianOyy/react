@@ -100,6 +100,10 @@ export default class WorkFlowSetting {
   getChildFormTitle() {
     return 'Child'
   }
+
+  getContractList() {
+    return false
+  }
 }
 
 function checkInputType(data, dataMap) {

@@ -33,46 +33,29 @@ export default function HACheckBox(props) {
     onChange,
     itemList,
     labelField,
-    defaultValue
+    defaultValue,
+    selectChange
   } = props
 
   const [ value, setValue ] = useState([])
-  const [ checkvalues, setCheckValues ] = useState([])
 
   const handleChange = (e) => {
     const data = JSON.parse(JSON.stringify(value))
-    let checks = JSON.parse(JSON.stringify(checkvalues))
+    let checks = []
     data[e.target.name] = e.target.checked
+    selectChange && selectChange(e.target.name, e.target.checked, data)
     setValue(data)
-    if (e.target.checked === true) {
-      if (checks.indexOf(e.target.name) ===  -1) {
-        checks.push(e.target.name)
-      }
-    } else {
-      const index = checks.indexOf(e.target.name)
-      if (index !== -1) {
-        checks.splice(index, 1)
+    for (const check in data) {
+      if (data[check]) {
+        checks.push(check)
       }
     }
-    setCheckValues(checks)
     onChange({ id, label: checks.join(','), value: checks.join(',') })
-    // setNewValue(e.target.value)
   }
-
-  // useEffect(() => {
-  //   setNewValue(defaultValue ? (defaultValue.value ? defaultValue.value : defaultValue) : '')
-  //   defaultValue && onChange && onChange(defaultValue)
-  // }, [ defaultValue, onChange ])
-
-  // useEffect(() => {
-  //   if (isNew) {
-  //     setNewValue('')
-  //   }
-  // }, [ isNew ])
 
   useEffect(() => {
     let stt = []
-    const value = defaultValue ? (defaultValue.value ? defaultValue.value : defaultValue) : ''
+    const value = defaultValue ? (defaultValue.value ? defaultValue.value : (typeof defaultValue === 'string' ? defaultValue : '')) : ''
     if (value) {
       stt = value.split(',')
     }
@@ -81,7 +64,10 @@ export default function HACheckBox(props) {
       data[itemList[i][labelField]] = stt.indexOf(itemList[i][labelField]) > -1
     }
     setValue(data)
-    onChange({ id, label: value, value })
+    value && onChange && onChange({ id, label: value, value })
+    console.log('===============================c1')
+    console.log(labelField)
+    console.log(value)
     // eslint-disable-next-line
   }, [ itemList, defaultValue, onChange ])
 
@@ -150,7 +136,7 @@ export default function HACheckBox(props) {
           {
             itemList && itemList.map((el, i) => (
               <FormControlLabel key={el[labelField] + '__' + i}
-                control={<Checkbox checked={value[el[labelField]] ? value[el[labelField]] : false} onChange={handleChange} name={el[labelField]} />}
+                control={<Checkbox disabled={!!el.disabled} checked={value[el[labelField]] ? value[el[labelField]] : false} onChange={handleChange} name={el[labelField]} />}
                 label={el[labelField]}
               />
             ))
