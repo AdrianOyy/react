@@ -13,7 +13,7 @@ exports.lang = {
     Name: 'Name',
     Actions: 'Actions',
 
-    Approval: 'Approval',
+    Approval: 'Approve',
     Assignee: 'Assignee',
     Group: 'Group',
     T1: 'T1',
@@ -28,7 +28,7 @@ exports.lang = {
     'T6 Follow Up Success': 'T6 Follow Up Success',
     'T2 Follow Up Success': 'T2 Follow Up Success',
     'T1 Follow Up Success': 'T1 Follow Up Success',
-    'please check vm list': 'please check vm list',
-    'Check successfully': 'Check successfully',
+    'please check vm list': 'Please check VM list',
+    'Check successfully': 'Check Successfully',
   }
 }
