@@ -1,6 +1,6 @@
 import React from "react"
 import styled from "styled-components"
-
+import { L } from '../../../utils/lang'
 import {
   Box,
   Card as MuiCard,
@@ -65,7 +65,7 @@ function Stats({ title, amount, chip, percentageText, percentagecolor }) {
           mb={4}
           percentagecolor={percentagecolor}
         >
-          <span>{percentageText}</span> Since last week
+          <span>{percentageText}</span>{L('Since last week')}
         </Percentage>
         <Chip label={chip} />
       </CardContent>

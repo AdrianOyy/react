@@ -4,6 +4,7 @@ import dayjs from "dayjs"
 
 import DetailPage from "../../../../../components/DetailPage"
 import API from "../../../../../api/adGroup"
+import { L } from '../../../../../utils/lang'
 
 const formTitle = 'Detail'
 
@@ -34,9 +35,9 @@ function Detail(props) {
 
   useEffect(() => {
     const list = [
-      { id: 'name', label: 'Name', type: 'text', disabled: true, readOnly: true, value: name },
-      { id: 'createdAt', label: 'Created At', type: 'text', disabled: true, readOnly: true, value: formatDateTime(createdAt) },
-      { id: 'updatedAt', label: 'Updated At', type: 'text', disabled: true, readOnly: true, value: formatDateTime(updatedAt) },
+      { id: 'name', label: L('Name'), type: 'text', disabled: true, readOnly: true, value: name },
+      { id: 'createdAt', label: L('Created At'), type: 'text', disabled: true, readOnly: true, value: formatDateTime(createdAt) },
+      { id: 'updatedAt', label: L('Updated At'), type: 'text', disabled: true, readOnly: true, value: formatDateTime(updatedAt) },
     ]
     setFormFieldList(list)
   }, [ name, createdAt, updatedAt ])

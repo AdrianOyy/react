@@ -3,7 +3,7 @@ import styled from "styled-components"
 
 import { CardContent, Card as MuiCard, Typography } from "@material-ui/core"
 import { spacing } from "@material-ui/system"
-
+import { L } from '../../../utils/lang'
 import GoogleMapReact from "google-map-react"
 
 const Card = styled(MuiCard)(spacing)
@@ -205,10 +205,10 @@ function DarkStyle() {
     <Card mb={1}>
       <CardContent>
         <Typography variant="h6" gutterBottom>
-          Dark Style
+          {L('Dark Style')}
         </Typography>
         <Typography variant="body2" gutterBottom>
-          Dark color scheme.
+          {L('Dark color scheme.')}
         </Typography>
 
         <Spacer mb={6} />

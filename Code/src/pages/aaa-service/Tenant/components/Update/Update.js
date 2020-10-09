@@ -8,6 +8,7 @@ import CommonTip from "../../../../../components/CommonTip"
 import { useHistory } from 'react-router-dom'
 import { checkEmpty } from "../../untils/tenantFieldCheck"
 import adGroupApi from "../../../../../api/adGroup"
+import { L } from '../../../../../utils/lang'
 
 
 function Update(props) {
@@ -92,7 +93,8 @@ function Update(props) {
     }
     setSaving(true)
     API.update(id,
-      { name,
+      {
+        name,
         manager_group_id: managerGroupId,
         supporter_group_id: supporterGroupId,
         group_id: groupId,
@@ -101,7 +103,7 @@ function Update(props) {
         project_estimation, methodology_text
       })
       .then(() => {
-        CommonTip.success("Success")
+        CommonTip.success(L('Success'))
         history.push({ pathname: '/aaa-service/tenant' })
       })
       .catch(() => {
@@ -138,62 +140,62 @@ function Update(props) {
   useEffect(() => {
     const list = [
       {
-        id: 'code', label: 'Code', type: 'text', readOnly: true, disabled: true, value: code,
+        id: 'code', label: L('Code'), type: 'text', readOnly: true, disabled: true, value: code,
       },
       {
-        id: 'name', label: 'Name', type: 'text', required: true, readOnly: false,
+        id: 'name', label: L('Name'), type: 'text', required: true, readOnly: false,
         value: name, error: nameError, helperText: nameHelperText
       },
       {
-        id: 'managerGroupId', label: 'Manager Group', type: "select",
+        id: 'managerGroupId', label: L('Manager Group'), type: "select",
         readOnly: false, itemList: adGroupList, value: managerGroupId,
         labelField: 'name', valueField: 'id',
       },
       {
-        id: 'supporterGroupId', label: 'Supporter Group', type: "select",
+        id: 'supporterGroupId', label: L('Supporter Group'), type: "select",
         readOnly: false, itemList: adGroupList, value: supporterGroupId,
         labelField: 'name', valueField: 'id',
       },
       {
-        id: 'groupId', label: 'Group', required: true, itemList: groupList,
+        id: 'groupId', label: L('Group'), required: true, itemList: groupList,
         type: "select", labelField: 'name', valueField: 'id', value: groupId,
       },
       {
-        id: 'justification', label: 'justification', type: 'text', required: true, readOnly: false,
+        id: 'justification', label: L('justification'), type: 'text', required: true, readOnly: false,
         value: justification,
         error: justificationError, helperText: justificationHelperText
       },
       {
-        id: 'budget_type', label: 'budget_type', type: 'text', required: true, readOnly: false,
+        id: 'budget_type', label: L('budget_type'), type: 'text', required: true, readOnly: false,
         value: budget_type,
         error: budget_typeError, helperText: budget_typeHelperText
       },
       {
-        id: 'project_owner', label: 'project_owner', type: 'text', required: true, readOnly: false,
+        id: 'project_owner', label: L('project_owner'), type: 'text', required: true, readOnly: false,
         value: project_owner,
         error: project_ownerError, helperText: project_ownerHelperText
       },
       {
-        id: 'contact_person', label: 'contact_person', type: 'text', required: true, readOnly: false,
+        id: 'contact_person', label: L('contact_person'), type: 'text', required: true, readOnly: false,
         value: contact_person,
         error: contact_personError, helperText: contact_personHelperText
       },
       {
-        id: 'project_estimation', label: 'project_estimation', type: 'text', required: true, readOnly: false,
+        id: 'project_estimation', label: L('project_estimation'), type: 'text', required: true, readOnly: false,
         value: project_estimation,
         error: project_estimationError, helperText: project_estimationHelperText
       },
       {
-        id: 'methodology_text', label: 'methodology_text', type: 'text', required: true, readOnly: false,
+        id: 'methodology_text', label: L('methodology_text'), type: 'text', required: true, readOnly: false,
         value: methodology_text,
         error: methodology_textError, helperText: methodology_textHelperText
       },
       {
-        id: 'createdAt', label: 'Created At', type: 'text', disabled: true,
+        id: 'createdAt', label: L('Created At'), type: 'text', disabled: true,
         readOnly: true, value: formatDateTime(createdAt)
       },
       {
-        id: 'updatedAt', label: 'Updated At', type: 'text', disabled: true,
+        id: 'updatedAt', label: L('Updated At'), type: 'text', disabled: true,
         readOnly: true, value: formatDateTime(updatedAt)
       },
     ]
@@ -331,7 +333,7 @@ function Update(props) {
   return (
     <React.Fragment>
       <DetailPage
-        formTitle = 'Update'
+        formTitle={L('Update')}
         onFormFieldChange = {onFormFieldChange}
         onFormFieldBlur = {onFormFieldBlur}
         formFieldList = {formFieldList}

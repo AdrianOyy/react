@@ -3,6 +3,7 @@ import styled from "styled-components"
 
 import { CardContent, Card as MuiCard, Typography } from "@material-ui/core"
 import { spacing } from "@material-ui/system"
+import { L } from '../../../utils/lang'
 
 import GoogleMapReact from "google-map-react"
 
@@ -42,7 +43,7 @@ function Markers() {
         lng: -74.005941
       },
       map,
-      title: "Hello World!"
+      title: L('Hello World') + '!'
     })
   }
 
@@ -50,10 +51,10 @@ function Markers() {
     <Card mb={1}>
       <CardContent>
         <Typography variant="h6" gutterBottom>
-          Markers
+          {L('Markers')}
         </Typography>
         <Typography variant="body2" gutterBottom>
-          Identify a location on a map.
+          {L('Identify a location on a map.')}
         </Typography>
 
         <Spacer mb={6} />

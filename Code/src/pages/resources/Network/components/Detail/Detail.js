@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import DetailPage from "../../../../../components/DetailPage"
 import ExpandTable from "../../../../../components/ExpandTable"
 import API from "../../../../../api/inventory"
+import { L } from '../../../../../utils/lang'
 import { useParams } from "react-router-dom"
 import dayjs from "dayjs"
 import PropTypes from 'prop-types'
@@ -56,9 +57,9 @@ const showPolicy = {
     'CurVer', 'NxBtVer', 'BlockDHCP', 'MedicalNW', 'NetworkApplied', 'Group'
   ],
   labels: [
-    'id', '_ID', 'InventoryID', 'Gateway', 'Subnet', 'Config File',
-    'Current Firmware Version', 'Next Boot Firmware Version',
-    'DHCP Snooping', 'MedicalNW', 'Network Applied', 'Group'
+    L('id'), L('_ID'), L('InventoryID'), L('Gateway'), L('Subnet'), L('Config File'),
+    L('Current Firmware Version'), L('Next Boot Firmware Version'),
+    L('DHCP Snooping'), L('MedicalNW'), L('Network Applied'), L('Group')
   ]
 }
 
@@ -68,7 +69,7 @@ const showPowerInput = {
     'id', '_ID', 'PowerID', 'InputType', 'InventoryID',
   ],
   labels: [
-    'id', '_ID', 'Power ID', 'Inlet Type', 'Inventory ID'
+    L('id'), L('_ID'), L('Power ID'), L('Inlet Type'), L('InventoryID')
   ]
 }
 
@@ -80,9 +81,9 @@ const showEquipmentPort = {
     'Duplex', 'VLanID', 'PortPolicyType', 'PortPolicy', 'ConnectingInventory'
   ],
   labels: [
-    'id', '_ID', 'Unit Code', 'Slot', 'Port', 'Port Type', 'Outlet ID',
-    'Remark of Equipment Port', 'Outlet Status', 'Port Security', 'Port Polarity', 'Port Speed',
-    'Duplex', 'VLAN', 'Port Policy Type', 'Port Policy', 'Connecting Inventory'
+    L('id'), L('_ID'), L('Unit Code'), L('Slot'), L('Port'), L('Port Type'), L('Outlet ID'),
+    L('Remark of Equipment Port'), L('Outlet Status'), L('Port Security'), L('Port Polarity'), L('Port Speed'),
+    L('Duplex'), L('VLAN'), L('Port Policy Type'), L('Port Policy'), L('Connecting Inventory'),
   ]
 }
 
@@ -95,10 +96,10 @@ const showPortAssignment = {
     'PortAssignmentRemarks', 'IPAddRef'
   ],
   labels: [
-    'id', '_ID', 'EquipPortID', 'Slot', 'Port', 'Requester Team', 'Port Usage', 'Port Assign Status',
-    'Port Assign Date', 'Port Assigner ID', 'Port Assigner Display Name', 'Port Teaming Equip',
-    'PortTeaming Equip Port', 'Move In Ref', 'Machine IP', 'Machine Host Name',
-    'Port Assignment Remarks', 'IP Add Ref'
+    L('id'), L('_ID'), L('EquipPortID'), L('Slot'), L('Port'), L('Requester Team'), L('Port Usage'), L('Port Assign Status'),
+    L('Port Assign Date'), L('Port Assigner ID'), L('Port Assigner Display Name'), L('Port Teaming Equip'),
+    L('PortTeaming Equip Port'), L('Move In Ref'), L('Machine IP'), L('Machine Host Name'),
+    L('Port Assignment Remarks'), L('IP Add Ref'),
   ]
 }
 
@@ -108,7 +109,7 @@ const showPowerOutput = {
     'id', '_ID', 'PowerID', 'OutletType', 'InventoryID',
   ],
   labels: [
-    'id', '_ID', 'Power ID', 'Outlet Type', 'Inventory ID'
+    L('id'), L('_ID'), L('Power ID'), L('Outlet Type'), L('Inventory ID')
   ]
 }
 
@@ -214,12 +215,12 @@ function Detail(props) {
         if (equipType && equipType.Type === 'EqNetwork') {
           setShowProps([
             {
-              label: 'Network',
+              label: L('Network'),
               id: `simple-tab-0`,
               'aria-controls': `simple-tabpanel-0`,
             },
             {
-              label: 'Assigment',
+              label: L('Assigment'),
               id: `simple-tab-1`,
               'aria-controls': `simple-tabpanel-1`,
             },
@@ -232,7 +233,7 @@ function Detail(props) {
         ) {
           setShowProps([
             {
-              label: 'Network',
+              label: L('Assigment'),
               id: `simple-tab-0`,
               'aria-controls': `simple-tabpanel-0`,
             },
@@ -245,87 +246,87 @@ function Detail(props) {
   useEffect(() => {
     const inventoryList = [
       {
-        id: '_ID', label: 'Ref. ID', type: 'text',
+        id: '_ID', label: L('Ref. ID'), type: 'text',
         disabled: true, readOnly: true, value: _ID
       },
       {
-        id: 'UnitCode', label: 'New', type: 'text',
+        id: 'UnitCode', label: L('New'), type: 'text',
         disabled: true, readOnly: true, value: UnitCode
       },
       {
-        id: 'AssetID', label: 'Asset No', type: 'text',
+        id: 'AssetID', label: L('Asset No'), type: 'text',
         disabled: true, readOnly: true, value: AssetID
       },
       {
-        id: 'ModelCode', label: 'Model Code', type: 'text',
+        id: 'ModelCode', label: L('Model Code'), type: 'text',
         disabled: true, readOnly: true, value: ModelCode
       },
       {
-        id: 'ModelDesc', label: 'Description', type: 'text',
+        id: 'ModelDesc', label: L('Description'), type: 'text',
         disabled: true, readOnly: true, value: ModelDesc
       },
       {
-        id: 'ClosetID', label: 'Closet ID', type: 'text',
+        id: 'ClosetID', label: L('Closet ID'), type: 'text',
         disabled: true, readOnly: true, value: ClosetID
       },
       {
-        id: 'Rack', label: 'Cabinet', type: 'text',
+        id: 'Rack', label: L('Cabinet'), type: 'text',
         disabled: true, readOnly: true, value: Rack
       },
       {
-        id: 'RLU', label: 'Pos. (U)', type: 'text',
+        id: 'RLU', label: L('Pos. (U)'), type: 'text',
         disabled: true, readOnly: true, value: RLU
       },
       {
-        id: 'ItemOwner', label: 'Item Owner', type: 'text',
+        id: 'ItemOwner', label: L('Item Owner'), type: 'text',
         disabled: true, readOnly: true, value: ItemOwner
       },
       {
-        id: 'ServiceStatus', label: 'Status', type: 'text',
+        id: 'ServiceStatus', label: L('Status'), type: 'text',
         disabled: true, readOnly: true, value: ServiceStatus
       },
       {
-        id: 'Remark', label: 'Remark', type: 'text',
+        id: 'Remark', label: L('Remark'), type: 'text',
         disabled: true, readOnly: true, value: Remark
       },
       {
-        id: 'EquipType', label: 'EquipType', type: 'text',
+        id: 'EquipType', label: L('EquipType'), type: 'text',
         disabled: true, readOnly: true, value: EquipType
       },
       {
-        id: 'UnitNo', label: 'Unit No', type: 'text',
+        id: 'UnitNo', label: L('Unit No'), type: 'text',
         disabled: true, readOnly: true, value: UnitNo
       },
       {
-        id: 'PortQty', label: 'Built-in Port', type: 'text',
+        id: 'PortQty', label: L('Built-in Port'), type: 'text',
         disabled: true, readOnly: true, value: PortQty
       },
       {
-        id: 'ReqNo', label: 'Req. Form', type: 'text',
+        id: 'ReqNo', label: L('Req. Form'), type: 'text',
         disabled: true, readOnly: true, value: ReqNo
       },
       {
-        id: 'DOB', label: 'DOB', type: 'text',
+        id: 'DOB', label: L('DOB'), type: 'text',
         disabled: true, readOnly: true, value: formatDateTime(DOB)
       },
       {
-        id: 'DeliveryDate', label: 'Delivery Date', type: 'text',
+        id: 'DeliveryDate', label: L('Delivery Date'), type: 'text',
         disabled: true, readOnly: true, value: formatDateTime(DeliveryDate)
       },
       {
-        id: 'DeliveryNoteReceivedDate', label: 'Delivery Note Received Date', type: 'text',
+        id: 'DeliveryNoteReceivedDate', label: L('Delivery Note Received Date'), type: 'text',
         disabled: true, readOnly: true, value: formatDateTime(DeliveryNoteReceivedDate)
       },
       {
-        id: 'MaintID', label: 'MaintID', type: 'text',
+        id: 'MaintID', label: L('MaintID'), type: 'text',
         disabled: true, readOnly: true, value: MaintID
       },
       {
-        id: 'createdAt', label: 'Created At', type: 'text',
+        id: 'createdAt', label: L('Created At'), type: 'text',
         disabled: true, readOnly: true, value: formatDateTime(createdAt)
       },
       {
-        id: 'updatedAt', label: 'Updated At', type: 'text',
+        id: 'updatedAt', label: L('Updated At'), type: 'text',
         disabled: true, readOnly: true, value: formatDateTime(updatedAt)
       },
     ]
@@ -419,19 +420,19 @@ function Detail(props) {
         </Tabs>
         <TabPanel value={value} index={0}>
           <ExpandTable
-            label="Policy"
+            label={L('Policy')}
             rows={policys}
             show={showPolicy}
           />
           <ExpandTable
-            label="PowerInput"
+            label={L('PowerInput')}
             rows={powerInputs}
             show={showPowerInput}
           />
           {
             (EquipType === 'EqUPS' || EquipType === 'EqPDU' || EquipType === 'EqATS') ?
               <ExpandTable
-                label="PowerOutput"
+                label={L('PowerOutput')}
                 rows={powerOutputs}
                 show={showPowerOutput}
               /> : null
@@ -439,7 +440,7 @@ function Detail(props) {
         </TabPanel>
         <TabPanel value={value} index={1}>
           <ExpandTable
-            label="Equipment Port"
+            label={L('Equipment Port')}
             rows={equipmentPorts}
             show={showEquipmentPort}
           />

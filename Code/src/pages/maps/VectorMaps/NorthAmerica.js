@@ -1,5 +1,6 @@
 import React from "react"
 import styled from "styled-components"
+import { L } from '../../../utils/lang'
 
 import { CardContent, Card as MuiCard, Typography } from "@material-ui/core"
 
@@ -35,7 +36,7 @@ function NorthAmerica() {
     <Card mb={6}>
       <CardContent>
         <Typography variant="h6" gutterBottom>
-        North America Map
+          {L('North America Map')}
         </Typography>
         <MapContainer>
           <VectorMap {...options} />

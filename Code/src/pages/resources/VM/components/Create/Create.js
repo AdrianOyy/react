@@ -6,7 +6,7 @@ import CommonTip from "../../../../../components/CommonTip"
 import { useHistory } from 'react-router-dom'
 import { checkEmpty, getCheckExist } from "../../untils/VMFieldCheck"
 import tenantApi from "../../../../../api/tenant"
-
+import { L } from '../../../../../utils/lang'
 function Create(props) {
   const { onMount } = props
   const history = useHistory()
@@ -103,7 +103,7 @@ function Create(props) {
       projectManager,
       section
     }).then(() => {
-      CommonTip.success("Success")
+      CommonTip.success(L('Success'))
       history.push({ pathname: '/resources/vm' })
     }).catch(() => {
       setSaving(false)
@@ -130,87 +130,87 @@ function Create(props) {
   useEffect(() => {
     const list = [
       {
-        id: 'serialNumber', label: 'SerialNumber', type: 'text',
+        id: 'serialNumber', label: L('SerialNumber'), type: 'text',
         required: true, readOnly: false, value: serialNumber,
         error: serialNumberError, helperText: serialNumberHelperText
       },
       {
-        id: 'model', label: 'Model', type: 'text',
+        id: 'model', label: L('Model'), type: 'text',
         required: false, readOnly: false, value: model,
       },
       {
-        id: 'assignedMemory', label: 'Assigned Memory(GB)', type: 'text',
+        id: 'assignedMemory', label: L('Assigned Memory(GB)'), type: 'text',
         required: true, readOnly: false, value: assignedMemory,
         error: assignedMemoryError, helperText: assignedMemoryHelperText
       },
       {
-        id: 'assignedCPUCores', label: 'Assigned CPU Cores', type: 'text',
+        id: 'assignedCPUCores', label: L('Assigned CPU Cores'), type: 'text',
         required: true, readOnly: false, value: assignedCPUCores,
         error: assignedCPUCoresError, helperText: assignedCPUCoresHelperText
       },
       {
-        id: 'diskVolumeName', label: 'Disk Volume Name', type: 'text',
+        id: 'diskVolumeName', label: L('Disk Volume Name'), type: 'text',
         required: false, readOnly: false, value: diskVolumeName,
       },
       {
-        id: 'CSVName', label: 'CSV Name', type: 'text',
+        id: 'CSVName', label: L('CSV Name'), type: 'text',
         required: false, readOnly: false, value: CSVName,
       },
       {
-        id: 'diskSize', label: 'Disk Size', type: 'text',
+        id: 'diskSize', label: L('Disk Size'), type: 'text',
         required: true, readOnly: false, value: diskSize,
         error: diskSizeError, helperText: diskSizeHelperText
       },
       {
-        id: 'status', label: 'Status', type: 'text',
+        id: 'status', label: L('Status'), type: 'text',
         required: false, readOnly: false, value: status,
       },
       {
-        id: 'hostname', label: 'Hostname', type: 'text',
+        id: 'hostname', label: L('Hostname'), type: 'text',
         required: false, readOnly: false, value: hostname,
       },
       {
-        id: 'VMClusterId', label: 'VM Cluster', type: 'select',
+        id: 'VMClusterId', label: L('VM Cluster'), type: 'select',
         value: VMClusterId, itemList: clusterList,
         labelField: 'VMClusterName', valueField: 'id',
         error: VMClusterIdError, helperText: VMClusterIdHelperText,
       },
       {
-        id: 'OS', label: 'OS', type: 'text',
+        id: 'OS', label: L('OS'), type: 'text',
         required: false, readOnly: false, value: OS,
       },
       {
-        id: 'serverRole', label: 'Server Role', type: 'text',
+        id: 'serverRole', label: L('Server Role'), type: 'text',
         required: false, readOnly: false, value: serverRole,
       },
       {
-        id: 'hostIP', label: 'Host IP', type: 'text',
+        id: 'hostIP', label: L('Host IP'), type: 'text',
         required: false, readOnly: false, value: hostIP,
       },
       {
-        id: 'ATLIP', label: 'ATL IP', type: 'text',
+        id: 'ATLIP', label: L('ATL IP'), type: 'text',
         required: false, readOnly: false, value: ATLIP,
       },
       {
-        id: 'magementHost', label: 'Magement Host', type: 'text',
+        id: 'magementHost', label: L('Magement Host'), type: 'text',
         required: false, readOnly: false, value: magementHost,
       },
       {
-        id: 'extraIPs', label: 'Extra IPs', type: 'text',
+        id: 'extraIPs', label: L('Extra IPs'), type: 'text',
         required: false, readOnly: false, value: extraIPs,
       },
       {
-        id: 'remarks', label: 'Remarks', type: 'text',
+        id: 'remarks', label: L('Remarks'), type: 'text',
         required: false, readOnly: false, value: remarks,
       },
       {
-        id: 'tenant', label: 'Tenant', type: 'select',
+        id: 'tenant', label: L('Tenant'), type: 'select',
         value: tenantId, itemList: tenantList,
         labelField: 'name', valueField: 'id',
         error: tenantError, helperText: tenantHelperText,
       },
       {
-        id: 'section', label: 'Section', type: 'text',
+        id: 'section', label: L('Section'), type: 'text',
         required: false, readOnly: false, value: section,
       },
     ]
@@ -396,7 +396,7 @@ function Create(props) {
   return (
     <React.Fragment>
       <DetailPage
-        formTitle = 'Create'
+        formTitle={L('Create')}
         onFormFieldChange = {onFormFieldChange}
         onFormFieldBlur = {onFormFieldBlur}
         formFieldList = {formFieldList}

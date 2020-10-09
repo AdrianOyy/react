@@ -1,7 +1,7 @@
 import React from "react"
 import styled from "styled-components"
 import { NavLink as RouterNavLink } from "react-router-dom"
-
+import { L } from '../../utils/lang'
 import Helmet from 'react-helmet'
 
 import {
@@ -95,11 +95,11 @@ function stableSort(array, comparator) {
 }
 
 const headCells = [
-  { id: 'name', numeric: false, disablePadding: true, label: 'Dessert (100g serving)' },
-  { id: 'calories', numeric: true, disablePadding: false, label: 'Calories' },
-  { id: 'fat', numeric: true, disablePadding: false, label: 'Fat (g)' },
-  { id: 'carbs', numeric: true, disablePadding: false, label: 'Carbs (g)' },
-  { id: 'protein', numeric: true, disablePadding: false, label: 'Protein (g)' },
+  { id: 'name', numeric: false, disablePadding: true, label: L('Dessert (100g serving)') },
+  { id: 'calories', numeric: true, disablePadding: false, label: L('Calories') },
+  { id: 'fat', numeric: true, disablePadding: false, label: L('Fat (g)') },
+  { id: 'carbs', numeric: true, disablePadding: false, label: L('Carbs (g)') },
+  { id: 'protein', numeric: true, disablePadding: false, label: L('Protein (g)') },
 ]
 
 function EnhancedTableHead(props) {
@@ -116,7 +116,7 @@ function EnhancedTableHead(props) {
             indeterminate={numSelected > 0 && numSelected < rowCount}
             checked={rowCount > 0 && numSelected === rowCount}
             onChange={onSelectAllClick}
-            inputProps={{ 'aria-label': 'select all desserts' }}
+            inputProps={{ 'aria-label': L('select all desserts') }}
           />
         </TableCell>
         {headCells.map((headCell) => (
@@ -148,29 +148,29 @@ let EnhancedTableToolbar = props => {
       <div>
         {numSelected > 0 ? (
           <Typography color="inherit" variant="subtitle1">
-            {numSelected} selected
+            {numSelected} {' ' + L('selected')}
           </Typography>
         ) : (
-          <Typography variant="h6" id="tableTitle">
-            Nutrition
-          </Typography>
-        )}
+            <Typography variant="h6" id="tableTitle">
+              {L('Nutrition')}
+            </Typography>
+          )}
       </div>
       <Spacer />
       <div>
         {numSelected > 0 ? (
-          <Tooltip title="Delete">
-            <IconButton aria-label="Delete">
+          <Tooltip title={L('Delete')}>
+            <IconButton aria-label={L('Delete')}>
               <DeleteIcon />
             </IconButton>
           </Tooltip>
         ) : (
-          <Tooltip title="Filter list">
-            <IconButton aria-label="Filter list">
-              <FilterListIcon />
-            </IconButton>
-          </Tooltip>
-        )}
+            <Tooltip title={L('Filter list')}>
+              <IconButton aria-label={L('Filter list')}>
+                <FilterListIcon />
+              </IconButton>
+            </Tooltip>
+          )}
       </div>
     </Toolbar>
   )
@@ -244,7 +244,7 @@ function EnhancedTable() {
           <Table
             aria-labelledby="tableTitle"
             size={dense ? 'small' : 'medium'}
-            aria-label="enhanced table"
+            aria-label={L('enhanced table')}
           >
             <EnhancedTableHead
               numSelected={selected.length}
@@ -307,7 +307,7 @@ function EnhancedTable() {
       </Paper>
       <FormControlLabel
         control={<Switch checked={dense} onChange={handleChangeDense} />}
-        label="Dense padding"
+        label={L('Dense padding')}
       />
     </div>
   )
@@ -316,19 +316,19 @@ function EnhancedTable() {
 function AdvancedTable() {
   return (
     <React.Fragment>
-      <Helmet title="Advanced Table" />
+      <Helmet title={L('Advanced Table')} />
       <Typography variant="h3" gutterBottom display="inline">
-        Advanced Table
+        {L('Advanced Table')}
       </Typography>
 
-      <Breadcrumbs aria-label="Breadcrumb" mt={2}>
+      <Breadcrumbs aria-label={L('Breadcrumb')} mt={2}>
         <Link component={NavLink} exact to="/">
-          Dashboard
+          {L('Dashboard')}
         </Link>
         <Link component={NavLink} exact to="/">
-          Tables
+          {L('Tables')}
         </Link>
-        <Typography>Advanced Table</Typography>
+        <Typography>{L('Advanced Table')}</Typography>
       </Breadcrumbs>
 
       <Divider my={6} />

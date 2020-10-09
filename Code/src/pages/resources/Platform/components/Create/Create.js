@@ -5,6 +5,7 @@ import API from "../../../../../api/platform"
 import CommonTip from "../../../../../components/CommonTip"
 import { useHistory } from 'react-router-dom'
 import { checkEmpty, getCheckExist } from "../../untils/PlatformFieldCheck"
+import { L } from '../../../../../utils/lang'
 
 
 function Create(props) {
@@ -32,7 +33,7 @@ function Create(props) {
     setSaving(true)
     API.create({ name, typeId })
       .then(() => {
-        CommonTip.success("Success")
+        CommonTip.success(L('Success'))
         history.push({ pathname: '/resources/platform' })
       })
       .catch(() => {
@@ -52,12 +53,12 @@ function Create(props) {
   useEffect(() => {
     const list = [
       {
-        id: 'name', label: 'Name', type: 'text',
+        id: 'name', label: L('Name'), type: 'text',
         required: true, readOnly: false, value: name,
         error: nameError, helperText: nameHelperText
       },
       {
-        id: 'typeId', label: 'Type', type: 'select',
+        id: 'typeId', label: L('Type'), type: 'select',
         value: typeId, itemList: typeList,
         labelField: 'name', valueField: 'id',
         error: typeIdError, helperText: typeIdHelperText,
@@ -118,7 +119,7 @@ function Create(props) {
   return (
     <React.Fragment>
       <DetailPage
-        formTitle = 'Create'
+        formTitle={L('Create')}
         onFormFieldChange = {onFormFieldChange}
         onFormFieldBlur = {onFormFieldBlur}
         formFieldList = {formFieldList}

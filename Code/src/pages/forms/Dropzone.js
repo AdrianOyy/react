@@ -14,7 +14,7 @@ import {
   Divider as MuiDivider,
   Typography
 } from "@material-ui/core"
-
+import { L } from '../../utils/lang'
 import { DropzoneArea, DropzoneDialog } from 'material-ui-dropzone'
 
 import { spacing } from "@material-ui/system"
@@ -42,10 +42,10 @@ function DefaultDropzone() {
     <Card mb={6}>
       <CardContent>
         <Typography variant="h6" gutterBottom>
-          Default Dropzone
+          {L('Default Dropzone')}
         </Typography>
         <Typography variant="body2" gutterBottom>
-          Material-UI-Dropzone is a React component using Material-UI and is based on the excellent react-dropzone library.
+          {L('Material-UI-DropzoneDes')}
         </Typography>
 
         <Spacer mb={4} />
@@ -69,16 +69,16 @@ function DialogDropzone() {
     <Card mb={6}>
       <CardContent>
         <Typography variant="h6" gutterBottom>
-          Dialog Dropzone
+          {L('Dialog Dropzone')}
         </Typography>
         <Typography variant="body2" gutterBottom>
-          Material-UI-Dropzone is a React component using Material-UI and is based on the excellent react-dropzone library.
+          {L('Material-UI-DropzoneDes')}
         </Typography>
 
         <Spacer mb={4} />
 
         <Button variant="contained" color="primary" onClick={() => setOpen(true)}>
-          Open dialog
+          {L('Open dialog')}
         </Button>
 
         <DropzoneDialog
@@ -97,19 +97,19 @@ function Dropzone() {
   return (
     <React.Fragment>
       <GlobalStyleDropzone />
-      <Helmet title="Dropzone" />
+      <Helmet title={L('Dropzone')} />
       <Typography variant="h3" gutterBottom display="inline">
-        Dropzone
+        {L('Dropzone')}
       </Typography>
 
       <Breadcrumbs aria-label="Breadcrumb" mt={2}>
         <Link component={NavLink} exact to="/">
-          Dashboard
+          {L('Dashboard')}
         </Link>
         <Link component={NavLink} exact to="/">
-          Components
+          {L('Components')}
         </Link>
-        <Typography>Dropzone</Typography>
+        <Typography>{L('Dropzone')}</Typography>
       </Breadcrumbs>
 
       <Divider my={6} />

@@ -1,7 +1,7 @@
 import React from "react"
 import styled from "styled-components"
 import { Link } from "react-router-dom"
-
+import { L } from '../../utils/lang'
 import Helmet from 'react-helmet'
 
 import {
@@ -27,28 +27,28 @@ const Wrapper = styled(Paper)`
 function SignUp() {
   return (
     <Wrapper>
-      <Helmet title="Sign Up" />
+      <Helmet title={L('Sign Up')} />
       <Typography component="h1" variant="h4" align="center" gutterBottom>
-        Get started
+        {L('Get started')}
       </Typography>
       <Typography component="h2" variant="body1" align="center">
-        Start creating the best possible user experience for you customers
+        {L('creatingExperience')}
       </Typography>
       <form>
         <FormControl margin="normal" required fullWidth>
-          <InputLabel htmlFor="name">Name</InputLabel>
+          <InputLabel htmlFor="name">{L('Name')}</InputLabel>
           <Input id="name" name="name" autoFocus />
         </FormControl>
         <FormControl margin="normal" required fullWidth>
-          <InputLabel htmlFor="company">Company</InputLabel>
+          <InputLabel htmlFor="company">{L('Company')}</InputLabel>
           <Input id="company" name="company" />
         </FormControl>
         <FormControl margin="normal" required fullWidth>
-          <InputLabel htmlFor="email">Email Address</InputLabel>
+          <InputLabel htmlFor="email">{L('Email Address')}</InputLabel>
           <Input id="email" name="email" autoComplete="email" />
         </FormControl>
         <FormControl margin="normal" required fullWidth>
-          <InputLabel htmlFor="password">Password</InputLabel>
+          <InputLabel htmlFor="password">{L('Password')}</InputLabel>
           <Input
             name="password"
             type="password"
@@ -64,7 +64,7 @@ function SignUp() {
           color="primary"
           mt={2}
         >
-          Sign up
+          {L('Sign up')}
         </Button>
       </form>
     </Wrapper>

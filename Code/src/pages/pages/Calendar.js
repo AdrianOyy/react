@@ -9,7 +9,7 @@ import dayGridPlugin from "@fullcalendar/daygrid"
 import interactionPlugin from "@fullcalendar/interaction"
 
 import demoEvents from "./demo-events.json"
-
+import { L } from '../../utils/lang'
 import {
   Breadcrumbs as MuiBreadcrumbs,
   Card as MuiCard,
@@ -68,17 +68,17 @@ function Calendar() {
     <React.Fragment>
       <Helmet title="Calendar" />
       <Typography variant="h3" gutterBottom display="inline">
-        Calendar
+        {L('Calendar')}
       </Typography>
 
       <Breadcrumbs aria-label="Breadcrumb" mt={2}>
         <Link component={NavLink} exact to="/">
-          Dashboard
+          {L('Dashboard')}
         </Link>
         <Link component={NavLink} exact to="/">
-          Pages
+          {L('Pages')}
         </Link>
-        <Typography>Calendar</Typography>
+        <Typography>{L('Calendar')}</Typography>
       </Breadcrumbs>
 
       <Divider my={6} />

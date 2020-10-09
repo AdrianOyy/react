@@ -1,6 +1,7 @@
 import React from "react"
 import ReactDOM from "react-dom"
 import styled from "styled-components"
+import { L } from '../../../utils/lang'
 
 import { CardContent, Card as MuiCard, Typography } from "@material-ui/core"
 import { spacing } from "@material-ui/system"
@@ -61,11 +62,10 @@ function Streetview() {
     <Card mb={1}>
       <CardContent>
         <Typography variant="h6" gutterBottom>
-          Streetview
+          {L('Streetview')}
         </Typography>
         <Typography variant="body2" gutterBottom>
-          Panoramic 360 degree views from designated roads throughout its
-          coverage area.
+          {L('StreetviewDes')}
         </Typography>
 
         <Spacer mb={6} />

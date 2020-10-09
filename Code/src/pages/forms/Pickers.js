@@ -1,6 +1,7 @@
 import React, { useState } from "react"
 import styled from "styled-components"
 import { NavLink as RouterNavLink } from "react-router-dom"
+import { L } from '../../utils/lang'
 
 import Helmet from 'react-helmet'
 
@@ -37,17 +38,16 @@ function DatePickers() {
     <Card mb={6}>
       <CardContent>
         <Typography variant="h6" gutterBottom>
-          Date pickers
+          {L('Date pickers')}
         </Typography>
         <Typography variant="body2" gutterBottom>
-          A native date picker example with <code>type="date"</code>, it can be
-          used as a calendar too.
+          {L('Date pickersDes')}
         </Typography>
         <Paper mt={3}>
           <form noValidate>
             <TextField
               id="date"
-              label="Birthday"
+              label={L('Birthday')}
               type="date"
               defaultValue="2017-05-24"
               InputLabelProps={{
@@ -66,10 +66,10 @@ function DateAndTimePickers() {
     <Card mb={6}>
       <CardContent>
         <Typography variant="h6" gutterBottom>
-          Date & Time pickers
+          {L('Date & Time pickers')}
         </Typography>
         <Typography variant="body2" gutterBottom>
-          A native date & time picker example with{" "}
+          {L('datetime picker example')}{" "}
           <code>type="datetime-local"</code>.
         </Typography>
         <Paper mt={3}>
@@ -95,16 +95,17 @@ function TimePickers() {
     <Card mb={6}>
       <CardContent>
         <Typography variant="h6" gutterBottom>
-          Time pickers
+          {L('Time pickers')}
         </Typography>
         <Typography variant="body2" gutterBottom>
-          A native time picker example with <code>type="time"</code>.
+          {L('datetime picker example')}
+          <code>type="time"</code>.
         </Typography>
         <Paper mt={3}>
           <form noValidate>
             <TextField
               id="time"
-              label="Alarm clock"
+              label={L('Alarm clock')}
               type="time"
               defaultValue="07:30"
               InputLabelProps={{
@@ -128,16 +129,15 @@ function MaterialUIPickersDatePicker() {
     <Card mb={6}>
       <CardContent>
         <Typography variant="h6" gutterBottom>
-          Material-UI pickers | Date picker
+          {L('Material-UI pickers | Date picker')}
         </Typography>
         <Typography variant="body2" gutterBottom>
-          Date pickers use a dialog window or an inline popover to select a
-          single date.
+          {L('Date pickers dialog des')}
         </Typography>
         <Paper mt={3}>
           <DatePicker
             margin="normal"
-            label="Date picker"
+            label={L('Date picker')}
             value={selectedDate}
             onChange={setSelectedDate}
           />
@@ -154,16 +154,15 @@ function MaterialUIPickersTimePicker() {
     <Card mb={6}>
       <CardContent>
         <Typography variant="h6" gutterBottom>
-          Material-UI pickers | Time picker
+          {L('Material-UI pickers | Time picker')}
         </Typography>
         <Typography variant="body2" gutterBottom>
-          Time pickers use a dialog to select a single time (in the
-          hours:minutes format).
+          {L('Time pickers dialog des')}
         </Typography>
         <Paper mt={3}>
           <TimePicker
             margin="normal"
-            label="Time picker"
+            label={L('Time picker')}
             value={selectedDate}
             onChange={setSelectedDate}
           />
@@ -174,22 +173,21 @@ function MaterialUIPickersTimePicker() {
 }
 
 function MaterialUIPickersDateAndTimePicker() {
-  const [ selectedDate, setSelectedDate ] = useState(new Date("2014-08-18T21:11:54"))
+  const [selectedDate, setSelectedDate] = useState(new Date("2014-08-18T21:11:54"))
 
   return (
     <Card mb={6}>
       <CardContent>
         <Typography variant="h6" gutterBottom>
-          Material-UI pickers | Date & Time picker
+          {L('Material-UI pickers | Date & Time picker')}
         </Typography>
         <Typography variant="body2" gutterBottom>
-          Time pickers use a dialog to select a single time (in the
-          hours:minutes format).
+          {L('DateTime picker dialog des')}
         </Typography>
         <Paper mt={3}>
           <DateTimePicker
             margin="normal"
-            label="Date & Time picker"
+            label={L('Date & Time picker')}
             value={selectedDate}
             onChange={setSelectedDate}
           />
@@ -202,19 +200,19 @@ function MaterialUIPickersDateAndTimePicker() {
 function Pickers() {
   return (
     <React.Fragment>
-      <Helmet title="Pickers" />
+      <Helmet title={L('Pickers')} />
       <Typography variant="h3" gutterBottom display="inline">
-        Pickers
+        {L('Pickers')}
       </Typography>
 
       <Breadcrumbs aria-label="Breadcrumb" mt={2}>
         <Link component={NavLink} exact to="/">
-          Dashboard
+          {L('Dashboard')}
         </Link>
         <Link component={NavLink} exact to="/">
-          Forms
+          {L('Forms')}
         </Link>
-        <Typography>Pickers</Typography>
+        <Typography>{L('Pickers')}</Typography>
       </Breadcrumbs>
 
       <Divider my={6} />

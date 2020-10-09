@@ -13,6 +13,7 @@ import { getUrl } from '../../../../../utils/user'
 import prefix from '../../../../../utils/prefix'
 import CommonTip from "../../../../../components/CommonTip"
 import Loading from "../../../../../components/Loading"
+import { L } from '../../../../../utils/lang'
 import {
   EventAvailable as EventAvailableIcon,
   BorderColorOutlined as BorderColorIcon,
@@ -21,7 +22,8 @@ import {
 
 const createPrefix = prefix.workflow
 const Paper = styled(MuiPaper)(spacing)
-const tableName = 'List'
+const tableName = L('List')
+
 
 
 function List(props) {

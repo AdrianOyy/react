@@ -1,6 +1,7 @@
 import React from "react"
 import styled from "styled-components"
 import { NavLink as RouterNavLink } from "react-router-dom"
+import { L } from '../../utils/lang'
 
 import Helmet from 'react-helmet'
 
@@ -41,20 +42,20 @@ function SimpleCard() {
     <Card mb={6}>
       <CardContent>
         <Typography color="textSecondary" gutterBottom>
-          Word of the Day
+          {L('Word of the Day')}
         </Typography>
         <Typography variant="h5" component="h2">
-          be•nev•o•lent
+          {L('benevolent')}
         </Typography>
-        <Typography color="textSecondary">adjective</Typography>
+        <Typography color="textSecondary">{L('adjective')}</Typography>
         <Typography component="p">
-          well meaning and kindly.
+          {L('well meaning and kindly.')}
           <br />
-          {'"a benevolent smile"'}
+          {L('a benevolent smile')}
         </Typography>
       </CardContent>
       <CardActions>
-        <Button size="small">Learn More</Button>
+        <Button size="small">{L('Learn More')}</Button>
       </CardActions>
     </Card>
   )
@@ -70,21 +71,19 @@ function MediaCard() {
         />
         <CardContent>
           <Typography gutterBottom variant="h5" component="h2">
-            Lizard
+            {L('Lizard')}
           </Typography>
           <Typography component="p">
-            Etiam rhoncus. Maecenas tempus, tellus eget condimentum rhoncus, sem
-            quam semper libero, sit amet adipiscing sem neque sed ipsum. Nam
-            quam nunc, blandit vel, luctus pulvinar.
+            {L('LizardDes')}
           </Typography>
         </CardContent>
       </CardActionArea>
       <CardActions>
         <Button size="small" color="primary">
-          Share
+          {L('Share')}
         </Button>
         <Button size="small" color="primary">
-          Learn More
+          {L('Learn More')}
         </Button>
       </CardActions>
     </Card>
@@ -94,19 +93,19 @@ function MediaCard() {
 function Cards() {
   return (
     <React.Fragment>
-      <Helmet title="Cards" />
+      <Helmet title={L('Cards')} />
       <Typography variant="h3" gutterBottom display="inline">
-        Cards
+        {L('Cards')}
       </Typography>
 
       <Breadcrumbs aria-label="Breadcrumb" mt={2}>
         <Link component={NavLink} exact to="/">
-          Dashboard
+          {L('Dashboard')}
         </Link>
         <Link component={NavLink} exact to="/">
-          Components
+          {L('Components')}
         </Link>
-        <Typography>Cards</Typography>
+        <Typography>{L('Cards')}</Typography>
       </Breadcrumbs>
 
       <Divider my={6} />

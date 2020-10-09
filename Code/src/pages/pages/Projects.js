@@ -3,6 +3,7 @@ import styled from "styled-components"
 import { NavLink as RouterNavLink } from "react-router-dom"
 
 import Helmet from 'react-helmet'
+import { L } from '../../utils/lang'
 
 import {
   Avatar,
@@ -61,7 +62,7 @@ const AvatarGroup = styled(MuiAvatarGroup)`
 function Project({ image, title, description, chip }) {
   return (
     <Card mb={6}>
-      {image ? <CardMedia image={image} title="Contemplative Reptile" /> : null}
+      {image ? <CardMedia image={image} title={L('Contemplative Reptile')} /> : null}
       <CardContent>
         <Typography gutterBottom variant="h5" component="h2">
           {title}
@@ -81,10 +82,10 @@ function Project({ image, title, description, chip }) {
       </CardContent>
       <CardActions>
         <Button size="small" color="primary">
-          Share
+          {L('Share')}
         </Button>
         <Button size="small" color="primary">
-          Learn More
+          {L('Learn More')}
         </Button>
       </CardActions>
     </Card>
@@ -94,20 +95,20 @@ function Project({ image, title, description, chip }) {
 function Projects() {
   return (
     <React.Fragment>
-      <Helmet title="Projects" />
+      <Helmet title={L('Projects')} />
 
       <Typography variant="h3" gutterBottom display="inline">
-        Projects
+        {L('Projects')}
       </Typography>
 
       <Breadcrumbs aria-label="Breadcrumb" mt={2}>
         <Link component={NavLink} exact to="/">
-          Dashboard
+          {L('Dashboard')}
         </Link>
         <Link component={NavLink} exact to="/">
-          Pages
+          {L('Pages')}
         </Link>
-        <Typography>Projects</Typography>
+        <Typography>{L('Projects')}</Typography>
       </Breadcrumbs>
 
       <Divider my={6} />
@@ -115,35 +116,35 @@ function Projects() {
       <Grid container spacing={6}>
         <Grid item xs={12} lg={6} xl={3}>
           <Project
-            title="Landing page redesign"
+            title={L('Landing page redesign')}
             description="Etiam rhoncus. Maecenas tempus, tellus eget condimentum rhoncus, sem quam semper libero, sit amet adipiscing sem neque sed ipsum."
             chip={<Chip label="Finished" rgbcolor={green[500]} />}
           />
         </Grid>
         <Grid item xs={12} lg={6} xl={3}>
           <Project
-            title="Company posters"
+            title={L('Company posters')}
             description="Curabitur ligula sapien, tincidunt non, euismod vitae, posuere imperdiet, leo. Maecenas malesuada. Praesent congue erat at massa."
             chip={<Chip label="In progress" rgbcolor={orange[500]} />}
           />
         </Grid>
         <Grid item xs={12} lg={6} xl={3}>
           <Project
-            title="Product page design"
+            title={L('Product page design')}
             description="Etiam rhoncus. Maecenas tempus, tellus eget condimentum rhoncus, sem quam semper libero, sit amet adipiscing sem neque sed ipsum."
             chip={<Chip label="Finished" rgbcolor={green[500]} />}
           />
         </Grid>
         <Grid item xs={12} lg={6} xl={3}>
           <Project
-            title="Upgrade CRM software"
+            title={L('Upgrade CRM software')}
             description="Nam pretium turpis et arcu. Duis arcu tortor, suscipit eget, imperdiet nec, imperdiet iaculis, ipsum. Sed aliquam ultrices mauris."
             chip={<Chip label="In progress" rgbcolor={orange[500]} />}
           />
         </Grid>
         <Grid item xs={12} lg={6} xl={3}>
           <Project
-            title="Fix form validation"
+            title={L('Fix form validation')}
             description="Nam pretium turpis et arcu. Duis arcu tortor, suscipit eget, imperdiet nec, imperdiet iaculis, ipsum. Sed aliquam ultrices mauris."
             chip={<Chip label="In progress" rgbcolor={orange[500]} />}
             image="/static/img/unsplash/unsplash-1.jpg"
@@ -151,7 +152,7 @@ function Projects() {
         </Grid>
         <Grid item xs={12} lg={6} xl={3}>
           <Project
-            title="New company logo"
+            title={L('New company logo')}
             description="Etiam rhoncus. Maecenas tempus, tellus eget condimentum rhoncus, sem quam semper libero, sit amet adipiscing sem neque sed ipsum."
             chip={<Chip label="On hold" rgbcolor={red[500]} />}
             image="/static/img/unsplash/unsplash-2.jpg"
@@ -159,7 +160,7 @@ function Projects() {
         </Grid>
         <Grid item xs={12} lg={6} xl={3}>
           <Project
-            title="Upgrade to latest Maps API"
+            title={L('Upgrade to latest Maps API')}
             description="Nam pretium turpis et arcu. Duis arcu tortor, suscipit eget, imperdiet nec, imperdiet iaculis, ipsum. Sed aliquam ultrices mauris."
             chip={<Chip label="Finished" rgbcolor={green[500]} />}
             image="/static/img/unsplash/unsplash-3.jpg"
@@ -167,7 +168,7 @@ function Projects() {
         </Grid>
         <Grid item xs={12} lg={6} xl={3}>
           <Project
-            title="Refactor backend templates"
+            title={L('Refactor backend templates')}
             description="Curabitur ligula sapien, tincidunt non, euismod vitae, posuere imperdiet, leo. Maecenas malesuada. Praesent congue erat at massa."
             chip={<Chip label="On hold" rgbcolor={red[500]} />}
             image="/static/img/unsplash/unsplash-4.jpg"

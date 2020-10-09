@@ -2,6 +2,7 @@ import React from "react"
 import styled, { withTheme } from "styled-components"
 
 import { blue, green, red, orange } from "@material-ui/core/colors"
+import { L } from '../../../utils/lang'
 
 import {
   Card as MuiCard,
@@ -71,7 +72,7 @@ const RedText = styled.span`
 
 const PieChart = ({ theme }) => {
   const data = {
-    labels: [ "Social", "Search Engines", "Direct", "Other" ],
+    labels: [L('Social'), L('Search Engines'), L('Direct'), L('Other')],
     datasets: [
       {
         data: [ 260, 125, 164 ],
@@ -101,29 +102,29 @@ const PieChart = ({ theme }) => {
             <MoreVertical />
           </IconButton>
         }
-        title="Source / Medium"
+        title={L('Source / Medium')}
       />
 
       <CardContent>
         <ChartWrapper>
           <DoughnutInner variant="h4">
             <Typography variant="h4">+23%</Typography>
-            <Typography variant="caption">new visitors</Typography>
+            <Typography variant="caption">{L('new visitors')}</Typography>
           </DoughnutInner>
           <Doughnut data={data} options={options} />
         </ChartWrapper>
         <Table>
           <TableHead>
             <TableRow>
-              <TableCell>Source</TableCell>
-              <TableCell align="right">Revenue</TableCell>
-              <TableCell align="right">Value</TableCell>
+              <TableCell>{L('Source')}</TableCell>
+              <TableCell align="right">{L('Revenue')}</TableCell>
+              <TableCell align="right">{L('Value')}</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             <TableRow>
               <TableCell component="th" scope="row">
-                Social
+                {L('Social')}
               </TableCell>
               <TableCell align="right">260</TableCell>
               <TableCell align="right">
@@ -132,7 +133,7 @@ const PieChart = ({ theme }) => {
             </TableRow>
             <TableRow>
               <TableCell component="th" scope="row">
-                Search Engines
+                {L('Search Engines')}
               </TableCell>
               <TableCell align="right">125</TableCell>
               <TableCell align="right">
@@ -141,7 +142,7 @@ const PieChart = ({ theme }) => {
             </TableRow>
             <TableRow>
               <TableCell component="th" scope="row">
-                Direct
+                {L('Direct')}
               </TableCell>
               <TableCell align="right">164</TableCell>
               <TableCell align="right">

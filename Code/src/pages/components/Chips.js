@@ -1,6 +1,7 @@
 import React, { useState } from "react"
 import styled from "styled-components"
 import { NavLink as RouterNavLink } from "react-router-dom"
+import { L } from '../../utils/lang'
 
 import Helmet from 'react-helmet'
 
@@ -38,34 +39,33 @@ const Breadcrumbs = styled(MuiBreadcrumbs)(spacing)
 
 const DefaultChips = () => {
   const handleDelete = () => {
-    alert("You clicked the delete icon.")
+    alert(L('You clicked the delete icon.'))
   }
 
   const handleClick = () => {
-    alert("You clicked the chip.")
+    alert(L('You clicked the chip.'))
   }
 
   return (
     <Card mb={6}>
       <CardContent>
         <Typography variant="h6" gutterBottom>
-          Default Chips
+          {L('Default Chips')}
         </Typography>
         <Typography variant="body2" gutterBottom>
-          Examples of Chips, using an image Avatar, SVG Icon Avatar, "Letter"
-          and (string) Avatar.
+          {L('defaultChipsDes')}
         </Typography>
         <div>
-          <Chip label="Basic Chip" m={1} />
+          <Chip label={L('Basic Chip')} m={1} />
           <Chip
-            avatar={<Avatar>MB</Avatar>}
-            label="Clickable Chip"
+            avatar={<Avatar>{L('MB')}</Avatar>}
+            label={L('Clickable Chip')}
             onClick={handleClick}
             m={1}
           />
           <Chip
             avatar={<Avatar alt="Natacha" src="/static/img/avatars/avatar-1.jpg" />}
-            label="Deletable Chip"
+            label={L('Deletable Chip')}
             onDelete={handleDelete}
             m={1}
           />
@@ -75,35 +75,35 @@ const DefaultChips = () => {
                 <FaceIcon />
               </Avatar>
             }
-            label="Clickable Deletable Chip"
+            label={L('Clickable Deletable Chip')}
             onClick={handleClick}
             onDelete={handleDelete}
             m={1}
           />
           <Chip
             icon={<FaceIcon />}
-            label="Clickable Deletable Chip"
+            label={L('Clickable Deletable Chip')}
             onClick={handleClick}
             onDelete={handleDelete}
             m={1}
           />
           <Chip
-            label="Custom delete icon Chip"
+            label={L('Custom delete icon Chip')}
             onClick={handleClick}
             onDelete={handleDelete}
             deleteIcon={<DoneIcon />}
             m={1}
           />
           <Chip
-            label="Clickable Link Chip"
+            label={L('Clickable Link Chip')}
             component="a"
             href="#chip"
             clickable
             m={1}
           />
           <Chip
-            avatar={<Avatar>MB</Avatar>}
-            label="Primary Clickable Chip"
+            avatar={<Avatar>{L('MB')}</Avatar>}
+            label={L('Primary Clickable Chip')}
             clickable
             color="primary"
             onDelete={handleDelete}
@@ -112,7 +112,7 @@ const DefaultChips = () => {
           />
           <Chip
             icon={<FaceIcon />}
-            label="Primary Clickable Chip"
+            label={L('Primary Clickable Chip')}
             clickable
             color="primary"
             onDelete={handleDelete}
@@ -120,7 +120,7 @@ const DefaultChips = () => {
             m={1}
           />
           <Chip
-            label="Deletable Primary Chip"
+            label={L('Deletable Primary Chip')}
             onDelete={handleDelete}
             color="primary"
             m={1}
@@ -131,14 +131,14 @@ const DefaultChips = () => {
                 <FaceIcon />
               </Avatar>
             }
-            label="Deletable Secondary Chip"
+            label={L('Deletable Secondary Chip')}
             onDelete={handleDelete}
             color="secondary"
             m={1}
           />
           <Chip
             icon={<FaceIcon />}
-            label="Deletable Secondary Chip"
+            label={L('Deletable Secondary Chip')}
             onDelete={handleDelete}
             color="secondary"
             m={1}
@@ -151,34 +151,34 @@ const DefaultChips = () => {
 
 const OutlinedChips = () => {
   const handleDelete = () => {
-    alert("You clicked the delete icon.")
+    alert(L('You clicked the delete icon.'))
   }
 
   const handleClick = () => {
-    alert("You clicked the chip.")
+    alert(L('You clicked the chip.'))
   }
 
   return (
     <Card mb={6}>
       <CardContent>
         <Typography variant="h6" gutterBottom>
-          Outlined Chips
+          {L('Outlined Chips')}
         </Typography>
         <Typography variant="body2" gutterBottom>
-          Outlined chips offer an alternative style.
+          {L('outlinedChipsDes')}
         </Typography>
         <div>
-          <Chip label="Basic Chip" m={1} />
+          <Chip label={L('Basic Chip')} m={1} />
           <Chip
-            avatar={<Avatar>MB</Avatar>}
-            label="Clickable Chip"
+            avatar={<Avatar>{L('MB')}</Avatar>}
+            label={L('Clickable Chip')}
             onClick={handleClick}
             m={1}
             variant="outlined"
           />
           <Chip
-            avatar={<Avatar alt="Natacha" src="/static/img/avatars/avatar-1.jpg" />}
-            label="Deletable Chip"
+            avatar={<Avatar alt={L('Natacha')} src="/static/img/avatars/avatar-1.jpg" />}
+            label={L('Deletable Chip')}
             onDelete={handleDelete}
             m={1}
             variant="outlined"
@@ -189,7 +189,7 @@ const OutlinedChips = () => {
                 <FaceIcon />
               </Avatar>
             }
-            label="Clickable Deletable Chip"
+            label={L('Clickable Deletable Chip')}
             onClick={handleClick}
             onDelete={handleDelete}
             m={1}
@@ -197,14 +197,14 @@ const OutlinedChips = () => {
           />
           <Chip
             icon={<FaceIcon />}
-            label="Clickable Deletable Chip"
+            label={L('Clickable Deletable Chip')}
             onClick={handleClick}
             onDelete={handleDelete}
             m={1}
             variant="outlined"
           />
           <Chip
-            label="Custom delete icon Chip"
+            label={L('Custom delete icon Chip')}
             onClick={handleClick}
             onDelete={handleDelete}
             deleteIcon={<DoneIcon />}
@@ -212,7 +212,7 @@ const OutlinedChips = () => {
             variant="outlined"
           />
           <Chip
-            label="Clickable Link Chip"
+            label={L('Clickable Link Chip')}
             component="a"
             href="#chip"
             clickable
@@ -220,8 +220,8 @@ const OutlinedChips = () => {
             variant="outlined"
           />
           <Chip
-            avatar={<Avatar>MB</Avatar>}
-            label="Primary Clickable Chip"
+            avatar={<Avatar>{L('MB')}</Avatar>}
+            label={L('Primary Clickable Chip')}
             clickable
             color="primary"
             onDelete={handleDelete}
@@ -231,7 +231,7 @@ const OutlinedChips = () => {
           />
           <Chip
             icon={<FaceIcon />}
-            label="Primary Clickable Chip"
+            label={L('Primary Clickable Chip')}
             clickable
             color="primary"
             onDelete={handleDelete}
@@ -240,7 +240,7 @@ const OutlinedChips = () => {
             variant="outlined"
           />
           <Chip
-            label="Deletable Primary Chip"
+            label={L('Deletable Primary Chip')}
             onDelete={handleDelete}
             color="primary"
             m={1}
@@ -252,7 +252,7 @@ const OutlinedChips = () => {
                 <FaceIcon />
               </Avatar>
             }
-            label="Deletable Secondary Chip"
+            label={L('Deletable Secondary Chip')}
             onDelete={handleDelete}
             color="secondary"
             m={1}
@@ -260,7 +260,7 @@ const OutlinedChips = () => {
           />
           <Chip
             icon={<FaceIcon />}
-            label="Deletable Secondary Chip"
+            label={L('Deletable Secondary Chip')}
             onDelete={handleDelete}
             color="secondary"
             m={1}
@@ -274,16 +274,16 @@ const OutlinedChips = () => {
 
 const ChipArray = () => {
   const [ chipData, setChipData ] = useState([
-    { key: 0, label: "Angular" },
-    { key: 1, label: "jQuery" },
-    { key: 2, label: "Polymer" },
-    { key: 3, label: "React" },
-    { key: 4, label: "Vue.js" }
+    { key: 0, label: L("Angular") },
+    { key: 1, label: L("jQuery") },
+    { key: 2, label: L("Polymer") },
+    { key: 3, label: L("React") },
+    { key: 4, label: L("Vue.js") }
   ])
 
   const handleDelete = data => () => {
-    if (data.label === "React") {
-      alert("Why would you want to delete React?! :)") // eslint-disable-line no-alert
+    if (data.label === L("React")) {
+      alert(L('whyDelReact')) // eslint-disable-line no-alert
       return
     }
 
@@ -294,16 +294,16 @@ const ChipArray = () => {
     <Card mb={6}>
       <CardContent>
         <Typography variant="h6" gutterBottom>
-          Chip array
+          {L('Chip array')}
         </Typography>
         <Typography variant="body2" gutterBottom>
-          An example of rendering multiple Chips from an array of values
+          {L('chipArrayDes')}
         </Typography>
         <div>
           {chipData.map(data => {
             let icon = null
 
-            if (data.label === "React") {
+            if (data.label === L("React")) {
               icon = <TagFacesIcon />
             }
 
@@ -326,19 +326,19 @@ const ChipArray = () => {
 function Chips() {
   return (
     <React.Fragment>
-      <Helmet title="Chips" />
+      <Helmet title={L('Chips')} />
       <Typography variant="h3" gutterBottom display="inline">
-        Chips
+        {L('Chips')}
       </Typography>
 
       <Breadcrumbs aria-label="Breadcrumb" mt={2}>
         <Link component={NavLink} exact to="/">
-          Dashboard
+          {L('Dashboard')}
         </Link>
         <Link component={NavLink} exact to="/">
-          Components
+          {L('Components')}
         </Link>
-        <Typography>Chips</Typography>
+        <Typography>{L('Chips')}</Typography>
       </Breadcrumbs>
 
       <Divider my={6} />
