@@ -444,6 +444,7 @@ export default function CommonWorkflowForm(props) {
       childDataList,
     }
     API.update(formUpdate).then(() => {
+      Loading.hide()
       CommonTip.success(L('Success'))
       history.push({ pathname: `/MyApproval` })
     })
