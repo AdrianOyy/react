@@ -1,13 +1,12 @@
 import CommonTip from "../../../components/CommonTip"
 import Api from "../../../api/accountManagement"
 import ContractItems from "../../../components/ContractItems"
+import encryption from "../../encryption"
 
 export default class AccountManagement {
   // eslint-disable-next-line
   async onFieldChange(data, dataMap, ref) {
     const { id } = data
-    console.log(data)
-    console.log('============================333333333333333333333333333')
     switch (id) {
       case 'account_type':
         accountType(data, dataMap)
@@ -15,7 +14,6 @@ export default class AccountManagement {
       default:
         dataMap.set(id, data)
     }
-    console.log(dataMap)
   }
 
   // eslint-disable-next-line
@@ -104,6 +102,10 @@ export default class AccountManagement {
   // 处理父表数据表
   handleParentDefaultData(rawData, stepName) {
     return rawData
+  }
+
+  encryptionData(from) {
+    console.log(from)
   }
 
   handleParentStartData() {
@@ -251,7 +253,6 @@ function accountType(data, dataMap) {
     alias_div.style = 'display:none'
     display_name_div.style = 'display:none'
   }
-  const HA_Internet_Account = document.getElementById('ha_internet_account_div')
   const User_Name = document.getElementById('user_name_div')
   const OWA_Webmail_Hospital_home_page = document.getElementById('owa_hospital_web_div')
   const Clinical_Applications = document.getElementById('clinical_applications_div')
@@ -260,7 +261,6 @@ function accountType(data, dataMap) {
   const Mobile_Phone_No_for_Receipt_of_SMS_OTP = document.getElementById('mobile_phone_no_for_receipt_of_sms_otp_div')
 
   if (value.indexOf('IBRA Account Application') > -1) {
-    HA_Internet_Account.style = 'display:block'
     User_Name.style = 'display:block'
     OWA_Webmail_Hospital_home_page.style = 'display:block'
     Clinical_Applications.style = 'display:block'
@@ -268,7 +268,6 @@ function accountType(data, dataMap) {
     AuthenticationMethod.style = 'display:block'
     Mobile_Phone_No_for_Receipt_of_SMS_OTP.style = 'display:block'
   } else {
-    HA_Internet_Account.style = 'display:none'
     User_Name.style = 'display:none'
     OWA_Webmail_Hospital_home_page.style = 'display:none'
     Clinical_Applications.style = 'display:none'
