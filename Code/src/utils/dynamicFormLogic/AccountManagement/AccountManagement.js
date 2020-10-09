@@ -107,6 +107,7 @@ export default class AccountManagement {
   beforeSubmit(dataMap) {
     const hkid = dataMap.get('hkid')
     hkid.value = encryption(hkid.value)
+    hkid.label = encryption(hkid.label)
   }
 
   handleParentStartData() {
@@ -159,6 +160,9 @@ export default class AccountManagement {
             t.disabled = true
           }
         })
+      }
+      if (el.fieldName === 'hkid' && stepName !== 'create') {
+        el.readable = false
       }
     })
     switch (stepName) {

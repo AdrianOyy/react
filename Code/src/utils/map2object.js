@@ -36,6 +36,5 @@ export function map2Values(strMap) {
     }
     values.push(data)
   }
-  console.log(values)
   return values
 }

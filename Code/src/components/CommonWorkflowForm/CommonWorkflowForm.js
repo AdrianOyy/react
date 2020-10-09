@@ -163,11 +163,11 @@ export default function CommonWorkflowForm(props) {
         processDefinitionId,
         formKey,
         childFormKey,
+        workflowName,
         parentData: map2object(parentDataMap),
         childDataList,
         version
       }
-      // console.log(form)
       API.create(form)
         .then(() => {
           Loading.hide()
@@ -339,6 +339,7 @@ export default function CommonWorkflowForm(props) {
         processDefinitionId,
         formKey,
         childFormKey,
+        workflowName,
         parentData: map2object(parentDataMap),
         childDataList,
         version
@@ -432,6 +433,7 @@ export default function CommonWorkflowForm(props) {
   }
 
   const handleAgrreTaskClick = () => {
+    Loading.show()
     const formUpdate = {
       pid,
       formKey,
