@@ -3,7 +3,7 @@ import CommonPage from "../../../components/CommonPage"
 import { List, Create } from './components'
 
 const parentTitle = 'Workflow'
-const title = 'Account management'
+const title = 'Account Management'
 
 function Account() {
   const props = {
