@@ -5,6 +5,7 @@ import {
   TablePagination,
   Paper as MuiPaper,
 } from "@material-ui/core"
+import { L } from '../../../../../utils/lang'
 
 import { CommonTable, SearchBar } from '../../../../../components'
 import API from "../../../../../api/workFlow"
@@ -59,7 +60,7 @@ function List(props) {
         name: el.name,
         startTime: formatDateTime(el.startTime),
         endTime: el.endTime ? formatDateTime(el.endTime) : '',
-        state: el.endTime ?  "completed" : "processing",
+        state: el.endTime ? "completed" : "processing",
         assignee: el.assignee,
         status: el.status,
       }
@@ -70,12 +71,12 @@ function List(props) {
 
   // 表头字段列表
   const headCells = [
-    { id: 'name', alignment: 'center', label: 'Name' },
-    { id: 'procDefId', alignment: 'center', label: 'Id' },
-    { id: 'startTime', alignment: 'center', label: 'Start Date' },
-    { id: 'endTime', alignment: 'center', label: 'End Date' },
-    { id: 'state', alignment: 'center', label: 'State' },
-    { id: 'action', alignment: 'right', label: 'Action' },
+    { id: 'name', alignment: 'center', label: L('Name') },
+    { id: 'procDefId', alignment: 'center', label: L('Id') },
+    { id: 'startTime', alignment: 'center', label: L('Start Date') },
+    { id: 'endTime', alignment: 'center', label: L('End Date') },
+    { id: 'state', alignment: 'center', label: L('State') },
+    { id: 'action', alignment: 'right', label: L('Action') },
   ]
 
   // 每行显示的字段
@@ -88,8 +89,8 @@ function List(props) {
   ]
 
   const searchBarFieldList = [
-    { id: 'startTime', label: 'Start Date', type: 'date', disabled: false, readOnly: false, value: startTime },
-    { id: 'endTime', label: 'End Date', type: 'date', disabled: false, readOnly: false, value: endTime },
+    { id: 'startTime', label: L('Start Date'), type: 'date', disabled: false, readOnly: false, value: startTime },
+    { id: 'endTime', label: L('End Date'), type: 'date', disabled: false, readOnly: false, value: endTime },
   ]
 
   const handleClear = () => {
@@ -148,8 +149,8 @@ function List(props) {
 
   // 自定义action
   const actionList = [
-    { label: 'edit', icon: <BorderColorIcon />, handleClick: handleDetail  },
-    { label: 'step', icon: <ReorderIcon />, handleClick: handleStep  },
+    { label: L('edit'), icon: <BorderColorIcon />, handleClick: handleDetail },
+    { label: L('step'), icon: <ReorderIcon />, handleClick: handleStep },
   ]
 
   return (

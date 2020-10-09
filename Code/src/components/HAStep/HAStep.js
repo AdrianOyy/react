@@ -55,6 +55,7 @@ function HAStep(props) {
         for (const pointUser of process.processPointUser) {
           const pointRow = {
             assignee: pointUser.assignee,
+            userName: pointUser.user ? pointUser.user.firstName : null,
             groupName: pointUser.group ? pointUser.group.name : null,
             name: pointUser.taskInstance.activityName,
             endDate: pointUser.taskInstance.endTime ? formatDateTime(new Date(pointUser.taskInstance.endTime)) : null,
@@ -74,6 +75,7 @@ function HAStep(props) {
   const headCells = [
     { id: 'name', alignment: 'center', label: L('Name') },
     { id: 'assignee', alignment: 'center', label: L('Assignee') },
+    { id: 'userName', alignment: 'center', label: L('User') },
     { id: 'groupName', alignment: 'center', label: L('Group') },
     { id: 'status', alignment: 'center', label: L('Status') },
     { id: 'endDate', alignment: 'center', label: L('End Date') },
@@ -84,6 +86,7 @@ function HAStep(props) {
   const fieldList = [
     { field: 'name', align: 'center' },
     { field: 'assignee', align: 'center' },
+    { field: 'userName', align: 'center' },
     { field: 'groupName', align: 'center' },
     { field: 'status', align: 'center' },
     { field: 'endDate', align: 'center' },
