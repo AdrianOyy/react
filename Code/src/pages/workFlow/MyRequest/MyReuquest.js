@@ -1,10 +1,11 @@
 import React from "react"
 import CommonPage from "../../../components/CommonPage"
 import { List, Detail, Create, Step } from './components'
+import { L } from '../../../utils/lang'
 
 const path = '/workflow/request'
-const parentTitle = 'My Request'
-const title = 'My Request'
+const parentTitle = L('My Request')
+const title = L('My Request')
 
 function MyRequest() {
   const props = {

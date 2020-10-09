@@ -67,11 +67,11 @@ function List(props) {
 
   // 表头字段列表
   const headCells = [
-    { id: 'id', alignment: 'center', label: 'Model Id' },
-    { id: 'version', alignment: 'center', label: 'Version' },
-    { id: 'name', alignment: 'center', label: 'Name' },
-    { id: 'deploymentId', alignment: 'center', label: 'Deployment Id' },
-    { id: 'action', alignment: 'right', label: 'Action' },
+    { id: 'id', alignment: 'center', label: L('Model Id') },
+    { id: 'version', alignment: 'center', label: L('Version') },
+    { id: 'name', alignment: 'center', label: L('Name') },
+    { id: 'deploymentId', alignment: 'center', label: L('Deployment Id') },
+    { id: 'action', alignment: 'right', label: L('Action') },
   ]
 
   // 每行显示的字段
@@ -94,7 +94,7 @@ function List(props) {
   const handlePublish = (event, row) => {
     Loading.show()
     API.getPublishModel(row.id).then(() => {
-      CommonTip.success("Success")
+      CommonTip.success(L('Success'))
       Loading.hide()
       API.getProcessDefinitions({ limit: rowsPerPage, page: page + 1 })
         .then(({ data }) => {
@@ -116,9 +116,9 @@ function List(props) {
 
   // 自定义action
   const actionList = [
-    { label: 'edit', icon: <BorderColorIcon />, handleClick: customEdit },
-    { label: 'setting', icon: <SettingsIcon />, handleClick: handleSetting },
-    { label: 'event', icon: <EventAvailableIcon />, handleClick: handlePublish },
+    { label: L('edit'), icon: <BorderColorIcon />, handleClick: customEdit },
+    { label: L('setting'), icon: <SettingsIcon />, handleClick: handleSetting },
+    { label: L('event'), icon: <EventAvailableIcon />, handleClick: handlePublish },
   ]
 
   const customCreate = () => {

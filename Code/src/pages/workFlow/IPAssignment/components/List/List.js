@@ -9,6 +9,7 @@ import { CommonTable } from '../../../../../components'
 import styled from "styled-components"
 import { spacing } from "@material-ui/system"
 // import envUrl from '../../../../../utils/baseUrl'
+import { L } from '../../untils/lang'
 
 
 const Paper = styled(MuiPaper)(spacing)
@@ -57,13 +58,13 @@ function List(props) {
 
   // 表头字段列表
   const headCells = [
-    { id: 'ip', alignment: 'center', label: 'IP' },
-    { id: 'dc', alignment: 'center', label: 'DC' },
-    { id: 'hostname', alignment: 'center', label: 'Hostname' },
-    { id: 'projectTeam', alignment: 'center', label: 'Project Team' },
-    { id: 'networkType', alignment: 'center', label: 'Network Type' },
-    { id: 'assignedDate', alignment: 'center', label: 'Assigned Date' },
-    { id: 'action', alignment: 'right', label: 'Actions' },
+    { id: 'ip', alignment: 'center', label: L('IP') },
+    { id: 'dc', alignment: 'center', label: L('DC') },
+    { id: 'hostname', alignment: 'center', label: L('Hostname') },
+    { id: 'projectTeam', alignment: 'center', label: L('Project Team') },
+    { id: 'networkType', alignment: 'center', label: L('Network Type') },
+    { id: 'assignedDate', alignment: 'center', label: L('Assigned Date') },
+    { id: 'action', alignment: 'right', label: L('Actions') },
   ]
 
   // 每行显示的字段

@@ -5,6 +5,7 @@ import {
   TablePagination,
   Paper as MuiPaper,
 } from "@material-ui/core"
+import { L } from '../../../../../utils/lang'
 
 import { useHistory } from 'react-router-dom'
 import { CommonTable, SearchBar } from '../../../../../components'
@@ -60,11 +61,11 @@ function List(props) {
   // 表头字段列表
   const headCells = [
     // { id: 'id', alignment: 'center', label: 'Id' },
-    { id: 'workflowName', alignment: 'center', label: 'Workflow name' },
-    { id: 'deploymentId', alignment: 'center', label: 'Deployment Id' },
-    { id: 'version', alignment: 'center', label: 'Version' },
-    { id: 'deployTime', alignment: 'center', label: 'Deploy Time' },
-    { id: 'action', alignment: 'right', label: 'Action' },
+    { id: 'workflowName', alignment: 'center', label: L('Workflow name') },
+    { id: 'deploymentId', alignment: 'center', label: L('Deployment Id') },
+    { id: 'version', alignment: 'center', label: L('Version') },
+    { id: 'deployTime', alignment: 'center', label: L('Deploy Time') },
+    { id: 'action', alignment: 'right', label: L('Action') },
   ]
 
   // 每行显示的字段
@@ -100,7 +101,7 @@ function List(props) {
 
 
   const searchBarFieldList = [
-    { id: 'name', label: 'name', type: 'text', disabled: false, readOnly: false, value: name },
+    { id: 'name', label: L('name'), type: 'text', disabled: false, readOnly: false, value: name },
   ]
 
   const handleClear = () => {

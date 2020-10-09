@@ -1,9 +1,10 @@
 import React from "react"
 import CommonPage from "../../../components/CommonPage"
 import { List, Create } from './components'
+import { L } from '../../../utils/lang'
 
-const parentTitle = 'Workflow'
-const title = 'VM Allocation'
+const parentTitle = L('Workflow')
+const title = L('VM Allocation')
 
 function MyRequest() {
   const props = {

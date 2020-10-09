@@ -5,7 +5,7 @@ import DetailPage from "../../../../../components/DetailPage"
 import CommonTip from "../../../../../components/CommonTip"
 import API from "../../../../../api/IPAssignment"
 import { checkEmpty } from "../../untils/IPAssignmentCheck"
-
+import { L } from '../../../../../utils/lang'
 const listPath = '/resources/IPAddress'
 const formTitle = 'Create'
 
@@ -36,7 +36,7 @@ function Create(props) {
     setSaving(true)
     API.create({ ip, dc, hostname, projectTeam, networkType, ipPool, vlanId, remark })
       .then(() => {
-        CommonTip.success("Success")
+        CommonTip.success(L('Success'))
         history.push({ pathname: listPath })
       })
       .catch(() => {
@@ -46,14 +46,14 @@ function Create(props) {
 
   useEffect(() => {
     const list = [
-      { id: 'ip', label: 'IP', type: 'text', required: true, readOnly: false, value: ip, error: nameError, helperText: nameHelperText },
-      { id: 'dc', label: 'DC', type: 'text', required: false, readOnly: false, value: dc },
-      { id: 'hostname', label: 'Hostname', type: 'text', required: false, readOnly: false, value: hostname },
-      { id: 'projectTeam', label: 'Project Team', type: 'text', required: false, readOnly: false, value: projectTeam },
-      { id: 'networkType', label: 'Network Type', type: 'text', required: false, readOnly: false, value: networkType },
-      { id: 'ipPool', label: 'IP Pool', type: 'text', required: false, readOnly: false, value: ipPool },
-      { id: 'vlanId', label: 'VLan ID', type: 'text', required: false, readOnly: false, value: vlanId },
-      { id: 'remark', label: 'Remark', type: 'text', required: false, readOnly: false, value: remark },
+      { id: 'ip', label: L('IP'), type: 'text', required: true, readOnly: false, value: ip, error: nameError, helperText: nameHelperText },
+      { id: 'dc', label: L('DC'), type: 'text', required: false, readOnly: false, value: dc },
+      { id: 'hostname', label: L('Hostname'), type: 'text', required: false, readOnly: false, value: hostname },
+      { id: 'projectTeam', label: L('Project Team'), type: 'text', required: false, readOnly: false, value: projectTeam },
+      { id: 'networkType', label: L('Network Type', type: 'text', required: false, readOnly: false, value: networkType },
+      { id: 'ipPool', label: L('IP Pool'), type: 'text', required: false, readOnly: false, value: ipPool },
+      { id: 'vlanId', label: L('VLan ID'), type: 'text', required: false, readOnly: false, value: vlanId },
+      { id: 'remark', label: L('Remark'), type: 'text', required: false, readOnly: false, value: remark },
     ]
     setFormFieldList(list)
   }, [ ip, dc, hostname, projectTeam, networkType, ipPool, vlanId, remark, nameError, nameHelperText ])
