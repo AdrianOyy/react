@@ -45,11 +45,23 @@ export default function DIYForm(props) {
       height: '10vh',
       marginBottom: '2vh',
     },
+    nonegrid: {
+      width: '50%',
+      height: '10vh',
+      display: 'none',
+      marginBottom: '2vh',
+    },
     allgrid: {
       width: '100%',
       height: '10vh',
       marginBottom: '4.5vh',
-    }
+    },
+    allnonegrid: {
+      width: '100%',
+      height: '10vh',
+      marginBottom: '4.5vh',
+      display: 'none',
+    },
   }))
   const classes = useStyles()
 
@@ -77,7 +89,7 @@ export default function DIYForm(props) {
               case 'select':
                 return (pid || el.showOnRequest) && el.readable ? (
                   <div
-                    className={classes.grid}
+                    className={el.display ? classes.nonegrid : classes.grid}
                     key={el.fieldName + '_' + i}
                     id={el.fieldName + '_div'}
                   >
@@ -98,7 +110,7 @@ export default function DIYForm(props) {
               case 'checkbox':
                 return (pid || el.showOnRequest) && el.readable ? (
                   <div
-                    className={classes.allgrid}
+                    className={el.display ?  classes.allnonegrid : classes.allgrid}
                     key={el.fieldName + '_' + i}
                     id={el.fieldName + '_div'}
                   >
@@ -120,7 +132,7 @@ export default function DIYForm(props) {
               case 'date':
                 return (pid || el.showOnRequest) && el.readable ? (
                   <div
-                    className={classes.grid}
+                    className={el.display ? classes.nonegrid : classes.grid}
                     key={el.fieldName + '_' + i}
                     id={el.fieldName + '_div'}
                   >
@@ -137,7 +149,7 @@ export default function DIYForm(props) {
               default:
                 return (pid || el.showOnRequest) && el.readable ? (
                   <div
-                    className={classes.grid}
+                    className={el.display ? classes.nonegrid : classes.grid}
                     key={el.fieldName + '_' + i}
                     id={el.fieldName + '_div'}
                   >

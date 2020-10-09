@@ -34,7 +34,6 @@ export default class AccountManagement {
       }
     }
     if (pass) {
-      console.log(parentDataMap)
       const distribution_list = parentDataMap.get('distribution_list')
       if (distribution_list) {
         pass = await this.userExistsMany(distribution_list.value)
@@ -153,16 +152,47 @@ export default class AccountManagement {
       if (stepName) {
         el.showOnRequest = true
       }
-      if (el.fieldName === 'account_type') {
-        el.selectChange = selectChange
-        el.itemList.forEach(t => {
-          if (t.type === 'CORP Account (Personal) Application') {
-            t.disabled = true
+      switch (el.fieldName) {
+        case 'account_type':
+          el.selectChange = selectChange
+          el.itemList.forEach(t => {
+            if (t.type === 'CORP Account (Personal) Application') {
+              t.disabled = true
+            }
+          })
+          break
+        case 'hkid':
+          if (stepName !== 'create') {
+            el.readable = false
           }
-        })
-      }
-      if (el.fieldName === 'hkid' && stepName !== 'create') {
-        el.readable = false
+          break
+        case 'internet_email_alias':
+          el.display = true
+          break
+        case 'internet_email_display_name':
+          el.display = true
+          break
+        case 'user_name':
+          el.display = true
+          break
+        case 'owa_hospital_web':
+          el.display = true
+          break
+        case 'clinical_applications':
+          el.display = true
+          break
+        case 'nonclinical_applications':
+          el.display = true
+          break
+        case 'authenticationmethod':
+          el.display = true
+          break
+        case 'mobile_phone_no_for_receipt_of_sms_otp':
+          el.display = true
+          break
+        default:
+          el.display = false
+          break
       }
     })
     switch (stepName) {
