@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import DetailPage from "../../../../../components/DetailPage"
 import API from "../../../../../api/tenantQuotaMapping"
 import CommonTip from "../../../../../components/CommonTip"
+import { L } from '../../../../../utils/lang'
 import { useHistory } from 'react-router-dom'
 import { checkEmpty, getCheckTypeExist, getCheckYearExist } from "../../untils/ManagementFieldCheck"
 import tenantApi from "../../../../../api/tenant"
@@ -56,7 +57,7 @@ function Create(props) {
     setSaving(true)
     API.create({ tenantId, type, quota, year })
       .then(() => {
-        CommonTip.success("Success")
+        CommonTip.success(L('Success'))
         history.push({ pathname: '/aaa-service/tenantQuotaMapping/' })
       })
       .catch(() => {
@@ -67,20 +68,20 @@ function Create(props) {
   useEffect(() => {
     const list = [
       {
-        id: 'tenant', label: 'Tenant', type: 'select', value: tenantId,
+        id: 'tenant', label: L('Tenant'), type: 'select', value: tenantId,
         itemList: tenantList, labelField: 'name', valueField: 'id',
         error: tenantError, helperText: tenantHelperText,
       },
       {
-        id: 'type', label: 'Type', required: true, readOnly: false, value: type,
+        id: 'type', label: L('Type'), required: true, readOnly: false, value: type,
         error: typeError, helperText: typeHelperText,
       },
       {
-        id: 'quota', label: 'Quota', required: true, type: 'text', value: quota,
+        id: 'quota', label: L('Quota'), required: true, type: 'text', value: quota,
         error: quotaError, helperText: quotaHelperText,
       },
       {
-        id: 'year', label: 'Year', required: true, type: 'date', views: [ 'year' ],
+        id: 'year', label: L('Year'), required: true, type: 'date', views: [ 'year' ],
         readOnly: false, value: year, error: yearError, helperText: yearHelperText,
       },
     ]
@@ -154,7 +155,7 @@ function Create(props) {
       const reg = /^[1-9]\d*$/
       if (!reg.test(quota)) {
         setQuotaError(true)
-        setQuotaHelperText('Only accept positive integer')
+        setQuotaHelperText(L('Only accept positive integer'))
         return true
       }
     }
@@ -202,7 +203,7 @@ function Create(props) {
   return (
     <React.Fragment>
       <DetailPage
-        formTitle = 'Create'
+        formTitle={L('Create')}
         onFormFieldChange = {onFormFieldChange}
         formFieldList = {formFieldList}
         showBtn ={true}

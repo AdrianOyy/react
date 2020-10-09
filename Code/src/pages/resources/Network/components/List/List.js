@@ -6,6 +6,7 @@ import {
   Paper as MuiPaper,
 } from "@material-ui/core"
 
+import { L } from '../../../../../utils/lang'
 import { CommonTable, SearchBar } from '../../../../../components'
 import API from "../../../../../api/inventory"
 import styled from "styled-components"
@@ -16,7 +17,8 @@ const formatDateTime = (str) => {
   return dayjs(new Date(str)).format('DD-MMM-YYYY HH:mm')
 }
 
-const tableName = 'List'
+const tableName = L('List')
+
 
 function List(props) {
   const { onMount, path } = props
@@ -61,12 +63,12 @@ function List(props) {
 
   // 表头字段列表
   const headCells = [
-    { id: '_ID', alignment: 'center', label: 'Ref. ID' },
-    { id: 'UnitCode', alignment: 'center', label: 'New' },
-    { id: 'AssetID', alignment: 'center', label: 'Asset No' },
-    { id: 'createdAt', alignment: 'center', label: 'Created At' },
-    { id: 'updatedAt', alignment: 'center', label: 'Updated At' },
-    { id: 'action', alignment: 'right', label: 'Actions' },
+    { id: '_ID', alignment: 'center', label: L('Ref. ID') },
+    { id: 'UnitCode', alignment: 'center', label: L('New') },
+    { id: 'AssetID', alignment: 'center', label: L('Asset No') },
+    { id: 'createdAt', alignment: 'center', label: L('Created At') },
+    { id: 'updatedAt', alignment: 'center', label: L('Updated At') },
+    { id: 'action', alignment: 'right', label: L('Actions') },
   ]
 
   // 每行显示的字段
@@ -79,8 +81,8 @@ function List(props) {
   ]
 
   const searchBarFieldList = [
-    { id: 'createdAt', label: 'Created At', type: 'date', disabled: false, readOnly: false, value: createdAt },
-    { id: 'updatedAt', label: 'Updated At', type: 'date', disabled: false, readOnly: false, value: updatedAt },
+    { id: 'createdAt', label: L('Created At'), type: 'date', disabled: false, readOnly: false, value: createdAt },
+    { id: 'updatedAt', label: L('Updated At'), type: 'date', disabled: false, readOnly: false, value: updatedAt },
   ]
 
   const handleClear = () => {

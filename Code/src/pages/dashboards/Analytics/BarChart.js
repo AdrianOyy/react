@@ -1,5 +1,6 @@
 import React from "react"
 import styled, { withTheme } from "styled-components"
+import { L } from '../../../utils/lang'
 
 import {
   Card as MuiCard,
@@ -31,32 +32,32 @@ const ChartWrapper = styled.div`
 const BarChart = ({ theme }) => {
   const data = {
     labels: [
-      "Jan",
-      "Feb",
-      "Mar",
-      "Apr",
-      "May",
-      "Jun",
-      "Jul",
-      "Aug",
-      "Sep",
-      "Oct",
-      "Nov",
-      "Dec"
+      L("Jan"),
+      L("Feb"),
+      L("Mar"),
+      L("Apr"),
+      L("May"),
+      L("Jun"),
+      L("Jul"),
+      L("Aug"),
+      L("Sep"),
+      L("Oct"),
+      L("Nov"),
+      L("Dec")
     ],
     datasets: [
       {
-        label: "Mobile",
+        label: L('Mobile'),
         backgroundColor: theme.palette.primary.main,
         borderColor: theme.palette.primary.main,
         hoverBackgroundColor: theme.palette.primary.main,
         hoverBorderColor: theme.palette.primary.main,
-        data: [ 54, 67, 41, 55, 62, 45, 55, 73, 60, 76, 48, 79 ],
+        data: [54, 67, 41, 55, 62, 45, 55, 73, 60, 76, 48, 79],
         barPercentage: 0.625,
         categoryPercentage: 0.5
       },
       {
-        label: "Desktop",
+        label: L('Desktop'),
         backgroundColor: theme.palette.grey[200],
         borderColor: theme.palette.grey[200],
         hoverBackgroundColor: theme.palette.grey[200],
@@ -105,7 +106,7 @@ const BarChart = ({ theme }) => {
             <MoreVertical />
           </IconButton>
         }
-        title="Mobile / Desktop"
+        title={L('Mobile / Desktop')}
       />
       <CardContent>
         <ChartWrapper>

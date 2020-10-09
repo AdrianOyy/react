@@ -5,6 +5,7 @@ import API from "../../../../../api/role"
 import { useParams } from "react-router-dom"
 import dayjs from "dayjs"
 
+import { L } from '../../../../../utils/lang'
 function Detail(props) {
   const { onMount } = props
 
@@ -37,10 +38,10 @@ function Detail(props) {
 
   useEffect(() => {
     const list = [
-      { id: 'label', label: 'Label', type: 'text', disabled: true, readOnly: true, value: label },
-      { id: 'value', label: 'Value', type: 'text', disabled: true, readOnly: true, value },
-      { id: 'createdAt', label: 'Created At', type: 'text', disabled: true, readOnly: true, value: formatDateTime(createdAt) },
-      { id: 'updatedAt', label: 'Updated At', type: 'text', disabled: true, readOnly: true, value: formatDateTime(updatedAt) },
+      { id: 'label', label: L('Label'), type: 'text', disabled: true, readOnly: true, value: label },
+      { id: 'value', label: L('Value'), type: 'text', disabled: true, readOnly: true, value },
+      { id: 'createdAt', label: L('Created At'), type: 'text', disabled: true, readOnly: true, value: formatDateTime(createdAt) },
+      { id: 'updatedAt', label: L('Updated At'), type: 'text', disabled: true, readOnly: true, value: formatDateTime(updatedAt) },
     ]
     setFormFieldList(list)
   }, [ label, value, createdAt, updatedAt ])
@@ -62,7 +63,7 @@ function Detail(props) {
   return (
     <React.Fragment>
       <DetailPage
-        formTitle = 'Detail'
+        formTitle={L('Detail')}
         onFormFieldChange = {onFormFieldChange}
         formFieldList = {formFieldList}
       />

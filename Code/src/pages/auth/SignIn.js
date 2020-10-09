@@ -3,6 +3,7 @@ import styled from "styled-components"
 import { useHistory } from "react-router-dom"
 import authAPI from '../../api/auth.js'
 import Helmet from 'react-helmet'
+import { L } from '../../utils/lang'
 import { encryption } from '../../utils/encryption'
 
 import {
@@ -71,7 +72,7 @@ function SignIn() {
             localStorage.setItem('user', JSON.stringify(response.data.data.user))
             setSeverity('success')
             setOpen(true)
-            setMessage('Success')
+            setMessage(L('Success'))
             history.push('/dashboard/analytics')
           }
           // console.log(response.data.data)
@@ -81,9 +82,9 @@ function SignIn() {
       setSeverity('warning')
       setOpen(true)
       if (!account) {
-        setMessage('Account is required')
+        setMessage(L('Account is required'))
       } else if (!pwd) {
-        setMessage('Password is required')
+        setMessage(L('Password is required'))
       }
     }
   }
@@ -111,7 +112,7 @@ function SignIn() {
 
   return (
     <Wrapper>
-      <Helmet title="Sign In" />
+      <Helmet title={L('Sign In')} />
       <Avatar
         alt="Logo"
         variant="square"
@@ -120,10 +121,10 @@ function SignIn() {
       />
 
       <Typography component="h1" variant="h4" align="center" gutterBottom>
-        Welcome to SENSE Platform!
+        {L('WelcomeToSENSE')}
       </Typography>
       <Typography component="h2" variant="body1" align="center">
-        Sign in to your account to continue
+        {L('signinAccount')}
       </Typography>
       <form>
         <FormControl margin="normal" required fullWidth>
@@ -160,7 +161,7 @@ function SignIn() {
           color="primary"
           mb={2}
         >
-          Sign in
+          {L('Sign in')}
         </Button>
         <Snackbar open={open} autoHideDuration={2000} onClose={handleClose}>
           <Alert severity={severity} onClose={handleClose}>

@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { NavLink as RouterNavLink } from "react-router-dom";
+import { L } from '../../utils/lang'
 
 import Helmet from 'react-helmet';
 
@@ -70,7 +71,7 @@ class SimpleDialog extends React.Component {
         open={true}
         {...other}
       >
-        <DialogTitle id="simple-dialog-title">Set backup account</DialogTitle>
+        <DialogTitle id="simple-dialog-title">{L('Set backup account')}</DialogTitle>
         <div>
           <List>
             {emails.map(email => (
@@ -126,20 +127,18 @@ class SimpleDialogDemo extends React.Component {
       <Card mb={6}>
         <CardContent>
           <Typography variant="h6" gutterBottom>
-            Simple Dialogs
+            {L('Simple Dialogs')}
           </Typography>
           <Typography variant="body2" gutterBottom>
-            Simple dialogs can provide additional details or actions about a
-            list item.
+            {L('simpleDialogsDes')}
           </Typography>
-
           <Paper mt={4}>
             <Button
               variant="contained"
               color="primary"
               onClick={this.handleClickOpen}
             >
-              Open simple dialog
+              {L('Open simple dialog')}
             </Button>
             <SimpleDialog
               selectedValue={this.state.selectedValue}
@@ -148,7 +147,7 @@ class SimpleDialogDemo extends React.Component {
             />
             <Paper mt={2}>
               <Typography variant="body2">
-                Selected: {this.state.selectedValue}
+                {L('Selected')}: {this.state.selectedValue}
               </Typography>
             </Paper>
           </Paper>
@@ -176,11 +175,10 @@ class AlertDialog extends React.Component {
       <Card mb={6}>
         <CardContent>
           <Typography variant="h6" gutterBottom>
-            Alerts
+            {L('Alerts')}
           </Typography>
           <Typography variant="body2" gutterBottom>
-            Alerts are urgent interruptions, requiring acknowledgement, that
-            inform the user about a situation.
+            {L('alertsDes')}
           </Typography>
 
           <Paper mt={4}>
@@ -189,7 +187,7 @@ class AlertDialog extends React.Component {
               color="primary"
               onClick={this.handleClickOpen}
             >
-              Open alert dialog
+              {L('Open alert dialog')}
             </Button>
             <Dialog
               open={this.state.open}
@@ -198,21 +196,19 @@ class AlertDialog extends React.Component {
               aria-describedby="alert-dialog-description"
             >
               <DialogTitle id="alert-dialog-title">
-                {"Use Google's location service?"}
+                {L('useGoogleService')}
               </DialogTitle>
               <DialogContent>
                 <DialogContentText id="alert-dialog-description">
-                  Let Google help apps determine location. This means sending
-                  anonymous location data to Google, even when no apps are
-                  running.
+                  {L('useGoogleDes')}
                 </DialogContentText>
               </DialogContent>
               <DialogActions>
                 <Button onClick={this.handleClose} color="primary">
-                  Disagree
+                  {L('Disagree')}
                 </Button>
                 <Button onClick={this.handleClose} color="primary" autoFocus>
-                  Agree
+                  {L('Agree')}
                 </Button>
               </DialogActions>
             </Dialog>
@@ -251,11 +247,10 @@ class MaxWidthDialog extends React.Component {
       <Card mb={6}>
         <CardContent>
           <Typography variant="h6" gutterBottom>
-            Simple Dialogs
+            {L('Simple Dialogs')}
           </Typography>
           <Typography variant="body2" gutterBottom>
-            Simple dialogs can provide additional details or actions about a
-            list item.
+            {L('simpleDialogsDes')}
           </Typography>
 
           <Paper mt={4}>
@@ -265,7 +260,7 @@ class MaxWidthDialog extends React.Component {
                 color="primary"
                 onClick={this.handleClickOpen}
               >
-                Open max-width dialog
+                {L('Open max-width dialog')}
               </Button>
               <Dialog
                 fullWidth={this.state.fullWidth}
@@ -275,15 +270,15 @@ class MaxWidthDialog extends React.Component {
                 aria-labelledby="max-width-dialog-title"
               >
                 <DialogTitle id="max-width-dialog-title">
-                  Optional sizes
+                  {L('Optional sizes')}
                 </DialogTitle>
                 <DialogContent>
                   <DialogContentText>
-                    You can set my maximum width and whether to adapt or not.
+                    {L('optionalSizesDes')}
                   </DialogContentText>
                   <form noValidate>
                     <FormControl>
-                      <InputLabel htmlFor="max-width">maxWidth</InputLabel>
+                      <InputLabel htmlFor="max-width">{L('maxWidth')}</InputLabel>
                       <Select
                         value={this.state.maxWidth}
                         onChange={this.handleMaxWidthChange}
@@ -292,12 +287,12 @@ class MaxWidthDialog extends React.Component {
                           id: "max-width"
                         }}
                       >
-                        <MenuItem value={false}>false</MenuItem>
-                        <MenuItem value="xs">xs</MenuItem>
-                        <MenuItem value="sm">sm</MenuItem>
-                        <MenuItem value="md">md</MenuItem>
-                        <MenuItem value="lg">lg</MenuItem>
-                        <MenuItem value="xl">xl</MenuItem>
+                        <MenuItem value={false}>{L('false')}</MenuItem>
+                        <MenuItem value="xs">{L('xs')}</MenuItem>
+                        <MenuItem value="sm">{L('sm')}</MenuItem>
+                        <MenuItem value="md">{L('md')}</MenuItem>
+                        <MenuItem value="lg">{L('lg')}</MenuItem>
+                        <MenuItem value="xl">{L('xl')}</MenuItem>
                       </Select>
                     </FormControl>
                   </form>
@@ -310,13 +305,13 @@ class MaxWidthDialog extends React.Component {
                           value="fullWidth"
                         />
                       }
-                      label="Full width"
+                      label={L('Full width')}
                     />
                   </form>
                 </DialogContent>
                 <DialogActions>
                   <Button onClick={this.handleClose} color="primary">
-                    Close
+                    {L('Close')}
                   </Button>
                 </DialogActions>
               </Dialog>
@@ -346,10 +341,10 @@ class FormDialog extends React.Component {
       <Card mb={6}>
         <CardContent>
           <Typography variant="h6" gutterBottom>
-            Form Dialogs
+            {L('Form Dialogs')}
           </Typography>
           <Typography variant="body2" gutterBottom>
-            Form dialogs allow users to fill out form fields within a dialog.
+            {L('formDialogsDes')}
           </Typography>
 
           <Paper mt={4}>
@@ -359,34 +354,33 @@ class FormDialog extends React.Component {
                 color="primary"
                 onClick={this.handleClickOpen}
               >
-                Open form dialog
+                {L('Open form dialog')}
               </Button>
               <Dialog
                 open={this.state.open}
                 onClose={this.handleClose}
                 aria-labelledby="form-dialog-title"
               >
-                <DialogTitle id="form-dialog-title">Subscribe</DialogTitle>
+                <DialogTitle id="form-dialog-title">{L('Subscribe')}</DialogTitle>
                 <DialogContent>
                   <DialogContentText>
-                    To subscribe to this website, please enter your email
-                    address here. We will send updates occasionally.
+                    {L('subscribeDes')}
                   </DialogContentText>
                   <TextField
                     autoFocus
                     margin="dense"
                     id="name"
-                    label="Email Address"
+                    label={L('Email Address')}
                     type="email"
                     fullWidth
                   />
                 </DialogContent>
                 <DialogActions>
                   <Button onClick={this.handleClose} color="primary">
-                    Cancel
+                    {L('Cancel')}
                   </Button>
                   <Button onClick={this.handleClose} color="primary">
-                    Subscribe
+                    {L('Subscribe')}
                   </Button>
                 </DialogActions>
               </Dialog>
@@ -401,19 +395,19 @@ class FormDialog extends React.Component {
 function Dialogs() {
   return (
     <React.Fragment>
-      <Helmet title="Dialogs" />
+      <Helmet title={L('Dialogs')} />
       <Typography variant="h3" gutterBottom display="inline">
-        Dialogs
+        {L('Dialogs')}
       </Typography>
 
       <Breadcrumbs aria-label="Breadcrumb" mt={2}>
         <Link component={NavLink} exact to="/">
-          Dashboard
+          {L('Dashboard')}
         </Link>
         <Link component={NavLink} exact to="/">
-          Components
+          {L('Components')}
         </Link>
-        <Typography>Dialogs</Typography>
+        <Typography>{L('Dialogs')}</Typography>
       </Breadcrumbs>
 
       <Divider my={6} />

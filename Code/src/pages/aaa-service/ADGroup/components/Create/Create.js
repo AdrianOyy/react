@@ -5,7 +5,7 @@ import DetailPage from "../../../../../components/DetailPage"
 import CommonTip from "../../../../../components/CommonTip"
 import ADGroupApi from "../../../../../api/adGroup"
 import { checkEmpty, getCheckExist } from "../../untils/ADGroupCheck"
-
+import { L } from '../../../../../utils/lang'
 const listPath = '/aaa-service/adgroup'
 const formTitle = 'Create'
 
@@ -29,7 +29,7 @@ function Create(props) {
     setSaving(true)
     ADGroupApi.create({ name })
       .then(() => {
-        CommonTip.success("Success")
+        CommonTip.success(L('Success'))
         history.push({ pathname: listPath })
       })
       .catch(() => {
@@ -39,7 +39,7 @@ function Create(props) {
 
   useEffect(() => {
     const list = [
-      { id: 'name', label: 'Name', type: 'text', required: true, readOnly: false, value: name, error: nameError, helperText: nameHelperText },
+      { id: 'name', label: L('Name'), type: 'text', required: true, readOnly: false, value: name, error: nameError, helperText: nameHelperText },
     ]
     setFormFieldList(list)
   }, [ name, nameError, nameHelperText ])

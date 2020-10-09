@@ -3,6 +3,7 @@ import { useHistory } from 'react-router-dom'
 import {
   ButtonGroup, Button,
 } from "@material-ui/core"
+import { L } from '../../../../../utils/lang'
 
 import SettingBar from '../../../../../components/SettingBar'
 import { CommonTable } from '../../../../../components'
@@ -82,7 +83,7 @@ export default function MaterialTableDemo() {
         if (result.dynamicForm) {
           setChildVersion(parseInt(result.dynamicForm.childVersion) + 1)
           setParentFormKey(result.dynamicForm.formKey)
-          const parentLabels =  map2Label(result.parentTableList)
+          const parentLabels = map2Label(result.parentTableList)
           setParentRows(parentLabels)
           const pValues = map2Values(parentLabels)
           setParentValues(pValues)
@@ -90,7 +91,7 @@ export default function MaterialTableDemo() {
             setSelectChild(true)
             setChildFormKey(result.childDynamicForm.formKey)
             // setChildRows(result.childTableList)
-            const childLabels =  map2Label(result.childTableList)
+            const childLabels = map2Label(result.childTableList)
             setChildRows(childLabels)
             const cValues = map2Values(childLabels)
             setChildValues(cValues)
@@ -101,46 +102,46 @@ export default function MaterialTableDemo() {
 
   useEffect(() => {
     const searchBarFieldList = [
-      { id: 'parentFormKey', label: 'Parent Form Key', type: 'text', disabled: false, readOnly: false, value: parentFormKey },
-      { id: 'selectChild', label: 'Select Child', type: 'boolean', disabled: false, readOnly: false, value: selectChild },
-      { id: 'childFormKey', label: 'Child Form Key', type: 'text', disabled: !selectChild, readOnly: false, value: childFormKey },
+      { id: 'parentFormKey', label: L('Parent Form Key'), type: 'text', disabled: false, readOnly: false, value: parentFormKey },
+      { id: 'selectChild', label: L('Select Child'), type: 'boolean', disabled: false, readOnly: false, value: selectChild },
+      { id: 'childFormKey', label: L('Child Form Key'), type: 'text', disabled: !selectChild, readOnly: false, value: childFormKey },
     ]
     setBarfieldList(searchBarFieldList)
   }, [ parentFormKey, selectChild, childFormKey ])
 
   useEffect(() => {
     const detail = [
-      { fieldDisplayName: "Field Name", fieldName: "fieldName", type: "text", valueField: null, labelField: null, required: true, showRequest: true },
-      { fieldDisplayName: "Field Display Name", fieldName: "fieldDisplayName", type: "text", valueField: null, labelField: null, showRequest: true, required: true },
+      { fieldDisplayName: L("Field Name"), fieldName: "fieldName", type: "text", valueField: null, labelField: null, required: true, showRequest: true },
+      { fieldDisplayName: L("Field Display Name"), fieldName: "fieldDisplayName", type: "text", valueField: null, labelField: null, showRequest: true, required: true },
       {
-        fieldDisplayName: "Field Type", fieldName: "fieldType", type: "select", valueField: 'id', labelField: 'value', showRequest: true, required: false,
+        fieldDisplayName: L("Field Type"), fieldName: "fieldType", type: "select", valueField: 'id', labelField: 'value', showRequest: true, required: false,
         itemList: [{ id: 'string', value: 'string' }, { id: 'int', value: 'int' }, { id: 'date', value: 'date' }]
       },
       {
-        fieldDisplayName: "Input Type", fieldName: "inputType", type: "select", valueField: 'id', labelField: 'value', showRequest: true, required: false,
+        fieldDisplayName: L("Input Type"), fieldName: "inputType", type: "select", valueField: 'id', labelField: 'value', showRequest: true, required: false,
         itemList: [{ id: 'text', value: 'text' }, { id: 'checkbox', value: 'checkbox' }, { id: 'select', value: 'select' }, { id: 'date', value: 'date' }]
       },
       {
-        fieldDisplayName: "Show On Request", fieldName: "showOnRequest", type: "select", valueField: 'id', labelField: 'value', required: false, showRequest: true,
+        fieldDisplayName: L("Show On Request"), fieldName: "showOnRequest", type: "select", valueField: 'id', labelField: 'value', required: false, showRequest: true,
         itemList: [{ id: '1', value: 'True' }, { id: '0', value: 'False' }]
       },
-      { fieldDisplayName: "Required", fieldName: "required", type: "select", valueField: 'id', labelField: 'value', required: false, showRequest: true, itemList: [{ id: '1', value: 'True' }, { id: '0', value: 'False' }] },
-      { fieldDisplayName: "Readable", fieldName: "readable", type: "select", valueField: 'id', labelField: 'value', required: false, showRequest: true, itemList: [{ id: '1', value: 'True' }, { id: '0', value: 'False' }] },
-      { fieldDisplayName: "Writable", fieldName: "writable", type: "select", valueField: 'id', labelField: 'value', required: false, showRequest: true, itemList: [{ id: '1', value: 'True' }, { id: '0', value: 'False' }] },
-      { fieldDisplayName: "Foreign Table", fieldName: "foreignTable", type: "text", valueField: null, labelField: null, required: true, showRequest: false },
-      { fieldDisplayName: "Foreign Key", fieldName: "foreignKey", type: "text", valueField: null, labelField: null, required: true, showRequest: false },
-      { fieldDisplayName: "Foreign Display Key", fieldName: "foreignDisplayKey", type: "text", valueField: null, labelField: null, required: true, showRequest: false },
+      { fieldDisplayName: L("Required"), fieldName: "required", type: "select", valueField: 'id', labelField: 'value', required: false, showRequest: true, itemList: [{ id: '1', value: 'True' }, { id: '0', value: 'False' }] },
+      { fieldDisplayName: L("Readable"), fieldName: "readable", type: "select", valueField: 'id', labelField: 'value', required: false, showRequest: true, itemList: [{ id: '1', value: 'True' }, { id: '0', value: 'False' }] },
+      { fieldDisplayName: L("Writable"), fieldName: "writable", type: "select", valueField: 'id', labelField: 'value', required: false, showRequest: true, itemList: [{ id: '1', value: 'True' }, { id: '0', value: 'False' }] },
+      { fieldDisplayName: L("Foreign Table"), fieldName: "foreignTable", type: "text", valueField: null, labelField: null, required: true, showRequest: false },
+      { fieldDisplayName: L("Foreign Key"), fieldName: "foreignKey", type: "text", valueField: null, labelField: null, required: true, showRequest: false },
+      { fieldDisplayName: L("Foreign Display Key"), fieldName: "foreignDisplayKey", type: "text", valueField: null, labelField: null, required: true, showRequest: false },
     ]
     setChildFormDetail(detail)
-  }, [ ])
+  }, [])
 
   // 表头字段列表
   const headCells = [
-    { id: 'fieldName', alignment: 'center', label: 'Field Name' },
-    { id: 'fieldDisplayName', alignment: 'center', label: 'Field Display Name' },
-    { id: 'fieldType', alignment: 'center', label: 'Field Type' },
-    { id: 'showOnRequest', alignment: 'center', label: 'Show On Request' },
-    { id: 'action', alignment: 'right', label: 'Action' },
+    { id: 'fieldName', alignment: 'center', label: L('Field Name') },
+    { id: 'fieldDisplayName', alignment: 'center', label: L('Field Display Name') },
+    { id: 'fieldType', alignment: 'center', label: L('Field Type') },
+    { id: 'showOnRequest', alignment: 'center', label: L('Show On Request') },
+    { id: 'action', alignment: 'right', label: L('Action') },
   ]
 
   // 每行显示的字段
@@ -212,14 +213,14 @@ export default function MaterialTableDemo() {
     setOpen(true)
   }
 
-  const handleDelete = (e, row, index) =>  {
+  const handleDelete = (e, row, index) => {
     const values = deepClone(parentValues)
     values.splice(index, 1)
     setParentValues(values)
     parentRows.splice(index, 1)
   }
 
-  const handleChildDelete = (e, row, index) =>  {
+  const handleChildDelete = (e, row, index) => {
     const values = deepClone(childValues)
     values.splice(index, 1)
     setChildValues(values)
@@ -235,18 +236,18 @@ export default function MaterialTableDemo() {
 
   // 子表行内按钮列表
   const actionList = [
-    { label: 'delete', icon: <DeleteIcon />, handleClick: handleDelete },
-    { label: 'Detail', icon: <BorderColorIcon />, handleClick: handleDetail },
+    { label: L('delete'), icon: <DeleteIcon />, handleClick: handleDelete },
+    { label: L('Detail'), icon: <BorderColorIcon />, handleClick: handleDetail },
   ]
 
   const actionChildList = [
-    { label: 'delete', icon: <DeleteIcon />, handleClick: handleChildDelete },
-    { label: 'Detail', icon: <BorderColorIcon />, handleClick: handleChildDetail },
+    { label: L('delete'), icon: <DeleteIcon />, handleClick: handleChildDelete },
+    { label: L('Detail'), icon: <BorderColorIcon />, handleClick: handleChildDetail },
   ]
 
   const buttonList = [
-    { id: 'submit', label: 'Submit', color: 'default', onClick: handleSave, disabled: false },
-    { id: 'cancel', label: 'Cancel', color: 'default', onClick: handleClose, disabled: false },
+    { id: 'submit', label: L('Submit'), color: 'default', onClick: handleSave, disabled: false },
+    { id: 'cancel', label: L('Cancel'), color: 'default', onClick: handleClose, disabled: false },
   ]
 
   const handleSubmit = () => {
@@ -263,7 +264,7 @@ export default function MaterialTableDemo() {
     console.log(form)
     API.createWorkFlow(form).then(({ data }) => {
       if (data) {
-        CommonTip.success("Success")
+        CommonTip.success(L('Success'))
         handleCancle()
       }
     })
@@ -281,7 +282,7 @@ export default function MaterialTableDemo() {
       />
       <CommonTable
         rows={parentRows}
-        tableName={'Parent Form List'}
+        tableName={L('Parent Form List')}
         headCells={headCells}
         fieldList={fieldList}
         hideUpdate={true}
@@ -296,14 +297,14 @@ export default function MaterialTableDemo() {
         formDetail={childFormDetail}
         defaultValues={childDefaultValues}
         onChange={onChildChange}
-        childFormTitle={'Detail'}
+        childFormTitle={L('Detail')}
         buttonList={buttonList}
         isNew={isNew}
       />
       <div className={!selectChild ? classes.div : null}>
         <CommonTable
           rows={childRows}
-          tableName={'Child Form List'}
+          tableName={L('Child Form List')}
           headCells={headCells}
           fieldList={fieldList}
           hideUpdate={true}
@@ -314,8 +315,8 @@ export default function MaterialTableDemo() {
         />
       </div>
       <ButtonGroup className={classes.buttonGroup}>
-        <Button  variant="contained" className={classes.button} onClick={handleSubmit} color='primary'>Submit</Button>
-        <Button  variant="contained" className={classes.button} onClick={handleCancle} >Cancle</Button>
+        <Button variant="contained" className={classes.button} onClick={handleSubmit} color='primary'>{L('Submit')}</Button>
+        <Button variant="contained" className={classes.button} onClick={handleCancle} >{L('Cancle')}</Button>
       </ButtonGroup>
     </div>
   )

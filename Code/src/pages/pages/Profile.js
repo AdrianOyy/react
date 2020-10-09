@@ -6,6 +6,7 @@ import Helmet from 'react-helmet'
 
 import "../../vendor/roundedBarCharts"
 import { Bar } from "react-chartjs-2"
+import { L } from '../../utils/lang'
 
 import { red, green, blue } from "@material-ui/core/colors"
 
@@ -118,7 +119,7 @@ function Details() {
     <Card mb={6}>
       <CardContent>
         <Typography variant="h6" gutterBottom>
-          Profile Details
+          {L('Profile Details')}
         </Typography>
 
         <Spacer mb={4} />
@@ -126,15 +127,15 @@ function Details() {
         <Centered>
           <Avatar alt="Lucy Lavender" src="/static/img/avatars/avatar-1.jpg" />
           <Typography variant="body2" component="div" gutterBottom>
-            <Box fontWeight="fontWeightMedium">Lucy Lavender</Box>
-            <Box fontWeight="fontWeightRegular">Lead Developer</Box>
+            <Box fontWeight="fontWeightMedium">{L('Lucy Lavender')}</Box>
+            <Box fontWeight="fontWeightRegular">{L('Lead Developer')}</Box>
           </Typography>
 
           <Button mr={2} variant="contained" size="small">
-            Follow
+            {L('Follow')}
           </Button>
           <Button mr={2} variant="contained" color="primary" size="small">
-            Message
+            {L("Message")}
           </Button>
         </Centered>
       </CardContent>
@@ -147,7 +148,7 @@ function Skills() {
     <Card mb={6}>
       <CardContent>
         <Typography variant="h6" gutterBottom>
-          Skills
+          {L('Skills')}
         </Typography>
 
         <Spacer mb={4} />
@@ -173,7 +174,7 @@ function About() {
     <Card mb={6}>
       <CardContent>
         <Typography variant="h6" gutterBottom>
-          About
+          {L('About')}
         </Typography>
 
         <Spacer mb={4} />
@@ -222,7 +223,7 @@ function Elsewhere() {
     <Card mb={6}>
       <CardContent>
         <Typography variant="h6" gutterBottom>
-          Elsewhere
+          {L('Elsewhere')}
         </Typography>
 
         <Spacer mb={4} />
@@ -234,7 +235,7 @@ function Elsewhere() {
             </AboutIcon>
           </Grid>
           <Grid item>
-            <Link href="https://material-app.bootlab.io/">lucylavender.io</Link>
+            <Link href="https://material-app.bootlab.io/">{L('lucylavender.io')}</Link>
           </Grid>
         </Grid>
         <Grid container direction="row" alignItems="center" mb={2}>
@@ -244,7 +245,7 @@ function Elsewhere() {
             </AboutIcon>
           </Grid>
           <Grid item>
-            <Link href="https://material-app.bootlab.io/">Twitter</Link>
+            <Link href="https://material-app.bootlab.io/">{L('Twitter')}</Link>
           </Grid>
         </Grid>
         <Grid container direction="row" alignItems="center" mb={2}>
@@ -254,7 +255,7 @@ function Elsewhere() {
             </AboutIcon>
           </Grid>
           <Grid item>
-            <Link href="https://material-app.bootlab.io/">Facebook</Link>
+            <Link href="https://material-app.bootlab.io/">{L('Facebook')}</Link>
           </Grid>
         </Grid>
         <Grid container direction="row" alignItems="center">
@@ -264,7 +265,7 @@ function Elsewhere() {
             </AboutIcon>
           </Grid>
           <Grid item>
-            <Link href="https://material-app.bootlab.io/">Instagram</Link>
+            <Link href="https://material-app.bootlab.io/">{L('Instagram')}</Link>
           </Grid>
         </Grid>
       </CardContent>
@@ -281,7 +282,7 @@ function Earnings() {
             <Box fontWeight="fontWeightRegular">$ 2.405</Box>
           </Typography>
           <Typography variant="body2" gutterBottom mt={3} mb={0}>
-            Total Earnings
+            {L('Total Earnings')}
           </Typography>
 
           <StatsIcon>
@@ -308,7 +309,7 @@ function Orders() {
             <Box fontWeight="fontWeightRegular">30</Box>
           </Typography>
           <Typography variant="body2" gutterBottom mt={3} mb={0}>
-            Orders Today
+            {L('Orders Today')}
           </Typography>
 
           <StatsIcon>
@@ -335,7 +336,7 @@ function Revenue() {
             <Box fontWeight="fontWeightRegular">$ 1.224</Box>
           </Typography>
           <Typography variant="body2" gutterBottom mt={3} mb={0}>
-            Total Revenue
+            {L('Total Revenue')}
           </Typography>
 
           <StatsIcon>
@@ -358,22 +359,22 @@ function Products() {
     <Card mb={6}>
       <CardContent>
         <Typography variant="h6" gutterBottom>
-          Products
+          {L('Products')}
         </Typography>
         <TableWrapper>
           <Table>
             <TableHead>
               <TableRow>
-                <TableCell>Name</TableCell>
-                <TableCell>Tech</TableCell>
-                <TableCell>License</TableCell>
-                <TableCell>Sales</TableCell>
+                <TableCell>{L('Name')}</TableCell>
+                <TableCell>{L('Tech')}</TableCell>
+                <TableCell>{L('License')}</TableCell>
+                <TableCell>{L('Sales')}</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
               <TableRow>
                 <TableCell component="th" scope="row">
-                  AppStack
+                  {L('AppStack')}
                 </TableCell>
                 <TableCell>
                   <ProductsChip
@@ -382,12 +383,12 @@ function Products() {
                     rgbcolor={blue[500]}
                   />
                 </TableCell>
-                <TableCell>Single License</TableCell>
+                <TableCell>{L('Single License')}</TableCell>
                 <TableCell>76</TableCell>
               </TableRow>
               <TableRow>
                 <TableCell component="th" scope="row">
-                  SENSE Platform
+                  {L('SENSE Platform')}
                 </TableCell>
                 <TableCell>
                   <ProductsChip
@@ -396,12 +397,12 @@ function Products() {
                     rgbcolor={green[500]}
                   />
                 </TableCell>
-                <TableCell>Single License</TableCell>
+                <TableCell>{L('Single License')}</TableCell>
                 <TableCell>38</TableCell>
               </TableRow>
               <TableRow>
                 <TableCell component="th" scope="row">
-                  Milo
+                  {L('Milo')}
                 </TableCell>
                 <TableCell>
                   <ProductsChip
@@ -410,12 +411,12 @@ function Products() {
                     rgbcolor={blue[500]}
                   />
                 </TableCell>
-                <TableCell>Single License</TableCell>
+                <TableCell>{L('Single License')}</TableCell>
                 <TableCell>43</TableCell>
               </TableRow>
               <TableRow>
                 <TableCell component="th" scope="row">
-                  Robust UI Kit
+                  {L('Robust UI Kit')}
                 </TableCell>
                 <TableCell>
                   <ProductsChip
@@ -424,12 +425,12 @@ function Products() {
                     rgbcolor={red[500]}
                   />
                 </TableCell>
-                <TableCell>Single License</TableCell>
+                <TableCell>{L('Single License')}</TableCell>
                 <TableCell>27</TableCell>
               </TableRow>
               <TableRow>
                 <TableCell component="th" scope="row">
-                  Spark
+                  {L('Spark')}
                 </TableCell>
                 <TableCell>
                   <ProductsChip
@@ -438,7 +439,7 @@ function Products() {
                     rgbcolor={green[500]}
                   />
                 </TableCell>
-                <TableCell>Single License</TableCell>
+                <TableCell>{L('Single License')}</TableCell>
                 <TableCell>12</TableCell>
               </TableRow>
             </TableBody>
@@ -522,7 +523,7 @@ const SalesRevenue = withTheme(({ theme }) => {
     <Card mb={6}>
       <CardContent>
         <Typography variant="h6" gutterBottom>
-          Sales / Revenue
+          {L('Sales / Revenue')}
         </Typography>
 
         <Spacer mb={6} />
@@ -541,17 +542,17 @@ function Profile() {
       <Helmet title="Profile" />
 
       <Typography variant="h3" gutterBottom display="inline">
-        Profile
+        {L('Profile')}
       </Typography>
 
       <Breadcrumbs aria-label="Breadcrumb" mt={2}>
         <Link component={NavLink} exact to="/">
-          Dashboard
+          {L('Dashboard')}
         </Link>
         <Link component={NavLink} exact to="/">
-          Pages
+          {L('Pages')}
         </Link>
-        <Typography>Profile</Typography>
+        <Typography>{L('Profile')}</Typography>
       </Breadcrumbs>
 
       <Divider my={6} />

@@ -1,6 +1,6 @@
 import React from "react"
 import styled from "styled-components"
-
+import { L } from '../../../utils/lang'
 import {
   Card as MuiCard,
   CardHeader,
@@ -97,18 +97,18 @@ const DashboardTable = () => (
           <MoreVertical />
         </IconButton>
       }
-      title="Latest projects"
+      title={L('Latest projects')}
     />
     <Paper>
       <TableWrapper>
         <Table>
           <TableHead>
             <TableRow>
-              <TableCell>Name</TableCell>
-              <TableCell>Start Date</TableCell>
-              <TableCell>End Date</TableCell>
-              <TableCell>State</TableCell>
-              <TableCell>Assignee</TableCell>
+              <TableCell>{L('Name')}</TableCell>
+              <TableCell>{L('Start Date')}</TableCell>
+              <TableCell>{L('End Date')}</TableCell>
+              <TableCell>{L('State')}</TableCell>
+              <TableCell>{L('Assignee')}</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>

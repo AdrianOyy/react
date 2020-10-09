@@ -10,11 +10,13 @@ import styled from "styled-components"
 import { spacing } from "@material-ui/system"
 import formatDateTime from "../../../../../utils/formatDateTime"
 import DCAPI from "../../../../../api/dc"
+import { L } from '../../../../../utils/lang'
 // import envUrl from '../../../../../utils/baseUrl'
 
 
 const Paper = styled(MuiPaper)(spacing)
-const tableName = 'List'
+const tableName = L('List')
+
 
 
 function List(props) {
@@ -75,14 +77,14 @@ function List(props) {
 
   // 表头字段列表
   const headCells = [
-    { id: 'ip', alignment: 'center', label: 'IP' },
-    { id: 'dc', alignment: 'center', label: 'DC' },
-    { id: 'hostname', alignment: 'center', label: 'Hostname' },
-    { id: 'projectTeam', alignment: 'center', label: 'Project Team' },
-    { id: 'networkType', alignment: 'center', label: 'Network Type' },
-    { id: 'ipPool', alignment: 'center', label: 'IP Pool' },
-    { id: 'assignedDate', alignment: 'center', label: 'Assigned Date' },
-    { id: 'action', alignment: 'right', label: 'Actions' },
+    { id: 'ip', alignment: 'center', label: L('IP') },
+    { id: 'dc', alignment: 'center', label: L('DC') },
+    { id: 'hostname', alignment: 'center', label: L('Hostname') },
+    { id: 'projectTeam', alignment: 'center', label: L('Project Team') },
+    { id: 'networkType', alignment: 'center', label: L('Network Type') },
+    { id: 'ipPool', alignment: 'center', label: L('IP Pool') },
+    { id: 'assignedDate', alignment: 'center', label: L('Assigned Date') },
+    { id: 'action', alignment: 'right', label: L('Actions') },
   ]
 
   // 每行显示的字段
@@ -98,13 +100,13 @@ function List(props) {
 
   // 搜索栏字段列表
   const searchBarFieldList = [
-    { id: 'ip', label: 'IP', type: 'text', disabled: false, readOnly: false, value: IP },
+    { id: 'ip', label: L('IP'), type: 'text', disabled: false, readOnly: false, value: IP },
     {
-      id: 'dc', label: 'DC', type: 'text', disabled: false, readOnly: false,
+      id: 'dc', label: L('DC'), type: 'text', disabled: false, readOnly: false,
       value: DCId, isSelector: true, itemList: dcList, labelField: 'name', valueField: 'id'
     },
-    { id: 'hostname', label: 'Hostname', type: 'text', disabled: false, readOnly: false, value: hostname },
-    { id: 'projectTeam', label: 'Project Team', type: 'text', disabled: false, readOnly: false, value: projectTeam },
+    { id: 'hostname', label: L('Hostname'), type: 'text', disabled: false, readOnly: false, value: hostname },
+    { id: 'projectTeam', label: L('Project Team'), type: 'text', disabled: false, readOnly: false, value: projectTeam },
   ]
 
   const handleChangePage = (_, newPage) => {

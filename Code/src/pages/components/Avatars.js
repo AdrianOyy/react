@@ -3,7 +3,7 @@ import styled from "styled-components"
 import { NavLink as RouterNavLink } from "react-router-dom"
 
 import Helmet from 'react-helmet'
-
+import { L } from '../../utils/lang'
 import {
   CardContent,
   Grid,
@@ -64,11 +64,10 @@ function ImageAvatars() {
     <Card mb={6}>
       <CardContent>
         <Typography variant="h6" gutterBottom>
-          Image Avatars
+          {L('Image Avatars')}
         </Typography>
         <Typography variant="body2" gutterBottom>
-          Image avatars can be created by passing standard img props src or
-          srcSet into the component.
+          {L('imageAvatarsDes')}
         </Typography>
 
         <Grid container justify="center" alignItems="center">
@@ -85,17 +84,16 @@ function LetterAvatars() {
     <Card mb={6}>
       <CardContent>
         <Typography variant="h6" gutterBottom>
-          Letter avatars
+          {L('Letter Avatars')}
         </Typography>
         <Typography variant="body2" gutterBottom>
-          Avatars containing simple characters can be created by passing your
-          string as children.
+          {L('letterAvatarsDes')}
         </Typography>
 
         <Grid container justify="center" alignItems="center">
-          <Avatar>H</Avatar>
-          <OrangeAvatar>N</OrangeAvatar>
-          <PurpleAvatar>OP</PurpleAvatar>
+          <Avatar>{L('H')}</Avatar>
+          <OrangeAvatar>{L('N')}</OrangeAvatar>
+          <PurpleAvatar>{L('OP')}</PurpleAvatar>
         </Grid>
       </CardContent>
     </Card>
@@ -107,10 +105,10 @@ function IconAvatars() {
     <Card mb={6}>
       <CardContent>
         <Typography variant="h6" gutterBottom>
-          Icon avatars
+          {L('Icon avatars')}
         </Typography>
         <Typography variant="body2" gutterBottom>
-          Icon avatars are created by passing an icon as children.
+          {L('iconAvatarsDes')}
         </Typography>
 
         <Grid container justify="center" alignItems="center">
@@ -132,19 +130,19 @@ function IconAvatars() {
 function Avatars() {
   return (
     <React.Fragment>
-      <Helmet title="Avatars" />
+      <Helmet title={L('Avatars')} />
       <Typography variant="h3" gutterBottom display="inline">
-        Avatars
+        {L('Avatars')}
       </Typography>
 
       <Breadcrumbs aria-label="Breadcrumb" mt={2}>
         <Link component={NavLink} exact to="/">
-          Dashboard
+          {L('Dashboard')}
         </Link>
         <Link component={NavLink} exact to="/">
-          Components
+          {L('Components')}
         </Link>
-        <Typography>Avatars</Typography>
+        <Typography>{L('Avatars')}</Typography>
       </Breadcrumbs>
 
       <Divider my={6} />

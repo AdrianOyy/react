@@ -3,6 +3,7 @@ import styled from "styled-components"
 import { NavLink as RouterNavLink } from "react-router-dom"
 
 import Helmet from 'react-helmet'
+import { L } from '../../utils/lang'
 
 import {
   Button,
@@ -17,7 +18,7 @@ import {
   Typography
 } from "@material-ui/core"
 
-import { StarBorder as StarIcon } from "@material-ui/icons"
+import { Label, StarBorder as StarIcon } from "@material-ui/icons"
 
 import { spacing } from "@material-ui/system"
 
@@ -47,17 +48,17 @@ function Pricing() {
     <React.Fragment>
       <Helmet title="Pricing" />
       <Typography variant="h3" gutterBottom display="inline">
-        Pricing
+        {L('Pricing')}
       </Typography>
 
       <Breadcrumbs aria-label="Breadcrumb" mt={2}>
         <Link component={NavLink} exact to="/">
-          Dashboard
+          {L('Dashboard')}
         </Link>
         <Link component={NavLink} exact to="/">
-          Pages
+          {L('Pages')}
         </Link>
-        <Typography>Pricing</Typography>
+        <Typography>{L('Pricing')}</Typography>
       </Breadcrumbs>
 
       <Divider my={6} />
@@ -116,7 +117,7 @@ function Pricing() {
                 </CardContent>
                 <CardActions>
                   <Button fullWidth variant="outlined" color="primary">
-                    Sign up for free
+                    {L('Sign up for free')}
                   </Button>
                 </CardActions>
               </Card>
@@ -164,7 +165,7 @@ function Pricing() {
                 </CardContent>
                 <CardActions>
                   <Button fullWidth variant="contained" color="primary">
-                    Get started
+                    {L('Get started')}
                   </Button>
                 </CardActions>
               </Card>
@@ -172,7 +173,7 @@ function Pricing() {
             <Grid item xs={12} md={4}>
               <Card p={5}>
                 <CardHeader
-                  title="Enterprise"
+                  title={L("Enterprise")}
                   titleTypographyProps={{ align: "center" }}
                   pb={0}
                   pt={2}
@@ -209,7 +210,7 @@ function Pricing() {
                 </CardContent>
                 <CardActions>
                   <Button fullWidth variant="outlined" color="primary">
-                    Contact us
+                    {L('Contact us')}
                   </Button>
                 </CardActions>
               </Card>

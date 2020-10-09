@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { NavLink as RouterNavLink } from "react-router-dom";
+import { L } from '../../utils/lang'
 
 import Helmet from 'react-helmet';
 
@@ -58,10 +59,10 @@ function SimpleList() {
     <Card mb={6}>
       <CardContent pb={0}>
         <Typography variant="h6" gutterBottom>
-          Simple List
+          {L('Simple List')}
         </Typography>
         <Typography variant="body2" gutterBottom>
-          Lists are a continuous group of text or images.
+          {L('simpleListDes')}
         </Typography>
       </CardContent>
 
@@ -97,10 +98,10 @@ function CondensedList() {
     <Card mb={6}>
       <CardContent pb={0}>
         <Typography variant="h6" gutterBottom>
-          Condensed List
+          {L('Condensed List')}
         </Typography>
         <Typography variant="body2" gutterBottom>
-          Lists are a continuous group of text or images.
+          {L('condensedListDes')}
         </Typography>
       </CardContent>
 
@@ -145,17 +146,18 @@ class NestedList extends React.Component {
       <Card mb={6}>
         <CardContent pb={0}>
           <Typography variant="h6" gutterBottom>
-            Nested List
+            {L('Nested List')}
           </Typography>
           <Typography variant="body2" gutterBottom>
-            Lists are a continuous group of text or images.
+            {L('nestedListDes')}
+
           </Typography>
         </CardContent>
 
         <List
           component="nav"
           subheader={
-            <ListSubheader component="div">Nested List Items</ListSubheader>
+            <ListSubheader component="div">{L('Nested List Items')}</ListSubheader>
           }
         >
           <ListItem button>
@@ -198,13 +200,12 @@ function FolderList() {
     <Card mb={6}>
       <CardContent pb={0}>
         <Typography variant="h6" gutterBottom>
-          Folder List
+          {L('Folder List')}
         </Typography>
         <Typography variant="body2" gutterBottom>
-          Lists are a continuous group of text or images.
+          {L('folderListDes')}
         </Typography>
       </CardContent>
-
       <List>
         <ListItem>
           <Avatar mr={3}>
@@ -232,19 +233,19 @@ function FolderList() {
 function Lists() {
   return (
     <React.Fragment>
-      <Helmet title="Lists" />
+      <Helmet title={L('Lists')} />
       <Typography variant="h3" gutterBottom display="inline">
-        Lists
+        {L('Lists')}
       </Typography>
 
       <Breadcrumbs aria-label="Breadcrumb" mt={2}>
         <Link component={NavLink} exact to="/">
-          Dashboard
+          {L('Dashboard')}
         </Link>
         <Link component={NavLink} exact to="/">
-          Components
+          {L('Components')}
         </Link>
-        <Typography>Lists</Typography>
+        <Typography>{L('Lists')}</Typography>
       </Breadcrumbs>
 
       <Divider my={6} />

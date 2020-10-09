@@ -10,6 +10,7 @@ import { CommonTable, SearchBar } from '../../../../../components'
 import API from "../../../../../api/tenantGroupMapping"
 import tenantApi from "../../../../../api/tenant"
 import adGroupApi from "../../../../../api/adGroup"
+import { L } from '../../../../../utils/lang'
 import styled from "styled-components"
 import { spacing } from "@material-ui/system"
 import dayjs from "dayjs"
@@ -85,11 +86,11 @@ function List(props) {
 
   // 表头字段列表
   const headCells = [
-    { id: 'tenant', alignment: 'center', label: 'Tenant' },
-    { id: 'group', alignment: 'center', label: 'AD Group' },
-    { id: 'createdAt', alignment: 'center', label: 'Created At' },
-    { id: 'updatedAt', alignment: 'center', label: 'Updated At' },
-    { id: 'action', alignment: 'right', label: 'Actions' },
+    { id: 'tenant', alignment: 'center', label: L('Tenant') },
+    { id: 'group', alignment: 'center', label: L('AD Group') },
+    { id: 'createdAt', alignment: 'center', label: L('Created At') },
+    { id: 'updatedAt', alignment: 'center', label: L('Updated At') },
+    { id: 'action', alignment: 'right', label: L('Actions') },
   ]
 
   // 每行显示的字段
@@ -101,10 +102,10 @@ function List(props) {
   ]
 
   const searchBarFieldList = [
-    { id: 'tenant', label: 'Tenant', type: 'text', disabled: false, value: tenant, isSelector: true, itemList: tenantList, labelField: 'name', valueField: 'id' },
-    { id: 'adGroup', label: 'AD Group', type: 'text', disabled: false, value: adGroup, isSelector: true, itemList: adGroupList, labelField: 'name', valueField: 'id' },
-    { id: 'createdAt', label: 'Created At', type: 'date', disabled: false, readOnly: false, value: createdAt },
-    { id: 'updatedAt', label: 'Updated At', type: 'date', disabled: false, readOnly: false, value: updatedAt },
+    { id: 'tenant', label: L('Tenant'), type: 'text', disabled: false, value: tenant, isSelector: true, itemList: tenantList, labelField: 'name', valueField: 'id' },
+    { id: 'adGroup', label: L('AD Group'), type: 'text', disabled: false, value: adGroup, isSelector: true, itemList: adGroupList, labelField: 'name', valueField: 'id' },
+    { id: 'createdAt', label: L('Created At'), type: 'date', disabled: false, readOnly: false, value: createdAt },
+    { id: 'updatedAt', label: L('Updated At'), type: 'date', disabled: false, readOnly: false, value: updatedAt },
   ]
 
   const handleClear = () => {

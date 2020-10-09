@@ -5,6 +5,7 @@ import {
   TablePagination,
   Paper as MuiPaper, Dialog, DialogTitle, DialogContent, DialogActions, Button,
 } from "@material-ui/core"
+import { L } from '../../../../../utils/lang'
 
 import { CommonTable, SearchBar } from '../../../../../components'
 import API from "../../../../../api/workFlow"
@@ -20,7 +21,7 @@ const Paper = styled(MuiPaper)(spacing)
 const formatDateTime = (str) => {
   return dayjs(new Date(str)).format('YYYY-MM-DD HH:mm')
 }
-const tableName = 'My Approval'
+const tableName = L('My Approval')
 
 function List(props) {
   const { onMount, path } = props
@@ -72,12 +73,12 @@ function List(props) {
 
   // 表头字段列表
   const headCells = [
-    { id: 'id', alignment: 'center', label: 'Id' },
-    { id: 'workflowName', alignment: 'center', label: 'Workflow Name' },
-    { id: 'name', alignment: 'center', label: 'Name' },
-    { id: 'createBy', alignment: 'center', label: 'Create By' },
-    { id: 'createTime', alignment: 'center', label: 'Create Time' },
-    { id: 'action', alignment: 'right', label: 'Action' },
+    { id: 'id', alignment: 'center', label: L('Id') },
+    { id: 'workflowName', alignment: 'center', label: L('Workflow Name') },
+    { id: 'name', alignment: 'center', label: L('Name') },
+    { id: 'createBy', alignment: 'center', label: L('Create By') },
+    { id: 'createTime', alignment: 'center', label: L('Create Time') },
+    { id: 'action', alignment: 'right', label: L('Action') },
   ]
 
   // 每行显示的字段
@@ -90,8 +91,8 @@ function List(props) {
   ]
 
   const searchBarFieldList = [
-    { id: 'startTime', label: 'Start Date', type: 'date', disabled: false, readOnly: false, value: startTime },
-    { id: 'endTime', label: 'End Date', type: 'date', disabled: false, readOnly: false, value: endTime },
+    { id: 'startTime', label: L('Start Date'), type: 'date', disabled: false, readOnly: false, value: startTime },
+    { id: 'endTime', label: L('End Date'), type: 'date', disabled: false, readOnly: false, value: endTime },
   ]
 
   const handleClear = () => {
@@ -152,8 +153,8 @@ function List(props) {
   }
 
   const actionList = [
-    { label: 'step', icon: <ReorderIcon />, handleClick: handleStep  },
-    { label: 'edit', icon: <BorderColorIcon />, handleClick: handleDetail  },
+    { label: L('step'), icon: <ReorderIcon />, handleClick: handleStep },
+    { label: L('edit'), icon: <BorderColorIcon />, handleClick: handleDetail },
   ]
 
   const handleClose = () => {
@@ -192,13 +193,13 @@ function List(props) {
               aria-labelledby="image-modal-title"
               aria-describedby="iamge-modal-description"
             >
-              <DialogTitle id="form-dialog-title">Activiti</DialogTitle>
+              <DialogTitle id="form-dialog-title">{L('Activity')}</DialogTitle>
               <DialogContent>
                 <img alt="" src={image} />
               </DialogContent>
               <DialogActions>
                 <Button onClick={handleClose} color="primary">
-                  Close
+                  {L('Close')}
                 </Button>
               </DialogActions>
             </Dialog>

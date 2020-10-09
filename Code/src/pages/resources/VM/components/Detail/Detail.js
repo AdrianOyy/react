@@ -4,6 +4,7 @@ import DetailPage from "../../../../../components/DetailPage"
 import API from "../../../../../api/vm"
 import { useParams } from "react-router-dom"
 import dayjs from "dayjs"
+import { L } from '../../../../../utils/lang'
 
 function Detail(props) {
   const { onMount } = props
@@ -100,95 +101,95 @@ function Detail(props) {
   useEffect(() => {
     const list = [
       {
-        id: 'serialNumber', label: 'Serial Number', type: 'text',
+        id: 'serialNumber', label: L('Serial Number'), type: 'text',
         disabled: true, readOnly: true, value: serialNumber,
       },
       {
-        id: 'model', label: 'Model', type: 'text',
+        id: 'model', label: L('Model'), type: 'text',
         disabled: true, readOnly: true, value: model,
       },
       {
-        id: 'assignedMemory', label: 'Assigned Memory(GB)', type: 'text',
+        id: 'assignedMemory', label: L('Assigned Memory(GB)'), type: 'text',
         disabled: true, readOnly: true, value: assignedMemory,
       },
       {
-        id: 'assignedCPUCores', label: 'Assigned CPU Cores', type: 'text',
+        id: 'assignedCPUCores', label: L('Assigned CPU Cores'), type: 'text',
         disabled: true, readOnly: true, value: assignedCPUCores,
       },
       {
-        id: 'diskVolumeName', label: 'Disk Volume Name', type: 'text',
+        id: 'diskVolumeName', label: L('Disk Volume Name'), type: 'text',
         disabled: true, readOnly: true, value: diskVolumeName,
       },
       {
-        id: 'CSVName', label: 'CSV Name', type: 'text',
+        id: 'CSVName', label: L('CSV Name'), type: 'text',
         disabled: true, readOnly: true, value: CSVName,
       },
       {
-        id: 'diskSize', label: 'Disk Size', type: 'text',
+        id: 'diskSize', label: L('Disk Size'), type: 'text',
         disabled: true, readOnly: true, value: diskSize,
       },
       {
-        id: 'status', label: 'Status', type: 'text',
+        id: 'status', label: L('Status'), type: 'text',
         disabled: true, readOnly: true, value: status,
       },
       {
-        id: 'hostname', label: 'Hostname', type: 'text',
+        id: 'hostname', label: L('Hostname'), type: 'text',
         disabled: true, readOnly: true, value: hostname,
       },
       {
-        id: 'VMClusterName', label: 'VM Cluster', type: 'text',
+        id: 'VMClusterName', label: L('VM Cluster'), type: 'text',
         disabled: true, readOnly: true, value: VMClusterName,
       },
       {
-        id: 'OS', label: 'OS', type: 'text',
+        id: 'OS', label: L('OS'), type: 'text',
         disabled: true, readOnly: true, value: OS,
       },
       {
-        id: 'serverRole', label: 'Server Role', type: 'text',
+        id: 'serverRole', label: L('Server Role'), type: 'text',
         disabled: true, readOnly: true, value: serverRole,
       },
       {
-        id: 'hostIP', label: 'Host IP', type: 'text',
+        id: 'hostIP', label: L('Host IP'), type: 'text',
         disabled: true, readOnly: true, value: hostIP,
       },
       {
-        id: 'ATLIP', label: 'ATL IP', type: 'text',
+        id: 'ATLIP', label: L('ATL IP'), type: 'text',
         disabled: true, readOnly: true, value: ATLIP,
       },
       {
-        id: 'magementHost', label: 'Magement Host', type: 'text',
+        id: 'magementHost', label: L('Magement Host'), type: 'text',
         disabled: true, readOnly: true, value: magementHost,
       },
       {
-        id: 'extraIPs', label: 'Extra IPs', type: 'text',
+        id: 'extraIPs', label: L('Extra IPs'), type: 'text',
         disabled: true, readOnly: true, value: extraIPs,
       },
       {
-        id: 'remarks', label: 'Remarks', type: 'text',
+        id: 'remarks', label: L('Remarks'), type: 'text',
         disabled: true, readOnly: true, value: remarks,
       },
       {
-        id: 'projectCode', label: 'Project Code', type: 'text',
+        id: 'projectCode', label: L('Project Code'), type: 'text',
         disabled: true, readOnly: true, value: projectCode,
       },
       {
-        id: 'projectContact', label: 'Project Contact', type: 'text',
+        id: 'projectContact', label: L('Project Contact'), type: 'text',
         disabled: true, readOnly: true, value: projectContact,
       },
       {
-        id: 'projectManager', label: 'Project Manager', type: 'text',
+        id: 'projectManager', label: L('Project Manager'), type: 'text',
         disabled: true, readOnly: true, value: projectManager,
       },
       {
-        id: 'section', label: 'Section', type: 'text',
+        id: 'section', label: L('Section'), type: 'text',
         disabled: true, readOnly: true, value: section,
       },
       {
-        id: 'createdAt', label: 'Created At', type: 'text',
+        id: 'createdAt', label: L('Created At'), type: 'text',
         disabled: true, readOnly: true, value: formatDateTime(createdAt)
       },
       {
-        id: 'updatedAt', label: 'Updated At', type: 'text',
+        id: 'updatedAt', label: L('Updated At'), type: 'text',
         disabled: true, readOnly: true, value: formatDateTime(updatedAt)
       },
     ]
@@ -281,7 +282,7 @@ function Detail(props) {
   return (
     <React.Fragment>
       <DetailPage
-        formTitle = 'Detail'
+        formTitle={L('Detail')}
         onFormFieldChange = {onFormFieldChange}
         formFieldList = {formFieldList}
       />

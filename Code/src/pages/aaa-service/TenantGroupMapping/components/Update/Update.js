@@ -9,6 +9,7 @@ import { useHistory } from 'react-router-dom'
 import { checkEmpty, getCheckExist } from "../../untils/TenantGroupMappingFieldCheck"
 import tenantApi from "../../../../../api/tenant"
 import adGroupApi from "../../../../../api/adGroup"
+import { L } from '../../../../../utils/lang'
 
 function TenantGroupMappingUpdate(props) {
   const { onMount } = props
@@ -107,7 +108,7 @@ function TenantGroupMappingUpdate(props) {
     setSaving(true)
     API.update(id, { tenantId, groupId })
       .then(() => {
-        CommonTip.success("Success")
+        CommonTip.success(L('Success'))
         history.push({ pathname: '/aaa-service/tenantAdGroupMapping' })
       })
       .catch(() => {
@@ -129,17 +130,17 @@ function TenantGroupMappingUpdate(props) {
   useEffect(() => {
     const list = [
       {
-        id: 'tenant', label: 'Tenant', type: 'select', required: true,
+        id: 'tenant', label: L('Tenant'), type: 'select', required: true,
         readOnly: false, value: tenantId, error: tenantError, helperText: tenantHelperText,
         itemList: tenantList, labelField: "name", valueField: "id"
       },
       {
-        id: 'group', label: 'AD Group', type: 'select', required: true,
+        id: 'group', label: L('AD Group'), type: 'select', required: true,
         readOnly: false, value: groupId, error: groupError, helperText: groupHelperText,
         itemList: adGroupList, labelField: "name", valueField: "id"
       },
-      { id: 'createdAt', label: 'Created At', type: 'text', disabled: true, readOnly: true, value: formatDateTime(createdAt) },
-      { id: 'updatedAt', label: 'Updated At', type: 'text', disabled: true, readOnly: true, value: formatDateTime(updatedAt) },
+      { id: 'createdAt', label: L('Created At'), type: 'text', disabled: true, readOnly: true, value: formatDateTime(createdAt) },
+      { id: 'updatedAt', label: L('Updated At'), type: 'text', disabled: true, readOnly: true, value: formatDateTime(updatedAt) },
     ]
     setFormFieldList(list)
   }, [ tenantId, groupId, tenantError, groupError, tenantHelperText, groupHelperText, tenantList, adGroupList, createdAt, updatedAt ])
@@ -160,7 +161,7 @@ function TenantGroupMappingUpdate(props) {
   return (
     <React.Fragment>
       <DetailPage
-        formTitle = 'Update'
+        formTitle={L('Update')}
         onFormFieldChange = {onFormFieldChange}
         formFieldList = {formFieldList}
         showBtn ={true}

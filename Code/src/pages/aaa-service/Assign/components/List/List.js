@@ -9,6 +9,7 @@ import { CommonTable, SearchBar } from '../../../../../components'
 import API from "../../../../../api/assign"
 import tenantApi from "../../../../../api/tenant"
 import adGroupApi from "../../../../../api/adGroup"
+import { L } from '../../../../../utils/lang'
 import roleApi from "../../../../../api/role"
 import styled from "styled-components"
 import { spacing } from "@material-ui/system"
@@ -19,7 +20,8 @@ const formatDateTime = (str) => {
   return dayjs(new Date(str)).format('DD-MMM-YYYY HH:mm')
 }
 
-const tableName = 'List'
+const tableName = L('List')
+
 
 function AssignList(props) {
   const { onMount, path } = props
@@ -95,12 +97,12 @@ function AssignList(props) {
 
   // 表头字段列表
   const headCells = [
-    { id: 'tenant', alignment: 'center', label: 'Tenant' },
-    { id: 'group', alignment: 'center', label: 'AD Group' },
-    { id: 'role', alignment: 'center', label: 'Role' },
-    { id: 'createdAt', alignment: 'center', label: 'Created At' },
-    { id: 'updatedAt', alignment: 'center', label: 'Updated At' },
-    { id: 'action', alignment: 'right', label: 'Actions' },
+    { id: 'tenant', alignment: 'center', label: L('Tenant') },
+    { id: 'group', alignment: 'center', label: L('AD Group') },
+    { id: 'role', alignment: 'center', label: L('Role') },
+    { id: 'createdAt', alignment: 'center', label: L('Created At') },
+    { id: 'updatedAt', alignment: 'center', label: L('Updated At') },
+    { id: 'action', alignment: 'right', label: L('Actions') },
   ]
 
   // 每行显示的字段
@@ -114,22 +116,22 @@ function AssignList(props) {
 
   const searchBarFieldList = [
     {
-      id: 'tenant', label: 'Tenant', type: 'text', disabled: false,
+      id: 'tenant', label: L('Tenant'), type: 'text', disabled: false,
       value: tenant, isSelector: true, itemList: tenantList,
       labelField: 'name', valueField: 'id'
     },
     {
-      id: 'adGroup', label: 'AD Group', type: 'text', disabled: false,
+      id: 'adGroup', label: L('AD Group'), type: 'text', disabled: false,
       value: adGroup, isSelector: true, itemList: adGroupList,
       labelField: 'name', valueField: 'id'
     },
     {
-      id: 'role', label: 'Role', type: 'text', disabled: false,
+      id: 'role', label: L('Role'), type: 'text', disabled: false,
       value: role, isSelector: true, itemList: roleList,
       labelField: 'label', valueField: 'id'
     },
-    { id: 'createdAt', label: 'Created At', type: 'date', disabled: false, readOnly: false, value: createdAt },
-    { id: 'updatedAt', label: 'Updated At', type: 'date', disabled: false, readOnly: false, value: updatedAt },
+    { id: 'createdAt', label: L('Created At'), type: 'date', disabled: false, readOnly: false, value: createdAt },
+    { id: 'updatedAt', label: L('Updated At'), type: 'date', disabled: false, readOnly: false, value: updatedAt },
   ]
 
   const handleClear = () => {

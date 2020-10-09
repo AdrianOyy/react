@@ -1,6 +1,7 @@
 import React from "react"
 import styled from "styled-components"
 import { NavLink as RouterNavLink } from "react-router-dom"
+import { L } from '../../utils/lang'
 
 import Helmet from 'react-helmet'
 
@@ -1108,10 +1109,10 @@ function Icons() {
     <Card mb={6}>
       <CardContent>
         <Typography variant="h6" gutterBottom>
-          Material Icons
+          {L('Material Icons')}
         </Typography>
         <Typography variant="body2" gutterBottom>
-          Material Icons by @material-ui/icons
+          {L('Material Icons by @material-ui/icons')}
         </Typography>
         <Paper mt={5}>
           <Grid container spacing={6}>
@@ -1134,19 +1135,19 @@ function Icons() {
 function MaterialIcons() {
   return (
     <React.Fragment>
-      <Helmet title="Material Icons" />
+      <Helmet title={L('Material Icons')} />
       <Typography variant="h3" gutterBottom display="inline">
-        Material Icons
+        {L('Material Icons')}
       </Typography>
 
       <Breadcrumbs aria-label="Breadcrumb" mt={2}>
         <MuiLink component={NavLink} exact to="/">
-          Dashboard
+          {L('Dashboard')}
         </MuiLink>
         <MuiLink component={NavLink} exact to="/">
-          Icons
+          {L('Icons')}
         </MuiLink>
-        <Typography>Material Icons</Typography>
+        <Typography>{L('Material Icons')}</Typography>
       </Breadcrumbs>
 
       <Divider my={6} />

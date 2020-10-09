@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { NavLink as RouterNavLink } from "react-router-dom";
+import { L } from '../../utils/lang'
 
 import Helmet from 'react-helmet';
 
@@ -60,11 +61,10 @@ class SimpleSnackbar extends React.Component {
       <Card mb={6}>
         <CardContent>
           <Typography variant="h6" gutterBottom>
-            Simple Snackbar
+            {L('Simple Snackbar')}
           </Typography>
           <Typography variant="body2" gutterBottom>
-            A basic snackbar that aims to reproduce Google Keep's snackbar
-            behavior.
+            {L('simpleSnackbarDes')}
           </Typography>
           <Paper mt={3}>
             <Button
@@ -72,7 +72,7 @@ class SimpleSnackbar extends React.Component {
               variant="contained"
               color="secondary"
             >
-              Open simple snackbar
+              {L('Open simple snackbar')}
             </Button>
             <Snackbar
               anchorOrigin={{
@@ -85,7 +85,7 @@ class SimpleSnackbar extends React.Component {
               ContentProps={{
                 "aria-describedby": "message-id"
               }}
-              message={<span id="message-id">Note archived</span>}
+              message={<span id="message-id">{L('Note archived')}</span>}
               action={[
                 <Button
                   key="undo"
@@ -93,7 +93,7 @@ class SimpleSnackbar extends React.Component {
                   size="small"
                   onClick={this.handleClose}
                 >
-                  UNDO
+                  {L('UNDO')}
                 </Button>,
                 <IconButton
                   key="close"
@@ -133,11 +133,10 @@ class PositionedSnackbar extends React.Component {
       <Card mb={6}>
         <CardContent>
           <Typography variant="h6" gutterBottom>
-            Positioned Snackbar
+            {L('Positioned Snackbar')}
           </Typography>
           <Typography variant="body2" gutterBottom>
-            There may be circumstances when the placement of the snackbar needs
-            to be more flexible.
+            {L('positionedSnackbarDes')}
           </Typography>
           <Paper mt={3}>
             <Button
@@ -150,7 +149,7 @@ class PositionedSnackbar extends React.Component {
               size="small"
               mr={2}
             >
-              Top-Center
+              {L('Top-Center')}
             </Button>
             <Button
               onClick={this.handleClick({
@@ -162,7 +161,7 @@ class PositionedSnackbar extends React.Component {
               size="small"
               mr={2}
             >
-              Top-Right
+              {L('Top-Right')}
             </Button>
             <Button
               onClick={this.handleClick({
@@ -174,7 +173,7 @@ class PositionedSnackbar extends React.Component {
               size="small"
               mr={2}
             >
-              Bottom-Right
+              {L('Bottom-Right')}
             </Button>
             <Button
               onClick={this.handleClick({
@@ -186,7 +185,7 @@ class PositionedSnackbar extends React.Component {
               size="small"
               mr={2}
             >
-              Bottom-Center
+              {L('Bottom-Center')}
             </Button>
             <Button
               onClick={this.handleClick({
@@ -198,7 +197,7 @@ class PositionedSnackbar extends React.Component {
               size="small"
               mr={2}
             >
-              Bottom-Left
+              {L('Bottom-Left')}
             </Button>
             <Button
               onClick={this.handleClick({
@@ -210,7 +209,7 @@ class PositionedSnackbar extends React.Component {
               size="small"
               mr={2}
             >
-              Top-Left
+              {L('Top-Left')}
             </Button>
             <Snackbar
               anchorOrigin={{ vertical, horizontal }}
@@ -219,7 +218,7 @@ class PositionedSnackbar extends React.Component {
               ContentProps={{
                 "aria-describedby": "message-id"
               }}
-              message={<span id="message-id">I love snacks</span>}
+              message={<span id="message-id">{L('I love snacks')}</span>}
             />
           </Paper>
         </CardContent>
@@ -278,12 +277,10 @@ class ConsecutiveSnackbar extends React.Component {
       <Card mb={6}>
         <CardContent>
           <Typography variant="h6" gutterBottom>
-            Consecutive Snackbar
+            {L('Consecutive Snackbar')}
           </Typography>
           <Typography variant="body2" gutterBottom>
-            Per Google's guidelines, when a second snackbar is triggered while
-            the first is displayed, the first should start the contraction
-            motion downwards before the second one animates upwards.
+            {L('consecutiveSnackbarDes')}
           </Typography>
           <Paper mt={3}>
             <Button
@@ -292,7 +289,7 @@ class ConsecutiveSnackbar extends React.Component {
               color="secondary"
               mr={2}
             >
-              Show message A
+              {L('Show message A')}
             </Button>
             <Button
               onClick={this.handleClick("Message B")}
@@ -300,7 +297,7 @@ class ConsecutiveSnackbar extends React.Component {
               color="secondary"
               mr={2}
             >
-              Show message B
+              {L('Show message B')}
             </Button>
             <Snackbar
               key={messageInfo.key}
@@ -323,7 +320,7 @@ class ConsecutiveSnackbar extends React.Component {
                   size="small"
                   onClick={this.handleClose}
                 >
-                  UNDO
+                  {L('UNDO')}
                 </Button>,
                 <IconButton
                   key="close"
@@ -377,11 +374,10 @@ class DirectionSnackbar extends React.Component {
       <Card mb={6}>
         <CardContent>
           <Typography variant="h6" gutterBottom>
-            Control Direction
+            {L('Control Direction')}
           </Typography>
           <Typography variant="body2" gutterBottom>
-            Change the direction of the transition. Slide is the default
-            transition.
+            {L('controlDirectionDes')}
           </Typography>
           <Paper mt={3}>
             <Button
@@ -390,7 +386,7 @@ class DirectionSnackbar extends React.Component {
               color="secondary"
               mr={2}
             >
-              Right
+              {L('Right')}
             </Button>
             <Button
               onClick={this.handleClick(this.transitionUp)}
@@ -398,7 +394,7 @@ class DirectionSnackbar extends React.Component {
               color="secondary"
               mr={2}
             >
-              Up
+              {L('Up')}
             </Button>
             <Button
               onClick={this.handleClick(this.transitionRight)}
@@ -406,7 +402,7 @@ class DirectionSnackbar extends React.Component {
               color="secondary"
               mr={2}
             >
-              Left
+              {L('Left')}
             </Button>
             <Button
               onClick={this.handleClick(this.transitionDown)}
@@ -414,7 +410,7 @@ class DirectionSnackbar extends React.Component {
               color="secondary"
               mr={2}
             >
-              Down
+              {L('Down')}
             </Button>
             <Snackbar
               open={this.state.open}
@@ -423,7 +419,7 @@ class DirectionSnackbar extends React.Component {
               ContentProps={{
                 "aria-describedby": "message-id"
               }}
-              message={<span id="message-id">I love snacks</span>}
+              message={<span id="message-id">{L('I love snacks')}</span>}
             />
           </Paper>
         </CardContent>
@@ -470,7 +466,7 @@ class TransitionSnackbar extends React.Component {
               ContentProps={{
                 "aria-describedby": "message-id"
               }}
-              message={<span id="message-id">I love snacks</span>}
+              message={<span id="message-id">{L('I love snacks')}</span>}
             />
           </Paper>
         </CardContent>
@@ -482,19 +478,19 @@ class TransitionSnackbar extends React.Component {
 function Snackbars() {
   return (
     <React.Fragment>
-      <Helmet title="Snackbars" />
+      <Helmet title={L('Snackbars')} />
       <Typography variant="h3" gutterBottom display="inline">
-        Snackbars
+        {L('Snackbars')}
       </Typography>
 
       <Breadcrumbs aria-label="Breadcrumb" mt={2}>
         <Link component={NavLink} exact to="/">
-          Dashboard
+          {L('Dashboard')}
         </Link>
         <Link component={NavLink} exact to="/">
-          Components
+          {L('Components')}
         </Link>
-        <Typography>Snackbars</Typography>
+        <Typography>{L('Snackbars')}</Typography>
       </Breadcrumbs>
 
       <Divider my={6} />

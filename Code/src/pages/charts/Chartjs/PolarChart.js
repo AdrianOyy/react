@@ -6,6 +6,7 @@ import orange from "@material-ui/core/colors/orange"
 import red from "@material-ui/core/colors/red"
 import yellow from "@material-ui/core/colors/yellow"
 import { spacing } from "@material-ui/system"
+import { L } from '../../utils/lang'
 
 import { Polar } from "react-chartjs-2"
 
@@ -19,10 +20,10 @@ const ChartWrapper = styled.div`
 
 function PolarChart({ theme }) {
   const data = {
-    labels: [ "Speed", "Reliability", "Comfort", "Safety", "Efficiency" ],
+    labels: [L("Speed"), L("Reliability"), L("Comfort"), L("Safety"), L("Efficiency")],
     datasets: [
       {
-        label: "Model S",
+        label: L('Model S'),
         data: [ 35, 38, 65, 70, 24 ],
         backgroundColor: [
           theme.palette.secondary.main,
@@ -41,11 +42,10 @@ function PolarChart({ theme }) {
     <Card mb={1}>
       <CardContent>
         <Typography variant="h6" gutterBottom>
-          Polar Area Chart
+          {L('Polar Area Chart')}
         </Typography>
         <Typography variant="body2" gutterBottom>
-          Polar area charts are similar to pie charts, but each segment has the
-          same angle.
+          {L('polarareaChartsDes')}
         </Typography>
 
         <Spacer mb={6} />

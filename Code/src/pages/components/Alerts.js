@@ -1,6 +1,7 @@
 import React from "react"
 import styled from "styled-components"
 import { NavLink as RouterNavLink } from "react-router-dom"
+import { L } from '../../utils/lang'
 
 import Helmet from 'react-helmet'
 
@@ -42,18 +43,18 @@ function SimpleAlerts() {
     <Card mb={6}>
       <CardContent>
         <Typography variant="h6" gutterBottom>
-          Simple alerts
+          {L('Simple alerts')}
         </Typography>
         <Typography variant="body2" gutterBottom>
-          The alert offers four severity levels that set a distinctive icon and color.
+          {L('simpleAltersDes')}
         </Typography>
 
         <Spacer mb={4} />
 
-        <Alert mb={4} severity="error">This is an error alert — check it out!</Alert>
-        <Alert mb={4} severity="warning">This is a warning alert — check it out!</Alert>
-        <Alert mb={4} severity="info">This is an info alert — check it out!</Alert>
-        <Alert severity="success">This is a success alert — check it out!</Alert>
+        <Alert mb={4} severity="error">{L('alertCheckOut', [L('error')])}</Alert>
+        <Alert mb={4} severity="warning">{L('alertCheckOut', [L('warning')])}</Alert>
+        <Alert mb={4} severity="info">{L('alertCheckOut', [L('info')])}</Alert>
+        <Alert severity="success">{L('alertCheckOut', [L('success')])}</Alert>
       </CardContent>
     </Card>
   )
@@ -64,18 +65,18 @@ function OutlinedAlerts() {
     <Card mb={6}>
       <CardContent>
         <Typography variant="h6" gutterBottom>
-          Outlined alerts
+          {L('Outlined alerts')}
         </Typography>
         <Typography variant="body2" gutterBottom>
-          Two additional variants are available – outlined, and filled:
+          {L('outlinedAltersDes')}
         </Typography>
 
         <Spacer mb={4} />
+        <Alert mb={4} severity="error" variant="outlined">{L('alertCheckOut', [L('error')])}</Alert>
+        <Alert mb={4} severity="warning" variant="outlined">{L('alertCheckOut', [L('warning')])}</Alert>
+        <Alert mb={4} severity="info" variant="outlined">{L('alertCheckOut', [L('info')])}</Alert>
+        <Alert severity="success" variant="outlined">{L('alertCheckOut', [L('success')])}</Alert>
 
-        <Alert mb={4} variant="outlined" severity="error">This is an error alert — check it out!</Alert>
-        <Alert mb={4} variant="outlined" severity="warning">This is a warning alert — check it out!</Alert>
-        <Alert mb={4} variant="outlined" severity="info">This is an info alert — check it out!</Alert>
-        <Alert variant="outlined" severity="success">This is a success alert — check it out!</Alert>
       </CardContent>
     </Card>
   )
@@ -86,18 +87,18 @@ function FilledAlerts() {
     <Card mb={6}>
       <CardContent>
         <Typography variant="h6" gutterBottom>
-          Filled alerts
+          {L('Filled alerts')}
         </Typography>
         <Typography variant="body2" gutterBottom>
-          Two additional variants are available – outlined, and filled:
+          {L('filledAlertsDes')}
         </Typography>
 
         <Spacer mb={4} />
+        <Alert mb={4} severity="error" variant="filled">{L('alertCheckOut', [L('error')])}</Alert>
+        <Alert mb={4} severity="warning" variant="filled">{L('alertCheckOut', [L('warning')])}</Alert>
+        <Alert mb={4} severity="info" variant="filled">{L('alertCheckOut', [L('info')])}</Alert>
+        <Alert severity="success" variant="filled">{L('alertCheckOut', [L('success')])}</Alert>
 
-        <Alert mb={4} variant="filled" severity="error">This is an error alert — check it out!</Alert>
-        <Alert mb={4} variant="filled" severity="warning">This is a warning alert — check it out!</Alert>
-        <Alert mb={4} variant="filled" severity="info">This is an info alert — check it out!</Alert>
-        <Alert variant="filled" severity="success">This is a success alert — check it out!</Alert>
       </CardContent>
     </Card>
   )
@@ -108,29 +109,29 @@ function AdvancedAlerts() {
     <Card mb={6}>
       <CardContent>
         <Typography variant="h6" gutterBottom>
-          Advanced alerts
+          {L('Advanced alerts')}
         </Typography>
         <Typography variant="body2" gutterBottom>
-          You can use the AlertTitle component to display a formatted title above the content.
+          {L('advancedAlertsDes')}
         </Typography>
 
         <Spacer mb={4} />
 
         <Alert mb={4} severity="error">
-          <AlertTitle>Error</AlertTitle>
-          This is an error alert — <strong>check it out!</strong>
+          <AlertTitle>{L('Error')}</AlertTitle>
+          {L('alterCon'), [L('error')]}<strong>{L('checkItOut')}</strong>
         </Alert>
         <Alert mb={4} severity="warning">
-          <AlertTitle>Warning</AlertTitle>
-          This is a warning alert — <strong>check it out!</strong>
+          <AlertTitle>{L('Warning')}</AlertTitle>
+          {L('alterCon'), [L('warning')]}<strong>{L('checkItOut')}</strong>
         </Alert>
         <Alert mb={4} severity="info">
-          <AlertTitle>Info</AlertTitle>
-          This is an info alert — <strong>check it out!</strong>
+          <AlertTitle>{L('Info')}</AlertTitle>
+          {L('alterCon'), [L('info')]}<strong>{L('checkItOut')}</strong>
         </Alert>
         <Alert mb={4} severity="success">
-          <AlertTitle>Success</AlertTitle>
-          This is a success alert — <strong>check it out!</strong>
+          <AlertTitle>{L('Success')}</AlertTitle>
+          {L('alterCon'), [L('success')]}<strong>{L('checkItOut')}</strong>
         </Alert>
       </CardContent>
     </Card>
@@ -142,23 +143,25 @@ function ActionAlerts() {
     <Card mb={6}>
       <CardContent>
         <Typography variant="h6" gutterBottom>
-          Actions
+          {L('Actions')}
         </Typography>
         <Typography variant="body2" gutterBottom>
-          An alert can have an action, such as a close or undo button. It is rendered after the message, at the end of the alert.
+          {L('actAlertsDes')}
         </Typography>
 
         <Spacer mb={4} />
 
-        <Alert mb={4} onClose={() => {}}>This is a success alert — check it out!</Alert>
+        <Alert mb={4} onClose={() => { }}>
+          {L('alertCheckOut', [L('success')])}
+        </Alert>
         <Alert
           action={
             <Button color="inherit" size="small">
-              UNDO
+              {L('UNDO')}
             </Button>
           }
         >
-          This is a success alert — check it out!
+          {L('alertCheckOut', [L('success')])}
         </Alert>
       </CardContent>
     </Card>
@@ -166,16 +169,16 @@ function ActionAlerts() {
 }
 
 function TransitionAlerts() {
-  const [ open, setOpen ] = React.useState(true)
+  const [open, setOpen] = React.useState(true)
 
   return (
     <Card mb={6}>
       <CardContent>
         <Typography variant="h6" gutterBottom>
-          Transition
+          {L('Transition')}
         </Typography>
         <Typography variant="body2" gutterBottom>
-          You can use a transition component such as Collapse to transition the appearance of the alert.
+          {L('transAlertsDes')}
         </Typography>
 
         <Spacer mb={4} />
@@ -196,17 +199,17 @@ function TransitionAlerts() {
               </IconButton>
             }
           >
-            Close me!
+            {L('Close me!')}
           </Alert>
         </Collapse>
         <Button
           disabled={open}
-          variant="outlined"
+          variant="outlined" L
           onClick={() => {
             setOpen(true)
           }}
         >
-          Re-open
+          {L('Re-open')}
         </Button>
       </CardContent>
     </Card>
@@ -216,19 +219,19 @@ function TransitionAlerts() {
 function Alerts() {
   return (
     <React.Fragment>
-      <Helmet title="Alerts" />
+      <Helmet title={L('Alerts')} />
       <Typography variant="h3" gutterBottom display="inline">
-        Alerts
+        {L('Alerts')}
       </Typography>
 
       <Breadcrumbs aria-label="Breadcrumb" mt={2}>
         <Link component={NavLink} exact to="/">
-          Dashboard
+          {L('Dashboard')}
         </Link>
         <Link component={NavLink} exact to="/">
-          Components
+          {L('Components')}
         </Link>
-        <Typography>Alerts</Typography>
+        <Typography>{L('Alerts')}</Typography>
       </Breadcrumbs>
 
       <Divider my={6} />

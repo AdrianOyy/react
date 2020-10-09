@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import DetailPage from "../../../../../components/DetailPage"
 import roleApi from "../../../../../api/role"
 import CommonTip from "../../../../../components/CommonTip"
+import { L } from '../../../../../utils/lang'
 import { useHistory } from 'react-router-dom'
 import { checkEmpty, getCheckExist } from "../../untils/RoleFieldCheck"
 
@@ -50,14 +51,14 @@ function RoleCreate(props) {
   }
   useEffect(() => {
     const list = [
-      { id: 'label', label: 'Label', type: 'text', required: true, readOnly: false, value: label, error: labelError, helperText: labelHelperText },
+      { id: 'label', label: L('Label'), type: 'text', required: true, readOnly: false, value: label, error: labelError, helperText: labelHelperText },
       {
         id: 'value',
-        label: 'Value',
+        label: L('Value'),
         type: 'select',
         value, itemList: [
-          { label: "Read Only", value: "Read Only" },
-          { label: "Read & Write", value: "Read && Write" },
+          { label: L("Read Only"), value: "Read Only" },
+          { label: L("Read & Write"), value: "Read && Write" },
         ],
         error: valueError,
         helperText: valueHelperText
@@ -110,7 +111,7 @@ function RoleCreate(props) {
   return (
     <React.Fragment>
       <DetailPage
-        formTitle = 'Create'
+        formTitle={L('Create')}
         onFormFieldChange = {onFormFieldChange}
         onFormFieldBlur = {onFormFieldBlur}
         formFieldList = {formFieldList}

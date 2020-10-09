@@ -1,6 +1,7 @@
 import React from "react"
 import styled from "styled-components"
 import { NavLink as RouterNavLink } from "react-router-dom"
+import { L } from '../../utils/lang'
 
 import Helmet from 'react-helmet'
 
@@ -39,10 +40,10 @@ function BasicPagination() {
     <Card mb={6}>
       <CardContent>
         <Typography variant="h6" gutterBottom>
-          Basic pagination
+          {L('Basic pagination')}
         </Typography>
         <Typography variant="body2" gutterBottom>
-          The Pagination component enables the user to select a specific page from a range of pages.
+          {L('basicPaginationDes')}
         </Typography>
 
         <Spacer mb={6} />
@@ -61,10 +62,10 @@ function OutlinedPagination() {
     <Card mb={6}>
       <CardContent>
         <Typography variant="h6" gutterBottom>
-          Outlined pagination
+          {L('Outlined pagination')}
         </Typography>
         <Typography variant="body2" gutterBottom>
-          The Pagination component enables the user to select a specific page from a range of pages.
+          {L('outlinedPaginationDes')}
         </Typography>
 
         <Spacer mb={6} />
@@ -83,10 +84,10 @@ function RoundedPagination() {
     <Card mb={6}>
       <CardContent>
         <Typography variant="h6" gutterBottom>
-          Rounded pagination
+          {L('Rounded pagination')}
         </Typography>
         <Typography variant="body2" gutterBottom>
-          The Pagination component enables the user to select a specific page from a range of pages.
+          {L('roundedPaginationDes')}
         </Typography>
 
         <Spacer mb={6} />
@@ -105,10 +106,10 @@ function PaginationSizes() {
     <Card mb={6}>
       <CardContent>
         <Typography variant="h6" gutterBottom>
-          Pagination sizes
+          {L('Pagination sizes')}
         </Typography>
         <Typography variant="body2" gutterBottom>
-          The Pagination component enables the user to select a specific page from a range of pages.
+          {L('paginationSizesDes')}
         </Typography>
 
         <Spacer mb={6} />
@@ -126,10 +127,10 @@ function PaginationRanges() {
     <Card mb={6}>
       <CardContent>
         <Typography variant="h6" gutterBottom>
-          Pagination ranges
+          {L('Pagination ranges')}
         </Typography>
         <Typography variant="body2" gutterBottom>
-          The Pagination component enables the user to select a specific page from a range of pages.
+          {L('paginationRangesDes')}
         </Typography>
 
         <Spacer mb={6} />
@@ -146,19 +147,19 @@ function PaginationRanges() {
 function PaginationComponents() {
   return (
     <React.Fragment>
-      <Helmet title="Pagination" />
+      <Helmet title={L('Pagination')} />
       <Typography variant="h3" gutterBottom display="inline">
-        Pagination
+        {L('Pagination')}
       </Typography>
 
       <Breadcrumbs aria-label="Breadcrumb" mt={2}>
         <Link component={NavLink} exact to="/">
-          Dashboard
+          {L('Dashboard')}
         </Link>
         <Link component={NavLink} exact to="/">
-          Components
+          {L('Components')}
         </Link>
-        <Typography>Pagination</Typography>
+        <Typography>{L('Pagination')}</Typography>
       </Breadcrumbs>
 
       <Divider my={6} />

@@ -7,6 +7,7 @@ import { useHistory } from 'react-router-dom'
 import { checkEmpty, getCheckExist } from "../../untils/TenantGroupMappingFieldCheck"
 import tenantApi from "../../../../../api/tenant"
 import adGroupApi from "../../../../../api/adGroup"
+import { L } from '../../../../../utils/lang'
 
 
 function TenantGroupMappingCreate(props) {
@@ -37,7 +38,7 @@ function TenantGroupMappingCreate(props) {
     setSaving(true)
     API.create({ tenantId, groupId })
       .then(() => {
-        CommonTip.success("Success")
+        CommonTip.success(L('Success'))
         history.push({ pathname: '/aaa-service/tenantAdGroupMapping' })
       })
       .catch(() => {
@@ -66,7 +67,7 @@ function TenantGroupMappingCreate(props) {
     const list = [
       {
         id: 'tenant',
-        label: 'Tenant',
+        label: L('Tenant'),
         type: 'select',
         value: tenantId,
         itemList: tenantList,
@@ -77,7 +78,7 @@ function TenantGroupMappingCreate(props) {
       },
       {
         id: 'group',
-        label: 'AD Group',
+        label: L('AD Group'),
         type: 'select',
         value: groupId,
         itemList: adGroupList,
@@ -163,7 +164,7 @@ function TenantGroupMappingCreate(props) {
   return (
     <React.Fragment>
       <DetailPage
-        formTitle = 'Create'
+        formTitle={L('Create')}
         onFormFieldChange = {onFormFieldChange}
         formFieldList = {formFieldList}
         showBtn ={true}

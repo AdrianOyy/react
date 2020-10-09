@@ -7,6 +7,7 @@ import dayjs from "dayjs"
 import CommonTip from "../../../../../components/CommonTip"
 import { useHistory } from 'react-router-dom'
 import { checkEmpty, getCheckExist } from "../../untils/PlatformFieldCheck"
+import { L } from '../../../../../utils/lang'
 
 function TenantDetail(props) {
   const { onMount } = props
@@ -39,7 +40,7 @@ function TenantDetail(props) {
     setSaving(true)
     API.update(id, { name, typeId })
       .then(() => {
-        CommonTip.success("Success")
+        CommonTip.success(L('Success'))
         history.push({ pathname: '/resources/platform' })
       })
       .catch(() => {
@@ -70,22 +71,22 @@ function TenantDetail(props) {
   useEffect(() => {
     const list = [
       {
-        id: 'name', label: 'Name', type: 'text',
+        id: 'name', label: L('Name'), type: 'text',
         required: true, readOnly: false, value: name,
         error: nameError, helperText: nameHelperText
       },
       {
-        id: 'typeId', label: 'Type', type: 'select',
+        id: 'typeId', label: L('Type'), type: 'select',
         value: typeId, itemList: typeList,
         labelField: 'name', valueField: 'id',
         error: typeIdError, helperText: typeIdHelperText,
       },
       {
-        id: 'createdAt', label: 'Created At', type: 'text',
+        id: 'createdAt', label: L('Created At'), type: 'text',
         disabled: true, readOnly: true, value: formatDateTime(createdAt)
       },
       {
-        id: 'updatedAt', label: 'Updated At', type: 'text',
+        id: 'updatedAt', label: L('Updated At'), type: 'text',
         disabled: true, readOnly: true, value: formatDateTime(updatedAt)
       },
     ]
@@ -142,7 +143,7 @@ function TenantDetail(props) {
   return (
     <React.Fragment>
       <DetailPage
-        formTitle = 'Update'
+        formTitle={L('Update')}
         onFormFieldChange = {onFormFieldChange}
         onFormFieldBlur = {onFormFieldBlur}
         formFieldList = {formFieldList}

@@ -3,6 +3,7 @@ import styled from "styled-components"
 
 import { CardContent, Card as MuiCard, Typography } from "@material-ui/core"
 import { spacing } from "@material-ui/system"
+import { L } from '../../../utils/lang'
 
 import GoogleMapReact from "google-map-react"
 
@@ -39,10 +40,10 @@ function Default({ maps }) {
     <Card mb={1}>
       <CardContent>
         <Typography variant="h6" gutterBottom>
-          Default Map
+          {L('Default Map')}
         </Typography>
         <Typography variant="body2" gutterBottom>
-          Displays the default road map view.
+          {L('Displays the default road map view.')}
         </Typography>
 
         <Spacer mb={6} />

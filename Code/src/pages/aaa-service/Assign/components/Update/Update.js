@@ -9,6 +9,7 @@ import { useHistory } from 'react-router-dom'
 import { checkEmpty } from "../../untils/assignFieldCheck"
 import roleApi from "../../../../../api/role"
 import API from "../../../../../api/assign"
+import { L } from '../../../../../utils/lang'
 
 const formatDateTime = (str) => {
   return dayjs(new Date(str)).format('DD-MMM-YYYY HH:mm')
@@ -68,7 +69,7 @@ function AssignUpdate(props) {
     setSaving(true)
     assignApi.update(id, { roleId })
       .then(() => {
-        CommonTip.success("Success")
+        CommonTip.success(L('Success'))
         history.push({ pathname: '/aaa-service/assign' })
       })
       .catch(() => {
@@ -98,15 +99,15 @@ function AssignUpdate(props) {
 
   useEffect(() => {
     const list = [
-      { id: 'tenant', label: 'Tenant', type: 'text', disabled: true, readOnly: true, value: tenant },
-      { id: 'adGroup', label: 'AD Group', type: 'text', disabled: true, readOnly: true, value: group },
+      { id: 'tenant', label: L('Tenant'), type: 'text', disabled: true, readOnly: true, value: tenant },
+      { id: 'adGroup', label: L('AD Group'), type: 'text', disabled: true, readOnly: true, value: group },
       {
-        id: 'role', label: 'Role', type: 'select', required: true,
+        id: 'role', label: L('Role'), type: 'select', required: true,
         readOnly: false, value: roleId, error: roleError, helperText: roleHelperText,
         itemList: roleList, labelField: "label", valueField: "id"
       },
-      { id: 'createdAt', label: 'Created At', type: 'text', disabled: true, readOnly: true, value: formatDateTime(createdAt) },
-      { id: 'updatedAt', label: 'Updated At', type: 'text', disabled: true, readOnly: true, value: formatDateTime(updatedAt) },
+      { id: 'createdAt', label: L('Created At'), type: 'text', disabled: true, readOnly: true, value: formatDateTime(createdAt) },
+      { id: 'updatedAt', label: L('Updated At'), type: 'text', disabled: true, readOnly: true, value: formatDateTime(updatedAt) },
     ]
     setFormFieldList(list)
   }, [ tenant, group, roleId, roleError, roleHelperText, roleList, createdAt, updatedAt ])
@@ -126,7 +127,7 @@ function AssignUpdate(props) {
   return (
     <React.Fragment>
       <DetailPage
-        formTitle = 'Update'
+        formTitle={L('Update')}
         onFormFieldChange = {onFormFieldChange}
         formFieldList = {formFieldList}
         showBtn ={true}

@@ -2,13 +2,14 @@ import React, { useEffect, useState } from "react"
 import dayjs from "dayjs"
 import ComplexForm from "../../../../../components/ComplexForm"
 import Api from "../../../../../api/workFlow"
-import vmApi from  "../../../../../api/vmLocation"
+import vmApi from "../../../../../api/vmLocation"
 import { useParams } from "react-router-dom"
 // import { cloneDeep } from "lodash"
 
 // const formatDateTime = (str) => {
 //   return dayjs(new Date(str)).format('YYYY-MM-DD HH:mm')
 // }
+import { L } from '../../../../../utils/lang'
 
 function Create() {
   // const [ rows, setRows ] = useState([
@@ -134,14 +135,14 @@ function Create() {
   }
 
   const buttonList = [
-    { id: 'check', label: 'Check', color: 'primary', onClick: handleClick, disabled: false },
-    { id: 'submit', label: 'Submit', color: 'secondary', onClick: handleSubmitClick, disabled: false },
-    { id: 'cancel', label: 'Cancel', color: 'default', onClick: handleClick, disabled: false },
+    { id: 'check', label: L('Check'), color: 'primary', onClick: handleClick, disabled: false },
+    { id: 'submit', label: L('Submit'), color: 'secondary', onClick: handleSubmitClick, disabled: false },
+    { id: 'cancel', label: L('Cancel'), color: 'default', onClick: handleClick, disabled: false },
   ]
   return (
     <React.Fragment>
       <ComplexForm
-        title={'Test'}
+        title={L('Test')}
         titleLevel={1}
         moduleList={[ formProp, tableProp ]}
         buttonList={buttonList}

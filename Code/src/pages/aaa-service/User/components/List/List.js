@@ -11,12 +11,13 @@ import { spacing } from "@material-ui/system"
 import API from "../../../../../api/user"
 import dayjs from "dayjs"
 import { CommonTable } from "../../../../../components"
-
+import { L } from '../../../../../utils/lang'
 const Paper = styled(MuiPaper)(spacing)
 const formatDateTime = (str) => {
   return dayjs(new Date(str)).format('DD-MMM-YYYY HH:mm')
 }
-const tableName = 'List'
+const tableName = L('List')
+
 
 function List(props) {
   const { onMount, path } = props
@@ -65,15 +66,15 @@ function List(props) {
 
   // 表头字段列表
   const headCells = [
-    { id: 'alias', alignment: 'center', label: 'Alias' },
-    { id: 'surname', alignment: 'center', label: 'Surname' },
-    { id: 'givenname', alignment: 'center', label: 'Given Name' },
-    { id: 'title', alignment: 'center', label: 'Title' },
-    { id: 'displayname', alignment: 'center', label: 'Display Name' },
-    { id: 'email', alignment: 'center', label: 'Email' },
-    { id: 'createdAt', alignment: 'center', label: 'Created At' },
-    { id: 'updatedAt', alignment: 'center', label: 'Updated At' },
-    { id: 'action', alignment: 'right', label: 'Actions' },
+    { id: 'alias', alignment: 'center', label: L('Alias') },
+    { id: 'surname', alignment: 'center', label: L('Surname') },
+    { id: 'givenname', alignment: 'center', label: L('Given Name') },
+    { id: 'title', alignment: 'center', label: L('Title') },
+    { id: 'displayname', alignment: 'center', label: L('Display Name') },
+    { id: 'email', alignment: 'center', label: L('Email') },
+    { id: 'createdAt', alignment: 'center', label: L('Created At') },
+    { id: 'updatedAt', alignment: 'center', label: L('Updated At') },
+    { id: 'action', alignment: 'right', label: L('Actions') },
   ]
 
   // 每行显示的字段
@@ -89,9 +90,9 @@ function List(props) {
   ]
 
   const searchBarFieldList = [
-    { id: 'surname', label: 'Surname', type: 'text', disabled: false, readOnly: false, value: surname },
-    { id: 'createdAt', label: 'Created At', type: 'date', disabled: false, readOnly: false, value: createdAt },
-    { id: 'updatedAt', label: 'Updated At', type: 'date', disabled: false, readOnly: false, value: updatedAt },
+    { id: 'surname', label: L('Surname'), type: 'text', disabled: false, readOnly: false, value: surname },
+    { id: 'createdAt', label: L('Created At'), type: 'date', disabled: false, readOnly: false, value: createdAt },
+    { id: 'updatedAt', label: L('Updated At'), type: 'date', disabled: false, readOnly: false, value: updatedAt },
   ]
 
   const handleClear = () => {

@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { NavLink as RouterNavLink } from "react-router-dom";
+import { L } from '../../utils/lang'
 
 import Helmet from 'react-helmet';
 
@@ -51,16 +52,16 @@ class RadioButtonsGroup extends React.Component {
       <Card mb={6}>
         <CardContent>
           <Typography variant="h6" gutterBottom>
-            Radio Buttons
+            {L('Radio Buttons')}
           </Typography>
           <Typography variant="body2" gutterBottom>
-            Radio buttons allow the user to select one option from a set.
+            {L('radioBtnDes')}
           </Typography>
           <Paper mt={3}>
             <FormControl component="fieldset">
-              <FormLabel component="legend">Gender</FormLabel>
-              <RadioGroup
-                aria-label="Gender"
+              <FormLabel component="legend">{L('Gender')}</FormLabel>
+              < RadioGroup
+                aria-label={L('Gender')}
                 name="gender1"
                 value={this.state.value}
                 onChange={this.handleChange}
@@ -68,29 +69,29 @@ class RadioButtonsGroup extends React.Component {
                 <FormControlLabel
                   value="female"
                   control={<Radio />}
-                  label="Female"
+                  label={L('Female')}
                 />
                 <FormControlLabel
                   value="male"
                   control={<Radio />}
-                  label="Male"
+                  label={L('Male')}
                 />
                 <FormControlLabel
                   value="other"
                   control={<Radio />}
-                  label="Other"
+                  label={L('Other')}
                 />
                 <FormControlLabel
                   value="disabled"
                   disabled
                   control={<Radio />}
-                  label="(Disabled option)"
+                  label={L('(Disabled option)')}
                 />
               </RadioGroup>
             </FormControl>
           </Paper>
         </CardContent>
-      </Card>
+      </Card >
     );
   }
 }
@@ -113,14 +114,14 @@ class CheckboxesGroup extends React.Component {
       <Card mb={6}>
         <CardContent>
           <Typography variant="h6" gutterBottom>
-            Checkboxes
+            {L('Checkboxes')}
           </Typography>
           <Typography variant="body2" gutterBottom>
-            Checkboxes allow the user to select one or more items from a set.
+            {L('CheckboxesDes')}
           </Typography>
           <Paper mt={3}>
             <FormControl component="fieldset">
-              <FormLabel component="legend">Assign responsibility</FormLabel>
+              <FormLabel component="legend">{L('Assign responsibility')}</FormLabel>
               <FormGroup>
                 <FormControlLabel
                   control={
@@ -130,7 +131,7 @@ class CheckboxesGroup extends React.Component {
                       value="gilad"
                     />
                   }
-                  label="Gilad Gray"
+                  label={L('Gilad Gray')}
                 />
                 <FormControlLabel
                   control={
@@ -140,7 +141,7 @@ class CheckboxesGroup extends React.Component {
                       value="jason"
                     />
                   }
-                  label="Jason Killian"
+                  label={L('Jason Killian')}
                 />
                 <FormControlLabel
                   control={
@@ -150,7 +151,7 @@ class CheckboxesGroup extends React.Component {
                       value="antoine"
                     />
                   }
-                  label="Antoine Llorca"
+                  label={L('Antoine Llorca')}
                 />
               </FormGroup>
             </FormControl>
@@ -177,14 +178,14 @@ class SwitchesGroup extends React.Component {
       <Card mb={6}>
         <CardContent>
           <Typography variant="h6" gutterBottom>
-            Switches
+            {L('Switches')}
           </Typography>
           <Typography variant="body2" gutterBottom>
-            Switches toggle the state of a single setting on or off.
+            {L('SwitchesDes')}
           </Typography>
           <Paper mt={3}>
             <FormControl component="fieldset">
-              <FormLabel component="legend">Assign responsibility</FormLabel>
+              <FormLabel component="legend">{L('Assign responsibility')}</FormLabel>
               <FormGroup>
                 <FormControlLabel
                   control={
@@ -194,7 +195,7 @@ class SwitchesGroup extends React.Component {
                       value="gilad"
                     />
                   }
-                  label="Gilad Gray"
+                  label={L('Gilad Gray')}
                 />
                 <FormControlLabel
                   control={
@@ -204,7 +205,7 @@ class SwitchesGroup extends React.Component {
                       value="jason"
                     />
                   }
-                  label="Jason Killian"
+                  label={L('Jason Killian')}
                 />
                 <FormControlLabel
                   control={
@@ -214,7 +215,7 @@ class SwitchesGroup extends React.Component {
                       value="antoine"
                     />
                   }
-                  label="Antoine Llorca"
+                  label={L('Antoine Llorca')}
                 />
               </FormGroup>
             </FormControl>
@@ -239,10 +240,10 @@ class FormControlLabelPosition extends React.Component {
       <Card mb={6}>
         <CardContent>
           <Typography variant="h6" gutterBottom>
-            Label placement
+            {L('Label placement')}
           </Typography>
           <Typography variant="body2" gutterBottom>
-            You can change the placement of the label.
+            {L('Label placement des')}
           </Typography>
           <Paper mt={3}>
             <FormControl component="fieldset">
@@ -256,25 +257,25 @@ class FormControlLabelPosition extends React.Component {
                 <FormControlLabel
                   value="top"
                   control={<Radio color="primary" />}
-                  label="Top"
+                  label={L('Top')}
                   labelPlacement="top"
                 />
                 <FormControlLabel
                   value="start"
                   control={<Radio color="primary" />}
-                  label="Start"
+                  label={L('Start')}
                   labelPlacement="start"
                 />
                 <FormControlLabel
                   value="bottom"
                   control={<Radio color="primary" />}
-                  label="Bottom"
+                  label={L('Bottom')}
                   labelPlacement="bottom"
                 />
                 <FormControlLabel
                   value="end"
                   control={<Radio color="primary" />}
-                  label="End"
+                  label={L('End')}
                   labelPlacement="end"
                 />
               </RadioGroup>
@@ -291,17 +292,17 @@ function SelectionControls() {
     <React.Fragment>
       <Helmet title="Selection Controls" />
       <Typography variant="h3" gutterBottom display="inline">
-        Selection Controls
+        {L('Selection Controls')}
       </Typography>
 
       <Breadcrumbs aria-label="Breadcrumb" mt={2}>
         <Link component={NavLink} exact to="/">
-          Dashboard
+          {L('Dashboard')}
         </Link>
         <Link component={NavLink} exact to="/">
-          Forms
+          {L('Forms')}
         </Link>
-        <Typography>Selection Controls</Typography>
+        <Typography>{L('Selection Controls')}</Typography>
       </Breadcrumbs>
 
       <Divider my={6} />

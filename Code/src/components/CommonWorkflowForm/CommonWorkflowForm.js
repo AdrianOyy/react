@@ -158,10 +158,12 @@ export default function CommonWorkflowForm(props) {
   useEffect(() => {
     if (argeeContract) {
       Loading.show()
+      logic.beforeSubmit(parentDataMap)
       const form = {
         processDefinitionId,
         formKey,
         childFormKey,
+        workflowName,
         parentData: map2object(parentDataMap),
         childDataList,
         version
@@ -221,6 +223,8 @@ export default function CommonWorkflowForm(props) {
     }
     // 处理数据
     if (!rawDefaultData) {
+      const startData = logic.handleParentStartData()
+      setParentDefaultValues(startData)
       return
     }
     const { parentData, childDataList } = rawDefaultData
@@ -335,6 +339,7 @@ export default function CommonWorkflowForm(props) {
         processDefinitionId,
         formKey,
         childFormKey,
+        workflowName,
         parentData: map2object(parentDataMap),
         childDataList,
         version
@@ -345,6 +350,7 @@ export default function CommonWorkflowForm(props) {
           setContractList(list)
           setContractOpen(true)
         } else {
+          // 处理加密数据
           API.create(form)
             .then(() => {
               CommonTip.success(L('Success'))
@@ -358,6 +364,7 @@ export default function CommonWorkflowForm(props) {
           childFormKey,
           taskId,
           version,
+          isSentMail: false,
           parentData: map2object(parentDataMap),
           childDataList,
         }
@@ -371,6 +378,7 @@ export default function CommonWorkflowForm(props) {
             }
           }
           if (ischeck) {
+            formUpdate.isSentMail = true
             API.update(formUpdate).then(() => {
               CommonTip.success(L('Success'))
               history.push({ pathname: `/MyApproval` })
@@ -425,6 +433,7 @@ export default function CommonWorkflowForm(props) {
   }
 
   const handleAgrreTaskClick = () => {
+    Loading.show()
     const formUpdate = {
       pid,
       formKey,

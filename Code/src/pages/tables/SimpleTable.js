@@ -1,6 +1,7 @@
 import React from "react"
 import styled from "styled-components"
 import { NavLink as RouterNavLink } from "react-router-dom"
+import { L } from '../../utils/lang'
 
 import Helmet from 'react-helmet'
 
@@ -74,21 +75,21 @@ function SimpleTableDemo() {
     <Card mb={6}>
       <CardContent pb={1}>
         <Typography variant="h6" gutterBottom>
-          Simple Table
+          {L('Simple Table')}
         </Typography>
         <Typography variant="body2" gutterBottom>
-          A simple example with no frills.
+          {L('A simple example with no frills.')}
         </Typography>
       </CardContent>
       <Paper>
         <Table>
           <TableHead>
             <TableRow>
-              <TableCell>Dessert (100g serving)</TableCell>
-              <TableCell align="right">Calories</TableCell>
-              <TableCell align="right">Fat (g)</TableCell>
-              <TableCell align="right">Carbs (g)</TableCell>
-              <TableCell align="right">Protein (g)</TableCell>
+              <TableCell>{L('Dessert (100g serving)')}</TableCell>
+              <TableCell align="right">{L("Calories")}</TableCell>
+              <TableCell align="right">{L('Fat (g)')}</TableCell>
+              <TableCell align="right">{L('Carbs (g)')}</TableCell>
+              <TableCell align="right">{L('Protein (g)')}</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -115,23 +116,22 @@ function CustomizedTableDemo() {
     <Card mb={6}>
       <CardContent pb={1}>
         <Typography variant="h6" gutterBottom>
-          Customized Table
+          {L('Customized Table')}
         </Typography>
         <Typography variant="body2" gutterBottom>
-          If you have been reading the overrides documentation page but you are
-          not confident jumping in, here are examples of how you can change the
-          look of a <code>TableCell</code>.
+          {L('Customized Table Des')}
+          <code>{L('TableCell')}</code>.
         </Typography>
       </CardContent>
       <Paper>
         <Table>
           <TableHead>
             <TableRow>
-              <CustomTableCell>Dessert (100g serving)</CustomTableCell>
-              <CustomTableCell align="right">Calories</CustomTableCell>
-              <CustomTableCell align="right">Fat (g)</CustomTableCell>
-              <CustomTableCell align="right">Carbs (g)</CustomTableCell>
-              <CustomTableCell align="right">Protein (g)</CustomTableCell>
+              <CustomTableCell>{L('Dessert (100g serving)')}</CustomTableCell>
+              <CustomTableCell align="right">{L("Calories")}</CustomTableCell>
+              <CustomTableCell align="right">{L('Fat (g)')}</CustomTableCell>
+              <CustomTableCell align="right">{L('Carbs (g)')}</CustomTableCell>
+              <CustomTableCell align="right">{L('Protein (g)')}</CustomTableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -156,19 +156,19 @@ function CustomizedTableDemo() {
 function SimpleTable() {
   return (
     <React.Fragment>
-      <Helmet title="Simple Table" />
+      <Helmet title={L('Simple Table')} />
       <Typography variant="h3" gutterBottom display="inline">
-        Simple Table
+        {L('Simple Table')}
       </Typography>
 
       <Breadcrumbs aria-label="Breadcrumb" mt={2}>
         <Link component={NavLink} exact to="/">
-          Dashboard
+          {L('Dashboard')}
         </Link>
         <Link component={NavLink} exact to="/">
-          Tables
+          {L('Tables')}
         </Link>
-        <Typography>Simple Table</Typography>
+        <Typography>{L('Simple Table')} </Typography>
       </Breadcrumbs>
 
       <Divider my={6} />

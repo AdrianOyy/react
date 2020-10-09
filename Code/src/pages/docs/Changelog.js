@@ -2,7 +2,7 @@
 import React from "react"
 import styled from "styled-components"
 import { NavLink as RouterNavLink } from "react-router-dom"
-
+import { L } from '../../utils/lang'
 import Helmet from 'react-helmet'
 
 import {
@@ -40,16 +40,16 @@ const Chip = styled(MuiChip)`
 function Changelog() {
   return (
     <React.Fragment>
-      <Helmet title="Changelog" />
+      <Helmet title={L('Changelog')} />
       <Typography variant="h3" gutterBottom display="inline">
-        Changelog
+        {L('Changelog')}
       </Typography>
 
       <Breadcrumbs aria-label="Breadcrumb" mt={2}>
         <Link component={NavLink} exact to="/">
-          Dashboard
+          {L('Dashboard')}
         </Link>
-        <Typography>Changelog</Typography>
+        <Typography>{L('Changelog')}</Typography>
       </Breadcrumbs>
 
       <Divider my={6} />
@@ -57,79 +57,79 @@ function Changelog() {
       <Card mb={6}>
         <CardContent>
           <Typography variant="h6" gutterBottom>
-            Changelog
+            {L('Changelog')}
           </Typography>
           <Box mt={3}>
             <Chip color="secondary" label="v1.0.8" /> – Apr 14, 2020
             <ul>
-              <li>Add invoices (/invoices)</li>
-              <li>Add orders (/orders)</li>
-              <li>Add alerts (/components/alerts)</li>
-              <li>Add pagination (/components/pagination)</li>
-              <li>Add dropzone (/forms/dropzone)</li>
-              <li>Add editors (/forms/editors)</li>
-              <li>Improve invoice details (/invoices/detail)</li>
-              <li>Improve projects design (/projects)</li>
-              <li>Improve settings design (/pages/settings)</li>
-              <li>Improve tasks design (/tasks)</li>
-              <li>Improve performance</li>
-              <li>Upgrade dependencies to latest version</li>
+              <li>{L('Add invoices (/invoices)')}</li>
+              <li>{L('Add orders (/orders)')}</li>
+              <li>{L('Add alerts CP')}</li>
+              <li>{L('Add pagination CP')}</li>
+              <li>{L('Add dropzone FD')}</li>
+              <li>{L('Add editors FE')}</li>
+              <li>{L('Improve invoice details (/invoices/detail)')}</li>
+              <li>{L('Improve projects design (/projects)')}</li>
+              <li>{L('Improve settings design PS')}</li>
+              <li>{L('Improve tasks design (/tasks)')}</li>
+              <li>{L('Improve performance')}</li>
+              <li>{L('UpgradeLastVersion')}</li>
             </ul>
             <Chip color="secondary" label="v1.0.7" /> – Mar 2, 2020
             <ul>
-              <li>Fixed bug with @material-ui/utils</li>
-              <li>Small visual changes</li>
-              <li>Upgrade dependencies to latest version</li>
+              <li>{L('Fixed bug with @material-ui/utils')}</li>
+              <li>{L('Small visual changes')}</li>
+              <li>{L('UpgradeLastVersion')}</li>
             </ul>
             <Chip color="secondary" label="v1.0.6" /> – Feb 20, 2020
             <ul>
-              <li>Add React Helmet</li>
-              <li>Fixed bug with @material-ui/pickers</li>
-              <li>Upgrade dependencies to latest version</li>
+              <li>{L('Add React Helmet')}</li>
+              <li>{L('FixedBugVSPickers')}</li>
+              <li>{L('UpgradeLastVersion')}</li>
             </ul>
             <Chip color="secondary" label="v1.0.5" /> – Dec 21, 2019
             <ul>
-              <li>Add calendar (/calendar)</li>
-              <li>Add landing page</li>
-              <li>Add teal color variant</li>
-              <li>Fixed horizontal scrollbar issues</li>
-              <li>Small visual changes</li>
-              <li>Upgrade dependencies to latest version</li>
+              <li>{L('Add calendar (/calendar)')}</li>
+              <li>{L("Add landing page")}</li>
+              <li>{L('Add teal color variant')}</li>
+              <li>{L('Fixed horizontal scrollbar issues')}</li>
+              <li>{L('Small visual changes')}</li>
+              <li>{L('UpgradeLastVersion')}</li>
             </ul>
             <Chip color="secondary" label="v1.0.4" /> – Aug 26, 2019
             <ul>
-              <li>Add vector maps (/maps/vector-maps)</li>
-              <li>Add private route example</li>
-              <li>Add catch-all route</li>
-              <li>Upgrade dependencies to latest version</li>
+              <li>{L('Add vector maps (/maps/vector-maps)')}</li>
+              <li>{L('Add private route example')}</li>
+              <li>{L('Add catch-all route')}</li>
+              <li>{L('UpgradeLastVersion')}</li>
             </ul>
             <Chip color="secondary" label="v1.0.3" /> – Aug 24, 2019
             <ul>
-              <li>Add analytics dashboard (/dashboard/analytics)</li>
-              <li>Add language dropdown</li>
-              <li>Small visual changes</li>
-              <li>Upgrade dependencies to latest version</li>
+              <li>{L('Add analytics dashboard DA')}</li>
+              <li>{L('Add language dropdown')}</li>
+              <li>{L('Small visual changes')}</li>
+              <li>{L('UpgradeLastVersion')}</li>
             </ul>
             <Chip color="secondary" label="v1.0.2" /> – Aug 17, 2019
             <ul>
-              <li>Add IE11 support</li>
-              <li>Add indigo color variant</li>
-              <li>Add sidebar badges</li>
-              <li>Add profile page (/pages/profile)</li>
-              <li>Add projects page (/pages/projects)</li>
-              <li>Add tasks page (/pages/tasks)</li>
-              <li>Small visual changes</li>
-              <li>Upgrade dependencies to latest version</li>
+              <li>{L('Add IE11 support')}</li>
+              <li>{L('Add indigo color variant')}</li>
+              <li>{L('Add sidebar badges')}</li>
+              <li>{L('Add profile page PP')}</li>
+              <li>{L('Add projects page PP')}</li>
+              <li>{L('Add tasks page PT')}</li>
+              <li>{L('Small visual changes')}</li>
+              <li>{L('UpgradeLastVersion')}</li>
             </ul>
             <Chip color="secondary" label="v1.0.1" /> – Aug 2, 2019
             <ul>
-              <li>Add dark sidebar variant</li>
-              <li>Add light sidebar variant</li>
-              <li>Add settings page (/settings)</li>
-              <li>Add google maps (/maps)</li>
-              <li>Add drawer with color variant</li>
-              <li>Small visual changes</li>
-              <li>Upgrade dependencies to latest version</li>
+              <li>{L('Add dark sidebar variant')}</li>
+              <li>{L('Add light sidebar variant')}</li>
+              <li>{L('Add settings page (/settings)')}</li>
+              <li>{L('Add google maps (/maps)')}</li>
+              <li>{L('Add drawer with color variant')}</li>
+              <li>{L('Small visual changes')}</li>
+              <li>{L('UpgradeLastVersion')}</li>
             </ul>
           </Box>
         </CardContent>

@@ -1,6 +1,6 @@
 import React from "react"
 import styled, { withTheme } from "styled-components"
-
+import { L } from '../../../utils/lang'
 import {
   Card as MuiCard,
   CardHeader,
@@ -41,7 +41,7 @@ function LanguagesTable() {
             <MoreVertical />
           </IconButton>
         }
-        title="Languages"
+        title={L('Languages')}
       />
       <Paper>
         <TableWrapper>
@@ -49,15 +49,15 @@ function LanguagesTable() {
             <TableHead>
               <TableRow>
                 <TableCell component="th" scope="row">
-                  Language
+                  {L('Language')}
                 </TableCell>
-                <TableCell align="right">Users</TableCell>
-                <TableCell>% Users</TableCell>
+                <TableCell align="right">{L('Users')}</TableCell>
+                <TableCell>% {L('Users')}</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
               <TableRow>
-                <TableCell scope="row">en-us</TableCell>
+                <TableCell scope="row">{L('en-us')}</TableCell>
                 <TableCell align="right">865</TableCell>
                 <TableCell>
                   <LinearProgress
@@ -68,7 +68,7 @@ function LanguagesTable() {
                 </TableCell>
               </TableRow>
               <TableRow>
-                <TableCell scope="row">en-gb</TableCell>
+                <TableCell scope="row">{L('en-gb')}</TableCell>
                 <TableCell align="right">240</TableCell>
                 <TableCell>
                   <LinearProgress
@@ -79,7 +79,7 @@ function LanguagesTable() {
                 </TableCell>
               </TableRow>
               <TableRow>
-                <TableCell scope="row">fr-fr</TableCell>
+                <TableCell scope="row">{L('fr-fr')}</TableCell>
                 <TableCell align="right">220</TableCell>
                 <TableCell>
                   <LinearProgress
@@ -90,7 +90,7 @@ function LanguagesTable() {
                 </TableCell>
               </TableRow>
               <TableRow>
-                <TableCell scope="row">es-es</TableCell>
+                <TableCell scope="row">{L('es-es')}</TableCell>
                 <TableCell align="right">162</TableCell>
                 <TableCell>
                   <LinearProgress
@@ -101,7 +101,7 @@ function LanguagesTable() {
                 </TableCell>
               </TableRow>
               <TableRow>
-                <TableCell scope="row">de-de</TableCell>
+                <TableCell scope="row">{L('de-de')}</TableCell>
                 <TableCell align="right">86</TableCell>
                 <TableCell>
                   <LinearProgress
@@ -112,7 +112,7 @@ function LanguagesTable() {
                 </TableCell>
               </TableRow>
               <TableRow>
-                <TableCell scope="row">ru-ru</TableCell>
+                <TableCell scope="row">{L('ru-ru')}</TableCell>
                 <TableCell align="right">32</TableCell>
                 <TableCell>
                   <LinearProgress

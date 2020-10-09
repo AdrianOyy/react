@@ -1,6 +1,6 @@
 import React from "react"
 import styled from "styled-components"
-
+import { L } from '../../../utils/lang'
 import {
   Card as MuiCard,
   CardHeader,
@@ -95,7 +95,7 @@ const TrafficTable = () => (
           <MoreVertical />
         </IconButton>
       }
-      title="Traffic sources"
+      title={L('Traffic sources')}
     />
 
     <Paper>
@@ -103,11 +103,11 @@ const TrafficTable = () => (
         <Table>
           <TableHead>
             <TableRow>
-              <TableCell>Source</TableCell>
-              <TableCell align="right">Users</TableCell>
-              <TableCell align="right">Sessions</TableCell>
-              <TableCell align="right">Bounce Rate</TableCell>
-              <TableCell align="right">Avg. Session Duration</TableCell>
+              <TableCell>{L('Source')}</TableCell>
+              <TableCell align="right">{L('Users')}</TableCell>
+              <TableCell align="right">{L('Sessions')}</TableCell>
+              <TableCell align="right">{L('Bounce Rate')}</TableCell>
+              <TableCell align="right">{L('Avg. Session Duration')}</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>

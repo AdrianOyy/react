@@ -3,6 +3,7 @@ import styled from "styled-components"
 import { Link } from "react-router-dom"
 
 import Helmet from 'react-helmet'
+import { L } from '../../utils/lang'
 
 import { Button as MuiButton, Typography } from "@material-ui/core"
 import { spacing } from "@material-ui/system"
@@ -22,16 +23,15 @@ const Wrapper = styled.div`
 function Page500() {
   return (
     <Wrapper>
-      <Helmet title="500 Error" />
+      <Helmet title={L('500 Error')} />
       <Typography component="h1" variant="h1" align="center" gutterBottom>
-        500
+        {L('500')}
       </Typography>
       <Typography component="h2" variant="h5" align="center" gutterBottom>
-        Internal server error.
+        {L('Internal server error.')}
       </Typography>
       <Typography component="h2" variant="body1" align="center" gutterBottom>
-        The server encountered something unexpected that didn't allow it to
-        complete the request.
+        {L('notCompleteRequest')}
       </Typography>
 
       <Button
@@ -41,7 +41,7 @@ function Page500() {
         color="secondary"
         mt={2}
       >
-        Return to website
+        {L('Return to website')}
       </Button>
     </Wrapper>
   )

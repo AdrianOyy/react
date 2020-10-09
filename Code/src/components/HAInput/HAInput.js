@@ -45,8 +45,8 @@ export default function HAInput(props) {
   } = props
 
   useEffect(() => {
-    const value = defaultValue ? (defaultValue.value ? defaultValue : { id, label: defaultValue, value: defaultValue }) : null
-    value && onBlur && onBlur(value)
+    const value =  defaultValue ? (defaultValue.value ? defaultValue.value : (typeof defaultValue === 'string' ? defaultValue : '')) : ''
+    value && onBlur && onBlur({ id, label: value, value })
   }, [ defaultValue, onBlur, id ])
 
   const handleBlur = (e) => {
