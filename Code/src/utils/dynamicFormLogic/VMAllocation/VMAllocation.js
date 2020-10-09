@@ -98,6 +98,10 @@ export default class VMAllocation {
     return data
   }
 
+  beforeSubmit(dataMap) {
+    return dataMap
+  }
+
   // 处理子表渲染表
   handleChildData(rawData, stepName, pageName) {
     rawData && rawData.forEach(el => {

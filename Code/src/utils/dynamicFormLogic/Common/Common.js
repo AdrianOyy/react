@@ -82,6 +82,10 @@ export default class Common {
     }
   }
 
+  beforeSubmit(dataMap) {
+    return dataMap
+  }
+
   getChildTableTitle() {
     return 'Child Table'
   }

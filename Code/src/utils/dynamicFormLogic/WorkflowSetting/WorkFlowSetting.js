@@ -93,6 +93,10 @@ export default class WorkFlowSetting {
     }
   }
 
+  beforeSubmit(dataMap) {
+    return dataMap
+  }
+
   getChildTableTitle() {
     return 'Child Table'
   }
