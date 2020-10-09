@@ -5,6 +5,7 @@ import API from "../../../../../api/tenantQuotaMapping"
 import { useParams } from "react-router-dom"
 import dayjs from "dayjs"
 import CommonTip from "../../../../../components/CommonTip"
+import { L } from '../../../../../utils/lang'
 import { useHistory } from 'react-router-dom'
 import { checkEmpty, getCheckTypeExist, getCheckYearExist } from "../../untils/ManagementFieldCheck"
 
@@ -78,7 +79,7 @@ function ManagementUpdate(props) {
       const reg = /^[1-9]\d*$/
       if (!reg.test(quota)) {
         setQuotaError(true)
-        setQuotaHelperText('Only accept positive integer')
+        setQuotaHelperText(L('Only accept positive integer'))
         return true
       }
     }
@@ -122,7 +123,7 @@ function ManagementUpdate(props) {
     setSaving(true)
     API.update(id, { type, quota, year })
       .then(() => {
-        CommonTip.success("Success")
+        CommonTip.success(L('Success'))
         history.push({ pathname: '/aaa-service/tenantQuotaMapping/' })
       })
       .catch(() => {
@@ -154,22 +155,22 @@ function ManagementUpdate(props) {
   useEffect(() => {
     const list = [
       {
-        id: 'tenant', label: 'Tenant', disabled: true, readOnly: true, value: tenant
+        id: 'tenant', label: L('Tenant'), disabled: true, readOnly: true, value: tenant
       },
       {
-        id: 'type', label: 'Type', required: true, readOnly: false, value: type,
+        id: 'type', label: L('Type'), required: true, readOnly: false, value: type,
         error: typeError, helperText: typeHelperText,
       },
       {
-        id: 'quota', label: 'Quota', required: true, type: 'text', value: quota,
+        id: 'quota', label: L('Quota'), required: true, type: 'text', value: quota,
         error: quotaError, helperText: quotaHelperText,
       },
       {
-        id: 'year', label: 'Year', required: true, type: 'date', views: [ 'year' ],
+        id: 'year', label: L('Year'), required: true, type: 'date', views: ['year'],
         readOnly: false, value: year, error: yearError, helperText: yearHelperText,
       },
-      { id: 'createdAt', label: 'Created At', type: 'text', disabled: true, readOnly: true, value: formatDateTime(createdAt) },
-      { id: 'updatedAt', label: 'Updated At', type: 'text', disabled: true, readOnly: true, value: formatDateTime(updatedAt) },
+      { id: 'createdAt', label: L('Created At'), type: 'text', disabled: true, readOnly: true, value: formatDateTime(createdAt) },
+      { id: 'updatedAt', label: L('Updated At'), type: 'text', disabled: true, readOnly: true, value: formatDateTime(updatedAt) },
     ]
     setFormFieldList(list)
   }, [
@@ -198,7 +199,7 @@ function ManagementUpdate(props) {
   return (
     <React.Fragment>
       <DetailPage
-        formTitle = 'Update'
+        formTitle={L('Update')}
         onFormFieldChange = {onFormFieldChange}
         formFieldList = {formFieldList}
         showBtn ={true}

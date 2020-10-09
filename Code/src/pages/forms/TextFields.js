@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { NavLink as RouterNavLink } from "react-router-dom";
+import { L } from '../../utils/lang'
 
 import Helmet from 'react-helmet';
 
@@ -77,17 +78,16 @@ class DefaultTextFields extends React.Component {
       <Card mb={6}>
         <CardContent>
           <Typography variant="h6" gutterBottom>
-            Text Fields
+            {L('Text Fields')}
           </Typography>
           <Typography variant="body2" gutterBottom>
-            The <code>TextField</code> wrapper component is a complete form
-            control including a label, input and help text.
+            {L('The') + ' '} <code>{L('TextField')}</code>{' ' + L('TextFieldDes')}
           </Typography>
           <Paper mt={3}>
             <form noValidate autoComplete="off">
               <TextField
                 id="standard-name"
-                label="Name"
+                label={L('Name')}
                 value={this.state.name}
                 onChange={this.handleChange("name")}
                 m={2}
@@ -95,7 +95,7 @@ class DefaultTextFields extends React.Component {
 
               <TextField
                 id="standard-uncontrolled"
-                label="Uncontrolled"
+                label={L('Uncontrolled')}
                 defaultValue="foo"
                 m={2}
               />
@@ -103,30 +103,30 @@ class DefaultTextFields extends React.Component {
               <TextField
                 required
                 id="standard-required"
-                label="Required"
-                defaultValue="Hello World"
+                label={L('Required')}
+                defaultValue={L("Hello World")}
                 m={2}
               />
 
               <TextField
                 error
                 id="standard-error"
-                label="Error"
-                defaultValue="Hello World"
+                label={L('Error')}
+                defaultValue={L("Hello World")}
                 m={2}
               />
 
               <TextField
                 disabled
                 id="standard-disabled"
-                label="Disabled"
-                defaultValue="Hello World"
+                label={L('Disabled')}
+                defaultValue={L("Hello World")}
                 m={2}
               />
 
               <TextField
                 id="standard-password-input"
-                label="Password"
+                label={L('Password')}
                 type="password"
                 autoComplete="current-password"
                 m={2}
@@ -134,8 +134,8 @@ class DefaultTextFields extends React.Component {
 
               <TextField
                 id="standard-read-only-input"
-                label="Read Only"
-                defaultValue="Hello World"
+                label={L("Read Only")}
+                defaultValue={L("Hello World")}
                 InputProps={{
                   readOnly: true
                 }}
@@ -144,14 +144,14 @@ class DefaultTextFields extends React.Component {
 
               <TextField
                 id="standard-dense"
-                label="Dense"
+                label={L('Dense')}
                 margin="dense"
                 m={2}
               />
 
               <TextField
                 id="standard-multiline-flexible"
-                label="Multiline"
+                label={L('Multiline')}
                 multiline
                 rowsMax="4"
                 value={this.state.multiline}
@@ -161,38 +161,38 @@ class DefaultTextFields extends React.Component {
 
               <TextField
                 id="standard-multiline-static"
-                label="Multiline"
+                label={L('Multiline')}
                 multiline
                 rows="4"
-                defaultValue="Default Value"
+                defaultValue={L("Default Value")}
                 m={2}
               />
 
               <TextField
                 id="standard-helperText"
-                label="Helper text"
-                defaultValue="Default Value"
-                helperText="Some important text"
+                label={L('Helper text')}
+                defaultValue={L("Default Value")}
+                helperText={L("Some important text")}
                 m={2}
               />
 
               <TextField
                 id="standard-with-placeholder"
-                label="With placeholder"
-                placeholder="Placeholder"
+                label={L('With placeholder')}
+                placeholder={L("Placeholder")}
               />
 
               <TextField
                 id="standard-textarea"
-                label="With placeholder multiline"
-                placeholder="Placeholder"
+                label={L('With placeholder multiline')}
+                placeholder={L("Placeholder")}
                 multiline
                 m={2}
               />
 
               <TextField
                 id="standard-number"
-                label="Number"
+                label={L('Number')}
                 value={this.state.age}
                 onChange={this.handleChange("age")}
                 type="number"
@@ -204,7 +204,7 @@ class DefaultTextFields extends React.Component {
 
               <TextField
                 id="standard-search"
-                label="Search field"
+                label={L('Search field')}
                 type="search"
                 m={2}
               />
@@ -212,10 +212,10 @@ class DefaultTextFields extends React.Component {
               <TextField
                 id="standard-select-currency"
                 select
-                label="Select"
+                label={L('Select')}
                 value={this.state.currency}
                 onChange={this.handleChange("currency")}
-                helperText="Please select your currency"
+                helperText={L("Please select your currency")}
                 m={2}
               >
                 {this.currencies.map(option => (
@@ -227,13 +227,13 @@ class DefaultTextFields extends React.Component {
               <TextField
                 id="standard-select-currency-native"
                 select
-                label="Native select"
+                label={L('Native select')}
                 value={this.state.currency}
                 onChange={this.handleChange("currency")}
                 SelectProps={{
                   native: true
                 }}
-                helperText="Please select your currency"
+                helperText={L("Please select your currency")}
                 m={2}
               >
                 {this.currencies.map(option => (
@@ -244,10 +244,10 @@ class DefaultTextFields extends React.Component {
               </TextField>
               <TextField
                 id="standard-full-width"
-                label="Label"
+                label={L("Label")}
                 style={{ margin: 8 }}
-                placeholder="Placeholder"
-                helperText="Full width!"
+                placeholder={L("Placeholder")}
+                helperText={L("Full width!")}
                 fullWidth
                 InputLabelProps={{
                   shrink: true
@@ -306,16 +306,16 @@ class OutlinedTextFields extends React.Component {
       <Card mb={6}>
         <CardContent>
           <Typography variant="h6" gutterBottom>
-            Outlined Text Fields
+            {L('Outlined Text Fields')}
           </Typography>
           <Typography variant="body2" gutterBottom>
-            <code>TextField</code> supports outlined styling.
+            <code>{L('TextField')}</code>{" " + L('supports outlined styling.')}
           </Typography>
           <Paper mt={3}>
             <form noValidate autoComplete="off">
               <TextField
                 id="outlined-name"
-                label="Name"
+                label={L("Name")}
                 m={2}
                 value={this.state.name}
                 onChange={this.handleChange("name")}
@@ -324,7 +324,7 @@ class OutlinedTextFields extends React.Component {
 
               <TextField
                 id="outlined-uncontrolled"
-                label="Uncontrolled"
+                label={L("Uncontrolled")}
                 defaultValue="foo"
                 m={2}
                 variant="outlined"
@@ -333,8 +333,8 @@ class OutlinedTextFields extends React.Component {
               <TextField
                 required
                 id="outlined-required"
-                label="Required"
-                defaultValue="Hello World"
+                label={L("Uncontrolled")}
+                defaultValue={L("Hello World")}
                 m={2}
                 variant="outlined"
               />
@@ -342,8 +342,8 @@ class OutlinedTextFields extends React.Component {
               <TextField
                 error
                 id="outlined-error"
-                label="Error"
-                defaultValue="Hello World"
+                label={L("Error")}
+                defaultValue={L("Hello World")}
                 m={2}
                 variant="outlined"
               />
@@ -351,15 +351,15 @@ class OutlinedTextFields extends React.Component {
               <TextField
                 disabled
                 id="outlined-disabled"
-                label="Disabled"
-                defaultValue="Hello World"
+                label={L("Disabled")}
+                defaultValue={L("Hello World")}
                 m={2}
                 variant="outlined"
               />
 
               <TextField
                 id="outlined-email-input"
-                label="Email"
+                label={L("Email")}
                 m={2}
                 type="email"
                 name="email"
@@ -369,7 +369,7 @@ class OutlinedTextFields extends React.Component {
 
               <TextField
                 id="outlined-password-input"
-                label="Password"
+                label={L("Password")}
                 m={2}
                 type="password"
                 autoComplete="current-password"
@@ -378,8 +378,8 @@ class OutlinedTextFields extends React.Component {
 
               <TextField
                 id="outlined-read-only-input"
-                label="Read Only"
-                defaultValue="Hello World"
+                label={L("Read Only")}
+                defaultValue={L("Hello World")}
                 m={2}
                 InputProps={{
                   readOnly: true
@@ -389,14 +389,14 @@ class OutlinedTextFields extends React.Component {
 
               <TextField
                 id="outlined-dense"
-                label="Dense"
+                label={L("Dense")}
                 margin="dense"
                 variant="outlined"
               />
 
               <TextField
                 id="outlined-multiline-flexible"
-                label="Multiline"
+                label={L("Multiline")}
                 multiline
                 rowsMax="4"
                 value={this.state.multiline}
@@ -408,35 +408,35 @@ class OutlinedTextFields extends React.Component {
 
               <TextField
                 id="outlined-multiline-static"
-                label="Multiline"
+                label={L("Multiline")}
                 multiline
                 rows="4"
-                defaultValue="Default Value"
+                defaultValue={L("Default Value")}
                 m={2}
                 variant="outlined"
               />
 
               <TextField
                 id="outlined-helperText"
-                label="Helper text"
-                defaultValue="Default Value"
+                label={L("Helper text")}
+                defaultValue={L("Default Value")}
                 m={2}
-                helperText="Some important text"
+                helperText={L("Some important text")}
                 variant="outlined"
               />
 
               <TextField
                 id="outlined-with-placeholder"
-                label="With placeholder"
-                placeholder="Placeholder"
+                label={L("With placeholder")}
+                placeholder={L("Placeholder")}
                 m={2}
                 variant="outlined"
               />
 
               <TextField
                 id="outlined-textarea"
-                label="Multiline Placeholder"
-                placeholder="Placeholder"
+                label={L("Multiline Placeholder")}
+                placeholder={L("Placeholder")}
                 multiline
                 m={2}
                 variant="outlined"
@@ -444,7 +444,7 @@ class OutlinedTextFields extends React.Component {
 
               <TextField
                 id="outlined-number"
-                label="Number"
+                label={L("Number")}
                 value={this.state.age}
                 onChange={this.handleChange("age")}
                 type="number"
@@ -457,7 +457,7 @@ class OutlinedTextFields extends React.Component {
 
               <TextField
                 id="outlined-search"
-                label="Search field"
+                label={L("Search field")}
                 type="search"
                 m={2}
                 variant="outlined"
@@ -466,11 +466,11 @@ class OutlinedTextFields extends React.Component {
               <TextField
                 id="outlined-select-currency"
                 select
-                label="Select"
+                label={L("Select")}
                 m={2}
                 value={this.state.currency}
                 onChange={this.handleChange("currency")}
-                helperText="Please select your currency"
+                helperText={L("Please select your currency")}
                 variant="outlined"
               >
                 {this.currencies.map(option => (
@@ -482,14 +482,14 @@ class OutlinedTextFields extends React.Component {
               <TextField
                 id="outlined-select-currency-native"
                 select
-                label="Native select"
+                label={L("Native select")}
                 m={2}
                 value={this.state.currency}
                 onChange={this.handleChange("currency")}
                 SelectProps={{
                   native: true
                 }}
-                helperText="Please select your currency"
+                helperText={L("Please select your currency")}
                 variant="outlined"
               >
                 {this.currencies.map(option => (
@@ -500,10 +500,10 @@ class OutlinedTextFields extends React.Component {
               </TextField>
               <TextField
                 id="outlined-full-width"
-                label="Label"
+                label={L("Label")}
                 style={{ margin: 8 }}
-                placeholder="Placeholder"
-                helperText="Full width!"
+                placeholder={L("Placeholder")}
+                helperText={L("Full width!")}
                 fullWidth
                 variant="outlined"
                 InputLabelProps={{
@@ -528,19 +528,19 @@ class OutlinedTextFields extends React.Component {
 function TextFields() {
   return (
     <React.Fragment>
-      <Helmet title="Text Fields" />
+      <Helmet title={L('Text Fields')} />
       <Typography variant="h3" gutterBottom display="inline">
-        Text Fields
+        {L('Text Fields')}
       </Typography>
 
       <Breadcrumbs aria-label="Breadcrumb" mt={2}>
         <Link component={NavLink} exact to="/">
-          Dashboard
+          {L('Dashboard')}
         </Link>
         <Link component={NavLink} exact to="/">
-          Forms
+          {L('Forms')}
         </Link>
-        <Typography>Text Fields</Typography>
+        <Typography>{L('Text Fields')}</Typography>
       </Breadcrumbs>
 
       <Divider my={6} />

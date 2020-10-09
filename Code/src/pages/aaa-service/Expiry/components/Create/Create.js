@@ -5,6 +5,7 @@ import API from "../../../../../api/expiry"
 import CommonTip from "../../../../../components/CommonTip"
 import { checkEmpty, getCheckExist } from "../../untils/expiryFieldCheck"
 import assignApi from "../../../../../api/assign"
+import { L } from '../../../../../utils/lang'
 import userApi from "../../../../../api/user"
 import dayjs from "dayjs"
 
@@ -44,7 +45,7 @@ export default function Create(props) {
     setSaving(true)
     API.create({ assignId, userId, expiryDate })
       .then(() => {
-        CommonTip.success("Success")
+        CommonTip.success(L('Success'))
         history.push({ pathname: '/' })
       })
       .catch(() => {
@@ -71,17 +72,19 @@ export default function Create(props) {
   useEffect(() => {
     const list = [
       {
-        id: 'assign', label: 'Tenant + Group + Role', type: 'select', value: assignId,
+        id: 'assign', label: L('Tenant + Group + Role'), type: 'select', value: assignId,
         itemList: assignList, labelField: 'value', valueField: 'id', width: 1.4,
         error: assignError, helperText: assignHelperText, labelWidth: 150,
       },
       {
-        id: 'user', label: 'User', type: 'select', value: userId,
+        id: 'user', label: L('User'), type: 'select', value: userId,
         itemList: userList, labelField: 'displayname', valueField: 'id',
         error: userError, helperText: userHelperText, labelWidth: 30,
       },
-      { id: 'expiryDate', label: 'Expiry Date', type: 'date', disabled: false, readOnly: false,
-        required: true, value: expiryDate, error: expiryDateError, helperText: expiryDateHelperText },
+      {
+        id: 'expiryDate', label: L('Expiry Date'), type: 'date', disabled: false, readOnly: false,
+        required: true, value: expiryDate, error: expiryDateError, helperText: expiryDateHelperText
+      },
     ]
     setFormFieldList(list)
   }, [
@@ -183,7 +186,7 @@ export default function Create(props) {
   return (
     <React.Fragment>
       <DetailPage
-        formTitle = 'Create'
+        formTitle={L('Create')}
         onFormFieldChange = {onFormFieldChange}
         formFieldList = {formFieldList}
         showBtn ={true}

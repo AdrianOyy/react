@@ -3,6 +3,7 @@ import styled from "styled-components"
 import { NavLink as RouterNavLink } from "react-router-dom"
 
 import Helmet from 'react-helmet'
+import { L } from '../../utils/lang'
 
 import {
   Box,
@@ -110,13 +111,13 @@ function stableSort(array, comparator) {
 }
 
 const headCells = [
-  { id: 'id', alignment: 'right', label: 'Order ID' },
-  { id: 'product', alignment: 'left', label: 'Product' },
-  { id: 'date', alignment: 'left', label: 'Date' },
-  { id: 'total', alignment: 'right', label: 'Total' },
-  { id: 'status', alignment: 'left', label: 'Status' },
-  { id: 'method', alignment: 'left', label: 'Payment Method' },
-  { id: 'actions', alignment: 'right', label: 'Actions' },
+  { id: 'id', alignment: 'right', label: L('Order ID') },
+  { id: 'product', alignment: 'left', label: L('Product') },
+  { id: 'date', alignment: 'left', label: L('Date') },
+  { id: 'total', alignment: 'right', label: L('Total') },
+  { id: 'status', alignment: 'left', label: L('Status') },
+  { id: 'method', alignment: 'left', label: L('Payment Method') },
+  { id: 'actions', alignment: 'right', label: L('Actions') },
 ]
 
 function EnhancedTableHead(props) {
@@ -165,29 +166,29 @@ let EnhancedTableToolbar = props => {
       <ToolbarTitle>
         {numSelected > 0 ? (
           <Typography color="inherit" variant="subtitle1">
-            {numSelected} selected
+            {numSelected} {L('selected')}
           </Typography>
         ) : (
-          <Typography variant="h6" id="tableTitle">
-            Orders
-          </Typography>
-        )}
+            <Typography variant="h6" id="tableTitle">
+              {('Orders')}
+            </Typography>
+          )}
       </ToolbarTitle>
       <Spacer />
       <div>
         {numSelected > 0 ? (
-          <Tooltip title="Delete">
-            <IconButton aria-label="Delete">
+          <Tooltip title={L('Delete')}>
+            <IconButton aria-label={L('Delete')}>
               <ArchiveIcon />
             </IconButton>
           </Tooltip>
         ) : (
-          <Tooltip title="Filter list">
-            <IconButton aria-label="Filter list">
-              <FilterListIcon />
-            </IconButton>
-          </Tooltip>
-        )}
+            <Tooltip title={L('Filter list')}>
+              <IconButton aria-label={L('Filter list')}>
+                <FilterListIcon />
+              </IconButton>
+            </Tooltip>
+          )}
       </div>
     </Toolbar>
   )
@@ -347,15 +348,15 @@ function OrderList() {
       >
         <Grid item>
           <Typography variant="h3" gutterBottom display="inline">
-          Orders
+            {L('Orders')}
           </Typography>
 
           <Breadcrumbs aria-label="Breadcrumb" mt={2}>
             <Link component={NavLink} exact to="/">
-              Dashboard
+              {L('Dashboard')}
             </Link>
             <Link component={NavLink} exact to="/">
-              Pages
+              {L('Pages')}
             </Link>
             <Typography>Orders</Typography>
           </Breadcrumbs>
@@ -364,7 +365,7 @@ function OrderList() {
           <div>
             <Button variant="contained" color="primary">
               <AddIcon />
-              New Order
+              {L('New Order')}
             </Button>
           </div>
         </Grid>

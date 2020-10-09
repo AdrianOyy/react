@@ -1,6 +1,7 @@
 import React, { useState } from "react"
 import styled from "styled-components"
 import { NavLink as RouterNavLink } from "react-router-dom"
+import { L } from '../../utils/lang'
 
 import Helmet from 'react-helmet'
 
@@ -62,10 +63,10 @@ function Quill() {
     <Card mb={6}>
       <CardContent>
         <Typography variant="h6" gutterBottom>
-          Quill
+          {L('Quill')}
         </Typography>
         <Typography variant="body2" gutterBottom>
-          Modern WYSIWYG editor built for compatibility and extensibility.
+          {L('QuillDes')}
         </Typography>
         <Box mt={3}>
           <QuillWrapper>
@@ -84,10 +85,10 @@ function Bubble() {
     <Card mb={6}>
       <CardContent>
         <Typography variant="h6" gutterBottom>
-          Bubble
+          {L('Bubble')}
         </Typography>
         <Typography variant="body2" gutterBottom>
-          Bubble is a simple tooltip based theme for Quill.
+          {L('BubbleDes')}
         </Typography>
         <Box mt={3}>
           <BubbleWrapper>
@@ -102,19 +103,19 @@ function Bubble() {
 function Editors() {
   return (
     <React.Fragment>
-      <Helmet title="Editors" />
+      <Helmet title={L('Editors')} />
       <Typography variant="h3" gutterBottom display="inline">
-        Editors
+        {L('Editors')}
       </Typography>
 
       <Breadcrumbs aria-label="Breadcrumb" mt={2}>
         <Link component={NavLink} exact to="/">
-          Dashboard
+          {L('Dashboard')}
         </Link>
         <Link component={NavLink} exact to="/">
-          Forms
+          {L('Forms')}
         </Link>
-        <Typography>Editors</Typography>
+        <Typography>{L('Editors')}</Typography>
       </Breadcrumbs>
 
       <Divider my={6} />

@@ -1,5 +1,6 @@
 import React from "react"
 import styled, { withTheme } from "styled-components"
+import { L } from '../../../utils/lang'
 
 import Helmet from 'react-helmet'
 
@@ -28,11 +29,11 @@ const Typography = styled(MuiTypography)(spacing)
 function Analytics({ theme }) {
   return (
     <React.Fragment>
-      <Helmet title="Analytics Dashboard" />
+      <Helmet title={L('Analytics Dashboard')} />
       <Grid justify="space-between" container spacing={6}>
         <Grid item>
           <Typography variant="h3" display="inline">
-            Welcome back, Lucy
+            {L('Welcome back')}, Lucy
           </Typography>
           <Typography variant="body2" ml={2} display="inline">
             {`Monday, 29 April ${new Date().getFullYear()}`}
@@ -51,7 +52,7 @@ function Analytics({ theme }) {
           <Grid container spacing={6}>
             <Grid item xs={12} sm={12} md={6}>
               <Stats
-                title="Visitors"
+                title={L('Visitors')}
                 amount="24.532"
                 chip="Today"
                 percentageText="+14%"
@@ -60,7 +61,7 @@ function Analytics({ theme }) {
             </Grid>
             <Grid item xs={12} sm={12} md={6}>
               <Stats
-                title="Activity"
+                title={L('Activity')}
                 amount="63.200"
                 chip="Annual"
                 percentageText="-12%"
@@ -69,7 +70,7 @@ function Analytics({ theme }) {
             </Grid>
             <Grid item xs={12} sm={12} md={6}>
               <Stats
-                title="Real-Time"
+                title={L('Real-Time')}
                 amount="1.320"
                 chip="Monthly"
                 percentageText="-18%"
@@ -78,7 +79,7 @@ function Analytics({ theme }) {
             </Grid>
             <Grid item xs={12} sm={12} md={6}>
               <Stats
-                title="Bounce"
+                title={L('Bounce')}
                 amount="12.364"
                 chip="Yearly"
                 percentageText="+27%"

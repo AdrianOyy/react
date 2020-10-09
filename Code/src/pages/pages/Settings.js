@@ -3,6 +3,7 @@ import styled from "styled-components"
 import { NavLink as RouterNavLink } from "react-router-dom"
 
 import Helmet from 'react-helmet'
+import { L } from '../../utils/lang'
 
 import {
   Avatar,
@@ -55,16 +56,15 @@ function Public() {
     <Card mb={6}>
       <CardContent>
         <Typography variant="h6" gutterBottom>
-          Public info
+          {L('Public info')}
         </Typography>
 
         <Grid container spacing={6}>
           <Grid item md={8}>
-            <TextField id="username" label="Username" defaultValue="lucylavender" variant="outlined" fullWidth my={2} />
-
+            <TextField id="username" label={L('Username')} defaultValue="lucylavender" variant="outlined" fullWidth my={2} />
             <FormControl fullWidth my={2} variant="outlined">
               <TextField
-                label="Biography"
+                label={L('Biography')}
                 id="biography"
                 multiline={true}
                 rows={3}
@@ -77,7 +77,7 @@ function Public() {
           <Grid item md={4}>
             <CenteredContent>
               <BigAvatar
-                alt="Remy Sharp"
+                alt={L('Remy Sharp')}
                 src="/static/img/avatars/avatar-1.jpg"
               />
               <input
@@ -89,7 +89,7 @@ function Public() {
               />
               <label htmlFor="raised-button-file">
                 <Button variant="contained" color="primary" component="span">
-                  <CloudUpload mr={2} /> Upload
+                  <CloudUpload mr={2} /> {L('Upload')}
                 </Button>
 
                 <Typography variant="caption" display="block" gutterBottom>
@@ -102,7 +102,7 @@ function Public() {
         </Grid>
 
         <Button variant="contained" color="primary">
-          Save changes
+          {L('Save changes')}
         </Button>
       </CardContent>
     </Card>
@@ -114,38 +114,38 @@ function Private() {
     <Card mb={6}>
       <CardContent>
         <Typography variant="h6" gutterBottom>
-          Private info
+          {L('Private info')}
         </Typography>
 
         <Grid container spacing={6}>
           <Grid item md={6}>
-            <TextField id="first-name" label="First name" variant="outlined" defaultValue="Lucy" fullWidth my={2} />
+            <TextField id="first-name" label={L('First name')} variant="outlined" defaultValue="Lucy" fullWidth my={2} />
           </Grid>
           <Grid item md={6}>
-            <TextField id="last-name" label="Last name" variant="outlined" defaultValue="Lavender" fullWidth my={2} />
+            <TextField id="last-name" label={L('Last name')} variant="outlined" defaultValue="Lavender" fullWidth my={2} />
           </Grid>
         </Grid>
 
-        <TextField id="email" label="Email" variant="outlined" type="email" defaultValue="lucylavender@gmail.com" fullWidth my={2} />
+        <TextField id="email" label={L('Email')} variant="outlined" type="email" defaultValue="lucylavender@gmail.com" fullWidth my={2} />
 
-        <TextField id="address" label="Address" variant="outlined" fullWidth my={2} />
+        <TextField id="address" label={L('Address')} variant="outlined" fullWidth my={2} />
 
-        <TextField id="address2" label="Apartment, studio, or floor" variant="outlined" fullWidth my={2} />
+        <TextField id="address2" label={L('Apartment, studio, or floor')} variant="outlined" fullWidth my={2} />
 
         <Grid container spacing={6}>
           <Grid item md={6}>
-            <TextField id="city" label="City" variant="outlined" fullWidth my={2} />
+            <TextField id="city" label={L('City')} variant="outlined" fullWidth my={2} />
           </Grid>
           <Grid item md={4}>
-            <TextField id="state" label="State" variant="outlined" fullWidth my={2} />
+            <TextField id="state" label={L('State')} variant="outlined" fullWidth my={2} />
           </Grid>
           <Grid item md={2}>
-            <TextField id="zip" label="Zip" variant="outlined" fullWidth my={2} />
+            <TextField id="zip" label={L('Zip')} variant="outlined" fullWidth my={2} />
           </Grid>
         </Grid>
 
         <Button variant="contained" color="primary" mt={3}>
-          Save changes
+          {L('Save changes')}
         </Button>
       </CardContent>
     </Card>
@@ -158,17 +158,17 @@ function Settings() {
       <Helmet title="Settings" />
 
       <Typography variant="h3" gutterBottom display="inline">
-        Settings
+        {L('Settings')}
       </Typography>
 
       <Breadcrumbs aria-label="Breadcrumb" mt={2}>
         <Link component={NavLink} exact to="/">
-          Dashboard
+          {L('Dashboard')}
         </Link>
         <Link component={NavLink} exact to="/">
-          Pages
+          {L('Pages')}
         </Link>
-        <Typography>Settings</Typography>
+        <Typography>{L('Settings')}</Typography>
       </Breadcrumbs>
 
       <Divider my={6} />

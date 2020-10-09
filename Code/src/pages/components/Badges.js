@@ -48,11 +48,10 @@ function IconBadges() {
     <Card mb={6}>
       <CardContent>
         <Typography variant="h6" gutterBottom>
-          Icon Badges
+          {L('Icon Badges')}
         </Typography>
         <Typography variant="body2" gutterBottom>
-          Examples of badges on icons containing text, using primary and
-          secondary colors.
+          {L('iconBadgesDes')}
         </Typography>
 
         <Spacer mb={6} />
@@ -73,11 +72,10 @@ function TabBadges() {
     <Card mb={6}>
       <CardContent>
         <Typography variant="h6" gutterBottom>
-          Tab Badges
+          {L('Tab Badges')}
         </Typography>
         <Typography variant="body2" gutterBottom>
-          Examples of badges on tabs containing text, using primary and
-          secondary colors.
+          {L('tabBadgesDes')}
         </Typography>
 
         <Spacer mb={6} />
@@ -87,7 +85,7 @@ function TabBadges() {
             <Tab
               label={
                 <TabBadge color="secondary" badgeContent={4} px={4}>
-                  Item One
+                  {L('Item One')}
                 </TabBadge>
               }
             />
@@ -101,7 +99,7 @@ function TabBadges() {
             <Tab
               label={
                 <TabBadge color="primary" badgeContent={4} px={4}>
-                  Item One
+                  {L('Item One')}
                 </TabBadge>
               }
             />
@@ -120,20 +118,19 @@ function ButtonBadges() {
     <Card mb={6}>
       <CardContent>
         <Typography variant="h6" gutterBottom>
-          Button Badges
+          {L('Button Badges')}
         </Typography>
         <Typography variant="body2" gutterBottom>
-          Examples of badges on buttons containing text, using primary and
-          secondary colors.
+          {L('buttonBadgesDes')}
         </Typography>
 
         <Spacer mb={6} />
 
         <Badge color="primary" badgeContent={4} mr={4}>
-          <Button variant="contained">Button</Button>
+          <Button variant="contained">{L('Button')}</Button>
         </Badge>
         <Badge color="secondary" badgeContent={4} mr={4}>
-          <Button variant="contained">Button</Button>
+          <Button variant="contained">{L('Button')}</Button>
         </Badge>
       </CardContent>
     </Card>
@@ -151,11 +148,10 @@ function BadgeVisibility() {
     <Card mb={6}>
       <CardContent>
         <Typography variant="h6" gutterBottom>
-          Badge Visibility
+          {L('Badge Visibility')}
         </Typography>
         <Typography variant="body2" gutterBottom>
-          The visibility of badges can be controlled using the invisible
-          property.
+          {L('badgeVisiblityDes')}
         </Typography>
 
         <Spacer mb={6} />
@@ -174,7 +170,7 @@ function BadgeVisibility() {
                 onChange={handleBadgeVisibility}
               />
             }
-            label="Show Badge"
+            label={L('Show Badge')}
           />
         </FormGroup>
       </CardContent>
@@ -185,19 +181,19 @@ function BadgeVisibility() {
 function Badges() {
   return (
     <React.Fragment>
-      <Helmet title="Badges" />
+      <Helmet title={L('Badges')} />
       <Typography variant="h3" gutterBottom display="inline">
-        Badges
+        {L('Badges')}
       </Typography>
 
       <Breadcrumbs aria-label="Breadcrumb" mt={2}>
         <Link component={NavLink} exact to="/">
-          Dashboard
+          {L('Dashboard')}
         </Link>
         <Link component={NavLink} exact to="/">
-          Components
+          {L('Components')}
         </Link>
-        <Typography>Badges</Typography>
+        <Typography>{L('Badges')}</Typography>
       </Breadcrumbs>
 
       <Divider my={6} />

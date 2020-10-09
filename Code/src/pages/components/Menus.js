@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { NavLink as RouterNavLink } from "react-router-dom";
+import { L } from '../../utils/lang'
 
 import Helmet from 'react-helmet';
 
@@ -65,10 +66,10 @@ class SimpleMenu extends React.Component {
       <Card mb={6}>
         <CardContent>
           <Typography variant="h6" gutterBottom>
-            Simple menu
+            {L('Simple menu')}
           </Typography>
           <Typography variant="body2" gutterBottom>
-            Simple menu open over the anchor element by default
+            {L('simpleMenuDes')}
           </Typography>
           <Paper mt={3}>
             <Button
@@ -78,7 +79,7 @@ class SimpleMenu extends React.Component {
               variant="contained"
               color="secondary"
             >
-              Open Menu
+              {L('Open Menu')}
             </Button>
             <Menu
               id="simple-menu"
@@ -86,9 +87,9 @@ class SimpleMenu extends React.Component {
               open={Boolean(anchorEl)}
               onClose={this.handleClose}
             >
-              <MenuItem onClick={this.handleClose}>Profile</MenuItem>
-              <MenuItem onClick={this.handleClose}>My account</MenuItem>
-              <MenuItem onClick={this.handleClose}>Logout</MenuItem>
+              <MenuItem onClick={this.handleClose}>{L('Profile')}</MenuItem>
+              <MenuItem onClick={this.handleClose}>{L('My account')}</MenuItem>
+              <MenuItem onClick={this.handleClose}>{L('Logout')}</MenuItem>
             </Menu>
           </Paper>
         </CardContent>
@@ -117,10 +118,10 @@ class TransitionMenu extends React.Component {
       <Card mb={6}>
         <CardContent>
           <Typography variant="h6" gutterBottom>
-            Transition Menu
+            {L('Transition Menu')}
           </Typography>
           <Typography variant="body2" gutterBottom>
-            Simple menu with different transition (fade)
+            {L('transMenuDes')}
           </Typography>
           <Paper mt={3}>
             <Button
@@ -130,7 +131,7 @@ class TransitionMenu extends React.Component {
               variant="contained"
               color="secondary"
             >
-              Open Menu
+              {L('Open Menu')}
             </Button>
             <Menu
               id="simple-menu"
@@ -139,9 +140,9 @@ class TransitionMenu extends React.Component {
               onClose={this.handleClose}
               TransitionComponent={Fade}
             >
-              <MenuItem onClick={this.handleClose}>Profile</MenuItem>
-              <MenuItem onClick={this.handleClose}>My account</MenuItem>
-              <MenuItem onClick={this.handleClose}>Logout</MenuItem>
+              <MenuItem onClick={this.handleClose}>{L('Profile')}</MenuItem>
+              <MenuItem onClick={this.handleClose}>{L('My account')}</MenuItem>
+              <MenuItem onClick={this.handleClose}>{L('Logout')}</MenuItem>
             </Menu>
           </Paper>
         </CardContent>
@@ -170,10 +171,10 @@ class IconMenu extends React.Component {
       <Card mb={6}>
         <CardContent>
           <Typography variant="h6" gutterBottom>
-            Icon Menu
+            {L('Icon Menu')}
           </Typography>
           <Typography variant="body2" gutterBottom>
-            Simple menu with icons
+            {L('Simple menu with icons')}
           </Typography>
           <Paper mt={3}>
             <Button
@@ -183,7 +184,7 @@ class IconMenu extends React.Component {
               variant="contained"
               color="secondary"
             >
-              Open Menu
+              {L('Open Menu')}
             </Button>
             <Menu
               id="simple-menu"
@@ -222,10 +223,10 @@ class SelectedMenu extends React.Component {
     super(props);
 
     this.options = [
-      "Show some love to Material-UI",
-      "Show all notification content",
-      "Hide sensitive notification content",
-      "Hide all notification content"
+      L("Show some love to Material-UI"),
+      L("Show all notification content"),
+      L("Hide sensitive notification content"),
+      L("Hide all notification content")
     ];
   }
 
@@ -253,11 +254,10 @@ class SelectedMenu extends React.Component {
       <Card mb={6}>
         <CardContent>
           <Typography variant="h6" gutterBottom>
-            Selected menu
+            {L('Selected menu')}
           </Typography>
           <Typography variant="body2" gutterBottom>
-            Selected menus attempt to vertically align the currently selected
-            menu item with the anchor element.
+            {L('selectesMenuDes')}
           </Typography>
           <Paper mt={3}>
             <List component="nav">
@@ -301,19 +301,19 @@ class SelectedMenu extends React.Component {
 function Menus() {
   return (
     <React.Fragment>
-      <Helmet title="Menus" />
+      <Helmet title={L('Menus')} />
       <Typography variant="h3" gutterBottom display="inline">
-        Menus
+        {L('Menus')}
       </Typography>
 
       <Breadcrumbs aria-label="Breadcrumb" mt={2}>
         <Link component={NavLink} exact to="/">
-          Dashboard
+          {L('Dashboard')}
         </Link>
         <Link component={NavLink} exact to="/">
-          Components
+          {L('Components')}
         </Link>
-        <Typography>Menus</Typography>
+        <Typography>{L('Menus')}</Typography>
       </Breadcrumbs>
 
       <Divider my={6} />

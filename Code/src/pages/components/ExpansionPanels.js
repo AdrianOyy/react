@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { NavLink as RouterNavLink } from "react-router-dom";
+import { L } from '../../utils/lang'
 
 import Helmet from 'react-helmet';
 
@@ -37,22 +38,19 @@ class SimpleExpansionPanel extends React.Component {
       <Card mb={6}>
         <CardContent>
           <Typography variant="h6" gutterBottom>
-            Simple Expansion Panel
+            {L('Simple Expansion Panel')}
           </Typography>
           <Typography variant="body2" gutterBottom>
-            A lightweight container that may either stand alone or be connected
-            to a larger surface, such as a card.
+            {L('simpleExpansionPanlDes')}
           </Typography>
           <div>
             <ExpansionPanel>
               <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-                <Typography>Expansion Panel 1</Typography>
+                <Typography>{L('Expansion Panel 1')}</Typography>
               </ExpansionPanelSummary>
               <ExpansionPanelDetails>
                 <Typography>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                  Suspendisse malesuada lacus ex, sit amet blandit leo lobortis
-                  eget.
+                  {L('expansionPanel1Des')}
                 </Typography>
               </ExpansionPanelDetails>
             </ExpansionPanel>
@@ -62,15 +60,13 @@ class SimpleExpansionPanel extends React.Component {
               </ExpansionPanelSummary>
               <ExpansionPanelDetails>
                 <Typography>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                  Suspendisse malesuada lacus ex, sit amet blandit leo lobortis
-                  eget.
+                  {L('expansionPanel2Des')}
                 </Typography>
               </ExpansionPanelDetails>
             </ExpansionPanel>
             <ExpansionPanel disabled>
               <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-                <Typography>Disabled Expansion Panel</Typography>
+                <Typography>{L('Disabled Expansion Panel')}</Typography>
               </ExpansionPanelSummary>
             </ExpansionPanel>
           </div>{" "}
@@ -98,11 +94,10 @@ class ControlledExpansionPanel extends React.Component {
       <Card mb={6}>
         <CardContent>
           <Typography variant="h6" gutterBottom>
-            Controlled Expansion Panel
+            {L('Controlled Expansion Panel')}
           </Typography>
           <Typography variant="body2" gutterBottom>
-            Extend the default panel behavior to create an accordion with the
-            ExpansionPanel component.
+            {L('controlledExpansionPanelDes')}
           </Typography>
           <div>
             <ExpansionPanel
@@ -110,12 +105,11 @@ class ControlledExpansionPanel extends React.Component {
               onChange={this.handleChange("panel1")}
             >
               <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-                <Typography>General settings</Typography>
+                <Typography>{L('General settings')}</Typography>
               </ExpansionPanelSummary>
               <ExpansionPanelDetails>
                 <Typography>
-                  Nulla facilisi. Phasellus sollicitudin nulla et quam mattis
-                  feugiat. Aliquam eget maximus est, id dignissim quam.
+                  {L('generaSettingsDes')}
                 </Typography>
               </ExpansionPanelDetails>
             </ExpansionPanel>
@@ -124,13 +118,11 @@ class ControlledExpansionPanel extends React.Component {
               onChange={this.handleChange("panel2")}
             >
               <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-                <Typography>Users</Typography>
+                <Typography>{L('Users')}</Typography>
               </ExpansionPanelSummary>
               <ExpansionPanelDetails>
                 <Typography>
-                  Donec placerat, lectus sed mattis semper, neque lectus feugiat
-                  lectus, varius pulvinar diam eros in elit. Pellentesque
-                  convallis laoreet laoreet.
+                  {L('usersDes')}
                 </Typography>
               </ExpansionPanelDetails>
             </ExpansionPanel>
@@ -139,13 +131,11 @@ class ControlledExpansionPanel extends React.Component {
               onChange={this.handleChange("panel3")}
             >
               <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-                <Typography>Advanced settings</Typography>
+                <Typography>{L('Advanced settings')}</Typography>
               </ExpansionPanelSummary>
               <ExpansionPanelDetails>
                 <Typography>
-                  Nunc vitae orci ultricies, auctor nunc in, volutpat nisl.
-                  Integer sit amet egestas eros, vitae egestas augue. Duis vel
-                  est augue.
+                  {L('advancedSettingsDes')}
                 </Typography>
               </ExpansionPanelDetails>
             </ExpansionPanel>
@@ -154,13 +144,11 @@ class ControlledExpansionPanel extends React.Component {
               onChange={this.handleChange("panel4")}
             >
               <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-                <Typography>Personal data</Typography>
+                <Typography>{L('Personal data')}</Typography>
               </ExpansionPanelSummary>
               <ExpansionPanelDetails>
                 <Typography>
-                  Nunc vitae orci ultricies, auctor nunc in, volutpat nisl.
-                  Integer sit amet egestas eros, vitae egestas augue. Duis vel
-                  est augue.
+                  {L('personalDataDes')}
                 </Typography>
               </ExpansionPanelDetails>
             </ExpansionPanel>
@@ -174,19 +162,19 @@ class ControlledExpansionPanel extends React.Component {
 function ExpansionPanels() {
   return (
     <React.Fragment>
-      <Helmet title="Expansion Panels" />
+      <Helmet title={L('Expansion Panels')} />
       <Typography variant="h3" gutterBottom display="inline">
-        Expansion Panels
+        {L('Expansion Panels')}
       </Typography>
 
       <Breadcrumbs aria-label="Breadcrumb" mt={2}>
         <Link component={NavLink} exact to="/">
-          Dashboard
+          {L('Dashboard')}
         </Link>
         <Link component={NavLink} exact to="/">
-          Components
+          {L('Components')}
         </Link>
-        <Typography>Expansion Panels</Typography>
+        <Typography>{L('Expansion Panels')}</Typography>
       </Breadcrumbs>
 
       <Divider my={6} />

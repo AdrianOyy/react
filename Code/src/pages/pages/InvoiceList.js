@@ -3,6 +3,7 @@ import styled from "styled-components"
 import { NavLink as RouterNavLink, Link as RouterLink } from "react-router-dom"
 
 import Helmet from 'react-helmet'
+import { L } from '../../utils/lang'
 
 import {
   Avatar as MuiAvatar,
@@ -119,12 +120,12 @@ function stableSort(array, comparator) {
 }
 
 const headCells = [
-  { id: 'status', alignment: 'left', label: 'Status' },
-  { id: 'customer', alignment: 'left', label: 'Customer' },
-  { id: 'id', alignment: 'right', label: 'ID' },
-  { id: 'amount', alignment: 'right', label: 'Amount' },
-  { id: 'date', alignment: 'left', label: 'Issue Date' },
-  { id: 'actions', alignment: 'right', label: 'Actions' },
+  { id: 'status', alignment: 'left', label: L('Status') },
+  { id: 'customer', alignment: 'left', label: L('Customer') },
+  { id: 'id', alignment: 'right', label: L('ID') },
+  { id: 'amount', alignment: 'right', label: L('Amount') },
+  { id: 'date', alignment: 'left', label: L('Issue Date') },
+  { id: 'actions', alignment: 'right', label: L('Actions') },
 ]
 
 function EnhancedTableHead(props) {
@@ -173,29 +174,29 @@ let EnhancedTableToolbar = props => {
       <ToolbarTitle>
         {numSelected > 0 ? (
           <Typography color="inherit" variant="subtitle1">
-            {numSelected} selected
+            {numSelected} {L('selected')}
           </Typography>
         ) : (
-          <Typography variant="h6" id="tableTitle">
-            Invoices
-          </Typography>
-        )}
+            <Typography variant="h6" id="tableTitle">
+              {L('Invoices')}
+            </Typography>
+          )}
       </ToolbarTitle>
       <Spacer />
       <div>
         {numSelected > 0 ? (
-          <Tooltip title="Delete">
-            <IconButton aria-label="Delete">
+          <Tooltip title={L('Delete')}>
+            <IconButton aria-label={L('Delete')}>
               <ArchiveIcon />
             </IconButton>
           </Tooltip>
         ) : (
-          <Tooltip title="Filter list">
-            <IconButton aria-label="Filter list">
-              <FilterListIcon />
-            </IconButton>
-          </Tooltip>
-        )}
+            <Tooltip title={L('Filter list')}>
+              <IconButton aria-label={L('Filter list')}>
+                <FilterListIcon />
+              </IconButton>
+            </Tooltip>
+          )}
       </div>
     </Toolbar>
   )
@@ -353,7 +354,7 @@ function EnhancedTable() {
 function InvoiceList() {
   return (
     <React.Fragment>
-      <Helmet title="Invoices" />
+      <Helmet title={L("Invoices")} />
 
       <Grid
         justify="space-between"
@@ -362,24 +363,24 @@ function InvoiceList() {
       >
         <Grid item>
           <Typography variant="h3" gutterBottom display="inline">
-            Invoices
+            {L('Invoices')}
           </Typography>
 
           <Breadcrumbs aria-label="Breadcrumb" mt={2}>
             <Link component={NavLink} exact to="/">
-              Dashboard
+              {L('Dashboard')}
             </Link>
             <Link component={NavLink} exact to="/">
-              Pages
+              {L('Pages')}
             </Link>
-            <Typography>Invoices</Typography>
+            <Typography>{L('Invoices')}</Typography>
           </Breadcrumbs>
         </Grid>
         <Grid item>
           <div>
             <Button variant="contained" color="primary">
               <AddIcon />
-              New Invoice
+              {L('New Invoice')}
             </Button>
           </div>
         </Grid>

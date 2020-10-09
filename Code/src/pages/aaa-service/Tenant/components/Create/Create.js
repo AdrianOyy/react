@@ -6,6 +6,7 @@ import CommonTip from "../../../../../components/CommonTip"
 import { useHistory } from 'react-router-dom'
 import { checkEmpty, getCheckExist } from "../../untils/tenantFieldCheck"
 import adGroupApi from "../../../../../api/adGroup"
+import { L } from '../../../../../utils/lang'
 
 function Create(props) {
   const { onMount } = props
@@ -124,55 +125,55 @@ function Create(props) {
   useEffect(() => {
     const list = [
       {
-        id: 'code', label: 'Code', type: 'text', required: true, readOnly: false,
+        id: 'code', label: L('Code'), type: 'text', required: true, readOnly: false,
         value: code, error: codeError, helperText: codeHelperText
       },
       {
-        id: 'name', label: 'Name', type: 'text', required: true, readOnly: false,
+        id: 'name', label: L('Name'), type: 'text', required: true, readOnly: false,
         value: name, error: nameError, helperText: nameHelperText
       },
       {
-        id: 'managerGroupId', label: 'Manager Group', required: true, itemList: adGroupList,
+        id: 'managerGroupId', label: L('Manager Group'), required: true, itemList: adGroupList,
         type: "select", labelField: 'name', valueField: 'id', value: managerGroupId,
         error: managerGroupIdError, helperText: managerGroupIdHelperText, width: 1.2, labelWidth: 104
       },
       {
-        id: 'supporterGroupId', label: 'Supporter Group', required: true, itemList: adGroupList,
+        id: 'supporterGroupId', label: L('Supporter Group'), required: true, itemList: adGroupList,
         type: "select", labelField: 'name', valueField: 'id', value: supporterGroupId,
         error: supporterGroupIdError, helperText: supporterGroupIdHelperText, width: 1.2, labelWidth: 108
       },
       {
-        id: 'groupId', label: 'Group', required: true, itemList: groupList,
+        id: 'groupId', label: L('Group'), required: true, itemList: groupList,
         type: "select", labelField: 'name', valueField: 'id', value: groupId,
         error: groupIdError, helperText: groupIdHelperText, width: 1.2, labelWidth: 108
       },
       {
-        id: 'justification', label: 'justification', type: 'text', required: true, readOnly: false,
+        id: 'justification', label: L('justification'), type: 'text', required: true, readOnly: false,
         value: justification,
         error: justificationError, helperText: justificationHelperText
       },
       {
-        id: 'budget_type', label: 'budget_type', type: 'text', required: true, readOnly: false,
+        id: 'budget_type', label: L('budget_type'), type: 'text', required: true, readOnly: false,
         value: budget_type,
         error: budget_typeError, helperText: budget_typeHelperText
       },
       {
-        id: 'project_owner', label: 'project_owner', type: 'text', required: true, readOnly: false,
+        id: 'project_owner', label: L('project_owner'), type: 'text', required: true, readOnly: false,
         value: project_owner,
         error: project_ownerError, helperText: project_ownerHelperText
       },
       {
-        id: 'contact_person', label: 'contact_person', type: 'text', required: true, readOnly: false,
+        id: 'contact_person', label: L('contact_person'), type: 'text', required: true, readOnly: false,
         value: contact_person,
         error: contact_personError, helperText: contact_personHelperText
       },
       {
-        id: 'project_estimation', label: 'project_estimation', type: 'text', required: true, readOnly: false,
+        id: 'project_estimation', label: L('project_estimation'), type: 'text', required: true, readOnly: false,
         value: project_estimation,
         error: project_estimationError, helperText: project_estimationHelperText
       },
       {
-        id: 'methodology_text', label: 'methodology_text', type: 'text', required: true, readOnly: false,
+        id: 'methodology_text', label: L('methodology_text'), type: 'text', required: true, readOnly: false,
         value: methodology_text,
         error: methodology_textError, helperText: methodology_textHelperText
       },

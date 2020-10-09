@@ -1,5 +1,6 @@
 import React from "react"
 import styled, { withTheme } from "styled-components"
+import { L } from '../../../utils/lang'
 
 import {
   Card as MuiCard,
@@ -107,7 +108,7 @@ function WorldMap(props) {
             <MoreVertical />
           </IconButton>
         }
-        title="Real-Time"
+        title={L('Real-Time')}
       />
       <CardContent>
         <MapContainer>

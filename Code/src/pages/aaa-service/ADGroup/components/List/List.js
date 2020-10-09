@@ -9,12 +9,13 @@ import { SearchBar, CommonTable } from '../../../../../components'
 import styled from "styled-components"
 import { spacing } from "@material-ui/system"
 import dayjs from "dayjs"
+import { L } from '../../../../../utils/lang'
 
 const Paper = styled(MuiPaper)(spacing)
 const formatDateTime = (str) => {
   return dayjs(new Date(str)).format('DD-MMM-YYYY HH:mm')
 }
-const tableName = 'List'
+const tableName = L('List')
 
 function List(props) {
   const { onMount, path } = props
@@ -58,10 +59,10 @@ function List(props) {
 
   // 表头字段列表
   const headCells = [
-    { id: 'name', alignment: 'left', label: 'Name' },
-    { id: 'createdAt', alignment: 'left', label: 'Created At' },
-    { id: 'updatedAt', alignment: 'left', label: 'Updated At' },
-    { id: 'action', alignment: 'right', label: 'Actions' },
+    { id: 'name', alignment: 'left', label: L('Name') },
+    { id: 'createdAt', alignment: 'left', label: L('Created At') },
+    { id: 'updatedAt', alignment: 'left', label: L('Updated At') },
+    { id: 'action', alignment: 'right', label: L('Actions') },
   ]
 
   // 每行显示的字段
@@ -73,9 +74,9 @@ function List(props) {
 
   // 搜索栏字段列表
   const searchBarFieldList = [
-    { id: 'name', label: 'Name', type: 'text', disabled: false, readOnly: false, value: name },
-    { id: 'createdAt', label: 'Created At', type: 'date', disabled: false, readOnly: false, value: createdAt },
-    { id: 'updatedAt', label: 'Updated At', type: 'date', disabled: false, readOnly: false, value: updatedAt },
+    { id: 'name', label: L('Name'), type: 'text', disabled: false, readOnly: false, value: name },
+    { id: 'createdAt', label: L('Created At'), type: 'date', disabled: false, readOnly: false, value: createdAt },
+    { id: 'updatedAt', label: L('Updated At'), type: 'date', disabled: false, readOnly: false, value: updatedAt },
   ]
 
   const handleClear = () => {

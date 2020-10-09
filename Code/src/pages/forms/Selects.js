@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { NavLink as RouterNavLink } from "react-router-dom";
 import ReactDOM from "react-dom";
+import { L } from '../../utils/lang'
 
 import Helmet from 'react-helmet';
 
@@ -76,16 +77,16 @@ class SimpleSelect extends React.Component {
       <Card mb={6}>
         <CardContent>
           <Typography variant="h6" gutterBottom>
-            Simple Select
+            {L('Simple Select')}
           </Typography>
           <Typography variant="body2" gutterBottom>
-            Menus are positioned over their emitting elements such that the
-            currently selected menu item appears on top of the emitting element.
+            {L('Simple Select Des')}
+
           </Typography>
           <Paper mt={3}>
             <form autoComplete="off">
               <FormControl m={2}>
-                <InputLabel htmlFor="age-simple">Age</InputLabel>
+                <InputLabel htmlFor="age-simple">{L('Age')}</InputLabel>
                 <Select
                   value={this.state.age}
                   onChange={this.handleChange}
@@ -95,28 +96,28 @@ class SimpleSelect extends React.Component {
                   }}
                 >
                   <MenuItem value="">
-                    <em>None</em>
+                    <em>{L('None')}</em>
                   </MenuItem>
-                  <MenuItem value={10}>Ten</MenuItem>
-                  <MenuItem value={20}>Twenty</MenuItem>
-                  <MenuItem value={30}>Thirty</MenuItem>
+                  <MenuItem value={10}>{L('Ten')}</MenuItem>
+                  <MenuItem value={20}>{L('Twenty')}</MenuItem>
+                  <MenuItem value={30}>{L('Thirty')}</MenuItem>
                 </Select>
               </FormControl>
               <FormControl m={2}>
-                <InputLabel htmlFor="age-helper">Age</InputLabel>
+                <InputLabel htmlFor="age-helper">{L('Age')}</InputLabel>
                 <Select
                   value={this.state.age}
                   onChange={this.handleChange}
                   input={<Input name="age" id="age-helper" />}
                 >
                   <MenuItem value="">
-                    <em>None</em>
+                    <em>{L('None')}</em>
                   </MenuItem>
-                  <MenuItem value={10}>Ten</MenuItem>
-                  <MenuItem value={20}>Twenty</MenuItem>
-                  <MenuItem value={30}>Thirty</MenuItem>
+                  <MenuItem value={10}>{L('Ten')}</MenuItem>
+                  <MenuItem value={20}>{L('Twenty')}</MenuItem>
+                  <MenuItem value={30}>{L('Thirty')}</MenuItem>
                 </Select>
-                <FormHelperText>Some important helper text</FormHelperText>
+                <FormHelperText>{L('Some important helper text')}</FormHelperText>
               </FormControl>
               <FormControl m={2}>
                 <Select
@@ -127,13 +128,13 @@ class SimpleSelect extends React.Component {
                   mt={4}
                 >
                   <MenuItem value="">
-                    <em>None</em>
+                    <em>{L('None')}</em>
                   </MenuItem>
-                  <MenuItem value={10}>Ten</MenuItem>
-                  <MenuItem value={20}>Twenty</MenuItem>
-                  <MenuItem value={30}>Thirty</MenuItem>
+                  <MenuItem value={10}>{L('Ten')}</MenuItem>
+                  <MenuItem value={20}>{L('Twenty')}</MenuItem>
+                  <MenuItem value={30}>{L('Thirty')}</MenuItem>
                 </Select>
-                <FormHelperText>Without label</FormHelperText>
+                <FormHelperText>{L('Without label')}</FormHelperText>
               </FormControl>
               <FormControl m={2}>
                 <InputLabel shrink htmlFor="age-label-placeholder">
@@ -148,32 +149,32 @@ class SimpleSelect extends React.Component {
                   mt={4}
                 >
                   <MenuItem value="">
-                    <em>None</em>
+                    <em>{L('None')}</em>
                   </MenuItem>
-                  <MenuItem value={10}>Ten</MenuItem>
-                  <MenuItem value={20}>Twenty</MenuItem>
-                  <MenuItem value={30}>Thirty</MenuItem>
+                  <MenuItem value={10}>{L('Ten')}</MenuItem>
+                  <MenuItem value={20}>{L('Twenty')}</MenuItem>
+                  <MenuItem value={30}>{L('Thirty')}</MenuItem>
                 </Select>
-                <FormHelperText>Label + placeholder</FormHelperText>
+                <FormHelperText>{L('Label + placeholder')}</FormHelperText>
               </FormControl>
               <FormControl m={2} disabled>
-                <InputLabel htmlFor="name-disabled">Name</InputLabel>
+                <InputLabel htmlFor="name-disabled">{L('Name')}</InputLabel>
                 <Select
                   value={this.state.name}
                   onChange={this.handleChange}
                   input={<Input name="name" id="name-disabled" />}
                 >
                   <MenuItem value="">
-                    <em>None</em>
+                    <em>{L('None')}</em>
                   </MenuItem>
-                  <MenuItem value="hai">Hai</MenuItem>
-                  <MenuItem value="olivier">Olivier</MenuItem>
-                  <MenuItem value="kevin">Kevin</MenuItem>
+                  <MenuItem value="hai">{L('Hai')}</MenuItem>
+                  <MenuItem value="olivier">{L('Olivier')}</MenuItem>
+                  <MenuItem value="kevin">{L('Kevin')}</MenuItem>
                 </Select>
-                <FormHelperText>Disabled</FormHelperText>
+                <FormHelperText>{L('Disabled')}</FormHelperText>
               </FormControl>
               <FormControl m={2} error>
-                <InputLabel htmlFor="name-error">Name</InputLabel>
+                <InputLabel htmlFor="name-error">{L('Name')}</InputLabel>
                 <Select
                   value={this.state.name}
                   onChange={this.handleChange}
@@ -182,32 +183,32 @@ class SimpleSelect extends React.Component {
                   input={<Input id="name-error" />}
                 >
                   <MenuItem value="">
-                    <em>None</em>
+                    <em>{L('None')}</em>
                   </MenuItem>
-                  <MenuItem value="hai">Hai</MenuItem>
-                  <MenuItem value="olivier">Olivier</MenuItem>
-                  <MenuItem value="kevin">Kevin</MenuItem>
+                  <MenuItem value="hai">{L('Hai')}</MenuItem>
+                  <MenuItem value="olivier">{L('Olivier')}</MenuItem>
+                  <MenuItem value="kevin">{L('Kevin')}</MenuItem>
                 </Select>
-                <FormHelperText>Error</FormHelperText>
+                <FormHelperText>{L('Error')}</FormHelperText>
               </FormControl>
               <FormControl m={2}>
-                <InputLabel htmlFor="name-readonly">Name</InputLabel>
+                <InputLabel htmlFor="name-readonly">{L('Name')}</InputLabel>
                 <Select
                   value={this.state.name}
                   onChange={this.handleChange}
                   input={<Input name="name" id="name-readonly" readOnly />}
                 >
                   <MenuItem value="">
-                    <em>None</em>
+                    <em>{L('None')}</em>
                   </MenuItem>
-                  <MenuItem value="hai">Hai</MenuItem>
-                  <MenuItem value="olivier">Olivier</MenuItem>
-                  <MenuItem value="kevin">Kevin</MenuItem>
+                  <MenuItem value="hai">{L('Hai')}</MenuItem>
+                  <MenuItem value="olivier">{L('Olivier')}</MenuItem>
+                  <MenuItem value="kevin">{L('Kevin')}</MenuItem>
                 </Select>
-                <FormHelperText>Read only</FormHelperText>
+                <FormHelperText>{L('Read only')}</FormHelperText>
               </FormControl>
               <FormControl m={2}>
-                <InputLabel htmlFor="age-auto-width">Age</InputLabel>
+                <InputLabel htmlFor="age-auto-width">{L('Age')}</InputLabel>
                 <Select
                   value={this.state.age}
                   onChange={this.handleChange}
@@ -215,13 +216,13 @@ class SimpleSelect extends React.Component {
                   autoWidth
                 >
                   <MenuItem value="">
-                    <em>None</em>
+                    <em>{L('None')}</em>
                   </MenuItem>
-                  <MenuItem value={10}>Ten</MenuItem>
-                  <MenuItem value={20}>Twenty</MenuItem>
-                  <MenuItem value={30}>Thirty</MenuItem>
+                  <MenuItem value={10}>{L('Ten')}</MenuItem>
+                  <MenuItem value={20}>{L('Twenty')}</MenuItem>
+                  <MenuItem value={30}>{L('Thirty')}</MenuItem>
                 </Select>
-                <FormHelperText>Auto width</FormHelperText>
+                <FormHelperText>{L('Auto width')}</FormHelperText>
               </FormControl>
               <FormControl m={2}>
                 <Select
@@ -232,16 +233,16 @@ class SimpleSelect extends React.Component {
                   mt={4}
                 >
                   <MenuItem value="" disabled>
-                    Placeholder
+                    {L('Placeholder')}
                   </MenuItem>
-                  <MenuItem value={10}>Ten</MenuItem>
-                  <MenuItem value={20}>Twenty</MenuItem>
-                  <MenuItem value={30}>Thirty</MenuItem>
+                  <MenuItem value={10}>{L('Ten')}</MenuItem>
+                  <MenuItem value={20}>{L('Twenty')}</MenuItem>
+                  <MenuItem value={30}>{L('Thirty')}</MenuItem>
                 </Select>
-                <FormHelperText>Placeholder</FormHelperText>
+                <FormHelperText>{L('Placeholder')}</FormHelperText>
               </FormControl>
               <FormControl m={2} required>
-                <InputLabel htmlFor="age-required">Age</InputLabel>
+                <InputLabel htmlFor="age-required">{L('Age')}</InputLabel>
                 <Select
                   value={this.state.age}
                   onChange={this.handleChange}
@@ -252,13 +253,13 @@ class SimpleSelect extends React.Component {
                   mt={4}
                 >
                   <MenuItem value="">
-                    <em>None</em>
+                    <em>{L('None')}</em>
                   </MenuItem>
-                  <MenuItem value={10}>Ten</MenuItem>
-                  <MenuItem value={20}>Twenty</MenuItem>
-                  <MenuItem value={30}>Thirty</MenuItem>
+                  <MenuItem value={10}>{L('Ten')}</MenuItem>
+                  <MenuItem value={20}>{L('Twenty')}</MenuItem>
+                  <MenuItem value={30}>{L('Thirty')}</MenuItem>
                 </Select>
-                <FormHelperText>Required</FormHelperText>
+                <FormHelperText>{L('Required')}</FormHelperText>
               </FormControl>
               <FormControl m={2} variant="outlined">
                 <InputLabel
@@ -267,7 +268,7 @@ class SimpleSelect extends React.Component {
                   }}
                   htmlFor="outlined-age-simple"
                 >
-                  Age
+                  {L('Age')}
                 </InputLabel>
                 <Select
                   value={this.state.age}
@@ -281,26 +282,26 @@ class SimpleSelect extends React.Component {
                   }
                 >
                   <MenuItem value="">
-                    <em>None</em>
+                    <em>{L('None')}</em>
                   </MenuItem>
-                  <MenuItem value={10}>Ten</MenuItem>
-                  <MenuItem value={20}>Twenty</MenuItem>
-                  <MenuItem value={30}>Thirty</MenuItem>
+                  <MenuItem value={10}>{L('Ten')}</MenuItem>
+                  <MenuItem value={20}>{L('Twenty')}</MenuItem>
+                  <MenuItem value={30}>{L('Thirty')}</MenuItem>
                 </Select>
               </FormControl>
               <FormControl m={2} variant="filled">
-                <InputLabel htmlFor="filled-age-simple">Age</InputLabel>
+                <InputLabel htmlFor="filled-age-simple">{L('Age')}</InputLabel>
                 <Select
                   value={this.state.age}
                   onChange={this.handleChange}
                   input={<FilledInput name="age" id="filled-age-simple" />}
                 >
                   <MenuItem value="">
-                    <em>None</em>
+                    <em>{L('None')}</em>
                   </MenuItem>
-                  <MenuItem value={10}>Ten</MenuItem>
-                  <MenuItem value={20}>Twenty</MenuItem>
-                  <MenuItem value={30}>Thirty</MenuItem>
+                  <MenuItem value={10}>{L('Ten')}</MenuItem>
+                  <MenuItem value={20}>{L('Twenty')}</MenuItem>
+                  <MenuItem value={30}>{L('Thirty')}</MenuItem>
                 </Select>
               </FormControl>
             </form>
@@ -362,15 +363,14 @@ class MultipleSelect extends React.Component {
       <Card mb={6}>
         <CardContent>
           <Typography variant="h6" gutterBottom>
-            Multiple Select
+            {L('Multiple Select')}
           </Typography>
           <Typography variant="body2" gutterBottom>
-            The <code>Select</code> component can handle multiple selections.
-            It's enabled with the <code>multiple</code> property.
+            {L('The') + ' '} <code>{L('Select')}</code>{L('Multiple Select Dec')}<code>{L('multiple')}</code>{' ' + L('property')}.
           </Typography>
           <Paper mt={3}>
             <FormControl m={2}>
-              <InputLabel htmlFor="select-multiple">Name</InputLabel>
+              <InputLabel htmlFor="select-multiple">{L('Name')}</InputLabel>
               <Select
                 multiple
                 value={this.state.name}
@@ -386,7 +386,7 @@ class MultipleSelect extends React.Component {
               </Select>
             </FormControl>
             <FormControl m={2}>
-              <InputLabel htmlFor="select-multiple-checkbox">Tag</InputLabel>
+              <InputLabel htmlFor="select-multiple-checkbox">{L('Tag')}</InputLabel>
               <Select
                 multiple
                 value={this.state.name}
@@ -404,7 +404,7 @@ class MultipleSelect extends React.Component {
               </Select>
             </FormControl>
             <FormControl m={2}>
-              <InputLabel htmlFor="select-multiple-chip">Chip</InputLabel>
+              <InputLabel htmlFor="select-multiple-chip">{L('Chip')}</InputLabel>
               <Select
                 multiple
                 value={this.state.name}
@@ -456,10 +456,10 @@ class ControlledOpenSelect extends React.Component {
       <Card mb={6}>
         <CardContent>
           <Typography variant="h6" gutterBottom>
-            Controlled open Select
+            {L('Controlled open Select')}
           </Typography>
           <Typography variant="body2" gutterBottom>
-            Open select with button.
+            {L('Open select with button.')}
           </Typography>
           <Paper mt={3}>
             <form autoComplete="off">
@@ -468,12 +468,12 @@ class ControlledOpenSelect extends React.Component {
                 color="primary"
                 onClick={this.handleOpen}
               >
-                Open the select
+                {L('Open the select')}
               </Button>
               <br />
               <FormControl>
                 <InputLabel htmlFor="demo-controlled-open-select">
-                  Age
+                  {L('Age')}
                 </InputLabel>
                 <Select
                   open={this.state.open}
@@ -487,11 +487,11 @@ class ControlledOpenSelect extends React.Component {
                   }}
                 >
                   <MenuItem value="">
-                    <em>None</em>
+                    <em>{L('None')}</em>
                   </MenuItem>
-                  <MenuItem value={10}>Ten</MenuItem>
-                  <MenuItem value={20}>Twenty</MenuItem>
-                  <MenuItem value={30}>Thirty</MenuItem>
+                  <MenuItem value={10}>{L('Ten')}</MenuItem>
+                  <MenuItem value={20}>{L('Twenty')}</MenuItem>
+                  <MenuItem value={30}>{L('Thirty')}</MenuItem>
                 </Select>
               </FormControl>
             </form>
@@ -525,11 +525,10 @@ class DialogSelect extends React.Component {
       <Card mb={6}>
         <CardContent>
           <Typography variant="h6" gutterBottom>
-            With a Dialog
+            {L('With a Dialog')}
           </Typography>
           <Typography variant="body2" gutterBottom>
-            While it's discouraged by the Material Design specification, you can
-            use a select inside a dialog.
+            {L('With a Dialog Des')}
           </Typography>
           <Paper mt={3}>
             <div>
@@ -538,7 +537,7 @@ class DialogSelect extends React.Component {
                 color="primary"
                 onClick={this.handleClickOpen}
               >
-                Open select dialog
+                {L('Open select dialog')}
               </Button>
               <Dialog
                 disableBackdropClick
@@ -546,11 +545,11 @@ class DialogSelect extends React.Component {
                 open={this.state.open}
                 onClose={this.handleClose}
               >
-                <DialogTitle>Fill the form</DialogTitle>
+                <DialogTitle>{L('Fill the form')}</DialogTitle>
                 <DialogContent>
                   <form>
                     <FormControl>
-                      <InputLabel htmlFor="age-native-simple">Age</InputLabel>
+                      <InputLabel htmlFor="age-native-simple">{L('Age')}</InputLabel>
                       <Select
                         native
                         value={this.state.age}
@@ -558,34 +557,34 @@ class DialogSelect extends React.Component {
                         input={<Input id="age-native-simple" />}
                       >
                         <option value="" />
-                        <option value={10}>Ten</option>
-                        <option value={20}>Twenty</option>
-                        <option value={30}>Thirty</option>
+                        <option value={10}>{L('Ten')}</option>
+                        <option value={20}>{L('Twenty')}</option>
+                        <option value={30}>{L('Thirty')}</option>
                       </Select>
                     </FormControl>
                     <FormControl>
-                      <InputLabel htmlFor="age-simple">Age</InputLabel>
+                      <InputLabel htmlFor="age-simple">{L('Age')}</InputLabel>
                       <Select
                         value={this.state.age}
                         onChange={this.handleChange("age")}
                         input={<Input id="age-simple" />}
                       >
                         <MenuItem value="">
-                          <em>None</em>
+                          <em>{L('None')}</em>
                         </MenuItem>
-                        <MenuItem value={10}>Ten</MenuItem>
-                        <MenuItem value={20}>Twenty</MenuItem>
-                        <MenuItem value={30}>Thirty</MenuItem>
+                        <MenuItem value={10}>{L('Ten')}</MenuItem>
+                        <MenuItem value={20}>{L('Twenty')}</MenuItem>
+                        <MenuItem value={30}>{L('Thirty')}</MenuItem>
                       </Select>
                     </FormControl>
                   </form>
                 </DialogContent>
                 <DialogActions>
                   <Button onClick={this.handleClose} color="primary">
-                    Cancel
+                    {L('Cancel')}
                   </Button>
                   <Button onClick={this.handleClose} color="primary">
-                    Ok
+                    {L('Ok')}
                   </Button>
                 </DialogActions>
               </Dialog>
@@ -600,19 +599,19 @@ class DialogSelect extends React.Component {
 function Selects() {
   return (
     <React.Fragment>
-      <Helmet title="Selects" />
+      <Helmet title={L('Selects')} />
       <Typography variant="h3" gutterBottom display="inline">
-        Selects
+        {L('Selects')}
       </Typography>
 
       <Breadcrumbs aria-label="Breadcrumb" mt={2}>
         <Link component={NavLink} exact to="/">
-          Dashboard
+          {L('Dashboard')}
         </Link>
         <Link component={NavLink} exact to="/">
-          Forms
+          {L('Forms')}
         </Link>
-        <Typography>Selects</Typography>
+        <Typography>{L('Selects')}</Typography>
       </Breadcrumbs>
 
       <Divider my={6} />

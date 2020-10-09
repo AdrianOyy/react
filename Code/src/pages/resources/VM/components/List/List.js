@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import { L } from '../../../../../utils/lang'
 
 import {
   Grid,
@@ -15,8 +16,8 @@ const Paper = styled(MuiPaper)(spacing)
 const formatDateTime = (str) => {
   return dayjs(new Date(str)).format('DD-MMM-YYYY HH:mm')
 }
+const tableName = L('List')
 
-const tableName = 'List'
 
 function List(props) {
   const { onMount, path } = props
@@ -42,7 +43,7 @@ function List(props) {
         setTotal(response.data.data.count)
         handleData(response.data.data.rows)
       })
-  }, [ page, rowsPerPage, query ])
+  }, [page, rowsPerPage, query])
 
   const handleData = (rawDataList) => {
     const rows = []
@@ -60,10 +61,10 @@ function List(props) {
 
   // 表头字段列表
   const headCells = [
-    { id: 'serialNumber', alignment: 'center', label: 'Serial Number' },
-    { id: 'createdAt', alignment: 'center', label: 'Created At' },
-    { id: 'updatedAt', alignment: 'center', label: 'Updated At' },
-    { id: 'action', alignment: 'right', label: 'Actions' },
+    { id: 'serialNumber', alignment: 'center', label: L('Serial Number') },
+    { id: 'createdAt', alignment: 'center', label: L('Created At') },
+    { id: 'updatedAt', alignment: 'center', label: L('Updated At') },
+    { id: 'action', alignment: 'right', label: L('Actions') },
   ]
 
   // 每行显示的字段
@@ -74,9 +75,9 @@ function List(props) {
   ]
 
   const searchBarFieldList = [
-    { id: 'serialNumber', label: 'Serial Number', type: 'text', disabled: false, readOnly: false, value: serialNumber },
-    { id: 'createdAt', label: 'Created At', type: 'date', disabled: false, readOnly: false, value: createdAt },
-    { id: 'updatedAt', label: 'Updated At', type: 'date', disabled: false, readOnly: false, value: updatedAt },
+    { id: 'serialNumber', label: L('Serial Number'), type: 'text', disabled: false, readOnly: false, value: serialNumber },
+    { id: 'createdAt', label: L('Created At'), type: 'date', disabled: false, readOnly: false, value: createdAt },
+    { id: 'updatedAt', label: L('Updated At'), type: 'date', disabled: false, readOnly: false, value: updatedAt },
   ]
 
   const handleClear = () => {

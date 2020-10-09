@@ -1,5 +1,6 @@
 import React from "react"
 import styled from "styled-components"
+import { L } from '../../../utils/lang'
 
 import { CardContent, Card as MuiCard, Typography } from "@material-ui/core"
 import { spacing } from "@material-ui/system"
@@ -39,10 +40,10 @@ function Hybrid() {
     <Card mb={1}>
       <CardContent>
         <Typography variant="h6" gutterBottom>
-          Hybrid Map
+          {L('Hybrid Map')}
         </Typography>
         <Typography variant="body2" gutterBottom>
-          Displays a mixture of normal and satellite views.
+          {L('Displays a mixture of normal and satellite views.')}
         </Typography>
 
         <Spacer mb={6} />

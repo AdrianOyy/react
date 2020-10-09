@@ -1,6 +1,7 @@
 import React from "react"
 import styled from "styled-components"
 import { NavLink as RouterNavLink } from "react-router-dom"
+import { L } from '../../utils/lang'
 
 import Helmet from 'react-helmet'
 
@@ -50,26 +51,25 @@ function ContainedButtons() {
     <Card mb={6}>
       <CardContent>
         <Typography variant="h6" gutterBottom>
-          Contained Buttons
+          {L('Contained Buttons')}
         </Typography>
         <Typography variant="body2" gutterBottom>
-          Contained buttons are high-emphasis, distinguished by their use of
-          elevation and fill.
+          {L('containedButtonsDes')}
         </Typography>
         <Button mr={2} variant="contained">
-          Default
+          {L('Default')}
         </Button>
         <Button mr={2} variant="contained" color="primary">
-          Primary
+          {L('Primary')}
         </Button>
         <Button mr={2} variant="contained" color="secondary">
-          Secondary
+          {L('Secondary')}
         </Button>
         <Button mr={2} variant="contained" color="secondary" disabled>
-          Disabled
+          {L('Disabled')}
         </Button>
         <Button mr={2} variant="contained" href="#contained-buttons">
-          Link
+          {L('Link')}
         </Button>
       </CardContent>
     </Card>
@@ -81,24 +81,23 @@ function TextButtons() {
     <Card mb={6}>
       <CardContent>
         <Typography variant="h6" gutterBottom>
-          Text Buttons
+          {L('Text Buttons')}
         </Typography>
         <Typography variant="body2" gutterBottom>
-          Text buttons are typically used for less-pronounced actions in your
-          app.
+          {L('textButtonsDes')}
         </Typography>
-        <Button mr={2}>Default</Button>
+        <Button mr={2}>{L('Default')}</Button>
         <Button mr={2} color="primary">
-          Primary
+          {L('Primary')}
         </Button>
         <Button mr={2} color="secondary">
-          Secondary
+          {L('Secondary')}
         </Button>
         <Button mr={2} disabled>
-          Disabled
+          {L('Disabled')}
         </Button>
         <Button mr={2} href="#text-buttons">
-          Link
+          {L('Link')}
         </Button>
       </CardContent>
     </Card>
@@ -110,26 +109,25 @@ function OutlinedButtons() {
     <Card mb={6}>
       <CardContent>
         <Typography variant="h6" gutterBottom>
-          Outlined Buttons
+          {L('Outlined Buttons')}
         </Typography>
         <Typography variant="body2" gutterBottom>
-          Outlined buttons are medium-emphasis buttons which contain actions
-          that are not that important.
+          {L('outlinedButtonsDes')}
         </Typography>
         <Button mr={2} variant="outlined">
-          Default
+          {L('Default')}
         </Button>
         <Button mr={2} variant="outlined" color="primary">
-          Primary
+          {L('Primary')}
         </Button>
         <Button mr={2} variant="outlined" color="secondary">
-          Secondary
+          {L('Secondary')}
         </Button>
         <Button mr={2} variant="outlined" disabled>
-          Disabled
+          {L('Disabled')}
         </Button>
         <Button mr={2} variant="outlined" href="#outlined-buttons">
-          Link
+          {L('Link')}
         </Button>
       </CardContent>
     </Card>
@@ -141,11 +139,10 @@ function FloatingActionButtons() {
     <Card mb={6}>
       <CardContent>
         <Typography variant="h6" gutterBottom>
-          Floating Action Buttons
+          {L('Floating Action Buttons')}
         </Typography>
         <Typography variant="body2" gutterBottom>
-          A floating action button (FAB) performs the primary, or most common,
-          action on a screen.
+          {L('floatActButtonsDes')}
         </Typography>
         <Fab mx={2} color="primary" aria-label="Add">
           <AddIcon />
@@ -155,7 +152,7 @@ function FloatingActionButtons() {
         </Fab>
         <Fab mx={2} variant="extended" aria-label="Delete">
           <NavigationIcon />
-          Extended
+          {L('Extended')}
         </Fab>
         <Fab mx={2} disabled aria-label="Delete">
           <DeleteIcon />
@@ -171,43 +168,43 @@ function ButtonSizes() {
       <CardContent>
         <React.Fragment>
           <Typography variant="h6" gutterBottom>
-            Button Sizes
+            {L('Button Sizes')}
           </Typography>
           <Typography variant="body2" gutterBottom>
-            Fancy larger or smaller buttons? Use the size property.
+            {L('buttonSizesDes')}
           </Typography>
         </React.Fragment>
         <div>
           <Button mr={2} size="small">
-            Small
+            {L('Small')}
           </Button>
           <Button mr={2} size="medium">
-            Medium
+            {L('Medium')}
           </Button>
           <Button mr={2} size="large">
-            Large
+            {L('Large')}
           </Button>
         </div>
         <div>
           <Button mr={2} variant="outlined" size="small" color="primary">
-            Small
+            {L('Small')}
           </Button>
           <Button mr={2} variant="outlined" size="medium" color="primary">
-            Medium
+            {L('Medium')}
           </Button>
           <Button mr={2} variant="outlined" size="large" color="primary">
-            Large
+            {L('Large')}
           </Button>
         </div>
         <div>
           <Button mr={2} variant="contained" size="small" color="primary">
-            Small
+            {L('Small')}
           </Button>
           <Button mr={2} variant="contained" size="medium" color="primary">
-            Medium
+            {L('Medium')}
           </Button>
           <Button mr={2} variant="contained" size="large" color="primary">
-            Large
+            {L('Large')}
           </Button>
         </div>
         <div>
@@ -242,32 +239,31 @@ function IconButtons() {
     <Card mb={6}>
       <CardContent>
         <Typography variant="h6" gutterBottom>
-          Icon Buttons
+          {L('Icon Buttons')}
         </Typography>
         <Typography variant="body2" gutterBottom>
-          Sometimes you might want to have icons for certain button to enhance
-          the UX.
+          {L('iconButtonsDes')}
         </Typography>
 
         <Button mr={2} variant="contained" color="primary">
-          Add
+          {L('Add')}
           <AddIcon />
         </Button>
         <Button mr={2} variant="contained" color="secondary">
-          Edit
+          {L('Edit')}
           <EditIcon />
         </Button>
         <Button mr={2} variant="contained" color="default">
-          Upload
+          {L('Upload')}
           <CloudUploadIcon />
         </Button>
         <Button mr={2} variant="contained" disabled color="secondary">
           <KeyboardVoiceIcon />
-          Talk
+          {L('Talk')}
         </Button>
         <Button mr={2} variant="contained" size="small">
           <SaveIcon />
-          Save
+          {L('Save')}
         </Button>
       </CardContent>
     </Card>
@@ -277,19 +273,19 @@ function IconButtons() {
 function Buttons() {
   return (
     <React.Fragment>
-      <Helmet title="Buttons" />
+      <Helmet title={L('Buttons')} />
       <Typography variant="h3" gutterBottom display="inline">
-        Buttons
+        {L('Buttons')}
       </Typography>
 
       <Breadcrumbs aria-label="Breadcrumb" mt={2}>
         <Link component={NavLink} exact to="/">
-          Dashboard
+          {L('Dashboard')}
         </Link>
         <Link component={NavLink} exact to="/">
-          Components
+          {L('Components')}
         </Link>
-        <Typography>Buttons</Typography>
+        <Typography>{L('Buttons')}</Typography>
       </Breadcrumbs>
 
       <Divider my={6} />

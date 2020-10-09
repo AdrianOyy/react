@@ -5,7 +5,7 @@ import { CardContent, Card as MuiCard, Typography } from "@material-ui/core"
 import orange from "@material-ui/core/colors/orange"
 import red from "@material-ui/core/colors/red"
 import { spacing } from "@material-ui/system"
-
+import { L } from '../../utils/lang'
 import { Doughnut } from "react-chartjs-2"
 
 const Card = styled(MuiCard)(spacing)
@@ -18,7 +18,7 @@ const ChartWrapper = styled.div`
 
 function DoughnutChart({ theme }) {
   const data = {
-    labels: [ "Social", "Search Engines", "Direct", "Other" ],
+    labels: [ L("Social"), L("Search Engines"), L("Direct"), L("Other") ],
     datasets: [
       {
         data: [ 260, 125, 54, 146 ],
@@ -45,11 +45,11 @@ function DoughnutChart({ theme }) {
     <Card mb={1}>
       <CardContent>
         <Typography variant="h6" gutterBottom>
-          Doughnut Chart
+          {L('Doughnut Chart')}
         </Typography>
         <Typography variant="body2" gutterBottom>
-          Doughnut charts are excellent at showing the relational proportions
-          between data.
+          {L('doughnutChartDes')}
+
         </Typography>
 
         <Spacer mb={6} />

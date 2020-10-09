@@ -5,6 +5,7 @@ import API from "../../../../../api/expiry"
 import { useParams } from "react-router-dom"
 import dayjs from "dayjs"
 import CommonTip from "../../../../../components/CommonTip"
+import { L } from '../../../../../utils/lang'
 import { useHistory } from 'react-router-dom'
 import { checkEmpty } from "../../untils/expiryFieldCheck"
 
@@ -48,7 +49,7 @@ function AssignUpdate(props) {
     setSaving(true)
     API.update(id, { expiryDate })
       .then(() => {
-        CommonTip.success("Success")
+        CommonTip.success(L('Success'))
         history.push({ pathname: '/' })
       })
       .catch(() => {
@@ -84,14 +85,16 @@ function AssignUpdate(props) {
 
   useEffect(() => {
     const list = [
-      { id: 'tenant', label: 'Tenant', type: 'text', disabled: true, readOnly: true, value: tenant },
-      { id: 'adGroup', label: 'AD Group', type: 'text', disabled: true, readOnly: true, value: group },
-      { id: 'role', label: 'Role', type: 'text', disabled: true, readOnly: true, value: role },
-      { id: 'user', label: 'User', type: 'text', disabled: true, readOnly: true, value: user },
-      { id: 'expiryDate', label: 'Expiry Date', type: 'date', disabled: false, readOnly: false,
-        required: true, value: expiryDate, error: expiryDateError, helperText: expiryDateHelperText },
-      { id: 'createdAt', label: 'Created At', type: 'text', disabled: true, readOnly: true, value: formatDateTime(createdAt) },
-      { id: 'updatedAt', label: 'Updated At', type: 'text', disabled: true, readOnly: true, value: formatDateTime(updatedAt) },
+      { id: 'tenant', label: L('Tenant'), type: 'text', disabled: true, readOnly: true, value: tenant },
+      { id: 'adGroup', label: L('AD Group'), type: 'text', disabled: true, readOnly: true, value: group },
+      { id: 'role', label: L('Role'), type: 'text', disabled: true, readOnly: true, value: role },
+      { id: 'user', label: L('User'), type: 'text', disabled: true, readOnly: true, value: user },
+      {
+        id: 'expiryDate', label: L('Expiry Date'), type: 'date', disabled: false, readOnly: false,
+        required: true, value: expiryDate, error: expiryDateError, helperText: expiryDateHelperText
+      },
+      { id: 'createdAt', label: L('Created At'), type: 'text', disabled: true, readOnly: true, value: formatDateTime(createdAt) },
+      { id: 'updatedAt', label: L('Updated At'), type: 'text', disabled: true, readOnly: true, value: formatDateTime(updatedAt) },
     ]
     setFormFieldList(list)
   }, [ tenant, group, role, user, expiryDate, expiryDateError, expiryDateHelperText, createdAt, updatedAt ])
@@ -121,7 +124,7 @@ function AssignUpdate(props) {
   return (
     <React.Fragment>
       <DetailPage
-        formTitle = 'Update'
+        formTitle={L('Update')}
         onFormFieldChange = {onFormFieldChange}
         formFieldList = {formFieldList}
         showBtn ={true}

@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react'
-
 import {
   Grid,
   TablePagination,
@@ -11,12 +10,13 @@ import API from "../../../../../api/log"
 import styled from "styled-components"
 import { spacing } from "@material-ui/system"
 import dayjs from "dayjs"
+import { L } from '../../../../../utils/lang'
 
 const Paper = styled(MuiPaper)(spacing)
 const formatDateTime = (str) => {
   return dayjs(new Date(str)).format('YYYY-MM-DD HH:mm')
 }
-const tableName = 'Log List'
+const tableName = L('Log List')
 
 function List(props) {
   const { onMount, path } = props
@@ -63,10 +63,10 @@ function List(props) {
 
   // 表头字段列表
   const headCells = [
-    { id: 'logType', alignment: 'center', label: 'Log Type' },
-    { id: 'request', alignment: 'center', label: 'Request' },
-    { id: 'response', alignment: 'center', label: 'Response' },
-    { id: 'createdAt', alignment: 'center', label: 'Created At' },
+    { id: 'logType', alignment: 'center', label: L('LogType') },
+    { id: 'request', alignment: 'center', label: L('Request') },
+    { id: 'response', alignment: 'center', label: L('Response') },
+    { id: 'createdAt', alignment: 'center', label: L('Created At') },
   ]
 
   // 每行显示的字段
@@ -78,11 +78,11 @@ function List(props) {
   ]
 
   const searchBarFieldList = [
-    { id: 'logType', label: 'LogType', type: 'text', disabled: false, value: logType },
-    { id: 'request', label: 'Request', type: 'text', disabled: false, value: request },
-    { id: 'response', label: 'Response', type: 'text', disabled: false, value: response },
-    { id: 'startDate', label: 'Start Date', type: 'date', disabled: false, readOnly: false, value: startDate },
-    { id: 'endDate', label: 'End Date', type: 'date', disabled: false, readOnly: false, value: endDate },
+    { id: 'logType', label: L('LogType'), type: 'text', disabled: false, value: logType },
+    { id: 'request', label: L('Request'), type: 'text', disabled: false, value: request },
+    { id: 'response', label: L('Response'), type: 'text', disabled: false, value: response },
+    { id: 'startDate', label: L('Start Date'), type: 'date', disabled: false, readOnly: false, value: startDate },
+    { id: 'endDate', label: L('End Date'), type: 'date', disabled: false, readOnly: false, value: endDate },
   ]
 
   const handleClear = () => {

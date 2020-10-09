@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-
+import { L } from '../../../utils/lang'
 import { Button as MuiButton, Menu, MenuItem } from "@material-ui/core";
 
 import {
@@ -53,7 +53,7 @@ class Actions extends React.Component {
           aria-haspopup="true"
           onClick={this.handleClick}
         >
-          Today: April 29
+          {L('Today')}: April 29
         </Button>
         <Menu
           id="simple-menu"
@@ -61,12 +61,12 @@ class Actions extends React.Component {
           open={Boolean(anchorEl)}
           onClose={this.handleClose}
         >
-          <MenuItem onClick={this.handleClose}>Today</MenuItem>
-          <MenuItem onClick={this.handleClose}>Yesterday</MenuItem>
-          <MenuItem onClick={this.handleClose}>Last 7 days</MenuItem>
-          <MenuItem onClick={this.handleClose}>Last 30 days</MenuItem>
-          <MenuItem onClick={this.handleClose}>This month</MenuItem>
-          <MenuItem onClick={this.handleClose}>Last month</MenuItem>
+          <MenuItem onClick={this.handleClose}>{L('Today')}</MenuItem>
+          <MenuItem onClick={this.handleClose}>{L('Yesterday')}</MenuItem>
+          <MenuItem onClick={this.handleClose}>{L('Last')} 7 {L('days')}</MenuItem>
+          <MenuItem onClick={this.handleClose}>{L('Last')} 30 {L('days')}</MenuItem>
+          <MenuItem onClick={this.handleClose}>{L('This')} {L('month')}</MenuItem>
+          <MenuItem onClick={this.handleClose}>{L('Last')} {L('month')}</MenuItem>
         </Menu>
       </React.Fragment>
     );

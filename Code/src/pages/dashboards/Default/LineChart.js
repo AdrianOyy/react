@@ -1,6 +1,6 @@
 import React, { Component } from "react"
 import styled, { withTheme } from "styled-components"
-
+import { L } from '../../../utils/lang'
 import {
   Card as MuiCard,
   CardContent,
@@ -38,22 +38,22 @@ class LineChart extends Component {
 
       return {
         labels: [
-          "Jan",
-          "Feb",
-          "Mar",
-          "Apr",
-          "May",
-          "Jun",
-          "Jul",
-          "Aug",
-          "Sep",
-          "Oct",
-          "Nov",
-          "Dec"
+          L("Jan"),
+          L("Feb"),
+          L("Mar"),
+          L("Apr"),
+          L("May"),
+          L("Jun"),
+          L("Jul"),
+          L("Aug"),
+          L("Sep"),
+          L("Oct"),
+          L("Nov"),
+          L("Dec")
         ],
         datasets: [
           {
-            label: "Sales ($)",
+            label: L('Sales') + " ($)",
             fill: true,
             backgroundColor: gradient,
             borderColor: this.props.theme.palette.secondary.main,
@@ -73,7 +73,7 @@ class LineChart extends Component {
             ]
           },
           {
-            label: "Orders",
+            label: L('Orders'),
             fill: true,
             backgroundColor: "transparent",
             borderColor: this.props.theme.palette.grey[500],
@@ -148,7 +148,7 @@ class LineChart extends Component {
               <MoreVertical />
             </IconButton>
           }
-          title="Total revenue"
+          title={L('Total revenue')}
         />
         <CardContent>
           <ChartWrapper>

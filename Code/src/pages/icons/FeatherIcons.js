@@ -1,6 +1,7 @@
 import React from "react"
 import styled from "styled-components"
 import { NavLink as RouterNavLink } from "react-router-dom"
+import { L } from '../../utils/lang'
 
 import Helmet from 'react-helmet'
 
@@ -327,10 +328,10 @@ function Icons() {
     <Card mb={6}>
       <CardContent>
         <Typography variant="h6" gutterBottom>
-          Feather Icons
+          {L('Feather Icons')}
         </Typography>
         <Typography variant="body2" gutterBottom>
-          Simply beautiful open source icons
+          {L('Simply beautiful open source icons')}
         </Typography>
         <Paper mt={5}>
           <Grid container spacing={6}>
@@ -353,19 +354,19 @@ function Icons() {
 function FeatherIcons() {
   return (
     <React.Fragment>
-      <Helmet title="Feather Icons" />
+      <Helmet title={L('Feather Icons')} />
       <Typography variant="h3" gutterBottom display="inline">
-        Feather Icons
+        {L('Feather Icons')}
       </Typography>
 
       <Breadcrumbs aria-label="Breadcrumb" mt={2}>
         <MuiLink component={NavLink} exact to="/">
-          Dashboard
+          {L('Dashboard')}
         </MuiLink>
         <MuiLink component={NavLink} exact to="/">
-          Icons
+          {L('Icons')}
         </MuiLink>
-        <Typography>Feather Icons</Typography>
+        <Typography>{L('Feather Icons')}</Typography>
       </Breadcrumbs>
 
       <Divider my={6} />

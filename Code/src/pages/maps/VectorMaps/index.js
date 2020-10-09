@@ -1,6 +1,7 @@
 import React from "react"
 import styled from "styled-components"
 import { NavLink as RouterNavLink } from "react-router-dom"
+import { L } from '../../../utils/lang'
 
 import Helmet from 'react-helmet'
 
@@ -37,19 +38,19 @@ const Breadcrumbs = styled(MuiBreadcrumbs)(spacing)
 function VectorMaps() {
   return (
     <React.Fragment>
-      <Helmet title="Vector Maps" />
+      <Helmet title={L('Vector Maps')} />
       <Typography variant="h3" gutterBottom display="inline">
-        Vector Maps
+        {L('Vector Maps')}
       </Typography>
 
       <Breadcrumbs aria-label="Breadcrumb" mt={2}>
         <Link component={NavLink} exact to="/">
-          Dashboard
+          {L('Dashboard')}
         </Link>
         <Link component={NavLink} exact to="/">
-          Maps
+          {L('Maps')}
         </Link>
-        <Typography>Vector Maps</Typography>
+        <Typography>{L('Vector Maps')}</Typography>
       </Breadcrumbs>
 
       <Divider my={6} />

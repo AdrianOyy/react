@@ -10,6 +10,7 @@ import styled from "styled-components"
 import { spacing } from "@material-ui/system"
 import adGroupApi from "../../../../../api/adGroup"
 import formatDateTime from "../../../../../utils/formatDateTime"
+import { L } from '../../../../../utils/lang'
 
 const Paper = styled(MuiPaper)(spacing)
 const tableName = 'Tenant List'
@@ -73,13 +74,13 @@ function List(props) {
 
   // 表头字段列表
   const headCells = [
-    { id: 'code', alignment: 'center', label: 'Code' },
-    { id: 'name', alignment: 'center', label: 'Name' },
-    { id: 'managerGroupId', alignment: 'center', label: 'Manager Group' },
-    { id: 'supporterGroupId', alignment: 'center', label: 'Supporter Group' },
-    { id: 'createdAt', alignment: 'center', label: 'Created At' },
-    { id: 'updatedAt', alignment: 'center', label: 'Updated At' },
-    { id: 'action', alignment: 'right', label: 'Actions' },
+    { id: 'code', alignment: 'center', label: L('Code') },
+    { id: 'name', alignment: 'center', label: L('Name') },
+    { id: 'managerGroupId', alignment: 'center', label: L('Manager Group') },
+    { id: 'supporterGroupId', alignment: 'center', label: L('Supporter Group') },
+    { id: 'createdAt', alignment: 'center', label: L('Created At') },
+    { id: 'updatedAt', alignment: 'center', label: L('Updated At') },
+    { id: 'action', alignment: 'right', label: L('Actions') },
   ]
 
   // 每行显示的字段
@@ -94,18 +95,20 @@ function List(props) {
 
   // 搜索栏字段列表
   const searchBarFieldList = [
-    { id: 'code', label: 'Code', type: 'text', disabled: false, readOnly: false, value: name },
-    { id: 'name', label: 'Name', type: 'text', disabled: false, readOnly: false, value: name },
-    { id: 'managerGroupId', label: 'Manager Group', type: 'text', disabled: false,
+    { id: 'code', label: L('Code'), type: 'text', disabled: false, readOnly: false, value: name },
+    { id: 'name', label: L('Name'), type: 'text', disabled: false, readOnly: false, value: name },
+    {
+      id: 'managerGroupId', label: L('Manager Group'), type: 'text', disabled: false,
       value: managerGroupId, isSelector: true, itemList: groupList,
       labelField: 'name', valueField: 'id'
     },
-    { id: 'supporterGroupId', label: 'Supporter Group', type: 'text', disabled: false,
+    {
+      id: 'supporterGroupId', label: L('Supporter Group'), type: 'text', disabled: false,
       value: supporterGroupId, isSelector: true, itemList: groupList,
       labelField: 'name', valueField: 'id'
     },
-    { id: 'createdAt', label: 'Created At', type: 'date', disabled: false, readOnly: false, value: createdAt },
-    { id: 'updatedAt', label: 'Updated At', type: 'date', disabled: false, readOnly: false, value: updatedAt },
+    { id: 'createdAt', label: L('Created At'), type: 'date', disabled: false, readOnly: false, value: createdAt },
+    { id: 'updatedAt', label: L('Updated At'), type: 'date', disabled: false, readOnly: false, value: updatedAt },
   ]
 
   const handleClear = () => {

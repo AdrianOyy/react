@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { NavLink as RouterNavLink } from "react-router-dom";
+import { L } from '../../utils/lang'
 
 import Helmet from 'react-helmet';
 
@@ -47,11 +48,10 @@ function SimpleTooltips() {
     <Card mb={6}>
       <CardContent>
         <Typography variant="h6" gutterBottom>
-          Simple Tooltips
+          {L('Simple Tooltips')}
         </Typography>
         <Typography variant="body2" gutterBottom>
-          Tooltips display informative text when users hover over, focus on, or
-          tap an element.
+          {L('simpleTooltipsDes')}
         </Typography>
         <Paper mt={3}>
           <Tooltip title="Delete">
@@ -59,7 +59,7 @@ function SimpleTooltips() {
               <DeleteIcon />
             </IconButton>
           </Tooltip>
-          <Tooltip title="Add" aria-label="Add">
+          <Tooltip title={L('Add')} aria-label="Add">
             <Fab color="primary">
               <AddIcon />
             </Fab>
@@ -75,50 +75,48 @@ function PositionedTooltips() {
     <Card mb={6}>
       <CardContent>
         <Typography variant="h6" gutterBottom>
-          Positioned Tooltips
+          {L('Positioned Tooltips')}
         </Typography>
         <Typography variant="body2" gutterBottom>
-          The Tooltip has 12 placements choice. They don’t have directional
-          arrows; instead, they rely on motion emanating from the source to
-          convey direction.
+          {L('positionedTooltipsDes')}
         </Typography>
         <Paper mt={3}>
           <Grid container justify="center">
             <Grid item>
-              <Tooltip title="Add" placement="top-start">
+              <Tooltip title={L('Add')} placement="top-start">
                 <Button variant="contained" color="secondary" m={1}>
-                  top-start
+                  {L('top-start')}
                 </Button>
               </Tooltip>
-              <Tooltip title="Add" placement="top">
+              <Tooltip title={L('Add')} placement="top">
                 <Button variant="contained" color="secondary" m={1}>
-                  top
+                  {L('top')}
                 </Button>
               </Tooltip>
-              <Tooltip title="Add" placement="top-end">
+              <Tooltip title={L('Add')} placement="top-end">
                 <Button variant="contained" color="secondary" m={1}>
-                  top-end
+                  {L('top-end')}
                 </Button>
               </Tooltip>
             </Grid>
           </Grid>
           <Grid container justify="center">
             <Grid item xs={6}>
-              <Tooltip title="Add" placement="left-start">
+              <Tooltip title={L('Add')} placement="left-start">
                 <Button variant="contained" color="secondary" m={1}>
-                  left-start
+                  {L('left-start')}
                 </Button>
               </Tooltip>
               <br />
-              <Tooltip title="Add" placement="left">
+              <Tooltip title={L('Add')} placement="left">
                 <Button variant="contained" color="secondary" m={1}>
-                  left
+                  {L('left')}
                 </Button>
               </Tooltip>
               <br />
-              <Tooltip title="Add" placement="left-end">
+              <Tooltip title={L('Add')} placement="left-end">
                 <Button variant="contained" color="secondary" m={1}>
-                  left-end
+                  {L('left-end')}
                 </Button>
               </Tooltip>
             </Grid>
@@ -131,23 +129,23 @@ function PositionedTooltips() {
               spacing={0}
             >
               <Grid item>
-                <Tooltip title="Add" placement="right-start">
+                <Tooltip title={L('Add')} placement="right-start">
                   <Button variant="contained" color="secondary" m={1}>
-                    right-start
+                    {L('right-start')}
                   </Button>
                 </Tooltip>
               </Grid>
               <Grid item>
-                <Tooltip title="Add" placement="right">
+                <Tooltip title={L('Add')} placement="right">
                   <Button variant="contained" color="secondary" m={1}>
-                    right
+                    {L('right')}
                   </Button>
                 </Tooltip>
               </Grid>
               <Grid item>
-                <Tooltip title="Add" placement="right-end">
+                <Tooltip title={L('Add')} placement="right-end">
                   <Button variant="contained" color="secondary" m={1}>
-                    right-end
+                    {L('right-end')}
                   </Button>
                 </Tooltip>
               </Grid>
@@ -155,19 +153,19 @@ function PositionedTooltips() {
           </Grid>
           <Grid container justify="center">
             <Grid item>
-              <Tooltip title="Add" placement="bottom-start">
+              <Tooltip title={L('Add')} placement="bottom-start">
                 <Button variant="contained" color="secondary" m={1}>
-                  bottom-start
+                  {L('bottom-start')}
                 </Button>
               </Tooltip>
-              <Tooltip title="Add" placement="bottom">
+              <Tooltip title={L('Add')} placement="bottom">
                 <Button variant="contained" color="secondary" m={1}>
-                  bottom
+                  {L('bottom')}
                 </Button>
               </Tooltip>
-              <Tooltip title="Add" placement="bottom-end">
+              <Tooltip title={L('Add')} placement="bottom-end">
                 <Button variant="contained" color="secondary" m={1}>
-                  bottom-end
+                  {L('bottom-end')}
                 </Button>
               </Tooltip>
             </Grid>
@@ -196,31 +194,31 @@ class TriggersTooltips extends React.Component {
       <Card mb={6}>
         <CardContent>
           <Typography variant="h6" gutterBottom>
-            Triggerable Tooltips
+            {L('Triggerable Tooltips')}
           </Typography>
           <Typography variant="body2" gutterBottom>
-            You can define the types of events that cause a tooltip to show.
+            {L('triggeralbTooptipsDes')}
           </Typography>
           <Paper mt={3}>
             <Grid container>
               <Grid item>
-                <Tooltip disableFocusListener title="Add">
+                <Tooltip disableFocusListener title={L('Add')} >
                   <Button variant="contained" color="secondary" mr={2}>
-                    Hover or touch
+                    {L('Hover or touch')}
                   </Button>
                 </Tooltip>
               </Grid>
               <Grid item>
-                <Tooltip disableHoverListener title="Add">
+                <Tooltip disableHoverListener title={L('Add')} >
                   <Button variant="contained" color="secondary" mr={2}>
-                    Focus or touch
+                    {L('Focus or touch')}
                   </Button>
                 </Tooltip>
               </Grid>
               <Grid item>
-                <Tooltip disableFocusListener disableTouchListener title="Add">
+                <Tooltip disableFocusListener disableTouchListener title={L('Add')} >
                   <Button variant="contained" color="secondary" mr={2}>
-                    Hover
+                    {L('Hover')}
                   </Button>
                 </Tooltip>
               </Grid>
@@ -236,7 +234,7 @@ class TriggersTooltips extends React.Component {
                       disableFocusListener
                       disableHoverListener
                       disableTouchListener
-                      title="Add"
+                      title={L('Add')}
                     >
                       <Button
                         variant="contained"
@@ -244,7 +242,7 @@ class TriggersTooltips extends React.Component {
                         mr={2}
                         onClick={this.handleTooltipOpen}
                       >
-                        Click
+                        {L('Click')}
                       </Button>
                     </Tooltip>
                   </div>
@@ -263,30 +261,29 @@ function TransitionsTooltips() {
     <Card mb={6}>
       <CardContent>
         <Typography variant="h6" gutterBottom>
-          Simple Tooltips
+          {L('Transitions Tooltips')}
         </Typography>
         <Typography variant="body2" gutterBottom>
-          Tooltips display informative text when users hover over, focus on, or
-          tap an element.
+          {L('transTooltipsDes')}
         </Typography>
         <Paper mt={3}>
-          <Tooltip title="Add">
+          <Tooltip title={L('Add')} >
             <Button variant="contained" color="secondary" mr={2}>
-              Grow
+              {L('Grow')}
             </Button>
           </Tooltip>
           <Tooltip
             TransitionComponent={Fade}
             TransitionProps={{ timeout: 600 }}
-            title="Add"
+            title={L('Add')}
           >
             <Button variant="contained" color="secondary" mr={2}>
-              Fade
+              {L('Fade')}
             </Button>
           </Tooltip>
-          <Tooltip TransitionComponent={Zoom} title="Add">
+          <Tooltip TransitionComponent={Zoom} title={L('Add')} >
             <Button variant="contained" color="secondary" mr={2}>
-              Zoom
+              {L('Zoom')}
             </Button>
           </Tooltip>
         </Paper>
@@ -298,19 +295,19 @@ function TransitionsTooltips() {
 function Tooltips() {
   return (
     <React.Fragment>
-      <Helmet title="Tooltips" />
+      <Helmet title={L('Tooltips')} />
       <Typography variant="h3" gutterBottom display="inline">
-        Tooltips
+        {L('Tooltips')}
       </Typography>
 
       <Breadcrumbs aria-label="Breadcrumb" mt={2}>
         <Link component={NavLink} exact to="/">
-          Dashboard
+          {L('Dashboard')}
         </Link>
         <Link component={NavLink} exact to="/">
-          Components
+          {L('Components')}
         </Link>
-        <Typography>Tooltips</Typography>
+        <Typography>{L('Tooltips')}</Typography>
       </Breadcrumbs>
 
       <Divider my={6} />
