@@ -1,7 +1,7 @@
 import CommonTip from "../../../components/CommonTip"
 import Api from "../../../api/accountManagement"
 import ContractItems from "../../../components/ContractItems"
-import encryption from "../../encryption"
+import { encryption } from "../../encryption"
 
 export default class AccountManagement {
   // eslint-disable-next-line
@@ -104,8 +104,9 @@ export default class AccountManagement {
     return rawData
   }
 
-  encryptionData(from) {
-    console.log(from)
+  beforeSubmit(dataMap) {
+    const hkid = dataMap.get('hkid')
+    hkid.value = encryption(hkid.value)
   }
 
   handleParentStartData() {
