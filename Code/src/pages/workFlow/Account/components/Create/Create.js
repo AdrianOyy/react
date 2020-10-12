@@ -9,6 +9,15 @@ function Create(props) {
   const { id } = useParams()
   const arr = path.getQueryString(useLocation().search)
   const deploymentId = arr['deploymentId']
+  const cuId = arr['cuId']
+  const startData = {
+    start: false,
+    cuId: null,
+  }
+  if (cuId) {
+    startData.start = true
+    startData.cuId = cuId
+  }
   // 用于更新面包屑
   useEffect(() => {
     onMount('create')
@@ -18,6 +27,7 @@ function Create(props) {
     <React.Fragment>
       <CommonWorkflowForm
         stepName={'create'}
+        startData={startData}
         processDefinitionId={id}
         deploymentId={deploymentId}
         tableHeaderLength={6}

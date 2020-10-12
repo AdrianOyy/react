@@ -63,6 +63,7 @@ export default function CommonWorkflowForm(props) {
     stepName,
     pageName,
     taskId,
+    startData
   } = props
   const history = useHistory()
   const container = useRef(null)
@@ -117,11 +118,17 @@ export default function CommonWorkflowForm(props) {
   // 同意协议标识
   const [ argeeContract, setArgeeContract ] = useState(false)
   const [ contractList, setContractList ] = useState([])
+  const [ start, setStart ] = useState(false)
   const childDataListMap = new Map()
   // 子表渲染数据 Map
   const childDataMap = new Map()
   // 协议列表
-
+  useEffect(() => {
+    if (startData && startData.start) {
+      setStart(true)
+    }
+    // eslint-disable-next-line
+  }, [])
 
   // 获取原始渲染数据、流程实例数据
   useEffect(() => {
@@ -223,6 +230,11 @@ export default function CommonWorkflowForm(props) {
     }
     // 处理数据
     if (!rawDefaultData) {
+      if (start) {
+        const parentStartData = logic.handleParentStartData(startData, parentDataMap)
+        setParentDefaultValues(parentStartData)
+        setStart(false)
+      }
       return
     }
     const { parentData, childDataList } = rawDefaultData
@@ -345,6 +357,7 @@ export default function CommonWorkflowForm(props) {
       if (processDefinitionId) {
         const list = logic.getContractList(parentDataMap)
         if (list && list.length) {
+          setParentDefaultValues({})
           setContractList(list)
           setContractOpen(true)
         } else {

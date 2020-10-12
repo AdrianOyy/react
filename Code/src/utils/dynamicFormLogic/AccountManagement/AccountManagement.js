@@ -109,11 +109,16 @@ export default class AccountManagement {
     hkid.label = encryption(hkid.label)
   }
 
-  handleParentStartData() {
-    const data = {
-      account_type: 'CORP Account (Personal) Application'
+  handleParentStartData(startData) {
+    if (startData.start) {
+      const data = {
+        account_type: 'Internet Account Application',
+        surname: 'texe111'
+      }
+      return data
+    } else {
+      return null
     }
-    return data
   }
 
   // 处理子表数据表
