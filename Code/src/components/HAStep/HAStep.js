@@ -55,7 +55,7 @@ function HAStep(props) {
         for (const pointUser of process.processPointUser) {
           const pointRow = {
             assignee: pointUser.assignee,
-            userName: pointUser.user ? pointUser.user.firstName : null,
+            userName: pointUser.user ? pointUser.user : null,
             groupName: pointUser.group ? pointUser.group.name : null,
             name: pointUser.taskInstance.activityName,
             endDate: pointUser.taskInstance.endTime ? formatDateTime(new Date(pointUser.taskInstance.endTime)) : null,
