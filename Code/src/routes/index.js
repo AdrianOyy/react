@@ -46,6 +46,9 @@ const request = async(() => import("../pages/workFlow/MyRequest"))
 const approval = async(() => import("../pages/workFlow/MyApproval"))
 const VMAllocation = async(() => import("../pages/workFlow/VMAllocation"))
 const Account = async(() => import("../pages/workFlow/Account"))
+const NonPersonalAccount = async(() => import("../pages/workFlow/NonPersonalAccount"))
+const DistributionList = async(() => import("../pages/workFlow/DistributionList"))
+const ClosingAccount = async(() => import("../pages/workFlow/ClosingAccount"))
 const MoveIn = async(() => import("../pages/workFlow/MoveIn"))
 // const VMProvisioning = async(() => import("../pages/workFlow/VMProvisioning/"))
 // IP Assignment
@@ -159,6 +162,21 @@ const workflowRoutes = {
       path: "/workflow/account/",
       name: "Account management",
       component: Account
+    },
+    {
+      path: "/workflow/nonPersonalAccount/",
+      name: "Non Personal Account",
+      component: NonPersonalAccount
+    },
+    {
+      path: "/workflow/distributionList/",
+      name: "Distribution List",
+      component: DistributionList
+    },
+    {
+      path: "/workflow/closingAccount/",
+      name: "Closing Account",
+      component: ClosingAccount
     },
     {
       path: "/workflow/vm/",
