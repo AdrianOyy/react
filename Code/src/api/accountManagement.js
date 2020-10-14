@@ -11,6 +11,9 @@ class accountManagement {
   checkUsers(data) {
     return request.post(`${prefix}/accountManagement/checkUsers`, data)
   }
+  findUsers(data) {
+    return request.post(`${prefix}/accountManagement/findUsers`, data)
+  }
 }
 
 export default new accountManagement()

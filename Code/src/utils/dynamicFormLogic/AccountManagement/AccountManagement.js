@@ -113,7 +113,16 @@ export default class AccountManagement {
     if (startData.start) {
       const data = {
         account_type: 'Internet Account Application',
-        surname: 'texe111'
+        surname: 'rexshen',
+        apply_for: 'LAN account (LoginID)  and/or',
+        contact_phone_no: '1358458751',
+        division: 'devericd',
+        firstname: 'shen',
+        jobtitle: 'IT',
+        officefax: '35854519',
+        section: 'ie',
+        stafftype: 'Head Office',
+        supervisoremailaccount: 'rexshen@apjcorp.com',
       }
       return data
     } else {
@@ -152,7 +161,7 @@ export default class AccountManagement {
     return childList
   }
 
-  handleParentData(rawData, stepName, pageName) {
+  handleParentData(rawData, stepName, pageName, onCheck) {
     rawData && rawData.forEach(el => {
       if (stepName) {
         el.showOnRequest = true
@@ -165,6 +174,10 @@ export default class AccountManagement {
               t.disabled = true
             }
           })
+          break
+        case 'supervisoremailaccount':
+          el.isCheck = true
+          el.onCheck = onCheck
           break
         case 'hkid':
           if (stepName !== 'create') {
@@ -214,6 +227,29 @@ export default class AccountManagement {
 
   getChildFormTitle() {
     return 'Child'
+  }
+
+  setSupervisorEmail(value, dataMap) {
+    dataMap.set('supervisoremailaccount', { id: 'supervisoremailaccount', label: value, value })
+  }
+
+  checkSupervisorEmail(parentDataMap) {
+    let pass = true
+    if ((!parentDataMap.get('supervisoremailaccount') || !parentDataMap.get('supervisoremailaccount').value)) {
+      CommonTip.error('Supervisor Email Account is required')
+      pass = false
+    }
+    return pass
+  }
+
+  async getEmail(parentDataMap) {
+    return new Promise(function(reslove) {
+      Api.findUsers({ email: parentDataMap.get('supervisoremailaccount').value }).then(({ data }) => {
+        console.log(data)
+        const results = data.data
+        reslove(results)
+      })
+    })
   }
 
   getContractList(parentData) {
@@ -271,6 +307,12 @@ function accountRequired(account_type, fieldName) {
   }
   return required
 }
+
+// function onCheck(id) {
+//   const alias = document.getElementById('supervisoremailaccount')
+//   alias.value = 'dsfaf111111111111'
+//   alert('ttttttttttttttttttttttttttttt')
+// }
 
 function selectChange(name, checked, data) {
   if (name === 'IBRA Account Application' && checked) {

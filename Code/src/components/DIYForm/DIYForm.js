@@ -157,6 +157,8 @@ export default function DIYForm(props) {
                       id={el.fieldName}
                       onBlur={onChange}
                       disabled={!el.writable}
+                      isCheck={el.isCheck}
+                      onCheck={el.onCheck}
                       defaultValue={defaultValues ? defaultValues[el.fieldName] : null}
                       label={el.fieldDisplayName}
                       required={el.required}
