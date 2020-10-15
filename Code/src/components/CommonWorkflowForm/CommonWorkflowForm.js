@@ -122,6 +122,7 @@ export default function CommonWorkflowForm(props) {
   // 协议对话框打开标识
   const [ contractOpen, setContractOpen ] = useState(false)
   const [ checkOpen, setCheckOpen ] = useState(false)
+  const [ checkName, setCheckName ] = useState(null)
   // 同意协议标识
   const [ argeeContract, setArgeeContract ] = useState(false)
   const [ contractList, setContractList ] = useState([])
@@ -200,16 +201,22 @@ export default function CommonWorkflowForm(props) {
   }, [ workflowName ])
 
 
-  const onCheckOpen = () => {
-    if (logic.checkSupervisorEmail(parentDataMap)) {
-      accountManagementApi.findUsers({ email: parentDataMap.get('supervisoremailaccount').value }).then(({ data }) => {
+  const onCheckOpen = (fieldName) => {
+    const returnType = logic.getReturnType(parentDataMap, fieldName)
+    if (returnType !== null) {
+      setCheckName(fieldName)
+      accountManagementApi.findUsers(
+        {
+          email: parentDataMap.get(fieldName).value,
+          returnType,
+        }).then(({ data }) => {
         const results = data.data
         if (results.length > 0) {
           setEmails(results)
           setParentDefaultValues(map2object(parentDataMap))
           setCheckOpen(true)
         } else {
-          CommonTip.error(`${parentDataMap.get('supervisoremailaccount').value} is not found`)
+          CommonTip.error(`${parentDataMap.get(fieldName).value} is not found`)
         }
       })
     }
@@ -220,7 +227,7 @@ export default function CommonWorkflowForm(props) {
   }
 
   const handleEmailCheck = (email) => {
-    logic.setSupervisorEmail(email, parentDataMap)
+    logic.setSupervisorEmail(email, parentDataMap, checkName)
     setParentDefaultValues(map2object(parentDataMap))
     setCheckOpen(false)
   }

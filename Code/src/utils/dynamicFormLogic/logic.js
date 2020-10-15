@@ -1,6 +1,8 @@
 import VMAllocation from "./VMAllocation"
 import WorkflowSetting from "./WorkflowSetting"
 import AccountManagement from "./AccountManagement"
+import NonPersonalAccount from "./NonPersonalAccount"
+import DistributionList from "./DistributionList"
 import Common from "./Common"
 
 function getLogic(workflowName) {
@@ -11,6 +13,10 @@ function getLogic(workflowName) {
       return new WorkflowSetting()
     case 'Account management':
       return new AccountManagement()
+    case 'Non Personal Account':
+      return new NonPersonalAccount()
+    case 'Distribution List':
+      return new DistributionList()
     default:
       return new Common()
   }

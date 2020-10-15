@@ -212,13 +212,13 @@ export default class AccountManagement {
     dataMap.set('supervisoremailaccount', { id: 'supervisoremailaccount', label: value, value })
   }
 
-  checkSupervisorEmail(parentDataMap) {
-    let pass = true
+  getReturnType(parentDataMap) {
+    let returnType = 'user'
     if ((!parentDataMap.get('supervisoremailaccount') || !parentDataMap.get('supervisoremailaccount').value)) {
       CommonTip.error('Supervisor Email Account is required')
-      pass = false
+      returnType = null
     }
-    return pass
+    return returnType
   }
 
   async getEmail(parentDataMap) {
