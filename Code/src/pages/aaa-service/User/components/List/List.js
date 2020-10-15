@@ -40,8 +40,10 @@ function List(props) {
   useEffect(() => {
     API.list({ ...query, limit: rowsPerPage, page: page + 1 })
       .then(response => {
-        setTotal(response.data.data.count)
-        handleData(response.data.data.rows)
+        if (response.data && response.data.data) {
+          setTotal(response.data.data.count)
+          handleData(response.data.data.rows)
+        }
       })
   }, [ page, rowsPerPage, query ])
 

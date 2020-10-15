@@ -118,7 +118,7 @@ function Detail(props) {
   const getP = (obj, isHeader) => {
     const list = []
     for (const key in obj) {
-      if (key !== 'headers') {
+      if (key !== 'headers' && key !== 'body') {
         list.push({
           key: JSON.stringify(key),
           value: JSON.stringify(obj[key]),
@@ -134,7 +134,7 @@ function Detail(props) {
                 fontFamily: 'Arial',
                 fontSize: '14px',
                 wordBreak: 'break-all',
-                textIndent: isHeader ? '4em' : '2em',
+                marginLeft: isHeader ? '4em' : '2em',
               }}
               key={el.key + '_' + i}
             >
@@ -156,24 +156,29 @@ function Detail(props) {
         <Content dividers={true}>
           <article style={{ fontFamily: 'Arial', fontSize: '14px' }}>
             <p style={{ fontSize: '16px' }}><b>Request</b></p>
-            <p style={{ fontSize: '14px', textIndent: '2em' }}>{"\"headers\": {"}</p>
+            <p style={{ fontSize: '14px', marginLeft: '2em' }}>{"\"headers\": {"}</p>
             {
               row.request && getP(row.request.headers, true)
             }
-            <p style={{ fontSize: '14px', textIndent: '2em' }}>{"}"}</p>
+            <p style={{ fontSize: '14px', marginLeft: '2em' }}>{"}"}</p>
             {
               getP(row.request)
             }
             <hr/>
             <p style={{ fontSize: '16px' }}><b>Response</b></p>
-            <p style={{ fontSize: '14px', textIndent: '2em' }}>{"\"headers\": {"}</p>
+            <p style={{ fontSize: '14px', marginLeft: '2em' }}>{"\"headers\": {"}</p>
             {
               row.response && getP(row.response.headers, true)
             }
-            <p style={{ fontSize: '14px', textIndent: '2em' }}>{"}"}</p>
+            <p style={{ fontSize: '14px', marginLeft: '2em' }}>{"}"}</p>
             {
               getP(row.response)
             }
+            <p style={{ fontSize: '14px', marginLeft: '2em' }}>{"\"body\": {"}</p>
+            {
+              row.response && getP(row.response.body, true)
+            }
+            <p style={{ fontSize: '14px', marginLeft: '2em' }}>{"}"}</p>
           </article>
         </Content>
         <Actions disableSpacing={true}>
@@ -231,7 +236,7 @@ export default function List() {
   }
 
   const searchBarFieldList = [
-    { id: 'logType', label: 'LogType', type: 'text', disabled: false, value: logType },
+    // { id: 'logType', label: 'LogType', type: 'text', disabled: false, value: logType },
     { id: 'request', label: 'Request', type: 'text', disabled: false, value: request },
     { id: 'response', label: 'Response', type: 'text', disabled: false, value: response },
     { id: 'startDate', label: 'Start Date', type: 'date', disabled: false, readOnly: false, value: startDate },
@@ -356,7 +361,7 @@ export default function List() {
                   <TableCell
                     align={columns[0].align ? columns[0].align : 'center'}
                   >
-                    { row.request && row.request.uri && row.request.uri.split('?')[0] }
+                    { row.request && row.request.url && row.request.headers && row.request.headers.host && row.request.headers.host + row.request.url.split('?')[0] }
                   </TableCell>
                   <TableCell
                     align={columns[0].align ? columns[0].align : 'center'}
