@@ -12,6 +12,7 @@ import {
   Typography
 } from "@material-ui/core"
 import { spacing } from "@material-ui/system"
+import { L } from '../../utils/lang'
 
 import LineChart from "./LineChart"
 import BarChart from "./BarChart"
@@ -31,14 +32,14 @@ const NavLink = React.forwardRef((props, ref) => (
 function Blank() {
   return (
     <React.Fragment>
-      <Helmet title="Charts" />
+      <Helmet title={L('Charts')} />
       <Typography variant="h3" gutterBottom display="inline">
-        Charts
+        {L('Charts')}
       </Typography>
 
       <Breadcrumbs aria-label="Breadcrumb" mt={2}>
         <Link component={NavLink} exact to="/">
-          Dashboard
+          {L('Dashboard')}
         </Link>
         <Typography>Charts</Typography>
       </Breadcrumbs>

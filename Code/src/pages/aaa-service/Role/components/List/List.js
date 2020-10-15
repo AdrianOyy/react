@@ -10,13 +10,15 @@ import { CommonTable, SearchBar } from '../../../../../components'
 import API from "../../../../../api/role"
 import styled from "styled-components"
 import { spacing } from "@material-ui/system"
+import { L } from '../../../../../utils/lang'
 import dayjs from "dayjs"
 const Paper = styled(MuiPaper)(spacing)
 const formatDateTime = (str) => {
   return dayjs(new Date(str)).format('DD-MMM-YYYY HH:mm')
 }
 
-const tableName = 'List'
+const tableName = L('List')
+
 
 function List(props) {
   const { onMount, path } = props
@@ -62,11 +64,11 @@ function List(props) {
 
   // 表头字段列表
   const headCells = [
-    { id: 'label', alignment: 'center', label: 'Label' },
-    { id: 'value', alignment: 'center', label: 'Value' },
-    { id: 'createdAt', alignment: 'center', label: 'Created At' },
-    { id: 'updatedAt', alignment: 'center', label: 'Updated At' },
-    { id: 'action', alignment: 'right', label: 'Actions' },
+    { id: 'label', alignment: 'center', label: L('Label') },
+    { id: 'value', alignment: 'center', label: L('Value') },
+    { id: 'createdAt', alignment: 'center', label: L('Created At') },
+    { id: 'updatedAt', alignment: 'center', label: L('Updated At') },
+    { id: 'action', alignment: 'right', label: L('Actions') },
   ]
 
   // 每行显示的字段
@@ -78,10 +80,10 @@ function List(props) {
   ]
 
   const searchBarFieldList = [
-    { id: 'label', label: 'Label', type: 'text', disabled: false, readOnly: false, value: label },
-    { id: 'value', label: 'Value', type: 'text', disabled: false, readOnly: false, value },
-    { id: 'createdAt', label: 'Created At', type: 'date', disabled: false, readOnly: false, value: createdAt },
-    { id: 'updatedAt', label: 'Updated At', type: 'date', disabled: false, readOnly: false, value: updatedAt },
+    { id: 'label', label: L('Label'), type: 'text', disabled: false, readOnly: false, value: label },
+    { id: 'value', label: L('Value'), type: 'text', disabled: false, readOnly: false, value },
+    { id: 'createdAt', label: L('Created At'), type: 'date', disabled: false, readOnly: false, value: createdAt },
+    { id: 'updatedAt', label: L('Updated At'), type: 'date', disabled: false, readOnly: false, value: updatedAt },
   ]
 
   const handleClear = () => {

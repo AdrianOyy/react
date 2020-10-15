@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 
 import DetailPage from "../../../../../components/DetailPage"
 import API from "../../../../../api/inventory"
+import { L } from '../../../../../utils/lang'
 import CommonTip from "../../../../../components/CommonTip"
 import { useHistory } from 'react-router-dom'
 import { checkEmpty, getCheckExist } from "../../untils/NetworkFieldCheck"
@@ -55,7 +56,7 @@ function Create(props) {
         }
       )
       .then(() => {
-        CommonTip.success("Success")
+        CommonTip.success(L('Success'))
         history.push({ pathname: '/resources/network' })
       })
       .catch(() => {
@@ -80,82 +81,82 @@ function Create(props) {
   useEffect(() => {
     const inventoryList = [
       {
-        id: '_ID', label: 'Ref. ID', type: 'text',
+        id: '_ID', label: L('Ref. ID'), type: 'text',
         required: true, readOnly: false, value: _ID,
         error: _IDError, helperText: _IDHelperText
       },
       {
-        id: 'UnitCode', label: 'New', type: 'text',
+        id: 'UnitCode', label: L('New'), type: 'text',
         required: false, readOnly: false, value: UnitCode
       },
       {
-        id: 'AssetID', label: 'Asset No', type: 'text',
+        id: 'AssetID', label: L('Asset No'), type: 'text',
         required: false, readOnly: false, value: AssetID
       },
       {
-        id: 'ModelCode', label: 'Model Code', type: 'text',
+        id: 'ModelCode', label: L('Model Code'), type: 'text',
         required: false, readOnly: false, value: ModelCode
       },
       {
-        id: 'ModelDesc', label: 'Description', type: 'text',
+        id: 'ModelDesc', label: L('Description'), type: 'text',
         required: false, readOnly: false, value: ModelDesc
       },
       {
-        id: 'ClosetID', label: 'Closet ID', type: 'text',
+        id: 'ClosetID', label: L('Closet ID'), type: 'text',
         required: false, readOnly: false, value: ClosetID
       },
       {
-        id: 'Rack', label: 'Cabinet', type: 'text',
+        id: 'Rack', label: L('Cabinet'), type: 'text',
         required: false, readOnly: false, value: Rack
       },
       {
-        id: 'RLU', label: 'Pos. (U)', type: 'text',
+        id: 'RLU', label: L('Pos. (U)'), type: 'text',
         required: false, readOnly: false, value: RLU
       },
       {
-        id: 'ItemOwner', label: 'Item Owner', type: 'text',
+        id: 'ItemOwner', label: L('Item Owner'), type: 'text',
         required: false, readOnly: false, value: ItemOwner
       },
       {
-        id: 'Status', label: 'Status', type: 'select',
+        id: 'Status', label: L('Status'), type: 'select',
         value: Status, itemList: InventoryStatus,
         labelField: 'ServiceStatus', valueField: 'id',
       },
       {
-        id: 'Remark', label: 'Remark', type: 'text',
+        id: 'Remark', label: L('Remark'), type: 'text',
         required: false, readOnly: false, value: Remark
       },
       {
-        id: 'EquipType', label: 'EquipType', type: 'select',
+        id: 'EquipType', label: L('EquipType'), type: 'select',
         value: EquipType, itemList: EquipTypes,
         labelField: 'Type', valueField: 'id',
       },
       {
-        id: 'UnitNo', label: 'Unit No', type: 'text',
+        id: 'UnitNo', label: L('Unit No'), type: 'text',
         required: false, readOnly: false, value: UnitNo
       },
       {
-        id: 'PortQty', label: 'Built-in Port', type: 'text',
+        id: 'PortQty', label: L('Built-in Port'), type: 'text',
         required: false, readOnly: false, value: PortQty
       },
       {
-        id: 'ReqNo', label: 'Req. Form', type: 'text',
+        id: 'ReqNo', label: L('Req. Form'), type: 'text',
         required: false, readOnly: false, value: ReqNo
       },
       {
-        id: 'DOB', label: 'DOB', type: 'date',
+        id: 'DOB', label: L('DOB'), type: 'date',
         required: false, readOnly: false, value: DOB
       },
       {
-        id: 'DeliveryDate', label: 'Delivery Date', type: 'date',
+        id: 'DeliveryDate', label: L('Delivery Date'), type: 'date',
         required: false, readOnly: false, value: DeliveryDate
       },
       {
-        id: 'DeliveryNoteReceivedDate', label: 'Delivery Note Received Date', type: 'date',
+        id: 'DeliveryNoteReceivedDate', label: L('Delivery Note Received Date'), type: 'date',
         required: false, readOnly: false, value: DeliveryNoteReceivedDate
       },
       {
-        id: 'MaintID', label: 'MaintID', type: 'text',
+        id: 'MaintID', label: L('MaintID'), type: 'text',
         required: false, readOnly: false, value: MaintID
       },
     ]
@@ -273,7 +274,7 @@ function Create(props) {
   return (
     <React.Fragment>
       <DetailPage
-        formTitle = 'Network'
+        formTitle={L('Network')}
         onFormFieldChange = {onFormFieldChange}
         onFormFieldBlur = {onFormFieldBlur}
         formFieldList = {inventory}

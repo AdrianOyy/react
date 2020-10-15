@@ -1,10 +1,10 @@
 import React from "react"
-import Helmet from "react-helmet"
+// import Helmet from "react-helmet"
 
 export default function List() {
   return (
     <React.Fragment>
-      <Helmet title={title} />
+      {/* <Helmet title={title} /> */}
     </React.Fragment>
   )
 }

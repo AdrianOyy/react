@@ -6,6 +6,7 @@ import CommonTip from "../../../../../components/CommonTip"
 import { checkEmpty, getCheckExist } from "../../untils/assignFieldCheck"
 import tenantGroupMappingApi from "../../../../../api/tenantGroupMapping"
 import roleApi from "../../../../../api/role"
+import { L } from '../../../../../utils/lang'
 
 
 function AssignCreate(props) {
@@ -36,7 +37,7 @@ function AssignCreate(props) {
     setSaving(true)
     API.create({ mappingId, roleId })
       .then(() => {
-        CommonTip.success("Success")
+        CommonTip.success(L('Success'))
         history.push({ pathname: '/aaa-service/assign' })
       })
       .catch(() => {
@@ -64,12 +65,12 @@ function AssignCreate(props) {
   useEffect(() => {
     const list = [
       {
-        id: 'mapping', label: 'Tenant + Group', type: 'select', value: mappingId,
+        id: 'mapping', label: L('Tenant + Group'), type: 'select', value: mappingId,
         itemList: mappingList, labelField: 'name', valueField: 'id',
         error: mappingError, helperText: mappingHelperText,
       },
       {
-        id: 'role', label: 'Role', type: 'select', value: roleId,
+        id: 'role', label: L('Role'), type: 'select', value: roleId,
         itemList: roleList, labelField: 'label', valueField: 'id',
         error: roleError, helperText: roleHelperText,
       },
@@ -144,7 +145,7 @@ function AssignCreate(props) {
   return (
     <React.Fragment>
       <DetailPage
-        formTitle = 'Create'
+        formTitle={L('Create')}
         onFormFieldChange = {onFormFieldChange}
         formFieldList = {formFieldList}
         showBtn ={true}

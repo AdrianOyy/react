@@ -1,7 +1,7 @@
 import React from "react"
 import styled from "styled-components"
 import { Link } from "react-router-dom"
-
+import { L } from '../../utils/lang'
 import Helmet from 'react-helmet'
 
 import {
@@ -30,14 +30,14 @@ function ResetPassword() {
     <Wrapper>
       <Helmet title="Reset Password" />
       <Typography component="h1" variant="h4" align="center" gutterBottom>
-        Reset Password
+        {L('Reset Password')}
       </Typography>
       <Typography component="h2" variant="body1" align="center">
-        Enter your email to reset your password
+        {L('emailRestPassword')}
       </Typography>
       <form>
         <FormControl margin="normal" required fullWidth>
-          <InputLabel htmlFor="email">Email Address</InputLabel>
+          <InputLabel htmlFor="email">{L('Email Address')}</InputLabel>
           <Input id="email" name="email" autoComplete="email" autoFocus />
         </FormControl>
         <Button
@@ -48,7 +48,7 @@ function ResetPassword() {
           color="primary"
           mt={2}
         >
-          Reset password
+          {L('Reset password')}
         </Button>
       </form>
     </Wrapper>

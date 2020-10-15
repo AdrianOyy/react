@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { NavLink as RouterNavLink } from "react-router-dom";
 
 import Helmet from 'react-helmet';
+import { L } from '../../utils/lang'
 
 import {
   CardContent,
@@ -40,7 +41,7 @@ function CircularIndeterminate() {
     <Card mb={6}>
       <CardContent>
         <Typography variant="h6" gutterBottom>
-          Circular Indeterminate
+          {L('Circular Indeterminate')}
         </Typography>
         <Paper mt={3}>
           <CircularProgress m={2} />
@@ -74,7 +75,7 @@ class CircularDeterminate extends React.Component {
       <Card mb={6}>
         <CardContent>
           <Typography variant="h6" gutterBottom>
-            Circular Determinate
+            {L('Circular Determinate')}
           </Typography>
           <Paper mt={3}>
             <CircularProgress
@@ -100,7 +101,7 @@ function CircularStatic() {
     <Card mb={6}>
       <CardContent>
         <Typography variant="h6" gutterBottom>
-          Circular Static
+          {L('Circular Static')}
         </Typography>
         <Paper mt={3}>
           <CircularProgress m={2} variant="static" value={5} />
@@ -119,7 +120,7 @@ function LinearIndeterminate() {
     <Card mb={6}>
       <CardContent>
         <Typography variant="h6" gutterBottom>
-          Linear Indeterminate
+          {L('Linear Indeterminate')}
         </Typography>
         <Paper mt={3}>
           <LinearProgress my={2} />
@@ -158,7 +159,7 @@ class LinearDeterminate extends React.Component {
       <Card mb={6}>
         <CardContent>
           <Typography variant="h6" gutterBottom>
-            Linear Determinate
+            {L('Linear Determinate')}
           </Typography>
           <Paper mt={3}>
             <LinearProgress
@@ -212,7 +213,7 @@ class LinearBuffer extends React.Component {
       <Card mb={6}>
         <CardContent>
           <Typography variant="h6" gutterBottom>
-            Linear Buffer
+            {L('Linear Buffer')}
           </Typography>
           <Paper mt={3}>
             <LinearProgress
@@ -240,7 +241,7 @@ function LinearQuery() {
     <Card mb={6}>
       <CardContent>
         <Typography variant="h6" gutterBottom>
-          Linear Query
+          {L('Linear Query')}
         </Typography>
         <Paper mt={3}>
           <LinearProgress my={2} variant="query" />
@@ -254,19 +255,19 @@ function LinearQuery() {
 function Progress() {
   return (
     <React.Fragment>
-      <Helmet title="Progress" />
+      <Helmet title={L('Progress')} />
       <Typography variant="h3" gutterBottom display="inline">
-        Progress
+        {L('Progress')}
       </Typography>
 
       <Breadcrumbs aria-label="Breadcrumb" mt={2}>
         <Link component={NavLink} exact to="/">
-          Dashboard
+          {L('Dashboard')}
         </Link>
         <Link component={NavLink} exact to="/">
-          Components
+          {L('Components')}
         </Link>
-        <Typography>Progress</Typography>
+        <Typography>{L('Progress')}</Typography>
       </Breadcrumbs>
 
       <Divider my={6} />

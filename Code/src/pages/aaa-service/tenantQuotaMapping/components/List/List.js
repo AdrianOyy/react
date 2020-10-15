@@ -9,6 +9,7 @@ import {
 import { CommonTable, SearchBar } from '../../../../../components'
 import API from "../../../../../api/tenantQuotaMapping"
 import tenantApi from "../../../../../api/tenant"
+import { L } from '../../../../../utils/lang'
 import styled from "styled-components"
 import { spacing } from "@material-ui/system"
 import dayjs from "dayjs"
@@ -19,7 +20,7 @@ const formatDateTime = (str) => {
   return dayjs(new Date(str)).format('DD-MMM-YYYY HH:mm')
 }
 
-const tableName = 'List'
+const tableName = L('List')
 
 function List(props) {
   const { onMount, path } = props
@@ -80,13 +81,13 @@ function List(props) {
 
   // 表头字段列表
   const headCells = [
-    { id: 'tenant', alignment: 'center', label: 'Tenant' },
-    { id: 'type', alignment: 'center', label: 'Type' },
-    { id: 'quota', alignment: 'center', label: 'Quota' },
-    { id: 'year', alignment: 'center', label: 'Year' },
-    { id: 'createdAt', alignment: 'center', label: 'Created At' },
-    { id: 'updatedAt', alignment: 'center', label: 'Updated At' },
-    { id: 'action', alignment: 'right', label: 'Actions' },
+    { id: 'tenant', alignment: 'center', label: L('Tenant') },
+    { id: 'type', alignment: 'center', label: L('Type') },
+    { id: 'quota', alignment: 'center', label: L('Quota') },
+    { id: 'year', alignment: 'center', label: L('Year') },
+    { id: 'createdAt', alignment: 'center', label: L('Created At') },
+    { id: 'updatedAt', alignment: 'center', label: L('Updated At') },
+    { id: 'action', alignment: 'right', label: L('Actions') },
   ]
 
   // 每行显示的字段
@@ -100,11 +101,11 @@ function List(props) {
   ]
 
   const searchBarFieldList = [
-    { id: 'tenant', label: 'Tenant', type: 'text', disabled: false, value: tenantId, isSelector: true, itemList: tenantList, labelField: 'name', valueField: 'id' },
-    { id: 'type', label: 'Type', type: 'text', disabled: false, value: type },
-    { id: 'year', label: 'Year', type: 'date', disabled: false, value: year, views: [ 'year' ] },
-    { id: 'createdAt', label: 'Created At', type: 'date', disabled: false, readOnly: false, value: createdAt },
-    { id: 'updatedAt', label: 'Updated At', type: 'date', disabled: false, readOnly: false, value: updatedAt },
+    { id: 'tenant', label: L('Tenant'), type: 'text', disabled: false, value: tenantId, isSelector: true, itemList: tenantList, labelField: 'name', valueField: 'id' },
+    { id: 'type', label: L('Type'), type: 'text', disabled: false, value: type },
+    { id: 'year', label: L('Year'), type: 'date', disabled: false, value: year, views: ['year'] },
+    { id: 'createdAt', label: L('Created At'), type: 'date', disabled: false, readOnly: false, value: createdAt },
+    { id: 'updatedAt', label: L('Updated At'), type: 'date', disabled: false, readOnly: false, value: updatedAt },
   ]
 
   const handleClear = () => {

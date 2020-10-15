@@ -3,6 +3,7 @@ import styled from "styled-components"
 import { NavLink as RouterNavLink } from "react-router-dom"
 
 import Helmet from 'react-helmet'
+import { L } from '../../utils/lang'
 
 import "react-dragula/dist/dragula.css"
 
@@ -123,7 +124,7 @@ function Lane({ title, description, onContainerLoaded, children }) {
         <div ref={handleContainerLoaded}>{children}</div>
         <Button color="primary" variant="contained" fullWidth>
           <AddIcon />
-          Add new task
+          {L('Add new task')}
         </Button>
       </CardContent>
     </Card>
@@ -161,26 +162,26 @@ function Task({ content, avatars }) {
 
 const demoTasks = [
   {
-    title: "Redesign the homepage",
-    badges: [ green[600], orange[600] ],
+    title: L("Redesign the homepage"),
+    badges: [green[600], orange[600]],
     notifications: 2
   },
   {
-    title: "Upgrade dependencies to latest versions",
-    badges: [ green[600] ],
+    title: L("Upgrade dependencies to latest versions"),
+    badges: [green[600]],
     notifications: 1
   },
   {
-    title: "Google Adwords best practices"
+    title: L('Google Adwords best practices')
   },
   {
-    title: "Improve site speed",
-    badges: [ green[600] ],
+    title: L('Improve site speed'),
+    badges: [green[600]],
     notifications: 3
   },
   {
-    title: "Stripe payment integration",
-    badges: [ blue[600] ]
+    title: L('Stripe payment integration'),
+    badges: [blue[600]]
   }
 ]
 
@@ -199,17 +200,17 @@ function Tasks() {
     <React.Fragment>
       <Helmet title="Tasks" />
       <Typography variant="h3" gutterBottom display="inline">
-        Tasks
+        {L('Tasks')}
       </Typography>
 
       <Breadcrumbs aria-label="Breadcrumb" mt={2}>
         <Link component={NavLink} exact to="/">
-          Dashboard
+          {L('Dashboard')}
         </Link>
         <Link component={NavLink} exact to="/">
-          Pages
+          {L('Pages')}
         </Link>
-        <Typography>Tasks</Typography>
+        <Typography>{L('Tasks')}</Typography>
       </Breadcrumbs>
 
       <Divider my={6} />
@@ -217,7 +218,7 @@ function Tasks() {
       <Grid container spacing={6}>
         <Grid item xs={12} lg={4} xl={4}>
           <Lane
-            title="Backlog"
+            title={L('Backlog')}
             description="Nam pretium turpis et arcu. Duis arcu."
             onContainerLoaded={onContainerReady}
           >
@@ -230,7 +231,7 @@ function Tasks() {
         </Grid>
         <Grid item xs={12} lg={4} xl={4}>
           <Lane
-            title="In Progress"
+            title={L('In Progress')}
             description="Curabitur ligula sapien, tincidunt non."
             onContainerLoaded={onContainerReady}
           >
@@ -240,7 +241,7 @@ function Tasks() {
         </Grid>
         <Grid item xs={12} lg={4} xl={4}>
           <Lane
-            title="Completed"
+            title={L('Completed')}
             description="Aenean posuere, tortor sed cursus feugiat."
             onContainerLoaded={onContainerReady}
           >

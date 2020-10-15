@@ -1,9 +1,10 @@
 import React from "react"
 import CommonPage from "../../../components/CommonPage"
 import { List, Detail } from './components'
+import { L } from '../../../utils/lang'
 
-const parentTitle = 'AAA Service'
-const title = 'User'
+const parentTitle = L('AAA Service')
+const title = ('User')
 
 function Tenant() {
   const props = {

@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import DetailPage from "../../../../../components/DetailPage"
 import tenantGroupMappingApi from "../../../../../api/tenantGroupMapping"
 import { useParams } from "react-router-dom"
+import { L } from '../../../../../utils/lang'
 import dayjs from "dayjs"
 
 
@@ -42,10 +43,10 @@ function Detail(props) {
 
   useEffect(() => {
     const list = [
-      { id: 'tenant', label: 'Tenant', type: 'text', disabled: true, readOnly: true, value: tenant },
-      { id: 'adGroup', label: 'AD Group', type: 'text', disabled: true, readOnly: true, value: adGroup },
-      { id: 'createdAt', label: 'Created At', type: 'text', disabled: true, readOnly: true, value: formatDateTime(createdAt) },
-      { id: 'updatedAt', label: 'Updated At', type: 'text', disabled: true, readOnly: true, value: formatDateTime(updatedAt) },
+      { id: 'tenant', label: L('Tenant'), type: 'text', disabled: true, readOnly: true, value: tenant },
+      { id: 'adGroup', label: L('AD Group'), type: 'text', disabled: true, readOnly: true, value: adGroup },
+      { id: 'createdAt', label: L('Created At'), type: 'text', disabled: true, readOnly: true, value: formatDateTime(createdAt) },
+      { id: 'updatedAt', label: L('Updated At'), type: 'text', disabled: true, readOnly: true, value: formatDateTime(updatedAt) },
     ]
     setFormFieldList(list)
   }, [ tenant, adGroup, createdAt, updatedAt ])
@@ -67,7 +68,7 @@ function Detail(props) {
   return (
     <React.Fragment>
       <DetailPage
-        formTitle = 'Detail'
+        formTitle={L('Detail')}
         onFormFieldChange = {onFormFieldChange}
         formFieldList = {formFieldList}
       />

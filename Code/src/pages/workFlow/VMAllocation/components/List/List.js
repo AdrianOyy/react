@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import { L } from '../../../../../utils/lang'
 
 import {
   Grid,
@@ -68,12 +69,12 @@ function List(props) {
 
   // 表头字段列表
   const headCells = [
-    // { id: 'id', alignment: 'center', label: 'Id' },
-    { id: 'workflowName', alignment: 'center', label: 'Workflow name' },
-    { id: 'deploymentId', alignment: 'center', label: 'Deployment Id' },
-    { id: 'version', alignment: 'center', label: 'Version' },
-    { id: 'deployTime', alignment: 'center', label: 'Deploy Time' },
-    { id: 'action', alignment: 'right', label: 'Action' },
+    // { id: 'id', alignment: 'center', label: L('Id' )},
+    { id: 'workflowName', alignment: 'center', label: L('Workflow name') },
+    { id: 'deploymentId', alignment: 'center', label: L('Deployment Id') },
+    { id: 'version', alignment: 'center', label: L('Version') },
+    { id: 'deployTime', alignment: 'center', label: L('Deploy Time') },
+    { id: 'action', alignment: 'right', label: L('Action') },
   ]
 
   // 每行显示的字段
@@ -110,7 +111,7 @@ function List(props) {
 
 
   const searchBarFieldList = [
-    { id: 'name', label: 'name', type: 'text', disabled: false, readOnly: false, value: name },
+    { id: 'name', label: L('name'), type: 'text', disabled: false, readOnly: false, value: name },
   ]
 
   const handleClear = () => {
@@ -181,10 +182,10 @@ function List(props) {
               onChangePage={handleChangePage}
               onChangeRowsPerPage={handleChangeRowsPerPage}
             />
-            <Dialog open={open} fullWidth={true}  aria-labelledby="form-dialog-title">
+            <Dialog open={open} fullWidth={true} aria-labelledby="form-dialog-title">
               <DialogContent>
                 <DialogContentText>
-                  Please input CPS ID
+                  {L('Please input CPS ID')}
                 </DialogContentText>
                 <TextField
                   autoFocus
@@ -197,10 +198,10 @@ function List(props) {
               </DialogContent>
               <DialogActions>
                 <Button onClick={closeOpen} color="primary">
-                  Cancel
+                  {L('Cancel')}
                 </Button>
-                <Button onClick={handleAltClick}  color="primary">
-                  Submit
+                <Button onClick={handleAltClick} color="primary">
+                  {L('Submit')}
                 </Button>
               </DialogActions>
             </Dialog>

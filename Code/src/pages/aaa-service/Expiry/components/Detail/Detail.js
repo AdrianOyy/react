@@ -4,6 +4,7 @@ import DetailPage from "../../../../../components/DetailPage"
 import API from "../../../../../api/expiry"
 import { useParams } from "react-router-dom"
 import dayjs from "dayjs"
+import { L } from '../../../../../utils/lang'
 
 const formatDateTime = (str) => {
   return dayjs(new Date(str)).format('DD-MMM-YYYY HH:mm')
@@ -55,13 +56,13 @@ function AssignDetail(props) {
 
   useEffect(() => {
     const list = [
-      { id: 'tenant', label: 'Tenant', type: 'text', disabled: true, readOnly: true, value: tenant },
-      { id: 'adGroup', label: 'AD Group', type: 'text', disabled: true, readOnly: true, value: adGroup },
-      { id: 'role', label: 'Role', type: 'text', disabled: true, readOnly: true, value: role },
-      { id: 'user', label: 'User', type: 'text', disabled: true, readOnly: true, value: user },
-      { id: 'expiryDate', label: 'Expiry Date', type: 'text', disabled: true, readOnly: true, value: formatDateTime(expiryDate) },
-      { id: 'createdAt', label: 'Created At', type: 'text', disabled: true, readOnly: true, value: formatDateTime(createdAt) },
-      { id: 'updatedAt', label: 'Updated At', type: 'text', disabled: true, readOnly: true, value: formatDateTime(updatedAt) },
+      { id: 'tenant', label: L('Tenant'), type: 'text', disabled: true, readOnly: true, value: tenant },
+      { id: 'adGroup', label: L('AD Group'), type: 'text', disabled: true, readOnly: true, value: adGroup },
+      { id: 'role', label: L('Role'), type: 'text', disabled: true, readOnly: true, value: role },
+      { id: 'user', label: L('User'), type: 'text', disabled: true, readOnly: true, value: user },
+      { id: 'expiryDate', label: L('Expiry Date'), type: 'text', disabled: true, readOnly: true, value: formatDateTime(expiryDate) },
+      { id: 'createdAt', label: L('Created At'), type: 'text', disabled: true, readOnly: true, value: formatDateTime(createdAt) },
+      { id: 'updatedAt', label: L('Updated At'), type: 'text', disabled: true, readOnly: true, value: formatDateTime(updatedAt) },
     ]
     setFormFieldList(list)
   }, [ tenant, adGroup, role, user, expiryDate, createdAt, updatedAt ])
@@ -92,7 +93,7 @@ function AssignDetail(props) {
   return (
     <React.Fragment>
       <DetailPage
-        formTitle = 'Detail'
+        formTitle={L('Detail')}
         onFormFieldChange = {onFormFieldChange}
         formFieldList = {formFieldList}
       />

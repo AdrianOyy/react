@@ -20,6 +20,7 @@ import {
   Typography as MuiTypography
 } from "@material-ui/core"
 
+import { L } from '../../utils/lang'
 import { spacing, display } from "@material-ui/system"
 
 const NavLink = React.forwardRef((props, ref) => (
@@ -47,23 +48,23 @@ const Typography = styled(MuiTypography)(display)
 function InvoiceDetails() {
   return (
     <React.Fragment>
-      <Helmet title="Invoice Details" />
+      <Helmet title={L('Invoice Details')} />
 
       <Typography variant="h3" gutterBottom display="inline">
-        Invoice #000112
+        {L('Invoice') + '#000112'}
       </Typography>
 
       <Breadcrumbs aria-label="Breadcrumb" mt={2}>
         <Link component={NavLink} exact to="/">
-          Dashboard
+          {L('Dashboard')}
         </Link>
         <Link component={NavLink} exact to="/">
-          Pages
+          {L('Pages')}
         </Link>
         <Link component={NavLink} exact to="/">
-          Invoices
+          {L('Invoices')}
         </Link>
-        <Typography>Details</Typography>
+        <Typography>{L('Details')}</Typography>
       </Breadcrumbs>
 
       <Divider my={6} />
@@ -83,12 +84,12 @@ function InvoiceDetails() {
                     </Typography>
                   </Grid>
                   <Grid item xs={12} md={6}>
-                    <Typography variant="caption">Payment No.</Typography>
+                    <Typography variant="caption">{L('Payment No')}</Typography>
                     <Typography variant="body2">741037024</Typography>
                   </Grid>
                   <Grid item xs={12} md={6}>
                     <Typography variant="caption" align="right" display="block">
-                      Payment Date
+                      {L('Payment Date')}
                     </Typography>
                     <Typography variant="body2" align="right">
                       January 2, 2020 - 03:45 pm
@@ -98,7 +99,7 @@ function InvoiceDetails() {
                     <Divider />
                   </Grid>
                   <Grid item xs={12} md={6}>
-                    <Typography variant="caption">Client</Typography>
+                    <Typography variant="caption">{L('Client')}</Typography>
                     <Typography variant="body2">
                       Anna Walley
                       <br />
@@ -117,7 +118,7 @@ function InvoiceDetails() {
                   </Grid>
                   <Grid item xs={12} md={6}>
                     <Typography variant="caption" align="right" display="block">
-                      Payment To
+                      {L('Payment To')}
                     </Typography>
                     <Typography variant="body2" align="right">
                       Material App LLC
@@ -142,51 +143,51 @@ function InvoiceDetails() {
               <Table>
                 <TableHead>
                   <TableRow>
-                    <TableCell>Description</TableCell>
-                    <TableCell>Quantity</TableCell>
-                    <TableCell align="right">Amount</TableCell>
+                    <TableCell>{L('Description')}</TableCell>
+                    <TableCell>{L('Quantity')}</TableCell>
+                    <TableCell align="right">{L('Amount')}</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
                   <TableRow>
                     <TableCell component="th" scope="row">
-                      Material App Theme Customization
+                      {L('Material App Theme Customization')}
                     </TableCell>
                     <TableCell>2</TableCell>
                     <TableCell align="right">$150.00</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell component="th" scope="row">
-                      Monthly Subscription
+                      {L('Monthly Subscription')}
                     </TableCell>
                     <TableCell>3</TableCell>
                     <TableCell align="right">$25.00</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell component="th" scope="row">
-                      Additional Service
+                      {L('Additional Service')}
                     </TableCell>
                     <TableCell>2</TableCell>
                     <TableCell align="right">$100.00</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell />
-                    <TableCell>Subtotal</TableCell>
+                    <TableCell>{L('Subtotal')}</TableCell>
                     <TableCell align="right">$275.00</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell />
-                    <TableCell>Shipping</TableCell>
+                    <TableCell>{L('Shipping')}</TableCell>
                     <TableCell align="right">$8.00</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell />
-                    <TableCell>Discount</TableCell>
+                    <TableCell>{L('Discount')}</TableCell>
                     <TableCell align="right">5%</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell />
-                    <TableCell>Total</TableCell>
+                    <TableCell>{L('Total')}</TableCell>
                     <TableCell align="right">$268.85</TableCell>
                   </TableRow>
                 </TableBody>
@@ -201,7 +202,7 @@ function InvoiceDetails() {
                   </Typography>
                 </div>
                 <Button variant="contained" color="primary" mt={2}>
-                  Print this receipt
+                  {L('Print this receipt')}
                 </Button>
               </CardContent>
             </Card>

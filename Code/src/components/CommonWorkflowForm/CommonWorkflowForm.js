@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react"
 import Api from "../../api/dynamicForm"
 import workflowApi from "../../api/workFlow"
+import accountManagementApi from "../../api/accountManagement"
 import DIYForm from "../../components/DIYForm"
 import { makeStyles, withStyles } from "@material-ui/core/styles"
 import { Paper as HAPaper } from "@material-ui/core"
@@ -16,6 +17,7 @@ import DialogTitle from '@material-ui/core/DialogTitle'
 import Dialog from '@material-ui/core/Dialog'
 import TextField from '@material-ui/core/TextField'
 import Contract from "../../components/Contract"
+import EmailCheck from "../../components/EmailCheck"
 import {
   BorderColorOutlined as BorderColorIcon,
 } from "@material-ui/icons"
@@ -63,6 +65,7 @@ export default function CommonWorkflowForm(props) {
     stepName,
     pageName,
     taskId,
+    startData
   } = props
   const history = useHistory()
   const container = useRef(null)
@@ -104,7 +107,10 @@ export default function CommonWorkflowForm(props) {
 
   const [ isNew, setIsNew ] = useState(false)
 
-  const [ parentDataMap ] = useState(new Map())
+  let [ parentDataMap ] = useState(new Map())
+
+  const [ emails, setEmails ] = useState([])
+
   // 原始渲染数据
   const [ rawData, setRawData ] = useState(null)
   // 原始数据
@@ -113,14 +119,21 @@ export default function CommonWorkflowForm(props) {
   const [ shown, setShown ] = useState(false)
   // 协议对话框打开标识
   const [ contractOpen, setContractOpen ] = useState(false)
+  const [ checkOpen, setCheckOpen ] = useState(false)
   // 同意协议标识
   const [ argeeContract, setArgeeContract ] = useState(false)
   const [ contractList, setContractList ] = useState([])
+  const [ start, setStart ] = useState(false)
   const childDataListMap = new Map()
   // 子表渲染数据 Map
   const childDataMap = new Map()
   // 协议列表
-
+  useEffect(() => {
+    if (startData && startData.start) {
+      setStart(true)
+    }
+    // eslint-disable-next-line
+  }, [])
 
   // 获取原始渲染数据、流程实例数据
   useEffect(() => {
@@ -157,10 +170,12 @@ export default function CommonWorkflowForm(props) {
   useEffect(() => {
     if (argeeContract) {
       Loading.show()
+      logic.beforeSubmit(parentDataMap)
       const form = {
         processDefinitionId,
         formKey,
         childFormKey,
+        workflowName,
         parentData: map2object(parentDataMap),
         childDataList,
         version
@@ -180,12 +195,38 @@ export default function CommonWorkflowForm(props) {
     setLogic(getLogic(workflowName))
   }, [ workflowName ])
 
+
+  const onCheckOpen = () => {
+    if (logic.checkSupervisorEmail(parentDataMap)) {
+      accountManagementApi.findUsers({ email: parentDataMap.get('supervisoremailaccount').value }).then(({ data }) => {
+        const results = data.data
+        if (results.length > 0) {
+          setEmails(results)
+          setParentDefaultValues(map2object(parentDataMap))
+          setCheckOpen(true)
+        } else {
+          CommonTip.error(`${parentDataMap.get('supervisoremailaccount').value} is not found`)
+        }
+      })
+    }
+  }
+
+  const onCheckClose = () => {
+    setCheckOpen(false)
+  }
+
+  const handleEmailCheck = (email) => {
+    logic.setSupervisorEmail(email, parentDataMap)
+    setParentDefaultValues(map2object(parentDataMap))
+    setCheckOpen(false)
+  }
+
   // 处理原始渲染数据和具体数据
   useEffect(() => {
     if (!logic || !rawData) return
     const { parentFormDetail, childFormDetail } = rawData
     // 处理父表渲染表
-    const parentDetail = logic.handleParentData(parentFormDetail, stepName, pageName)
+    const parentDetail = logic.handleParentData(parentFormDetail, stepName, pageName, onCheckOpen)
     setParentFormDetail(parentDetail)
 
     // 处理子表渲染表
@@ -220,8 +261,11 @@ export default function CommonWorkflowForm(props) {
     }
     // 处理数据
     if (!rawDefaultData) {
-      const parentStartData = logic.handleParentStartData(stepName)
-      setParentDefaultValues(parentStartData)
+      if (start) {
+        const parentStartData = logic.handleParentStartData(startData, parentDataMap)
+        setParentDefaultValues(parentStartData)
+        setStart(false)
+      }
       return
     }
     const { parentData, childDataList } = rawDefaultData
@@ -336,6 +380,7 @@ export default function CommonWorkflowForm(props) {
         processDefinitionId,
         formKey,
         childFormKey,
+        workflowName,
         parentData: map2object(parentDataMap),
         childDataList,
         version
@@ -343,9 +388,11 @@ export default function CommonWorkflowForm(props) {
       if (processDefinitionId) {
         const list = logic.getContractList(parentDataMap)
         if (list && list.length) {
+          setParentDefaultValues({})
           setContractList(list)
           setContractOpen(true)
         } else {
+          // 处理加密数据
           API.create(form)
             .then(() => {
               CommonTip.success(L('Success'))
@@ -359,6 +406,7 @@ export default function CommonWorkflowForm(props) {
           childFormKey,
           taskId,
           version,
+          isSentMail: false,
           parentData: map2object(parentDataMap),
           childDataList,
         }
@@ -372,6 +420,7 @@ export default function CommonWorkflowForm(props) {
             }
           }
           if (ischeck) {
+            formUpdate.isSentMail = true
             API.update(formUpdate).then(() => {
               CommonTip.success(L('Success'))
               history.push({ pathname: `/MyApproval` })
@@ -426,23 +475,39 @@ export default function CommonWorkflowForm(props) {
   }
 
   const handleAgrreTaskClick = () => {
-    const agreeModel = {
+    Loading.show()
+    const formUpdate = {
+      pid,
+      formKey,
+      childFormKey,
       taskId,
-      variables: { pass: true },
+      version,
+      parentData: map2object(parentDataMap),
+      childDataList,
     }
-    workflowApi.actionTask(agreeModel)
-      .then(({ data }) => {
-        if (data.status === 400) {
-          CommonTip.error(data.data)
-        } else {
-          CommonTip.success(L('Success'))
-          history.push({ pathname: `/MyApproval` })
-        }
-      })
+    API.update(formUpdate).then(() => {
+      Loading.hide()
+      CommonTip.success(L('Success'))
+      history.push({ pathname: `/MyApproval` })
+    })
+    // const agreeModel = {
+    //   taskId,
+    //   variables: { pass: true },
+    // }
+    // workflowApi.actionTask(agreeModel)
+    //   .then(({ data }) => {
+    //     if (data.status === 400) {
+    //       CommonTip.error(data.data)
+    //     } else {
+    //       CommonTip.success(L('Success'))
+    //       history.push({ pathname: `/MyApproval` })
+    //     }
+    //   })
   }
 
   const onContractClose = (argee) => {
     setContractOpen(false)
+    // eslint-disable-next-line no-const-assign,no-undef
     setParentDefaultValues(map2object(parentDataMap))
     if (argee) {
       setArgeeContract(true)
@@ -597,6 +662,13 @@ export default function CommonWorkflowForm(props) {
         open={contractOpen}
         onClose={onContractClose}
         contractList={contractList}
+      />
+
+      <EmailCheck
+        open={checkOpen}
+        onClose={onCheckClose}
+        emails={emails}
+        handleEmail={handleEmailCheck}
       />
 
       <Dialog

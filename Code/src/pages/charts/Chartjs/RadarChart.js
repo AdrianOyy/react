@@ -1,6 +1,7 @@
 import React from "react"
 import styled, { withTheme } from "styled-components"
 
+import { L } from '../../utils/lang'
 import { CardContent, Card as MuiCard, Typography } from "@material-ui/core"
 import orange from "@material-ui/core/colors/orange"
 import { lighten } from "@material-ui/core/styles/colorManipulator"
@@ -18,10 +19,10 @@ const ChartWrapper = styled.div`
 
 function RadarChart({ theme }) {
   const data = {
-    labels: [ "Speed", "Reliability", "Comfort", "Safety", "Efficiency" ],
+    labels: [L("Speed"), L("Reliability"), L("Comfort"), L("Safety"), L("Efficiency")],
     datasets: [
       {
-        label: "Model X",
+        label: L('Model X'),
         backgroundColor: lighten(theme.palette.secondary.main, 0.33),
         borderColor: theme.palette.secondary.main,
         pointBackgroundColor: theme.palette.secondary.main,
@@ -31,7 +32,7 @@ function RadarChart({ theme }) {
         data: [ 70, 53, 82, 60, 33 ]
       },
       {
-        label: "Model S",
+        label: L('Model S'),
         backgroundColor: lighten(orange[600], 0.33),
         borderColor: orange[600],
         pointBackgroundColor: orange[600],
@@ -49,11 +50,10 @@ function RadarChart({ theme }) {
     <Card mb={1}>
       <CardContent>
         <Typography variant="h6" gutterBottom>
-          Radar Chart
+          {L('Radar Chart')}
         </Typography>
         <Typography variant="body2" gutterBottom>
-          A radar chart is a way of showing multiple data points and the
-          variation between them.
+          {L('radarChartDes')}
         </Typography>
 
         <Spacer mb={6} />

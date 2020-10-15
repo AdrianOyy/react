@@ -13,7 +13,7 @@ import {
   Divider as MuiDivider,
   Typography
 } from "@material-ui/core"
-
+import { L } from '../../utils/lang'
 import { spacing } from "@material-ui/system"
 
 const NavLink = React.forwardRef((props, ref) => (
@@ -31,10 +31,10 @@ function EmptyCard() {
     <Card mb={6}>
       <CardContent>
         <Typography variant="h6" gutterBottom>
-          Empty card
+          {L('Empty cCard')}
         </Typography>
         <Typography variant="body2" gutterBottom>
-          Empty card
+          {L('Empty Card')}
         </Typography>
       </CardContent>
     </Card>
@@ -46,17 +46,17 @@ function Blank() {
     <React.Fragment>
       <Helmet title="Blank" />
       <Typography variant="h3" gutterBottom display="inline">
-        Blank
+        {L('Blank')}
       </Typography>
 
       <Breadcrumbs aria-label="Breadcrumb" mt={2}>
         <Link component={NavLink} exact to="/">
-          Dashboard
+          {L('Dashboard')}
         </Link>
         <Link component={NavLink} exact to="/">
-          Pages
+          {L('Pages')}
         </Link>
-        <Typography>Blank</Typography>
+        <Typography>{L('Blank')}</Typography>
       </Breadcrumbs>
 
       <Divider my={6} />

@@ -1,6 +1,7 @@
 import React from "react"
 import styled from "styled-components"
 import { NavLink as RouterNavLink } from "react-router-dom"
+import { L } from '../../../utils/lang'
 
 import Helmet from 'react-helmet'
 
@@ -34,19 +35,19 @@ const Typography = styled(MuiTypography)(spacing)
 function GoogleMaps() {
   return (
     <React.Fragment>
-      <Helmet title="Google Maps" />
+      <Helmet title={L('Google Maps')} />
       <Typography variant="h3" gutterBottom display="inline">
-        Google Maps
+        {L('Google Maps')}
       </Typography>
 
       <Breadcrumbs aria-label="Breadcrumb" mt={2}>
         <Link component={NavLink} exact to="/">
-          Dashboard
+          {L('Dashboard')}
         </Link>
         <Link component={NavLink} exact to="/">
-          Maps
+          {L('Maps')}
         </Link>
-        <Typography>Google Maps</Typography>
+        <Typography>{L('Google Maps')}</Typography>
       </Breadcrumbs>
 
       <Divider my={6} />

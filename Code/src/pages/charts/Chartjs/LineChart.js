@@ -3,6 +3,7 @@ import styled, { withTheme } from "styled-components"
 
 import { CardContent, Card as MuiCard, Typography } from "@material-ui/core"
 import { spacing } from "@material-ui/system"
+import { L } from '../../utils/lang'
 
 import { Line } from "react-chartjs-2"
 
@@ -17,22 +18,22 @@ const ChartWrapper = styled.div`
 function LineChart({ theme }) {
   const data = {
     labels: [
-      "Jan",
-      "Feb",
-      "Mar",
-      "Apr",
-      "May",
-      "Jun",
-      "Jul",
-      "Aug",
-      "Sep",
-      "Oct",
-      "Nov",
-      "Dec"
+      L("Jan"),
+      L("Feb"),
+      L("Mar"),
+      L("Apr"),
+      L("May"),
+      L("Jun"),
+      L("Jul"),
+      L("Aug"),
+      L("Sep"),
+      L("Oct"),
+      L("Nov"),
+      L("Dec")
     ],
     datasets: [
       {
-        label: "Sales ($)",
+        label: L('Sales ($)'),
         fill: true,
         backgroundColor: "transparent",
         borderColor: theme.palette.secondary.main,
@@ -52,7 +53,7 @@ function LineChart({ theme }) {
         ]
       },
       {
-        label: "Orders",
+        label: L('Orders'),
         fill: true,
         backgroundColor: "transparent",
         borderColor: theme.palette.grey[500],
@@ -120,10 +121,10 @@ function LineChart({ theme }) {
     <Card mb={1}>
       <CardContent>
         <Typography variant="h6" gutterBottom>
-          Line Chart
+          {L('Line Chart')}
         </Typography>
         <Typography variant="body2" gutterBottom>
-          A line chart is a way of plotting data points on a line.
+          {L('lineChartDes')}
         </Typography>
 
         <Spacer mb={6} />

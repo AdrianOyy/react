@@ -1,6 +1,6 @@
 import React from "react"
 import styled from "styled-components"
-
+import { L } from '../../../utils/lang'
 import { CardContent, Card as MuiCard, Typography } from "@material-ui/core"
 
 import { spacing } from "@material-ui/system"
@@ -35,7 +35,7 @@ function Africa() {
     <Card mb={6}>
       <CardContent>
         <Typography variant="h6" gutterBottom>
-          Africa Map
+          {L('Africa Map')}
         </Typography>
         <MapContainer>
           <VectorMap {...options} />

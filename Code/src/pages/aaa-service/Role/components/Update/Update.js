@@ -7,6 +7,7 @@ import dayjs from "dayjs"
 import CommonTip from "../../../../../components/CommonTip"
 import { useHistory } from 'react-router-dom'
 import { checkEmpty, getCheckExist } from "../../untils/RoleFieldCheck"
+import { L } from '../../../../../utils/lang'
 
 function TenantDetail(props) {
   const { onMount } = props
@@ -35,7 +36,7 @@ function TenantDetail(props) {
     setSaving(true)
     roleApi.update(id, { label, value })
       .then(() => {
-        CommonTip.success("Success")
+        CommonTip.success(L('Success'))
         history.push({ pathname: '/aaa-service/role' })
       })
       .catch(() => {
@@ -56,14 +57,16 @@ function TenantDetail(props) {
 
   useEffect(() => {
     const list = [
-      { id: 'label', label: 'Label', type: 'text', required: true, readOnly: false, value: label, error: labelError, helperText: labelHelperText },
-      { id: 'value', label: 'Value', type: 'select', value,
+      { id: 'label', label: L('Label'), type: 'text', required: true, readOnly: false, value: label, error: labelError, helperText: labelHelperText },
+      {
+        id: 'value', label: L('Value'), type: 'select', value,
         itemList: [
           { label: "Read Only", value: "Read Only" },
           { label: "Read & Write", value: "Read && Write" },
-        ] },
-      { id: 'createdAt', label: 'Created At', type: 'text', disabled: true, readOnly: true, value: formatDateTime(createdAt) },
-      { id: 'updatedAt', label: 'Updated At', type: 'text', disabled: true, readOnly: true, value: formatDateTime(updatedAt) },
+        ]
+      },
+      { id: 'createdAt', label: L('Created At'), type: 'text', disabled: true, readOnly: true, value: formatDateTime(createdAt) },
+      { id: 'updatedAt', label: L('Updated At'), type: 'text', disabled: true, readOnly: true, value: formatDateTime(updatedAt) },
     ]
     setFormFieldList(list)
   }, [ label, labelError, labelHelperText, value, createdAt, updatedAt ])
@@ -105,7 +108,7 @@ function TenantDetail(props) {
   return (
     <React.Fragment>
       <DetailPage
-        formTitle = 'Update'
+        formTitle={L('Update')}
         onFormFieldChange = {onFormFieldChange}
         onFormFieldBlur = {onFormFieldBlur}
         formFieldList = {formFieldList}

@@ -2,6 +2,7 @@ import React, { useEffect } from "react"
 import {
   InputLabel as Label,
   InputBase,
+  Button,
 } from "@material-ui/core"
 import { fade, withStyles, makeStyles } from "@material-ui/core/styles"
 
@@ -17,7 +18,6 @@ const fontFamily = [
   '"Segoe UI Emoji"',
   '"Segoe UI Symbol"',
 ].join(',')
-
 
 export default function HAInput(props) {
   const {
@@ -42,16 +42,22 @@ export default function HAInput(props) {
     rows,
     rowsMax,
     rowsMin,
+    isCheck,
+    onCheck
   } = props
 
   useEffect(() => {
-    const value = defaultValue ? (defaultValue.value ? defaultValue : { id, label: defaultValue, value: defaultValue }) : null
-    value && onBlur && onBlur(value)
+    const value =  defaultValue ? (defaultValue.value ? defaultValue.value : (typeof defaultValue === 'string' ? defaultValue : '')) : ''
+    value && onBlur && onBlur({ id, label: value, value })
   }, [ defaultValue, onBlur, id ])
 
   const handleBlur = (e) => {
     const { value } = e.target
     onBlur && onBlur({ id, label: value, value })
+  }
+
+  const HandleCheck = () => {
+    onCheck && onCheck(id)
   }
 
   const getWidth = (power) => {
@@ -87,7 +93,14 @@ export default function HAInput(props) {
       fontFamily,
       marginTop: '0.5vh',
       marginLeft: getWidth(width).labelWidth + 'vw'
-    }
+    },
+    check: {
+      marginTop: '-1ch'
+    },
+    none: {
+      marginTop: '-1ch',
+      display: 'none',
+    },
   }))
 
   const classes = useStyles()
@@ -159,6 +172,13 @@ export default function HAInput(props) {
           rowsMax={rowsMax}
           rowsMin={rowsMin}
         />
+        <Button
+          fullwidth
+          className={isCheck === true ? classes.check : classes.none}
+          variant="contained"
+          onClick={HandleCheck}
+          color="primary"
+        >{'Check'}</Button>
       </div>
       {
         error && helperText && (

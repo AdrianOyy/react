@@ -5,6 +5,7 @@ import API from "../../../../../api/IPAssignment"
 import CommonTip from "../../../../../components/CommonTip"
 import { checkEmpty, getCheckExist } from "../../untils/IPAssignmentCheck"
 import dcAPI from "../../../../../api/dc"
+import { L } from '../../../../../utils/lang'
 const listPath = '/resources/IPAddress'
 
 function AssignCreate(props) {
@@ -40,7 +41,7 @@ function AssignCreate(props) {
     setSaving(true)
     API.create({ ip, dc, hostname, projectTeam, networkType, ipPool, vlanId, remark })
       .then(() => {
-        CommonTip.success("Success")
+        CommonTip.success(L('Success'))
         history.push({ pathname: listPath })
       })
       .catch(() => {
@@ -60,20 +61,20 @@ function AssignCreate(props) {
   useEffect(() => {
     const list = [
       {
-        id: 'ip', label: 'IP', type: 'text', value: ip,
+        id: 'ip', label: L('IP'), type: 'text', value: ip,
         error: ipError, helperText: ipHelperText,
       },
       {
-        id: 'dc', label: 'DC', type: 'select', value: dc,
+        id: 'dc', label: L('DC'), type: 'select', value: dc,
         itemList: dcList, labelField: 'name', valueField: 'id',
         error: dcError, helperText: dcHelperText,
       },
-      { id: 'hostname', label: 'Hostname', type: 'text', required: false, readOnly: false, value: hostname },
-      { id: 'projectTeam', label: 'Project Team', type: 'text', required: false, readOnly: false, value: projectTeam },
-      { id: 'networkType', label: 'Network Type', type: 'text', required: false, readOnly: false, value: networkType },
-      { id: 'ipPool', label: 'IP Pool', type: 'text', required: false, readOnly: false, value: ipPool },
-      { id: 'vlanId', label: 'VLan ID', type: 'text', required: false, readOnly: false, value: vlanId },
-      { id: 'remark', label: 'Remark', type: 'text', required: false, readOnly: false, value: remark },
+      { id: 'hostname', label: L('Hostname'), type: 'text', required: false, readOnly: false, value: hostname },
+      { id: 'projectTeam', label: L('Project Team'), type: 'text', required: false, readOnly: false, value: projectTeam },
+      { id: 'networkType', label: L('Network Type'), type: 'text', required: false, readOnly: false, value: networkType },
+      { id: 'ipPool', label: L('IP Pool'), type: 'text', required: false, readOnly: false, value: ipPool },
+      { id: 'vlanId', label: L('VLan ID'), type: 'text', required: false, readOnly: false, value: vlanId },
+      { id: 'remark', label: L('Remark'), type: 'text', required: false, readOnly: false, value: remark },
     ]
     setFormFieldList(list)
   }, [
@@ -157,7 +158,7 @@ function AssignCreate(props) {
   return (
     <React.Fragment>
       <DetailPage
-        formTitle = 'Create'
+        formTitle={L('Create')}
         onFormFieldChange = {onFormFieldChange}
         formFieldList = {formFieldList}
         showBtn ={true}

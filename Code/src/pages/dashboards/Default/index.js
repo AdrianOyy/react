@@ -1,6 +1,6 @@
 import React from "react"
 import styled, { withTheme } from "styled-components"
-
+import { L } from '../../../utils/lang'
 import Helmet from 'react-helmet'
 
 import {
@@ -31,7 +31,7 @@ function Default({ theme }) {
       <Grid justify="space-between" container spacing={6}>
         <Grid item>
           <Typography variant="h3" display="inline">
-            Welcome back, Lucy
+            {L('Welcome back')}, Lucy
           </Typography>
           <Typography variant="body2" ml={2} display="inline">
             {`Monday, 29 April ${new Date().getFullYear()}`}
@@ -48,7 +48,7 @@ function Default({ theme }) {
       <Grid container spacing={6}>
         <Grid item xs={12} sm={12} md={6} lg={3} xl>
           <Stats
-            title="Sales Today"
+            title={L('Sales Today')}
             amount="2.532"
             chip="Today"
             percentageText="+26%"
@@ -57,7 +57,7 @@ function Default({ theme }) {
         </Grid>
         <Grid item xs={12} sm={12} md={6} lg={3} xl>
           <Stats
-            title="Visitors"
+            title={L('Visitors')}
             amount="170.212"
             chip="Annual"
             percentageText="-14%"
@@ -66,7 +66,7 @@ function Default({ theme }) {
         </Grid>
         <Grid item xs={12} sm={12} md={6} lg={3} xl>
           <Stats
-            title="Total Earnings"
+            title={L('Total Earnings')}
             amount="$ 24.300"
             chip="Monthly"
             percentageText="+18%"
@@ -75,7 +75,7 @@ function Default({ theme }) {
         </Grid>
         <Grid item xs={12} sm={12} md={6} lg={3} xl>
           <Stats
-            title="Pending Orders"
+            title={L('Pending Orders')}
             amount="45"
             chip="Yearly"
             percentageText="-9%"

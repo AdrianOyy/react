@@ -1,9 +1,9 @@
 import React from "react"
 import CommonPage from "../../../components/CommonPage"
 import { List, Create, Update, Detail } from './components'
-
-const parentTitle = 'Resource'
-const title = 'IP Address'
+import { L } from '../../../utils/lang'
+const parentTitle = L('Resource')
+const title = L('IP Address')
 
 function IPAddress() {
   const props = {

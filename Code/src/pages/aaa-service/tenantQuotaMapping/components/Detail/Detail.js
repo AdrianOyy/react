@@ -3,6 +3,8 @@ import React, { useEffect, useState } from 'react'
 import DetailPage from "../../../../../components/DetailPage"
 import API from "../../../../../api/tenantQuotaMapping"
 import { useParams } from "react-router-dom"
+import { L } from '../../../../../utils/lang'
+
 import dayjs from "dayjs"
 
 const formatDateTime = (str) => {
@@ -45,12 +47,12 @@ function Detail(props) {
 
   useEffect(() => {
     const list = [
-      { id: 'tenant', label: 'Tenant', type: 'text', disabled: true, readOnly: true, value: tenant },
-      { id: 'type', label: 'Type', type: 'text', disabled: true, readOnly: true, value: type },
-      { id: 'quota', label: 'Quota', type: 'text', disabled: true, readOnly: true, value: quota },
-      { id: 'year', label: 'Year', type: 'text', disabled: true, readOnly: true, value: year },
-      { id: 'createdAt', label: 'Created At', type: 'text', disabled: true, readOnly: true, value: formatDateTime(createdAt) },
-      { id: 'updatedAt', label: 'Updated At', type: 'text', disabled: true, readOnly: true, value: formatDateTime(updatedAt) },
+      { id: 'tenant', label: L('Tenant'), type: 'text', disabled: true, readOnly: true, value: tenant },
+      { id: 'type', label: L('Type'), type: 'text', disabled: true, readOnly: true, value: type },
+      { id: 'quota', label: L('Quota'), type: 'text', disabled: true, readOnly: true, value: quota },
+      { id: 'year', label: L('Year'), type: 'text', disabled: true, readOnly: true, value: year },
+      { id: 'createdAt', label: L('Created At'), type: 'text', disabled: true, readOnly: true, value: formatDateTime(createdAt) },
+      { id: 'updatedAt', label: L('Updated At'), type: 'text', disabled: true, readOnly: true, value: formatDateTime(updatedAt) },
     ]
     setFormFieldList(list)
   }, [ tenant, type, quota, year, createdAt, updatedAt ])
@@ -58,7 +60,7 @@ function Detail(props) {
   return (
     <React.Fragment>
       <DetailPage
-        formTitle = 'Detail'
+        formTitle={L('Detail')}
         formFieldList = {formFieldList}
       />
     </React.Fragment>

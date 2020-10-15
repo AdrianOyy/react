@@ -1,9 +1,10 @@
 import React from "react"
 import CommonPage from "../../../components/CommonPage"
 import { List, Detail } from './components'
+import { L } from '../../../utils/lang'
 
-const parentTitle = 'Workflow'
-const title = 'Workflow Setting'
+const parentTitle = L('Workflow')
+const title = L('Workflow Setting')
 
 function WorkflowSetting() {
   const props = {

@@ -3,6 +3,7 @@ import styled from "styled-components"
 
 import { CardContent, Card as MuiCard, Typography } from "@material-ui/core"
 import { spacing } from "@material-ui/system"
+import { L } from '../../../utils/lang'
 
 import GoogleMapReact from "google-map-react"
 
@@ -214,10 +215,10 @@ function LightStyle() {
     <Card mb={1}>
       <CardContent>
         <Typography variant="h6" gutterBottom>
-          Light Style
+          {L('Light Style')}
         </Typography>
         <Typography variant="body2" gutterBottom>
-          Light color scheme.
+          {L('Light color scheme.')}
         </Typography>
 
         <Spacer mb={6} />

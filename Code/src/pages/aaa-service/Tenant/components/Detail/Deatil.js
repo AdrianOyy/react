@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import DetailPage from "../../../../../components/DetailPage"
 import API from "../../../../../api/tenant"
 import { useParams } from "react-router-dom"
+import { L } from '../../../../../utils/lang'
 import dayjs from "dayjs"
 
 const formTitle = 'Detail'
@@ -70,19 +71,19 @@ function Detail(props) {
 
   useEffect(() => {
     const list = [
-      { id: 'code', label: 'Code', type: 'text', disabled: true, readOnly: true, value: code },
-      { id: 'name', label: 'Name', type: 'text', disabled: true, readOnly: true, value: name },
-      { id: 'managerGroup', label: 'Mangager Group', type: 'text', disabled: true, readOnly: true, value: managerGroup },
-      { id: 'supporterGroup', label: 'SupporterGroup', type: 'text', disabled: true, readOnly: true, value: supporterGroup },
-      { id: 'group', label: 'Group', type: 'text', disabled: true, readOnly: true, value: group },
-      { id: 'justification', label: 'Justification', type: 'text', disabled: true, readOnly: true, value: justification },
-      { id: 'budget_type', label: 'Budget Type', type: 'text', disabled: true, readOnly: true, value: budget_type },
-      { id: 'project_owner', label: 'Project Owner', type: 'text', disabled: true, readOnly: true, value: project_owner },
-      { id: 'contact_person', label: 'Contact Person', type: 'text', disabled: true, readOnly: true, value: contact_person },
-      { id: 'project_estimation', label: 'Project Estimation', type: 'text', disabled: true, readOnly: true, value: project_estimation },
-      { id: 'methodology_text', label: 'Methodology Text', type: 'text', disabled: true, readOnly: true, value: methodology_text },
-      { id: 'createdAt', label: 'Created At', type: 'text', disabled: true, readOnly: true, value: formatDateTime(createdAt) },
-      { id: 'updatedAt', label: 'Updated At', type: 'text', disabled: true, readOnly: true, value: formatDateTime(updatedAt) },
+      { id: 'code', label: L('Code'), type: 'text', disabled: true, readOnly: true, value: code },
+      { id: 'name', label: L('Name'), type: 'text', disabled: true, readOnly: true, value: name },
+      { id: 'managerGroup', label: L('Mangager Group'), type: 'text', disabled: true, readOnly: true, value: managerGroup },
+      { id: 'supporterGroup', label: L('SupporterGroup'), type: 'text', disabled: true, readOnly: true, value: supporterGroup },
+      { id: 'group', label: L('Group'), type: 'text', disabled: true, readOnly: true, value: group },
+      { id: 'justification', label: L('Justification'), type: 'text', disabled: true, readOnly: true, value: justification },
+      { id: 'budget_type', label: L('Budget Type'), type: 'text', disabled: true, readOnly: true, value: budget_type },
+      { id: 'project_owner', label: L('Project Owner'), type: 'text', disabled: true, readOnly: true, value: project_owner },
+      { id: 'contact_person', label: L('Contact Person'), type: 'text', disabled: true, readOnly: true, value: contact_person },
+      { id: 'project_estimation', label: L('Project Estimation'), type: 'text', disabled: true, readOnly: true, value: project_estimation },
+      { id: 'methodology_text', label: L('Methodology Text'), type: 'text', disabled: true, readOnly: true, value: methodology_text },
+      { id: 'createdAt', label: L('Created At'), type: 'text', disabled: true, readOnly: true, value: formatDateTime(createdAt) },
+      { id: 'updatedAt', label: L('Updated At'), type: 'text', disabled: true, readOnly: true, value: formatDateTime(updatedAt) },
     ]
     setFormFieldList(list)
   }, [
