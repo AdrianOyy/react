@@ -173,7 +173,6 @@ export default function HAInput(props) {
           rowsMin={rowsMin}
         />
         <Button
-          fullwidth
           className={isCheck === true ? classes.check : classes.none}
           variant="contained"
           onClick={HandleCheck}

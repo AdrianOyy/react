@@ -29,7 +29,6 @@ export default function DIYForm(props) {
     isNew,
     containerStyle,
   } = props
-  console.log(props)
   const useStyles = makeStyles(() => ({
     containerStyle,
     flex: {

@@ -309,7 +309,7 @@ export default function CommonWorkflowForm(props) {
   }
 
   // 父表改动
-  const onParentChange = (data) => (logic.onFieldChange(data, parentDataMap, container))
+  const onParentChange = (data) => (logic.onFieldChange(data, parentDataMap, container, parentFormDetail))
 
   // 子表改动
   const onChildChange = (data) => (logic.onFieldChange(data, childDataMap, container))

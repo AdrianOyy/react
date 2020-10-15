@@ -65,9 +65,6 @@ export default function HACheckBox(props) {
     }
     setValue(data)
     value && onChange && onChange({ id, label: value, value })
-    console.log('===============================c1')
-    console.log(labelField)
-    console.log(value)
     // eslint-disable-next-line
   }, [ itemList, defaultValue, onChange ])
 

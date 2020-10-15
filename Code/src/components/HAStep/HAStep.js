@@ -14,7 +14,6 @@ import DialogTitle from '@material-ui/core/DialogTitle'
 import Dialog from '@material-ui/core/Dialog'
 import MButton from '@material-ui/core/Button'
 import withStyles from "@material-ui/core/styles/withStyles"
-import Typography from '@material-ui/core/Typography'
 import BorderColorIcon from "@material-ui/icons/BorderColorOutlined"
 import AutorenewIcon from '@material-ui/icons/Autorenew'
 import { orange } from '@material-ui/core/colors'
