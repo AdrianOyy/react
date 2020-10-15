@@ -90,6 +90,8 @@ export default function CommonWorkflowForm(props) {
   const [ childDefaultValues, setChildDefaultValues ] = useState({})
   // 父表初始数据
   const [ parentDefaultValues, setParentDefaultValues ] = useState({})
+  // 最初始比对数据
+  const [ startValues, setStartValues ] = useState({})
 
   const [ formKey, setFormKey ] = useState('')
 
@@ -176,9 +178,11 @@ export default function CommonWorkflowForm(props) {
         formKey,
         childFormKey,
         workflowName,
+        startValues,
         parentData: map2object(parentDataMap),
         childDataList,
-        version
+        version,
+        deploymentId
       }
       API.create(form)
         .then(() => {
@@ -263,6 +267,7 @@ export default function CommonWorkflowForm(props) {
     if (!rawDefaultData) {
       if (start) {
         const parentStartData = logic.handleParentStartData(startData, parentDataMap)
+        setStartValues(parentStartData)
         setParentDefaultValues(parentStartData)
         setStart(false)
       }
@@ -381,9 +386,11 @@ export default function CommonWorkflowForm(props) {
         formKey,
         childFormKey,
         workflowName,
+        startValues,
         parentData: map2object(parentDataMap),
         childDataList,
-        version
+        version,
+        deploymentId
       }
       if (processDefinitionId) {
         const list = logic.getContractList(parentDataMap)
