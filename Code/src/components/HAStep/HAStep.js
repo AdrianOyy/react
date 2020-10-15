@@ -14,7 +14,10 @@ import DialogTitle from '@material-ui/core/DialogTitle'
 import Dialog from '@material-ui/core/Dialog'
 import MButton from '@material-ui/core/Button'
 import withStyles from "@material-ui/core/styles/withStyles"
+import Typography from '@material-ui/core/Typography'
 import BorderColorIcon from "@material-ui/icons/BorderColorOutlined"
+import AutorenewIcon from '@material-ui/icons/Autorenew'
+import { orange } from '@material-ui/core/colors'
 import { L } from "../../utils/lang"
 function HAStep(props) {
   const Button = withStyles((() => ({
@@ -39,12 +42,17 @@ function HAStep(props) {
   useEffect(() => {
     API.getProcessPoint({ id: processInstanceId }).then(({ data }) => {
       const process = data.data
+      console.log(data.data)
       if (process) {
         const pointList = []
         let active = 0
         for (const index in process.showProcessPointList) {
           const point = process.showProcessPointList[index]
-          pointList.push(point.name)
+          const model = {
+            name: point.name,
+            status: point.status ? point.status : 'completed'
+          }
+          pointList.push(model)
           if (point.id === process.processStatus) {
             active = index
           }
@@ -96,11 +104,24 @@ function HAStep(props) {
     <React.Fragment>
       <Paper>
         <Stepper activeStep={activeStep} alternativeLabel>
-          {steps.map((label) => (
-            <Step key={label}>
-              <StepLabel>{label}</StepLabel>
-            </Step>
-          ))}
+          {steps.map((label) => {
+            let labelProps = {}
+            if (label.status === 'processing') {
+              labelProps = {
+                icon: <AutorenewIcon style={{ color: orange[500] }}/>
+              }
+            }
+            if (label.status === 'fail') {
+              labelProps = {
+                error: true
+              }
+            }
+            return (
+              <Step key={label.name}>
+                <StepLabel {...labelProps}>{label.name}</StepLabel>
+              </Step>
+            )
+          })}
         </Stepper>
         <CommonTable
           rows={rows}
