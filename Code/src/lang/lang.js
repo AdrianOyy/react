@@ -893,5 +893,6 @@ exports.lang = {
     'Workflow Setting': 'Workflow Setting',
     changeAccount: 'Change Account Management',
     cuid: 'CU_ID',
+    Sorting: 'Sorting'
   }
 }
