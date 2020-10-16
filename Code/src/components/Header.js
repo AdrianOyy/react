@@ -23,7 +23,7 @@ import {
   // Search as SearchIcon,
   Power
 } from "react-feather"
-import signOut from "../utils/signOut"
+import { signOut } from "../utils/auth"
 
 const AppBar = styled(MuiAppBar)`
   background: ${props => props.theme.header.background};
