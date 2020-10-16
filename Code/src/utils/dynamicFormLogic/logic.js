@@ -3,6 +3,7 @@ import WorkflowSetting from "./WorkflowSetting"
 import AccountManagement from "./AccountManagement"
 import NonPersonalAccount from "./NonPersonalAccount"
 import DistributionList from "./DistributionList"
+import ClosingAccount from "./ClosingAccount"
 import Common from "./Common"
 
 function getLogic(workflowName) {
@@ -17,6 +18,8 @@ function getLogic(workflowName) {
       return new NonPersonalAccount()
     case 'Distribution List':
       return new DistributionList()
+    case 'Closing Account':
+      return new ClosingAccount()
     default:
       return new Common()
   }
