@@ -468,15 +468,16 @@ export default function CommonWorkflowForm(props) {
   }
   const handleReasonSubmit = () => {
     if (dialogReason.value && dialogReason.value.length > 0) {
+      console.log(dialogReason.value)
       let data = {
         taskId,
-        variables: { leaderCheck: false },
-        reason: dialogReason.value
+        variables: { pass: false },
+        rejectReason: dialogReason.value
       }
       rejectActions(data)
     }
   }
-  const handleReasonChange = (event, id) => {
+  const handleReasonChange = (event) => {
     dialogReason.value = event.target.value
   }
   const rejectActions = (data) => {
