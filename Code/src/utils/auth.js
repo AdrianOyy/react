@@ -24,7 +24,7 @@ function authMenu(path) {
   const groupList = getUserGroupTypeList()
   switch (path) {
     case '/workflow/workflowSetting/':
-      if (groupList.includes('I1')) {
+      if (groupList.includes('IT')) {
         return true
       } else {
         return false
