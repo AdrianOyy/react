@@ -85,11 +85,27 @@ export default class DistributionList {
           el.isCheck = true
           el.onCheck = onCheck
           break
+        case 'members':
+          el.isCheck = true
+          el.onCheck = onCheck
+          break
+        case 'memberof':
+          el.isCheck = true
+          el.onCheck = onCheck
+          break
+        case 'deliveryrestrictions':
+          el.isCheck = true
+          el.onCheck = onCheck
+          break
         case 'stafftype':
-          el.itemList = el.itemList.filter(_ => { return _.type !== 'Head Office(PYN)' })
+          if (el.itemList) {
+            el.itemList.filter(_ => { return _.type !== 'Head Office(PYN)' })
+          }
           break
         case 'ownerstafftype':
-          el.itemList = el.itemList.filter(_ => { return _.type !== 'Head Office(PYN)' })
+          if (el.itemList) {
+            el.itemList.filter(_ => { return _.type !== 'Head Office(PYN)' })
+          }
           break
         default:
           return rawData
@@ -124,6 +140,15 @@ export default class DistributionList {
     switch (fieldName) {
       case 'supervisoremailaccount':
         returnType = 'user'
+        break
+      case 'members':
+        returnType = 'user'
+        break
+      case 'memberof':
+        returnType = 'distribution'
+        break
+      case 'deliveryrestrictions':
+        returnType = 'distribution'
         break
       default:
         break
