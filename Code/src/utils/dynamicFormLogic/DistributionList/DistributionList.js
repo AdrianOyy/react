@@ -1,4 +1,5 @@
 // import Api from "../../../api/accountManagement"
+import ContractItems from "../../../components/ContractItems"
 import CommonTip from "../../../components/CommonTip"
 
 export default class DistributionList {
@@ -17,20 +18,24 @@ export default class DistributionList {
   async checkForm(parentFormDetail, parentDataMap) {
     let pass = true
     // 验证必填字段
+    const isowner = parentDataMap.get('isowner').label
     for (let i = 0; i < parentFormDetail.length; i++) {
       const { required, fieldName, fieldDisplayName } = parentFormDetail[i]
-      if (required && (!parentDataMap.get(fieldName) || !parentDataMap.get(fieldName).value)) {
-        CommonTip.error(`${fieldDisplayName} is required`)
-        pass = false
-        break
+      if (required && (!parentDataMap.get(fieldName) || !parentDataMap.get(fieldName).value)
+      ) {
+        if ((fieldName.indexOf('isowner_') !== -1 && isowner === 'Yes')
+          || fieldName.indexOf('isowner_') === -1) {
+          CommonTip.error(`${fieldDisplayName} is required`)
+          pass = false
+          break
+        }
       }
     }
     return pass
   }
 
   // 处理父表数据表
-  handleParentDefaultData(rawData, stepName) {
-    console.log('111111111', rawData)
+  handleParentDefaultData(rawData) {
     return rawData
   }
 
@@ -76,7 +81,7 @@ export default class DistributionList {
         el.showOnRequest = true
       }
       switch (el.fieldName) {
-        case 'emailaddress':
+        case 'supervisoremailaccount':
           el.isCheck = true
           el.onCheck = onCheck
           break
@@ -117,7 +122,7 @@ export default class DistributionList {
   getReturnType(parentDataMap, fieldName) {
     let returnType = null
     switch (fieldName) {
-      case 'emailaddress':
+      case 'supervisoremailaccount':
         returnType = 'user'
         break
       default:
@@ -131,7 +136,8 @@ export default class DistributionList {
   }
 
   getContractList() {
-    return false
+    const res = [ ContractItems.get('Distribution List Application') ]
+    return res
   }
 }
 

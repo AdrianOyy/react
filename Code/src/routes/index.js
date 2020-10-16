@@ -165,7 +165,7 @@ const workflowRoutes = {
     },
     {
       path: "/workflow/nonPersonalAccount/",
-      name: "Non Personal Account",
+      name: "Non-Personal Account",
       component: NonPersonalAccount
     },
     {

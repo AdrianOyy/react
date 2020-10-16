@@ -1,4 +1,5 @@
 // import Api from "../../../api/accountManagement"
+import ContractItems from "../../../components/ContractItems"
 import CommonTip from "../../../components/CommonTip"
 
 export default class NonPersonalAccount {
@@ -29,7 +30,7 @@ export default class NonPersonalAccount {
   }
 
   // 处理父表数据表
-  handleParentDefaultData(rawData, stepName) {
+  handleParentDefaultData(rawData) {
     return rawData
   }
 
@@ -74,8 +75,9 @@ export default class NonPersonalAccount {
       if (stepName) {
         el.showOnRequest = true
       }
+      console.log(el)
       switch (el.fieldName) {
-        case 'emailaddress':
+        case 'supervisoremailaccount':
           el.isCheck = true
           el.onCheck = onCheck
           break
@@ -84,14 +86,6 @@ export default class NonPersonalAccount {
           el.onCheck = onCheck
           break
         case 'alreadyaddeddistributionlist':
-          el.isCheck = true
-          el.onCheck = onCheck
-          break
-        case 'alreadyaddedacceptmessagefrom':
-          el.isCheck = true
-          el.onCheck = onCheck
-          break
-        case 'alreadyaddedrejectmessagefrom':
           el.isCheck = true
           el.onCheck = onCheck
           break
@@ -126,9 +120,7 @@ export default class NonPersonalAccount {
   getReturnType(parentDataMap, fieldName) {
     let returnType = null
     switch (fieldName) {
-      case 'emailaddress':
-      case 'alreadyaddedacceptmessagefrom':
-      case 'alreadyaddedrejectmessagefrom':
+      case 'supervisoremailaccount':
         returnType = 'user'
         break
       case 'alternaterecipient':
@@ -148,7 +140,8 @@ export default class NonPersonalAccount {
   }
 
   getContractList() {
-    return false
+    const res = [ ContractItems.get('CORP Account (Non-Personal) Application') ]
+    return res
   }
 }
 

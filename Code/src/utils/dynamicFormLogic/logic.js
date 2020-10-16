@@ -13,7 +13,7 @@ function getLogic(workflowName) {
       return new WorkflowSetting()
     case 'Account management':
       return new AccountManagement()
-    case 'Non Personal Account':
+    case 'Non-Personal Account':
       return new NonPersonalAccount()
     case 'Distribution List':
       return new DistributionList()
