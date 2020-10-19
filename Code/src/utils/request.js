@@ -2,7 +2,7 @@ import axios from 'axios'
 // import store from '@/store'
 // import { getToken } from 'utils/auth'
 import CommonTip from '../components/CommonTip'
-import signOut from "./signOut"
+import { signOut } from "./auth"
 
 // 这个baseUrl要根据实际情况进行改变
 // eslint-disable-next-line

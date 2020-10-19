@@ -11,7 +11,7 @@ exports.lang = {
     Detail: 'Detail',
     Name: 'Name',
     Actions: 'Actions',
-
+    LoginFail: 'The user does not exist or the password is wrong',
     Approval: 'Approve',
     Assignee: 'Assignee',
     Group: 'Group',

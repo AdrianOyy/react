@@ -5,24 +5,20 @@ import authAPI from '../../api/auth.js'
 import Helmet from 'react-helmet'
 import { L } from '../../utils/lang'
 import { encryption } from '../../utils/encryption'
+import { signIn } from '../../utils/auth'
+import Loading from "../../components/Loading"
 
 import {
   Avatar,
-  // Checkbox,
   FormControl,
-  // FormControlLabel,
   Input,
   InputLabel,
   Button as MuiButton,
   Paper,
-  Snackbar,
   Typography
 } from "@material-ui/core"
-import { Alert as MuiAlert } from '@material-ui/lab'
 import { spacing } from "@material-ui/system"
-
-// import AES from 'crypto-js/aes';
-// import Base64 from 'crypto-js/enc-base64';
+import CommonTip from "../../components/CommonTip"
 
 const Button = styled(MuiButton)(spacing)
 
@@ -34,57 +30,34 @@ const Wrapper = styled(Paper)`
   }
 `
 
-// const BigAvatar = styled(Avatar)`
-//   width: 92px;
-//   height: 92px;
-//   text-align: center;
-//   margin: 0 auto ${props => props.theme.spacing(5)}px;
-// `;
-
-const Alert = styled(MuiAlert)(spacing)
-
 function SignIn() {
   const [ account, setAccount ] = React.useState('')
   const [ password, setPassword ] = React.useState('')
   const history = useHistory()
-  const [ open, setOpen ] = React.useState(false)
-  const [ severity, setSeverity ] = React.useState('info')
-  const [ message, setMessage ] = React.useState('')
 
   const login =  () => {
     let pwd = password
-    localStorage.setItem('token', null)
-    localStorage.setItem('user', JSON.stringify({}))
-    // let pwd = Base64.stringify(AES.encrypt(password, 'secret key 123'));
     if (account && pwd) {
-
-      authAPI.login({
-        username: account,
-        password: encryption(pwd)
-      }).then(response => {
-        if (!response.data.data) {
-          setSeverity('error')
-          setOpen(true)
-          setMessage('Failed')
-        } else {
-          if (response.data.data) {
-            localStorage.setItem('token', response.data.data.token)
-            localStorage.setItem('user', JSON.stringify(response.data.data.user))
-            setSeverity('success')
-            setOpen(true)
-            setMessage(L('Success'))
+      Loading.show()
+      authAPI
+        .login({
+          username: account,
+          password: encryption(pwd)
+        })
+        .then(response => {
+          if (!response.data || !response.data.data) {
+            Loading.hide()
+            CommonTip.error(L('LoginFail'))
+          } else {
             history.push('/dashboard/analytics')
+            signIn(response.data.data)
           }
-          // console.log(response.data.data)
-        }
-      })
+        })
     } else {
-      setSeverity('warning')
-      setOpen(true)
       if (!account) {
-        setMessage(L('Account is required'))
+        CommonTip.warning(L('Account is required'))
       } else if (!pwd) {
-        setMessage(L('Password is required'))
+        CommonTip.warning(L('Password is required'))
       }
     }
   }
@@ -101,13 +74,6 @@ function SignIn() {
     if (event.keyCode === 13) { // 主要区别就是这里，可以直接获取到keyCode的值
       login()
     }
-  }
-
-  const handleClose = (event, reason) => {
-    if (reason === 'clickaway') {
-      return
-    }
-    setOpen(false)
   }
 
   return (
@@ -147,10 +113,6 @@ function SignIn() {
             autoComplete="current-password"
           />
         </FormControl>
-        {/* <FormControlLabel
-          control={<Checkbox value="remember" color="primary" />}
-          label="Remember me"
-        /> */}
         <Button
           // component={Link}
           onClick = {login}
@@ -163,19 +125,6 @@ function SignIn() {
         >
           {L('Sign in')}
         </Button>
-        <Snackbar open={open} autoHideDuration={2000} onClose={handleClose}>
-          <Alert severity={severity} onClose={handleClose}>
-            {message}
-          </Alert>
-        </Snackbar>
-        {/* <Button
-          component={Link}
-          to="/auth/reset-password"
-          fullWidth
-          color="primary"
-        >
-          Forgot password
-        </Button> */}
       </form>
     </Wrapper>
   )

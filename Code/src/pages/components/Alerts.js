@@ -51,10 +51,10 @@ function SimpleAlerts() {
 
         <Spacer mb={4} />
 
-        <Alert mb={4} severity="error">{L('alertCheckOut', [L('error')])}</Alert>
-        <Alert mb={4} severity="warning">{L('alertCheckOut', [L('warning')])}</Alert>
-        <Alert mb={4} severity="info">{L('alertCheckOut', [L('info')])}</Alert>
-        <Alert severity="success">{L('alertCheckOut', [L('success')])}</Alert>
+        <Alert mb={4} severity="error">{L('alertCheckOut', [ L('error') ])}</Alert>
+        <Alert mb={4} severity="warning">{L('alertCheckOut', [ L('warning') ])}</Alert>
+        <Alert mb={4} severity="info">{L('alertCheckOut', [ L('info') ])}</Alert>
+        <Alert severity="success">{L('alertCheckOut', [ L('success') ])}</Alert>
       </CardContent>
     </Card>
   )
@@ -72,10 +72,10 @@ function OutlinedAlerts() {
         </Typography>
 
         <Spacer mb={4} />
-        <Alert mb={4} severity="error" variant="outlined">{L('alertCheckOut', [L('error')])}</Alert>
-        <Alert mb={4} severity="warning" variant="outlined">{L('alertCheckOut', [L('warning')])}</Alert>
-        <Alert mb={4} severity="info" variant="outlined">{L('alertCheckOut', [L('info')])}</Alert>
-        <Alert severity="success" variant="outlined">{L('alertCheckOut', [L('success')])}</Alert>
+        <Alert mb={4} severity="error" variant="outlined">{L('alertCheckOut', [ L('error') ])}</Alert>
+        <Alert mb={4} severity="warning" variant="outlined">{L('alertCheckOut', [ L('warning') ])}</Alert>
+        <Alert mb={4} severity="info" variant="outlined">{L('alertCheckOut', [ L('info') ])}</Alert>
+        <Alert severity="success" variant="outlined">{L('alertCheckOut', [ L('success') ])}</Alert>
 
       </CardContent>
     </Card>
@@ -94,10 +94,10 @@ function FilledAlerts() {
         </Typography>
 
         <Spacer mb={4} />
-        <Alert mb={4} severity="error" variant="filled">{L('alertCheckOut', [L('error')])}</Alert>
-        <Alert mb={4} severity="warning" variant="filled">{L('alertCheckOut', [L('warning')])}</Alert>
-        <Alert mb={4} severity="info" variant="filled">{L('alertCheckOut', [L('info')])}</Alert>
-        <Alert severity="success" variant="filled">{L('alertCheckOut', [L('success')])}</Alert>
+        <Alert mb={4} severity="error" variant="filled">{L('alertCheckOut', [ L('error') ])}</Alert>
+        <Alert mb={4} severity="warning" variant="filled">{L('alertCheckOut', [ L('warning') ])}</Alert>
+        <Alert mb={4} severity="info" variant="filled">{L('alertCheckOut', [ L('info') ])}</Alert>
+        <Alert severity="success" variant="filled">{L('alertCheckOut', [ L('success') ])}</Alert>
 
       </CardContent>
     </Card>
@@ -119,19 +119,19 @@ function AdvancedAlerts() {
 
         <Alert mb={4} severity="error">
           <AlertTitle>{L('Error')}</AlertTitle>
-          {L('alterCon'), [L('error')]}<strong>{L('checkItOut')}</strong>
+          {L('alterCon') + [ L('error') ]}<strong>{L('checkItOut')}</strong>
         </Alert>
         <Alert mb={4} severity="warning">
           <AlertTitle>{L('Warning')}</AlertTitle>
-          {L('alterCon'), [L('warning')]}<strong>{L('checkItOut')}</strong>
+          {L('alterCon') + [ L('warning') ]}<strong>{L('checkItOut')}</strong>
         </Alert>
         <Alert mb={4} severity="info">
           <AlertTitle>{L('Info')}</AlertTitle>
-          {L('alterCon'), [L('info')]}<strong>{L('checkItOut')}</strong>
+          {L('alterCon') + [ L('info') ]}<strong>{L('checkItOut')}</strong>
         </Alert>
         <Alert mb={4} severity="success">
           <AlertTitle>{L('Success')}</AlertTitle>
-          {L('alterCon'), [L('success')]}<strong>{L('checkItOut')}</strong>
+          {L('alterCon') + [ L('success') ]}<strong>{L('checkItOut')}</strong>
         </Alert>
       </CardContent>
     </Card>
@@ -152,7 +152,7 @@ function ActionAlerts() {
         <Spacer mb={4} />
 
         <Alert mb={4} onClose={() => { }}>
-          {L('alertCheckOut', [L('success')])}
+          {L('alertCheckOut', [ L('success') ])}
         </Alert>
         <Alert
           action={
@@ -161,7 +161,7 @@ function ActionAlerts() {
             </Button>
           }
         >
-          {L('alertCheckOut', [L('success')])}
+          {L('alertCheckOut', [ L('success') ])}
         </Alert>
       </CardContent>
     </Card>
@@ -169,7 +169,7 @@ function ActionAlerts() {
 }
 
 function TransitionAlerts() {
-  const [open, setOpen] = React.useState(true)
+  const [ open, setOpen ] = React.useState(true)
 
   return (
     <Card mb={6}>

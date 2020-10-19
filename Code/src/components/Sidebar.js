@@ -29,6 +29,7 @@ import { ExpandLess, ExpandMore } from "@material-ui/icons"
 // import { green } from "@material-ui/core/colors";
 
 import routes from "../routes/index"
+import { authMenu } from "../utils/auth"
 
 // import { Layers } from "react-feather";
 const NavLink = React.forwardRef((props, ref) => (
@@ -305,6 +306,22 @@ function Sidebar({ classes, staticContext, location, ...rest }) {
     setOpenRoutes(openRoutes => Object.assign({}, openRoutes, { [index]: !openRoutes[index] }))
   }
 
+  const getSidebarLink = (route, index)  => {
+    const { path } = route
+    if (authMenu(path)) {
+      return (
+        <SidebarLink
+          key={index}
+          name={route.name}
+          to={route.path}
+          icon={route.icon}
+          badge={route.badge}
+        />
+      )
+    }
+
+  }
+
   return (
     <Drawer variant="permanent" {...rest}>
       <Brand>
@@ -344,13 +361,7 @@ function Sidebar({ classes, staticContext, location, ...rest }) {
                       unmountOnExit
                     >
                       {category.children.map((route, index) => (
-                        <SidebarLink
-                          key={index}
-                          name={route.name}
-                          to={route.path}
-                          icon={route.icon}
-                          badge={route.badge}
-                        />
+                        getSidebarLink(route, index)
                       ))}
                     </Collapse>
                   </React.Fragment>

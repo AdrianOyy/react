@@ -1,8 +1,8 @@
 // import Api from "../../../api/accountManagement"
-import ContractItems from "../../../components/ContractItems"
+// import ContractItems from "../../../components/ContractItems"
 import CommonTip from "../../../components/CommonTip"
 
-export default class DistributionList {
+export default class ClosingAccount {
   // eslint-disable-next-line
   async onFieldChange(data, dataMap, ref) {
     const { id } = data
@@ -18,17 +18,12 @@ export default class DistributionList {
   async checkForm(parentFormDetail, parentDataMap) {
     let pass = true
     // 验证必填字段
-    const isowner = parentDataMap.get('isowner').label
     for (let i = 0; i < parentFormDetail.length; i++) {
       const { required, fieldName, fieldDisplayName } = parentFormDetail[i]
-      if (required && (!parentDataMap.get(fieldName) || !parentDataMap.get(fieldName).value)
-      ) {
-        if ((fieldName.indexOf('isowner_') !== -1 && isowner === 'Yes')
-          || fieldName.indexOf('isowner_') === -1) {
-          CommonTip.error(`${fieldDisplayName} is required`)
-          pass = false
-          break
-        }
+      if (required && (!parentDataMap.get(fieldName) || !parentDataMap.get(fieldName).value)) {
+        CommonTip.error(`${fieldDisplayName} is required`)
+        pass = false
+        break
       }
     }
     return pass
@@ -80,32 +75,11 @@ export default class DistributionList {
       if (stepName) {
         el.showOnRequest = true
       }
+      console.log(el)
       switch (el.fieldName) {
         case 'supervisoremailaccount':
           el.isCheck = true
           el.onCheck = onCheck
-          break
-        case 'members':
-          el.isCheck = true
-          el.onCheck = onCheck
-          break
-        case 'memberof':
-          el.isCheck = true
-          el.onCheck = onCheck
-          break
-        case 'deliveryrestrictions':
-          el.isCheck = true
-          el.onCheck = onCheck
-          break
-        case 'stafftype':
-          if (el.itemList) {
-            el.itemList.filter(_ => { return _.type !== 'Head Office(PYN)' })
-          }
-          break
-        case 'ownerstafftype':
-          if (el.itemList) {
-            el.itemList.filter(_ => { return _.type !== 'Head Office(PYN)' })
-          }
           break
         default:
           return rawData
@@ -141,15 +115,6 @@ export default class DistributionList {
       case 'supervisoremailaccount':
         returnType = 'user'
         break
-      case 'members':
-        returnType = 'user'
-        break
-      case 'memberof':
-        returnType = 'distribution'
-        break
-      case 'deliveryrestrictions':
-        returnType = 'distribution'
-        break
       default:
         break
     }
@@ -161,8 +126,8 @@ export default class DistributionList {
   }
 
   getContractList() {
-    const res = [ ContractItems.get('Distribution List Application') ]
-    return res
+    // const res = [ ContractItems.get('') ]
+    return false
   }
 }
 
