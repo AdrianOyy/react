@@ -277,6 +277,10 @@ export default function CommonWorkflowForm(props) {
         setStartValues(parentStartData)
         setParentDefaultValues(parentStartData)
         setStart(false)
+        if (childFormDetail.length > 0) {
+          const childStartData = logic.handleChildStartData(startData, childDataListMap)
+          setChildDataList(childStartData)
+        }
       }
       return
     }

@@ -892,7 +892,9 @@ exports.lang = {
     'VM Allocation': 'VM Allocation',
     'Workflow Setting': 'Workflow Setting',
     changeAccount: 'Change Account Management',
+    cpsvm: 'CPS VM Allocation',
     cuid: 'CU_ID',
+    cpsid: 'CPS ID',
     Sorting: 'Sorting'
   }
 }

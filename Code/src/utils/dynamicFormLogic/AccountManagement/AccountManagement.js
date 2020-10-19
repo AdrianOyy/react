@@ -234,7 +234,7 @@ export default class AccountManagement {
   getContractList(parentData) {
     const typeListString = parentData.get('account_type')
     if (!typeListString || !typeListString.value) return false
-    const typeList = typeListString.value.split('!@#$')
+    const typeList = typeListString.value.split('!@#')
     if (typeList.length === 0) return false
     const res = []
     res.push(ContractItems.get('CORP Account (Personal) Application'))

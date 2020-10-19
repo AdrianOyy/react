@@ -164,12 +164,6 @@ function List(props) {
 
   const rejectActions = (data) => {
     history.push({ pathname: `${path}/create/${cuIdRow.id}`, search: `deploymentId=${cuIdRow.deploymentId}&cuId=${data}` })
-    // workflowApi.actionTask(data)
-    //   .then(() => {
-    //     setShown(false)
-    //     CommonTip.success(L('Success'))
-    //     history.push({ pathname: `/MyApproval` })
-    //   })
   }
 
   return (
