@@ -1,4 +1,4 @@
-import React, { useEffect } from "react"
+import React from "react"
 import { connect } from "react-redux"
 
 import Helmet from 'react-helmet'
@@ -8,17 +8,10 @@ import { ThemeProvider as MuiThemeProvider } from "@material-ui/core/styles"
 import { MuiPickersUtilsProvider } from "@material-ui/pickers"
 import { StylesProvider } from "@material-ui/styles"
 import { ThemeProvider } from "styled-components"
-
 import maTheme from "./theme"
 import Routes from "./routes/Routes"
-import { getUser } from "./utils/user"
-import store from "./redux/store"
-import { setUser } from "./redux/actions/userActions"
 
 function App({ theme }) {
-  useEffect(() => {
-    store.dispatch(setUser(getUser()))
-  }, [])
   return (
     <React.Fragment>
       <Helmet

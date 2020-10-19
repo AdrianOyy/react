@@ -66,14 +66,17 @@ function getToken() {
   return window.localStorage.getItem("token")
 }
 
+function getUserFromLocalStorage() {
+  return window.localStorage.getItem("user") ? JSON.parse(window.localStorage.getItem("user")) : {}
+}
+
 function getUser() {
-  // return window.localStorage.getItem("user") ? JSON.parse(window.localStorage.getItem("user")) : false
   return store.getState().userReducer.currentUser
 }
 
 function getUserGroupList() {
   const user = getUser()
-  if (!user) return null
+  if (!user) return []
   const { groupList } = user
   return groupList
 }
@@ -85,4 +88,4 @@ function getUserGroupTypeList() {
   return groupTypeList
 }
 
-export { authRoute, authMenu, signIn, signOut, getUserGroupList, getUserGroupTypeList }
+export { authRoute, authMenu, signIn, signOut, getUserGroupList, getUserGroupTypeList, getUserFromLocalStorage }
