@@ -11,10 +11,14 @@ function authRoute(path) {
   if (!getToken()) {
     return false
   }
-  // const typeList =
+  const groupList = getUserGroupTypeList()
   switch (path) {
-    // case '/workflow/workflowSetting/':
-    //   return false
+    case '/workflow/workflowSetting/':
+      if (groupList.includes('IT')) {
+        return true
+      } else {
+        return false
+      }
     default:
       return true
   }
