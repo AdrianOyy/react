@@ -2,6 +2,8 @@ import React, { useState } from 'react'
 
 import {
   Box,
+  CardContent,
+  Card as MuiCard,
   Collapse,
   Paper,
   Table,
@@ -14,66 +16,73 @@ import {
   Typography,
   IconButton,
 } from '@material-ui/core'
-import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
-import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
+import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown'
+import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp'
+
+import { spacing } from "@material-ui/system"
+import styled from "styled-components"
+
+const Card = styled(MuiCard)(spacing)
 
 function ExpandTable(props) {
-  const { label, rows, show } = props;
+  const { label, rows, show } = props
 
   const expand = []
   if (show.index + 1 < show.list.length) {
     expand.push(1)
   }
   return (
-    <React.Fragment>
-      <Typography variant={ 'h3' } gutterBottom>
-        { label }
-      </Typography>
-      <TableContainer component={Paper}>
-        <Table>
-          <TableHead>
-            <TableRow>
-              {
-                show && show.labels.map((_, i) => {
-                  if (i !== 0 && i <= show.index) {
-                    return <TableCell>{_}</TableCell>
-                  }
-                  return null
-                })
-              }
-              {
-                expand.length > 0 && expand.map(_ => {
-                  return <TableCell />
-                })
-              }
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {rows && rows.map((row) => (
-              <ExpandRow key={row[0]} show={show} row={row} expand={expand} />
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
-    </React.Fragment>
+    <Card mb={6}>
+      <CardContent>
+        <Typography variant={'h3'} gutterBottom>
+          { label }
+        </Typography>
+        <TableContainer component={Paper}>
+          <Table>
+            <TableHead>
+              <TableRow>
+                {
+                  show && show.labels.map((_, i) => {
+                    if (i !== 0 && i <= show.index) {
+                      return <TableCell key={i}>{_}</TableCell>
+                    }
+                    return null
+                  })
+                }
+                {
+                  expand.length > 0 && expand.map(_ => {
+                    return <TableCell key={_}/>
+                  })
+                }
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {rows && rows.map((row, i) => (
+                <ExpandRow key={i} show={show} row={row} expand={expand} />
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      </CardContent>
+    </Card>
   )
 }
 
 function ExpandRow(props) {
-  const { key, row, show, expand } = props;
-  const [open, setOpen] = useState(false);
+  const { row, show, expand } = props
+  const [ open, setOpen ] = useState(false)
 
   const listrows = []
   show.list.map((_, i) => {
     if (i !== 0) {
-      listrows.push({ label: show.labels[i], value: row[_] });
+      listrows.push({ id: i, label: show.labels[i], value: row[_] })
     }
     return _
   })
-  
+
   return (
     <React.Fragment>
-      <TableRow key={key}>
+      <TableRow key={row[0]}>
         {
           listrows.map((_, i) => {
             if (i === 0) {
@@ -86,7 +95,7 @@ function ExpandRow(props) {
         }
         {
           expand && expand.length > 0 && expand.map(_ => {
-            return <TableCell> <IconButton aria-label="expand row" size="small" onClick={() => setOpen(!open)}> {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />} </IconButton> </TableCell>
+            return <TableCell key={_.id}> <IconButton aria-label="expand row" size="small" onClick={() => setOpen(!open)}> {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />} </IconButton> </TableCell>
           })
         }
       </TableRow>
@@ -95,8 +104,8 @@ function ExpandRow(props) {
           <Collapse in={open} timeout="auto" unmountOnExit>
             <Box margin={1}>
               {
-                listrows.map((_, i) => {
-                  return <TextField disabled label={_.label} value={_.value} variant="outlined" style={{ marginTop: "5ch",  marginRight: "10ch" }}/>
+                listrows.map((_) => {
+                  return <TextField disabled key={_.id} label={_.label} value={_.value} variant="outlined" style={{ marginTop: "5ch",  marginRight: "10ch" }}/>
                 })
               }
             </Box>
@@ -104,7 +113,7 @@ function ExpandRow(props) {
         </TableCell>
       </TableRow>
     </React.Fragment>
-  );
+  )
 }
 
 export default ExpandTable

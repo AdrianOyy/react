@@ -57,6 +57,7 @@ const IPAddress = async(() => import("../pages/resources/IPAddress"))
 const Platform = async(() => import("../pages/resources/Platform/"))
 const VM = async(() => import("../pages/resources/VM/"))
 const Network = async(() => import("../pages/resources/Network/"))
+const Server = async(() => import("../pages/resources/Server/"))
 
 // tenant quota mapping
 const tenantQuotaMapping = async(() => import("../pages/aaa-service/tenantQuotaMapping"))
@@ -288,7 +289,7 @@ const resourceRoutes = {
     {
       path: "/resources/server",
       name: "Server",
-      component: Dialogs
+      component: Server
     },
     {
       path: "/resources/platform",
