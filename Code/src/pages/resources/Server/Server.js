@@ -3,9 +3,9 @@ import CommonPage from "../../../components/CommonPage"
 import { List, Detail, Update, Create } from './components'
 import { L } from '../../../utils/lang'
 const parentTitle = L('Resource')
-const title = L('Network')
+const title = L('Server')
 
-function Network() {
+function Server() {
   const props = {
     title,
     parentTitle,
@@ -23,4 +23,4 @@ function Network() {
   )
 }
 
-export default Network
+export default Server

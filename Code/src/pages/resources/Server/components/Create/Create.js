@@ -2,16 +2,14 @@ import React, { useEffect, useState } from 'react'
 
 import DetailPage from "../../../../../components/DetailPage"
 import API from "../../../../../api/inventory"
-import { useParams } from "react-router-dom"
-// import dayjs from "dayjs"
+import { L } from '../../../../../utils/lang'
 import CommonTip from "../../../../../components/CommonTip"
 import { useHistory } from 'react-router-dom'
-import { checkEmpty, getCheckExist } from "../../untils/NetworkFieldCheck"
-import { L } from '../../../../../utils/lang'
+import { checkEmpty, getCheckExist } from "../../untils/ServerFieldCheck"
 
-function Detail(props) {
+
+function Create(props) {
   const { onMount } = props
-  const { id } = useParams()
   const history = useHistory()
 
   const [ _ID, set_ID ] = useState('')
@@ -37,12 +35,12 @@ function Detail(props) {
   const [ EquipType, setEquipType ] = useState('')
   const [ inventory, setInventory ] = useState([])
 
-  const [ saving, setSaving ] = useState(true)
+  const [ saving, setSaving ] = useState(false)
   const [ InventoryStatus, setInventoryStatus ] = useState([])
   const [ EquipTypes, setEquipTypes ] = useState([])
 
   useEffect(() => {
-    onMount('update')
+    onMount('create')
     // eslint-disable-next-line
   }, [])
 
@@ -50,16 +48,16 @@ function Detail(props) {
     const _IDError = await _IDCheck()
     if (_IDError || saving) return
     setSaving(true)
-    API.update(id,
+    API.create(
       {
         _ID, UnitCode, AssetID, ModelCode, ModelDesc, ClosetID,
-        Rack, RLU, ItemOwner, Status, Remark, UnitNo, PortQty, ReqNo,
-        DOB, DeliveryDate, DeliveryNoteReceivedDate, MaintID, EquipType
+        Rack, RLU, ItemOwner, Status, Remark, EquipType, UnitNo, PortQty, ReqNo,
+        DOB, DeliveryDate, DeliveryNoteReceivedDate, MaintID
       }
     )
       .then(() => {
         CommonTip.success(L('Success'))
-        history.push({ pathname: '/resources/network' })
+        history.push({ pathname: '/resources/server' })
       })
       .catch(() => {
         setSaving(false)
@@ -67,51 +65,21 @@ function Detail(props) {
   }
 
   useEffect(() => {
-    API.detail(id).then(({ data }) => {
-      console.log(data.data)
-      const {
-        _ID, UnitCode, AssetID, ModelCode, ModelDesc, ClosetID,
-        Rack, RLU, ItemOwner, Status, Remark, UnitNo, PortQty, ReqNo,
-        DOB, DeliveryDate, DeliveryNoteReceivedDate, MaintID, EquipType
-      } = data.data
-      set_ID(_ID)
-      setUnitCode(UnitCode)
-      setAssetID(AssetID)
-      setModelCode(ModelCode)
-      setModelDesc(ModelDesc)
-      setClosetID(ClosetID)
-      setRack(Rack)
-      setRLU(RLU)
-      setItemOwner(ItemOwner)
-      setStatus(Status)
-      setRemark(Remark)
-      setEquipType(EquipType)
-      setUnitNo(UnitNo)
-      setPortQty(PortQty)
-      setReqNo(ReqNo)
-      setDOB(DOB)
-      setDeliveryDate(DeliveryDate)
-      setDeliveryNoteReceivedDate(DeliveryNoteReceivedDate)
-      setMaintID(MaintID)
-      setSaving(false)
-    })
-  }, [ id ])
-
-  useEffect(() => {
     API.listStatus({ limit: 999, page: 1 }).then(({ data }) => {
       if (data && data.data) {
         setInventoryStatus(data.data)
       }
     })
+  }, [])
+  useEffect(() => {
     API.listEquipType({ limit: 999, page: 1 }).then(({ data }) => {
       if (data && data.data) {
         setEquipTypes(data.data.filter(_ => {
-          return _.Type !== 'EqServer'
+          return _.Type === 'EqServer'
         }))
       }
     })
   }, [])
-
   useEffect(() => {
     const inventoryList = [
       {
@@ -207,6 +175,7 @@ function Detail(props) {
     ItemOwner,
     Status,
     Remark,
+    EquipType,
     UnitNo,
     PortQty,
     ReqNo,
@@ -215,8 +184,7 @@ function Detail(props) {
     DeliveryNoteReceivedDate,
     MaintID,
     InventoryStatus,
-    EquipTypes,
-    EquipType
+    EquipTypes
   ])
   const onFormFieldChange = (e, id) => {
     const { value } = e.target
@@ -288,13 +256,14 @@ function Detail(props) {
     set_IDHelperText(emptyCheck.msg)
     if (!emptyCheck.error) {
       const checkExist = getCheckExist()
-      const { error, msg } = await checkExist(id, _ID)
+      const { error, msg } = await checkExist(0, _ID)
       set_IDError(error)
       set_IDHelperText(msg)
       return error
     }
     return emptyCheck.error
   }
+
   const onFormFieldBlur = (_, id) => {
     switch (id) {
       case "_ID":
@@ -307,15 +276,23 @@ function Detail(props) {
   return (
     <React.Fragment>
       <DetailPage
-        formTitle={L('Network')}
+        formTitle={L('Server')}
         onFormFieldChange = {onFormFieldChange}
         onFormFieldBlur = {onFormFieldBlur}
         formFieldList = {inventory}
         showBtn ={true}
         onBtnClick = {handleClick}
       />
+      {/* <DetailPage
+        formTitle = 'Port Assignment'
+        onFormFieldChange = {onFormFieldChange}
+        onFormFieldBlur = {onFormFieldBlur}
+        formFieldList = {portAssignment}
+        showBtn ={true}
+        onBtnClick = {handleClick}
+      /> */}
     </React.Fragment>
   )
 }
 
-export default Detail
+export default Create

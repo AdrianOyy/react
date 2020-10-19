@@ -6,7 +6,7 @@ import { useParams } from "react-router-dom"
 // import dayjs from "dayjs"
 import CommonTip from "../../../../../components/CommonTip"
 import { useHistory } from 'react-router-dom'
-import { checkEmpty, getCheckExist } from "../../untils/NetworkFieldCheck"
+import { checkEmpty, getCheckExist } from "../../untils/ServerFieldCheck"
 import { L } from '../../../../../utils/lang'
 
 function Detail(props) {
@@ -59,7 +59,7 @@ function Detail(props) {
     )
       .then(() => {
         CommonTip.success(L('Success'))
-        history.push({ pathname: '/resources/network' })
+        history.push({ pathname: '/resources/server' })
       })
       .catch(() => {
         setSaving(false)
@@ -106,7 +106,7 @@ function Detail(props) {
     API.listEquipType({ limit: 999, page: 1 }).then(({ data }) => {
       if (data && data.data) {
         setEquipTypes(data.data.filter(_ => {
-          return _.Type !== 'EqServer'
+          return _.Type === 'EqServer'
         }))
       }
     })
@@ -307,7 +307,7 @@ function Detail(props) {
   return (
     <React.Fragment>
       <DetailPage
-        formTitle={L('Network')}
+        formTitle={L('Server')}
         onFormFieldChange = {onFormFieldChange}
         onFormFieldBlur = {onFormFieldBlur}
         formFieldList = {inventory}
