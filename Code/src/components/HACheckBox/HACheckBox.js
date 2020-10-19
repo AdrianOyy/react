@@ -50,14 +50,14 @@ export default function HACheckBox(props) {
         checks.push(check)
       }
     }
-    onChange({ id, label: checks.join(','), value: checks.join(',') })
+    onChange({ id, label: checks.join('!@#$'), value: checks.join('!@#$') })
   }
 
   useEffect(() => {
     let stt = []
     const value = defaultValue ? (defaultValue.value ? defaultValue.value : (typeof defaultValue === 'string' ? defaultValue : '')) : ''
     if (value) {
-      stt = value.split(',')
+      stt = value.split('!@#$')
     }
     let data = {}
     for (let i = 0; i < itemList.length; i++) {
