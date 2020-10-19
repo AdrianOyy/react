@@ -5,7 +5,7 @@ import { getUserFromLocalStorage } from "../../utils/auth"
 const loadState = () => {
   const user = getUserFromLocalStorage()
   return {
-    userReducer: { currentUser: user }
+    userReducer: { currentUser: user ? user : {} }
   }
 }
 

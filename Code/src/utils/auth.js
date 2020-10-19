@@ -47,8 +47,8 @@ function signIn(data) {
     displayName: rawUser.displayName,
     groupTypeList: rawUser.groupTypeList,
   }
-  store.dispatch(setUser(user))
   localStorage.setItem('user', JSON.stringify(user))
+  store.dispatch(setUser(user))
   Loading.hide()
   CommonTip.success(L('Success'))
 }
@@ -85,7 +85,7 @@ function getUserGroupTypeList() {
   const user = getUser()
   if (!user) return null
   const { groupTypeList } = user
-  return groupTypeList
+  return groupTypeList ? groupTypeList : []
 }
 
 export { authRoute, authMenu, signIn, signOut, getUserGroupList, getUserGroupTypeList, getUserFromLocalStorage }

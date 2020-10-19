@@ -49,8 +49,8 @@ function SignIn() {
             Loading.hide()
             CommonTip.error(L('LoginFail'))
           } else {
-            history.push('/dashboard/analytics')
             signIn(response.data.data)
+            history.push('/dashboard/analytics')
           }
         })
     } else {
