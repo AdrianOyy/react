@@ -91,7 +91,7 @@ export default function CommonWorkflowForm(props) {
   // 父表初始数据
   const [ parentDefaultValues, setParentDefaultValues ] = useState({})
   // 最初始比对数据
-  const [ startValues, setStartValues ] = useState({})
+  const [ startValues, setStartValues ] = useState(null)
 
   const [ formKey, setFormKey ] = useState('')
 
