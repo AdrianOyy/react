@@ -23,7 +23,7 @@ const Page500 = async(() => import("../pages/auth/Page500"))
 // const Avatars = async(() => import("../pages/components/Avatars"))
 // const Buttons = async(() => import("../pages/components/Buttons"))
 // const Cards = async(() => import("../pages/components/Cards"))
-const Chips = async(() => import("../pages/components/Chips"))
+// const Chips = async(() => import("../pages/components/Chips"))
 const Dialogs = async(() => import("../pages/components/Dialogs"))
 // const ExpPanels = async(() => import("../pages/components/ExpansionPanels"))
 
@@ -55,6 +55,7 @@ const MoveIn = async(() => import("../pages/workFlow/MoveIn"))
 // const IPAssignment = async(() => import("../pages/workFlow/IPAssignment/"))
 const IPAddress = async(() => import("../pages/resources/IPAddress"))
 const Platform = async(() => import("../pages/resources/Platform/"))
+const LifeCycle = async(() => import("../pages/resources/LifeCycle/"))
 const VM = async(() => import("../pages/resources/VM/"))
 const Network = async(() => import("../pages/resources/Network/"))
 const Server = async(() => import("../pages/resources/Server/"))
@@ -299,7 +300,7 @@ const resourceRoutes = {
     {
       path: "/resources/life-cycle",
       name: "Life Cycle",
-      component: Chips
+      component: LifeCycle
     },
   ]
 }
