@@ -93,7 +93,11 @@ export default class DistributionList {
           el.isCheck = true
           el.onCheck = onCheck
           break
-        case 'deliveryrestrictions':
+        case 'acceptmessagesfrom':
+          el.isCheck = true
+          el.onCheck = onCheck
+          break
+        case 'rejectmessagesfrom':
           el.isCheck = true
           el.onCheck = onCheck
           break
@@ -147,7 +151,10 @@ export default class DistributionList {
       case 'memberof':
         returnType = 'distribution'
         break
-      case 'deliveryrestrictions':
+      case 'acceptmessagesfrom':
+        returnType = 'distribution'
+        break
+      case 'rejectmessagesfrom':
         returnType = 'distribution'
         break
       default:
