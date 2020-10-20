@@ -69,54 +69,54 @@ function Detail(props) {
       },
       {
         id: 'InventoryID', label: L('Inventory'), type: 'text',
-        disabled: true, required: false, readOnly: false, value: InventoryID
+        disabled: true, readOnly: true, value: InventoryID
       },
       {
         id: 'AssetID', label: L('Asset No'), type: 'text',
-        disabled: true, required: false, readOnly: false, value: AssetID
+        disabled: true, readOnly: true, value: AssetID
       },
       {
-        id: 'RecordCreatedOn', label: L('Record Created On'), type: 'date',
-        disabled: true, required: false, readOnly: false, value: RecordCreatedOn
+        id: 'RecordCreatedOn', label: L('Record Created On'), type: 'text',
+        disabled: true, readOnly: true, value: formatDateTime(RecordCreatedOn)
       },
       {
         id: 'ActionType', label: L('Action Type'), type: 'text',
-        disabled: true, required: false, readOnly: false, value: ActionType
+        disabled: true, readOnly: true, value: ActionType
       },
       {
         id: 'ActionDetails', label: L('Action Details'), type: 'text',
-        disabled: true, required: false, readOnly: false, value: ActionDetails
+        disabled: true, readOnly: true, value: ActionDetails
       },
       {
         id: 'SuccessorInventoryID', label: L('Successor Inventory ID'), type: 'text',
-        disabled: true, required: false, readOnly: false, value: SuccessorInventoryID
+        disabled: true, readOnly: true, value: SuccessorInventoryID
       },
       {
-        id: 'ActionDate', label: L('Action Date'), type: 'date',
-        disabled: true, required: false, readOnly: false, value: ActionDate
+        id: 'ActionDate', label: L('Action Date'), type: 'text',
+        disabled: true, readOnly: true, value: formatDateTime(ActionDate)
       },
       {
         id: 'RespStaff', label: L('Resp Staff'), type: 'text',
-        disabled: true, required: false, readOnly: false, value: RespStaff
+        disabled: true, readOnly: true, value: RespStaff
       },
       {
         id: 'RespStaffDisplayName', label: L('Resp Staff Display Name'), type: 'text',
-        disabled: true, required: false, readOnly: false, value: RespStaffDisplayName
+        disabled: true, readOnly: true, value: RespStaffDisplayName
       },
       {
         id: 'Reason', label: L('Reason'), type: 'text',
-        disabled: true, required: false, readOnly: false, value: Reason
+        disabled: true, readOnly: true, value: Reason
       },
       {
         id: 'CaseRef', label: L('Case Ref'), type: 'text',
-        disabled: true, required: false, readOnly: false, value: CaseRef
+        disabled: true, readOnly: true, value: CaseRef
       },
       {
-        id: 'createdAt', label: L('Created At'), type: 'date',
+        id: 'createdAt', label: L('Created At'), type: 'text',
         disabled: true, readOnly: true, value: formatDateTime(createdAt)
       },
       {
-        id: 'updatedAt', label: L('Updated At'), type: 'date',
+        id: 'updatedAt', label: L('Updated At'), type: 'text',
         disabled: true, readOnly: true, value: formatDateTime(updatedAt)
       },
     ]
@@ -138,10 +138,61 @@ function Detail(props) {
     updatedAt,
   ])
 
+  const onFormFieldChange = (e, id) => {
+    const { value } = e.target
+    switch (id) {
+      case '_ID' :
+        set_ID(value)
+        break
+      case 'InventoryID' :
+        setInventoryID(value)
+        break
+      case 'AssetID' :
+        setAssetID(value)
+        break
+      case 'RecordCreatedOn' :
+        setRecordCreatedOn(value)
+        break
+      case 'ActionType' :
+        setActionType(value)
+        break
+      case 'ActionDetails' :
+        setActionDetails(value)
+        break
+      case 'SuccessorInventoryID' :
+        setSuccessorInventoryID(value)
+        break
+      case 'ActionDate' :
+        setActionDate(value)
+        break
+      case 'RespStaff' :
+        setRespStaff(value)
+        break
+      case 'RespStaffDisplayName' :
+        setRespStaffDisplayName(value)
+        break
+      case 'Reason' :
+        setReason(value)
+        break
+      case 'CaseRef' :
+        setCaseRef(value)
+        break
+      case 'createdAt' :
+        setCreatedAt(value)
+        break
+      case 'updatedAt' :
+        setUpdastedAt(value)
+        break
+      default:
+        break
+    }
+  }
+
   return (
     <React.Fragment>
       <DetailPage
-        formTitle = 'Life Cycle'
+        formTitle={L('Detail')}
+        onFormFieldChange = {onFormFieldChange}
         formFieldList = {LifeCycles}
       />
     </React.Fragment>
