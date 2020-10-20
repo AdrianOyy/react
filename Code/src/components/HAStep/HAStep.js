@@ -63,7 +63,7 @@ function HAStep(props) {
           const pointRow = {
             assignee: pointUser.assignee,
             userName: pointUser.user ? pointUser.user : null,
-            groupName: pointUser.group ? pointUser.group.name : null,
+            groupName: pointUser.group ? pointUser.group : null,
             name: pointUser.taskInstance.activityName,
             endDate: pointUser.taskInstance.endTime ? formatDateTime(new Date(pointUser.taskInstance.endTime)) : null,
             status: pointUser.status ? null : L('Rejected'),
