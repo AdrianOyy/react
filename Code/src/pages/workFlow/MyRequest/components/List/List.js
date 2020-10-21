@@ -142,9 +142,9 @@ function List(props) {
 
   // const display = (row) => {
   //   if (row.state === 'completed') {
-  //     return true
+  //     return false
   //   }
-  //   return false
+  //   return true
   // }
 
   // 自定义action

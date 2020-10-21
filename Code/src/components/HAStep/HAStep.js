@@ -30,16 +30,33 @@ function HAStep(props) {
   const [ showChatBox, setShowChatBox ] = useState(false)
   const [ reason, setReason ] = useState('')
   const [ taskId, setTaskId ] = useState('')
+  const [ showDisabled, setShowDisabled ] = useState(false)
   const handleDetail = (event, row) => {
     setReason(row.reason)
     setShown(true)
   }
   const handleChatBox = (event, row) => {
     setTaskId(row.taskId)
+    if (row.endDate) {
+      setShowDisabled(true)
+    } else {
+      setShowDisabled(false)
+    }
     setShowChatBox(true)
   }
-  const actionList = [{ display: 'reason', label: L('Reject Reason'), icon: <BorderColorIcon />, handleClick: handleDetail },
-                      { label: 'message', icon: <ChatIcon />, handleClick: handleChatBox}]
+  const display = (row) => {
+    if (row.taskId) {
+      if (row.userName || row.groupName) {
+        return true
+      }
+    }
+    return false
+  }
+
+  const actionList = [
+    { label: L('Reject Reason'), icon: <BorderColorIcon />, handleClick: handleDetail },
+    { label: 'message', icon: <ChatIcon />, handleClick: handleChatBox, display }]
+
   const { processInstanceId } = props
   // const processInstanceId = 827520
   const [ steps, setSteps ] = useState([])
@@ -95,7 +112,7 @@ function HAStep(props) {
     { id: 'groupName', alignment: 'center', label: L('Group') },
     { id: 'status', alignment: 'center', label: L('Status') },
     { id: 'endDate', alignment: 'center', label: L('End Date') },
-    { id: 'action', alignment: 'right', label:  L('Action')}
+    { id: 'action', alignment: 'right', label: L('Action') }
   ]
 
   // 每行显示的字段
@@ -143,9 +160,10 @@ function HAStep(props) {
           actionList={actionList}
         />
       </Paper>
-      <ChatBox 
+      <ChatBox
         open={showChatBox}
         onClose={() => { setShowChatBox(false) }}
+        disabled={showDisabled}
         taskId={taskId}
       />
       <Dialog
