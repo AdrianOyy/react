@@ -99,7 +99,7 @@ export default class AccountManagement {
   }
 
   // 处理父表数据表
-  handleParentDefaultData(rawData, stepName) {
+  handleParentDefaultData(rawData) {
     return rawData
   }
 
@@ -179,6 +179,10 @@ export default class AccountManagement {
           el.isCheck = true
           el.onCheck = onCheck
           break
+        case 'distribution_list':
+          el.isCheck = true
+          el.onCheck = onCheck
+          break
         case 'hkid':
           if (stepName !== 'create') {
             el.readable = false
@@ -208,14 +212,24 @@ export default class AccountManagement {
     return 'Child'
   }
 
-  setSupervisorEmail(value, dataMap) {
-    dataMap.set('supervisoremailaccount', { id: 'supervisoremailaccount', label: value, value })
+  setSupervisorEmail(value, dataMap, checkName) {
+    dataMap.set(checkName, { id: checkName, label: value, value })
   }
 
-  getReturnType(parentDataMap) {
-    let returnType = 'user'
-    if ((!parentDataMap.get('supervisoremailaccount') || !parentDataMap.get('supervisoremailaccount').value)) {
-      CommonTip.error('Supervisor Email Account is required')
+  getReturnType(parentDataMap, fieldName) {
+    let returnType = null
+    switch (fieldName) {
+      case 'supervisoremailaccount':
+        returnType = 'user'
+        break
+      case 'distribution_list':
+        returnType = 'distribution'
+        break
+      default:
+        break
+    }
+    if ((!parentDataMap.get(fieldName) || !parentDataMap.get(fieldName).value)) {
+      CommonTip.error('Check field is required')
       returnType = null
     }
     return returnType

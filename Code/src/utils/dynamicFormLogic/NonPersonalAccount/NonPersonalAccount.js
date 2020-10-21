@@ -133,7 +133,7 @@ export default class NonPersonalAccount {
         break
     }
     if ((!parentDataMap.get(fieldName) || !parentDataMap.get(fieldName).value)) {
-      CommonTip.error('E-mail Address is required')
+      CommonTip.error('Check field is required')
       returnType = null
     }
     return returnType
