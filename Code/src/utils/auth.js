@@ -46,6 +46,9 @@ function signIn(data) {
     groupList: rawUser.groupList,
     displayName: rawUser.displayName,
     groupTypeList: rawUser.groupTypeList,
+    cn: rawUser.cn,
+    sn: rawUser.sn,
+    givenName: rawUser.givenName,
   }
   localStorage.setItem('user', JSON.stringify(user))
   store.dispatch(setUser(user))
