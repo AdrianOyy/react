@@ -6,7 +6,9 @@ export default class DistributionList {
   // eslint-disable-next-line
   async onFieldChange(data, dataMap, ref) {
     const { id } = data
-    dataMap.set(id, data)
+    if (id) {
+      dataMap.set(id, data)
+    }
   }
 
   // eslint-disable-next-line
@@ -18,12 +20,12 @@ export default class DistributionList {
   async checkForm(parentFormDetail, parentDataMap) {
     let pass = true
     // 验证必填字段
-    const isowner = parentDataMap.get('isowner').label
+    const isowner = parentDataMap.get('isowner')
     for (let i = 0; i < parentFormDetail.length; i++) {
       const { required, fieldName, fieldDisplayName } = parentFormDetail[i]
       if (required && (!parentDataMap.get(fieldName) || !parentDataMap.get(fieldName).value)
       ) {
-        if ((fieldName.indexOf('isowner_') !== -1 && isowner === 'Yes')
+        if ((fieldName.indexOf('isowner_') !== -1 && isowner && isowner.label === 'Yes')
           || fieldName.indexOf('isowner_') === -1) {
           CommonTip.error(`${fieldDisplayName} is required`)
           pass = false
@@ -111,6 +113,15 @@ export default class DistributionList {
             el.itemList.filter(_ => { return _.type !== 'Head Office(PYN)' })
           }
           break
+        case 'distributionlistid':
+          if (stepName !== 'HA4Approval') {
+            el.required = false
+            el.readable = false
+          } else {
+            el.isCheck = true
+            el.onCheck = onCheck
+          }
+          break
         default:
           return rawData
       }
@@ -149,6 +160,9 @@ export default class DistributionList {
         returnType = 'user'
         break
       case 'memberof':
+        returnType = 'distribution'
+        break
+      case 'distributionlistid':
         returnType = 'distribution'
         break
       case 'acceptmessagesfrom':

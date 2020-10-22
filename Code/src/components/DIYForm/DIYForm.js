@@ -10,7 +10,8 @@ import HAInput from "../HAInput"
 import styled from "styled-components"
 import { spacing } from "@material-ui/system"
 import HASelect from "../HASelect/HASelect"
-import HADatePicker from "../HADatePicker/HADatePicker"
+// import HADatePicker from "../HADatePicker/HADatePicker"
+import SimpleDatePicker from "../SimpleDatePicker/SimpleDatePicker"
 import HACheckBox from "../HACheckBox/HACheckBox"
 import HAList from "../HAList/HAList"
 
@@ -136,7 +137,7 @@ export default function DIYForm(props) {
                     key={el.fieldName + '_' + i}
                     id={el.fieldName + '_div'}
                   >
-                    <HADatePicker
+                    <SimpleDatePicker
                       id={el.fieldName}
                       onChange={onChange}
                       disabled={!el.writable}
