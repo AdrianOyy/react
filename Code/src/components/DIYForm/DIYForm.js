@@ -12,6 +12,7 @@ import { spacing } from "@material-ui/system"
 import HASelect from "../HASelect/HASelect"
 import HADatePicker from "../HADatePicker/HADatePicker"
 import HACheckBox from "../HACheckBox/HACheckBox"
+import HAList from "../HAList/HAList"
 
 
 const Divider = styled(MuiDivider)(spacing)
@@ -52,12 +53,12 @@ export default function DIYForm(props) {
     },
     allgrid: {
       width: '100%',
-      height: '10vh',
+      minHeight: '10vh',
       marginBottom: '4.5vh',
     },
     allnonegrid: {
       width: '100%',
-      height: '10vh',
+      minHeight: '20vh',
       marginBottom: '4.5vh',
       display: 'none',
     },
@@ -139,6 +140,25 @@ export default function DIYForm(props) {
                       id={el.fieldName}
                       onChange={onChange}
                       disabled={!el.writable}
+                      defaultValue={defaultValues ? defaultValues[el.fieldName] : null}
+                      label={el.fieldDisplayName}
+                      required={el.required}
+                    />
+                  </div>
+                ) : null
+              case 'list':
+                return (pid || el.showOnRequest) && el.readable ? (
+                  <div
+                    className={el.display ? classes.allnonegrid : classes.allgrid}
+                    key={el.fieldName + '_' + i}
+                    id={el.fieldName + '_div'}
+                  >
+                    <HAList
+                      id={el.fieldName}
+                      onBlur={onChange}
+                      disabled={!el.writable}
+                      isCheck={el.isCheck}
+                      onCheck={el.onCheck}
                       defaultValue={defaultValues ? defaultValues[el.fieldName] : null}
                       label={el.fieldDisplayName}
                       required={el.required}
