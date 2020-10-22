@@ -133,11 +133,9 @@ function CommonTable(props) {
   }
 
   const display = (action, row) => {
+    // return action.display && action.display(row)
     if (action.display) {
-      if (row.state === 'completed') {
-        return false
-      }
-      if (!row['reason'] || row.reason.length === 0) return false
+      return action.display(row)
     }
     return true
   }

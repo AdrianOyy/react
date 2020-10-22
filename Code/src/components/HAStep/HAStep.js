@@ -6,7 +6,7 @@ import { CommonTable } from "../../components"
 import API from "../../api/workFlow"
 import Paper from "@material-ui/core/Paper"
 import formatDateTime from "../../utils/formatDateTime"
-
+import ChatBox from "../ChatBox"
 import DialogContentText from '@material-ui/core/DialogContentText'
 import DialogContent from '@material-ui/core/DialogContent'
 import DialogActions from '@material-ui/core/DialogActions'
@@ -16,6 +16,7 @@ import MButton from '@material-ui/core/Button'
 import withStyles from "@material-ui/core/styles/withStyles"
 import BorderColorIcon from "@material-ui/icons/BorderColorOutlined"
 import AutorenewIcon from '@material-ui/icons/Autorenew'
+import ChatIcon from '@material-ui/icons/Chat'
 import { orange } from '@material-ui/core/colors'
 import { L } from "../../utils/lang"
 function HAStep(props) {
@@ -26,12 +27,36 @@ function HAStep(props) {
   })))(MButton)
 
   const [ shown, setShown ] = useState(false)
+  const [ showChatBox, setShowChatBox ] = useState(false)
   const [ reason, setReason ] = useState('')
+  const [ taskId, setTaskId ] = useState('')
+  const [ showDisabled, setShowDisabled ] = useState(false)
   const handleDetail = (event, row) => {
     setReason(row.reason)
     setShown(true)
   }
-  const actionList = [{ display: 'reason', label: L('Reject Reason'), icon: <BorderColorIcon />, handleClick: handleDetail }]
+  const handleChatBox = (event, row) => {
+    setTaskId(row.taskId)
+    if (row.endDate) {
+      setShowDisabled(true)
+    } else {
+      setShowDisabled(false)
+    }
+    setShowChatBox(true)
+  }
+  const display = (row) => {
+    if (row.taskId) {
+      if (row.userName || row.groupName) {
+        return true
+      }
+    }
+    return false
+  }
+
+  const actionList = [
+    { label: L('Reject Reason'), icon: <BorderColorIcon />, handleClick: handleDetail },
+    { label: 'message', icon: <ChatIcon />, handleClick: handleChatBox, display }]
+
   const { processInstanceId } = props
   // const processInstanceId = 827520
   const [ steps, setSteps ] = useState([])
@@ -61,6 +86,7 @@ function HAStep(props) {
         const pointUserList = []
         for (const pointUser of process.processPointUser) {
           const pointRow = {
+            taskId: pointUser.taskInstance.taskId,
             assignee: pointUser.assignee,
             userName: pointUser.user ? pointUser.user : null,
             groupName: pointUser.group ? pointUser.group : null,
@@ -86,7 +112,7 @@ function HAStep(props) {
     { id: 'groupName', alignment: 'center', label: L('Group') },
     { id: 'status', alignment: 'center', label: L('Status') },
     { id: 'endDate', alignment: 'center', label: L('End Date') },
-    { id: 'reason', alignment: 'right', label: L('Reject Reason') }
+    { id: 'action', alignment: 'right', label: L('Action') }
   ]
 
   // 每行显示的字段
@@ -134,6 +160,12 @@ function HAStep(props) {
           actionList={actionList}
         />
       </Paper>
+      <ChatBox
+        open={showChatBox}
+        onClose={() => { setShowChatBox(false) }}
+        disabled={showDisabled}
+        taskId={taskId}
+      />
       <Dialog
         open={shown}
         onClose={() => { setShown(false) }}

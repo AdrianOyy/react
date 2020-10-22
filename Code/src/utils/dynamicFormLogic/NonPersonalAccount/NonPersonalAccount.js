@@ -1,6 +1,7 @@
 // import Api from "../../../api/accountManagement"
 import ContractItems from "../../../components/ContractItems"
 import CommonTip from "../../../components/CommonTip"
+import { getUser } from "../../user"
 
 export default class NonPersonalAccount {
   // eslint-disable-next-line
@@ -18,9 +19,14 @@ export default class NonPersonalAccount {
   async checkForm(parentFormDetail, parentDataMap) {
     let pass = true
     // 验证必填字段
+    const issame = parentDataMap.get('issame')
     for (let i = 0; i < parentFormDetail.length; i++) {
       const { required, fieldName, fieldDisplayName } = parentFormDetail[i]
       if (required && (!parentDataMap.get(fieldName) || !parentDataMap.get(fieldName).value)) {
+        CommonTip.error(`${fieldDisplayName} is required`)
+        pass = false
+        break
+      } if (fieldName === 'owneremail' && issame && issame.label === 'Not the same' && (!parentDataMap.get(fieldName) || !parentDataMap.get(fieldName).value)) {
         CommonTip.error(`${fieldDisplayName} is required`)
         pass = false
         break
@@ -34,9 +40,18 @@ export default class NonPersonalAccount {
     return rawData
   }
 
-  handleParentStartData() {
-    const data = {}
-    return data
+  handleParentStartData(startData) {
+    if (startData.start) {
+      const user = getUser()
+      const data = {
+        surname: user.cn,
+        firstname: user.sn,
+        christianname: user.givenName,
+      }
+      return data
+    } else {
+      return null
+    }
   }
 
   // 处理子表数据表
@@ -75,7 +90,6 @@ export default class NonPersonalAccount {
       if (stepName) {
         el.showOnRequest = true
       }
-      console.log(el)
       switch (el.fieldName) {
         case 'supervisoremailaccount':
           el.isCheck = true
@@ -86,6 +100,20 @@ export default class NonPersonalAccount {
           el.onCheck = onCheck
           break
         case 'alreadyaddeddistributionlist':
+          el.isCheck = true
+          el.onCheck = onCheck
+          break
+        case 'emailid':
+          console.log(stepName, pageName)
+          if (stepName !== 'HA4Approval') {
+            el.required = false
+            el.readable = false
+          } else {
+            el.isCheck = true
+            el.onCheck = onCheck
+          }
+          break
+        case 'owneremail':
           el.isCheck = true
           el.onCheck = onCheck
           break
@@ -129,11 +157,17 @@ export default class NonPersonalAccount {
       case 'alreadyaddeddistributionlist':
         returnType = 'distribution'
         break
+      case 'emailid':
+        returnType = 'user'
+        break
+      case 'owneremail':
+        returnType = 'user'
+        break
       default:
         break
     }
     if ((!parentDataMap.get(fieldName) || !parentDataMap.get(fieldName).value)) {
-      CommonTip.error('E-mail Address is required')
+      CommonTip.error('Check field is required')
       returnType = null
     }
     return returnType

@@ -493,35 +493,38 @@ export default function CommonWorkflowForm(props) {
       })
   }
 
-  const handleAgrreTaskClick = () => {
-    Loading.show()
-    const formUpdate = {
-      pid,
-      formKey,
-      childFormKey,
-      taskId,
-      version,
-      parentData: map2object(parentDataMap),
-      childDataList,
+  const handleAgrreTaskClick = async () => {
+    const pass = logic.checkForm && await logic.checkForm(parentFormDetail, parentDataMap)
+    if (pass) {
+      Loading.show()
+      const formUpdate = {
+        pid,
+        formKey,
+        childFormKey,
+        taskId,
+        version,
+        parentData: map2object(parentDataMap),
+        childDataList,
+      }
+      API.update(formUpdate).then(() => {
+        Loading.hide()
+        CommonTip.success(L('Success'))
+        history.push({ pathname: `/MyApproval` })
+      })
+      // const agreeModel = {
+      //   taskId,
+      //   variables: { pass: true },
+      // }
+      // workflowApi.actionTask(agreeModel)
+      //   .then(({ data }) => {
+      //     if (data.status === 400) {
+      //       CommonTip.error(data.data)
+      //     } else {
+      //       CommonTip.success(L('Success'))
+      //       history.push({ pathname: `/MyApproval` })
+      //     }
+      //   })
     }
-    API.update(formUpdate).then(() => {
-      Loading.hide()
-      CommonTip.success(L('Success'))
-      history.push({ pathname: `/MyApproval` })
-    })
-    // const agreeModel = {
-    //   taskId,
-    //   variables: { pass: true },
-    // }
-    // workflowApi.actionTask(agreeModel)
-    //   .then(({ data }) => {
-    //     if (data.status === 400) {
-    //       CommonTip.error(data.data)
-    //     } else {
-    //       CommonTip.success(L('Success'))
-    //       history.push({ pathname: `/MyApproval` })
-    //     }
-    //   })
   }
 
   const onContractClose = (argee) => {

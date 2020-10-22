@@ -48,6 +48,12 @@ class WorkFlow {
   getProcessPoint(params) {
     return request.get(`${prefix}/tree/getProcessPoint`, params, { }, url)
   }
+  addMessage(data) {
+    return request.post(`${prefix}/runtime/addTaskMessage`, data, { }, url)
+  }
+  getTaskMessage(params) {
+    return request.get(`${prefix}/runtime/getTaskMessage`, params, { }, url)
+  }
 
 }
 
