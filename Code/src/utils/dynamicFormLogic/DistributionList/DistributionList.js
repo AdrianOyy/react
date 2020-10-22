@@ -6,7 +6,9 @@ export default class DistributionList {
   // eslint-disable-next-line
   async onFieldChange(data, dataMap, ref) {
     const { id } = data
-    dataMap.set(id, data)
+    if (id) {
+      dataMap.set(id, data)
+    }
   }
 
   // eslint-disable-next-line
