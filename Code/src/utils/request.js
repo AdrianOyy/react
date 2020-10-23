@@ -118,7 +118,8 @@ export default {
       axiosInstance({
         method: 'post',
         url,
-        data: param
+        data: param,
+        responseType: o.responseType
       })
         .then(res => {
           if (res.data && !res.data.status && res.data.message && o.handleError) {

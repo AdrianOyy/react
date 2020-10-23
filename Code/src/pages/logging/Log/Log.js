@@ -310,6 +310,15 @@ export default function List() {
     setPage(0)
   }
 
+  const getResPath = (req) => {
+    const { url, headers } = req
+    if (url.includes('://')) {
+      return url.split('://')[1]
+    }
+    const { host } = headers
+    return host + url
+  }
+
   return (
     <React.Fragment>
       <Helmet title={title} />
@@ -361,7 +370,7 @@ export default function List() {
                   <TableCell
                     align={columns[0].align ? columns[0].align : 'center'}
                   >
-                    { row.request && row.request.url && row.request.headers && row.request.headers.host && row.request.headers.host + row.request.url.split('?')[0] }
+                    { getResPath(row.request) }
                   </TableCell>
                   <TableCell
                     align={columns[0].align ? columns[0].align : 'center'}

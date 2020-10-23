@@ -10,7 +10,7 @@ import {
   TableBody,
   TableCell,
   TableContainer,
-  TableRow,
+  TableRow, Tooltip,
 } from '@material-ui/core'
 
 import {
@@ -62,6 +62,8 @@ function CommonTable(props) {
     customCreate,
     actionList,
     marginTop,
+    showDownLoad,
+    page,
   } = props
   const history = useHistory()
   const [ order, setOrder ] = useState('asc')
@@ -149,6 +151,8 @@ function CommonTable(props) {
         onDelete={handleDelete}
         hideCreate={hideCreate}
         customCreate={customCreate}
+        showDownLoad={showDownLoad}
+        page={page}
       />
       <TableContainer>
         <Table
@@ -204,18 +208,22 @@ function CommonTable(props) {
                       <Box mt={3}>
                         {
                           !hideDetail && (() => (
-                            <IconButton aria-label="detail" onClick={(event) => handleDetail(event, row.id)}>
-                              <RemoveRedEyeIcon />
-                            </IconButton>
+                            <Tooltip title="Detail">
+                              <IconButton aria-label="detail" onClick={(event) => handleDetail(event, row.id)}>
+                                <RemoveRedEyeIcon />
+                              </IconButton>
+                            </Tooltip>
                           ))
                         }
                       </Box>
                       <Box>
                         {
                           !hideUpdate && (() => (
-                            <IconButton aria-label="update" onClick={(event) => handleUpdate(event, row.id)}>
-                              <BorderColorIcon />
-                            </IconButton>
+                            <Tooltip title="Edit">
+                              <IconButton aria-label="update" onClick={(event) => handleUpdate(event, row.id)}>
+                                <BorderColorIcon />
+                              </IconButton>
+                            </Tooltip>
                           ))
                         }
                       </Box>

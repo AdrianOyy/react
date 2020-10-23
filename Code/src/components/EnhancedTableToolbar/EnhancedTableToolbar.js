@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useHistory } from 'react-router-dom'
 import styled from "styled-components"
 
@@ -14,6 +14,9 @@ import {
   AddOutlined as AddIcon,
 } from "@material-ui/icons"
 
+import GetAppIcon from '@material-ui/icons/GetApp'
+import DownloadDialog from "../DownloadDialog"
+
 const ToolbarTitle = styled.div`
   min-width: 400px;
 `
@@ -23,10 +26,17 @@ const Spacer = styled.div`
 `
 
 function EnhancedTableToolbar(props) {
-  const { numSelected, tableName, createPath,
-    onDelete, hideCreate, customCreate, titleLevel,
+  const { numSelected, tableName, createPath, showDownLoad,
+    onDelete, hideCreate, customCreate, titleLevel, page,
   } = props
+  const [ open, setOpen ] = useState(false)
   const history = useHistory()
+  const onDownLoad = () => {
+    setOpen(true)
+  }
+  const onClose = () => {
+    setOpen(false)
+  }
   const toCreatePage = () => {
     customCreate ? customCreate() : history.push(createPath)
   }
@@ -45,7 +55,16 @@ function EnhancedTableToolbar(props) {
           )}
         </ToolbarTitle>
         <Spacer />
-        <div>
+        <div style={{ display: 'flex' }}>
+          {
+            showDownLoad && (
+              <Tooltip title="Export">
+                <IconButton aria-label="Export" onClick={onDownLoad}>
+                  <GetAppIcon />
+                </IconButton>
+              </Tooltip>
+            )
+          }
           {numSelected > 0 ? (
             <Tooltip title="Delete">
               <IconButton aria-label="Delete" onClick={onDelete}>
@@ -62,6 +81,11 @@ function EnhancedTableToolbar(props) {
           }
         </div>
       </Toolbar>
+      <DownloadDialog
+        open={open}
+        page={page}
+        onClose={onClose}
+      />
     </React.Fragment>
   )
 }
