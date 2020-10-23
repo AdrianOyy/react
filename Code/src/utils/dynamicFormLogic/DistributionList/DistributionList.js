@@ -1,4 +1,4 @@
-// import Api from "../../../api/accountManagement"
+import Api from "../../../api/accountManagement"
 import ContractItems from "../../../components/ContractItems"
 import CommonTip from "../../../components/CommonTip"
 
@@ -77,6 +77,7 @@ export default class DistributionList {
     return childList
   }
 
+  // eslint-disable-next-line no-unused-vars
   handleParentData(rawData, stepName, pageName, onCheck) {
     rawData && rawData.forEach(el => {
       if (stepName) {
@@ -84,24 +85,34 @@ export default class DistributionList {
       }
       switch (el.fieldName) {
         case 'supervisoremailaccount':
-          el.isCheck = true
-          el.onCheck = onCheck
+          el.title = 'Set Email Account'
+          el.type = 'inputCheck'
+          el.apiKey = Api.findUsers
+          el.apiValue = { returnType: 'user' }
           break
         case 'members':
-          el.isCheck = true
-          el.onCheck = onCheck
+          el.title = 'Set Email Account'
+          el.type = 'dialogList'
+          el.apiKey = Api.findUsers
+          el.apiValue = { returnType: 'user' }
           break
         case 'memberof':
-          el.isCheck = true
-          el.onCheck = onCheck
+          el.title = 'Set Distribution'
+          el.type = 'dialogList'
+          el.apiKey = Api.findUsers
+          el.apiValue = { returnType: 'distribution' }
           break
         case 'acceptmessagesfrom':
-          el.isCheck = true
-          el.onCheck = onCheck
+          el.title = 'Set Email Account'
+          el.type = 'dialogList'
+          el.apiKey = Api.findUsers
+          el.apiValue = { returnType: 'user' }
           break
         case 'rejectmessagesfrom':
-          el.isCheck = true
-          el.onCheck = onCheck
+          el.title = 'Set Email Account'
+          el.type = 'dialogList'
+          el.apiKey = Api.findUsers
+          el.apiValue = { returnType: 'user' }
           break
         case 'stafftype':
           if (el.itemList) {
@@ -118,8 +129,10 @@ export default class DistributionList {
             el.required = false
             el.readable = false
           } else {
-            el.isCheck = true
-            el.onCheck = onCheck
+            el.title = 'Set Distribution'
+            el.type = 'inputCheck'
+            el.apiKey = Api.findUsers
+            el.apiValue = { returnType: 'distribution' }
           }
           break
         default:
@@ -153,24 +166,6 @@ export default class DistributionList {
   getReturnType(parentDataMap, fieldName) {
     let returnType = null
     switch (fieldName) {
-      case 'supervisoremailaccount':
-        returnType = 'user'
-        break
-      case 'members':
-        returnType = 'user'
-        break
-      case 'memberof':
-        returnType = 'distribution'
-        break
-      case 'distributionlistid':
-        returnType = 'distribution'
-        break
-      case 'acceptmessagesfrom':
-        returnType = 'distribution'
-        break
-      case 'rejectmessagesfrom':
-        returnType = 'distribution'
-        break
       default:
         break
     }

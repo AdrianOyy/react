@@ -1,4 +1,4 @@
-// import Api from "../../../api/accountManagement"
+import Api from "../../../api/accountManagement"
 import ContractItems from "../../../components/ContractItems"
 import CommonTip from "../../../components/CommonTip"
 import { getUser } from "../../user"
@@ -85,6 +85,7 @@ export default class NonPersonalAccount {
     return childList
   }
 
+  // eslint-disable-next-line no-unused-vars
   handleParentData(rawData, stepName, pageName, onCheck) {
     rawData && rawData.forEach(el => {
       if (stepName) {
@@ -92,30 +93,51 @@ export default class NonPersonalAccount {
       }
       switch (el.fieldName) {
         case 'supervisoremailaccount':
-          el.isCheck = true
-          el.onCheck = onCheck
+          el.title = 'Set Email Account'
+          el.type = 'inputCheck'
+          el.apiKey = Api.findUsers
+          el.apiValue = { returnType: 'user' }
           break
         case 'alternaterecipient':
-          el.isCheck = true
-          el.onCheck = onCheck
+          el.title = 'Set Email Account or Distribution'
+          el.type = 'inputCheck'
+          el.apiKey = Api.findUsers
+          el.apiValue = { returnType: 'userOrDistribution' }
           break
         case 'alreadyaddeddistributionlist':
-          el.isCheck = true
-          el.onCheck = onCheck
+          el.title = 'Set Distribution'
+          el.type = 'dialogList'
+          el.apiKey = Api.findUsers
+          el.apiValue = { returnType: 'distribution' }
+          break
+        case 'acceptmessagesfrom':
+          el.title = 'Set Email Account'
+          el.type = 'dialogList'
+          el.apiKey = Api.findUsers
+          el.apiValue = { returnType: 'user' }
+          break
+        case 'rejectmessagesfrom':
+          el.title = 'Set Email Account'
+          el.type = 'dialogList'
+          el.apiKey = Api.findUsers
+          el.apiValue = { returnType: 'user' }
           break
         case 'emailid':
-          console.log(stepName, pageName)
           if (stepName !== 'HA4Approval') {
             el.required = false
             el.readable = false
           } else {
-            el.isCheck = true
-            el.onCheck = onCheck
+            el.title = 'Set Email Account'
+            el.type = 'inputCheck'
+            el.apiKey = Api.findUsers
+            el.apiValue = { returnType: 'user' }
           }
           break
         case 'owneremail':
-          el.isCheck = true
-          el.onCheck = onCheck
+          el.title = 'Set Email Account'
+          el.type = 'inputCheck'
+          el.apiKey = Api.findUsers
+          el.apiValue = { returnType: 'user' }
           break
         default:
           return rawData
@@ -148,21 +170,6 @@ export default class NonPersonalAccount {
   getReturnType(parentDataMap, fieldName) {
     let returnType = null
     switch (fieldName) {
-      case 'supervisoremailaccount':
-        returnType = 'user'
-        break
-      case 'alternaterecipient':
-        returnType = 'userOrDistribution'
-        break
-      case 'alreadyaddeddistributionlist':
-        returnType = 'distribution'
-        break
-      case 'emailid':
-        returnType = 'user'
-        break
-      case 'owneremail':
-        returnType = 'user'
-        break
       default:
         break
     }
