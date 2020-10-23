@@ -6,6 +6,7 @@ import {
 } from "@material-ui/core"
 import { fade, withStyles, makeStyles } from "@material-ui/core/styles"
 import EmailCheck from "../EmailCheck/EmailCheck"
+import CommonTip from "../CommonTip"
 
 const fontFamily = [
   '-apple-system',
@@ -73,12 +74,15 @@ export default function HAInput(props) {
   }
 
   const HandleCheck = () => {
-    // onCheck && onCheck(id)
-    apiKey && apiKey(Object.assign({ email: inputvalue, id }, apiValue)).then(({ data }) => {
-      const result = data.data
-      setEmails(result)
-      setOpen(true)
-    })
+    if (inputvalue) {
+      apiKey && apiKey(Object.assign({ email: inputvalue, id }, apiValue)).then(({ data }) => {
+        const result = data.data
+        setEmails(result)
+        setOpen(true)
+      })
+    } else {
+      CommonTip.error('value can not be found')
+    }
   }
 
   const getWidth = (power) => {
