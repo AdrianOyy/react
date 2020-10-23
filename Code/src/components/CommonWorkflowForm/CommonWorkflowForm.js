@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from "react"
 import Api from "../../api/dynamicForm"
 import workflowApi from "../../api/workFlow"
-import accountManagementApi from "../../api/accountManagement"
 import DIYForm from "../../components/DIYForm"
 import { makeStyles, withStyles } from "@material-ui/core/styles"
 import { Paper as HAPaper } from "@material-ui/core"
@@ -17,7 +16,6 @@ import DialogTitle from '@material-ui/core/DialogTitle'
 import Dialog from '@material-ui/core/Dialog'
 import TextField from '@material-ui/core/TextField'
 import Contract from "../../components/Contract"
-import EmailCheck from "../../components/EmailCheck"
 import {
   BorderColorOutlined as BorderColorIcon,
 } from "@material-ui/icons"
@@ -111,8 +109,6 @@ export default function CommonWorkflowForm(props) {
 
   let [ parentDataMap ] = useState(new Map())
 
-  const [ emails, setEmails ] = useState([])
-
   // 原始渲染数据
   const [ rawData, setRawData ] = useState(null)
   // 原始数据
@@ -121,8 +117,6 @@ export default function CommonWorkflowForm(props) {
   const [ shown, setShown ] = useState(false)
   // 协议对话框打开标识
   const [ contractOpen, setContractOpen ] = useState(false)
-  const [ checkOpen, setCheckOpen ] = useState(false)
-  const [ checkName, setCheckName ] = useState(null)
   // 同意协议标识
   const [ argeeContract, setArgeeContract ] = useState(false)
   const [ contractList, setContractList ] = useState([])
@@ -201,43 +195,12 @@ export default function CommonWorkflowForm(props) {
   }, [ workflowName ])
 
 
-  const onCheckOpen = (fieldName) => {
-    const returnType = logic.getReturnType(parentDataMap, fieldName)
-    if (returnType !== null) {
-      setCheckName(fieldName)
-      accountManagementApi.findUsers(
-        {
-          email: parentDataMap.get(fieldName).value,
-          returnType,
-        }).then(({ data }) => {
-        const results = data.data
-        if (results.length > 0) {
-          setEmails(results)
-          setParentDefaultValues(map2object(parentDataMap))
-          setCheckOpen(true)
-        } else {
-          CommonTip.error(`${parentDataMap.get(fieldName).value} is not found`)
-        }
-      })
-    }
-  }
-
-  const onCheckClose = () => {
-    setCheckOpen(false)
-  }
-
-  const handleEmailCheck = (email) => {
-    logic.setSupervisorEmail(email, parentDataMap, checkName)
-    setParentDefaultValues(map2object(parentDataMap))
-    setCheckOpen(false)
-  }
-
   // 处理原始渲染数据和具体数据
   useEffect(() => {
     if (!logic || !rawData) return
     const { parentFormDetail, childFormDetail } = rawData
     // 处理父表渲染表
-    const parentDetail = logic.handleParentData(parentFormDetail, stepName, pageName, onCheckOpen)
+    const parentDetail = logic.handleParentData(parentFormDetail, stepName, pageName)
     setParentFormDetail(parentDetail)
 
     // 处理子表渲染表
@@ -684,13 +647,6 @@ export default function CommonWorkflowForm(props) {
         open={contractOpen}
         onClose={onContractClose}
         contractList={contractList}
-      />
-
-      <EmailCheck
-        open={checkOpen}
-        onClose={onCheckClose}
-        emails={emails}
-        handleEmail={handleEmailCheck}
       />
 
       <Dialog
