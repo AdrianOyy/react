@@ -161,6 +161,7 @@ export default function DIYForm(props) {
                       onBlur={onChange}
                       disabled={!el.writable}
                       apiKey={el.apiKey}
+                      apiValue={el.apiValue}
                       title={el.title}
                       defaultValue={defaultValues ? defaultValues[el.fieldName] : null}
                       label={el.fieldDisplayName}
@@ -180,6 +181,7 @@ export default function DIYForm(props) {
                       onBlur={onChange}
                       disabled={!el.writable}
                       apiKey={el.apiKey}
+                      apiValue={el.apiValue}
                       title={el.title}
                       defaultValue={defaultValues ? defaultValues[el.fieldName] : null}
                       label={el.fieldDisplayName}
