@@ -1,4 +1,4 @@
-// import Api from "../../../api/accountManagement"
+import Api from "../../../api/accountManagement"
 // import ContractItems from "../../../components/ContractItems"
 import CommonTip from "../../../components/CommonTip"
 
@@ -70,16 +70,18 @@ export default class ClosingAccount {
     return childList
   }
 
+  // eslint-disable-next-line no-unused-vars
   handleParentData(rawData, stepName, pageName, onCheck) {
     rawData && rawData.forEach(el => {
       if (stepName) {
         el.showOnRequest = true
       }
-      console.log(el)
       switch (el.fieldName) {
         case 'supervisoremailaccount':
-          el.isCheck = true
-          el.onCheck = onCheck
+          el.title = 'Set Email Account'
+          el.type = 'inputCheck'
+          el.apiKey = Api.findUsers
+          el.apiValue = { returnType: 'user' }
           break
         default:
           return rawData
@@ -112,9 +114,6 @@ export default class ClosingAccount {
   getReturnType(parentDataMap, fieldName) {
     let returnType = null
     switch (fieldName) {
-      case 'supervisoremailaccount':
-        returnType = 'user'
-        break
       default:
         break
     }
