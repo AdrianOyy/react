@@ -9,18 +9,18 @@ import { L } from '../../../../../utils/lang'
 
 import { CommonTable, SearchBar, ChatBox } from '../../../../../components'
 import API from "../../../../../api/workFlow"
-// import { user } from "../../../../../api/workFlow"
 import styled from "styled-components"
 import { useHistory } from "react-router-dom"
-import { getUser } from "../../../../../utils/user"
+import { getUserGroupList } from "../../../../../utils/auth"
 import { spacing } from "@material-ui/system"
-import dayjs from "dayjs"
-import { BorderColorOutlined as BorderColorIcon, Reorder as ReorderIcon, Chat as ChatIcon} from "@material-ui/icons"
+import formatDateTime from "../../../../../utils/formatDateTime"
+import {
+  BorderColorOutlined as BorderColorIcon,
+  Reorder as ReorderIcon,
+  Chat as ChatIcon
+} from "@material-ui/icons"
 
 const Paper = styled(MuiPaper)(spacing)
-const formatDateTime = (str) => {
-  return dayjs(new Date(str)).format('YYYY-MM-DD HH:mm')
-}
 const tableName = L('My Approval')
 
 function List(props) {
@@ -45,7 +45,7 @@ function List(props) {
   }, [])
 
   useEffect(() => {
-    const groupList = getUser().groupList
+    const groupList = getUserGroupList()
     API.getTaskListByGroup({ groupList, limit: rowsPerPage, page: page + 1 }).then(response => {
       console.log(response.data.data)
       setTotal(response.data.data.total)
@@ -196,7 +196,7 @@ function List(props) {
               actionList={actionList}
               hideCreate={true}
             />
-            <ChatBox 
+            <ChatBox
               open={showChatBox}
               onClose={() => { setShowChatBox(false) }}
               taskId={taskId}

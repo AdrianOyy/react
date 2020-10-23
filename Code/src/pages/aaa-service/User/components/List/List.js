@@ -9,13 +9,10 @@ import { SearchBar } from '../../../../../components'
 import styled from "styled-components"
 import { spacing } from "@material-ui/system"
 import API from "../../../../../api/user"
-import dayjs from "dayjs"
+import formatDateTime from "../../../../../utils/formatDateTime"
 import { CommonTable } from "../../../../../components"
 import { L } from '../../../../../utils/lang'
 const Paper = styled(MuiPaper)(spacing)
-const formatDateTime = (str) => {
-  return dayjs(new Date(str)).format('DD-MMM-YYYY HH:mm')
-}
 const tableName = L('List')
 
 

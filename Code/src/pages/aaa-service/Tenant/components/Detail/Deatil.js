@@ -4,12 +4,9 @@ import DetailPage from "../../../../../components/DetailPage"
 import API from "../../../../../api/tenant"
 import { useParams } from "react-router-dom"
 import { L } from '../../../../../utils/lang'
-import dayjs from "dayjs"
+import formatDateTime from "../../../../../utils/formatDateTime"
 
 const formTitle = 'Detail'
-const formatDateTime = (str) => {
-  return dayjs(new Date(str)).format('DD-MMM-YYYY HH:mm')
-}
 
 function Detail(props) {
   const { id } = useParams()

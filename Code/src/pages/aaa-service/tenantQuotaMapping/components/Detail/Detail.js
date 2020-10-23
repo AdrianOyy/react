@@ -4,12 +4,8 @@ import DetailPage from "../../../../../components/DetailPage"
 import API from "../../../../../api/tenantQuotaMapping"
 import { useParams } from "react-router-dom"
 import { L } from '../../../../../utils/lang'
+import formatDateTime from "../../../../../utils/formatDateTime"
 
-import dayjs from "dayjs"
-
-const formatDateTime = (str) => {
-  return dayjs(new Date(str)).format('DD-MMM-YYYY HH:mm')
-}
 
 function Detail(props) {
   const { onMount } = props
@@ -19,7 +15,7 @@ function Detail(props) {
   const [ year, setYear ] = useState('')
   const [ quota, setQuota ] = useState('')
   const [ createdAt, setCreatedAt ] = useState('')
-  const [ updatedAt, setUpdastedAt ] = useState('')
+  const [ updatedAt, setUpdatedAt ] = useState('')
   const [ formFieldList, setFormFieldList ] = useState([])
 
   // 用于更新面包屑
@@ -40,7 +36,7 @@ function Detail(props) {
           setYear(year)
           setQuota(quota)
           setCreatedAt(createdAt)
-          setUpdastedAt(updatedAt)
+          setUpdatedAt(updatedAt)
         }
       })
   }, [ id ])

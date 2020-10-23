@@ -13,12 +13,9 @@ import { L } from '../../../../../utils/lang'
 import roleApi from "../../../../../api/role"
 import styled from "styled-components"
 import { spacing } from "@material-ui/system"
-import dayjs from "dayjs"
+import formatDateTime from "../../../../../utils/formatDateTime"
 
 const Paper = styled(MuiPaper)(spacing)
-const formatDateTime = (str) => {
-  return dayjs(new Date(str)).format('DD-MMM-YYYY HH:mm')
-}
 
 const tableName = L('List')
 

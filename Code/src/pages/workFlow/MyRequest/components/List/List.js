@@ -11,17 +11,14 @@ import { CommonTable, SearchBar } from '../../../../../components'
 import API from "../../../../../api/workFlow"
 import styled from "styled-components"
 import { spacing } from "@material-ui/system"
-import dayjs from "dayjs"
-import { getUser } from "../../../../../utils/user"
+import formatDateTime from "../../../../../utils/formatDateTime"
+import { getUser } from "../../../../../utils/auth"
 import {
   BorderColorOutlined as BorderColorIcon,
   Reorder as ReorderIcon,
 } from "@material-ui/icons"
 
 const Paper = styled(MuiPaper)(spacing)
-const formatDateTime = (str) => {
-  return dayjs(new Date(str)).format('YYYY-MM-DD HH:mm')
-}
 const tableName = ''
 
 function List(props) {

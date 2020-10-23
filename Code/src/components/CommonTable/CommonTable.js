@@ -72,7 +72,7 @@ function CommonTable(props) {
   const [ loading, setLoading ] = useState(false)
 
   const handleDelete = () => {
-    if (loading) return
+    if (loading || !deleteAPI) return
     setLoading(true)
     deleteAPI({ idList: selected })
       .then(() => {
@@ -149,6 +149,7 @@ function CommonTable(props) {
         tableName={tableName}
         createPath={`${path}/create`}
         onDelete={handleDelete}
+        hideDelete={!deleteAPI}
         hideCreate={hideCreate}
         customCreate={customCreate}
         showDownLoad={showDownLoad}

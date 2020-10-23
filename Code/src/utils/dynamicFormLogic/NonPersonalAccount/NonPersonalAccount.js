@@ -1,7 +1,7 @@
 import Api from "../../../api/accountManagement"
 import ContractItems from "../../../components/ContractItems"
 import CommonTip from "../../../components/CommonTip"
-import { getUser } from "../../user"
+import { getUser } from "../../auth"
 
 export default class NonPersonalAccount {
   // eslint-disable-next-line

@@ -4,7 +4,7 @@ import DetailPage from "../../../../../components/DetailPage"
 import API from "../../../../../api/inventoryLifeCycle"
 import { L } from '../../../../../utils/lang'
 import { useParams } from "react-router-dom"
-import dayjs from "dayjs"
+import formatDateTime from "../../../../../utils/formatDateTime"
 
 function Detail(props) {
   const { onMount } = props
@@ -24,10 +24,6 @@ function Detail(props) {
   const [ createdAt, setCreatedAt ] = useState('')
   const [ updatedAt, setUpdastedAt ] = useState('')
   const [ LifeCycles, setLifeCycles ] = useState([])
-
-  const formatDateTime = (str) => {
-    return dayjs(new Date(str)).format('DD-MMM-YYYY HH:mm')
-  }
 
   useEffect(() => {
     onMount('detail')

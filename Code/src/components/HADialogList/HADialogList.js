@@ -8,6 +8,7 @@ import { fade, withStyles, makeStyles } from "@material-ui/core/styles"
 import Select from '@material-ui/core/Select'
 import EmailCheck from "../EmailCheck/EmailCheck"
 import CommonTip from "../CommonTip"
+import { L } from "../../utils/lang"
 
 const fontFamily = [
   '-apple-system',
@@ -93,11 +94,12 @@ export default function HAInput(props) {
 
   const HandleCheck = () => {
     if (inputvalue) {
-      apiKey && apiKey(Object.assign({ email: inputvalue, id }, apiValue)).then(({ data }) => {
-        const result = data.data
-        setEmails(result)
-        setOpen(true)
-      })
+      apiKey && apiKey(Object.assign({ email: inputvalue, id }, apiValue))
+        .then(({ data }) => {
+          const result = data.data
+          setEmails(result)
+          setOpen(true)
+        })
     } else {
       CommonTip.error('value can not be found')
     }
@@ -260,7 +262,7 @@ export default function HAInput(props) {
           variant="contained"
           onClick={HandleDelete}
           color="primary"
-        >{'Delete'}</Button>
+        >{L('Delete')}</Button>
       </div>
       {
         error && helperText && (

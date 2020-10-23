@@ -91,4 +91,13 @@ function getUserGroupTypeList() {
   return groupTypeList ? groupTypeList : []
 }
 
-export { authRoute, authMenu, signIn, signOut, getUserGroupList, getUserGroupTypeList, getUserFromLocalStorage }
+export {
+  authRoute,
+  authMenu,
+  signIn,
+  signOut,
+  getUserGroupList,
+  getUserGroupTypeList,
+  getUserFromLocalStorage,
+  getUser
+}

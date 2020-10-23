@@ -50,8 +50,11 @@ function SignIn() {
             CommonTip.error(L('LoginFail'))
           } else {
             signIn(response.data.data)
-            history.push('/dashboard/analytics')
+            history.push('/workflow/approval/')
           }
+        })
+        .catch(() => {
+          Loading.hide()
         })
     } else {
       if (!account) {
@@ -90,7 +93,7 @@ function SignIn() {
         {L('WelcomeToSENSE')}
       </Typography>
       <Typography component="h2" variant="body1" align="center">
-        {L('signinAccount')}
+        {L('signInAccount')}
       </Typography>
       <form>
         <FormControl margin="normal" required fullWidth>

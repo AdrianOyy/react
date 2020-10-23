@@ -1,5 +1,4 @@
-const crypto = require('crypto')
-// const sha1 = crypto.createHash("sha1");
+import crypto from 'crypto'
 
 export function encryption(pass) {
   let encrypted = ''

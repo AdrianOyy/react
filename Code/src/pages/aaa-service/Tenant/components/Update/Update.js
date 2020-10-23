@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import DetailPage from "../../../../../components/DetailPage"
 import API from "../../../../../api/tenant"
 import { useParams } from "react-router-dom"
-import dayjs from "dayjs"
+import formatDateTime from "../../../../../utils/formatDateTime"
 import CommonTip from "../../../../../components/CommonTip"
 import { useHistory } from 'react-router-dom'
 import { checkEmpty } from "../../untils/tenantFieldCheck"
@@ -72,10 +72,6 @@ function Update(props) {
       }
     })
   }, [])
-
-  const formatDateTime = (str) => {
-    return dayjs(new Date(str)).format('DD-MMM-YYYY HH:mm')
-  }
 
   const handleClick = async () => {
     const nameErr = await nameCheck()

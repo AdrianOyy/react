@@ -9,7 +9,7 @@ import PerfectScrollbar from "react-perfect-scrollbar"
 import "../vendor/perfect-scrollbar.css"
 
 import { spacing } from "@material-ui/system"
-import { getUser } from "../utils/user"
+import { getUser } from "../utils/auth"
 import {
   Avatar,
   Badge,

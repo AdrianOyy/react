@@ -5,7 +5,7 @@ import ExpandTable from "../../../../../components/ExpandTable"
 import API from "../../../../../api/inventory"
 import { L } from '../../../../../utils/lang'
 import { useParams } from "react-router-dom"
-import dayjs from "dayjs"
+import formatDateTime from "../../../../../utils/formatDateTime"
 import PropTypes from 'prop-types'
 import { makeStyles } from '@material-ui/core/styles'
 
@@ -148,9 +148,6 @@ function Detail(props) {
 
   const [ showProps, setShowProps ] = useState([])
 
-  const formatDateTime = (str) => {
-    return dayjs(new Date(str)).format('DD-MMM-YYYY HH:mm')
-  }
 
   const classes = useStyles()
   const [ value, setValue ] = React.useState(0)

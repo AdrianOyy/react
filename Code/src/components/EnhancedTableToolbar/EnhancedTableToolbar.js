@@ -28,6 +28,7 @@ const Spacer = styled.div`
 function EnhancedTableToolbar(props) {
   const { numSelected, tableName, createPath, showDownLoad,
     onDelete, hideCreate, customCreate, titleLevel, page,
+    hideDelete,
   } = props
   const [ open, setOpen ] = useState(false)
   const history = useHistory()
@@ -65,7 +66,7 @@ function EnhancedTableToolbar(props) {
               </Tooltip>
             )
           }
-          {numSelected > 0 ? (
+          {numSelected > 0 && !hideDelete ? (
             <Tooltip title="Delete">
               <IconButton aria-label="Delete" onClick={onDelete}>
                 <DeleteIcon />

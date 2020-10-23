@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import DetailPage from "../../../../../components/DetailPage"
 import assignApi from "../../../../../api/assign"
 import { useParams } from "react-router-dom"
-import dayjs from "dayjs"
+import formatDateTime from "../../../../../utils/formatDateTime"
 import CommonTip from "../../../../../components/CommonTip"
 import { useHistory } from 'react-router-dom'
 import { checkEmpty } from "../../untils/assignFieldCheck"
@@ -11,9 +11,6 @@ import roleApi from "../../../../../api/role"
 import API from "../../../../../api/assign"
 import { L } from '../../../../../utils/lang'
 
-const formatDateTime = (str) => {
-  return dayjs(new Date(str)).format('DD-MMM-YYYY HH:mm')
-}
 
 function AssignUpdate(props) {
   const { onMount } = props

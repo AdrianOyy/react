@@ -6,6 +6,7 @@ import {
 } from "@material-ui/core"
 import { fade, withStyles, makeStyles } from "@material-ui/core/styles"
 import Select from '@material-ui/core/Select'
+import { L } from "../../utils/lang"
 
 const fontFamily = [
   '-apple-system',
@@ -242,7 +243,7 @@ export default function HAInput(props) {
           variant="contained"
           onClick={HandleDelete}
           color="primary"
-        >{'Delete'}</Button>
+        >{L('Delete')}</Button>
       </div>
       {
         error && helperText && (

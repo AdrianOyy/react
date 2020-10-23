@@ -1,14 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import { useParams } from "react-router-dom"
-import dayjs from "dayjs"
-
+import formatDateTime from "../../../../../utils/formatDateTime"
 import { L } from '../../../../../utils/lang'
 import DetailPage from "../../../../../components/DetailPage"
 import UserApi from "../../../../../api/user"
 
-const formatDateTime = (str) => {
-  return dayjs(new Date(str)).format('DD-MMM-YYYY HH:mm')
-}
 const formTitle = 'Detail'
 
 function Detail(props) {

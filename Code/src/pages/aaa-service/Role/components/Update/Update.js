@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import DetailPage from "../../../../../components/DetailPage"
 import roleApi from "../../../../../api/role"
 import { useParams } from "react-router-dom"
-import dayjs from "dayjs"
+import formatDateTime from "../../../../../utils/formatDateTime"
 import CommonTip from "../../../../../components/CommonTip"
 import { useHistory } from 'react-router-dom'
 import { checkEmpty, getCheckExist } from "../../untils/RoleFieldCheck"
@@ -21,9 +21,6 @@ function TenantDetail(props) {
   const [ saving, setSaving ] = useState(true)
   const [ labelError, setLabelError ] = useState(false)
   const [ labelHelperText, setLabelHelperText ] = useState("")
-  const formatDateTime = (str) => {
-    return dayjs(new Date(str)).format('DD-MMM-YYYY HH:mm')
-  }
 
   useEffect(() => {
     onMount('update')
