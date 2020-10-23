@@ -43,7 +43,7 @@ function List(props) {
         setTotal(response.data.data.count)
         handleData(response.data.data.rows)
       })
-  }, [page, rowsPerPage, query])
+  }, [ page, rowsPerPage, query ])
 
   const handleData = (rawDataList) => {
     const rows = []
@@ -138,7 +138,9 @@ function List(props) {
           />
           <Paper>
             <CommonTable
+              page={'VM'}
               rows={rows}
+              showDownLoad={true}
               tableName={tableName}
               deleteAPI={API.deleteMany}
               handleSearch={handleSearch}
