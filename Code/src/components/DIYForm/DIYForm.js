@@ -15,6 +15,7 @@ import SimpleDatePicker from "../SimpleDatePicker/SimpleDatePicker"
 import HACheckBox from "../HACheckBox/HACheckBox"
 import HAList from "../HAList/HAList"
 import HADialogList from "../HADialogList/HADialogList"
+import HAInputCheck from "../HAInputCheck/HAInputCheck"
 
 
 const Divider = styled(MuiDivider)(spacing)
@@ -148,6 +149,25 @@ export default function DIYForm(props) {
                     />
                   </div>
                 ) : null
+              case 'inputCheck':
+                return (pid || el.showOnRequest) && el.readable ? (
+                  <div
+                    className={el.display ? classes.nonegrid : classes.grid}
+                    key={el.fieldName + '_' + i}
+                    id={el.fieldName + '_div'}
+                  >
+                    <HAInputCheck
+                      id={el.fieldName}
+                      onBlur={onChange}
+                      disabled={!el.writable}
+                      apiKey={el.apiKey}
+                      title={el.title}
+                      defaultValue={defaultValues ? defaultValues[el.fieldName] : null}
+                      label={el.fieldDisplayName}
+                      required={el.required}
+                    />
+                  </div>
+                ) : null
               case 'dialogList':
                 return (pid || el.showOnRequest) && el.readable ? (
                   <div
@@ -159,9 +179,8 @@ export default function DIYForm(props) {
                       id={el.fieldName}
                       onBlur={onChange}
                       disabled={!el.writable}
-                      isCheck={el.isCheck}
-                      onCheck={el.onCheck}
                       apiKey={el.apiKey}
+                      title={el.title}
                       defaultValue={defaultValues ? defaultValues[el.fieldName] : null}
                       label={el.fieldDisplayName}
                       required={el.required}

@@ -176,8 +176,10 @@ export default class AccountManagement {
           })
           break
         case 'supervisoremailaccount':
-          el.isCheck = true
-          el.onCheck = onCheck
+          el.type = 'inputCheck'
+          el.apiKey = Api.findUsers
+          el.title = 'Set Email Account'
+          el.apiValue = { returnType: 'user' }
           break
         case 'distribution_list':
           el.isCheck = true

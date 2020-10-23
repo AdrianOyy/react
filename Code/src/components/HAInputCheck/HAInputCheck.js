@@ -5,7 +5,6 @@ import {
   Button,
 } from "@material-ui/core"
 import { fade, withStyles, makeStyles } from "@material-ui/core/styles"
-import Select from '@material-ui/core/Select'
 import EmailCheck from "../EmailCheck/EmailCheck"
 
 const fontFamily = [
@@ -50,15 +49,13 @@ export default function HAInput(props) {
   } = props
 
   // eslint-disable-next-line no-unused-vars
-  const [ detailList, setDetailList ] = useState([])
   const [ inputvalue, setInputValue ] = useState('')
-  const [ multipleValue, setMultipleValue ] = useState([])
   const [ open, setOpen ] = useState(false)
   const [ emails, setEmails ] = useState([])
   useEffect(() => {
     const value =  defaultValue ? (defaultValue.value ? defaultValue.value : (typeof defaultValue === 'string' ? defaultValue : '')) : ''
+    setInputValue(value)
     value && onBlur && onBlur({ id, label: value, value })
-    setDetailList(value.split('!@#'))
   }, [ defaultValue, onBlur, id ])
 
   const handleBlur = (e) => {
@@ -66,28 +63,13 @@ export default function HAInput(props) {
     setInputValue(value)
   }
 
-  const handleChangeMultiple = (event) => {
-    const { options } = event.target
-    const value = []
-    for (let i = 0, l = options.length; i < l; i += 1) {
-      if (options[i].selected) {
-        value.push(options[i].value)
-      }
-    }
-    setMultipleValue(value)
-  }
-
   const onCheckClose = () => {
     setOpen(false)
   }
 
   const handleEmailCheck = (email) => {
-    if (detailList.indexOf(email) === -1) {
-      const data = JSON.parse(JSON.stringify(detailList))
-      data.push(email)
-      setDetailList(data)
-      onBlur && onBlur({ id, label: data.join('!@#'), value: data.join('!@#') })
-    }
+    setInputValue(email)
+    onBlur && onBlur({ id, label: email, value: email })
   }
 
   const HandleCheck = () => {
@@ -97,25 +79,6 @@ export default function HAInput(props) {
       setEmails(result)
       setOpen(true)
     })
-
-    // if (detailList.indexOf(inputvalue) === -1) {
-    //   if (onCheck && onCheck(id, inputvalue)) {
-    //     const data = JSON.parse(JSON.stringify(detailList))
-    //     data.push(inputvalue)
-    //     setDetailList(data)
-    //     onBlur && onBlur({ id, label: data.join('!@#'), value: data.join('!@#') })
-    //   }
-    // }
-  }
-
-  const HandleDelete = () => {
-    const data = []
-    for (const detail of detailList) {
-      if (multipleValue.indexOf(detail) === -1) {
-        data.push(detail)
-      }
-    }
-    setDetailList(data)
   }
 
   const getWidth = (power) => {
@@ -242,30 +205,6 @@ export default function HAInput(props) {
           onClick={HandleCheck}
           color="primary"
         >{'Check'}</Button>
-      </div>
-      <div>
-        <Select
-          className={classes.select}
-          multiple
-          native
-          inputProps={{
-            id: 'select-multiple-native',
-          }}
-          // value={personName}
-          onChange={handleChangeMultiple}
-        >
-          {detailList.map((name) => (
-            <option key={name} value={name}>
-              {name}
-            </option>
-          ))}
-        </Select>
-        <Button
-          className={classes.deleteButton}
-          variant="contained"
-          onClick={HandleDelete}
-          color="primary"
-        >{'Delete'}</Button>
       </div>
       {
         error && helperText && (

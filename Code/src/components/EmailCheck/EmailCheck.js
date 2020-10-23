@@ -28,7 +28,8 @@ export default function EmailCheck(props) {
     open,
     onClose,
     handleEmail,
-    emails
+    emails,
+    title
   } = props
   const classes = useStyles()
   const handleListItemClick = (email) => {
@@ -37,7 +38,7 @@ export default function EmailCheck(props) {
   return (
     <div>
       <Dialog onClose={onClose} aria-labelledby="simple-dialog-title" open={open}>
-        <DialogTitle id="simple-dialog-title">Set Eamil Account</DialogTitle>
+        <DialogTitle id="simple-dialog-title">{title}</DialogTitle>
         <List>
           {emails.map((email) => (
             <ListItem button onClick={() => handleListItemClick(email)}  key={email}>
