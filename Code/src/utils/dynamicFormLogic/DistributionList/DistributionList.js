@@ -163,19 +163,6 @@ export default class DistributionList {
     dataMap.set(checkName, { id: checkName, label: value, value })
   }
 
-  getReturnType(parentDataMap, fieldName) {
-    let returnType = null
-    switch (fieldName) {
-      default:
-        break
-    }
-    if ((!parentDataMap.get(fieldName) || !parentDataMap.get(fieldName).value)) {
-      CommonTip.error('Check field is required')
-      returnType = null
-    }
-    return returnType
-  }
-
   getContractList() {
     const res = [ ContractItems.get('Distribution List Application') ]
     return res
