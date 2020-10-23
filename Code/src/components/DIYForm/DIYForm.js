@@ -14,6 +14,7 @@ import HASelect from "../HASelect/HASelect"
 import SimpleDatePicker from "../SimpleDatePicker/SimpleDatePicker"
 import HACheckBox from "../HACheckBox/HACheckBox"
 import HAList from "../HAList/HAList"
+import HADialogList from "../HADialogList/HADialogList"
 
 
 const Divider = styled(MuiDivider)(spacing)
@@ -141,6 +142,26 @@ export default function DIYForm(props) {
                       id={el.fieldName}
                       onChange={onChange}
                       disabled={!el.writable}
+                      defaultValue={defaultValues ? defaultValues[el.fieldName] : null}
+                      label={el.fieldDisplayName}
+                      required={el.required}
+                    />
+                  </div>
+                ) : null
+              case 'dialogList':
+                return (pid || el.showOnRequest) && el.readable ? (
+                  <div
+                    className={el.display ? classes.allnonegrid : classes.allgrid}
+                    key={el.fieldName + '_' + i}
+                    id={el.fieldName + '_div'}
+                  >
+                    <HADialogList
+                      id={el.fieldName}
+                      onBlur={onChange}
+                      disabled={!el.writable}
+                      isCheck={el.isCheck}
+                      onCheck={el.onCheck}
+                      apiKey={el.apiKey}
                       defaultValue={defaultValues ? defaultValues[el.fieldName] : null}
                       label={el.fieldDisplayName}
                       required={el.required}
