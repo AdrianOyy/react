@@ -35,6 +35,7 @@ export default function DateRangePicker(props) {
   const [ endDate, setEndDate ] = useState(null)
   useEffect(() => {
     onChange && onChange(startDate, endDate)
+    // eslint-disable-next-line
   }, [ startDate, endDate ])
   const onStartDateChange = (e) => {
     setStartDate(e)

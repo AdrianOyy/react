@@ -44,7 +44,8 @@ export default function HAInput(props) {
     rows,
     rowsMax,
     rowsMin,
-    apiKey
+    apiKey,
+    apiValue
   } = props
 
   // eslint-disable-next-line no-unused-vars
@@ -91,7 +92,7 @@ export default function HAInput(props) {
 
   const HandleCheck = () => {
     // onCheck && onCheck(id)
-    apiKey && apiKey({ email: inputvalue, id }).then(({ data }) => {
+    apiKey && apiKey(Object.assign({ email: inputvalue, id }, apiValue)).then(({ data }) => {
       const result = data.data
       setEmails(result)
       setOpen(true)
