@@ -10,6 +10,8 @@ import { L } from '../../../../../utils/lang'
 function Create(props) {
   const { onMount } = props
   const history = useHistory()
+  const [ rid, setRid ] = useState('')
+  const [ dataPortIP, setDataPortIP ] = useState('')
   const [ serialNumber, setSerialNumber ] = useState('')
   const [ serialNumberError, setSerialNumberError ] = useState(false)
   const [ serialNumberHelperText, setSerialNumberHelperText ] = useState("")
@@ -20,6 +22,9 @@ function Create(props) {
   const [ assignedCPUCores, setAssignedCPUCores ] = useState('')
   const [ assignedCPUCoresError, setAssignedCPUCoresError ] = useState(false)
   const [ assignedCPUCoresHelperText, setAssignedCPUCoresHelperText ] = useState("")
+  const [ CPUType, setCPUType ] = useState('')
+  const [ CPUTypeError, setCPUTypeError ] = useState(false)
+  const [ CPUTypeHelperText, setCPUTypeHelperText ] = useState("")
   const [ diskVolumeName, setDiskVolumeName ] = useState('')
   const [ CSVName, setCSVName ] = useState('')
   const [ diskSize, setDiskSize ] = useState('')
@@ -59,8 +64,10 @@ function Create(props) {
     const assignedCPUCoresError = await assignedCPUCoresCheck()
     const diskSizeError = await diskSizeCheck()
     const tenantError = await tenantCheck()
+    const vmClusterError = await VMClusterIdCheck()
+    const CPUTypeError = await CPUTypeCheck()
     if (serialNumberError || assignedMemoryError || assignedCPUCoresError ||
-      diskSizeError || tenantError || saving) return
+      vmClusterError || CPUTypeError || diskSizeError || tenantError || saving) return
     let projectCode
     let projectContact
     let projectManager
@@ -79,6 +86,8 @@ function Create(props) {
     }
     setSaving(true)
     API.create({
+      rid,
+      dataPortIP,
       serialNumber,
       model,
       assignedMemory,
@@ -101,13 +110,16 @@ function Create(props) {
       projectCode,
       projectContact,
       projectManager,
-      section
-    }).then(() => {
-      CommonTip.success(L('Success'))
-      history.push({ pathname: '/resources/vm' })
-    }).catch(() => {
-      setSaving(false)
+      section,
+      CPUType,
     })
+      .then(() => {
+        CommonTip.success(L('Success'))
+        history.push({ pathname: '/resources/vm' })
+      })
+      .catch(() => {
+        setSaving(false)
+      })
   }
 
   // 获取 tenantList 和 clusterList
@@ -130,6 +142,10 @@ function Create(props) {
   useEffect(() => {
     const list = [
       {
+        id: 'rid', label: L('RID'), type: 'text',
+        required: false, readOnly: false, value: rid,
+      },
+      {
         id: 'serialNumber', label: L('SerialNumber'), type: 'text',
         required: true, readOnly: false, value: serialNumber,
         error: serialNumberError, helperText: serialNumberHelperText
@@ -147,6 +163,11 @@ function Create(props) {
         id: 'assignedCPUCores', label: L('Assigned CPU Cores'), type: 'text',
         required: true, readOnly: false, value: assignedCPUCores,
         error: assignedCPUCoresError, helperText: assignedCPUCoresHelperText
+      },
+      {
+        id: 'CPUType', label: L('CPU Type'), type: 'text',
+        required: true, readOnly: false, value: CPUType,
+        error: CPUTypeError, helperText: CPUTypeHelperText
       },
       {
         id: 'diskVolumeName', label: L('Disk Volume Name'), type: 'text',
@@ -192,6 +213,10 @@ function Create(props) {
         required: false, readOnly: false, value: ATLIP,
       },
       {
+        id: 'dataPortIP', label: L('Data port IP'), type: 'text',
+        required: false, readOnly: false, value: dataPortIP,
+      },
+      {
         id: 'magementHost', label: L('Magement Host'), type: 'text',
         required: false, readOnly: false, value: magementHost,
       },
@@ -216,6 +241,8 @@ function Create(props) {
     ]
     setFormFieldList(list)
   }, [
+    rid,
+    dataPortIP,
     serialNumber, serialNumberError, serialNumberHelperText,
     model,
     assignedMemory, assignedMemoryError, assignedMemoryHelperText,
@@ -237,10 +264,17 @@ function Create(props) {
     tenantId, tenantError, tenantHelperText,
     tenantList,
     section,
+    CPUType, CPUTypeError, CPUTypeHelperText,
   ])
   const onFormFieldChange = (e, id) => {
     const { value } = e.target
     switch (id) {
+      case 'rid':
+        setRid(value)
+        break
+      case 'dataPortIP':
+        setDataPortIP(value)
+        break
       case 'serialNumber':
         setSerialNumber(value)
         break
@@ -252,6 +286,9 @@ function Create(props) {
         break
       case 'assignedCPUCores':
         setAssignedCPUCores(value)
+        break
+      case 'CPUType':
+        setCPUType(value)
         break
       case 'diskVolumeName':
         setDiskVolumeName(value)
@@ -330,6 +367,13 @@ function Create(props) {
     return emptyCheck.error
   }
 
+  const CPUTypeCheck = async () => {
+    const emptyCheck = checkEmpty("CPUType", CPUType)
+    setCPUTypeError(emptyCheck.error)
+    setCPUTypeHelperText(emptyCheck.msg)
+    return CPUTypeCheck.error
+  }
+
   const diskSizeCheck = async () => {
     const emptyCheck = checkEmpty("diskSize", diskSize)
     setDiskSizeError(emptyCheck.error)
@@ -361,6 +405,9 @@ function Create(props) {
         break
       case "assignedCPUCores":
         assignedCPUCoresCheck()
+        break
+      case "CPUType":
+        CPUTypeCheck()
         break
       case "diskSize":
         diskSizeCheck()
