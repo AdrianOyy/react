@@ -13,6 +13,8 @@ import styled from "styled-components"
 import { spacing } from "@material-ui/system"
 import formatDateTime from "../../../../../utils/formatDateTime"
 import { getUser } from "../../../../../utils/auth"
+import downloadFile from "../../../../../utils/downloadFile"
+import GetAppIcon from '@material-ui/icons/GetApp'
 import {
   BorderColorOutlined as BorderColorIcon,
   Reorder as ReorderIcon,
@@ -144,10 +146,18 @@ function List(props) {
   //   return true
   // }
 
+  const handleDownload = (event, row) => {
+    API.download({ processInstanceId: row.id }).then(({ data }) => {
+      const result = data.data
+      downloadFile(result, 'test.pdf')
+    })
+  }
+
   // 自定义action
   const actionList = [
     { label: L('edit'), icon: <BorderColorIcon />, handleClick: handleDetail },
     { label: L('step'), icon: <ReorderIcon />, handleClick: handleStep },
+    { label: L('download'), icon: <GetAppIcon />, handleClick: handleDownload },
   ]
 
   return (
