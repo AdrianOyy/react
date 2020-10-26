@@ -148,8 +148,7 @@ function List(props) {
 
   const handleDownload = (event, row) => {
     API.download({ processInstanceId: row.id }).then(({ data }) => {
-      const result = data.data
-      downloadFile(result, 'test.pdf')
+      downloadFile(data, 'Account management.pdf')
     })
   }
 
