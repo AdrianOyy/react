@@ -162,7 +162,7 @@ function List(props) {
   const actionList = [
     { label: L('step'), icon: <ReorderIcon />, handleClick: handleStep },
     { label: L('edit'), icon: <BorderColorIcon />, handleClick: handleDetail },
-    { label: 'messgae', icon: <ChatIcon />, handleClick: handleChatBox },
+    { label: L('message'), icon: <ChatIcon />, handleClick: handleChatBox },
   ]
 
   const handleClose = () => {

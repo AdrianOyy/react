@@ -43,7 +43,6 @@ function List(props) {
   useEffect(() => {
     API.getMyRequest({ ...query, userName: getUser() && getUser().id ? getUser().id.toString() : '0', limit: rowsPerPage, page: page + 1 })
       .then(response => {
-        console.log(response)
         setTotal(response.data.data.total)
         handleData(response.data.data.list)
       })
@@ -152,11 +151,18 @@ function List(props) {
     })
   }
 
+  const display = (row) => {
+    if (row.name === 'Account management') {
+      return true
+    }
+    return false
+  }
+
   // 自定义action
   const actionList = [
+    { label: L('download'), icon: <GetAppIcon />, handleClick: handleDownload, display },
     { label: L('edit'), icon: <BorderColorIcon />, handleClick: handleDetail },
     { label: L('step'), icon: <ReorderIcon />, handleClick: handleStep },
-    { label: L('download'), icon: <GetAppIcon />, handleClick: handleDownload },
   ]
 
   return (
