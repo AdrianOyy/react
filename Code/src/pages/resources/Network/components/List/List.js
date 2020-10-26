@@ -11,11 +11,8 @@ import { CommonTable, SearchBar } from '../../../../../components'
 import API from "../../../../../api/inventory"
 import styled from "styled-components"
 import { spacing } from "@material-ui/system"
-import dayjs from "dayjs"
+import formatDateTime from "../../../../../utils/formatDateTime"
 const Paper = styled(MuiPaper)(spacing)
-const formatDateTime = (str) => {
-  return dayjs(new Date(str)).format('DD-MMM-YYYY HH:mm')
-}
 
 const tableName = L('List')
 
@@ -25,7 +22,9 @@ function List(props) {
 
   const [ createdAt, setCreatedAt ] = useState('')
   const [ updatedAt, setUpdateAt ] = useState('')
-  const [ query, setQuery ] = useState({})
+  const [ query, setQuery ] = useState({
+    isNetwork: 'Y',
+  })
   const [ rows, setRows ] = useState([])
   const [ page, setPage ] = useState(0)
   const [ rowsPerPage, setRowsPerPage ] = useState(10)
@@ -89,6 +88,7 @@ function List(props) {
     setCreatedAt('')
     setUpdateAt('')
     setQuery({
+      isNetwork: 'Y',
       createdAt: '',
       updatedAt: '',
     })

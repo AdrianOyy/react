@@ -4,7 +4,7 @@ import { L } from '../../../../../utils/lang'
 import DetailPage from "../../../../../components/DetailPage"
 import API from "../../../../../api/platform"
 import { useParams } from "react-router-dom"
-import dayjs from "dayjs"
+import formatDateTime from "../../../../../utils/formatDateTime"
 
 function Detail(props) {
   const { onMount } = props
@@ -15,9 +15,6 @@ function Detail(props) {
   const [ createdAt, setCreatedAt ] = useState('')
   const [ updatedAt, setUpdastedAt ] = useState('')
   const [ formFieldList, setFormFieldList ] = useState([])
-  const formatDateTime = (str) => {
-    return dayjs(new Date(str)).format('DD-MMM-YYYY HH:mm')
-  }
 
   useEffect(() => {
     onMount('detail')

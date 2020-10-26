@@ -128,6 +128,8 @@ export default function MaterialTableDemo() {
       { fieldDisplayName: L("Required"), fieldName: "required", type: "select", valueField: 'id', labelField: 'value', required: true, showRequest: true, itemList: [{ id: '1', value: 'True' }, { id: '0', value: 'False' }] },
       { fieldDisplayName: L("Readable"), fieldName: "readable", type: "select", valueField: 'id', labelField: 'value', required: true, showRequest: true, itemList: [{ id: '1', value: 'True' }, { id: '0', value: 'False' }] },
       { fieldDisplayName: L("Writable"), fieldName: "writable", type: "select", valueField: 'id', labelField: 'value', required: true, showRequest: true, itemList: [{ id: '1', value: 'True' }, { id: '0', value: 'False' }] },
+      { fieldDisplayName: L("Sorting"), fieldName: "indexOf", type: "text", valueField: null, labelField: null, required: false, showRequest: true },
+      { fieldDisplayName: L("Remark"), fieldName: "remark", type: "text", valueField: null, labelField: null, required: false, showRequest: true },
       { fieldDisplayName: L("Foreign Table"), fieldName: "foreignTable", type: "text", valueField: null, labelField: null, required: false, showRequest: false },
       { fieldDisplayName: L("Foreign Key"), fieldName: "foreignKey", type: "text", valueField: null, labelField: null, required: false, showRequest: false },
       { fieldDisplayName: L("Foreign Display Key"), fieldName: "foreignDisplayKey", type: "text", valueField: null, labelField: null, required: false, showRequest: false },

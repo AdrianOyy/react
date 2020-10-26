@@ -105,7 +105,9 @@ function Detail(props) {
     })
     API.listEquipType({ limit: 999, page: 1 }).then(({ data }) => {
       if (data && data.data) {
-        setEquipTypes(data.data)
+        setEquipTypes(data.data.filter(_ => {
+          return _.Type !== 'EqServer'
+        }))
       }
     })
   }, [])

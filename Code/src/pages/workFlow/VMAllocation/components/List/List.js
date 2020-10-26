@@ -11,16 +11,15 @@ import TextField from '@material-ui/core/TextField'
 import Dialog from '@material-ui/core/Dialog'
 import DialogActions from '@material-ui/core/DialogActions'
 import DialogContent from '@material-ui/core/DialogContent'
-import DialogContentText from '@material-ui/core/DialogContentText'
-
 import { useHistory } from 'react-router-dom'
 import { CommonTable, SearchBar } from '../../../../../components'
 import API from "../../../../../api/workFlow"
 import PlayCircleFilledWhiteOutlinedIcon from '@material-ui/icons/PlayCircleFilledWhiteOutlined'
-import ListAltIcon from '@material-ui/icons/ListAlt'
+import UpdateIcon from '@material-ui/icons/Update'
 import styled from "styled-components"
 import { spacing } from "@material-ui/system"
 import formatDateTime from "../../../../../utils/formatDateTime"
+import DialogTitle from "@material-ui/core/DialogTitle"
 
 const Paper = styled(MuiPaper)(spacing)
 const tableName = ''
@@ -34,7 +33,7 @@ function List(props) {
   const [ page, setPage ] = useState(0)
   const [ rowsPerPage, setRowsPerPage ] = useState(10)
   const [ total, setTotal ] = useState(0)
-  const [ open, setOpen ] = useState(false)
+  const [ shown, setShown ] = useState(false)
   const [ srow, setSrow ] = useState({})
 
   // 用于更新面包屑
@@ -90,23 +89,19 @@ function List(props) {
     history.push({ pathname: `${path}/create/${row.id}`, search: `deploymentId=${row.deploymentId}` })
   }
 
-  const handleAltClick = () => {
-    history.push({ pathname: `${path}/create/${srow.id}`, search: `deploymentId=${srow.deploymentId}&altCheck=20` })
-  }
+  // const handleAltClick = (data) => {
+  //   history.push({ pathname: `${path}/create/${srow.id}`, search: `deploymentId=${srow.deploymentId}&cpsId=${data}` })
+  // }
 
-  const openDiaglo = (e, row) => {
+  const handleUpdateClick = (e, row) => {
     setSrow(row)
-    setOpen(true)
-  }
-
-  const closeOpen = () => {
-    setOpen(false)
+    setShown(true)
   }
 
   // 自定义action
   const actionList = [
     { label: 'run', icon: <PlayCircleFilledWhiteOutlinedIcon />, handleClick: handleRunClick },
-    { label: 'run', icon: <ListAltIcon />, handleClick: openDiaglo },
+    { label: 'run', icon: <UpdateIcon />, handleClick: handleUpdateClick },
   ]
 
 
@@ -127,6 +122,28 @@ function List(props) {
     })
   }
 
+  const dialogReason = {
+    title: L('cpsvm'),
+    value: '',
+    formField:
+      {
+        id: 'cpsid', label: L('cpsid'), type: 'text', disabled: false, readOnly: false, required: true, helperText: L('NotEmpty')
+      },
+    onSubmit: (value) => {
+      if (!value) return
+      submitActions(value)
+    },
+  }
+
+  const handleReasonSubmit = () => {
+    if (dialogReason.value && dialogReason.value.length > 0) {
+      submitActions(dialogReason.value)
+    }
+  }
+
+  const submitActions = (data) => {
+    history.push({ pathname: `${path}/create/${srow.id}`, search: `deploymentId=${srow.deploymentId}&cpsId=${data}` })
+  }
 
   const handleFieldChange = (e, id) => {
     const { value } = e.target
@@ -137,6 +154,10 @@ function List(props) {
       default:
         break
     }
+  }
+
+  const handleReasonChange = (event) => {
+    dialogReason.value = event.target.value
   }
 
   const handleChangePage = (_, newPage) => {
@@ -182,27 +203,41 @@ function List(props) {
               onChangePage={handleChangePage}
               onChangeRowsPerPage={handleChangeRowsPerPage}
             />
-            <Dialog open={open} fullWidth={true} aria-labelledby="form-dialog-title">
+            <Dialog
+              open={shown}
+              fullWidth={true}
+              aria-labelledby="form-dialog-title"
+            >
+              <DialogTitle id="form-dialog-title">{dialogReason.title}</DialogTitle>
               <DialogContent>
-                <DialogContentText>
-                  {L('Please input CPS ID')}
-                </DialogContentText>
-                <TextField
-                  autoFocus
-                  margin="dense"
-                  id="name"
-                  label="CPS ID"
-                  type="email"
-                  fullWidth
-                />
+                <form autoComplete="off">
+                  <TextField
+                    fullWidth={true}
+                    id={dialogReason.formField.id.toString()}
+                    key={dialogReason.formField.id + dialogReason.formField.label}
+                    label={dialogReason.formField.label}
+                    type={dialogReason.formField.type}
+                    error={dialogReason.formField.error || false}
+                    helperText={dialogReason.formField.helperText || ''}
+                    disabled={dialogReason.formField.disabled || false}
+                    required={dialogReason.formField.required || false}
+                    onChange={!dialogReason.formField.readOnly ? (event) => handleReasonChange(event) : null}
+                    value={dialogReason.formField.value}
+                    multiline
+                  />
+                </form>
               </DialogContent>
               <DialogActions>
-                <Button onClick={closeOpen} color="primary">
-                  {L('Cancel')}
-                </Button>
-                <Button onClick={handleAltClick} color="primary">
-                  {L('Submit')}
-                </Button>
+                <Button
+                  variant="contained"
+                  fullwidth
+                  onClick={() => { setShown(false) }}>{L('Cancel')}</Button>
+                <Button
+                  fullwidth
+                  variant="contained"
+                  color="primary"
+                  style={{ marginRight: '2ch' }}
+                  onClick={handleReasonSubmit}>{L('Submit')}</Button>
               </DialogActions>
             </Dialog>
           </Paper>

@@ -11,17 +11,16 @@ import { CommonTable, SearchBar } from '../../../../../components'
 import API from "../../../../../api/workFlow"
 import styled from "styled-components"
 import { spacing } from "@material-ui/system"
-import dayjs from "dayjs"
-import { getUser } from "../../../../../utils/user"
+import formatDateTime from "../../../../../utils/formatDateTime"
+import { getUser } from "../../../../../utils/auth"
+import downloadFile from "../../../../../utils/downloadFile"
+import GetAppIcon from '@material-ui/icons/GetApp'
 import {
   BorderColorOutlined as BorderColorIcon,
   Reorder as ReorderIcon,
 } from "@material-ui/icons"
 
 const Paper = styled(MuiPaper)(spacing)
-const formatDateTime = (str) => {
-  return dayjs(new Date(str)).format('YYYY-MM-DD HH:mm')
-}
 const tableName = ''
 
 function List(props) {
@@ -44,7 +43,6 @@ function List(props) {
   useEffect(() => {
     API.getMyRequest({ ...query, userName: getUser() && getUser().id ? getUser().id.toString() : '0', limit: rowsPerPage, page: page + 1 })
       .then(response => {
-        console.log(response)
         setTotal(response.data.data.total)
         handleData(response.data.data.list)
       })
@@ -142,13 +140,27 @@ function List(props) {
 
   // const display = (row) => {
   //   if (row.state === 'completed') {
-  //     return true
+  //     return false
   //   }
-  //   return false
+  //   return true
   // }
+
+  const handleDownload = (event, row) => {
+    API.download({ processInstanceId: row.id }).then(({ data }) => {
+      downloadFile(data, 'Account management.pdf')
+    })
+  }
+
+  const display = (row) => {
+    if (row.name === 'Account management') {
+      return true
+    }
+    return false
+  }
 
   // 自定义action
   const actionList = [
+    { label: L('download'), icon: <GetAppIcon />, handleClick: handleDownload, display },
     { label: L('edit'), icon: <BorderColorIcon />, handleClick: handleDetail },
     { label: L('step'), icon: <ReorderIcon />, handleClick: handleStep },
   ]

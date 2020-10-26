@@ -9,7 +9,7 @@ import { CommonTable } from '../../../../../components'
 import styled from "styled-components"
 import { spacing } from "@material-ui/system"
 import { useHistory } from 'react-router-dom'
-import { getUrl } from '../../../../../utils/user'
+import { ACTIVITI_HOST } from '../../../../../utils/constant'
 import prefix from '../../../../../utils/prefix'
 import CommonTip from "../../../../../components/CommonTip"
 import Loading from "../../../../../components/Loading"
@@ -23,7 +23,6 @@ import {
 const createPrefix = prefix.workflow
 const Paper = styled(MuiPaper)(spacing)
 const tableName = L('List')
-
 
 
 function List(props) {
@@ -93,21 +92,23 @@ function List(props) {
 
   const handlePublish = (event, row) => {
     Loading.show()
-    API.getPublishModel(row.id).then(() => {
-      CommonTip.success(L('Success'))
-      Loading.hide()
-      API.getProcessDefinitions({ limit: rowsPerPage, page: page + 1 })
-        .then(({ data }) => {
-          setTotal(data.total)
-          handleData(data.list)
-        })
-    }).catch(() => {
-      Loading.hide()
-    })
+    API.getPublishModel(row.id)
+      .then(() => {
+        CommonTip.success(L('Success'))
+        Loading.hide()
+        API.getProcessDefinitions({ limit: rowsPerPage, page: page + 1 })
+          .then(({ data }) => {
+            setTotal(data.total)
+            handleData(data.list)
+          })
+      })
+      .catch(() => {
+        Loading.hide()
+      })
   }
 
   const customEdit = (e, row) => {
-    window.open(getUrl() + `${createPrefix}/openEditor?modelId=${row.id}&token=` + localStorage.getItem("token"))
+    window.open(ACTIVITI_HOST + `${createPrefix}/openEditor?modelId=${row.id}&token=` + localStorage.getItem("token"))
   }
 
   const handleSetting = (event, row) => {
@@ -122,7 +123,7 @@ function List(props) {
   ]
 
   const customCreate = () => {
-    window.open(getUrl() + createPrefix + "/create?token=" + localStorage.getItem("token"))
+    window.open(ACTIVITI_HOST + createPrefix + "/create?token=" + localStorage.getItem("token"))
   }
 
   return (

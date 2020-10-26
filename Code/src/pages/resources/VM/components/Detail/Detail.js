@@ -3,17 +3,20 @@ import React, { useEffect, useState } from 'react'
 import DetailPage from "../../../../../components/DetailPage"
 import API from "../../../../../api/vm"
 import { useParams } from "react-router-dom"
-import dayjs from "dayjs"
+import formatDateTime from "../../../../../utils/formatDateTime"
 import { L } from '../../../../../utils/lang'
 
 function Detail(props) {
   const { onMount } = props
 
   const { id } = useParams()
+  const [ rid, setRid ] = useState('')
+  const [ dataPortIP, setDataPortIP ] = useState('')
   const [ serialNumber, setSerialNumber ] = useState('')
   const [ model, setModel ] = useState('')
   const [ assignedMemory, setAssignedMemory ] = useState('')
   const [ assignedCPUCores, setAssignedCPUCores ] = useState('')
+  const [ CPUType, setCPUType ] = useState('')
   const [ diskVolumeName, setDiskVolumeName ] = useState('')
   const [ CSVName, setCSVName ] = useState('')
   const [ diskSize, setDiskSize ] = useState('')
@@ -34,9 +37,6 @@ function Detail(props) {
   const [ createdAt, setCreatedAt ] = useState('')
   const [ updatedAt, setUpdastedAt ] = useState('')
   const [ formFieldList, setFormFieldList ] = useState([])
-  const formatDateTime = (str) => {
-    return dayjs(new Date(str)).format('DD-MMM-YYYY HH:mm')
-  }
 
   useEffect(() => {
     onMount('detail')
@@ -44,62 +44,73 @@ function Detail(props) {
   }, [])
 
   useEffect(() => {
-    API.detail(id).then(({ data }) => {
-      if (data && data.data) {
-        const {
-          serialNumber,
-          model,
-          assignedMemory,
-          assignedCPUCores,
-          diskVolumeName,
-          CSVName,
-          diskSize,
-          status,
-          hostname,
-          VMClusterName,
-          OS,
-          serverRole,
-          hostIP,
-          ATLIP,
-          magementHost,
-          extraIPs,
-          remarks,
-          projectCode,
-          projectContact,
-          projectManager,
-          section,
-          createdAt,
-          updatedAt
-        } = data.data
-        setSerialNumber(serialNumber)
-        setModel(model)
-        setAssignedMemory(assignedMemory)
-        setAssignedCPUCores(assignedCPUCores)
-        setDiskVolumeName(diskVolumeName)
-        setCSVName(CSVName)
-        setDiskSize(diskSize)
-        setStatus(status)
-        setHostname(hostname)
-        setVMClusterName(VMClusterName)
-        setOS(OS)
-        setServerRole(serverRole)
-        setHostIP(hostIP)
-        setATLIP(ATLIP)
-        setMagementHost(magementHost)
-        setExtraIPs(extraIPs)
-        setRemarks(remarks)
-        setProjectCode(projectCode)
-        setProjectContact(projectContact)
-        setProjectManager(projectManager)
-        setSection(section)
-        setCreatedAt(createdAt)
-        setUpdastedAt(updatedAt)
-      }
-    })
+    API.detail(id)
+      .then(({ data }) => {
+        if (data && data.data) {
+          const {
+            rid,
+            dataPortIP,
+            serialNumber,
+            model,
+            assignedMemory,
+            assignedCPUCores,
+            CPUType,
+            diskVolumeName,
+            CSVName,
+            diskSize,
+            status,
+            hostname,
+            VMClusterName,
+            OS,
+            serverRole,
+            hostIP,
+            ATLIP,
+            magementHost,
+            extraIPs,
+            remarks,
+            projectCode,
+            projectContact,
+            projectManager,
+            section,
+            createdAt,
+            updatedAt
+          } = data.data
+          setSerialNumber(serialNumber)
+          setModel(model)
+          setAssignedMemory(assignedMemory)
+          setAssignedCPUCores(assignedCPUCores)
+          setCPUType(CPUType)
+          setDiskVolumeName(diskVolumeName)
+          setCSVName(CSVName)
+          setDiskSize(diskSize)
+          setStatus(status)
+          setHostname(hostname)
+          setVMClusterName(VMClusterName)
+          setOS(OS)
+          setServerRole(serverRole)
+          setHostIP(hostIP)
+          setATLIP(ATLIP)
+          setMagementHost(magementHost)
+          setExtraIPs(extraIPs)
+          setRemarks(remarks)
+          setProjectCode(projectCode)
+          setProjectContact(projectContact)
+          setProjectManager(projectManager)
+          setSection(section)
+          setCreatedAt(createdAt)
+          setUpdastedAt(updatedAt)
+          setRid(rid)
+          setDataPortIP(dataPortIP)
+        }
+      })
   }, [ id ])
 
   useEffect(() => {
     const list = [
+      {
+        id: 'rid', label: L('RID'), type: 'text',
+        disabled: true, readOnly: true, value: rid,
+      },
       {
         id: 'serialNumber', label: L('Serial Number'), type: 'text',
         disabled: true, readOnly: true, value: serialNumber,
@@ -115,6 +126,10 @@ function Detail(props) {
       {
         id: 'assignedCPUCores', label: L('Assigned CPU Cores'), type: 'text',
         disabled: true, readOnly: true, value: assignedCPUCores,
+      },
+      {
+        id: 'CPUType', label: L('CPU Type'), type: 'test',
+        disabled: true, readOnly: true, value: CPUType,
       },
       {
         id: 'diskVolumeName', label: L('Disk Volume Name'), type: 'text',
@@ -157,6 +172,10 @@ function Detail(props) {
         disabled: true, readOnly: true, value: ATLIP,
       },
       {
+        id: 'dataPortIP', label: L('Data port IP'), type: 'text',
+        disabled: true, readOnly: true, value: dataPortIP,
+      },
+      {
         id: 'magementHost', label: L('Magement Host'), type: 'text',
         disabled: true, readOnly: true, value: magementHost,
       },
@@ -195,10 +214,13 @@ function Detail(props) {
     ]
     setFormFieldList(list)
   }, [
+    rid,
+    dataPortIP,
     serialNumber,
     model,
     assignedMemory,
     assignedCPUCores,
+    CPUType,
     diskVolumeName,
     CSVName,
     diskSize,
@@ -223,6 +245,12 @@ function Detail(props) {
   const onFormFieldChange = (e, id) => {
     const { value } = e.target
     switch (id) {
+      case 'rid':
+        setRid(value)
+        break
+      case 'dataPortIP':
+        setDataPortIP(value)
+        break
       case 'serialNumber':
         setSerialNumber(value)
         break
@@ -234,6 +262,9 @@ function Detail(props) {
         break
       case 'assignedCPUCores':
         setAssignedCPUCores(value)
+        break
+      case 'CPUType':
+        setCPUType(value)
         break
       case 'diskVolumeName':
         setDiskVolumeName(value)

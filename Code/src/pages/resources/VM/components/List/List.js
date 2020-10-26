@@ -11,11 +11,8 @@ import { CommonTable, SearchBar } from '../../../../../components'
 import API from "../../../../../api/vm"
 import styled from "styled-components"
 import { spacing } from "@material-ui/system"
-import dayjs from "dayjs"
+import formatDateTime from "../../../../../utils/formatDateTime"
 const Paper = styled(MuiPaper)(spacing)
-const formatDateTime = (str) => {
-  return dayjs(new Date(str)).format('DD-MMM-YYYY HH:mm')
-}
 const tableName = L('List')
 
 
@@ -43,7 +40,7 @@ function List(props) {
         setTotal(response.data.data.count)
         handleData(response.data.data.rows)
       })
-  }, [page, rowsPerPage, query])
+  }, [ page, rowsPerPage, query ])
 
   const handleData = (rawDataList) => {
     const rows = []
@@ -138,7 +135,9 @@ function List(props) {
           />
           <Paper>
             <CommonTable
+              page={'VM'}
               rows={rows}
+              showDownLoad={true}
               tableName={tableName}
               deleteAPI={API.deleteMany}
               handleSearch={handleSearch}

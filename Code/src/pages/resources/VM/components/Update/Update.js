@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import DetailPage from "../../../../../components/DetailPage"
 import API from "../../../../../api/vm"
 import { useParams } from "react-router-dom"
-import dayjs from "dayjs"
+import formatDateTime from "../../../../../utils/formatDateTime"
 import CommonTip from "../../../../../components/CommonTip"
 import { useHistory } from 'react-router-dom'
 import { checkEmpty, getCheckExist } from "../../untils/VMFieldCheck"
@@ -14,6 +14,8 @@ function Detail(props) {
   const { onMount } = props
   const { id } = useParams()
   const history = useHistory()
+  const [ rid, setRid ] = useState('')
+  const [ dataPortIP, setDataPortIP ] = useState('')
   const [ serialNumber, setSerialNumber ] = useState('')
   const [ serialNumberError, setSerialNumberError ] = useState(false)
   const [ serialNumberHelperText, setSerialNumberHelperText ] = useState("")
@@ -24,6 +26,9 @@ function Detail(props) {
   const [ assignedCPUCores, setAssignedCPUCores ] = useState('')
   const [ assignedCPUCoresError, setAssignedCPUCoresError ] = useState(false)
   const [ assignedCPUCoresHelperText, setAssignedCPUCoresHelperText ] = useState("")
+  const [ CPUType, setCPUType ] = useState('')
+  const [ CPUTypeError, setCPUTypeError ] = useState(false)
+  const [ CPUTypeHelperText, setCPUTypeHelperText ] = useState("")
   const [ diskVolumeName, setDiskVolumeName ] = useState('')
   const [ CSVName, setCSVName ] = useState('')
   const [ diskSize, setDiskSize ] = useState('')
@@ -53,9 +58,6 @@ function Detail(props) {
   const [ updatedAt, setUpdastedAt ] = useState('')
   const [ formFieldList, setFormFieldList ] = useState([])
   const [ saving, setSaving ] = useState(true)
-  const formatDateTime = (str) => {
-    return dayjs(new Date(str)).format('DD-MMM-YYYY HH:mm')
-  }
 
   useEffect(() => {
     onMount('update')
@@ -66,10 +68,12 @@ function Detail(props) {
     const serialNumberError = await serialNumberCheck()
     const assignedMemoryError = await assignedMemoryCheck()
     const assignedCPUCoresError = await assignedCPUCoresCheck()
+    const vmClusterError = await VMClusterIdCheck()
+    const CPUTypeError = await CPUTypeCheck()
     const diskSizeError = await diskSizeCheck()
     const tenantError = await tenantCheck()
     if (serialNumberError || assignedMemoryError || assignedCPUCoresError ||
-      diskSizeError || tenantError || saving) return
+      vmClusterError || CPUTypeError || diskSizeError || tenantError || saving) return
     let projectCode
     let projectContact
     let projectManager
@@ -89,10 +93,13 @@ function Detail(props) {
     setSaving(true)
     API.update(id,
       {
+        rid,
+        dataPortIP,
         serialNumber,
         model,
         assignedMemory,
         assignedCPUCores,
+        CPUType,
         diskVolumeName,
         CSVName,
         diskSize,
@@ -123,75 +130,88 @@ function Detail(props) {
 
   // 获取 tenantList 和 clusterList
   useEffect(() => {
-    tenantApi.list({ limit: 999, page: 1 }).then(({ data }) => {
-      if (data && data.data) {
-        const { rows } = data.data
-        console.log(rows)
-        setTenantList(rows)
-      }
-    })
+    tenantApi.list({ limit: 999, page: 1 })
+      .then(({ data }) => {
+        if (data && data.data) {
+          const { rows } = data.data
+          console.log(rows)
+          setTenantList(rows)
+        }
+      })
 
-    API.listCluster({ limit: 999, page: 1 }).then(({ data }) => {
-      if (data && data.data) {
-        const { rows } = data.data
-        console.log(rows)
-        setClusterList(rows)
-      }
-    })
+    API.listCluster({ limit: 999, page: 1 })
+      .then(({ data }) => {
+        if (data && data.data) {
+          const { rows } = data.data
+          console.log(rows)
+          setClusterList(rows)
+        }
+      })
   }, [])
 
   useEffect(() => {
-    API.detail(id).then(({ data }) => {
-      const {
-        serialNumber,
-        model,
-        assignedMemory,
-        assignedCPUCores,
-        diskVolumeName,
-        CSVName,
-        diskSize,
-        status,
-        hostname,
-        VMClusterId,
-        OS,
-        serverRole,
-        hostIP,
-        ATLIP,
-        magementHost,
-        extraIPs,
-        remarks,
-        tenantId,
-        section,
-        createdAt,
-        updatedAt
-      } = data.data
-      setSerialNumber(serialNumber)
-      setModel(model)
-      setAssignedMemory(assignedMemory)
-      setAssignedCPUCores(assignedCPUCores)
-      setDiskVolumeName(diskVolumeName)
-      setCSVName(CSVName)
-      setDiskSize(diskSize)
-      setStatus(status)
-      setHostname(hostname)
-      setVMClusterId(VMClusterId)
-      setOS(OS)
-      setServerRole(serverRole)
-      setHostIP(hostIP)
-      setATLIP(ATLIP)
-      setMagementHost(magementHost)
-      setExtraIPs(extraIPs)
-      setRemarks(remarks)
-      setSection(section)
-      setTenantId(tenantId)
-      setCreatedAt(createdAt)
-      setUpdastedAt(updatedAt)
-      setSaving(false)
-    })
+    API.detail(id)
+      .then(({ data }) => {
+        const {
+          rid,
+          dataPortIP,
+          serialNumber,
+          model,
+          assignedMemory,
+          assignedCPUCores,
+          CPUType,
+          diskVolumeName,
+          CSVName,
+          diskSize,
+          status,
+          hostname,
+          VMClusterId,
+          OS,
+          serverRole,
+          hostIP,
+          ATLIP,
+          magementHost,
+          extraIPs,
+          remarks,
+          tenantId,
+          section,
+          createdAt,
+          updatedAt
+        } = data.data
+        setSerialNumber(serialNumber)
+        setModel(model)
+        setAssignedMemory(assignedMemory)
+        setAssignedCPUCores(assignedCPUCores)
+        setCPUType(CPUType)
+        setDiskVolumeName(diskVolumeName)
+        setCSVName(CSVName)
+        setDiskSize(diskSize)
+        setStatus(status)
+        setHostname(hostname)
+        setVMClusterId(VMClusterId)
+        setOS(OS)
+        setServerRole(serverRole)
+        setHostIP(hostIP)
+        setATLIP(ATLIP)
+        setMagementHost(magementHost)
+        setExtraIPs(extraIPs)
+        setRemarks(remarks)
+        setSection(section)
+        setTenantId(tenantId)
+        setCreatedAt(createdAt)
+        setUpdastedAt(updatedAt)
+        setSaving(false)
+        setRid(rid)
+        setDataPortIP(dataPortIP)
+      })
   }, [ id ])
 
   useEffect(() => {
     const list = [
+      {
+        id: 'rid', label: L('RID'), type: 'text',
+        required: false, readOnly: false, value: rid,
+      },
       {
         id: 'serialNumber', label: L('SerialNumber'), type: 'text',
         required: true, readOnly: false, value: serialNumber,
@@ -210,6 +230,11 @@ function Detail(props) {
         id: 'assignedCPUCores', label: L('Assigned CPU Cores'), type: 'text',
         required: true, readOnly: false, value: assignedCPUCores,
         error: assignedCPUCoresError, helperText: assignedCPUCoresHelperText
+      },
+      {
+        id: 'CPUType', label: L('CPU Type'), type: 'text',
+        required: true, readOnly: false, value: CPUType,
+        error: CPUTypeError, helperText: CPUTypeHelperText,
       },
       {
         id: 'diskVolumeName', label: L('Disk Volume Name'), type: 'text',
@@ -255,6 +280,10 @@ function Detail(props) {
         required: false, readOnly: false, value: ATLIP,
       },
       {
+        id: 'dataPortIP', label: L('Data port IP'), type: 'text',
+        required: false, readOnly: false, value: dataPortIP,
+      },
+      {
         id: 'magementHost', label: L('Magement Host'), type: 'text',
         required: false, readOnly: false, value: magementHost,
       },
@@ -287,6 +316,7 @@ function Detail(props) {
     model,
     assignedMemory, assignedMemoryError, assignedMemoryHelperText,
     assignedCPUCores, assignedCPUCoresError, assignedCPUCoresHelperText,
+    CPUType, CPUTypeError, CPUTypeHelperText,
     diskVolumeName,
     CSVName,
     diskSize, diskSizeError, diskSizeHelperText,
@@ -304,11 +334,19 @@ function Detail(props) {
     tenantId, tenantError, tenantHelperText,
     tenantList,
     section,
+    rid,
+    dataPortIP,
     createdAt, updatedAt
   ])
   const onFormFieldChange = (e, id) => {
     const { value } = e.target
     switch (id) {
+      case 'rid':
+        setRid(value)
+        break
+      case 'dataPortIP':
+        setDataPortIP(value)
+        break
       case 'serialNumber':
         setSerialNumber(value)
         break
@@ -320,6 +358,9 @@ function Detail(props) {
         break
       case 'assignedCPUCores':
         setAssignedCPUCores(value)
+        break
+      case 'CPUType':
+        setCPUType(value)
         break
       case 'diskVolumeName':
         setDiskVolumeName(value)
@@ -398,6 +439,13 @@ function Detail(props) {
     return emptyCheck.error
   }
 
+  const CPUTypeCheck = async () => {
+    const emptyCheck = checkEmpty("CPUType", CPUType)
+    setCPUTypeError(emptyCheck.error)
+    setCPUTypeHelperText(emptyCheck.msg)
+    return CPUTypeCheck.error
+  }
+
   const diskSizeCheck = async () => {
     const emptyCheck = checkEmpty("diskSize", diskSize)
     setDiskSizeError(emptyCheck.error)
@@ -429,6 +477,9 @@ function Detail(props) {
         break
       case "assignedCPUCores":
         assignedCPUCoresCheck()
+        break
+      case "CPUType":
+        CPUTypeCheck()
         break
       case "diskSize":
         diskSizeCheck()

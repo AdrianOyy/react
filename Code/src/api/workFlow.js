@@ -48,7 +48,15 @@ class WorkFlow {
   getProcessPoint(params) {
     return request.get(`${prefix}/tree/getProcessPoint`, params, { }, url)
   }
-
+  addMessage(data) {
+    return request.post(`${prefix}/runtime/addTaskMessage`, data, { }, url)
+  }
+  getTaskMessage(params) {
+    return request.get(`${prefix}/runtime/getTaskMessage`, params, { }, url)
+  }
+  download(data) {
+    return request.post(`${prefix}/export/getAccountPdf`, data, { responseType: 'blob' }, url)
+  }
 }
 
 export default new WorkFlow()

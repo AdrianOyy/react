@@ -5,7 +5,7 @@ import ExpandTable from "../../../../../components/ExpandTable"
 import API from "../../../../../api/inventory"
 import { L } from '../../../../../utils/lang'
 import { useParams } from "react-router-dom"
-import dayjs from "dayjs"
+import formatDateTime from "../../../../../utils/formatDateTime"
 import PropTypes from 'prop-types'
 import { makeStyles } from '@material-ui/core/styles'
 
@@ -53,11 +53,11 @@ const useStyles = makeStyles((theme) => ({
 const showPolicy = {
   index: 4,
   list: [
-    'id', '_ID', 'InventoryID', 'DefGateway', 'SubnetMask', 'ConfigFile',
+    'id', '_ID', 'InventoryID', 'IPAddress', 'DefGateway', 'SubnetMask', 'ConfigFile',
     'CurVer', 'NxBtVer', 'BlockDHCP', 'MedicalNW', 'NetworkApplied', 'Group'
   ],
   labels: [
-    L('id'), L('_ID'), L('InventoryID'), L('Gateway'), L('Subnet'), L('Config File'),
+    L('id'), L('_ID'), L('InventoryID'), L('IP Address'), L('Gateway'), L('Subnet'), L('Config File'),
     L('Current Firmware Version'), L('Next Boot Firmware Version'),
     L('DHCP Snooping'), L('MedicalNW'), L('Network Applied'), L('Group')
   ]
@@ -148,9 +148,6 @@ function Detail(props) {
 
   const [ showProps, setShowProps ] = useState([])
 
-  const formatDateTime = (str) => {
-    return dayjs(new Date(str)).format('DD-MMM-YYYY HH:mm')
-  }
 
   const classes = useStyles()
   const [ value, setValue ] = React.useState(0)
@@ -414,7 +411,7 @@ function Detail(props) {
         <Tabs value={value} onChange={handleChange} aria-label="ant example">
           {
             showProps.map(_ => {
-              return  <Tab {..._} />
+              return  <Tab key={_.id} {..._} />
             })
           }
         </Tabs>

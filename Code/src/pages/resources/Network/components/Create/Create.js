@@ -11,7 +11,7 @@ import { checkEmpty, getCheckExist } from "../../untils/NetworkFieldCheck"
 function Create(props) {
   const { onMount } = props
   const history = useHistory()
-  
+
   const [ _ID, set_ID ] = useState('')
   const [ _IDError, set_IDError ] = useState(false)
   const [ _IDHelperText, set_IDHelperText ] = useState('')
@@ -34,7 +34,7 @@ function Create(props) {
   const [ MaintID, setMaintID ] = useState('')
   const [ EquipType, setEquipType ] = useState('')
   const [ inventory, setInventory ] = useState([])
-  
+
   const [ saving, setSaving ] = useState(false)
   const [ InventoryStatus, setInventoryStatus ] = useState([])
   const [ EquipTypes, setEquipTypes ] = useState([])
@@ -49,12 +49,12 @@ function Create(props) {
     if (_IDError || saving) return
     setSaving(true)
     API.create(
-        {
-          _ID, UnitCode, AssetID, ModelCode, ModelDesc, ClosetID,
-          Rack, RLU, ItemOwner, Status, Remark, EquipType, UnitNo, PortQty, ReqNo,
-          DOB, DeliveryDate, DeliveryNoteReceivedDate, MaintID
-        }
-      )
+      {
+        _ID, UnitCode, AssetID, ModelCode, ModelDesc, ClosetID,
+        Rack, RLU, ItemOwner, Status, Remark, EquipType, UnitNo, PortQty, ReqNo,
+        DOB, DeliveryDate, DeliveryNoteReceivedDate, MaintID
+      }
+    )
       .then(() => {
         CommonTip.success(L('Success'))
         history.push({ pathname: '/resources/network' })
@@ -74,7 +74,9 @@ function Create(props) {
   useEffect(() => {
     API.listEquipType({ limit: 999, page: 1 }).then(({ data }) => {
       if (data && data.data) {
-        setEquipTypes(data.data)
+        setEquipTypes(data.data.filter(_ => {
+          return _.Type !== 'EqServer'
+        }))
       }
     })
   }, [])
@@ -269,7 +271,7 @@ function Create(props) {
         break
       default:
         break
-      }
+    }
   }
   return (
     <React.Fragment>
@@ -281,14 +283,6 @@ function Create(props) {
         showBtn ={true}
         onBtnClick = {handleClick}
       />
-      {/* <DetailPage
-        formTitle = 'Port Assignment'
-        onFormFieldChange = {onFormFieldChange}
-        onFormFieldBlur = {onFormFieldBlur}
-        formFieldList = {portAssignment}
-        showBtn ={true}
-        onBtnClick = {handleClick}
-      /> */}
     </React.Fragment>
   )
 }

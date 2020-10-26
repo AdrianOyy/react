@@ -1,7 +1,7 @@
 import React from "react"
 import CommonPage from "../../../components/CommonPage"
 import { List, Detail, Update, Create } from './components'
-import { L } from '../../../utils/lang';
+import { L } from '../../../utils/lang'
 const parentTitle = L('Resource')
 const title = L('Network')
 

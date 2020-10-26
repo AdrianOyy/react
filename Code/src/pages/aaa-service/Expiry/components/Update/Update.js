@@ -3,15 +3,12 @@ import React, { useEffect, useState } from 'react'
 import DetailPage from "../../../../../components/DetailPage"
 import API from "../../../../../api/expiry"
 import { useParams } from "react-router-dom"
-import dayjs from "dayjs"
+import formatDateTime from "../../../../../utils/formatDateTime"
 import CommonTip from "../../../../../components/CommonTip"
 import { L } from '../../../../../utils/lang'
 import { useHistory } from 'react-router-dom'
 import { checkEmpty } from "../../untils/expiryFieldCheck"
 
-const formatDateTime = (str) => {
-  return dayjs(new Date(str)).format('DD-MMM-YYYY HH:mm')
-}
 
 function AssignUpdate(props) {
   const { onMount } = props
@@ -76,7 +73,7 @@ function AssignUpdate(props) {
           if (user && user.displayname) {
             setUser(user.displayname)
           }
-          setExpiryDate(dayjs(new Date(expiryDate)).format('YYYY-MM-DD'))
+          setExpiryDate(formatDateTime(expiryDate, 'YYYY-MM-DD'))
           setCreatedAt(createdAt)
           setUpdastedAt(updatedAt)
         }
@@ -104,7 +101,7 @@ function AssignUpdate(props) {
     const { value } = e.target
     switch (id) {
       case 'expiryDate':
-        setExpiryDate(dayjs(new Date(value)).format('YYYY-MM-DD'))
+        setExpiryDate(formatDateTime(value, 'YYYY-MM-DD'))
         break
       default:
         break

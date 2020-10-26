@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import { useParams, useHistory } from "react-router-dom"
-import dayjs from "dayjs"
-
+import formatDateTime from "../../../../../utils/formatDateTime"
 import DetailPage from "../../../../../components/DetailPage"
 import CommonTip from "../../../../../components/CommonTip"
 import ADGroupApi from "../../../../../api/adGroup"
 import { checkEmpty, getCheckExist } from "../../untils/ADGroupCheck"
 import { L } from '../../../../../utils/lang'
+
 const listPath = '/aaa-service/adgroup'
 const formTitle = 'Update'
 
@@ -21,9 +21,6 @@ function Update(props) {
   const [ saving, setSaving ] = useState(true)
   const [ nameError, setNameError ] = useState(false)
   const [ nameHelperText, setNameHelperText ] = useState("")
-  const formatDateTime = (str) => {
-    return dayjs(new Date(str)).format('DD-MMM-YYYY HH:mm')
-  }
 
   useEffect(() => {
     onMount('update')

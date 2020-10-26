@@ -3,16 +3,11 @@ import React, { useEffect, useState } from 'react'
 import DetailPage from "../../../../../components/DetailPage"
 import API from "../../../../../api/tenantQuotaMapping"
 import { useParams } from "react-router-dom"
-import dayjs from "dayjs"
+import formatDateTime from "../../../../../utils/formatDateTime"
 import CommonTip from "../../../../../components/CommonTip"
 import { L } from '../../../../../utils/lang'
 import { useHistory } from 'react-router-dom'
 import { checkEmpty, getCheckTypeExist, getCheckYearExist } from "../../untils/ManagementFieldCheck"
-
-const formatDateTime = (str) => {
-  return dayjs(new Date(str)).format('DD-MMM-YYYY HH:mm')
-}
-
 
 function ManagementUpdate(props) {
   const { onMount } = props
@@ -166,7 +161,7 @@ function ManagementUpdate(props) {
         error: quotaError, helperText: quotaHelperText,
       },
       {
-        id: 'year', label: L('Year'), required: true, type: 'date', views: ['year'],
+        id: 'year', label: L('Year'), required: true, type: 'date', views: [ 'year' ],
         readOnly: false, value: year, error: yearError, helperText: yearHelperText,
       },
       { id: 'createdAt', label: L('Created At'), type: 'text', disabled: true, readOnly: true, value: formatDateTime(createdAt) },

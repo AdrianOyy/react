@@ -98,6 +98,11 @@ export default class VMAllocation {
     return data
   }
 
+  handleChildStartData() {
+    const data = {}
+    return data
+  }
+
   beforeSubmit(dataMap) {
     return dataMap
   }

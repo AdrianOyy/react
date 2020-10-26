@@ -35,7 +35,7 @@ function List(props) {
   }, [])
 
   useEffect(() => {
-    API.getProcessList({ ...query, name: 'Non Personal Account', limit: rowsPerPage, page: page + 1 })
+    API.getProcessList({ ...query, name: 'Non-Personal Account', limit: rowsPerPage, page: page + 1 })
       .then(({ data }) => {
         setTotal(data.total)
         handleData(data.list)

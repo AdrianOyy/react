@@ -50,14 +50,14 @@ export default function HACheckBox(props) {
         checks.push(check)
       }
     }
-    onChange({ id, label: checks.join(','), value: checks.join(',') })
+    onChange({ id, label: checks.join('!@#'), value: checks.join('!@#') })
   }
 
   useEffect(() => {
     let stt = []
     const value = defaultValue ? (defaultValue.value ? defaultValue.value : (typeof defaultValue === 'string' ? defaultValue : '')) : ''
     if (value) {
-      stt = value.split(',')
+      stt = value.split('!@#')
     }
     let data = {}
     for (let i = 0; i < itemList.length; i++) {
@@ -65,9 +65,6 @@ export default function HACheckBox(props) {
     }
     setValue(data)
     value && onChange && onChange({ id, label: value, value })
-    console.log('===============================c1')
-    console.log(labelField)
-    console.log(value)
     // eslint-disable-next-line
   }, [ itemList, defaultValue, onChange ])
 

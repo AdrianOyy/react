@@ -5,30 +5,16 @@ import async from "../components/Async"
 import {
   CheckSquare,
   Grid,
-  List,
   Monitor,
-  Sliders,
   Users
 } from "react-feather"
 
 // Auth components
 const SignIn = async(() => import("../pages/auth/SignIn"))
-const SignUp = async(() => import("../pages/auth/SignUp"))
 const ResetPassword = async(() => import("../pages/auth/ResetPassword"))
 const Page404 = async(() => import("../pages/auth/Page404"))
 const Page500 = async(() => import("../pages/auth/Page500"))
 
-// Components components
-// const Alerts = async(() => import("../pages/components/Alerts"))
-// const Avatars = async(() => import("../pages/components/Avatars"))
-// const Buttons = async(() => import("../pages/components/Buttons"))
-// const Cards = async(() => import("../pages/components/Cards"))
-const Chips = async(() => import("../pages/components/Chips"))
-const Dialogs = async(() => import("../pages/components/Dialogs"))
-// const ExpPanels = async(() => import("../pages/components/ExpansionPanels"))
-
-// Dashboards components
-const Analytics = async(() => import("../pages/dashboards/Analytics"))
 
 // logging components
 const logging = async(() => import("../pages/logging/Log"))
@@ -36,9 +22,6 @@ const logging = async(() => import("../pages/logging/Log"))
 // user components
 const user = async(() => import("../pages/aaa-service/User"))
 
-
-// Documentation
-// const Presentation = async(() => import("../pages/docs/Presentation"));
 
 // workFlow
 const WorkflowSetting = async(() => import("../pages/workFlow/WorkflowSetting"))
@@ -50,16 +33,15 @@ const NonPersonalAccount = async(() => import("../pages/workFlow/NonPersonalAcco
 const DistributionList = async(() => import("../pages/workFlow/DistributionList"))
 const ClosingAccount = async(() => import("../pages/workFlow/ClosingAccount"))
 const MoveIn = async(() => import("../pages/workFlow/MoveIn"))
-// const VMProvisioning = async(() => import("../pages/workFlow/VMProvisioning/"))
+
 // IP Assignment
-// const IPAssignment = async(() => import("../pages/workFlow/IPAssignment/"))
 const IPAddress = async(() => import("../pages/resources/IPAddress"))
 const Platform = async(() => import("../pages/resources/Platform/"))
+const LifeCycle = async(() => import("../pages/resources/LifeCycle/"))
 const VM = async(() => import("../pages/resources/VM/"))
 const Network = async(() => import("../pages/resources/Network/"))
+const Server = async(() => import("../pages/resources/Server/"))
 
-// tenant quota mapping
-const tenantQuotaMapping = async(() => import("../pages/aaa-service/tenantQuotaMapping"))
 
 // tenant
 const tenant = async(() => import("../pages/aaa-service/Tenant"))
@@ -93,11 +75,6 @@ const authRoutes = {
       component: SignIn
     },
     {
-      path: "/auth/sign-up",
-      name: "Sign Up",
-      component: SignUp
-    },
-    {
       path: "/auth/reset-password",
       name: "Reset Password",
       component: ResetPassword
@@ -124,26 +101,6 @@ const presentationRoutes = {
   children: null
 }
 
-const dashboardsRoutes = {
-  id: "Dashboard",
-  path: "/dashboard",
-  // header: "Pages",
-  icon: <Sliders />,
-  containsHome: true,
-  children: [
-    // {
-    //   path: "/dashboard/Common",
-    //   name: "Default",
-    //   component: Default
-    // },
-    {
-      path: "/dashboard/analytics",
-      name: "Analytics",
-      component: Analytics
-    }
-  ]
-}
-
 const logRoutes = {
   id: "Log",
   path: "/logging/",
@@ -165,7 +122,7 @@ const workflowRoutes = {
     },
     {
       path: "/workflow/nonPersonalAccount/",
-      name: "Non Personal Account",
+      name: "Non-Personal Account",
       component: NonPersonalAccount
     },
     {
@@ -265,11 +222,6 @@ const resourceRoutes = {
       name: "VM",
       component: VM
     },
-    // {
-    //   path: "/resources/port",
-    //   name: "Network Port",
-    //   component: Avatars
-    // },
     {
       path: "/resources/IPAddress/",
       name: "IP Address",
@@ -280,15 +232,10 @@ const resourceRoutes = {
       name: "Network",
       component: Network
     },
-    // {
-    //   path: "/resources/storage",
-    //   name: "Storage",
-    //   component: Cards
-    // },
     {
       path: "/resources/server",
       name: "Server",
-      component: Dialogs
+      component: Server
     },
     {
       path: "/resources/platform",
@@ -298,35 +245,15 @@ const resourceRoutes = {
     {
       path: "/resources/life-cycle",
       name: "Life Cycle",
-      component: Chips
+      component: LifeCycle
     },
   ]
 }
 
-const recordRoutes = {
-  id: "Allocation",
-  path: "/allocation",
-  icon: <List />,
-  component: Dialogs,
-  children: [
-    {
-      path: "/allocation/tenantQuotaMapping/",
-      name: "Quota",
-      component: tenantQuotaMapping,
-    },
-    {
-      path: "/allocation/tenantQuotaMapping/",
-      name: "Record",
-      component: tenantQuotaMapping,
-    },
-  ]
-}
 
 export const dashboard = [
-  dashboardsRoutes,
   resourceRoutes,
   workflowRoutes,
-  recordRoutes,
   logRoutes,
   aaaServiceRoutes,
 ]
@@ -338,10 +265,8 @@ export const auth = [
 ]
 
 export default [
-  dashboardsRoutes,
   resourceRoutes,
   workflowRoutes,
-  recordRoutes,
   logRoutes,
   aaaServiceRoutes,
 ]

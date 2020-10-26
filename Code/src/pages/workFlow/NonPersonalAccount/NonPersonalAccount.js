@@ -4,7 +4,7 @@ import { List, Create } from './components'
 import { L } from '../../../utils/lang'
 
 const parentTitle = L('Workflow')
-const title = L('Non Personal Account')
+const title = L('Non-Personal Account')
 
 function MyRequest() {
   const props = {

@@ -88,6 +88,8 @@ export default function CommonWorkflowForm(props) {
   const [ childDefaultValues, setChildDefaultValues ] = useState({})
   // 父表初始数据
   const [ parentDefaultValues, setParentDefaultValues ] = useState({})
+  // 最初始比对数据
+  const [ startValues, setStartValues ] = useState(null)
 
   const [ formKey, setFormKey ] = useState('')
 
@@ -171,9 +173,11 @@ export default function CommonWorkflowForm(props) {
         formKey,
         childFormKey,
         workflowName,
+        startValues,
         parentData: map2object(parentDataMap),
         childDataList,
-        version
+        version,
+        deploymentId
       }
       API.create(form)
         .then(() => {
@@ -189,6 +193,7 @@ export default function CommonWorkflowForm(props) {
   useEffect(() => {
     setLogic(getLogic(workflowName))
   }, [ workflowName ])
+
 
   // 处理原始渲染数据和具体数据
   useEffect(() => {
@@ -232,8 +237,13 @@ export default function CommonWorkflowForm(props) {
     if (!rawDefaultData) {
       if (start) {
         const parentStartData = logic.handleParentStartData(startData, parentDataMap)
+        setStartValues(parentStartData)
         setParentDefaultValues(parentStartData)
         setStart(false)
+        if (childFormDetail.length > 0) {
+          const childStartData = logic.handleChildStartData(startData, childDataListMap)
+          setChildDataList(childStartData)
+        }
       }
       return
     }
@@ -278,7 +288,7 @@ export default function CommonWorkflowForm(props) {
   }
 
   // 父表改动
-  const onParentChange = (data) => (logic.onFieldChange(data, parentDataMap, container))
+  const onParentChange = (data) => (logic.onFieldChange(data, parentDataMap, container, parentFormDetail))
 
   // 子表改动
   const onChildChange = (data) => (logic.onFieldChange(data, childDataMap, container))
@@ -350,9 +360,11 @@ export default function CommonWorkflowForm(props) {
         formKey,
         childFormKey,
         workflowName,
+        startValues,
         parentData: map2object(parentDataMap),
         childDataList,
-        version
+        version,
+        deploymentId
       }
       if (processDefinitionId) {
         const list = logic.getContractList(parentDataMap)
@@ -423,15 +435,16 @@ export default function CommonWorkflowForm(props) {
   }
   const handleReasonSubmit = () => {
     if (dialogReason.value && dialogReason.value.length > 0) {
+      console.log(dialogReason.value)
       let data = {
         taskId,
-        variables: { leaderCheck: false },
-        reason: dialogReason.value
+        variables: { pass: false },
+        rejectReason: dialogReason.value
       }
       rejectActions(data)
     }
   }
-  const handleReasonChange = (event, id) => {
+  const handleReasonChange = (event) => {
     dialogReason.value = event.target.value
   }
   const rejectActions = (data) => {
@@ -443,35 +456,38 @@ export default function CommonWorkflowForm(props) {
       })
   }
 
-  const handleAgrreTaskClick = () => {
-    Loading.show()
-    const formUpdate = {
-      pid,
-      formKey,
-      childFormKey,
-      taskId,
-      version,
-      parentData: map2object(parentDataMap),
-      childDataList,
+  const handleAgrreTaskClick = async () => {
+    const pass = logic.checkForm && await logic.checkForm(parentFormDetail, parentDataMap)
+    if (pass) {
+      Loading.show()
+      const formUpdate = {
+        pid,
+        formKey,
+        childFormKey,
+        taskId,
+        version,
+        parentData: map2object(parentDataMap),
+        childDataList,
+      }
+      API.update(formUpdate).then(() => {
+        Loading.hide()
+        CommonTip.success(L('Success'))
+        history.push({ pathname: `/MyApproval` })
+      })
+      // const agreeModel = {
+      //   taskId,
+      //   variables: { pass: true },
+      // }
+      // workflowApi.actionTask(agreeModel)
+      //   .then(({ data }) => {
+      //     if (data.status === 400) {
+      //       CommonTip.error(data.data)
+      //     } else {
+      //       CommonTip.success(L('Success'))
+      //       history.push({ pathname: `/MyApproval` })
+      //     }
+      //   })
     }
-    API.update(formUpdate).then(() => {
-      Loading.hide()
-      CommonTip.success(L('Success'))
-      history.push({ pathname: `/MyApproval` })
-    })
-    // const agreeModel = {
-    //   taskId,
-    //   variables: { pass: true },
-    // }
-    // workflowApi.actionTask(agreeModel)
-    //   .then(({ data }) => {
-    //     if (data.status === 400) {
-    //       CommonTip.error(data.data)
-    //     } else {
-    //       CommonTip.success(L('Success'))
-    //       history.push({ pathname: `/MyApproval` })
-    //     }
-    //   })
   }
 
   const onContractClose = (argee) => {

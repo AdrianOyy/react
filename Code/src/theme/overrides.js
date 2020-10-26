@@ -39,7 +39,6 @@ const overrides = {
   },
   MuiPickersClockNumber: {
     clockNumber: {
-      left: `calc(50% - 16px)`,
       width: "32px",
       height: "32px"
     }

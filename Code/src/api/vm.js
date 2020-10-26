@@ -28,6 +28,9 @@ class vmGuest {
   checkSerialNumber(id, serialNumber) {
     return request.get(`${prefix}/vmGuest/checkSerialNumber?id=${id}&serialNumber=${serialNumber}`, {}, {}, url)
   }
+  download(data) {
+    return request.post(`${prefix}/vmGuest/export`, data, { responseType: 'blob' }, url)
+  }
 }
 
 export default new vmGuest()

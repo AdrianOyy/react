@@ -10,7 +10,7 @@ import {
   TableBody,
   TableCell,
   TableContainer,
-  TableRow,
+  TableRow, Tooltip,
 } from '@material-ui/core'
 
 import {
@@ -62,6 +62,8 @@ function CommonTable(props) {
     customCreate,
     actionList,
     marginTop,
+    showDownLoad,
+    page,
   } = props
   const history = useHistory()
   const [ order, setOrder ] = useState('asc')
@@ -70,7 +72,7 @@ function CommonTable(props) {
   const [ loading, setLoading ] = useState(false)
 
   const handleDelete = () => {
-    if (loading) return
+    if (loading || !deleteAPI) return
     setLoading(true)
     deleteAPI({ idList: selected })
       .then(() => {
@@ -131,11 +133,9 @@ function CommonTable(props) {
   }
 
   const display = (action, row) => {
+    // return action.display && action.display(row)
     if (action.display) {
-      if (row.state === 'completed') {
-        return false
-      }
-      if (!row['reason'] || row.reason.length === 0) return false
+      return action.display(row)
     }
     return true
   }
@@ -149,8 +149,11 @@ function CommonTable(props) {
         tableName={tableName}
         createPath={`${path}/create`}
         onDelete={handleDelete}
+        hideDelete={!deleteAPI}
         hideCreate={hideCreate}
         customCreate={customCreate}
+        showDownLoad={showDownLoad}
+        page={page}
       />
       <TableContainer>
         <Table
@@ -206,18 +209,22 @@ function CommonTable(props) {
                       <Box mt={3}>
                         {
                           !hideDetail && (() => (
-                            <IconButton aria-label="detail" onClick={(event) => handleDetail(event, row.id)}>
-                              <RemoveRedEyeIcon />
-                            </IconButton>
+                            <Tooltip title="Detail">
+                              <IconButton aria-label="detail" onClick={(event) => handleDetail(event, row.id)}>
+                                <RemoveRedEyeIcon />
+                              </IconButton>
+                            </Tooltip>
                           ))
                         }
                       </Box>
                       <Box>
                         {
                           !hideUpdate && (() => (
-                            <IconButton aria-label="update" onClick={(event) => handleUpdate(event, row.id)}>
-                              <BorderColorIcon />
-                            </IconButton>
+                            <Tooltip title="Edit">
+                              <IconButton aria-label="update" onClick={(event) => handleUpdate(event, row.id)}>
+                                <BorderColorIcon />
+                              </IconButton>
+                            </Tooltip>
                           ))
                         }
                       </Box>

@@ -12,13 +12,9 @@ import tenantApi from "../../../../../api/tenant"
 import { L } from '../../../../../utils/lang'
 import styled from "styled-components"
 import { spacing } from "@material-ui/system"
-import dayjs from "dayjs"
-// import typeList from "../../untils/typeList"
+import formatDateTime from "../../../../../utils/formatDateTime"
 
 const Paper = styled(MuiPaper)(spacing)
-const formatDateTime = (str) => {
-  return dayjs(new Date(str)).format('DD-MMM-YYYY HH:mm')
-}
 
 const tableName = L('List')
 
@@ -103,7 +99,7 @@ function List(props) {
   const searchBarFieldList = [
     { id: 'tenant', label: L('Tenant'), type: 'text', disabled: false, value: tenantId, isSelector: true, itemList: tenantList, labelField: 'name', valueField: 'id' },
     { id: 'type', label: L('Type'), type: 'text', disabled: false, value: type },
-    { id: 'year', label: L('Year'), type: 'date', disabled: false, value: year, views: ['year'] },
+    { id: 'year', label: L('Year'), type: 'date', disabled: false, value: year, views: [ 'year' ] },
     { id: 'createdAt', label: L('Created At'), type: 'date', disabled: false, readOnly: false, value: createdAt },
     { id: 'updatedAt', label: L('Updated At'), type: 'date', disabled: false, readOnly: false, value: updatedAt },
   ]

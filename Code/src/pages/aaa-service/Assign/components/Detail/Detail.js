@@ -4,11 +4,8 @@ import DetailPage from "../../../../../components/DetailPage"
 import API from "../../../../../api/assign"
 import { L } from '../../../../../utils/lang'
 import { useParams } from "react-router-dom"
-import dayjs from "dayjs"
+import formatDateTime from "../../../../../utils/formatDateTime"
 
-const formatDateTime = (str) => {
-  return dayjs(new Date(str)).format('DD-MMM-YYYY HH:mm')
-}
 
 function Detail(props) {
   const { onMount } = props
@@ -75,7 +72,7 @@ function Detail(props) {
   return (
     <React.Fragment>
       <DetailPage
-        formTitle={L('Deatil')}
+        formTitle={L('Detail')}
         onFormFieldChange = {onFormFieldChange}
         formFieldList = {formFieldList}
       />

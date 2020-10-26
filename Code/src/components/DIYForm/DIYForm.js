@@ -10,8 +10,12 @@ import HAInput from "../HAInput"
 import styled from "styled-components"
 import { spacing } from "@material-ui/system"
 import HASelect from "../HASelect/HASelect"
-import HADatePicker from "../HADatePicker/HADatePicker"
+// import HADatePicker from "../HADatePicker/HADatePicker"
+import SimpleDatePicker from "../SimpleDatePicker/SimpleDatePicker"
 import HACheckBox from "../HACheckBox/HACheckBox"
+import HAList from "../HAList/HAList"
+import HADialogList from "../HADialogList/HADialogList"
+import HAInputCheck from "../HAInputCheck/HAInputCheck"
 
 
 const Divider = styled(MuiDivider)(spacing)
@@ -29,7 +33,6 @@ export default function DIYForm(props) {
     isNew,
     containerStyle,
   } = props
-  console.log(props)
   const useStyles = makeStyles(() => ({
     containerStyle,
     flex: {
@@ -53,12 +56,12 @@ export default function DIYForm(props) {
     },
     allgrid: {
       width: '100%',
-      height: '10vh',
+      minHeight: '10vh',
       marginBottom: '4.5vh',
     },
     allnonegrid: {
       width: '100%',
-      height: '10vh',
+      minHeight: '20vh',
       marginBottom: '4.5vh',
       display: 'none',
     },
@@ -136,10 +139,69 @@ export default function DIYForm(props) {
                     key={el.fieldName + '_' + i}
                     id={el.fieldName + '_div'}
                   >
-                    <HADatePicker
+                    <SimpleDatePicker
                       id={el.fieldName}
                       onChange={onChange}
                       disabled={!el.writable}
+                      defaultValue={defaultValues ? defaultValues[el.fieldName] : null}
+                      label={el.fieldDisplayName}
+                      required={el.required}
+                    />
+                  </div>
+                ) : null
+              case 'inputCheck':
+                return (pid || el.showOnRequest) && el.readable ? (
+                  <div
+                    className={el.display ? classes.nonegrid : classes.grid}
+                    key={el.fieldName + '_' + i}
+                    id={el.fieldName + '_div'}
+                  >
+                    <HAInputCheck
+                      id={el.fieldName}
+                      onBlur={onChange}
+                      disabled={!el.writable}
+                      apiKey={el.apiKey}
+                      apiValue={el.apiValue}
+                      title={el.title}
+                      defaultValue={defaultValues ? defaultValues[el.fieldName] : null}
+                      label={el.fieldDisplayName}
+                      required={el.required}
+                    />
+                  </div>
+                ) : null
+              case 'dialogList':
+                return (pid || el.showOnRequest) && el.readable ? (
+                  <div
+                    className={el.display ? classes.allnonegrid : classes.allgrid}
+                    key={el.fieldName + '_' + i}
+                    id={el.fieldName + '_div'}
+                  >
+                    <HADialogList
+                      id={el.fieldName}
+                      onBlur={onChange}
+                      disabled={!el.writable}
+                      apiKey={el.apiKey}
+                      apiValue={el.apiValue}
+                      title={el.title}
+                      defaultValue={defaultValues ? defaultValues[el.fieldName] : null}
+                      label={el.fieldDisplayName}
+                      required={el.required}
+                    />
+                  </div>
+                ) : null
+              case 'list':
+                return (pid || el.showOnRequest) && el.readable ? (
+                  <div
+                    className={el.display ? classes.allnonegrid : classes.allgrid}
+                    key={el.fieldName + '_' + i}
+                    id={el.fieldName + '_div'}
+                  >
+                    <HAList
+                      id={el.fieldName}
+                      onBlur={onChange}
+                      disabled={!el.writable}
+                      isCheck={el.isCheck}
+                      onCheck={el.onCheck}
                       defaultValue={defaultValues ? defaultValues[el.fieldName] : null}
                       label={el.fieldDisplayName}
                       required={el.required}
@@ -157,6 +219,8 @@ export default function DIYForm(props) {
                       id={el.fieldName}
                       onBlur={onChange}
                       disabled={!el.writable}
+                      isCheck={el.isCheck}
+                      onCheck={el.onCheck}
                       defaultValue={defaultValues ? defaultValues[el.fieldName] : null}
                       label={el.fieldDisplayName}
                       required={el.required}

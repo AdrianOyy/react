@@ -7,20 +7,20 @@ import {
 } from "@material-ui/core"
 import { L } from '../../../../../utils/lang'
 
-import { CommonTable, SearchBar } from '../../../../../components'
+import { CommonTable, SearchBar, ChatBox } from '../../../../../components'
 import API from "../../../../../api/workFlow"
-// import { user } from "../../../../../api/workFlow"
 import styled from "styled-components"
 import { useHistory } from "react-router-dom"
-import { getUser } from "../../../../../utils/user"
+import { getUserGroupList } from "../../../../../utils/auth"
 import { spacing } from "@material-ui/system"
-import dayjs from "dayjs"
-import { BorderColorOutlined as BorderColorIcon, Reorder as ReorderIcon } from "@material-ui/icons"
+import formatDateTime from "../../../../../utils/formatDateTime"
+import {
+  BorderColorOutlined as BorderColorIcon,
+  Reorder as ReorderIcon,
+  Chat as ChatIcon
+} from "@material-ui/icons"
 
 const Paper = styled(MuiPaper)(spacing)
-const formatDateTime = (str) => {
-  return dayjs(new Date(str)).format('YYYY-MM-DD HH:mm')
-}
 const tableName = L('My Approval')
 
 function List(props) {
@@ -35,6 +35,8 @@ function List(props) {
   const [ total, setTotal ] = useState(0)
   const [ open, setOpen ] = useState(false)
   const [ image, setImage ] = useState('')
+  const [ taskId, setTaskId ] = useState('')
+  const [ showChatBox, setShowChatBox ] = useState(false)
 
   // 用于更新面包屑
   useEffect(() => {
@@ -43,7 +45,7 @@ function List(props) {
   }, [])
 
   useEffect(() => {
-    const groupList = getUser().groupList
+    const groupList = getUserGroupList()
     API.getTaskListByGroup({ groupList, limit: rowsPerPage, page: page + 1 }).then(response => {
       console.log(response.data.data)
       setTotal(response.data.data.total)
@@ -152,9 +154,15 @@ function List(props) {
     history.push({ pathname: `/step/${row.id}` })
   }
 
+  const handleChatBox = (event, row) => {
+    setTaskId(row.taskId)
+    setShowChatBox(true)
+  }
+
   const actionList = [
     { label: L('step'), icon: <ReorderIcon />, handleClick: handleStep },
     { label: L('edit'), icon: <BorderColorIcon />, handleClick: handleDetail },
+    { label: L('message'), icon: <ChatIcon />, handleClick: handleChatBox },
   ]
 
   const handleClose = () => {
@@ -187,6 +195,11 @@ function List(props) {
               handleImage={handleImage}
               actionList={actionList}
               hideCreate={true}
+            />
+            <ChatBox
+              open={showChatBox}
+              onClose={() => { setShowChatBox(false) }}
+              taskId={taskId}
             />
             <Dialog
               open={open}

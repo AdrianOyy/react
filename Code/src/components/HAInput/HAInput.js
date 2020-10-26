@@ -18,7 +18,6 @@ const fontFamily = [
   '"Segoe UI Symbol"',
 ].join(',')
 
-
 export default function HAInput(props) {
   const {
     id,
