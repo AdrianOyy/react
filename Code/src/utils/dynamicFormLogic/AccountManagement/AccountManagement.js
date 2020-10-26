@@ -182,8 +182,10 @@ export default class AccountManagement {
           el.apiValue = { returnType: 'user' }
           break
         case 'distribution_list':
-          el.isCheck = true
-          el.onCheck = onCheck
+          el.type = 'inputCheck'
+          el.apiKey = Api.findUsers
+          el.title = 'Set Distribution'
+          el.apiValue = { returnType: 'distribution' }
           break
         case 'hkid':
           if (stepName !== 'create') {
@@ -216,25 +218,6 @@ export default class AccountManagement {
 
   setSupervisorEmail(value, dataMap, checkName) {
     dataMap.set(checkName, { id: checkName, label: value, value })
-  }
-
-  getReturnType(parentDataMap, fieldName) {
-    let returnType = null
-    switch (fieldName) {
-      case 'supervisoremailaccount':
-        returnType = 'user'
-        break
-      case 'distribution_list':
-        returnType = 'distribution'
-        break
-      default:
-        break
-    }
-    if ((!parentDataMap.get(fieldName) || !parentDataMap.get(fieldName).value)) {
-      CommonTip.error('Check field is required')
-      returnType = null
-    }
-    return returnType
   }
 
   async getEmail(parentDataMap) {
