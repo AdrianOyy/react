@@ -61,6 +61,7 @@ export default function HAInput(props) {
 
   const handleBlur = (e) => {
     const { value } = e.target
+    onBlur && onBlur({ id, label: value, value })
     setInputValue(value)
   }
 

@@ -190,6 +190,7 @@ export default class AccountManagement {
         case 'hkid':
           if (stepName !== 'create') {
             el.readable = false
+            el.required = false
           }
           break
         default:
