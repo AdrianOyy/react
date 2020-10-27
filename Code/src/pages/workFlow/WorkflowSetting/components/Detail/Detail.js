@@ -318,7 +318,7 @@ export default function MaterialTableDemo() {
       </div>
       <ButtonGroup className={classes.buttonGroup}>
         <Button variant="contained" className={classes.button} onClick={handleSubmit} color='primary'>{L('Submit')}</Button>
-        <Button variant="contained" className={classes.button} onClick={handleCancle} >{L('Cancle')}</Button>
+        <Button variant="contained" className={classes.button} onClick={handleCancle} >{L('Cancel')}</Button>
       </ButtonGroup>
     </div>
   )
