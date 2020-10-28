@@ -5,9 +5,17 @@ import { getUser } from "../../auth"
 
 export default class NonPersonalAccount {
   // eslint-disable-next-line
-  async onFieldChange(data, dataMap, ref) {
+  async onFieldChange(data, dataMap, ref, parentFormDetail) {
     const { id } = data
-    dataMap.set(id, data)
+    switch (id) {
+      case 'issame':
+        issame(data, dataMap, parentFormDetail)
+        break
+      default:
+        if (id) {
+          dataMap.set(id, data)
+        }
+    }
   }
 
   // eslint-disable-next-line
@@ -26,7 +34,7 @@ export default class NonPersonalAccount {
         CommonTip.error(`${fieldDisplayName} is required`)
         pass = false
         break
-      } if (fieldName === 'owneremail' && issame && issame.label === 'Not the same' && (!parentDataMap.get(fieldName) || !parentDataMap.get(fieldName).value)) {
+      } if (fieldName === 'owneremail' && (!issame || issame.label !== 'Not the same') && (!parentDataMap.get(fieldName) || !parentDataMap.get(fieldName).value)) {
         CommonTip.error(`${fieldDisplayName} is required`)
         pass = false
         break
@@ -173,3 +181,17 @@ export default class NonPersonalAccount {
   }
 }
 
+function issame(data, dataMap, parentFormDetail) {
+  const { id, value } = data
+  dataMap.set(id, data)
+  for (const detail of parentFormDetail) {
+    if (detail.readable && detail.fieldName === 'owneremail') {
+      const divlist = document.getElementById(detail.fieldName + '_div')
+      if (value === 'Not the same') {
+        divlist.style = 'display:none'
+      } else {
+        divlist.style = 'display:block'
+      }
+    }
+  }
+}
