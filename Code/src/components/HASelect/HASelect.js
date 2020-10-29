@@ -46,8 +46,8 @@ export default function HASelect(props) {
 
   useEffect(() => {
     setNewValue(defaultValue ? (defaultValue.value ? defaultValue.value : defaultValue) : '')
-    defaultValue && onChange && onChange(defaultValue)
-  }, [ defaultValue, onChange ])
+    // defaultValue && onChange && onChange(defaultValue)
+  }, [ defaultValue ])
 
   useEffect(() => {
     if (isNew) {
