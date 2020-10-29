@@ -4,10 +4,16 @@ import CommonTip from "../../../components/CommonTip"
 
 export default class DistributionList {
   // eslint-disable-next-line
-  async onFieldChange(data, dataMap, ref) {
+  async onFieldChange(data, dataMap, ref, parentFormDetail) {
     const { id } = data
-    if (id) {
-      dataMap.set(id, data)
+    switch (id) {
+      case 'isowner':
+        isowner(data, dataMap, parentFormDetail)
+        break
+      default:
+        if (id) {
+          dataMap.set(id, data)
+        }
     }
   }
 
@@ -25,7 +31,7 @@ export default class DistributionList {
       const { required, fieldName, fieldDisplayName } = parentFormDetail[i]
       if (required && (!parentDataMap.get(fieldName) || !parentDataMap.get(fieldName).value)
       ) {
-        if ((fieldName.indexOf('isowner_') !== -1 && isowner && isowner.label === 'Yes')
+        if ((fieldName.indexOf('isowner_') !== -1 && (!isowner || isowner.label !== 'Yes'))
           || fieldName.indexOf('isowner_') === -1) {
           CommonTip.error(`${fieldDisplayName} is required`)
           pass = false
@@ -125,14 +131,9 @@ export default class DistributionList {
           }
           break
         case 'distributionlistid':
-          if (stepName !== 'HA4Approval') {
+          if (stepName !== 'HA4Approval' && stepName !== 'detail') {
             el.required = false
             el.readable = false
-          } else {
-            el.title = 'Set Distribution'
-            el.type = 'inputCheck'
-            el.apiKey = Api.findUsers
-            el.apiValue = { returnType: 'distribution' }
           }
           break
         default:
@@ -169,3 +170,17 @@ export default class DistributionList {
   }
 }
 
+function isowner(data, dataMap, parentFormDetail) {
+  const { id, value } = data
+  dataMap.set(id, data)
+  for (const detail of parentFormDetail) {
+    if (detail.readable && detail.fieldName.indexOf('isowner_') !== -1) {
+      const divlist = document.getElementById(detail.fieldName + '_div')
+      if (value === 'Yes') {
+        divlist.style = 'display:none'
+      } else {
+        divlist.style = 'display:block'
+      }
+    }
+  }
+}
