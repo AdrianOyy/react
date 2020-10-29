@@ -31,3 +31,12 @@ See the section about [deployment](https://facebook.github.io/create-react-app/d
 You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
 To learn React, check out the [React documentation](https://reactjs.org/).
+
+````shell script
+docker run -dit \
+--name sense-frontend \
+--restart always \
+-p 80:80 \
+-e API_BASE_URL=http:\\/\\/10.231.131.123:8000 \
+sense-frontend
+````
