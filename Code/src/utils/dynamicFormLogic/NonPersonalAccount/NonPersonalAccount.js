@@ -131,7 +131,7 @@ export default class NonPersonalAccount {
           el.apiValue = { returnType: 'user' }
           break
         case 'emailid':
-          if (stepName !== 'HA4Approval') {
+          if (stepName !== 'HA4Approval' && stepName !== 'detail') {
             el.required = false
             el.readable = false
           } else {

@@ -131,14 +131,9 @@ export default class DistributionList {
           }
           break
         case 'distributionlistid':
-          if (stepName !== 'HA4Approval') {
+          if (stepName !== 'HA4Approval' && stepName !== 'detail') {
             el.required = false
             el.readable = false
-          } else {
-            el.title = 'Set Distribution'
-            el.type = 'inputCheck'
-            el.apiKey = Api.findUsers
-            el.apiValue = { returnType: 'distribution' }
           }
           break
         default:
