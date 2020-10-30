@@ -236,13 +236,13 @@ export default function CommonWorkflowForm(props) {
     // 处理数据
     if (!rawDefaultData) {
       if (start) {
-        const parentStartData = logic.handleParentStartData(startData, parentDataMap)
-        setStartValues(parentStartData)
-        setParentDefaultValues(parentStartData)
+        const rawStartData = logic.handleParentStartData(startData, parentDataMap)
+        setStartValues(rawStartData.parentStartData)
+        setParentDefaultValues(rawStartData.parentStartData)
         setStart(false)
         if (childFormDetail.length > 0) {
-          const childStartData = logic.handleChildStartData(startData, childDataListMap)
-          setChildDataList(childStartData)
+          const rawChildData = logic.handleChildDefaultData(rawStartData.childStartData, childDataListMap)
+          setChildDataList(rawChildData)
         }
       }
       return
