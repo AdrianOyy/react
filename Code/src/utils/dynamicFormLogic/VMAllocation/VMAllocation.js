@@ -76,13 +76,22 @@ export default class VMAllocation {
   }
 
   handleParentStartData() {
-    const data = {}
-    return data
-  }
-
-  handleChildStartData() {
-    const data = {}
-    return data
+    const parentStartData = {
+      tenant: 1,
+      justification: 'test'
+    }
+    const childStartData = {
+      application_type: 3,
+      backup_volume: "test",
+      cpu_request_number: "1",
+      data_storage_request_number: "800",
+      environment_type: 3,
+      network_zone: 3,
+      phase: "test11",
+      platform: 1,
+      ram_request_number: 8,
+    }
+    return { parentStartData, childStartData: [ childStartData ] }
   }
 
   beforeSubmit(dataMap) {

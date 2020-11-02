@@ -124,9 +124,9 @@ export default class AccountManagement {
         stafftype: 'Head Office',
         supervisoremailaccount: 'rexshen@apjcorp.com',
       }
-      return data
+      return { parentStartData: data }
     } else {
-      return null
+      return { parentStartData: null }
     }
   }
 

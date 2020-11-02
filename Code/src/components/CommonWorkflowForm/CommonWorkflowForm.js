@@ -236,13 +236,13 @@ export default function CommonWorkflowForm(props) {
     // 处理数据
     if (!rawDefaultData) {
       if (start) {
-        const parentStartData = logic.handleParentStartData(startData, parentDataMap)
-        setStartValues(parentStartData)
-        setParentDefaultValues(parentStartData)
+        const rawStartData = logic.handleParentStartData(startData, parentDataMap)
+        setStartValues(rawStartData.parentStartData)
+        setParentDefaultValues(rawStartData.parentStartData)
         setStart(false)
         if (childFormDetail.length > 0) {
-          const childStartData = logic.handleChildStartData(startData, childDataListMap)
-          setChildDataList(childStartData)
+          const rawChildData = logic.handleChildDefaultData(rawStartData.childStartData, childDataListMap)
+          setChildDataList(rawChildData)
         }
       }
       return
@@ -517,7 +517,16 @@ export default function CommonWorkflowForm(props) {
 
   const handleT1FollowUpClick = () => {
     const childData = map2object(childDataMap)
-    childData.status.value = 'skip'
+    console.log(childData)
+    if (childData.status) {
+      childData.status.value = 'skip'
+    } else {
+      childData.status = {
+        id: 'status',
+        label: 'skip',
+        value: 'skip'
+      }
+    }
     childData.checkState = true
     childData.id = childDataList[current].id
     childDataList[current] = childData
@@ -526,7 +535,15 @@ export default function CommonWorkflowForm(props) {
   }
   const handleT2FollowUpClick = () => {
     const childData = map2object(childDataMap)
-    childData.status.value = 'skip'
+    if (childData.status) {
+      childData.status.value = 'skip'
+    } else {
+      childData.status = {
+        id: 'status',
+        label: 'skip',
+        value: 'skip'
+      }
+    }
     childData.checkState = true
     childData.id = childDataList[current].id
     childDataList[current] = childData
@@ -535,7 +552,15 @@ export default function CommonWorkflowForm(props) {
   }
   const handleT6FollowUpClick = () => {
     const childData = map2object(childDataMap)
-    childData.status.value = 'skip'
+    if (childData.status) {
+      childData.status.value = 'skip'
+    } else {
+      childData.status = {
+        id: 'status',
+        label: 'skip',
+        value: 'skip'
+      }
+    }
     childData.checkState = true
     childData.id = childDataList[current].id
     childDataList[current] = childData

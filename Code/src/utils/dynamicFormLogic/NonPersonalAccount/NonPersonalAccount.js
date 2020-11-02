@@ -56,9 +56,9 @@ export default class NonPersonalAccount {
         firstname: user.sn,
         christianname: user.givenName,
       }
-      return data
+      return { parentStartData: data }
     } else {
-      return null
+      return { parentStartData: null }
     }
   }
 
