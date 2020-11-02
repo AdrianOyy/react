@@ -39,27 +39,9 @@ export default class VMAllocation {
   }
 
   async checkChildForm(childDataMap) {
-    const environment_type = childDataMap.get('environment_type') && childDataMap.get('environment_type').value
-    const network_zone = childDataMap.get('network_zone') && childDataMap.get('network_zone').value
     const cpu_request_number = childDataMap.get('cpu_request_number') && childDataMap.get('cpu_request_number').value
     const ram_request_number = childDataMap.get('ram_request_number') && childDataMap.get('ram_request_number').value
-    if (!environment_type) {
-      CommonTip.error('Enviroment Type is required')
-      return false
-    }
-    if (!network_zone) {
-      CommonTip.error('Network Zone is required')
-      return false
-    }
-    if (isNaN(parseInt(cpu_request_number))) {
-      CommonTip.error('cpu only receive a integer')
-      return false
-    }
-    if (isNaN(parseInt(ram_request_number))) {
-      CommonTip.error('ram only receive a integer')
-      return false
-    }
-    if (parseInt(ram_request_number) / parseInt(cpu_request_number) > 8) {
+    if (ram_request_number && cpu_request_number && parseInt(ram_request_number) / parseInt(cpu_request_number) > 8) {
       CommonTip.error('ram is 8 times larger than cpu')
       return false
     }
