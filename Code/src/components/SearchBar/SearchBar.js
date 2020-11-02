@@ -4,7 +4,6 @@ import { makeStyles } from '@material-ui/core/styles'
 // import dayjs from 'dayjs'
 import {
   Button,
-  ButtonGroup,
   TextField,
 } from '@material-ui/core'
 import {
@@ -14,10 +13,10 @@ import CommonSelect from "../CommonSelect"
 
 const useStyles = makeStyles((theme) => ({
   root: {
+    marginBottom: '10px',
     display: 'flex',
-    flexWrap: 'wrap',
-    margin: theme.spacing(2),
-    border: '2ch'
+    justifyContent: 'space-between',
+    alignItems: 'center',
   },
   textField: {
     marginRight: theme.spacing(10),
@@ -27,8 +26,15 @@ const useStyles = makeStyles((theme) => ({
     marginRight: theme.spacing(10),
     width: '25ch',
   },
-  button: {
-    marginRight: theme.spacing(10),
+  clearButton: {
+    marginRight: '2ch',
+    backgroundColor: '#D3DCFC',
+    color: '#325df4',
+    width: '10ch',
+  },
+  searchButton: {
+    backgroundColor: '#2553F4',
+    width: '10ch',
   },
 }))
 
@@ -51,7 +57,7 @@ function SearchBar(props) {
     onSearchFieldChange(data, id)
   }
   return (
-    <div style={{ marginBottom: '10px',  padding: '0 10px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+    <div className={classes.root}>
       {/*
         type list, see: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#Form_%3Cinput%3E_types
       */}
@@ -106,12 +112,11 @@ function SearchBar(props) {
             )))
         }
       </div>
-      <ButtonGroup>
+      <div style={{ minWidth: '25ch' }}>
         <Button
           variant="contained"
           onClick={onClearButton}
-          className={classes.button}
-          style={{ marginRight: '2ch' }}
+          className={classes.clearButton}
         >
           Clear
         </Button>
@@ -119,7 +124,7 @@ function SearchBar(props) {
           variant="contained"
           color="primary"
           onClick={onSearchButton}
-          className={classes.button}
+          className={classes.searchButton}
         >
           Search
         </Button>
@@ -136,7 +141,7 @@ function SearchBar(props) {
             </Button>
           ))
         }
-      </ButtonGroup>
+      </div>
     </div>
   )
 }
