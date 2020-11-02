@@ -274,7 +274,10 @@ export default function CommonWorkflowForm(props) {
 
   // 子表保存
   const handleSave = async () => {
-    const pass = logic.checkChildForm && await logic.checkChildForm(childDataMap)
+    const pass = logic.checkChildForm
+      && logic.checkForm
+      && await logic.checkChildForm(childDataMap)
+      && await logic.checkForm(childFormDetail, childDataMap)
     if (pass) {
       const childData = map2object(childDataMap)
       if (current < 0) {
