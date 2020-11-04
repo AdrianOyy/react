@@ -2,10 +2,9 @@ import React, { useState, useEffect } from 'react'
 import API from '../../../../../api/workFlow.js'
 import {
   Grid,
-  TablePagination,
   Paper as MuiPaper
 } from "@material-ui/core"
-import { CommonTable } from '../../../../../components'
+import { CommonTable, TablePagination } from '../../../../../components'
 import styled from "styled-components"
 import { spacing } from "@material-ui/system"
 import { useHistory } from 'react-router-dom'
@@ -60,19 +59,19 @@ function List(props) {
 
   // 表头字段列表
   const headCells = [
-    { id: 'id', alignment: 'center', label: L('Model Id') },
-    { id: 'version', alignment: 'center', label: L('Version') },
-    { id: 'name', alignment: 'center', label: L('Name') },
-    { id: 'deploymentId', alignment: 'center', label: L('Deployment Id') },
-    { id: 'action', alignment: 'right', label: L('Action') },
+    { id: 'id', alignment: 'left', label: L('Model Id') },
+    { id: 'version', alignment: 'left', label: L('Version') },
+    { id: 'name', alignment: 'left', label: L('Name') },
+    { id: 'deploymentId', alignment: 'left', label: L('Deployment Id') },
+    { id: 'action', alignment: 'center', label: L('Action') },
   ]
 
   // 每行显示的字段
   const fieldList = [
-    { field: 'id', align: 'center' },
-    { field: 'version', align: 'center' },
-    { field: 'name', align: 'center' },
-    { field: 'deploymentId', align: 'center' },
+    { field: 'id', align: 'left' },
+    { field: 'version', align: 'left' },
+    { field: 'name', align: 'left' },
+    { field: 'deploymentId', align: 'left' },
   ]
 
   const handleChangePage = (_, newPage) => {
@@ -111,9 +110,9 @@ function List(props) {
 
   // 自定义action
   const actionList = [
-    { label: L('edit'), icon: <BorderColorIcon />, handleClick: customEdit },
-    { label: L('setting'), icon: <SettingsIcon />, handleClick: handleSetting },
-    { label: L('event'), icon: <EventAvailableIcon />, handleClick: handlePublish },
+    { label: L('edit'), icon: <BorderColorIcon fontSize="small" style={{ color: '#2553F4' }} />, handleClick: customEdit },
+    { label: L('setting'), icon: <SettingsIcon fontSize="small" style={{ color: '#2553F4' }} />, handleClick: handleSetting },
+    { label: L('event'), icon: <EventAvailableIcon fontSize="small" style={{ color: '#2553F4' }} />, handleClick: handlePublish },
   ]
 
   const customCreate = () => {

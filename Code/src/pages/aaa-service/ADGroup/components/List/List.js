@@ -2,10 +2,9 @@ import React, { useEffect, useState } from 'react'
 import API from "../../../../../api/adGroup"
 import {
   Grid,
-  TablePagination,
   Paper as MuiPaper,
 } from "@material-ui/core"
-import { SearchBar, CommonTable } from '../../../../../components'
+import { SearchBar, CommonTable, TablePagination } from '../../../../../components'
 import styled from "styled-components"
 import { spacing } from "@material-ui/system"
 import { L } from '../../../../../utils/lang'
@@ -54,7 +53,7 @@ function List(props) {
     { id: 'name', alignment: 'left', label: L('Name') },
     { id: 'createdAt', alignment: 'left', label: L('Created At') },
     { id: 'updatedAt', alignment: 'left', label: L('Updated At') },
-    { id: 'action', alignment: 'right', label: L('Actions') },
+    { id: 'action', alignment: 'center', label: L('Actions') },
   ]
 
   // 每行显示的字段

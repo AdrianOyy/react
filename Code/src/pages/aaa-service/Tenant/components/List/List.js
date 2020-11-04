@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import {
   Grid,
-  TablePagination,
   Paper as MuiPaper,
 } from "@material-ui/core"
-import { SearchBar, CommonTable } from '../../../../../components'
+import { SearchBar, CommonTable, TablePagination } from '../../../../../components'
 import API from "../../../../../api/tenant"
 import styled from "styled-components"
 import { spacing } from "@material-ui/system"
@@ -69,23 +68,23 @@ function List(props) {
 
   // 表头字段列表
   const headCells = [
-    { id: 'code', alignment: 'center', label: L('Code') },
-    { id: 'name', alignment: 'center', label: L('Name') },
-    { id: 'managerGroupId', alignment: 'center', label: L('Manager Group') },
-    { id: 'supporterGroupId', alignment: 'center', label: L('Supporter Group') },
-    { id: 'createdAt', alignment: 'center', label: L('Created At') },
-    { id: 'updatedAt', alignment: 'center', label: L('Updated At') },
-    { id: 'action', alignment: 'right', label: L('Actions') },
+    { id: 'code', alignment: 'left', label: L('Code') },
+    { id: 'name', alignment: 'left', label: L('Name') },
+    { id: 'managerGroupId', alignment: 'left', label: L('Manager Group') },
+    { id: 'supporterGroupId', alignment: 'left', label: L('Supporter Group') },
+    { id: 'createdAt', alignment: 'left', label: L('Created At') },
+    { id: 'updatedAt', alignment: 'left', label: L('Updated At') },
+    { id: 'action', alignment: 'center', label: L('Actions') },
   ]
 
   // 每行显示的字段
   const fieldList = [
-    { field: 'code', align: 'center' },
-    { field: 'name', align: 'center' },
-    { field: 'managerGroupId', align: 'center' },
-    { field: 'supporterGroupId', align: 'center' },
-    { field: 'createdAt', align: 'center' },
-    { field: 'updatedAt', align: 'center' }
+    { field: 'code', align: 'left' },
+    { field: 'name', align: 'left' },
+    { field: 'managerGroupId', align: 'left' },
+    { field: 'supporterGroupId', align: 'left' },
+    { field: 'createdAt', align: 'left' },
+    { field: 'updatedAt', align: 'left' }
   ]
 
   // 搜索栏字段列表

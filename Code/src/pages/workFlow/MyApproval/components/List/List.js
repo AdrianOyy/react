@@ -2,12 +2,11 @@ import React, { useEffect, useState } from 'react'
 
 import {
   Grid,
-  TablePagination,
   Paper as MuiPaper, Dialog, DialogTitle, DialogContent, DialogActions, Button,
 } from "@material-ui/core"
 import { L } from '../../../../../utils/lang'
 
-import { CommonTable, SearchBar, ChatBox } from '../../../../../components'
+import { CommonTable, SearchBar, ChatBox, TablePagination } from '../../../../../components'
 import API from "../../../../../api/workFlow"
 import styled from "styled-components"
 import { useHistory } from "react-router-dom"
@@ -41,7 +40,6 @@ function List(props) {
   useEffect(() => {
     const groupList = getUserGroupList()
     API.getTaskListByGroup({ groupList, limit: rowsPerPage, page: page + 1 }).then(response => {
-      console.log(response.data.data)
       setTotal(response.data.data.total)
       handleData(response.data.data.list)
     })
@@ -69,21 +67,21 @@ function List(props) {
 
   // 表头字段列表
   const headCells = [
-    { id: 'id', alignment: 'center', label: L('Id') },
-    { id: 'workflowName', alignment: 'center', label: L('Workflow Name') },
-    { id: 'name', alignment: 'center', label: L('Name') },
-    { id: 'createBy', alignment: 'center', label: L('Create By') },
-    { id: 'createTime', alignment: 'center', label: L('Create Time') },
-    { id: 'action', alignment: 'right', label: L('Action') },
+    { id: 'id', alignment: 'left', label: L('Id') },
+    { id: 'workflowName', alignment: 'left', label: L('Workflow Name') },
+    { id: 'name', alignment: 'left', label: L('Name') },
+    { id: 'createBy', alignment: 'left', label: L('Create By') },
+    { id: 'createTime', alignment: 'left', label: L('Create Time') },
+    { id: 'action', alignment: 'center', label: L('Action') },
   ]
 
   // 每行显示的字段
   const fieldList = [
-    { field: 'id', align: 'center' },
-    { field: 'workflowName', align: 'center' },
-    { field: 'name', align: 'center' },
-    { field: 'createBy', align: 'center' },
-    { field: 'createTime', align: 'center' },
+    { field: 'id', align: 'left' },
+    { field: 'workflowName', align: 'left' },
+    { field: 'name', align: 'left' },
+    { field: 'createBy', align: 'left' },
+    { field: 'createTime', align: 'left' },
   ]
 
   const searchBarFieldList = [
@@ -154,9 +152,9 @@ function List(props) {
   }
 
   const actionList = [
-    { label: L('step'), icon: <ReorderIcon />, handleClick: handleStep },
-    { label: L('edit'), icon: <BorderColorIcon />, handleClick: handleDetail },
-    { label: L('message'), icon: <ChatIcon />, handleClick: handleChatBox },
+    { label: L('step'), icon: <ReorderIcon fontSize="small" style={{ color: '#2553F4' }} />, handleClick: handleStep },
+    { label: L('edit'), icon: <BorderColorIcon fontSize="small" style={{ color: '#2553F4' }} />, handleClick: handleDetail },
+    { label: L('message'), icon: <ChatIcon fontSize="small" style={{ color: '#2553F4' }} />, handleClick: handleChatBox },
   ]
 
   const handleClose = () => {

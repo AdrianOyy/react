@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { useHistory } from 'react-router-dom'
+import { withStyles } from "@material-ui/core/styles"
 import { EnhancedTableToolbar, EnhancedTableHead } from '../index'
 import CommentTip from '../CommonTip'
 import {
@@ -12,11 +13,26 @@ import {
   TableContainer,
   TableRow, Tooltip,
 } from '@material-ui/core'
-
 import {
   RemoveRedEye as RemoveRedEyeIcon,
   BorderColorOutlined as BorderColorIcon,
 } from "@material-ui/icons"
+
+const StyledTableRow = withStyles((theme) => ({
+  root: {
+    '&:nth-of-type(even)': {
+      backgroundColor: theme.palette.action.hover,
+    },
+  },
+}))(TableRow)
+
+const StyledTableCell = withStyles(() => ({
+  root: {
+    border: '1px solid #E5E5E5',
+    height: '0.8vh',
+    fontSize: 14,
+  },
+}))(TableCell)
 
 
 function descendingComparator(a, b, orderBy) {
@@ -143,7 +159,7 @@ function CommonTable(props) {
   const isSelected = (id) => selected.indexOf(id) !== -1
 
   return (
-    <div style={{ marginTop: marginTop ? marginTop + 'vh' : 0 }}>
+    <div style={{ marginTop: marginTop ? marginTop + 'vh' : 0, paddingLeft: 20, paddingRight: 20 }}>
       <EnhancedTableToolbar
         numSelected={selected.length}
         tableName={tableName}
@@ -177,7 +193,7 @@ function CommonTable(props) {
                 const isItemSelected = isSelected(row.id)
                 const labelId = `enhanced-table-checkbox-${index}`
                 return (
-                  <TableRow
+                  <StyledTableRow
                     hover
                     role="checkbox"
                     aria-checked={isItemSelected}
@@ -187,31 +203,32 @@ function CommonTable(props) {
                   >
                     {
                       !hideCheckBox && (
-                        <TableCell padding="checkbox">
+                        <StyledTableCell padding="checkbox">
                           <Checkbox
                             checked={isItemSelected}
                             inputProps={{ 'aria-labelledby': labelId }}
                             onClick={(event) => handleSelect(event, row.id)}
                           />
-                        </TableCell>
+                        </StyledTableCell>
                       )
                     }
                     {
                       fieldList && fieldList.map((el, i) => (
-                        <TableCell key={el.field + '__' + i} align={el.align} >
-                          <div style={{ marginRight: '26px' }}>
-                            {row[el.field]}
-                          </div>
-                        </TableCell>
+                        <StyledTableCell key={el.field + '__' + i} align={el.align} >
+                          {row[el.field]}
+                          {/* <div style={{ marginleft: '20px' }}>*/}
+                          {/*  {row[el.field]}*/}
+                          {/* </div>*/}
+                        </StyledTableCell>
                       ))
                     }
-                    <TableCell padding="none" align="right">
+                    <StyledTableCell padding="none" align="center">
                       <Box mt={3}>
                         {
                           !hideDetail && (() => (
                             <Tooltip title="Detail">
                               <IconButton aria-label="detail" onClick={(event) => handleDetail(event, row.id)}>
-                                <RemoveRedEyeIcon />
+                                <RemoveRedEyeIcon fontSize="small" style={{ color: '#2553F4' }}  />
                               </IconButton>
                             </Tooltip>
                           ))
@@ -222,7 +239,7 @@ function CommonTable(props) {
                           !hideUpdate && (() => (
                             <Tooltip title="Edit">
                               <IconButton aria-label="update" onClick={(event) => handleUpdate(event, row.id)}>
-                                <BorderColorIcon />
+                                <BorderColorIcon  fontSize="small" style={{ color: '#2553F4' }} />
                               </IconButton>
                             </Tooltip>
                           ))
@@ -247,8 +264,8 @@ function CommonTable(props) {
                           })
                         }
                       </Box>
-                    </TableCell>
-                  </TableRow>
+                    </StyledTableCell>
+                  </StyledTableRow>
                 )
               })}
           </TableBody>

@@ -2,12 +2,11 @@ import React, { useEffect, useState } from 'react'
 
 import {
   Grid,
-  TablePagination,
   Paper as MuiPaper,
 } from "@material-ui/core"
 
 import { useHistory } from 'react-router-dom'
-import { CommonTable, SearchBar } from '../../../../../components'
+import { CommonTable, TablePagination } from '../../../../../components'
 import API from "../../../../../api/workFlow"
 import PlayCircleFilledWhiteOutlinedIcon from '@material-ui/icons/PlayCircleFilledWhiteOutlined'
 import styled from "styled-components"
@@ -16,25 +15,23 @@ import formatDateTime from "../../../../../utils/formatDateTime"
 import { L } from '../../../../../utils/lang'
 
 const Paper = styled(MuiPaper)(spacing)
-const tableName = ''
+const tableName = 'List'
 
 function List(props) {
   const { path } = props
   const history = useHistory()
-  const [ name, setName ] = useState('')
-  const [ query, setQuery ] = useState({})
   const [ rows, setRows ] = useState([])
   const [ page, setPage ] = useState(0)
   const [ rowsPerPage, setRowsPerPage ] = useState(10)
   const [ total, setTotal ] = useState(0)
 
   useEffect(() => {
-    API.getProcessList({ ...query, name: 'Distribution List', limit: rowsPerPage, page: page + 1 })
+    API.getProcessList({ name: 'Distribution List', limit: rowsPerPage, page: page + 1 })
       .then(({ data }) => {
         setTotal(data.total)
         handleData(data.list)
       })
-  }, [ page, rowsPerPage, query ])
+  }, [ page, rowsPerPage ])
 
   const handleData = (rawDataList) => {
     const rows = []
@@ -55,20 +52,20 @@ function List(props) {
   // 表头字段列表
   const headCells = [
     // { id: 'id', alignment: 'center', label: L('Id') },
-    { id: 'workflowName', alignment: 'center', label: L('Workflow name') },
-    { id: 'deploymentId', alignment: 'center', label: L('Deployment Id') },
-    { id: 'version', alignment: 'center', label: L('Version') },
-    { id: 'deployTime', alignment: 'center', label: L('Deploy Time') },
-    { id: 'action', alignment: 'right', label: L('Action') },
+    { id: 'workflowName', alignment: 'left', label: L('Workflow name') },
+    { id: 'deploymentId', alignment: 'left', label: L('Deployment Id') },
+    { id: 'version', alignment: 'left', label: L('Version') },
+    { id: 'deployTime', alignment: 'left', label: L('Deploy Time') },
+    { id: 'action', alignment: 'center', label: L('Action') },
   ]
 
   // 每行显示的字段
   const fieldList = [
     // { field: 'id', align: 'center' },
-    { field: 'workflowName', align: 'center' },
-    { field: 'deploymentId', align: 'center' },
-    { field: 'version', align: 'center' },
-    { field: 'deployTime', align: 'center' },
+    { field: 'workflowName', align: 'left' },
+    { field: 'deploymentId', align: 'left' },
+    { field: 'version', align: 'left' },
+    { field: 'deployTime', align: 'left' },
   ]
 
   const handleRunClick = (e, row) => {
@@ -89,38 +86,8 @@ function List(props) {
 
   // 自定义action
   const actionList = [
-    { label: 'run', icon: <PlayCircleFilledWhiteOutlinedIcon />, handleClick: handleRunClick },
+    { label: 'run', icon: <PlayCircleFilledWhiteOutlinedIcon  fontSize="small" style={{ color: '#2553F4' }}  />, handleClick: handleRunClick },
   ]
-
-
-  const searchBarFieldList = [
-    { id: 'name', label: L('name'), type: 'text', disabled: false, readOnly: false, value: name },
-  ]
-
-  const handleClear = () => {
-    setName('')
-    setQuery({
-      name: '',
-    })
-  }
-
-  const handleSearch = () => {
-    setQuery({
-      name,
-    })
-  }
-
-
-  const handleFieldChange = (e, id) => {
-    const { value } = e.target
-    switch (id) {
-      case "name":
-        setName(value)
-        break
-      default:
-        break
-    }
-  }
 
   const handleChangePage = (_, newPage) => {
     setPage(newPage)
@@ -135,21 +102,15 @@ function List(props) {
     <React.Fragment>
       <Grid container spacing={6}>
         <Grid item xs={12}>
-          <SearchBar
-            onSearchFieldChange={handleFieldChange}
-            onSearchButton={handleSearch}
-            onClearButton={handleClear}
-            fieldList = {searchBarFieldList}
-          />
           <Paper>
             <CommonTable
               rows={rows}
               tableName={tableName}
               deleteAPI={API.deleteMany}
-              handleSearch={handleSearch}
               hideUpdate={true}
               hideDetail={true}
               hideImage={false}
+              hideCheckBox={true}
               path={path}
               headCells={headCells}
               fieldList={fieldList}

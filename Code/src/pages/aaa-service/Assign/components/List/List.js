@@ -2,10 +2,9 @@ import React, { useEffect, useState } from 'react'
 
 import {
   Grid,
-  TablePagination,
   Paper as MuiPaper,
 } from "@material-ui/core"
-import { CommonTable, SearchBar } from '../../../../../components'
+import { CommonTable, SearchBar, TablePagination } from '../../../../../components'
 import API from "../../../../../api/assign"
 import tenantApi from "../../../../../api/tenant"
 import adGroupApi from "../../../../../api/adGroup"
@@ -89,21 +88,21 @@ function AssignList(props) {
 
   // 表头字段列表
   const headCells = [
-    { id: 'tenant', alignment: 'center', label: L('Tenant') },
-    { id: 'group', alignment: 'center', label: L('AD Group') },
-    { id: 'role', alignment: 'center', label: L('Role') },
-    { id: 'createdAt', alignment: 'center', label: L('Created At') },
-    { id: 'updatedAt', alignment: 'center', label: L('Updated At') },
-    { id: 'action', alignment: 'right', label: L('Actions') },
+    { id: 'tenant', alignment: 'left', label: L('Tenant') },
+    { id: 'group', alignment: 'left', label: L('AD Group') },
+    { id: 'role', alignment: 'left', label: L('Role') },
+    { id: 'createdAt', alignment: 'left', label: L('Created At') },
+    { id: 'updatedAt', alignment: 'left', label: L('Updated At') },
+    { id: 'action', alignment: 'center', label: L('Actions') },
   ]
 
   // 每行显示的字段
   const fieldList = [
-    { field: 'tenant', align: 'center' },
-    { field: 'ad_group', align: 'center' },
-    { field: 'role', align: 'center' },
-    { field: 'createdAt', align: 'center' },
-    { field: 'updatedAt', align: 'center' }
+    { field: 'tenant', align: 'left' },
+    { field: 'ad_group', align: 'left' },
+    { field: 'role', align: 'left' },
+    { field: 'createdAt', align: 'left' },
+    { field: 'updatedAt', align: 'left' }
   ]
 
   const searchBarFieldList = [
