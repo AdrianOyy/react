@@ -2,11 +2,10 @@ import React, { useEffect, useState } from 'react'
 
 import {
   Grid,
-  TablePagination,
   Paper as MuiPaper,
 } from "@material-ui/core"
 
-import { CommonTable, SearchBar } from '../../../../../components'
+import { CommonTable, SearchBar, TablePagination } from '../../../../../components'
 import API from "../../../../../api/role"
 import styled from "styled-components"
 import { spacing } from "@material-ui/system"
@@ -61,19 +60,19 @@ function List(props) {
 
   // 表头字段列表
   const headCells = [
-    { id: 'label', alignment: 'center', label: L('Label') },
-    { id: 'value', alignment: 'center', label: L('Value') },
-    { id: 'createdAt', alignment: 'center', label: L('Created At') },
-    { id: 'updatedAt', alignment: 'center', label: L('Updated At') },
-    { id: 'action', alignment: 'right', label: L('Actions') },
+    { id: 'label', alignment: 'left', label: L('Label') },
+    { id: 'value', alignment: 'left', label: L('Value') },
+    { id: 'createdAt', alignment: 'left', label: L('Created At') },
+    { id: 'updatedAt', alignment: 'left', label: L('Updated At') },
+    { id: 'action', alignment: 'center', label: L('Actions') },
   ]
 
   // 每行显示的字段
   const fieldList = [
-    { field: 'label', align: 'center' },
-    { field: 'value', align: 'center' },
-    { field: 'createdAt', align: 'center' },
-    { field: 'updatedAt', align: 'center' }
+    { field: 'label', align: 'left' },
+    { field: 'value', align: 'left' },
+    { field: 'createdAt', align: 'left' },
+    { field: 'updatedAt', align: 'left' }
   ]
 
   const searchBarFieldList = [

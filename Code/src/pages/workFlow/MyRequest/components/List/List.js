@@ -2,12 +2,11 @@ import React, { useEffect, useState } from 'react'
 import { useHistory } from "react-router-dom"
 import {
   Grid,
-  TablePagination,
   Paper as MuiPaper,
 } from "@material-ui/core"
 import { L } from '../../../../../utils/lang'
 
-import { CommonTable, SearchBar } from '../../../../../components'
+import { CommonTable, SearchBar, TablePagination } from '../../../../../components'
 import API from "../../../../../api/workFlow"
 import styled from "styled-components"
 import { spacing } from "@material-ui/system"
@@ -69,21 +68,21 @@ function List(props) {
 
   // 表头字段列表
   const headCells = [
-    { id: 'name', alignment: 'center', label: L('Name') },
-    { id: 'procDefId', alignment: 'center', label: L('Id') },
-    { id: 'startTime', alignment: 'center', label: L('Start Date') },
-    { id: 'endTime', alignment: 'center', label: L('End Date') },
-    { id: 'state', alignment: 'center', label: L('State') },
-    { id: 'action', alignment: 'right', label: L('Action') },
+    { id: 'name', alignment: 'left', label: L('Name') },
+    { id: 'procDefId', alignment: 'left', label: L('Id') },
+    { id: 'startTime', alignment: 'left', label: L('Start Date') },
+    { id: 'endTime', alignment: 'left', label: L('End Date') },
+    { id: 'state', alignment: 'left', label: L('State') },
+    { id: 'action', alignment: 'center', label: L('Action') },
   ]
 
   // 每行显示的字段
   const fieldList = [
-    { field: 'name', align: 'center' },
-    { field: 'procDefId', align: 'center' },
-    { field: 'startTime', align: 'center' },
-    { field: 'endTime', align: 'center' },
-    { field: 'state', align: 'center' },
+    { field: 'name', align: 'left' },
+    { field: 'procDefId', align: 'left' },
+    { field: 'startTime', align: 'left' },
+    { field: 'endTime', align: 'left' },
+    { field: 'state', align: 'left' },
   ]
 
   const searchBarFieldList = [
@@ -160,9 +159,9 @@ function List(props) {
 
   // 自定义action
   const actionList = [
-    { label: L('download'), icon: <GetAppIcon />, handleClick: handleDownload, display },
-    { label: L('edit'), icon: <BorderColorIcon />, handleClick: handleDetail },
-    { label: L('step'), icon: <ReorderIcon />, handleClick: handleStep },
+    { label: L('download'), icon: <GetAppIcon fontSize="small" style={{ color: '#2553F4' }} />, handleClick: handleDownload, display },
+    { label: L('edit'), icon: <BorderColorIcon fontSize="small" style={{ color: '#2553F4' }} />, handleClick: handleDetail },
+    { label: L('step'), icon: <ReorderIcon fontSize="small" style={{ color: '#2553F4' }} />, handleClick: handleStep },
   ]
 
   return (

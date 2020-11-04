@@ -2,10 +2,9 @@ import React, { useEffect, useState } from 'react'
 
 import {
   Grid,
-  TablePagination,
   Paper as MuiPaper,
 } from "@material-ui/core"
-import { SearchBar } from '../../../../../components'
+import { SearchBar, TablePagination } from '../../../../../components'
 import styled from "styled-components"
 import { spacing } from "@material-ui/system"
 import API from "../../../../../api/user"
@@ -65,27 +64,27 @@ function List(props) {
 
   // 表头字段列表
   const headCells = [
-    { id: 'alias', alignment: 'center', label: L('Alias') },
-    { id: 'surname', alignment: 'center', label: L('Surname') },
-    { id: 'givenname', alignment: 'center', label: L('Given Name') },
-    { id: 'title', alignment: 'center', label: L('Title') },
-    { id: 'displayname', alignment: 'center', label: L('Display Name') },
-    { id: 'email', alignment: 'center', label: L('Email') },
-    { id: 'createdAt', alignment: 'center', label: L('Created At') },
-    { id: 'updatedAt', alignment: 'center', label: L('Updated At') },
-    { id: 'action', alignment: 'right', label: L('Actions') },
+    { id: 'alias', alignment: 'left', label: L('Alias') },
+    { id: 'surname', alignment: 'left', label: L('Surname') },
+    { id: 'givenname', alignment: 'left', label: L('Given Name') },
+    { id: 'title', alignment: 'left', label: L('Title') },
+    { id: 'displayname', alignment: 'left', label: L('Display Name') },
+    { id: 'email', alignment: 'left', label: L('Email') },
+    { id: 'createdAt', alignment: 'left', label: L('Created At') },
+    { id: 'updatedAt', alignment: 'left', label: L('Updated At') },
+    { id: 'action', alignment: 'center', label: L('Actions') },
   ]
 
   // 每行显示的字段
   const fieldList = [
-    { field: 'alias', align: 'center' },
-    { field: 'surname', align: 'center' },
-    { field: 'givenname', align: 'center' },
-    { field: 'title', align: 'center' },
-    { field: 'displayname', align: 'center' },
-    { field: 'email', align: 'center' },
-    { field: 'createdAt', align: 'center' },
-    { field: 'updatedAt', align: 'center' }
+    { field: 'alias', align: 'left' },
+    { field: 'surname', align: 'left' },
+    { field: 'givenname', align: 'left' },
+    { field: 'title', align: 'left' },
+    { field: 'displayname', align: 'left' },
+    { field: 'email', align: 'left' },
+    { field: 'createdAt', align: 'left' },
+    { field: 'updatedAt', align: 'left' }
   ]
 
   const searchBarFieldList = [

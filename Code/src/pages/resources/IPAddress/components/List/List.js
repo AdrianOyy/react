@@ -2,10 +2,9 @@ import React, { useState, useEffect } from 'react'
 import API from '../../../../../api/IPAssignment.js'
 import {
   Grid,
-  TablePagination,
   Paper as MuiPaper
 } from "@material-ui/core"
-import { CommonTable, SearchBar } from '../../../../../components'
+import { CommonTable, SearchBar, TablePagination } from '../../../../../components'
 import styled from "styled-components"
 import { spacing } from "@material-ui/system"
 import formatDateTime from "../../../../../utils/formatDateTime"
@@ -16,7 +15,6 @@ import { L } from '../../../../../utils/lang'
 
 const Paper = styled(MuiPaper)(spacing)
 const tableName = L('List')
-
 
 
 function List(props) {
@@ -77,25 +75,25 @@ function List(props) {
 
   // 表头字段列表
   const headCells = [
-    { id: 'ip', alignment: 'center', label: L('IP') },
-    { id: 'dc', alignment: 'center', label: L('DC') },
-    { id: 'hostname', alignment: 'center', label: L('Hostname') },
-    { id: 'projectTeam', alignment: 'center', label: L('Project Team') },
-    { id: 'networkType', alignment: 'center', label: L('Network Type') },
-    { id: 'ipPool', alignment: 'center', label: L('IP Pool') },
-    { id: 'assignedDate', alignment: 'center', label: L('Assigned Date') },
-    { id: 'action', alignment: 'right', label: L('Actions') },
+    { id: 'ip', alignment: 'left', label: L('IP') },
+    { id: 'dc', alignment: 'left', label: L('DC') },
+    { id: 'hostname', alignment: 'left', label: L('Hostname') },
+    { id: 'projectTeam', alignment: 'left', label: L('Project Team') },
+    { id: 'networkType', alignment: 'left', label: L('Network Type') },
+    { id: 'ipPool', alignment: 'left', label: L('IP Pool') },
+    { id: 'assignedDate', alignment: 'left', label: L('Assigned Date') },
+    { id: 'action', alignment: 'center', label: L('Actions') },
   ]
 
   // 每行显示的字段
   const fieldList = [
-    { field: 'ip', align: 'center' },
-    { field: 'dc', align: 'center' },
-    { field: 'hostname', align: 'center' },
-    { field: 'projectTeam', align: 'center' },
-    { field: 'networkType', align: 'center' },
-    { field: 'ipPool', align: 'center' },
-    { field: 'assignedDate', align: 'center' },
+    { field: 'ip', align: 'left' },
+    { field: 'dc', align: 'left' },
+    { field: 'hostname', align: 'left' },
+    { field: 'projectTeam', align: 'left' },
+    { field: 'networkType', align: 'left' },
+    { field: 'ipPool', align: 'left' },
+    { field: 'assignedDate', align: 'left' },
   ]
 
   // 搜索栏字段列表

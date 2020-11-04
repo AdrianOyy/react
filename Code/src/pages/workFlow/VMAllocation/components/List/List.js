@@ -3,7 +3,6 @@ import { L } from '../../../../../utils/lang'
 
 import {
   Grid,
-  TablePagination,
   Paper as MuiPaper,
 } from "@material-ui/core"
 import Button from '@material-ui/core/Button'
@@ -12,7 +11,7 @@ import Dialog from '@material-ui/core/Dialog'
 import DialogActions from '@material-ui/core/DialogActions'
 import DialogContent from '@material-ui/core/DialogContent'
 import { useHistory } from 'react-router-dom'
-import { CommonTable, SearchBar } from '../../../../../components'
+import { CommonTable, TablePagination } from '../../../../../components'
 import API from "../../../../../api/workFlow"
 import PlayCircleFilledWhiteOutlinedIcon from '@material-ui/icons/PlayCircleFilledWhiteOutlined'
 import UpdateIcon from '@material-ui/icons/Update'
@@ -22,13 +21,11 @@ import formatDateTime from "../../../../../utils/formatDateTime"
 import DialogTitle from "@material-ui/core/DialogTitle"
 
 const Paper = styled(MuiPaper)(spacing)
-const tableName = ''
+const tableName = 'List'
 
 function List(props) {
   const { onMount, path } = props
   const history = useHistory()
-  const [ name, setName ] = useState('')
-  const [ query, setQuery ] = useState({})
   const [ rows, setRows ] = useState([])
   const [ page, setPage ] = useState(0)
   const [ rowsPerPage, setRowsPerPage ] = useState(10)
@@ -43,12 +40,12 @@ function List(props) {
   }, [])
 
   useEffect(() => {
-    API.getProcessList({ ...query, name: 'VM Allocation', limit: rowsPerPage, page: page + 1 })
+    API.getProcessList({ name: 'VM Allocation', limit: rowsPerPage, page: page + 1 })
       .then(({ data }) => {
         setTotal(data.total)
         handleData(data.list)
       })
-  }, [ page, rowsPerPage, query ])
+  }, [ page, rowsPerPage ])
 
   const handleData = (rawDataList) => {
     const rows = []
@@ -69,20 +66,20 @@ function List(props) {
   // 表头字段列表
   const headCells = [
     // { id: 'id', alignment: 'center', label: L('Id' )},
-    { id: 'workflowName', alignment: 'center', label: L('Workflow name') },
-    { id: 'deploymentId', alignment: 'center', label: L('Deployment Id') },
-    { id: 'version', alignment: 'center', label: L('Version') },
-    { id: 'deployTime', alignment: 'center', label: L('Deploy Time') },
-    { id: 'action', alignment: 'right', label: L('Action') },
+    { id: 'workflowName', alignment: 'left', label: L('Workflow name') },
+    { id: 'deploymentId', alignment: 'left', label: L('Deployment Id') },
+    { id: 'version', alignment: 'left', label: L('Version') },
+    { id: 'deployTime', alignment: 'left', label: L('Deploy Time') },
+    { id: 'action', alignment: 'center', label: L('Action') },
   ]
 
   // 每行显示的字段
   const fieldList = [
     // { field: 'id', align: 'center' },
-    { field: 'workflowName', align: 'center' },
-    { field: 'deploymentId', align: 'center' },
-    { field: 'version', align: 'center' },
-    { field: 'deployTime', align: 'center' },
+    { field: 'workflowName', align: 'left' },
+    { field: 'deploymentId', align: 'left' },
+    { field: 'version', align: 'left' },
+    { field: 'deployTime', align: 'left' },
   ]
 
   const handleRunClick = (e, row) => {
@@ -100,27 +97,9 @@ function List(props) {
 
   // 自定义action
   const actionList = [
-    { label: 'run', icon: <PlayCircleFilledWhiteOutlinedIcon />, handleClick: handleRunClick },
-    { label: 'run', icon: <UpdateIcon />, handleClick: handleUpdateClick },
+    { label: 'run', icon: <PlayCircleFilledWhiteOutlinedIcon fontSize="small" style={{ color: '#2553F4' }} />, handleClick: handleRunClick },
+    { label: 'run', icon: <UpdateIcon fontSize="small" style={{ color: '#2553F4' }} />, handleClick: handleUpdateClick },
   ]
-
-
-  const searchBarFieldList = [
-    { id: 'name', label: L('name'), type: 'text', disabled: false, readOnly: false, value: name },
-  ]
-
-  const handleClear = () => {
-    setName('')
-    setQuery({
-      name: '',
-    })
-  }
-
-  const handleSearch = () => {
-    setQuery({
-      name,
-    })
-  }
 
   const dialogReason = {
     title: L('cpsvm'),
@@ -145,17 +124,6 @@ function List(props) {
     history.push({ pathname: `${path}/create/${srow.id}`, search: `deploymentId=${srow.deploymentId}&cpsId=${data}` })
   }
 
-  const handleFieldChange = (e, id) => {
-    const { value } = e.target
-    switch (id) {
-      case "name":
-        setName(value)
-        break
-      default:
-        break
-    }
-  }
-
   const handleReasonChange = (event) => {
     dialogReason.value = event.target.value
   }
@@ -173,22 +141,16 @@ function List(props) {
     <React.Fragment>
       <Grid container spacing={6}>
         <Grid item xs={12}>
-          <SearchBar
-            onSearchFieldChange={handleFieldChange}
-            onSearchButton={handleSearch}
-            onClearButton={handleClear}
-            fieldList = {searchBarFieldList}
-          />
           <Paper>
             <CommonTable
               rows={rows}
               tableName={tableName}
               deleteAPI={API.deleteMany}
-              handleSearch={handleSearch}
               hideUpdate={true}
               hideDetail={true}
               hideImage={false}
               path={path}
+              hideCheckBox={true}
               headCells={headCells}
               fieldList={fieldList}
               actionList={actionList}
