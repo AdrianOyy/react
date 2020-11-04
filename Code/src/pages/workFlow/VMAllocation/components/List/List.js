@@ -20,7 +20,8 @@ import { spacing } from "@material-ui/system"
 import formatDateTime from "../../../../../utils/formatDateTime"
 import DialogTitle from "@material-ui/core/DialogTitle"
 
-const Paper = styled(MuiPaper)(spacing)
+let Paper = styled(MuiPaper)(spacing)
+Paper = styled(Paper)`border-radius: 10px`
 const tableName = 'List'
 
 function List(props) {
