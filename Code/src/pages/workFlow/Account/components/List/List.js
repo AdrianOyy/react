@@ -26,7 +26,7 @@ const Paper = styled(MuiPaper)(spacing)
 const tableName = ''
 
 function List(props) {
-  const { onMount, path } = props
+  const { path } = props
   const history = useHistory()
   const [ name, setName ] = useState('')
   const [ query, setQuery ] = useState({})
@@ -36,13 +36,6 @@ function List(props) {
   const [ total, setTotal ] = useState(0)
   const [ shown, setShown ] = useState(false)
   const [ cuIdRow, setCuIdRow ] = useState({})
-
-
-  // 用于更新面包屑
-  useEffect(() => {
-    onMount('list')
-    // eslint-disable-next-line
-  }, [])
 
   useEffect(() => {
     API.getProcessList({ ...query, name: 'Account management', limit: rowsPerPage, page: page + 1 })

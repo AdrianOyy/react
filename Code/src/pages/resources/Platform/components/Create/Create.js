@@ -8,8 +8,7 @@ import { checkEmpty, getCheckExist } from "../../untils/PlatformFieldCheck"
 import { L } from '../../../../../utils/lang'
 
 
-function Create(props) {
-  const { onMount } = props
+function Create() {
   const history = useHistory()
   const [ name, setName ] = useState('')
   const [ nameError, setNameError ] = useState(false)
@@ -20,11 +19,6 @@ function Create(props) {
   const [ formFieldList, setFormFieldList ] = useState([])
   const [ saving, setSaving ] = useState(false)
   const [ typeList, setTypeList ] = useState([])
-
-  useEffect(() => {
-    onMount('create')
-    // eslint-disable-next-line
-  }, [])
 
   const handleClick = async () => {
     const nameError = await nameCheck()

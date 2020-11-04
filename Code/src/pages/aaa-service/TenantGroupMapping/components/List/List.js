@@ -20,7 +20,7 @@ const Paper = styled(MuiPaper)(spacing)
 const tableName = ''
 
 function List(props) {
-  const { onMount, path } = props
+  const { path } = props
 
   const [ tenant, setTenant ] = useState('')
   const [ adGroup, setAdGroup ] = useState('')
@@ -33,12 +33,6 @@ function List(props) {
   const [ total, setTotal ] = useState(0)
   const [ tenantList, setTenantList ] = useState([])
   const [ adGroupList, setAdGroupList ] = useState([])
-
-  // 用于更新面包屑
-  useEffect(() => {
-    onMount('list')
-    // eslint-disable-next-line
-  }, [])
 
   // 获取 tenantList 和 groupList
   useEffect(() => {

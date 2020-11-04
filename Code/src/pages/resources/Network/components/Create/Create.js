@@ -8,8 +8,7 @@ import { useHistory } from 'react-router-dom'
 import { checkEmpty, getCheckExist } from "../../untils/NetworkFieldCheck"
 
 
-function Create(props) {
-  const { onMount } = props
+function Create() {
   const history = useHistory()
 
   const [ _ID, set_ID ] = useState('')
@@ -38,11 +37,6 @@ function Create(props) {
   const [ saving, setSaving ] = useState(false)
   const [ InventoryStatus, setInventoryStatus ] = useState([])
   const [ EquipTypes, setEquipTypes ] = useState([])
-
-  useEffect(() => {
-    onMount('create')
-    // eslint-disable-next-line
-  }, [])
 
   const handleClick = async () => {
     const _IDError = await _IDCheck()

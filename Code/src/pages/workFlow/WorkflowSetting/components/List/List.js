@@ -27,18 +27,12 @@ const tableName = L('List')
 
 function List(props) {
 
-  const { onMount, path } = props
+  const { path } = props
   const history = useHistory()
   const [ rows, setRows ] = useState([])
   const [ page, setPage ] = useState(0)
   const [ rowsPerPage, setRowsPerPage ] = useState(10)
   const [ total, setTotal ] = useState(0)
-
-  // 用于更新面包屑
-  useEffect(() => {
-    onMount('list')
-    // eslint-disable-next-line
-  }, [])
 
   useEffect(() => {
     API.getProcessDefinitions({ limit: rowsPerPage, page: page + 1 })

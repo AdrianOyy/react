@@ -1,11 +1,14 @@
 import { createStore } from 'redux'
 import rootReducer from '../reducers/index'
 import { getUserFromLocalStorage } from "../../utils/auth"
+import getCurrentPage from "../../utils/getCurrentPage"
 
 const loadState = () => {
   const user = getUserFromLocalStorage()
+  const { moduleName } = getCurrentPage()
   return {
-    userReducer: { currentUser: user ? user : {} }
+    userReducer: { currentUser: user ? user : {} },
+    pageReducer: { currentPage: { toListPage: moduleName === 'List' } },
   }
 }
 

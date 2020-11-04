@@ -8,7 +8,6 @@ import formatDateTime from "../../../../../utils/formatDateTime"
 
 
 function Detail(props) {
-  const { onMount } = props
   const { id } = useParams()
   const [ tenant, setTenant ] = React.useState('')
   const [ type, setType ] = React.useState('')
@@ -18,11 +17,6 @@ function Detail(props) {
   const [ updatedAt, setUpdatedAt ] = useState('')
   const [ formFieldList, setFormFieldList ] = useState([])
 
-  // 用于更新面包屑
-  useEffect(() => {
-    onMount('detail')
-    // eslint-disable-next-line
-  }, [])
 
   useEffect(() => {
     API.detail(id)

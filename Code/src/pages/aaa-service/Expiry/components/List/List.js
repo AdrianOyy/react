@@ -24,7 +24,7 @@ const tableName = L('List')
 
 
 function List(props) {
-  const { onMount, path } = props
+  const { path } = props
 
   const [ tenant, setTenant ] = useState('')
   const [ adGroup, setAdGroup ] = useState('')
@@ -43,11 +43,6 @@ function List(props) {
   const [ roleList, setRoleList ] = useState([])
   const [ userList, setUserList ] = useState([])
 
-  // 用于更新面包屑
-  useEffect(() => {
-    onMount('list')
-    // eslint-disable-next-line
-  }, [])
 
   // 获取 tenantList、 groupList、roleList 和 userList
   useEffect(() => {

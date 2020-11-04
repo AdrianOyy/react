@@ -18,10 +18,9 @@ const Paper = styled(MuiPaper)(spacing)
 const tableName = L('List')
 
 
-
 function List(props) {
 
-  const { onMount, path } = props
+  const { path } = props
 
   const [ rows, setRows ] = useState([])
   const [ page, setPage ] = useState(0)
@@ -33,12 +32,6 @@ function List(props) {
   const [ hostname, setHostname ] = useState('')
   const [ projectTeam, setProjectTeam ] = useState('')
   const [ dcList, setDcList ] = useState([])
-
-  // 用于更新面包屑
-  useEffect(() => {
-    onMount('list')
-    // eslint-disable-next-line
-  }, [])
 
   // 获取 DC list
   useEffect(() => {

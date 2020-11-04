@@ -7,8 +7,6 @@ import formatDateTime from "../../../../../utils/formatDateTime"
 
 import { L } from '../../../../../utils/lang'
 function Detail(props) {
-  const { onMount } = props
-
   const { id } = useParams()
   const [ label, setLabel ] = React.useState('')
   const [ value, setValue ] = React.useState('')
@@ -17,7 +15,6 @@ function Detail(props) {
   const [ formFieldList, setFormFieldList ] = useState([])
 
   useEffect(() => {
-    onMount('detail')
     // eslint-disable-next-line
   }, [])
 

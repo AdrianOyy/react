@@ -11,7 +11,6 @@ import { checkEmpty } from "../../untils/expiryFieldCheck"
 
 
 function AssignUpdate(props) {
-  const { onMount } = props
   const { id } = useParams()
   const history = useHistory()
   const [ tenant, setTenant ] = useState('')
@@ -26,12 +25,6 @@ function AssignUpdate(props) {
   const [ expiryDateError, setExpiryDateError ] = useState(false)
   const [ expiryDateHelperText, setExpiryDateHelperText ] = useState("")
   const [ expiryDateInit, setExpiryDateInit ] = useState(false)
-
-  // 用于更新面包屑
-  useEffect(() => {
-    onMount('update')
-    // eslint-disable-next-line
-  }, [])
 
   const expiryDateCheck = async () => {
     const emptyCheck = checkEmpty("Expiry Date", expiryDate)

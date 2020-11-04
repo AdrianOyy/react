@@ -6,9 +6,7 @@ import { useParams } from "react-router-dom"
 import formatDateTime from "../../../../../utils/formatDateTime"
 import { L } from '../../../../../utils/lang'
 
-function Detail(props) {
-  const { onMount } = props
-
+function Detail() {
   const { id } = useParams()
   const [ rid, setRid ] = useState('')
   const [ dataPortIP, setDataPortIP ] = useState('')
@@ -37,11 +35,6 @@ function Detail(props) {
   const [ createdAt, setCreatedAt ] = useState('')
   const [ updatedAt, setUpdastedAt ] = useState('')
   const [ formFieldList, setFormFieldList ] = useState([])
-
-  useEffect(() => {
-    onMount('detail')
-    // eslint-disable-next-line
-  }, [])
 
   useEffect(() => {
     API.detail(id)

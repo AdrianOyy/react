@@ -9,8 +9,7 @@ import { checkEmpty, getCheckTypeExist, getCheckYearExist } from "../../untils/M
 import tenantApi from "../../../../../api/tenant"
 
 
-function Create(props) {
-  const { onMount } = props
+function Create() {
   const history = useHistory()
   const [ tenantId, setTenantId ] = React.useState('')
   const [ type, setType ] = useState('')
@@ -31,11 +30,6 @@ function Create(props) {
   const [ yearInit, setYearInit ] = useState(false)
   const [ quotaInit, setQuotaInit ] = useState(false)
   const [ tenantList, setTenantList ] = useState([])
-
-  useEffect(() => {
-    onMount('create')
-    // eslint-disable-next-line
-  }, [])
 
   // 获取 tenantList
   useEffect(() => {

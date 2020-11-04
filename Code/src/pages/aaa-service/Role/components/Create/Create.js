@@ -9,7 +9,6 @@ import { checkEmpty, getCheckExist } from "../../untils/RoleFieldCheck"
 
 
 function RoleCreate(props) {
-  const { onMount } = props
   const history = useHistory()
   const [ label, setLabel ] = useState('')
   const [ value, setValue ] = useState('')
@@ -20,11 +19,6 @@ function RoleCreate(props) {
   const [ valueError, setValueError ] = useState(false)
   const [ valueHelperText, setValueHelperText ] = useState("")
   const [ valueInit, setValueInit ] = useState(false)
-
-  useEffect(() => {
-    onMount('create')
-    // eslint-disable-next-line
-  }, [])
 
   useEffect(() => {
     if (valueInit) {

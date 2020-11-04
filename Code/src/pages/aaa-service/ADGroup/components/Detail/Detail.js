@@ -8,18 +8,13 @@ import { L } from '../../../../../utils/lang'
 
 const formTitle = 'Detail'
 
-function Detail(props) {
-  const { onMount } = props
+function Detail() {
   const { id } = useParams()
   const [ name, setName ] = useState('')
   const [ createdAt, setCreatedAt ] = useState('')
   const [ updatedAt, setUpdatedAt ] = useState('')
   const [ formFieldList, setFormFieldList ] = useState([])
 
-  useEffect(() => {
-    onMount('detail')
-    // eslint-disable-next-line
-  }, [])
 
   useEffect(() => {
     API.detail(id).then(({ data }) => {

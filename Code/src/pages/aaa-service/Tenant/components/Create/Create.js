@@ -8,8 +8,7 @@ import { checkEmpty, getCheckExist } from "../../untils/tenantFieldCheck"
 import adGroupApi from "../../../../../api/adGroup"
 import { L } from '../../../../../utils/lang'
 
-function Create(props) {
-  const { onMount } = props
+function Create() {
   const history = useHistory()
 
   const [ name, setName ] = useState('')
@@ -62,11 +61,6 @@ function Create(props) {
   const [ saving, setSaving ] = useState(false)
   const [ adGroupList, setAdGroupList ] = useState([])
   const [ groupList, setGroupList ] = useState([])
-
-  useEffect(() => {
-    onMount('create')
-    // eslint-disable-next-line
-  }, [])
 
   // 获取 adGroupList groupList
   useEffect(() => {

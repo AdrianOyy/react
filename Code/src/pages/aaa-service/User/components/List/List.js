@@ -17,7 +17,7 @@ const tableName = L('List')
 
 
 function List(props) {
-  const { onMount, path } = props
+  const { path } = props
 
   const [ surname, setSurname ] = React.useState('')
   const [ createdAt, setCreatedAt ] = React.useState('')
@@ -28,11 +28,6 @@ function List(props) {
   const [ rowsPerPage, setRowsPerPage ] = React.useState(10)
   const [ total, setTotal ] = React.useState(0)
 
-  // 用于更新面包屑
-  useEffect(() => {
-    onMount('list')
-    // eslint-disable-next-line
-  }, [])
 
   useEffect(() => {
     API.list({ ...query, limit: rowsPerPage, page: page + 1 })

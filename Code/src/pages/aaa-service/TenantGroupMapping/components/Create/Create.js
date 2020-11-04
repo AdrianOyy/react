@@ -10,8 +10,7 @@ import adGroupApi from "../../../../../api/adGroup"
 import { L } from '../../../../../utils/lang'
 
 
-function TenantGroupMappingCreate(props) {
-  const { onMount } = props
+function TenantGroupMappingCreate() {
   const history = useHistory()
   const [ tenantId, setTenantId ] = React.useState('')
   const [ groupId, setGroupId ] = React.useState('')
@@ -25,11 +24,6 @@ function TenantGroupMappingCreate(props) {
   const [ adGroupList, setAdGroupList ] = useState([])
   const [ tenantInit, setTenantInit ] = useState(false)
   const [ groupInit, setGroupInit ] = useState(false)
-
-  useEffect(() => {
-    onMount('create')
-    // eslint-disable-next-line
-  }, [])
 
   const handleClick = async () => {
     const tenantError = await tenantCheck()

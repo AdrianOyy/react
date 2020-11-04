@@ -8,9 +8,8 @@ import formatDateTime from "../../../../../utils/formatDateTime"
 
 const formTitle = 'Detail'
 
-function Detail(props) {
+function Detail() {
   const { id } = useParams()
-  const { onMount } = props
   const [ name, setName ] = useState('')
   const [ code, setCode ] = useState('')
   const [ managerGroup, setManagerGroup ] = useState('')
@@ -26,10 +25,6 @@ function Detail(props) {
   const [ updatedAt, setUpdatedAt ] = useState('')
   const [ formFieldList, setFormFieldList ] = useState([])
 
-  useEffect(() => {
-    onMount('detail')
-    // eslint-disable-next-line
-  }, [])
 
   // 获取详情
   useEffect(() => {

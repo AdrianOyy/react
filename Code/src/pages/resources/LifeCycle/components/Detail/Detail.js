@@ -6,8 +6,7 @@ import { L } from '../../../../../utils/lang'
 import { useParams } from "react-router-dom"
 import formatDateTime from "../../../../../utils/formatDateTime"
 
-function Detail(props) {
-  const { onMount } = props
+function Detail() {
   const { id } = useParams()
   const [ _ID, set_ID ] = useState('')
   const [ InventoryID, setInventoryID ] = useState('')
@@ -24,11 +23,6 @@ function Detail(props) {
   const [ createdAt, setCreatedAt ] = useState('')
   const [ updatedAt, setUpdastedAt ] = useState('')
   const [ LifeCycles, setLifeCycles ] = useState([])
-
-  useEffect(() => {
-    onMount('detail')
-    // eslint-disable-next-line
-  }, [])
 
   useEffect(() => {
     API.detail(id).then(({ data }) => {

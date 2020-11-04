@@ -1,111 +1,84 @@
-import React, { useState } from "react"
+import React, { useRef } from "react"
 import {
   HashRouter as Router,
   Switch,
-  Route
+  Route,
+  Link,
 } from "react-router-dom"
-import { NaviHeader } from "../index"
-
-const path = '/'
+import { Typography } from "@material-ui/core"
+import store from "../../redux/store"
+import { setPage } from "../../redux/actions/pageActions"
 
 function CommonPage(props) {
   const {
-    parentTitle,
-    title,
     List,
     Detail,
     Update,
     Create,
     Step,
+    title,
     CreateWithId
   } = props
-  const [ breadcrumbsList, setBreadcrumbsList ] = useState([])
 
-  // 更新导航条
-  const onMount = (id) => {
-    switch (id) {
-      case 'list':
-        setBreadcrumbsList([
-          { title: parentTitle },
-          { title }
-        ])
-        break
-      case 'detail':
-        setBreadcrumbsList([
-          { title: parentTitle },
-          { title, path },
-          { title: 'Detail' }
-        ])
-        break
-      case 'update':
-        setBreadcrumbsList([
-          { title: parentTitle },
-          { title, path },
-          { title: 'Update' }
-        ])
-        break
-      case 'create':
-        setBreadcrumbsList([
-          { title: parentTitle },
-          { title, path },
-          { title: 'Create' }
-        ])
-        break
-      case 'Step':
-        setBreadcrumbsList([
-          { title: parentTitle },
-          { title, path },
-          { title: 'Step' }
-        ])
-        break
-      default:
-        break
+  const linkEl = useRef(null)
+
+  const storeListener = () => {
+    if (!linkEl.current) return
+    const { toListPage } = store.getState().pageReducer.currentPage
+    if (toListPage) {
+      linkEl.current.click()
+      store.dispatch(setPage(Object.assign(store.getState().pageReducer.currentPage, { toListPage: false })))
     }
   }
 
+  store.subscribe(storeListener)
+
   return (
-    <React.Fragment>
-      <Router>
-        <NaviHeader title={title} breadcrumbsList={breadcrumbsList} />
+    <div style={{ marginTop: '2em' }}>
+      <Typography variant='h3' gutterBottom display="inline">
+        {title}
+      </Typography>
+      <Router >
+        <Link to='/' ref={linkEl} style={{ display: 'none' }}> hide link, to list page </Link>
         <Switch>
           <Route path={`/detail/:id`}>
             {
               Detail && (() => (
-                <Detail onMount={onMount} path={''} />
+                <Detail path={''} />
               ))
             }
           </Route>
           <Route path={`/update/:id`}>
             {
               Update && (() => (
-                <Update onMount={onMount} path={''} />
+                <Update path={''} />
               ))
             }
           </Route>
           <Route path={CreateWithId ? `/create/:id` : `/create`}>
             {
               Create && (() => (
-                <Create onMount={onMount} path={''} />
+                <Create path={''} />
               ))
             }
           </Route>
           <Route path={`/step/:id`}>
             {
               Step && (() => (
-                <Step onMount={onMount} path={''} />
+                <Step path={''} />
               ))
             }
           </Route>
           <Route path="/">
             {
               List && (() => (
-                <List onMount={onMount} path={''} />
+                <List path={''} />
               ))
             }
           </Route>
         </Switch>
       </Router>
-    </React.Fragment>
+    </div>
   )
 }
 

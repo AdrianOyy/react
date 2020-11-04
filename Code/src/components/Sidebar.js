@@ -143,7 +143,7 @@ const CategoryIconMore = styled(ExpandMore)`
 `
 
 const Link = styled(ListItem)`
-  padding-left: ${props => props.theme.spacing(15)}px;
+  padding-left: ${props => props.theme.spacing(6)}px;
   padding-top: ${props => props.theme.spacing(2)}px;
   padding-bottom: ${props => props.theme.spacing(2)}px;
 
@@ -156,8 +156,8 @@ const Link = styled(ListItem)`
   }
 
   &.${props => props.activeClassName} {
-    background-color: ${props => darken(0.06, props.theme.sidebar.background)};
-
+    background-color: ${() => rgba(37, 83, 244, 1)};
+    border-radius: 3em;
     span {
       color: ${props => props.theme.sidebar.color};
     }
@@ -357,6 +357,7 @@ function Sidebar({ classes, staticContext, location, ...rest }) {
 
                     <Collapse
                       in={openRoutes[index]}
+                      style={{ padding: '0 1.5em 0 1.5em' }}
                       timeout="auto"
                       unmountOnExit
                     >

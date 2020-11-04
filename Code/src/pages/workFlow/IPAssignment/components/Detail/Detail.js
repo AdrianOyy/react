@@ -5,8 +5,7 @@ import API from "../../../../../api/IPAssignment"
 import { useParams } from "react-router-dom"
 import { L } from '../../untils/lang'
 
-function Detail(props) {
-  const { onMount } = props
+function Detail() {
 
   const { id } = useParams()
   const [ ip, setIP ] = useState('')
@@ -18,11 +17,6 @@ function Detail(props) {
   const [ vlanId, setVlanId ] = useState('')
   const [ remark, setRemark ] = useState('')
   const [ formFieldList, setFormFieldList ] = useState([])
-
-  useEffect(() => {
-    onMount('detail')
-    // eslint-disable-next-line
-  }, [])
 
   useEffect(() => {
     API.detail(id).then(({ data }) => {

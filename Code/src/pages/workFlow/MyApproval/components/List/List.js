@@ -24,7 +24,7 @@ const Paper = styled(MuiPaper)(spacing)
 const tableName = L('My Approval')
 
 function List(props) {
-  const { onMount, path } = props
+  const {  path } = props
   const history = useHistory()
   const [ startTime, setStartTime ] = useState('')
   const [ endTime, setEndTime ] = useState('')
@@ -37,12 +37,6 @@ function List(props) {
   const [ image, setImage ] = useState('')
   const [ taskId, setTaskId ] = useState('')
   const [ showChatBox, setShowChatBox ] = useState(false)
-
-  // 用于更新面包屑
-  useEffect(() => {
-    onMount('list')
-    // eslint-disable-next-line
-  }, [])
 
   useEffect(() => {
     const groupList = getUserGroupList()

@@ -13,7 +13,6 @@ import { L } from '../../../../../utils/lang'
 
 
 function AssignUpdate(props) {
-  const { onMount } = props
   const { id } = useParams()
   const history = useHistory()
   const [ tenant, setTenant ] = useState('')
@@ -28,10 +27,6 @@ function AssignUpdate(props) {
   const [ roleList, setRoleList ] = useState([])
   const [ roleInit, setRoleInit ] = useState(false)
 
-  useEffect(() => {
-    onMount('update')
-    // eslint-disable-next-line
-  }, [])
 
   // 获取 roleList
   useEffect(() => {

@@ -10,8 +10,7 @@ import { L } from '../../untils/lang'
 const listPath = '/resources/IPAddress'
 const formTitle = 'Update'
 
-function Update(props) {
-  const { onMount } = props
+function Update() {
   const { id } = useParams()
   const history = useHistory()
   const [ ip, setIP ] = useState('')
@@ -26,11 +25,6 @@ function Update(props) {
   const [ saving, setSaving ] = useState(true)
   const [ nameError, setNameError ] = useState(false)
   const [ nameHelperText, setNameHelperText ] = useState('')
-
-  useEffect(() => {
-    onMount('update')
-    // eslint-disable-next-line
-  }, [])
 
   const hanleClick = async () => {
     const nameErr = await nameCheck()

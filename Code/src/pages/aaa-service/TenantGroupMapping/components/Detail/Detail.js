@@ -7,19 +7,13 @@ import { L } from '../../../../../utils/lang'
 import formatDateTime from "../../../../../utils/formatDateTime"
 
 
-function Detail(props) {
-  const { onMount } = props
+function Detail() {
   const { id } = useParams()
   const [ tenant, setTenant ] = React.useState('')
   const [ adGroup, setAdGroup ] = React.useState('')
   const [ createdAt, setCreatedAt ] = useState('')
   const [ updatedAt, setUpdastedAt ] = useState('')
   const [ formFieldList, setFormFieldList ] = useState([])
-
-  useEffect(() => {
-    onMount('detail')
-    // eslint-disable-next-line
-  }, [])
 
   useEffect(() => {
     tenantGroupMappingApi.detail(id)

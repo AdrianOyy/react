@@ -10,7 +10,6 @@ const listPath = '/aaa-service/adgroup'
 const formTitle = 'Create'
 
 function Create(props) {
-  const { onMount } = props
   const history = useHistory()
   const [ name, setName ] = useState('')
   const [ formFieldList, setFormFieldList ] = useState([])
@@ -18,10 +17,6 @@ function Create(props) {
   const [ nameError, setNameError ] = useState(false)
   const [ nameHelperText, setNameHelperText ] = useState("")
 
-  useEffect(() => {
-    onMount('create')
-    // eslint-disable-next-line
-  }, [])
 
   const handelClick = async () => {
     const nameErr = await nameCheck()

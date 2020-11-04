@@ -12,7 +12,6 @@ const listPath = '/resources/IPAddress'
 const formTitle = 'Update'
 
 function Update(props) {
-  const { onMount } = props
   const { id } = useParams()
   const history = useHistory()
   const [ ip, setIP ] = useState('')
@@ -30,11 +29,6 @@ function Update(props) {
   const [ dcError, setDcError ] = useState(false)
   const [ dcHelperText, setDcHelperText ] = useState('')
   const [ dcList, setDcList ] = useState([])
-
-  useEffect(() => {
-    onMount('update')
-    // eslint-disable-next-line
-  }, [])
 
   const handleClick = async () => {
     const ipErr = await ipCheck()

@@ -11,8 +11,7 @@ import adGroupApi from "../../../../../api/adGroup"
 import { L } from '../../../../../utils/lang'
 
 
-function Update(props) {
-  const { onMount } = props
+function Update() {
   const { id } = useParams()
   const history = useHistory()
 
@@ -49,11 +48,6 @@ function Update(props) {
   const [ nameHelperText, setNameHelperText ] = useState("")
   const [ adGroupList, setAdGroupList ] = useState([])
   const [ groupList, setGroupList ] = useState([])
-
-  useEffect(() => {
-    onMount('update')
-    // eslint-disable-next-line
-  }, [])
 
   // 获取 adGroupList groupList
   useEffect(() => {

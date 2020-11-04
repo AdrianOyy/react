@@ -9,7 +9,6 @@ import { L } from '../../../../../utils/lang'
 const listPath = '/resources/IPAddress'
 
 function AssignCreate(props) {
-  const { onMount } = props
   const history = useHistory()
   const [ ip, setIP ] = useState('')
   const [ dc, setDC ] = useState('')
@@ -29,10 +28,6 @@ function AssignCreate(props) {
   const [ ipInit, setIpInit ] = useState(false)
   const [ dcInit, setDcInit ] = useState(false)
 
-  useEffect(() => {
-    onMount('create')
-    // eslint-disable-next-line
-  }, [])
 
   const handleClick = async () => {
     const ipError = await ipCheck()
