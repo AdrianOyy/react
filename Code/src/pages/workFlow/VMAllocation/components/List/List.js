@@ -25,7 +25,7 @@ Paper = styled(Paper)`border-radius: 10px`
 const tableName = 'List'
 
 function List(props) {
-  const { onMount, path } = props
+  const { path } = props
   const history = useHistory()
   const [ rows, setRows ] = useState([])
   const [ page, setPage ] = useState(0)
@@ -33,12 +33,6 @@ function List(props) {
   const [ total, setTotal ] = useState(0)
   const [ shown, setShown ] = useState(false)
   const [ srow, setSrow ] = useState({})
-
-  // 用于更新面包屑
-  useEffect(() => {
-    onMount('list')
-    // eslint-disable-next-line
-  }, [])
 
   useEffect(() => {
     API.getProcessList({ name: 'VM Allocation', limit: rowsPerPage, page: page + 1 })
@@ -98,8 +92,8 @@ function List(props) {
 
   // 自定义action
   const actionList = [
-    { label: 'run', icon: <PlayCircleFilledWhiteOutlinedIcon fontSize="small" style={{ color: '#2553F4' }} />, handleClick: handleRunClick },
-    { label: 'run', icon: <UpdateIcon fontSize="small" style={{ color: '#2553F4' }} />, handleClick: handleUpdateClick },
+    { label: 'Run', icon: <PlayCircleFilledWhiteOutlinedIcon fontSize="small" style={{ color: '#2553F4' }} />, handleClick: handleRunClick },
+    { label: 'Run with CPS ID', icon: <UpdateIcon fontSize="small" style={{ color: '#2553F4' }} />, handleClick: handleUpdateClick },
   ]
 
   const dialogReason = {

@@ -11,7 +11,6 @@ import dayjs from "dayjs"
 
 
 export default function Create(props) {
-  const { onMount } = props
   const history = useHistory()
   const [ assignId, setAssignId ] = useState('')
   const [ userId, setUserId ] = useState('')
@@ -29,12 +28,6 @@ export default function Create(props) {
   const [ assignInit, setAssignInit ] = useState(false)
   const [ userInit, setUserInit ] = useState(false)
   const [ expiryDateInit, setExpiryDateInit ] = useState(false)
-
-  // 用于更新面包屑
-  useEffect(() => {
-    onMount('create')
-    // eslint-disable-next-line
-  }, [])
 
 
   const handleClick = async () => {

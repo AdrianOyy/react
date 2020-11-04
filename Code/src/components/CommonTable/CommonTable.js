@@ -250,13 +250,15 @@ function CommonTable(props) {
                           actionList && actionList.map((action, i) => {
                             return (
                               display(action, row) ? (
-                                <IconButton
-                                  key={i + '_' + action.label}
-                                  aria-label={action.label}
-                                  onClick={(e) => action.handleClick(e, row, index)}
-                                >
-                                  {action.icon}
-                                </IconButton>
+                                <Tooltip title={action.label}>
+                                  <IconButton
+                                    key={i + '_' + action.label}
+                                    aria-label={action.label}
+                                    onClick={(e) => action.handleClick(e, row, index)}
+                                  >
+                                    {action.icon}
+                                  </IconButton>
+                                </Tooltip>
                               ) : null
                             )
                           })

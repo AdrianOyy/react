@@ -39,8 +39,7 @@ const showPowerInput = {
   ]
 }
 
-function Detail(props) {
-  const { onMount } = props
+function Detail() {
 
   const { id } = useParams()
   const [ _ID, set_ID ] = useState('')
@@ -71,11 +70,6 @@ function Detail(props) {
 
 
   const classes = useStyles()
-
-  useEffect(() => {
-    onMount('detail')
-    // eslint-disable-next-line
-  }, [])
 
   useEffect(() => {
     API.detail(id).then(({ data }) => {

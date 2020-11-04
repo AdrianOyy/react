@@ -10,7 +10,6 @@ import { L } from '../../../../../utils/lang'
 
 
 function AssignCreate(props) {
-  const { onMount } = props
   const history = useHistory()
   const [ mappingId, setMappingId ] = useState('')
   const [ roleId, setRoleId ] = useState('')
@@ -25,10 +24,6 @@ function AssignCreate(props) {
   const [ mappingInit, setMappingInit ] = useState(false)
   const [ roleInit, setRoleInit ] = useState(false)
 
-  useEffect(() => {
-    onMount('create')
-    // eslint-disable-next-line
-  }, [])
 
   const handleClick = async () => {
     const mappingError = await mappingCheck()

@@ -10,7 +10,6 @@ import { checkEmpty, getCheckExist } from "../../untils/RoleFieldCheck"
 import { L } from '../../../../../utils/lang'
 
 function TenantDetail(props) {
-  const { onMount } = props
   const { id } = useParams()
   const history = useHistory()
   const [ label, setLabel ] = useState('')
@@ -22,10 +21,6 @@ function TenantDetail(props) {
   const [ labelError, setLabelError ] = useState(false)
   const [ labelHelperText, setLabelHelperText ] = useState("")
 
-  useEffect(() => {
-    onMount('update')
-    // eslint-disable-next-line
-  }, [])
 
   const hanleClick = async () => {
     const labelErr = await labelCheck()

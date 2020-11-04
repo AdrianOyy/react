@@ -8,7 +8,6 @@ import UserApi from "../../../../../api/user"
 const formTitle = 'Detail'
 
 function Detail(props) {
-  const { onMount } = props
   const { id } = useParams()
   const [ corpId, setCorpId ] = useState('')
   const [ alias, setAlias ] = useState('')
@@ -28,10 +27,6 @@ function Detail(props) {
   const [ updatedAt, setUpdatedAt ] = useState('')
   const [ formFieldList, setFormFieldList ] = useState([])
 
-  useEffect(() => {
-    onMount('detail')
-    // eslint-disable-next-line
-  }, [])
 
   useEffect(() => {
     UserApi.detail(id).then(({ data }) => {

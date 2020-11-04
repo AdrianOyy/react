@@ -10,8 +10,7 @@ import { checkEmpty, getCheckExist } from "../../untils/VMFieldCheck"
 import tenantApi from "../../../../../api/tenant"
 import { L } from '../../../../../utils/lang'
 
-function Detail(props) {
-  const { onMount } = props
+function Detail() {
   const { id } = useParams()
   const history = useHistory()
   const [ rid, setRid ] = useState('')
@@ -58,11 +57,6 @@ function Detail(props) {
   const [ updatedAt, setUpdastedAt ] = useState('')
   const [ formFieldList, setFormFieldList ] = useState([])
   const [ saving, setSaving ] = useState(true)
-
-  useEffect(() => {
-    onMount('update')
-    // eslint-disable-next-line
-  }, [])
 
   const handleClick = async () => {
     const serialNumberError = await serialNumberCheck()

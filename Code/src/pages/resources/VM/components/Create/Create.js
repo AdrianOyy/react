@@ -7,8 +7,7 @@ import { useHistory } from 'react-router-dom'
 import { checkEmpty, getCheckExist } from "../../untils/VMFieldCheck"
 import tenantApi from "../../../../../api/tenant"
 import { L } from '../../../../../utils/lang'
-function Create(props) {
-  const { onMount } = props
+function Create() {
   const history = useHistory()
   const [ rid, setRid ] = useState('')
   const [ dataPortIP, setDataPortIP ] = useState('')
@@ -52,11 +51,6 @@ function Create(props) {
   const [ section, setSection ] = useState('')
   const [ formFieldList, setFormFieldList ] = useState([])
   const [ saving, setSaving ] = useState(false)
-
-  useEffect(() => {
-    onMount('create')
-    // eslint-disable-next-line
-  }, [])
 
   const handleClick = async () => {
     const serialNumberError = await serialNumberCheck()

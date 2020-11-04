@@ -7,8 +7,7 @@ import formatDateTime from "../../../../../utils/formatDateTime"
 import { L } from '../../../../../utils/lang'
 
 
-function AssignDetail(props) {
-  const { onMount } = props
+function AssignDetail() {
   const { id } = useParams()
   const [ tenant, setTenant ] = useState('')
   const [ adGroup, setAdGroup ] = useState('')
@@ -18,12 +17,6 @@ function AssignDetail(props) {
   const [ createdAt, setCreatedAt ] = useState('')
   const [ updatedAt, setUpdastedAt ] = useState('')
   const [ formFieldList, setFormFieldList ] = useState([])
-
-  // 用于更新面包屑
-  useEffect(() => {
-    onMount('Detail')
-    // eslint-disable-next-line
-  }, [])
 
 
   useEffect(() => {

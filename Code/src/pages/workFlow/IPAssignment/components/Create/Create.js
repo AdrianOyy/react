@@ -9,8 +9,7 @@ import { L } from '../../../../../utils/lang'
 const listPath = '/resources/IPAddress'
 const formTitle = 'Create'
 
-function Create(props) {
-  const { onMount } = props
+function Create() {
   const history = useHistory()
   const [ ip, setIP ] = useState('')
   const [ dc, setDC ] = useState('')
@@ -24,11 +23,6 @@ function Create(props) {
   const [ saving, setSaving ] = useState(false)
   const [ nameError, setNameError ] = useState(false)
   const [ nameHelperText, setNameHelperText ] = useState("")
-
-  useEffect(() => {
-    onMount('create')
-    // eslint-disable-next-line
-  }, [])
 
   const handelClick = async () => {
     const nameErr = await nameCheck()
@@ -50,7 +44,7 @@ function Create(props) {
       { id: 'dc', label: L('DC'), type: 'text', required: false, readOnly: false, value: dc },
       { id: 'hostname', label: L('Hostname'), type: 'text', required: false, readOnly: false, value: hostname },
       { id: 'projectTeam', label: L('Project Team'), type: 'text', required: false, readOnly: false, value: projectTeam },
-      { id: 'networkType', label: L('Network Type', type: 'text', required: false, readOnly: false, value: networkType },
+      { id: 'networkType', label: L('Network Type'), type: 'text', required: false, readOnly: false, value: networkType },
       { id: 'ipPool', label: L('IP Pool'), type: 'text', required: false, readOnly: false, value: ipPool },
       { id: 'vlanId', label: L('VLan ID'), type: 'text', required: false, readOnly: false, value: vlanId },
       { id: 'remark', label: L('Remark'), type: 'text', required: false, readOnly: false, value: remark },

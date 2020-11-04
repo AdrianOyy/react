@@ -9,8 +9,7 @@ import { useHistory } from 'react-router-dom'
 import { checkEmpty, getCheckExist } from "../../untils/ServerFieldCheck"
 import { L } from '../../../../../utils/lang'
 
-function Detail(props) {
-  const { onMount } = props
+function Detail() {
   const { id } = useParams()
   const history = useHistory()
 
@@ -40,11 +39,6 @@ function Detail(props) {
   const [ saving, setSaving ] = useState(true)
   const [ InventoryStatus, setInventoryStatus ] = useState([])
   const [ EquipTypes, setEquipTypes ] = useState([])
-
-  useEffect(() => {
-    onMount('update')
-    // eslint-disable-next-line
-  }, [])
 
   const handleClick = async () => {
     const _IDError = await _IDCheck()

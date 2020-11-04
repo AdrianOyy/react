@@ -2,6 +2,8 @@ import React from "react"
 
 import async from "../components/Async"
 
+import menu from "../utils/menu"
+
 import {
   CheckSquare,
   Grid,
@@ -36,11 +38,11 @@ const MoveIn = async(() => import("../pages/workFlow/MoveIn"))
 
 // IP Assignment
 const IPAddress = async(() => import("../pages/resources/IPAddress"))
-const Platform = async(() => import("../pages/resources/Platform/"))
-const LifeCycle = async(() => import("../pages/resources/LifeCycle/"))
-const VM = async(() => import("../pages/resources/VM/"))
-const Network = async(() => import("../pages/resources/Network/"))
-const Server = async(() => import("../pages/resources/Server/"))
+const Platform = async(() => import("../pages/resources/Platform"))
+const LifeCycle = async(() => import("../pages/resources/LifeCycle"))
+const VM = async(() => import("../pages/resources/VM"))
+const Network = async(() => import("../pages/resources/Network"))
+const Server = async(() => import("../pages/resources/Server"))
 
 
 // tenant
@@ -61,8 +63,6 @@ const assign = async(() => import("../pages/aaa-service/Assign"))
 // expiry
 const expiry = async(() => import("../pages/aaa-service/Expiry"))
 
-// TODO: delete this route after testing
-// const test = async(() => import("../pages/aaa-service/Test"))
 
 const authRoutes = {
   id: "Auth",
@@ -102,149 +102,143 @@ const presentationRoutes = {
 }
 
 const logRoutes = {
-  id: "Log",
-  path: "/logging/",
+  id: menu.log.id,
+  path: menu.log.path,
   icon: <Monitor />,
   component: logging,
   children: null
 }
 
 const workflowRoutes = {
-  id: "Workflow",
-  path: "/workflow",
+  id: menu.workflow.id,
+  path: menu.workflow.path,
   icon: <CheckSquare />,
   component: logging,
   children: [
     {
-      path: "/workflow/account/",
-      name: "Account management",
+      path: menu.workflow.children.account.path,
+      name: menu.workflow.children.account.name,
       component: Account
     },
     {
-      path: "/workflow/nonPersonalAccount/",
-      name: "Non-Personal Account",
+      path: menu.workflow.children.nonPersonalAccount.path,
+      name: menu.workflow.children.nonPersonalAccount.name,
       component: NonPersonalAccount
     },
     {
-      path: "/workflow/distributionList/",
-      name: "Distribution List",
+      path: menu.workflow.children.distributionList.path,
+      name: menu.workflow.children.distributionList.name,
       component: DistributionList
     },
     {
-      path: "/workflow/closingAccount/",
-      name: "Closing Account",
+      path: menu.workflow.children.closingAccount.path,
+      name: menu.workflow.children.closingAccount.name,
       component: ClosingAccount
     },
     {
-      path: "/workflow/vm/",
-      name: "VM Allocation",
+      path: menu.workflow.children.vm.path,
+      name: menu.workflow.children.vm.name,
       component: VMAllocation
     },
     {
-      path: "/workflow/movein/",
-      name: "Move-in",
+      path: menu.workflow.children.movein.path,
+      name: menu.workflow.children.movein.name,
       component: MoveIn
     },
     {
-      path: "/workflow/request/",
-      name: "My Request",
+      path: menu.workflow.children.request.path,
+      name: menu.workflow.children.request.name,
       component: request
     },
     {
-      path: "/workflow/approval/",
-      name: "My Approval",
+      path: menu.workflow.children.approval.path,
+      name: menu.workflow.children.approval.name,
       component: approval
     },
     {
-      path: "/workflow/workflowSetting/",
-      name: "Workflow Setting",
+      path: menu.workflow.children.workflowSetting.path,
+      name: menu.workflow.children.workflowSetting.name,
       component: WorkflowSetting
     }
   ]
 }
 
 const aaaServiceRoutes = {
-  id: "AAA Service",
-  path: "/aaa-service",
+  id: menu.AAAService.id,
+  path: menu.AAAService.path,
   icon: <Grid />,
   children: [
-    // TODO: remove this route after testing
-    // {
-    //   path: "/aaa-service/test/",
-    //   name: "Test",
-    //   component: test,
-    // },
     {
-      path: "/aaa-service/role/",
-      name: "Role",
+      path: menu.AAAService.children.role.path,
+      name: menu.AAAService.children.role.name,
       component: role,
     },
     {
-      path: "/aaa-service/adgroup/",
-      name: "AD Group",
+      path: menu.AAAService.children.adGroup.path,
+      name: menu.AAAService.children.adGroup.name,
       component: ADGroup,
     },
     {
-      path: "/aaa-service/user/",
-      name: "User Profile",
+      path: menu.AAAService.children.user.path,
+      name: menu.AAAService.children.user.name,
       component: user
     },
     {
-      path: "/aaa-service/tenant/",
-      name: "Tenant",
+      path: menu.AAAService.children.tenant.path,
+      name: menu.AAAService.children.tenant.name,
       component: tenant,
     },
     {
-      path: "/aaa-service/tenantAdGroupMapping/",
-      name: "Tenant AD Group Mapping",
+      path: menu.AAAService.children.tenantAdGroupMapping.path,
+      name: menu.AAAService.children.tenantAdGroupMapping.name,
       component: tenantGroupMapping,
     },
     {
-      path: "/aaa-service/assign/",
-      name: "Assign",
+      path: menu.AAAService.children.assign.path,
+      name: menu.AAAService.children.assign.name,
       component: assign
     },
     {
-      path: "/aaa-service/expiry/",
-      name: "Expiry",
+      path: menu.AAAService.children.expiry.path,
+      name: menu.AAAService.children.expiry.name,
       component: expiry,
     }
   ]
 }
 
 const resourceRoutes = {
-  id: "Resource",
-  path: "/resources",
+  id: menu.resources.id,
+  path: menu.resources.path,
   icon: <Grid />,
   children: [
     {
-      path: "/resources/vm",
-      name: "VM",
+      path: menu.resources.children.vm.path,
+      name: menu.resources.children.vm.name,
       component: VM
     },
     {
-      path: "/resources/IPAddress/",
-      name: "IP Address",
+      path: menu.resources.children.ip.path,
+      name: menu.resources.children.ip.name,
       component: IPAddress
     },
     {
-      path: "/resources/network",
-      name: "Network",
+      path: menu.resources.children.network.path,
+      name: menu.resources.children.network.name,
       component: Network
     },
     {
-      path: "/resources/server",
-      name: "Server",
+      path: menu.resources.children.server.path,
+      name: menu.resources.children.server.name,
       component: Server
     },
     {
-      path: "/resources/platform",
-      name: "Platform",
+      path: menu.resources.children.platform.path,
+      name: menu.resources.children.platform.name,
       component: Platform
     },
     {
-      path: "/resources/life-cycle",
-      name: "Life Cycle",
+      path: menu.resources.children.liftCycle.path,
+      name: menu.resources.children.liftCycle.name,
       component: LifeCycle
     },
   ]

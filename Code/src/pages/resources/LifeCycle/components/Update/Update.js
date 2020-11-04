@@ -9,8 +9,7 @@ import { useHistory } from 'react-router-dom'
 import { checkEmpty, getCheckExist } from "../../untils/LifeCycleFieldCheck"
 import { L } from '../../../../../utils/lang'
 
-function Update(props) {
-  const { onMount } = props
+function Update() {
   const { id } = useParams()
   const history = useHistory()
 
@@ -33,10 +32,6 @@ function Update(props) {
   const [ LifeCycles, setLifeCycles ] = useState([])
   const [ Inventorys, setInventorys ] = useState([])
 
-  useEffect(() => {
-    onMount('update')
-    // eslint-disable-next-line
-  }, [])
 
   const handleClick = async () => {
     const _IDError = await _IDCheck()

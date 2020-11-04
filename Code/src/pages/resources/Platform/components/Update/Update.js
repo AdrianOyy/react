@@ -9,8 +9,7 @@ import { useHistory } from 'react-router-dom'
 import { checkEmpty, getCheckExist } from "../../untils/PlatformFieldCheck"
 import { L } from '../../../../../utils/lang'
 
-function TenantDetail(props) {
-  const { onMount } = props
+function TenantDetail() {
   const { id } = useParams()
   const history = useHistory()
   const [ name, setName ] = useState('')
@@ -24,11 +23,6 @@ function TenantDetail(props) {
   const [ formFieldList, setFormFieldList ] = useState([])
   const [ saving, setSaving ] = useState(true)
   const [ typeList, setTypeList ] = useState([])
-
-  useEffect(() => {
-    onMount('update')
-    // eslint-disable-next-line
-  }, [])
 
   const hanleClick = async () => {
     const nameErr = await nameCheck()

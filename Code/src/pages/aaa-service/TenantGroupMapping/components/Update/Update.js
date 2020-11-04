@@ -11,8 +11,7 @@ import tenantApi from "../../../../../api/tenant"
 import adGroupApi from "../../../../../api/adGroup"
 import { L } from '../../../../../utils/lang'
 
-function TenantGroupMappingUpdate(props) {
-  const { onMount } = props
+function TenantGroupMappingUpdate() {
   const { id } = useParams()
   const history = useHistory()
   const [ tenantId, setTenantId ] = React.useState('')
@@ -29,11 +28,6 @@ function TenantGroupMappingUpdate(props) {
   const [ adGroupList, setAdGroupList ] = useState([])
   const [ tenantInit, setTenantInit ] = useState(false)
   const [ groupInit, setGroupInit ] = useState(false)
-
-  useEffect(() => {
-    onMount('update')
-    // eslint-disable-next-line
-  }, [])
 
   // 获取 tenantList 和 groupList
   useEffect(() => {

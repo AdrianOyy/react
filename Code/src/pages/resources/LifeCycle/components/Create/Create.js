@@ -9,7 +9,6 @@ import { checkEmpty, getCheckExist } from "../../untils/LifeCycleFieldCheck"
 
 
 function Create(props) {
-  const { onMount } = props
   const history = useHistory()
   const [ _ID, set_ID ] = useState('')
   const [ _IDError, set_IDError ] = useState(false)
@@ -30,10 +29,6 @@ function Create(props) {
   const [ saving, setSaving ] = useState(false)
   const [ Inventorys, setInventorys ] = useState([])
 
-  useEffect(() => {
-    onMount('create')
-    // eslint-disable-next-line
-  }, [])
 
   const handleClick = async () => {
     const _IDError = await _IDCheck()

@@ -9,8 +9,7 @@ import { L } from '../../../../../utils/lang'
 import { useHistory } from 'react-router-dom'
 import { checkEmpty, getCheckTypeExist, getCheckYearExist } from "../../untils/ManagementFieldCheck"
 
-function ManagementUpdate(props) {
-  const { onMount } = props
+function ManagementUpdate() {
   const { id } = useParams()
   const history = useHistory()
   const [ tenantId, setTenantId ] = useState('')
@@ -31,13 +30,6 @@ function ManagementUpdate(props) {
   const [ typeInit, setTypeInit ] = useState(false)
   const [ yearInit, setYearInit ] = useState(false)
   const [ quotaInit, setQuotaInit ] = useState(false)
-
-  // 用于更新面包屑
-  useEffect(() => {
-    onMount('update')
-    // eslint-disable-next-line
-  }, [])
-
   const typeCheck = async () => {
     const emptyCheck = checkEmpty("Type", type)
     setTypeError(emptyCheck.error)
