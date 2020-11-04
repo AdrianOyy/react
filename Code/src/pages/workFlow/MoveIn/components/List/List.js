@@ -1,20 +1,16 @@
 import React, { useEffect, useState } from 'react'
 
 import {
-  Grid,
-  Paper as MuiPaper,
+  Grid
 } from "@material-ui/core"
 
 import { useHistory } from 'react-router-dom'
-import { CommonTable, TablePagination } from '../../../../../components'
+import { CommonTable, TablePagination, HAPaper } from '../../../../../components'
 import API from "../../../../../api/workFlow"
 import PlayCircleFilledWhiteOutlinedIcon from '@material-ui/icons/PlayCircleFilledWhiteOutlined'
-import styled from "styled-components"
-import { spacing } from "@material-ui/system"
 import formatDateTime from "../../../../../utils/formatDateTime"
 import { L } from '../../../../../utils/lang'
 
-const Paper = styled(MuiPaper)(spacing)
 const tableName = 'List'
 
 function List(props) {
@@ -102,7 +98,7 @@ function List(props) {
     <React.Fragment>
       <Grid container spacing={6}>
         <Grid item xs={12}>
-          <Paper>
+          <HAPaper>
             <CommonTable
               rows={rows}
               tableName={tableName}
@@ -126,7 +122,7 @@ function List(props) {
               onChangePage={handleChangePage}
               onChangeRowsPerPage={handleChangeRowsPerPage}
             />
-          </Paper>
+          </HAPaper>
         </Grid>
       </Grid>
     </React.Fragment>

@@ -1,12 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import API from '../../../../../api/workFlow.js'
 import {
-  Grid,
-  Paper as MuiPaper
+  Grid
 } from "@material-ui/core"
-import { CommonTable, TablePagination } from '../../../../../components'
-import styled from "styled-components"
-import { spacing } from "@material-ui/system"
+import { CommonTable, TablePagination, HAPaper } from '../../../../../components'
 import { useHistory } from 'react-router-dom'
 import { ACTIVITI_HOST } from '../../../../../utils/constant'
 import prefix from '../../../../../utils/prefix'
@@ -20,7 +17,6 @@ import {
 } from "@material-ui/icons"
 
 const createPrefix = prefix.workflow
-const Paper = styled(MuiPaper)(spacing)
 const tableName = L('List')
 
 
@@ -123,7 +119,7 @@ function List(props) {
     <React.Fragment>
       <Grid container spacing={6}>
         <Grid item xs={12}>
-          <Paper>
+          <HAPaper>
             <CommonTable
               rows={rows}
               tableName={tableName}
@@ -145,7 +141,7 @@ function List(props) {
               onChangePage={handleChangePage}
               onChangeRowsPerPage={handleChangeRowsPerPage}
             />
-          </Paper>
+          </HAPaper>
         </Grid>
       </Grid>
     </React.Fragment>

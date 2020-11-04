@@ -2,18 +2,15 @@ import React, { useEffect, useState } from 'react'
 
 import {
   Grid,
-  Paper as MuiPaper,
   Button,
 } from "@material-ui/core"
 import { L } from '../../../../../utils/lang'
 
 import { useHistory } from 'react-router-dom'
-import { CommonTable, TablePagination } from '../../../../../components'
+import { CommonTable, TablePagination, HAPaper } from '../../../../../components'
 import API from "../../../../../api/workFlow"
 import UpdateIcon from '@material-ui/icons/Update'
 import PlayCircleFilledWhiteOutlinedIcon from '@material-ui/icons/PlayCircleFilledWhiteOutlined'
-import styled from "styled-components"
-import { spacing } from "@material-ui/system"
 import formatDateTime from "../../../../../utils/formatDateTime"
 import Dialog from "@material-ui/core/Dialog"
 import DialogTitle from "@material-ui/core/DialogTitle"
@@ -21,7 +18,6 @@ import DialogContent from "@material-ui/core/DialogContent"
 import TextField from "@material-ui/core/TextField"
 import DialogActions from "@material-ui/core/DialogActions"
 
-const Paper = styled(MuiPaper)(spacing)
 const tableName = 'List'
 
 function List(props) {
@@ -131,7 +127,7 @@ function List(props) {
     <React.Fragment>
       <Grid container spacing={6}>
         <Grid item xs={12}>
-          <Paper>
+          <HAPaper>
             <CommonTable
               rows={rows}
               tableName={tableName}
@@ -155,7 +151,7 @@ function List(props) {
               onChangePage={handleChangePage}
               onChangeRowsPerPage={handleChangeRowsPerPage}
             />
-          </Paper>
+          </HAPaper>
           <Dialog
             open={shown}
             fullWidth={true}

@@ -3,7 +3,16 @@ const getCurrentPage = () => {
   if (pathname[ pathname.length - 1 ] !== '/') {
     pathname += '/'
   }
-  const [ rootName, pageName ] = pathname.slice(1, -1).split('/')
+  const slicePathName = pathname.slice(1, -1).split('/')
+  let rootName
+  let pageName
+  if (slicePathName.length === 1) {
+    rootName = slicePathName[0]
+    pageName = slicePathName[0]
+  } else {
+    [ rootName, pageName ] = slicePathName
+  }
+  console.log(rootName, pageName)
   const module = window.location.hash.split('/')[1]
   let moduleName
   switch (module) {

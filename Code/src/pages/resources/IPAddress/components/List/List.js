@@ -1,19 +1,15 @@
 import React, { useState, useEffect } from 'react'
 import API from '../../../../../api/IPAssignment.js'
 import {
-  Grid,
-  Paper as MuiPaper
+  Grid
 } from "@material-ui/core"
-import { CommonTable, SearchBar, TablePagination } from '../../../../../components'
-import styled from "styled-components"
-import { spacing } from "@material-ui/system"
+import { CommonTable, SearchBar, TablePagination, HAPaper } from '../../../../../components'
 import formatDateTime from "../../../../../utils/formatDateTime"
 import DCAPI from "../../../../../api/dc"
 import { L } from '../../../../../utils/lang'
 // import envUrl from '../../../../../utils/baseUrl'
 
 
-const Paper = styled(MuiPaper)(spacing)
 const tableName = L('List')
 
 
@@ -162,7 +158,7 @@ function List(props) {
             onClearButton={handleClear}
             fieldList = {searchBarFieldList}
           />
-          <Paper>
+          <HAPaper>
             <CommonTable
               rows={rows}
               tableName={tableName}
@@ -181,7 +177,7 @@ function List(props) {
               onChangePage={handleChangePage}
               onChangeRowsPerPage={handleChangeRowsPerPage}
             />
-          </Paper>
+          </HAPaper>
         </Grid>
       </Grid>
     </React.Fragment>

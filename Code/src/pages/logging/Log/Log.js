@@ -1,33 +1,28 @@
 import React, { useEffect, useState } from "react"
 import Helmet from "react-helmet"
 import {
-  Divider as MuiDivider,
   Typography,
-  Paper,
   Table,
   TableHead,
   TableRow,
   TableBody,
-  TablePagination,
   TableCell,
   Button as HAButton,
   Dialog as HADialog,
   DialogActions,
   DialogContent,
   DialogTitle,
-  Slide,
+  Slide, Toolbar,
 } from "@material-ui/core"
-import styled from "styled-components"
-import { spacing } from "@material-ui/system"
-import { SearchBar } from "../../../components"
+import { SearchBar, TablePagination, HAPaper } from "../../../components"
 import API from "../../../api/log"
 import formatDateTime from "../../../utils/formatDateTime"
 import {
   makeStyles,
   withStyles
 } from "@material-ui/core/styles"
+import styled from "styled-components"
 
-const Divider = styled(MuiDivider)(spacing)
 const useStyles = makeStyles(() => ({
   paper: {
     width: '100%',
@@ -48,13 +43,42 @@ const useStyles = makeStyles(() => ({
     marginRight: '1vw',
   }
 }))
-const Row = withStyles({
+const Row = withStyles((theme) => ({
   root: {
     '&:hover': {
       cursor: 'pointer',
     },
+    '&:nth-of-type(even)': {
+      backgroundColor: theme.palette.action.hover,
+    },
   },
-})(TableRow)
+}))(TableRow)
+
+const ToolbarTitle = styled.div`
+  min-width: 400px;
+`
+
+const Cell = withStyles(() => ({
+  root: {
+    border: '1px solid #E5E5E5',
+    height: '0.8vh',
+    fontSize: 14,
+  },
+}))(TableCell)
+
+const HeadCell = withStyles(() => ({
+  head: {
+    backgroundColor: '#E6EBF1',
+    border: '1px solid white',
+    height: '4.7vh',
+    padding: 0,
+    paddingLeft: 16
+  },
+  body: {
+    fontSize: 14,
+  },
+}))(TableCell)
+
 // 渲染 data
 const title = "Log"
 const columns = [
@@ -322,86 +346,96 @@ export default function List() {
   return (
     <React.Fragment>
       <Helmet title={title} />
-      <Typography variant="h3" gutterBottom display="inline">
-        {title}
-      </Typography>
-      <Divider my={6} />
-      <SearchBar
-        onSearchFieldChange={handleFieldChange}
-        onSearchButton={handleSearch}
-        onClearButton={handleClear}
-        fieldList = {searchBarFieldList}
-      />
-      <Paper className={classes.paper}>
-        <Table
-          aria-labelledby="tableTitle"
-          size={'medium'}
-          aria-label="Log List"
-        >
-          <TableHead>
-            <TableRow>
-              { columns.map((column) => (
-                <TableCell
-                  key={column.id}
-                  align={column.align ? column.align : 'center'}
-                  style={{ width: column.width + 'vw' }}
-                >
-                  { column.label }
-                </TableCell>
-              ))}
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            { rows && rows.map(row => {
-              return (
-                <Row
-                  className={classes.row}
-                  key={row.id}
-                  hover
-                  role='checkbox'
-                  tabIndex={-1}
-                  onClick={() => handleClick(row)}
-                >
-                  <TableCell
-                    align={columns[0].align ? columns[0].align : 'center'}
-                  >
-                    { row.page }
-                  </TableCell>
-                  <TableCell
-                    align={columns[0].align ? columns[0].align : 'center'}
-                  >
-                    { getResPath(row.request) }
-                  </TableCell>
-                  <TableCell
-                    align={columns[0].align ? columns[0].align : 'center'}
-                  >
-                    { row.response && row.response.status }
-                  </TableCell>
-                  <TableCell
-                    align={columns[0].align ? columns[0].align : 'center'}
-                  >
-                    { row.createdAt }
-                  </TableCell>
-                </Row>
-              )
-            })}
-          </TableBody>
-        </Table>
-        <TablePagination
-          rowsPerPageOptions={[ 10, 50, 100 ]}
-          component="div"
-          count={total}
-          rowsPerPage={rowsPerPage}
-          page={page}
-          onChangePage={handleChangePage}
-          onChangeRowsPerPage={handleChangeRowsPerPage}
+      <div style={{ marginTop: 30 }}>
+        <Typography variant="h3" gutterBottom display="inline">
+          {title}
+        </Typography>
+        <SearchBar
+          onSearchFieldChange={handleFieldChange}
+          onSearchButton={handleSearch}
+          onClearButton={handleClear}
+          fieldList = {searchBarFieldList}
         />
-      </Paper>
-      <Detail
-        open={open}
-        row={row}
-        onClose={handleClose}
-      />
+        <HAPaper className={classes.paper}>
+          <Toolbar style={{ paddingLeft: 20 }}>
+            <ToolbarTitle>
+              <Typography variant={'h4'} id="tableTitle">
+                { 'List' }
+              </Typography>
+            </ToolbarTitle>
+          </Toolbar>
+          <div style={{ paddingLeft: 20, paddingRight: 20 }}>
+            <Table
+              aria-labelledby="tableTitle"
+              size={'medium'}
+              aria-label="Log List"
+            >
+              <TableHead>
+                <TableRow>
+                  { columns.map((column) => (
+                    <HeadCell
+                      key={column.id}
+                      align={column.align ? column.align : 'left'}
+                      style={{ width: column.width + 'vw' }}
+                    >
+                      { column.label }
+                    </HeadCell>
+                  ))}
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                { rows && rows.map(row => {
+                  return (
+                    <Row
+                      className={classes.row}
+                      key={row.id}
+                      hover
+                      role='checkbox'
+                      tabIndex={-1}
+                      onClick={() => handleClick(row)}
+                    >
+                      <Cell
+                        align={columns[0].align ? columns[0].align : 'left'}
+                      >
+                        { row.page }
+                      </Cell>
+                      <Cell
+                        align={columns[0].align ? columns[0].align : 'left'}
+                      >
+                        { getResPath(row.request) }
+                      </Cell>
+                      <Cell
+                        align={columns[0].align ? columns[0].align : 'left'}
+                      >
+                        { row.response && row.response.status }
+                      </Cell>
+                      <Cell
+                        align={columns[0].align ? columns[0].align : 'left'}
+                      >
+                        { row.createdAt }
+                      </Cell>
+                    </Row>
+                  )
+                })}
+              </TableBody>
+            </Table>
+            <TablePagination
+              rowsPerPageOptions={[ 10, 50, 100 ]}
+              component="div"
+              count={total}
+              rowsPerPage={rowsPerPage}
+              page={page}
+              onChangePage={handleChangePage}
+              onChangeRowsPerPage={handleChangeRowsPerPage}
+            />
+          </div>
+        </HAPaper>
+        <Detail
+          open={open}
+          row={row}
+          onClose={handleClose}
+        />
+      </div>
     </React.Fragment>
   )
 }

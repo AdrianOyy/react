@@ -2,8 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { L } from '../../../../../utils/lang'
 
 import {
-  Grid,
-  Paper as MuiPaper,
+  Grid
 } from "@material-ui/core"
 import Button from '@material-ui/core/Button'
 import TextField from '@material-ui/core/TextField'
@@ -11,17 +10,13 @@ import Dialog from '@material-ui/core/Dialog'
 import DialogActions from '@material-ui/core/DialogActions'
 import DialogContent from '@material-ui/core/DialogContent'
 import { useHistory } from 'react-router-dom'
-import { CommonTable, TablePagination } from '../../../../../components'
+import { CommonTable, TablePagination, HAPaper } from '../../../../../components'
 import API from "../../../../../api/workFlow"
 import PlayCircleFilledWhiteOutlinedIcon from '@material-ui/icons/PlayCircleFilledWhiteOutlined'
 import UpdateIcon from '@material-ui/icons/Update'
-import styled from "styled-components"
-import { spacing } from "@material-ui/system"
 import formatDateTime from "../../../../../utils/formatDateTime"
 import DialogTitle from "@material-ui/core/DialogTitle"
 
-let Paper = styled(MuiPaper)(spacing)
-Paper = styled(Paper)`border-radius: 10px`
 const tableName = 'List'
 
 function List(props) {
@@ -136,7 +131,7 @@ function List(props) {
     <React.Fragment>
       <Grid container spacing={6}>
         <Grid item xs={12}>
-          <Paper>
+          <HAPaper>
             <CommonTable
               rows={rows}
               tableName={tableName}
@@ -197,7 +192,7 @@ function List(props) {
                   onClick={handleReasonSubmit}>{L('Submit')}</Button>
               </DialogActions>
             </Dialog>
-          </Paper>
+          </HAPaper>
         </Grid>
       </Grid>
     </React.Fragment>

@@ -7,7 +7,7 @@ import { spacing } from "@material-ui/system"
 
 
 let Paper = styled(MuiPaper)(spacing)
-Paper = styled(Paper)`border-radius: 1em`
+Paper = styled(Paper)`border-radius: 1em; margin-top:10px`
 
 function HAPaper(props) {
   return (

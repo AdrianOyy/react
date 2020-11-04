@@ -73,11 +73,16 @@ const menu = {
       },
     }
   },
-  log: {
+  logging: {
     id: 'Log',
     name: 'Log',
     path: '/logging/',
-    children: {},
+    children: {
+      logging: {
+        name: 'logging',
+        path: '/logging/',
+      },
+    },
   },
   AAAService: {
     id: 'AAA Service',

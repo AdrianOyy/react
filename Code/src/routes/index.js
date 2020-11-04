@@ -102,8 +102,8 @@ const presentationRoutes = {
 }
 
 const logRoutes = {
-  id: menu.log.id,
-  path: menu.log.path,
+  id: menu.logging.id,
+  path: menu.logging.path,
   icon: <Monitor />,
   component: logging,
   children: null

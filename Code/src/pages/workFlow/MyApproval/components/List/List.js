@@ -2,16 +2,14 @@ import React, { useEffect, useState } from 'react'
 
 import {
   Grid,
-  Paper as MuiPaper, Dialog, DialogTitle, DialogContent, DialogActions, Button,
+  Dialog, DialogTitle, DialogContent, DialogActions, Button,
 } from "@material-ui/core"
 import { L } from '../../../../../utils/lang'
 
-import { CommonTable, SearchBar, ChatBox, TablePagination } from '../../../../../components'
+import { CommonTable, SearchBar, ChatBox, TablePagination, HAPaper } from '../../../../../components'
 import API from "../../../../../api/workFlow"
-import styled from "styled-components"
 import { useHistory } from "react-router-dom"
 import { getUserGroupList } from "../../../../../utils/auth"
-import { spacing } from "@material-ui/system"
 import formatDateTime from "../../../../../utils/formatDateTime"
 import {
   BorderColorOutlined as BorderColorIcon,
@@ -19,7 +17,6 @@ import {
   Chat as ChatIcon
 } from "@material-ui/icons"
 
-const Paper = styled(MuiPaper)(spacing)
 const tableName = L('My Approval')
 
 function List(props) {
@@ -171,7 +168,7 @@ function List(props) {
             onClearButton={handleClear}
             fieldList = {searchBarFieldList}
           />
-          <Paper>
+          <HAPaper>
             <CommonTable
               rows={rows}
               tableName={tableName}
@@ -217,7 +214,7 @@ function List(props) {
               onChangePage={handleChangePage}
               onChangeRowsPerPage={handleChangeRowsPerPage}
             />
-          </Paper>
+          </HAPaper>
         </Grid>
       </Grid>
     </React.Fragment>
