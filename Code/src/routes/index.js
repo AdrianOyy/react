@@ -246,10 +246,10 @@ const resourceRoutes = {
 
 
 export const dashboard = [
-  resourceRoutes,
   workflowRoutes,
-  logRoutes,
+  resourceRoutes,
   aaaServiceRoutes,
+  logRoutes,
 ]
 
 
@@ -259,8 +259,8 @@ export const auth = [
 ]
 
 export default [
-  resourceRoutes,
   workflowRoutes,
-  logRoutes,
+  resourceRoutes,
   aaaServiceRoutes,
+  logRoutes,
 ]

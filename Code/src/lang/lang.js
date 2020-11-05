@@ -210,7 +210,7 @@ exports.lang = {
     Version: "Version",
     'Deploy Time': "Deploy Time",
     Action: "Action",
-    'Account management': "Account management",
+    'Account management': "Account Management",
     Workflow: "Workflow",
     'My Approval': "My Approval",
     'Workflow Name': "Workflow Name",
