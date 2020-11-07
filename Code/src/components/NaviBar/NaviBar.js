@@ -11,7 +11,7 @@ import {
 import { spacing } from "@material-ui/system"
 import { setPage } from "../../redux/actions/pageActions"
 import store from "../../redux/store"
-import getCurrentPage from "../../utils/getCurrentPage"
+import { getCurrentPage } from "../../utils/url"
 import NavigateNextIcon from '@material-ui/icons/NavigateNext'
 
 // const NavLink = React.forwardRef((props, ref) => (

@@ -12,7 +12,6 @@ const getCurrentPage = () => {
   } else {
     [ rootName, pageName ] = slicePathName
   }
-  console.log(rootName, pageName)
   const module = window.location.hash.split('/')[1]
   let moduleName
   switch (module) {
@@ -34,4 +33,22 @@ const getCurrentPage = () => {
   return { rootName, pageName, moduleName }
 }
 
-export default getCurrentPage
+const getQueryString = () => {
+  const { href } = window.location
+  const queryString = new Map()
+  const query = href.split('?')[1]
+  if (!query) {
+    return queryString
+  }
+  const queryList = query.split("&")
+
+  queryList.forEach(query => {
+    let [ key, value ] = query.split('=')
+    key = key.trim()
+    value = value.trim()
+    queryString.set(key, value)
+  })
+  return queryString
+}
+
+export { getCurrentPage, getQueryString }

@@ -1,7 +1,7 @@
 import { createStore } from 'redux'
 import rootReducer from '../reducers/index'
 import { getUserFromLocalStorage } from "../../utils/auth"
-import getCurrentPage from "../../utils/getCurrentPage"
+import { getCurrentPage } from "../../utils/url"
 
 const loadState = () => {
   const user = getUserFromLocalStorage()

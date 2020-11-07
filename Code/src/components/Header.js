@@ -25,7 +25,7 @@ import {
 } from "react-feather"
 import { signOut } from "../utils/auth"
 import NaviBar from "./NaviBar"
-import getCurrentPage from "../utils/getCurrentPage"
+import { getCurrentPage } from "../utils/url"
 import menu from "../utils/menu"
 
 const AppBar = styled(MuiAppBar)`
