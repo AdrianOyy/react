@@ -8,22 +8,56 @@ import {
   TextField as MuiTextField,
   Typography,
   Grid,
-  Switch
 } from "@material-ui/core"
 
 // import CommonSelect from "../CommonSelect"
 
 import { spacing } from "@material-ui/system"
 import styled from "styled-components"
-import { KeyboardDatePicker } from "@material-ui/pickers"
-import CommonSelect from "../CommonSelect"
+import FormInput from "../FormInput"
+import FormSelect from "../FormSelect"
+import FormDate from "../FormDate"
+import { makeStyles } from "@material-ui/core/styles"
 
-const Card = styled(MuiCard)(spacing)
-const Paper = styled(MuiPaper)(spacing)
-const TextFieldSpacing = styled(MuiTextField)(spacing)
-const TextField = styled(TextFieldSpacing)`width: 200px;`
+let Card = styled(MuiCard)(spacing)
+Card = styled(Card)`border-radius: 1em; width:1200px;margin:0 auto;`
+let Paper = styled(MuiPaper)(spacing)
+Paper = styled(Paper)`margin-top:20px`
 
 const Button = styled(MuiButton)(spacing)
+
+const useStyles = makeStyles(() => ({
+  flex: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    width: '100%',
+    marginTop: '6vh'
+  },
+  grid: {
+    width: '50%',
+    height: '10vh',
+    marginBottom: '2vh',
+  },
+  nonegrid: {
+    width: '50%',
+    height: '10vh',
+    display: 'none',
+    marginBottom: '2vh',
+  },
+  allgrid: {
+    width: '100%',
+    minHeight: '10vh',
+    marginBottom: '4.5vh',
+  },
+  allnonegrid: {
+    width: '100%',
+    minHeight: '20vh',
+    marginBottom: '4.5vh',
+    display: 'none',
+  },
+}))
 
 function CommonForm(props) {
   const {
@@ -36,13 +70,23 @@ function CommonForm(props) {
     onFormFieldBlur,
     spacing,
   } = props
-  const handleDataChange = (value, id) => {
+  const classes = useStyles()
+  const handleDataChange = (e) => {
+    const data = {
+      target: {
+        value: e.value
+      }
+    }
+    console.log(e)
+    onFormFieldChange(data, e.id)
+  }
+  const handleDataBlur = (value, id) => {
     const data = {
       target: {
         value
       }
     }
-    onFormFieldChange(data, id)
+    onFormFieldBlur(data, id)
   }
   return (
     <Card mb={6}>
@@ -55,103 +99,65 @@ function CommonForm(props) {
             <Grid container spacing={spacing ? spacing : 3}>
               {
                 formFieldList && formFieldList.map((field, i) => {
+                  console.log(field)
                   switch (field.type) {
-                    case 'text':
-                      return (
-                        <TextField
-                          id={field.id.toString()}
-                          key={field.id + field.label}
-                          label={field.label}
-                          type={field.type}
-                          error={field.error || false}
-                          helperText={field.helperText || ''}
-                          disabled={field.disabled || false}
-                          variant="outlined"
-                          required={field.required || false}
-                          onChange={!field.readOnly ? (event) => onFormFieldChange(event, field.id) : null}
-                          onBlur={!field.readOnly && onFormFieldBlur ? (e) => onFormFieldBlur(e, field.id) : null}
-                          value={field.value}
-                          InputProps={{
-                            readOnly: field.readOnly
-                          }}
-                          InputLabelProps={{
-                            shrink: field.type === 'date' ? true : undefined
-                          }}
-                          style={{ marginTop: "5ch", marginRight: "10ch" }}
-                        />
-                      )
                     case 'date':
                       return (
-                        <KeyboardDatePicker
-                          clearable='true'
-                          variant="inline"
-                          inputVariant="outlined"
-                          key = {field.id + field.label}
-                          views={field.views ? field.views : undefined}
-                          format={field.views ? 'yyyy' : 'yyyy / MM / dd'}
-                          label = {field.label}
-                          error = {field.error || false}
-                          helperText = {field.helperText || ''}
-                          value = {field.value === '' ? null : field.value}
-                          style={{ marginTop: "5ch", marginRight: "10ch" }}
-                          readOnly = {field.readOnly}
-                          onChange = {handleDataChange && ((event) => handleDataChange(event, field.id))}
-                        />
-                      )
-                    case 'boolean':
-                      return  (
-                        <Switch
-                          checked={field.value}
-                          onChange={(event) => handleDataChange(event, field.id)}
-                          color="primary"
-                          key = {field.id + field.label}
-                          inputProps={{ 'aria-label': 'primary checkbox' }}
-                          style={{ marginTop: "5ch", marginRight: "10ch" }}
-                        />
+                        <div
+                          className={classes.grid}
+                          key={field.id + '_' + i}
+                          id={field.id + '_div'}
+                        >
+                          <FormDate
+                            id={field.id.toString()}
+                            label={field.label}
+                            error={field.error || false}
+                            required={field.required || false}
+                            helperText={field.helperText || ''}
+                            defaultValue={field.value === '' ? null : field.value}
+                            disabled={field.readOnly}
+                            onChange={handleDataChange}
+                          />
+                        </div>
                       )
                     case 'select':
-                      return  (
-                        <CommonSelect
-                          id = {field.id.toString()}
-                          key = {field.id + field.label}
-                          label = {field.label}
-                          error = {field.error || false}
-                          helperText = {field.helperText || ''}
-                          value={field.value || ''}
-                          disabled={field.disabled || false}
-                          outlined={true}
-                          itemList={field.itemList}
-                          labelField={field.labelField}
-                          valueField={field.valueField}
-                          width={field.width}
-                          labelWidth={field.labelWidth}
-                          hasMt={true}
-                          onSelectChange={!field.readOnly ? (event) => onFormFieldChange(event, field.id) : null}
-                        />
+                      return (
+                        <div
+                          className={classes.grid}
+                          key={field.id + '_' + i}
+                          id={field.id + '_div'}
+                        >
+                          <FormSelect
+                            id={field.id.toString()}
+                            label={field.label}
+                            error={field.error || false}
+                            helperText={field.helperText || ''}
+                            defaultValue={field.value || ''}
+                            required={field.required || false}
+                            disabled={field.disabled || false}
+                            itemList={field.itemList}
+                            labelField={field.labelField}
+                            valueField={field.valueField}
+                            onChange={handleDataChange}
+                          />
+                        </div>
                       )
                     default:
                       return (
-                        <TextField
-                          id={field.id}
-                          key={field.id + field.label}
-                          label={field.label}
-                          type={field.type}
-                          error={field.error || false}
-                          helperText={field.helperText || ''}
-                          disabled={field.disabled || false}
-                          variant="outlined"
-                          required={field.required || false}
-                          onChange={!field.readOnly ? (event) => onFormFieldChange(event, field.id) : null}
-                          onBlur={!field.readOnly && onFormFieldBlur ? (e) => onFormFieldBlur(e, field.id) : null}
-                          value={field.value}
-                          InputProps={{
-                            readOnly: field.readOnly
-                          }}
-                          InputLabelProps={{
-                            shrink: field.type === 'date' ? true : undefined
-                          }}
-                          style={{ marginTop: "5ch", marginRight: "10ch" }}
-                        />
+                        <div
+                          className={classes.grid}
+                          key={field.id + '_' + i}
+                          id={field.id + '_div'}
+                        >
+                          <FormInput
+                            id={field.id.toString()}
+                            onBur={handleDataChange}
+                            disabled={field.disabled || false}
+                            defaultValue={field.value === '' ? null : field.value}
+                            label={field.label}
+                            required={field.required}
+                          />
+                        </div>
                       )
                   }
                 })
