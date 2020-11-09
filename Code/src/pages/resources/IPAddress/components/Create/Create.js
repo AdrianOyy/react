@@ -57,12 +57,12 @@ function AssignCreate(props) {
     const list = [
       {
         id: 'ip', label: L('IP'), type: 'text', value: ip,
-        error: ipError, helperText: ipHelperText,
+        error: ipError, helperText: ipHelperText, required: true, readOnly: false
       },
       {
         id: 'dc', label: L('DC'), type: 'select', value: dc,
         itemList: dcList, labelField: 'name', valueField: 'id',
-        error: dcError, helperText: dcHelperText,
+        error: dcError, helperText: dcHelperText, required: true, readOnly: false
       },
       { id: 'hostname', label: L('Hostname'), type: 'text', required: false, readOnly: false, value: hostname },
       { id: 'projectTeam', label: L('Project Team'), type: 'text', required: false, readOnly: false, value: projectTeam },

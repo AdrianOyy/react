@@ -8,7 +8,7 @@ const menu = {
         name: 'VM',
         path: '/resources/vm/'
       },
-      ip: {
+      IPAddress: {
         name: 'IP Address',
         path: '/resources/IPAddress/',
       },
@@ -24,9 +24,9 @@ const menu = {
         name: 'Platform',
         path: '/resources/platform/',
       },
-      liftCycle: {
+      lifeCycle: {
         name: 'life Cycle',
-        path: '/resources/life-cycle/',
+        path: '/resources/lifeCycle/',
       }
     }
   },

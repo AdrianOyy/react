@@ -217,8 +217,8 @@ const resourceRoutes = {
       component: VM
     },
     {
-      path: menu.resources.children.ip.path,
-      name: menu.resources.children.ip.name,
+      path: menu.resources.children.IPAddress.path,
+      name: menu.resources.children.IPAddress.name,
       component: IPAddress
     },
     {
@@ -237,8 +237,8 @@ const resourceRoutes = {
       component: Platform
     },
     {
-      path: menu.resources.children.liftCycle.path,
-      name: menu.resources.children.liftCycle.name,
+      path: menu.resources.children.lifeCycle.path,
+      name: menu.resources.children.lifeCycle.name,
       component: LifeCycle
     },
   ]

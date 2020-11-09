@@ -1,6 +1,7 @@
 import React from "react"
 import CommonForm from '../CommonForm'
 
+
 function DetailPage(props) {
   const {
     formTitle,
@@ -10,6 +11,7 @@ function DetailPage(props) {
     onBtnClick,
     onFormFieldBlur,
   } = props
+
   return (
     <React.Fragment>
       <CommonForm
