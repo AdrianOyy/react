@@ -4,7 +4,7 @@ import { connect } from "react-redux"
 // import { darken } from "polished";
 
 import {
-  Badge,
+  // Badge,
   Grid,
   Hidden,
   // InputBase,
@@ -18,8 +18,8 @@ import {
 import { Menu as MenuIcon } from "@material-ui/icons"
 
 import {
-  Bell,
-  MessageSquare,
+  // Bell,
+  // MessageSquare,
   // Search as SearchIcon,
   Power
 } from "react-feather"
@@ -41,12 +41,12 @@ const IconButton = styled(MuiIconButton)`
   }
 `
 
-const Indicator = styled(Badge)`
-  .MuiBadge-badge {
-    background: ${props => props.theme.header.indicator.background};
-    color: ${props => props.theme.palette.common.white};
-  }
-`
+// const Indicator = styled(Badge)`
+//   .MuiBadge-badge {
+//     background: ${props => props.theme.header.indicator.background};
+//     color: ${props => props.theme.palette.common.white};
+//   }
+// `
 
 function UserMenu() {
   const [ anchorMenu, setAnchorMenu ] = useState(null)
@@ -138,16 +138,16 @@ const Header = ({ onDrawerToggle }) => {
           </Grid> */}
             <Grid item xs />
             <Grid item>
-              <IconButton color="inherit">
+              {/* <IconButton color="inherit">
                 <Indicator badgeContent={3}>
                   <MessageSquare />
                 </Indicator>
-              </IconButton>
-              <IconButton color="inherit">
+              </IconButton> */}
+              {/* <IconButton color="inherit">
                 <Indicator badgeContent={7}>
                   <Bell />
                 </Indicator>
-              </IconButton>
+              </IconButton> */}
               {/* <LanguageMenu /> */}
               <UserMenu />
             </Grid>
