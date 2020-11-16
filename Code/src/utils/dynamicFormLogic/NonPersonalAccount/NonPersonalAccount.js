@@ -40,7 +40,38 @@ export default class NonPersonalAccount {
         break
       }
     }
+    if (pass) {
+      const supervisoremailaccount = parentDataMap.get('supervisoremailaccount')
+      if (supervisoremailaccount) {
+        pass = await this.getUsersByEmails(supervisoremailaccount.value)
+      }
+    }
     return pass
+  }
+
+  async getUsersByEmails(email) {
+    if (email) {
+      const emails = email.split(',')
+      return new Promise(function(reslove, reject) {
+        Api.checkUsers({ emails }).then(({ data }) => {
+          let pass = true
+          const results = data.data
+          for (const index in results) {
+            if (!results[index]) {
+              pass = false
+              CommonTip.error(`Supervisor Email Account ${emails[index]} is not found`)
+            }
+          }
+          if (pass) {
+            reslove(true)
+          } else {
+            reject(false)
+          }
+        })
+      })
+    } else {
+      return true
+    }
   }
 
   // 处理父表数据表
