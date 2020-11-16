@@ -6,6 +6,7 @@ import {
 import { SearchBar, TablePagination, HAPaper } from '../../../../../components'
 import API from "../../../../../api/user"
 import formatDateTime from "../../../../../utils/formatDateTime"
+import formatDate from "../../../../../utils/formatDate"
 import { CommonTable } from "../../../../../components"
 import { L } from '../../../../../utils/lang'
 const tableName = L('List')
@@ -98,8 +99,8 @@ function List(props) {
   const handleSearch = () => {
     setQuery({
       surname,
-      createdAt,
-      updatedAt,
+      createdAt: formatDate(createdAt),
+      updatedAt: formatDate(updatedAt),
     })
   }
 

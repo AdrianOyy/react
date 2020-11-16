@@ -13,6 +13,7 @@ import { L } from '../../../../../utils/lang'
 import styled from "styled-components"
 import { spacing } from "@material-ui/system"
 import formatDateTime from "../../../../../utils/formatDateTime"
+import formatDate from "../../../../../utils/formatDate"
 
 const Paper = styled(MuiPaper)(spacing)
 
@@ -117,8 +118,8 @@ function List(props) {
       tenantId,
       type,
       year,
-      createdAt,
-      updatedAt,
+      createdAt: formatDate(createdAt),
+      updatedAt: formatDate(updatedAt),
     })
   }
 

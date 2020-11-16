@@ -6,6 +6,7 @@ import { SearchBar, CommonTable, TablePagination, HAPaper } from '../../../../..
 import API from "../../../../../api/tenant"
 import adGroupApi from "../../../../../api/adGroup"
 import formatDateTime from "../../../../../utils/formatDateTime"
+import formatDate from "../../../../../utils/formatDate"
 import { L } from '../../../../../utils/lang'
 
 
@@ -86,7 +87,7 @@ function List(props) {
 
   // 搜索栏字段列表
   const searchBarFieldList = [
-    { id: 'code', label: L('Code'), type: 'text', disabled: false, readOnly: false, value: name },
+    { id: 'code', label: L('Code'), type: 'text', disabled: false, readOnly: false, value: code },
     { id: 'name', label: L('Name'), type: 'text', disabled: false, readOnly: false, value: name },
     {
       id: 'managerGroupId', label: L('Manager Group'), type: 'text', disabled: false,
@@ -125,8 +126,8 @@ function List(props) {
       code,
       manager_group_id: managerGroupId,
       supporter_group_id: supporterGroupId,
-      createdAt,
-      updatedAt,
+      createdAt: formatDate(createdAt),
+      updatedAt: formatDate(updatedAt),
     })
   }
 
