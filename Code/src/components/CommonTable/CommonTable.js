@@ -216,7 +216,7 @@ function CommonTable(props) {
                       fieldList && fieldList.map((el, i) => (
                         <StyledTableCell key={el.field + '__' + i} align={el.align} >
                           {row[el.field]}
-                          {/* <div style={{ marginleft: '20px' }}>*/}
+                          {/* <div theme={{ marginleft: '20px' }}>*/}
                           {/*  {row[el.field]}*/}
                           {/* </div>*/}
                         </StyledTableCell>

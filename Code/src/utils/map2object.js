@@ -6,6 +6,15 @@ export function map2object(strMap) {
   return obj
 }
 
+export function object2map(obj) {
+  let res = new Map()
+  if (!obj) return res
+  for (let key in obj) {
+    res.set(key, obj[key])
+  }
+  return res
+}
+
 // 处理数据显示问题
 export function map2Label(strMap) {
   for (const str of strMap) {

@@ -12,7 +12,6 @@ export default class Common {
     return true
   }
 
-
   async checkForm(parentFormDetail, parentDataMap) {
     let pass = true
     // 验证必填字段
@@ -96,6 +95,10 @@ export default class Common {
 
   getContractList() {
     return false
+  }
+
+  getInitData(params) {
+    return {}
   }
 }
 

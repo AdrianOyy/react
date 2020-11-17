@@ -51,6 +51,7 @@ export default function HAInput(props) {
 
   useEffect(() => {
     defaultValue && onChange && onChange({ id, value: defaultValue })
+    // eslint-disable-next-line
   }, [ defaultValue, onChange ])
 
   useEffect(() => {

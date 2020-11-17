@@ -140,7 +140,7 @@ export default function ChatBox(props) {
         {/* {messageList.map((label) => {*/}
         {/*  return (*/}
         {/*    // eslint-disable-next-line react/jsx-key*/}
-        {/*    <DialogContentText style={{ wordBreak: 'break-word' }}>*/}
+        {/*    <DialogContentText theme={{ wordBreak: 'break-word' }}>*/}
         {/*      {formatDateTime(label.createAt)}*/}
         {/*      {label.username}*/}
         {/*      {label.message}*/}

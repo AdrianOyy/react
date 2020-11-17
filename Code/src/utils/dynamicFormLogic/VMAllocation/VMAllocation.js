@@ -184,6 +184,7 @@ export default class VMAllocation {
   // 处理子表数据表
   handleChildDefaultData(rawData, childDataListMap) {
     const childList = []
+    if (!rawData || !rawData.length) return childList
     for (let i = 0; i < rawData.length; i++) {
       const el = rawData[i]
       const childModel = {}
@@ -298,19 +299,6 @@ async function handleTenantChange(tenantData) {
             { budget_type }
           </div>
         </div>
-        {/* <div*/}
-        {/*  style={{*/}
-        {/*    display: 'flex',*/}
-        {/*    justifyContent: 'space-between'*/}
-        {/*  }}*/}
-        {/* >*/}
-        {/*  <div>*/}
-        {/*    {'Justification: '}*/}
-        {/*  </div>*/}
-        {/*  <div>*/}
-        {/*    { justification }*/}
-        {/*  </div>*/}
-        {/* </div>*/}
         <div
           style={{
             display: 'flex',

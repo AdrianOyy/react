@@ -5,7 +5,7 @@ import {
   Route,
   Link,
 } from "react-router-dom"
-import { Typography } from "@material-ui/core"
+import theme from '../../utils/theme'
 import store from "../../redux/store"
 import { setPage } from "../../redux/actions/pageActions"
 
@@ -34,10 +34,20 @@ function CommonPage(props) {
   store.subscribe(storeListener)
 
   return (
-    <div style={{ marginTop: '2em' }}>
-      <Typography variant='h3' gutterBottom display="inline">
+    <div style={{
+      marginTop: '2em',
+      display: 'flex',
+      justifyContent: 'center',
+      flexDirection: 'column',
+    }}>
+      <div style={{
+        fontSize: theme.font.important.size,
+        lineHeight: theme.font.important.lineHeight,
+        fontWeight: 'bolder',
+        color: theme.color.sub.mainText
+      }}>
         {title}
-      </Typography>
+      </div>
       <Router >
         <Link to='/' ref={linkEl} style={{ display: 'none' }}> hide link, to list page </Link>
         <Switch>

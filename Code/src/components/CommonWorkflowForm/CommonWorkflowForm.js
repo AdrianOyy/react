@@ -42,18 +42,6 @@ const Button = withStyles((() => ({
   }
 })))(HAButton)
 
-const useStyles = makeStyles(() => ({
-  buttonGroup: {
-    display: 'flex',
-    justifyContent: 'center',
-    marginTop: '14vh'
-  },
-  button: {
-    marginLeft: '1vw',
-    marginRight: '1vw',
-  }
-}))
-
 
 export default function CommonWorkflowForm(props) {
   const {
@@ -65,9 +53,21 @@ export default function CommonWorkflowForm(props) {
     taskId,
     startData
   } = props
+
+  const useStyles = makeStyles(() => ({
+    buttonGroup: {
+      display: 'flex',
+      justifyContent: 'center',
+      marginTop: '14vh'
+    },
+    button: {
+      marginLeft: '1vw',
+      marginRight: '1vw',
+    }
+  }))
+  const classes = useStyles()
   const history = useHistory()
   const container = useRef(null)
-  const classes = useStyles()
   // 业务逻辑
   const [ logic, setLogic ] = useState({})
   // 流程名称
@@ -189,9 +189,10 @@ export default function CommonWorkflowForm(props) {
     // eslint-disable-next-line
   }, [ argeeContract ])
 
-  // 获取业务逻辑
+  // 获取业务逻辑和样式
   useEffect(() => {
     setLogic(getLogic(workflowName))
+    // workflowName && setClasses(makeStyles(() => (getStyle(workflowName))))
   }, [ workflowName ])
 
 
@@ -248,7 +249,7 @@ export default function CommonWorkflowForm(props) {
       return
     }
     const { parentData, childDataList } = rawDefaultData
-    setFormId(parentData.id)
+    setFormId(parentData?.id)
     const handledParentData = logic.handleParentDefaultData(parentData, stepName)
     setParentDefaultValues(handledParentData)
     if (childFormDetail.length > 0) {
@@ -580,8 +581,9 @@ export default function CommonWorkflowForm(props) {
 
   return (
     <React.Fragment>
-      <Paper ref={container}>
+      <Paper ref={container} className={classes.paper}>
         <DIYForm
+          className={classes.parent}
           pid={pid}
           htmlId={'DynamicParentForm'}
           dataList={parentFormDetail}
@@ -618,7 +620,7 @@ export default function CommonWorkflowForm(props) {
         }
         {/* <DialogText*/}
         {/* title={'Remark'}*/}
-        {/* detail={'Please Input Remark'}*/}
+        {/* detail={'Please Textarea Remark'}*/}
         {/* label={'Remark'}*/}
         {/* open={diaLogOpen}*/}
         {/* handleSubmit={'Remark'}*/}

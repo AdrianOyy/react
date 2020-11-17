@@ -44,7 +44,7 @@ const IconButton = styled(MuiIconButton)`
 // const Indicator = styled(Badge)`
 //   .MuiBadge-badge {
 //     background: ${props => props.theme.header.indicator.background};
-//     color: ${props => props.theme.palette.common.white};
+//     color: ${props => props.theme.palette.Common.white};
 //   }
 // `
 
@@ -133,7 +133,7 @@ const Header = ({ onDrawerToggle }) => {
               <SearchIconWrapper>
                 <SearchIcon />
               </SearchIconWrapper>
-              <Input placeholder="Search topics" />
+              <Textarea placeholder="Search topics" />
             </Search>
           </Grid> */}
             <Grid item xs />
