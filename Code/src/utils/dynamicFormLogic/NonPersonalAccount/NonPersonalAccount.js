@@ -28,8 +28,12 @@ export default class NonPersonalAccount {
     let pass = true
     // 验证必填字段
     const issame = parentDataMap.get('issame')
+    let checkEmailid = false
     for (let i = 0; i < parentFormDetail.length; i++) {
       const { required, fieldName, fieldDisplayName } = parentFormDetail[i]
+      if (fieldName === 'emailid' && required) {
+        checkEmailid = true
+      }
       if (required && (!parentDataMap.get(fieldName) || !parentDataMap.get(fieldName).value)) {
         CommonTip.error(`${fieldDisplayName} is required`)
         pass = false
@@ -40,7 +44,44 @@ export default class NonPersonalAccount {
         break
       }
     }
+    if (pass) {
+      const supervisoremailaccount = parentDataMap.get('supervisoremailaccount')
+      if (supervisoremailaccount) {
+        pass = await this.getUsersByEmails(supervisoremailaccount.value)
+      }
+    }
+    if (checkEmailid && pass) {
+      const emailid = parentDataMap.get('emailid')
+      if (emailid) {
+        pass = await this.getUsersByEmails(emailid.value)
+      }
+    }
     return pass
+  }
+
+  async getUsersByEmails(email) {
+    if (email) {
+      const emails = email.split(',')
+      return new Promise(function(reslove, reject) {
+        Api.checkUsers({ emails }).then(({ data }) => {
+          let pass = true
+          const results = data.data
+          for (const index in results) {
+            if (!results[index]) {
+              pass = false
+              CommonTip.error(`Supervisor Email Account ${emails[index]} is not found`)
+            }
+          }
+          if (pass) {
+            reslove(true)
+          } else {
+            reject(false)
+          }
+        })
+      })
+    } else {
+      return true
+    }
   }
 
   // 处理父表数据表
