@@ -5,7 +5,7 @@ import {
   Button as MuiButton,
   Card as MuiCard,
   Paper as MuiPaper,
-  TextField as MuiTextField,
+  // TextField as MuiTextField,
   Typography,
   Grid,
 } from "@material-ui/core"
@@ -67,7 +67,7 @@ function CommonForm(props) {
     onFormFieldChange,
     showBtn,
     onBtnClick,
-    onFormFieldBlur,
+    // onFormFieldBlur,
     spacing,
   } = props
   const classes = useStyles()
@@ -80,14 +80,14 @@ function CommonForm(props) {
     console.log(e)
     onFormFieldChange(data, e.id)
   }
-  const handleDataBlur = (value, id) => {
-    const data = {
-      target: {
-        value
-      }
-    }
-    onFormFieldBlur(data, id)
-  }
+  // const handleDataBlur = (value, id) => {
+  //   const data = {
+  //     target: {
+  //       value
+  //     }
+  //   }
+  //   onFormFieldBlur(data, id)
+  // }
   return (
     <Card mb={6}>
       <CardContent>

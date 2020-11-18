@@ -55,18 +55,18 @@ function List(props) {
 
   // 表头字段列表
   const headCells = [
+    { id: 'name', alignment: 'left', label: L('Name') },
     { id: 'id', alignment: 'left', label: L('Model Id') },
     { id: 'version', alignment: 'left', label: L('Version') },
-    { id: 'name', alignment: 'left', label: L('Name') },
     { id: 'deploymentId', alignment: 'left', label: L('Deployment Id') },
     { id: 'action', alignment: 'center', label: L('Action') },
   ]
 
   // 每行显示的字段
   const fieldList = [
+    { field: 'name', align: 'left' },
     { field: 'id', align: 'left' },
     { field: 'version', align: 'left' },
-    { field: 'name', align: 'left' },
     { field: 'deploymentId', align: 'left' },
   ]
 
