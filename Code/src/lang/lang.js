@@ -2,6 +2,7 @@
 exports.lang = {
   ex_us: {
     Success: 'Success',
+    OK: 'OK',
     Cancel: 'Cancel',
     Save: 'Save',
     Submit: 'Submit',
@@ -104,7 +105,7 @@ exports.lang = {
     Assigment: 'Assigment',
     Policy: 'Policy',
     PowerOutput: 'Power Output',
-    PowerInput: 'Power Input',
+    PowerInput: 'Power Textarea',
     'Equipment Port': 'Equipment Port',
     /* pages aaa-service --> */
     'Created At': 'Created At',

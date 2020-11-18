@@ -36,6 +36,6 @@ export default class Loading extends Component {
     const div = document.getElementById('HALoading')
     if (!div) return
     ReactDOM.unmountComponentAtNode(div)
-    setTimeout(() => document.body.removeChild(div), 50)
+    setTimeout(() => div.remove(), 50)
   }
 }

@@ -299,11 +299,11 @@ function accountType(data, dataMap, parentFormDetail) {
   // const alias_div = document.getElementById('internet_email_alias_div')
   // const display_name_div = document.getElementById('internet_email_display_name_div')
   // if (value.indexOf('Internet Account Application') > -1) {
-  //   alias_div.style = 'display:block'
-  //   display_name_div.style = 'display:block'
+  //   alias_div.theme = 'display:block'
+  //   display_name_div.theme = 'display:block'
   // } else {
-  //   alias_div.style = 'display:none'
-  //   display_name_div.style = 'display:none'
+  //   alias_div.theme = 'display:none'
+  //   display_name_div.theme = 'display:none'
   // }
   // const User_Name = document.getElementById('user_name_div')
   // const OWA_Webmail_Hospital_home_page = document.getElementById('owa_hospital_web_div')
@@ -313,18 +313,18 @@ function accountType(data, dataMap, parentFormDetail) {
   // const Mobile_Phone_No_for_Receipt_of_SMS_OTP = document.getElementById('mobile_phone_no_for_receipt_of_sms_otp_div')
   //
   // if (value.indexOf('IBRA Account Application') > -1) {
-  //   User_Name.style = 'display:block'
-  //   OWA_Webmail_Hospital_home_page.style = 'display:block'
-  //   Clinical_Applications.style = 'display:block'
-  //   NonClinical_Applications.style = 'display:block'
-  //   AuthenticationMethod.style = 'display:block'
-  //   Mobile_Phone_No_for_Receipt_of_SMS_OTP.style = 'display:block'
+  //   User_Name.theme = 'display:block'
+  //   OWA_Webmail_Hospital_home_page.theme = 'display:block'
+  //   Clinical_Applications.theme = 'display:block'
+  //   NonClinical_Applications.theme = 'display:block'
+  //   AuthenticationMethod.theme = 'display:block'
+  //   Mobile_Phone_No_for_Receipt_of_SMS_OTP.theme = 'display:block'
   // } else {
-  //   User_Name.style = 'display:none'
-  //   OWA_Webmail_Hospital_home_page.style = 'display:none'
-  //   Clinical_Applications.style = 'display:none'
-  //   NonClinical_Applications.style = 'display:none'
-  //   AuthenticationMethod.style = 'display:none'
-  //   Mobile_Phone_No_for_Receipt_of_SMS_OTP.style = 'display:none'
+  //   User_Name.theme = 'display:none'
+  //   OWA_Webmail_Hospital_home_page.theme = 'display:none'
+  //   Clinical_Applications.theme = 'display:none'
+  //   NonClinical_Applications.theme = 'display:none'
+  //   AuthenticationMethod.theme = 'display:none'
+  //   Mobile_Phone_No_for_Receipt_of_SMS_OTP.theme = 'display:none'
   // }
 }

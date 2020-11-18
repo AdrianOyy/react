@@ -12,6 +12,7 @@ import { L } from '../../../../../utils/lang'
 import roleApi from "../../../../../api/role"
 import userApi from "../../../../../api/user"
 import formatDateTime from "../../../../../utils/formatDateTime"
+import formatDate from "../../../../../utils/formatDate"
 
 
 const tableName = L('List')
@@ -171,8 +172,8 @@ function List(props) {
       roleId: role,
       userId: user,
       expiryDate,
-      createdAt,
-      updatedAt,
+      createdAt: formatDate(createdAt),
+      updatedAt: formatDate(updatedAt),
     })
   }
 

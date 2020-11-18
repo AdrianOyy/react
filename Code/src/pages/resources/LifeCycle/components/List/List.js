@@ -8,6 +8,7 @@ import { L } from '../../../../../utils/lang'
 import { CommonTable, SearchBar, TablePagination, HAPaper } from '../../../../../components'
 import API from "../../../../../api/inventoryLifeCycle"
 import formatDateTime from "../../../../../utils/formatDateTime"
+import formatDate from "../../../../../utils/formatDate"
 
 const tableName = L('List')
 
@@ -82,8 +83,8 @@ function List(props) {
 
   const handleSearch = () => {
     setQuery({
-      createdAt,
-      updatedAt,
+      createdAt: formatDate(createdAt),
+      updatedAt: formatDate(updatedAt),
     })
   }
 

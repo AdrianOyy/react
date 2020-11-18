@@ -10,6 +10,7 @@ import adGroupApi from "../../../../../api/adGroup"
 import { L } from '../../../../../utils/lang'
 import roleApi from "../../../../../api/role"
 import formatDateTime from "../../../../../utils/formatDateTime"
+import formatDate from "../../../../../utils/formatDate"
 
 
 const tableName = L('List')
@@ -141,8 +142,8 @@ function AssignList(props) {
       tenantId: tenant,
       groupId: adGroup,
       roleId: role,
-      createdAt,
-      updatedAt,
+      createdAt: formatDate(createdAt),
+      updatedAt: formatDate(updatedAt),
     })
   }
 

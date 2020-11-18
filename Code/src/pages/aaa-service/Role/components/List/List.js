@@ -8,6 +8,7 @@ import { CommonTable, SearchBar, TablePagination, HAPaper } from '../../../../..
 import API from "../../../../../api/role"
 import { L } from '../../../../../utils/lang'
 import formatDateTime from "../../../../../utils/formatDateTime"
+import formatDate from "../../../../../utils/formatDate"
 
 const tableName = L('List')
 
@@ -90,8 +91,8 @@ function List(props) {
     setQuery({
       label,
       value,
-      createdAt,
-      updatedAt,
+      createdAt: formatDate(createdAt),
+      updatedAt: formatDate(updatedAt),
     })
   }
 

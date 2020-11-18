@@ -10,6 +10,7 @@ import tenantApi from "../../../../../api/tenant"
 import adGroupApi from "../../../../../api/adGroup"
 import { L } from '../../../../../utils/lang'
 import formatDateTime from "../../../../../utils/formatDateTime"
+import formatDate from "../../../../../utils/formatDate"
 
 const tableName = ''
 
@@ -110,8 +111,8 @@ function List(props) {
     setQuery({
       tenantId: tenant,
       groupId: adGroup,
-      createdAt,
-      updatedAt,
+      createdAt: formatDate(createdAt),
+      updatedAt: formatDate(updatedAt),
     })
   }
 
