@@ -7,10 +7,11 @@ import { DetailActions, UpdateActions } from "../../../../components/HADynamicFo
 import { Button } from "@material-ui/core"
 import { L } from "../../../lang"
 import React from "react"
-import { CREATE, UPDATE } from "../../../variable/stepName"
+import { CREATE, DETAIL, HA4 } from "../../../variable/stepName"
+import { getUser } from "../../../auth"
 
 
-class ClosingAccount extends Common {
+class NonPersonal extends Common {
   // 特殊字段验证(异步)
   async asyncCheck(field) {
     const { fieldName, required, fieldDisplayName } = field
@@ -18,6 +19,13 @@ class ClosingAccount extends Common {
       const message = `${fieldDisplayName} is required`
       this.parentFieldError.set(fieldName, message)
       return { error: true, message }
+    }
+    if (fieldName === 'alternaterecipient') {
+      if (!isEmail(this.parentData.get('alternaterecipient'))) {
+        const message = 'Incorrect Email Address'
+        this.parentFieldError.set(fieldName, message)
+        return { error: true, message }
+      }
     }
     if (fieldName === 'supervisoremailaccount') {
       if (!isEmail(this.parentData.get('supervisoremailaccount'))) {
@@ -34,9 +42,31 @@ class ClosingAccount extends Common {
     }
     return { error: false, message: '' }
   }
+  async getInitData() {
+    const user = getUser()
+    const parentInitData = new Map()
+    if (user) {
+      parentInitData.set('surname', user.cn)
+      parentInitData.set('firstname', user.sn)
+      parentInitData.set('christianname', user.givenName)
+    }
+    return { parentInitData }
+  }
+  shouldContinue(item) {
+    console.log('this.stepName=========================this.stepName')
+    console.log(this.stepName)
+    console.log('this.stepName=========================this.stepName')
+    if (this.stepName && this.stepName === CREATE && !item.showOnRequest) return true
+    if (this.stepName && this.stepName !== HA4 && item.fieldName === 'emailid') return true
+    return false
+  }
+  getDisabled(item, isParent = false) {
+    if (this.stepName === HA4 && item.fieldName === 'emailid') return false
+    return isParent ? this.disabledAllParent : this.disabledAllChild
+  }
 }
 
-class ClosingAccountDetail extends ClosingAccount {
+class NonPersonalDetail extends NonPersonal {
   // 构造函数
   constructor(props) {
     super(props)
@@ -70,7 +100,6 @@ class ClosingAccountDetail extends ClosingAccount {
   }
   // parent
 
-
   // child
   getChildFormActions(props) {
     const { onClose } = props
@@ -93,7 +122,7 @@ class ClosingAccountDetail extends ClosingAccount {
   }
 }
 
-class ClosingAccountUpdate extends ClosingAccount {
+class NonPersonalUpdate extends NonPersonal {
   // 构造函数
   constructor(props) {
     super(props)
@@ -103,7 +132,6 @@ class ClosingAccountUpdate extends ClosingAccount {
     this.hideDelete = true
     this.hideCreate = true
   }
-
   // 整体
   async getInitData() {
     const { data } = await Api.detail({ deploymentId: this.deploymentId, pid: this.pid })
@@ -128,14 +156,14 @@ class ClosingAccountUpdate extends ClosingAccount {
   }
 }
 
-export default async function getClosingLogic(props) {
+export default async function getNonPersonalLogic(props) {
   const { stepName } = props
   switch (stepName) {
     case CREATE:
-      return new ClosingAccount(props)
-    case UPDATE:
-      return new ClosingAccountUpdate(props)
+      return new NonPersonal(props)
+    case DETAIL:
+      return new NonPersonalDetail(props)
     default:
-      return new ClosingAccountDetail(props)
+      return new NonPersonalUpdate(props)
   }
 }

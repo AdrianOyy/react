@@ -1,10 +1,11 @@
-import React, { useCallback, useState, useRef } from 'react'
+import React, { useCallback, useState, useRef, useEffect } from 'react'
 import { makeStyles } from "@material-ui/core/styles"
 import getCommonStyle from "../../CommonStyle"
-import { Button, InputLabel as Label } from "@material-ui/core"
+import { Button, IconButton, InputLabel as Label, Tooltip } from "@material-ui/core"
 import CommonTip from "../../../../CommonTip"
 import Loading from "../../../../Loading"
 import SearchDialog from "./SearchDialog"
+import HighlightOffTwoToneIcon from '@material-ui/icons/HighlightOffTwoTone';
 
 function SearchInput(props) {
   const {
@@ -14,12 +15,12 @@ function SearchInput(props) {
     fieldName,
     defaultValue,
     disabled,
-    onBlur,
+    onChange,
+    show,
     asyncCheck,
     style,
     apiKey,
     apiValue,
-    show,
   } = props
 
   const inputEl = useRef(null)
@@ -28,28 +29,44 @@ function SearchInput(props) {
   const [ helperText, setHelperText ] = useState(false)
   const [ open, setOpen ] = useState(false)
   const [ dataList, setDataList ] = useState([])
+  const [ selectedList, setSelectedList ] = useState([])
 
-
-  const handleBlur = useCallback(async (e) => {
-    const { value } = e.target
-    onBlur && onBlur(fieldName, value)
-    const { error, message } = await asyncCheck(props)
-    setError(error)
-    setHelperText(message)
+  useEffect(()  => {
+    onChange && onChange(fieldName, selectedList)
+    async function asyncCheckeField() {
+      const { error, message } = await asyncCheck(props)
+      setError(error)
+      setHelperText(message)
+    }
+    asyncCheckeField(fieldName, selectedList)
     // eslint-disable-next-line
-  }, [ onBlur ])
+  }, [ selectedList ])
+
+  useEffect(() => {
+    defaultValue && setSelectedList(defaultValue)
+  }, [ defaultValue ])
 
   const onDialogClose = useCallback(() => { setOpen(false) }, [])
 
   const onDialogSelect = useCallback((data) => {
-    if (inputEl && inputEl.current) {
-      inputEl.current.value = data + ''
-    }
-    handleBlur({ target: { value: data + '' } })
-    // eslint-disable-next-line
-  }, [])
+    if (selectedList.indexOf(data) !== -1) return
+    const newSelectedList = [ ...selectedList, data + '' ]
+    setSelectedList(newSelectedList)
+  }, [ selectedList ])
 
-  const useStyles = makeStyles((theme) => (getCommonStyle(theme, style, error, helperText, disabled)))
+  const useStyles = makeStyles((theme) => ({
+    ...getCommonStyle(theme, style, error, helperText, disabled),
+    row: {
+      display: 'flex',
+      justifyContent: "space-between",
+      alignItems: 'center',
+      height: '25%',
+      padding: '0 0.5em 0 1em',
+      '&:hover': {
+        backgroundColor: '#E9EDFE',
+      }
+    }
+  }))
 
   const classes = useStyles()
 
@@ -82,16 +99,23 @@ function SearchInput(props) {
     }
   }
 
+  const handleRemove = (i) => {
+    const newList = [ ...selectedList ]
+    newList.splice(i, 1)
+    setSelectedList(newList)
+  }
+
   return (
     <>
       <div
         className={classes.root}
-        id={'element_' + fieldName}
         style={{
+          height: '13em',
           display: show ? 'block' : 'none',
           marginLeft: '2em',
           marginRight: '4em',
         }}
+        id={'element_' + fieldName}
       >
         <Label
           className={classes.label}
@@ -109,14 +133,47 @@ function SearchInput(props) {
             type="text"
             disabled={disabled}
             className={classes.input}
-            onBlur={handleBlur}
-            defaultValue={defaultValue ? defaultValue : ''}
           />
           <Button
             disabled={disabled}
             className={classes.inputCheck}
             onClick={handleCheck}
           >Check</Button>
+        </div>
+        <div
+          style={{
+            border: '1px solid #ccc',
+            height: '7em',
+            marginTop: '0.5em',
+            overflowY: 'auto',
+          }}
+        >
+          {
+            selectedList && selectedList.map((el, i) => (
+              <div
+                key={el + '_' + i}
+                className={classes.row}
+              >
+                <div style={{
+                  userSelect: 'none',
+                  MozUserSelect: 'none',
+                }}>{el}</div>
+                {
+                  !disabled && (
+                    <Tooltip title="Remove">
+                      <IconButton
+                        aria-label="edit"
+                        onClick={() => { handleRemove(i) }}
+                        disabled={disabled}
+                      >
+                        <HighlightOffTwoToneIcon fontSize="small" style={{ color: '#2553F4' }} />
+                      </IconButton>
+                    </Tooltip>
+                  )
+                }
+              </div>
+            ))
+          }
         </div>
         {
           error && helperText && (

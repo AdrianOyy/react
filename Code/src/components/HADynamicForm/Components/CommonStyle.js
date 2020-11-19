@@ -1,7 +1,5 @@
 import { fade } from "@material-ui/core/styles"
 import fontFamily from "../../../utils/fontFamily"
-import { Button } from "@material-ui/core"
-import React from "react"
 
 function getCommonStyle(theme, style, error, helperText, disabled = false) {
   return {
@@ -10,7 +8,7 @@ function getCommonStyle(theme, style, error, helperText, disabled = false) {
       maxWidth: '300px',
       boxSizing: 'border-box',
       height: '5.5em',
-      marginBottom: '1em',
+      marginBottom: '2.5em',
     }, style ? style.root : {}),
     label: Object.assign({}, style ? style.label : {}),
     input: Object.assign({
