@@ -2,7 +2,7 @@ import React, { memo } from "react"
 import path from '../../../../../utils/path'
 import { useParams, useLocation } from "react-router-dom"
 import HADynamicForm from "../../../../../components/HADynamicForm"
-import { UPDATE } from "../../../../../utils/variable/stepName"
+// import { UPDATE } from "../../../../../utils/variable/stepName"
 import getStepName from "../../../../../utils/getStepName"
 
 const DynamicForm = memo(HADynamicForm)

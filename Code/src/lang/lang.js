@@ -2,7 +2,6 @@
 exports.lang = {
   ex_us: {
     Success: 'Success',
-    OK: 'OK',
     Cancel: 'Cancel',
     Save: 'Save',
     Submit: 'Submit',
@@ -105,11 +104,11 @@ exports.lang = {
     Assigment: 'Assigment',
     Policy: 'Policy',
     PowerOutput: 'Power Output',
-    PowerInput: 'Power Textarea',
+    PowerInput: 'Power Input',
     'Equipment Port': 'Equipment Port',
     /* pages aaa-service --> */
-    'Created At': 'Created At',
-    'Updated At': 'Updated At',
+    'Created At': 'Created Date',
+    'Updated At': 'Updated Date',
     Resource: 'Resource',
     'AAA Service': 'AAA Service',
     'AD Group': 'AD Group',
@@ -142,8 +141,8 @@ exports.lang = {
     Quota: 'Quota',
     Year: 'Year',
     Type: 'Type',
-    windows: 'windows',
-    linux: 'linux',
+    windows: 'Windows',
+    linux: 'Linux',
     'private cloud': 'private cloud',
     Allocation: 'Allocation',
     'Tenant Quota Mapping': 'Tenant Quota Mapping',
