@@ -69,7 +69,14 @@ function List(props) {
 
   const searchBarFieldList = [
     { id: 'label', label: L('Label'), type: 'text', disabled: false, readOnly: false, value: label },
-    { id: 'value', label: L('Value'), type: 'text', disabled: false, readOnly: false, value },
+    { id: 'value', label: L('Value'), type: 'text', disabled: false, value, isSelector: true,
+      itemList: [
+        { name: L("Read Only"), id: "Read Only" },
+        { name: L("Read & Write"), id: "Read && Write" },
+      ],
+      labelField: 'name',
+      valueField: 'id'
+    },
     { id: 'createdAt', label: L('Created At'), type: 'date', disabled: false, readOnly: false, value: createdAt },
     { id: 'updatedAt', label: L('Updated At'), type: 'date', disabled: false, readOnly: false, value: updatedAt },
   ]

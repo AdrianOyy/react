@@ -42,7 +42,6 @@ export default function FormInput(props) {
     rowsMax,
     rowsMin,
   } = props
-  console.log(required, id)
   // useEffect(() => {
   //   defaultValue && onBlur && onBlur({ id, value: defaultValue })
   // }, [ defaultValue, onBlur, id ])

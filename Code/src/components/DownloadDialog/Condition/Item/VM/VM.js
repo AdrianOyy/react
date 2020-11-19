@@ -3,6 +3,7 @@ import DateRangePicker from "../../../../DateRangePicker"
 import { InputLabel as Label, TextField } from "@material-ui/core"
 import withStyles from "@material-ui/core/styles/withStyles"
 import api from "../../../../../api/vm"
+import formatDate from "../../../../../utils/formatDate"
 
 const fontFamily = [
   '-apple-system',
@@ -38,10 +39,10 @@ export default function VM(props) {
   const [ serialNumber, setSerialNumber ] = useState('')
 
   const onCreatedAtChange = (startDate, endDate) => {
-    setCreatedAt([ startDate, endDate ])
+    setCreatedAt([ formatDate(startDate), formatDate(endDate) ])
   }
   const onUpdatedAtChange = (startDate, endDate) => {
-    setUpdatedAt([ startDate, endDate ])
+    setUpdatedAt([ formatDate(startDate), formatDate(endDate) ])
   }
   const onSerialNumberChange = (e) => {
     setSerialNumber(e.target.value)
