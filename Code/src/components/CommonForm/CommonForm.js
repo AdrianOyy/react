@@ -18,11 +18,12 @@ import FormInput from "../FormInput"
 import FormSelect from "../FormSelect"
 import FormDate from "../FormDate"
 import { makeStyles } from "@material-ui/core/styles"
+import { useHistory } from "react-router-dom"
 
 let Card = styled(MuiCard)(spacing)
-Card = styled(Card)`border-radius: 1em; width:1200px;margin:0 auto;`
+Card = styled(Card)`border-radius: 1em; width:70%; margin:0 auto;`
 let Paper = styled(MuiPaper)(spacing)
-Paper = styled(Paper)`margin-top:20px`
+Paper = styled(Paper)`margin:20px`
 
 const Button = styled(MuiButton)(spacing)
 
@@ -39,6 +40,7 @@ const useStyles = makeStyles(() => ({
     width: '50%',
     height: '10vh',
     marginBottom: '2vh',
+    padding: '1em 1em',
   },
   nonegrid: {
     width: '50%',
@@ -70,6 +72,7 @@ function CommonForm(props) {
     // onFormFieldBlur,
     spacing,
   } = props
+  const history = useHistory()
   const classes = useStyles()
   const handleDataChange = (e) => {
     const data = {
@@ -77,7 +80,6 @@ function CommonForm(props) {
         value: e.value
       }
     }
-    console.log(e)
     onFormFieldChange(data, e.id)
   }
   // const handleDataBlur = (value, id) => {
@@ -91,7 +93,7 @@ function CommonForm(props) {
   return (
     <Card mb={6}>
       <CardContent>
-        <Typography variant={titleLevel ? `h${titleLevel}` : 'h2'} gutterBottom>
+        <Typography variant={titleLevel ? `h${titleLevel}` : 'h2'} gutterBottom >
           { formTitle }
         </Typography>
         <Paper mt={0}>
@@ -99,7 +101,6 @@ function CommonForm(props) {
             <Grid container spacing={spacing ? spacing : 3}>
               {
                 formFieldList && formFieldList.map((field, i) => {
-                  console.log(field)
                   switch (field.type) {
                     case 'date':
                       return (
@@ -151,7 +152,8 @@ function CommonForm(props) {
                         >
                           <FormInput
                             id={field.id.toString()}
-                            onBur={handleDataChange}
+                            onBlur={handleDataChange}
+                            style={{ padding: '0 1em' }}
                             disabled={field.disabled || false}
                             defaultValue={field.value === '' ? null : field.value}
                             label={field.label}
@@ -179,6 +181,14 @@ function CommonForm(props) {
                 variant="contained"
                 onClick={() => onBtnClick()}>
                 Save
+              </Button>
+              <Button
+                style={{ marginLeft: '2ch' }}
+                variant="contained"
+                onClick={() => {
+                  history.push({ pathname: '/' })
+                }}>
+                Cancel
               </Button>
             </Grid>
           )

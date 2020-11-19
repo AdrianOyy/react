@@ -50,10 +50,13 @@ function RoleCreate(props) {
         id: 'value',
         label: L('Value'),
         type: 'select',
-        value, itemList: [
-          { label: L("Read Only"), value: "Read Only" },
-          { label: L("Read & Write"), value: "Read && Write" },
+        value,
+        itemList: [
+          { name: L("Read Only"), id: "Read Only" },
+          { name: L("Read & Write"), id: "Read && Write" },
         ],
+        labelField: 'name',
+        valueField: 'id',
         error: valueError,
         helperText: valueHelperText
       },
