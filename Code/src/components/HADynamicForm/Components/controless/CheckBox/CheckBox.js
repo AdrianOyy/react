@@ -92,7 +92,6 @@ export default function HACheckBox(props) {
       maxWidth: '900px',
       boxSizing: 'border-box',
       marginBottom: '2em',
-      display: show ? 'block' : 'none',
       marginLeft: '2em',
       marginRight: '4em',
     }} id={'element_' + fieldName}>

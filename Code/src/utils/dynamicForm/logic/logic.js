@@ -8,6 +8,7 @@ import getCommon from "./Common"
 import getClosingLogic from "./ClosingAccount"
 import getAccountLogic from "./Account"
 import getNonPersonalLogic from "./NonPersonal"
+import getDistributionLogic from "./Distribution"
 
 async function getLogic(workflowName, props) {
   switch (workflowName) {
@@ -19,8 +20,8 @@ async function getLogic(workflowName, props) {
       return new getAccountLogic(props)
     case 'Non-Personal Account':
       return getNonPersonalLogic(props)
-    // case 'Distribution List':
-    //   return new DistributionList()
+    case 'Distribution List':
+      return getDistributionLogic(props)
     case 'Closing Account':
       return getClosingLogic(props)
     default:

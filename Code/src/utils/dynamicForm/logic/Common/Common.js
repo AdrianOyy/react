@@ -221,6 +221,7 @@ export class Common {
 
   shouldContinue(item) {
     if (this.stepName && this.stepName === CREATE && !item.showOnRequest) return true
+    return false
   }
 
   getDisabled(item, isParent = false) {

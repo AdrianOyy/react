@@ -1,16 +1,19 @@
 import React, { useCallback, useState } from 'react'
 import { makeStyles } from "@material-ui/core/styles"
 import getCommonStyle from "../../CommonStyle"
+import { KeyboardDatePicker } from "@material-ui/pickers"
+import { InputLabel as Label, Tooltip } from "@material-ui/core"
 
 function DatePicker(props) {
   const {
     id,
     required,
-    label,
+    fieldDisplayName,
+    abbrFieldName,
     fieldName,
     defaultValue,
     disabled,
-    onBlur,
+    onChange,
     checkField,
     style,
   } = props
@@ -19,18 +22,59 @@ function DatePicker(props) {
   const [ helperText, setHelperText ] = useState(false)
 
 
-  const handleBlur = useCallback(async (e) => {
+  const handleChange = useCallback(async (e) => {
     const { value } = e.target
-    onBlur && onBlur(fieldName, value)
+    onChange && onChange(fieldName, value)
     if (checkField) {
       const { error, message } = checkField(props)
       setError(error)
       setHelperText(message)
     }
     // eslint-disable-next-line
-  }, [ onBlur ])
+  }, [ onChange ])
 
   const useStyles = makeStyles((theme) => (getCommonStyle(theme, style, error, helperText, disabled)))
+
+  const classes = useStyles()
+
+  return (
+    <div className={classes.root}>
+      {
+        fieldDisplayName && fieldDisplayName.length > 40
+          ? (
+            <Tooltip title={fieldDisplayName}>
+              <Label
+                className={classes.label}
+                htmlFor={id}
+                id={id + 'label'}
+              >
+                { required && (<font color="red">*</font>)}
+                {abbrFieldName + ':'}
+              </Label>
+            </Tooltip>
+          )
+          : (
+            <Label
+              className={classes.label}
+              htmlFor={id}
+              id={id + 'label'}
+            >
+              { required && (<font color="red">*</font>)}
+              {abbrFieldName + ':'}
+            </Label>)
+      }
+      <div>
+        <div style={{ width: '1vw' }}></div>
+        <KeyboardDatePicker
+          clearable
+          defaultValue={defaultValue ? defaultValue : null}
+          onChange={date => handleChange(date)}
+          minDate={new Date()}
+          format="MM/dd/yyyy"
+        />
+      </div>
+    </div>
+  )
 }
 
 export default DatePicker
