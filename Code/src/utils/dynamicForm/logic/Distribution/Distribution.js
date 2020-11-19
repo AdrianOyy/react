@@ -1,39 +1,31 @@
 import { Common } from "../Common"
-import { isEmail } from "../../../regex"
-import accountManagementAPI from "../../../../api/accountManagement"
 import Api from "../../../../api/diyForm"
 import { object2map } from "../../../map2object"
 import { DetailActions, UpdateActions } from "../../../../components/HADynamicForm/Components/Actions"
 import { Button } from "@material-ui/core"
 import { L } from "../../../lang"
 import React from "react"
-import { CREATE, DETAIL, HA4 } from "../../../variable/stepName"
-import { getUser } from "../../../auth"
+import { CREATE, UPDATE } from "../../../variable/stepName"
+import { isEmail } from "../../../regex"
+import accountManagementAPI from "../../../../api/accountManagement"
 
 
-class NonPersonal extends Common {
+class Distribution extends Common {
+
+
+  shouldContinue(item) {
+    if (this.stepName && this.stepName === CREATE && !item.showOnRequest) return true
+    if (this.stepName && this.stepName !== CREATE && item.fieldName === 'hkid') return true
+    return false
+  }
+
   // 特殊字段验证(异步)
   async asyncCheck(field) {
-    const { show, fieldName, required, fieldDisplayName } = field
-    if (!show) return { error: false, message: '' }
-    if (required && this.isEmpty(fieldName)) {
+    const { fieldName, required, fieldDisplayName, show } = field
+    if (show && required && this.isEmpty(fieldName)) {
       const message = `${fieldDisplayName} is required`
       this.parentFieldError.set(fieldName, message)
       return { error: true, message }
-    }
-    if (fieldName === 'alternaterecipient') {
-      if (!isEmail(this.parentData.get('alternaterecipient'))) {
-        const message = 'Incorrect Email Address'
-        this.parentFieldError.set(fieldName, message)
-        return { error: true, message }
-      }
-    }
-    if (fieldName === 'owneremail') {
-      if (!isEmail(this.parentData.get('owneremail'))) {
-        const message = 'Incorrect Email Address'
-        this.parentFieldError.set(fieldName, message)
-        return { error: true, message }
-      }
     }
     if (fieldName === 'supervisoremailaccount') {
       if (!isEmail(this.parentData.get('supervisoremailaccount'))) {
@@ -50,43 +42,9 @@ class NonPersonal extends Common {
     }
     return { error: false, message: '' }
   }
-
-  async getInitData() {
-    const user = getUser()
-    const parentInitData = new Map()
-    if (user) {
-      parentInitData.set('surname', user.cn)
-      parentInitData.set('firstname', user.sn)
-      parentInitData.set('christianname', user.givenName)
-    }
-    return { parentInitData }
-  }
-
-  shouldContinue(item) {
-    if (this.stepName && this.stepName === CREATE && !item.showOnRequest) return true
-    if (this.stepName && this.stepName !== HA4 && item.fieldName === 'emailid') return true
-    return false
-  }
-
-  getDisabled(item, isParent = false) {
-    if (this.stepName === HA4 && item.fieldName === 'emailid') return false
-    return isParent ? this.disabledAllParent : this.disabledAllChild
-  }
-
-  onParentFieldChange(fieldName, value) {
-    if (fieldName === 'issame') {
-      const id = 'element_' +  this.remarkedItem.get('issame')
-      const el = document.getElementById(id)
-      el && (el.style.display = value.size ? 'none' : 'block')
-      const [ item ] = this.parentInitDetail.filter(e => e.remark === fieldName)
-      item.show = !value.size
-    }
-    this.parentData.set(fieldName, value)
-    return value
-  }
 }
 
-class NonPersonalDetail extends NonPersonal {
+class DistributionDetail extends Distribution {
   // 构造函数
   constructor(props) {
     super(props)
@@ -105,6 +63,9 @@ class NonPersonalDetail extends NonPersonal {
     if (parentData) {
       parentInitData = object2map(parentData)
     }
+    console.log('parentInitData=========================parentInitData')
+    console.log(parentInitData)
+    console.log('parentInitData=========================parentInitData')
     if (childDataList && childDataList.length) {
       childDataList.forEach(childData => {
         childInitData.push(object2map(childData))
@@ -119,6 +80,7 @@ class NonPersonalDetail extends NonPersonal {
     )
   }
   // parent
+
 
   // child
   getChildFormActions(props) {
@@ -142,7 +104,7 @@ class NonPersonalDetail extends NonPersonal {
   }
 }
 
-class NonPersonalUpdate extends NonPersonal {
+class DistributionUpdate extends Distribution {
   // 构造函数
   constructor(props) {
     super(props)
@@ -152,6 +114,7 @@ class NonPersonalUpdate extends NonPersonal {
     this.hideDelete = true
     this.hideCreate = true
   }
+
   // 整体
   async getInitData() {
     const { data } = await Api.detail({ deploymentId: this.deploymentId, pid: this.pid })
@@ -176,14 +139,14 @@ class NonPersonalUpdate extends NonPersonal {
   }
 }
 
-export default async function getNonPersonalLogic(props) {
+export default async function getDistributionLogic(props) {
   const { stepName } = props
   switch (stepName) {
     case CREATE:
-      return new NonPersonal(props)
-    case DETAIL:
-      return new NonPersonalDetail(props)
+      return new Distribution(props)
+    case UPDATE:
+      return new DistributionUpdate(props)
     default:
-      return new NonPersonalUpdate(props)
+      return new DistributionDetail(props)
   }
 }

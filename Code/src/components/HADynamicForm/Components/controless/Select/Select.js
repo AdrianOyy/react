@@ -42,7 +42,6 @@ export default function Select(props) {
       className={classes.root}
       id={'element_' + fieldName}
       style={{
-        display: show ? 'block' : 'none',
         marginLeft: '2em',
         marginRight: '4em',
       }}

@@ -15,9 +15,9 @@ export default function HAInput(props) {
     defaultValue,
     disabled,
     onBlur,
-    checkField,
     style,
     abbrFieldName,
+    asyncCheck,
     show,
   } = props
 
@@ -28,8 +28,8 @@ export default function HAInput(props) {
   const handleBlur = useCallback(async (e) => {
     const { value } = e.target
     onBlur && onBlur(fieldName, value)
-    if (checkField) {
-      const { error, message } = checkField(props)
+    if (asyncCheck) {
+      const { error, message } = await asyncCheck(props)
       setError(error)
       setHelperText(message)
     }
@@ -45,7 +45,6 @@ export default function HAInput(props) {
       className={classes.root}
       id={'element_' + fieldName}
       style={{
-        display: show ? 'block' : 'none',
         marginLeft: '2em',
         marginRight: '4em',
       }}

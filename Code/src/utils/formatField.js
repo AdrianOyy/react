@@ -6,7 +6,7 @@ export default function formatField(field) {
   if (!fieldName) return field
   let abbrFieldName = fieldDisplayName
   if (fieldDisplayName.length > 40) {
-    abbrFieldName = fieldDisplayName.slice(0, 31) + ' ...'
+    abbrFieldName = fieldDisplayName.slice(0, 31) + ' ... '
   }
   field.abbrFieldName = abbrFieldName
   switch (fieldName) {
@@ -31,7 +31,7 @@ export default function formatField(field) {
       break
     case 'acceptmessagesfrom':
       field.apiKey = accountAPI.findUsers
-      field.apiValue = { returnType: 'distribution' }
+      field.apiValue = { returnType: 'user' }
       break
     case 'rejectmessagesfrom':
       field.apiKey = accountAPI.findUsers
@@ -40,6 +40,14 @@ export default function formatField(field) {
     case 'emailid':
       field.apiKey = accountAPI.findUsers
       field.apiValue = { returnType: 'user' }
+      break
+    case 'members':
+      field.apiKey = accountAPI.findUsers
+      field.apiValue = { returnType: 'user' }
+      break
+    case 'memberof':
+      field.apiKey = accountAPI.findUsers
+      field.apiValue = { returnType: 'distributions' }
       break
     default:
       break

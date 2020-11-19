@@ -5,13 +5,14 @@ import { Button, IconButton, InputLabel as Label, Tooltip } from "@material-ui/c
 import CommonTip from "../../../../CommonTip"
 import Loading from "../../../../Loading"
 import SearchDialog from "./SearchDialog"
-import HighlightOffTwoToneIcon from '@material-ui/icons/HighlightOffTwoTone';
+import HighlightOffTwoToneIcon from '@material-ui/icons/HighlightOffTwoTone'
 
 function SearchInput(props) {
   const {
     id,
     required,
-    label,
+    fieldDisplayName,
+    abbrFieldName,
     fieldName,
     defaultValue,
     disabled,
@@ -111,20 +112,35 @@ function SearchInput(props) {
         className={classes.root}
         style={{
           height: '13em',
-          display: show ? 'block' : 'none',
           marginLeft: '2em',
           marginRight: '4em',
         }}
         id={'element_' + fieldName}
       >
-        <Label
-          className={classes.label}
-          htmlFor={id}
-          id={id + 'label'}
-        >
-          { required && (<font color="red">*</font>)}
-          {label + ':'}
-        </Label>
+        {
+          fieldDisplayName && fieldDisplayName.length > 40
+            ? (
+              <Tooltip title={fieldDisplayName}>
+                <Label
+                  className={classes.label}
+                  htmlFor={id}
+                  id={id + 'label'}
+                >
+                  { required && (<font color="red">*</font>)}
+                  {abbrFieldName + ':'}
+                </Label>
+              </Tooltip>
+            )
+            : (
+              <Label
+                className={classes.label}
+                htmlFor={id}
+                id={id + 'label'}
+              >
+                { required && (<font color="red">*</font>)}
+                {abbrFieldName + ':'}
+              </Label>)
+        }
         <div style={{ width: '1vw' }} />
         <div style={{ display: 'flex', alignItems: 'flex-end' }}>
           <input
