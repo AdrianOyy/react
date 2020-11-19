@@ -11,6 +11,7 @@ import API from "../../../../../api/workFlow"
 import { useHistory } from "react-router-dom"
 import { getUserGroupList } from "../../../../../utils/auth"
 import formatDateTime from "../../../../../utils/formatDateTime"
+import formatDate from "../../../../../utils/formatDate"
 import {
   BorderColorOutlined as BorderColorIcon,
   Reorder as ReorderIcon,
@@ -36,7 +37,7 @@ function List(props) {
 
   useEffect(() => {
     const groupList = getUserGroupList()
-    API.getTaskListByGroup({ groupList, limit: rowsPerPage, page: page + 1 }).then(response => {
+    API.getTaskListByGroup({ ...query, groupList, limit: rowsPerPage, page: page + 1 }).then(response => {
       setTotal(response.data.data.total)
       handleData(response.data.data.list)
     })
@@ -82,8 +83,8 @@ function List(props) {
   ]
 
   const searchBarFieldList = [
-    { id: 'startTime', label: L('Start Date'), type: 'date', disabled: false, readOnly: false, value: startTime },
-    { id: 'endTime', label: L('End Date'), type: 'date', disabled: false, readOnly: false, value: endTime },
+    { id: 'startTime', label: L('Create Time'), type: 'date', disabled: false, readOnly: false, value: startTime },
+    // { id: 'endTime', label: L('End Date'), type: 'date', disabled: false, readOnly: false, value: endTime },
   ]
 
   const handleClear = () => {
@@ -97,8 +98,8 @@ function List(props) {
 
   const handleSearch = () => {
     setQuery({
-      startTime,
-      endTime,
+      createTime: formatDate(startTime),
+      //endTime: formatDate(endTime),
     })
   }
 
