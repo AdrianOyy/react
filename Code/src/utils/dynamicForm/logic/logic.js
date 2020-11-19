@@ -6,20 +6,19 @@ import getVMLogic from "./VMAllocation"
 // import ClosingAccount from "./ClosingAccount"
 import getCommon from "./Common"
 import getClosingLogic from "./ClosingAccount"
+import getAccountLogic from "./Account"
+import getNonPersonalLogic from "./NonPersonal"
 
 async function getLogic(workflowName, props) {
-  console.log('workflowName=========================workflowName')
-  console.log(workflowName)
-  console.log('workflowName=========================workflowName')
   switch (workflowName) {
     case 'VM Allocation':
       return getVMLogic(props)
     // case 'WorkflowSetting':
     //   return new WorkflowSetting()
-    // case 'Account management':
-    //   return new AccountManagement()
-    // case 'Non-Personal Account':
-    //   return new NonPersonalAccount()
+    case 'Account management':
+      return new getAccountLogic(props)
+    case 'Non-Personal Account':
+      return getNonPersonalLogic(props)
     // case 'Distribution List':
     //   return new DistributionList()
     case 'Closing Account':

@@ -397,7 +397,7 @@ function Detail() {
   return (
     <React.Fragment>
       <DetailPage
-        formTitle = 'Network'
+        formTitle = ''
         onFormFieldChange = {onFormFieldChange}
         formFieldList = {inventory}
       />

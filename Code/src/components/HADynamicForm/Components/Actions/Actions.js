@@ -13,15 +13,16 @@ export function CommonActions(props) {
     history,
   } = props
   const handleSave = async () => {
-    if (!logic.checkAllParentField()) {
+    const checkRes = await logic.checkAllParentField()
+    if (!checkRes) {
       CommonTip.error("Please check your data")
       return
     }
     logic.childrenDataList && logic.childrenDataList.forEach(el => {
       el.set('status', UNHANDLED.value)
     })
-    Loading.show()
     const form = logic.getFormData()
+    Loading.show()
     API.create(form)
       .then(() => {
         CommonTip.success(L('Success'))
@@ -97,7 +98,8 @@ export function UpdateActions(props) {
   } = props
   const [ openReject, setOpenReject ] = useState(false)
   const handleUpdate = async () => {
-    if (!logic.checkAllParentField()) {
+    const res = await logic.checkAllParentField()
+    if (!res) {
       CommonTip.error("Please check your data")
       return
     }
@@ -168,7 +170,8 @@ export function VMT3Actions(props) {
     history,
   } = props
   const handleSave = async () => {
-    if (!logic.checkAllParentField()) {
+    const res = await logic.checkAllParentField()
+    if (!res) {
       CommonTip.error("Please check your data")
       return
     }

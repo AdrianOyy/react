@@ -2,7 +2,7 @@ import React from "react"
 import {
   Button,
 } from "@material-ui/core"
-import { CREATE, UPDATE } from "../../../variable/stepName"
+import { CREATE, DETAIL } from "../../../variable/stepName"
 import { cloneMap1 } from "../../../clone"
 import { map2object, object2map } from "../../../map2object"
 import {
@@ -28,6 +28,7 @@ export class Common {
     this.isEmpty = this.isEmpty.bind(this)
     this.deleteChild = this.deleteChild.bind(this)
     this.deleteAllChild = this.deleteAllChild.bind(this)
+    this.asyncCheck = this.asyncCheck.bind(this)
     const {
       processDefinitionId,
       workflowName,
@@ -69,6 +70,8 @@ export class Common {
     this.hideCheckBox = false
     this.hideDelete = false
     this.hideCreate = false
+    this.remarkedItem = new Map()
+    this.parentInitDetail = []
   }
 
   //  =====================================
@@ -82,6 +85,11 @@ export class Common {
 
   // 插入 Dom
   insertDom() {}
+
+  // 获取 checkBox 联动状态
+  getCheckBoxStatus() {
+    return new Map()
+  }
 
   getFormData() {
     const parentData = map2object(this.parentData)
@@ -114,12 +122,47 @@ export class Common {
     )
   }
 
+  // 异步字段验证
+  asyncCheck() {
+    return { error: false, message: '' }
+  }
+
   formatFormData(data, isParent = false) {
     for (let key in data) {
+      let value = data[key]
+      let type = 'text'
+      const [ target ] = this.parentInitDetail.filter(el => el.fieldName === key)
+      if (target) {
+        type = target.type
+      }
+      if (type === 'checkbox') {
+        const { itemList } = target
+        const typeList = []
+        if (value && value instanceof Set) {
+          value.forEach(el => {
+            const [ target ] = itemList.filter(e => e.id === el)
+            if (target) {
+              typeList.push(target.type)
+            }
+          })
+          let str = ''
+          typeList.forEach(s => {
+            str += '!@#' + s
+          })
+          value = str.slice(3)
+        }
+      }
+      if (type === 'list') {
+        let str = ''
+        value && value.length && value.forEach(el => {
+          str += '!@#' + el
+        })
+        value = str.slice(3)
+      }
       data[key] = {
         id: key,
-        value: data[key],
-        label: isParent ? this.getParentLabelValue(key, data[key]) : this.getChildLabelValue(key, data[key])
+        value,
+        label: isParent ? this.getParentLabelValue(key, value) : this.getChildLabelValue(key, value)
       }
     }
   }
@@ -134,38 +177,70 @@ export class Common {
     return this.parentFormKey
   }
 
-  // 整合父表初始数据和结构
-  getParentInitDetail(parentInitData) {
-    if (!this.parentFormDetail || !this.parentFormDetail.length || !parentInitData) return []
-    const res = []
-    for (const item of this.parentFormDetail) {
-      if (this.stepName && this.stepName === CREATE && !item.showOnRequest) continue
-      const defaultValue = parentInitData.get(item.fieldName)
-      const newItem = {
-        ...item,
-        defaultValue,
-        disabled: this.disabledAllParent
-      }
-      res.push(newItem)
-    }
-    return res
-  }
-
   // 父表字段数据变更
   onParentFieldChange(fieldName, value) {
     this.parentData.set(fieldName, value)
     return value
   }
 
+  // 整合父表初始数据和结构
+  getParentInitDetail(parentInitData) {
+    if (!this.parentFormDetail || !this.parentFormDetail.length || !parentInitData) return []
+    const res = []
+    const remarkedItem = new Map()
+    for (const item of this.parentFormDetail) {
+      if (this.shouldContinue(item)) continue
+      const disabled = this.getDisabled(item, true)
+      let defaultValue
+      if (item && item.type === "checkbox") {
+        defaultValue = parentInitData.get(item.fieldName) && parentInitData.get(item.fieldName).split('!@#')
+      } else if (item && item.type === 'list') {
+        defaultValue = parentInitData.get(item.fieldName) && parentInitData.get(item.fieldName).split('!@#')
+      } else {
+        defaultValue = parentInitData.get(item.fieldName)
+      }
+      const newItem = {
+        ...item,
+        show: true,
+        defaultValue,
+        disabled,
+      }
+      if (newItem.remark) {
+        if (remarkedItem.has(newItem.remark)) {
+          remarkedItem.set(remarkedItem.get(newItem.remark).push(newItem.fieldName))
+        } else {
+          remarkedItem.set(item.remark, [ newItem.fieldName ])
+        }
+      }
+      res.push(newItem)
+    }
+    this.parentInitDetail = res
+    this.remarkedItem = remarkedItem
+    return res
+  }
+
+  shouldContinue(item) {
+    if (this.stepName && this.stepName === CREATE && !item.showOnRequest) return true
+  }
+
+  getDisabled(item, isParent = false) {
+    return isParent ? this.disabledAllParent : this.disabledAllChild
+  }
+
   // 验证父表字段是否为空
   isEmpty(fieldName) {
-    return !this.parentData.get(fieldName)
+    const value = this.parentData.get(fieldName)
+    if (!value) return true
+    if (value instanceof Set && value.size === 0) return true
+    if (value instanceof Map && value.size === 0) return true
+    if (value instanceof Array && value.length === 0) return true
+    return false
   }
 
   // 验证父表字段
   checkParentField(field) {
-    const { fieldName, required, fieldDisplayName } = field
-    if (required && this.isEmpty(fieldName)) {
+    const { fieldName, required, fieldDisplayName, show } = field
+    if (show && required && this.isEmpty(fieldName)) {
       const message = `${fieldDisplayName} is required`
       this.parentFieldError.set(fieldName, message)
       return { error: true, message }
@@ -175,10 +250,12 @@ export class Common {
   }
 
   // 验证父表所有字段
-  checkAllParentField() {
-    for (let i = 0; i < this.parentFormDetail.length; i++) {
-      const field = this.parentFormDetail[i]
-      const { error } = this.checkParentField(field)
+  async checkAllParentField() {
+    for (let i = 0; i < this.parentInitDetail.length; i++) {
+      const field = this.parentInitDetail[i]
+      let { error } = this.checkParentField(field)
+      const asyncErrorResult = await this.asyncCheck(field)
+      error = error || asyncErrorResult.error
       if (error) {
         return false
       }
@@ -250,7 +327,8 @@ export class Common {
     const res = []
     const success = initData.get("status") === SUCCESS.value
     for (const item of this.childFormDetail) {
-      if (this.stepName && this.stepName === CREATE && !item.showOnRequest) continue
+      if (this.shouldContinue(item)) continue
+      this.getDisabled(item)
       const defaultValue = initData.get(item.fieldName)
       const newItem = {
         ...item,
@@ -485,10 +563,10 @@ export default function getCommon(props) {
   switch (stepName) {
     case CREATE:
       return new Common(props)
-    case UPDATE:
-      return new CommonUpdate(props)
-    default:
+    case DETAIL:
       return new CommonDetail(props)
+    default:
+      return new CommonUpdate(props)
   }
 }
 

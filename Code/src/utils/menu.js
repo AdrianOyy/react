@@ -13,7 +13,7 @@ const menu = {
         path: '/resources/IPAddress/',
       },
       network: {
-        name: 'network',
+        name: 'Network',
         path: '/resources/network/',
       },
       server: {

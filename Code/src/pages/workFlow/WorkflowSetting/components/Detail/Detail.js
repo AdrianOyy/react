@@ -119,7 +119,14 @@ export default function MaterialTableDemo() {
       },
       {
         fieldDisplayName: L("Input Type"), fieldName: "inputType", type: "select", valueField: 'id', labelField: 'value', showRequest: true, required: false,
-        itemList: [{ id: 'text', value: 'text' }, { id: 'checkbox', value: 'checkbox' }, { id: 'select', value: 'select' }, { id: 'date', value: 'date' }]
+        itemList: [
+          { id: 'text', value: 'text' },
+          { id: 'checkbox', value: 'checkbox' },
+          { id: 'select', value: 'select' },
+          { id: 'date', value: 'date' },
+          { id: 'list', value: 'list' },
+          { id: 'inputCheck', value: 'inputCheck' },
+        ]
       },
       {
         fieldDisplayName: L("Show On Request"), fieldName: "showOnRequest", type: "select", valueField: 'id', labelField: 'value', required: false, showRequest: true,

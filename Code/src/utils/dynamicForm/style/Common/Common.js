@@ -6,7 +6,7 @@ class Common {
       backgroundColor: '#fff',
       borderRadius: '1em',
       // minWidth: '40vw',
-      width: '80%',
+      width: '85%',
       maxWidth: '1000px',
       minHeight: '60vh',
       padding: '1em 1em 1em 1em',
@@ -24,13 +24,14 @@ class Common {
       backgroundColor: '#fff',
       minHeight: '20vh',
       width: '100%',
-      padding: '2em 1em 1em 1em',
+      padding: '2em 1em',
     }
     this.parentRawData = {
-      padding: '0 2em',
+      padding: '0 2em 0 0',
       display: 'flex',
       flexWrap: 'wrap',
-      justifyContent: 'space-between',
+      justifyContent: 'flex-start',
+      alignItems: 'flex-start',
     }
     this.child = {
       marginTop: '10vh',

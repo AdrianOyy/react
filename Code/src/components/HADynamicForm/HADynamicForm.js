@@ -1,6 +1,5 @@
 import React, { useEffect, useState, createContext } from 'react'
 import Api from "../../api/HADynamicForm"
-import { getQueryString } from "../../utils/url"
 import DynamicForm from "./Components/DynamicForm/DynamicForm"
 import getStyle from "../../utils/dynamicForm/style"
 import getLogic from "../../utils/dynamicForm/logic"

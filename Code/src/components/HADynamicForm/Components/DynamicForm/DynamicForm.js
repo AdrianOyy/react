@@ -35,11 +35,6 @@ export default function DynamicForm() {
         console.log(e)
         Loading.hide()
       })
-    if (logic) {
-      console.log('logic=========================logic')
-      console.log(logic)
-      console.log('logic=========================logic')
-    }
   }, [ logic ])
 
   const useStyles = makeStyles(style ? style : {})

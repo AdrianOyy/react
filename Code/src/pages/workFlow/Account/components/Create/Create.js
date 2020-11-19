@@ -1,8 +1,11 @@
-import React from "react"
+import React, { memo } from "react"
 import path from '../../../../../utils/path'
 import { useParams, useLocation } from "react-router-dom"
-import CommonWorkflowForm from "../../../../../components/CommonWorkflowForm"
+// import CommonWorkflowForm from "../../../../../components/CommonWorkflowForm"
+import HADynamicForm from "../../../../../components/HADynamicForm"
+import { CREATE } from "../../../../../utils/variable/stepName"
 
+const DynamicForm = memo(HADynamicForm)
 
 function Create() {
   const { id } = useParams()
@@ -10,21 +13,15 @@ function Create() {
   const deploymentId = arr['deploymentId']
   const cuId = arr['cuId']
   const startData = {
-    start: false,
-    cuId: null,
-  }
-  if (cuId) {
-    startData.start = true
-    startData.cuId = cuId
+    cuId: cuId ? cuId : null,
   }
   return (
     <React.Fragment>
-      <CommonWorkflowForm
-        stepName={'create'}
+      <DynamicForm
+        stepName={CREATE}
         startData={startData}
         processDefinitionId={id}
         deploymentId={deploymentId}
-        tableHeaderLength={6}
       />
     </React.Fragment>
   )

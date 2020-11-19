@@ -19,15 +19,11 @@ export default function Select(props) {
     valueField,
     defaultValue,
     style,
+    show,
   } = props
 
   const handleChange = async (e) => {
     const { value } = e.target
-    if (onChange) {
-      console.log('onChange=========================onChange')
-      console.log(onChange)
-      console.log('onChange=========================onChange')
-    }
     onChange && await onChange(fieldName, value)
     const { error, message } = checkField(props)
     setError(error)
@@ -42,7 +38,15 @@ export default function Select(props) {
   const classes = useStyles()
 
   return (
-    <div className={classes.root}>
+    <div
+      className={classes.root}
+      id={'element_' + fieldName}
+      style={{
+        display: show ? 'block' : 'none',
+        marginLeft: '2em',
+        marginRight: '4em',
+      }}
+    >
       <Label
         className={classes.label}
       >

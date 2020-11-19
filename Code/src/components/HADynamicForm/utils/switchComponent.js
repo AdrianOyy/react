@@ -1,10 +1,12 @@
 import React, { memo } from "react"
-import { Input, Select, SearchInput } from "../Components/controless"
+import { Input, Select, SearchInput, CheckBox, SearchList } from "../Components/controless"
 import formatField from "../../../utils/formatField"
 
 const MemoInput = memo(Input)
 const MemoSelect = memo(Select)
 const MemoSearchInput = memo(SearchInput)
+const MemoCheckBox = memo(CheckBox)
+const MemoSearchList = memo(SearchList)
 
 const switchComponent = (el, i, logic, style, isParent) => {
   const field = formatField(el)
@@ -19,6 +21,17 @@ const switchComponent = (el, i, logic, style, isParent) => {
           style={style[field.fieldName] ? style[field.fieldName] : style.commonElement}
         />
       )
+    case 'checkbox':
+      return (
+        <MemoCheckBox
+          key={field.id + '_' + i}
+          {...field}
+          getCheckBoxStatus={logic ? logic.getCheckBoxStatus : undefined}
+          onChange={logic ? (isParent ? logic.onParentFieldChange : logic.onChildFieldChange) : undefined}
+          checkField={logic ? (isParent ? logic.checkParentField : logic.checkChildField) : undefined}
+          style={style[field.fieldName] ? style[field.fieldName] : style.commonElement}
+        />
+      )
     case 'inputCheck':
       return (
         <MemoSearchInput
@@ -26,6 +39,17 @@ const switchComponent = (el, i, logic, style, isParent) => {
           {...field}
           onBlur={logic ? (isParent ? logic.onParentFieldChange : logic.onChildFieldChange) : undefined}
           checkField={logic ? (isParent ? logic.checkParentField : logic.checkChildField) : undefined}
+          asyncCheck={logic ? logic.asyncCheck : undefined}
+          style={style[field.fieldName] ? style[field.fieldName] : style.commonElement}
+        />
+      )
+    case 'list':
+      return (
+        <MemoSearchList
+          key={field.id + '_' + i}
+          {...field}
+          onChange={logic ? (isParent ? logic.onParentFieldChange : logic.onChildFieldChange) : undefined}
+          asyncCheck={logic ? logic.asyncCheck : undefined}
           style={style[field.fieldName] ? style[field.fieldName] : style.commonElement}
         />
       )
