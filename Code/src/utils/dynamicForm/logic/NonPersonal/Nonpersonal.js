@@ -7,7 +7,7 @@ import { DetailActions, UpdateActions } from "../../../../components/HADynamicFo
 import { Button } from "@material-ui/core"
 import { L } from "../../../lang"
 import React from "react"
-import { CREATE, DETAIL, HA4 } from "../../../variable/stepName"
+import { CREATE, HA4, UPDATE } from "../../../variable/stepName"
 import { getUser } from "../../../auth"
 
 
@@ -63,6 +63,7 @@ class NonPersonal extends Common {
   }
 
   shouldContinue(item) {
+    if (this.parentData.get('issame') && item.remark === 'issame') return true
     if (this.stepName && this.stepName === CREATE && !item.showOnRequest) return true
     if (this.stepName && this.stepName !== HA4 && item.fieldName === 'emailid') return true
     return false
@@ -75,7 +76,7 @@ class NonPersonal extends Common {
 
   onParentFieldChange(fieldName, value) {
     if (fieldName === 'issame') {
-      const id = 'element_' +  this.remarkedItem.get('issame')
+      const id = 'element_' +  this.remarkedItem.get('issame')[0]
       const el = document.getElementById(id)
       el && (el.style.display = value.size ? 'none' : 'block')
       const [ item ] = this.parentInitDetail.filter(e => e.remark === fieldName)
@@ -181,9 +182,11 @@ export default async function getNonPersonalLogic(props) {
   switch (stepName) {
     case CREATE:
       return new NonPersonal(props)
-    case DETAIL:
-      return new NonPersonalDetail(props)
-    default:
+    case UPDATE:
       return new NonPersonalUpdate(props)
+    case HA4:
+      return new NonPersonalUpdate(props)
+    default:
+      return new NonPersonalDetail(props)
   }
 }

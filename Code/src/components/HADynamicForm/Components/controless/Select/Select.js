@@ -19,7 +19,6 @@ export default function Select(props) {
     valueField,
     defaultValue,
     style,
-    show,
   } = props
 
   const handleChange = async (e) => {

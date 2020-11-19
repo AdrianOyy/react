@@ -12,6 +12,26 @@ import accountManagementAPI from "../../../../api/accountManagement"
 
 class Account extends Common {
 
+  hideItem(item) {
+    const { fieldName, remark } = item
+    if (remark === 'Internet Account Application' || remark === 'IBRA Account Application') {
+      item.show = false
+      const id = 'element_' + fieldName
+      const el = document.getElementById(id)
+      el && (el.style.display = 'none')
+    }
+    // Internet Account Application
+    // IBRA Account Application
+    // console.log('remark=========================remark')
+    // console.log(remark)
+    // console.log('remark=========================remark')
+    // const accountType = this.parentData.get('account_type')
+    // console.log('accountType=========================accountType')
+    // console.log(accountType)
+    // console.log('accountType=========================accountType')
+    // if (remark === 'account_type' && )
+  }
+
   async getInitData() {
     const { cuId } = this.startData
     if (!cuId) return {}
@@ -49,55 +69,6 @@ class Account extends Common {
     return false
   }
 
-  // 整合父表初始数据和结构
-  getParentInitDetail(parentInitData) {
-    if (!this.parentFormDetail || !this.parentFormDetail.length || !parentInitData) return []
-    const res = []
-    const remarkedItem = new Map()
-    const atDefault = new Set()
-    for (const item of this.parentFormDetail) {
-      if (this.shouldContinue(item)) continue
-      let defaultValue
-      if (item && item.type === "checkbox") {
-        defaultValue = parentInitData.get(item.fieldName) && parentInitData.get(item.fieldName).split('!@#')
-      } else {
-        defaultValue = parentInitData.get(item.fieldName)
-      }
-      if (item.fieldName === 'account_type') {
-        defaultValue && defaultValue.forEach(d => {
-          atDefault.add(d)
-        })
-      }
-      const newItem = {
-        ...item,
-        show: true,
-        defaultValue,
-        disabled: this.disabledAllParent
-      }
-      if (newItem.remark) {
-        newItem.show = false
-        if (remarkedItem.has(newItem.remark)) {
-          remarkedItem.set(remarkedItem.get(newItem.remark).push(newItem.fieldName))
-        } else {
-          remarkedItem.set(item.remark, [ newItem.fieldName ])
-        }
-      }
-      res.push(newItem)
-    }
-    this.remarkedItem = remarkedItem
-    const insertItemList = []
-    atDefault && atDefault.forEach(at => {
-      const insertItem = remarkedItem.get(at)
-      insertItem && insertItemList.push(...insertItem)
-    })
-    res.forEach(el => {
-      if (insertItemList.indexOf(el.fieldName) !== -1) {
-        el.show = true
-      }
-    })
-    this.parentInitDetail = res
-    return res
-  }
 
   // 父表字段变更
   onParentFieldChange(fieldName, value) {

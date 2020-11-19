@@ -18,7 +18,6 @@ export default function HAInput(props) {
     style,
     abbrFieldName,
     asyncCheck,
-    show,
   } = props
 
   const [ error, setError ] = useState(false)

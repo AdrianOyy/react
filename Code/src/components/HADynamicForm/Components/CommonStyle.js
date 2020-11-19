@@ -2,6 +2,29 @@ import { fade } from "@material-ui/core/styles"
 import fontFamily from "../../../utils/fontFamily"
 
 function getCommonStyle(theme, style, error, helperText, disabled = false) {
+  const input = Object.assign({
+    borderRadius: 4,
+    width: '100%',
+    // maxWidth: '50vw',
+    height: '33px',
+    position: 'relative',
+    backgroundColor: theme.palette.background.paper,
+    transition: theme.transitions.create([ 'border-color', 'box-shadow' ]),
+    color: disabled ? 'rgba(196, 196, 196, 0.8)' : 'black',
+    fontSize: 16,
+    marginTop: '0.5em',
+    padding: '0px 26px 0px 12px',
+    borderWidth: '1px',
+    borderStyle: 'solid',
+    borderColor: error ? theme.palette.error.main : (disabled ? '#dedede' : '#ccc'),
+    fontFamily,
+    '&:focus': {
+      borderRadius: 4,
+      borderColor: '#80bdff',
+      outline: 'none',
+      boxShadow: `${fade(theme.palette.primary.main, 0.25)} 0 0 0 0.2rem`,
+    }
+  }, style ? style.input : {})
   return {
     root: Object.assign({
       // padding: `0 0 ${error && helperText ? '0' : '1vh'} 0`,
@@ -11,29 +34,7 @@ function getCommonStyle(theme, style, error, helperText, disabled = false) {
       marginBottom: '2.5em',
     }, style ? style.root : {}),
     label: Object.assign({}, style ? style.label : {}),
-    input: Object.assign({
-      borderRadius: 4,
-      width: '100%',
-      // maxWidth: '50vw',
-      height: '33px',
-      position: 'relative',
-      backgroundColor: theme.palette.background.paper,
-      transition: theme.transitions.create([ 'border-color', 'box-shadow' ]),
-      color: disabled ? 'rgba(196, 196, 196, 0.8)' : 'black',
-      fontSize: 16,
-      marginTop: '0.5em',
-      padding: '0px 26px 0px 12px',
-      borderWidth: '1px',
-      borderStyle: 'solid',
-      borderColor: error ? theme.palette.error.main : (disabled ? '#dedede' : '#ccc'),
-      fontFamily,
-      '&:focus': {
-        borderRadius: 4,
-        borderColor: '#80bdff',
-        outline: 'none',
-        boxShadow: `${fade(theme.palette.primary.main, 0.25)} 0 0 0 0.2rem`,
-      }
-    }, style ? style.input : {}),
+    input,
     inputCheck: Object.assign({
       padding: '0',
       width: '2em',
@@ -65,7 +66,12 @@ function getCommonStyle(theme, style, error, helperText, disabled = false) {
         boxShadow: `${fade(theme.palette.primary.main, 0.25)} 0 0 0 0.2rem`,
       }
     }, style ? style.textarea : {}),
-    helperText: Object.assign({}, style ? style.helperText : {})
+    helperText: Object.assign({}, style ? style.helperText : {}),
+    datePicker: Object.assign({
+      input: {
+        backgroundColor: 'red',
+      }
+    }, style ? style.datePicker : {})
   }
 }
 

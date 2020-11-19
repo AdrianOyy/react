@@ -1,7 +1,6 @@
 import React, { useCallback, useState } from 'react'
 import { makeStyles } from "@material-ui/core/styles"
 import getCommonStyle from "../../CommonStyle"
-import { KeyboardDatePicker } from "@material-ui/pickers"
 import { InputLabel as Label, Tooltip } from "@material-ui/core"
 
 function DatePicker(props) {
@@ -38,7 +37,14 @@ function DatePicker(props) {
   const classes = useStyles()
 
   return (
-    <div className={classes.root}>
+    <div
+      className={classes.root}
+      id={'element_' + fieldName}
+      style={{
+        marginLeft: '2em',
+        marginRight: '4em',
+      }}
+    >
       {
         fieldDisplayName && fieldDisplayName.length > 40
           ? (
@@ -63,14 +69,15 @@ function DatePicker(props) {
               {abbrFieldName + ':'}
             </Label>)
       }
+      <div style={{ width: '1vw' }}></div>
       <div>
-        <div style={{ width: '1vw' }}></div>
-        <KeyboardDatePicker
-          clearable
-          defaultValue={defaultValue ? defaultValue : null}
-          onChange={date => handleChange(date)}
-          minDate={new Date()}
-          format="MM/dd/yyyy"
+        <input
+          id={id}
+          type={'date'}
+          disabled={disabled}
+          onChange={(e) => handleChange(e)}
+          defaultValue={defaultValue ? defaultValue : ''}
+          className={classes.input}
         />
       </div>
     </div>

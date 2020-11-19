@@ -7,12 +7,7 @@ import {
   TableRow,
   TableBody,
   TableCell,
-  Button as HAButton,
-  Dialog as HADialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-  Slide, Toolbar,
+  Toolbar,
 } from "@material-ui/core"
 import { SearchBar, TablePagination, HAPaper } from "../../../components"
 import API from "../../../api/log"
@@ -22,6 +17,7 @@ import {
   withStyles
 } from "@material-ui/core/styles"
 import styled from "styled-components"
+import Detail from "./Detail"
 
 const useStyles = makeStyles(() => ({
   paper: {
@@ -88,137 +84,6 @@ const columns = [
   { id: 'createAt', label: 'Request At', width: 15 },
 ]
 
-const Transition = React.forwardRef(function Transition(props, ref) {
-  return <Slide direction="up" ref={ref} {...props} />
-})
-
-const Content = withStyles((() => ({
-  root: {
-    padding: '0 4vw'
-  }
-})))(DialogContent)
-
-const Dialog = withStyles(() => ({
-  paper: {
-    minWidth: '65vw',
-    minHeight: '90vh'
-  },
-}))(HADialog)
-
-const Actions = withStyles(() => ({
-  root: {
-    display: 'flex',
-    height: '10vh',
-    width: '100%',
-    margin: '0',
-    padding: '2vh 0',
-    justifyContent: 'center',
-    alignItems: "center",
-  },
-}))(DialogActions)
-
-const Button = withStyles((() => ({
-  root: {
-    width: '5vw',
-  }
-})))(HAButton)
-
-const Title = withStyles((() => ({
-  root: {
-    height: '8vh',
-    display: 'flex',
-    alignItems: 'center',
-    maxHeight: '60px',
-  }
-})))(DialogTitle)
-
-function Detail(props) {
-  const {
-    open,
-    onClose,
-    row
-  } = props
-  const classes = useStyles()
-  const getP = (obj, isHeader) => {
-    const list = []
-    for (const key in obj) {
-      if (key !== 'headers' && key !== 'body') {
-        list.push({
-          key: JSON.stringify(key),
-          value: JSON.stringify(obj[key]),
-        })
-      }
-    }
-    return (
-      <React.Fragment>
-        {
-          list.map((el, i) => (
-            <p
-              style={{
-                fontFamily: 'Arial',
-                fontSize: '14px',
-                wordBreak: 'break-all',
-                marginLeft: isHeader ? '4em' : '2em',
-              }}
-              key={el.key + '_' + i}
-            >
-              {el.key + ': ' + el.value}
-            </p>
-          ))
-        }
-      </React.Fragment>
-    )
-  }
-  return (
-    <div>
-      <Dialog
-        open={open}
-        keepMounted
-        TransitionComponent={Transition}
-      >
-        <Title>Log Detail</Title>
-        <Content dividers={true}>
-          <article style={{ fontFamily: 'Arial', fontSize: '14px' }}>
-            <p style={{ fontSize: '16px' }}><b>Request</b></p>
-            <p style={{ fontSize: '14px', marginLeft: '2em' }}>{"\"headers\": {"}</p>
-            {
-              row.request && getP(row.request.headers, true)
-            }
-            <p style={{ fontSize: '14px', marginLeft: '2em' }}>{"}"}</p>
-            {
-              getP(row.request)
-            }
-            <hr/>
-            <p style={{ fontSize: '16px' }}><b>Response</b></p>
-            <p style={{ fontSize: '14px', marginLeft: '2em' }}>{"\"headers\": {"}</p>
-            {
-              row.response && getP(row.response.headers, true)
-            }
-            <p style={{ fontSize: '14px', marginLeft: '2em' }}>{"}"}</p>
-            {
-              getP(row.response)
-            }
-            <p style={{ fontSize: '14px', marginLeft: '2em' }}>{"\"body\": {"}</p>
-            {
-              row.response && getP(row.response.body, true)
-            }
-            <p style={{ fontSize: '14px', marginLeft: '2em' }}>{"}"}</p>
-          </article>
-        </Content>
-        <Actions disableSpacing={true}>
-          <Button
-            color="primary"
-            variant="contained"
-            className={classes.button}
-            onClick={onClose}>
-            OK
-          </Button>
-        </Actions>
-      </Dialog>
-    </div>
-  )
-}
-
 export default function List() {
   const classes = useStyles()
 
@@ -245,6 +110,9 @@ export default function List() {
 
   const handleData = (rawDataList) => {
     const rows = []
+    console.log('rawDataList=========================rawDataList')
+    console.log(rawDataList)
+    console.log('rawDataList=========================rawDataList')
     rawDataList.forEach((el) => {
       const { id, page, request, response } = el
       const rowModel = {

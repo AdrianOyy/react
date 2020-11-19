@@ -19,7 +19,6 @@ function SearchInput(props) {
     style,
     apiKey,
     apiValue,
-    show,
   } = props
 
   const inputEl = useRef(null)
@@ -88,7 +87,6 @@ function SearchInput(props) {
         className={classes.root}
         id={'element_' + fieldName}
         style={{
-          display: show ? 'block' : 'none',
           marginLeft: '2em',
           marginRight: '4em',
         }}

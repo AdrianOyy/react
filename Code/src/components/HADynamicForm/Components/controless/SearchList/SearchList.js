@@ -17,7 +17,6 @@ function SearchInput(props) {
     defaultValue,
     disabled,
     onChange,
-    show,
     asyncCheck,
     style,
     apiKey,

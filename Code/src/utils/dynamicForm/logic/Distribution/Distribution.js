@@ -5,18 +5,39 @@ import { DetailActions, UpdateActions } from "../../../../components/HADynamicFo
 import { Button } from "@material-ui/core"
 import { L } from "../../../lang"
 import React from "react"
-import { CREATE, UPDATE } from "../../../variable/stepName"
+import { CREATE, HA4, UPDATE } from "../../../variable/stepName"
 import { isEmail } from "../../../regex"
 import accountManagementAPI from "../../../../api/accountManagement"
 
 
 class Distribution extends Common {
-
+  onParentFieldChange(fieldName, value) {
+    if (fieldName === 'isowner') {
+      const target = this.remarkedItem.get('isowner')
+      target && target.forEach(fn => {
+        const id = 'element_' + fn
+        const el = document.getElementById(id)
+        el && (el.style.display = value.size ? 'none' : 'block')
+      })
+      const itemList = this.parentInitDetail.filter(e => e.remark === fieldName)
+      itemList && itemList.forEach(item => {
+        item.show = !value.size
+      })
+    }
+    this.parentData.set(fieldName, value)
+    return value
+  }
 
   shouldContinue(item) {
+    if (this.parentData.get('isowner') && item.remark === 'isowner') return true
     if (this.stepName && this.stepName === CREATE && !item.showOnRequest) return true
-    if (this.stepName && this.stepName !== CREATE && item.fieldName === 'hkid') return true
+    if (this.stepName && this.stepName !== HA4 && item.fieldName === 'distributionlistid') return true
     return false
+  }
+
+  getDisabled(item, isParent = false) {
+    if (this.stepName === HA4 && item.fieldName === 'distributionlistid') return false
+    return isParent ? this.disabledAllParent : this.disabledAllChild
   }
 
   // 特殊字段验证(异步)
@@ -63,9 +84,6 @@ class DistributionDetail extends Distribution {
     if (parentData) {
       parentInitData = object2map(parentData)
     }
-    console.log('parentInitData=========================parentInitData')
-    console.log(parentInitData)
-    console.log('parentInitData=========================parentInitData')
     if (childDataList && childDataList.length) {
       childDataList.forEach(childData => {
         childInitData.push(object2map(childData))
@@ -145,6 +163,8 @@ export default async function getDistributionLogic(props) {
     case CREATE:
       return new Distribution(props)
     case UPDATE:
+      return new DistributionUpdate(props)
+    case HA4:
       return new DistributionUpdate(props)
     default:
       return new DistributionDetail(props)
