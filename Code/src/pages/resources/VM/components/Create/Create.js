@@ -29,7 +29,6 @@ function Create() {
   const [ diskSize, setDiskSize ] = useState('')
   const [ diskSizeError, setDiskSizeError ] = useState(false)
   const [ diskSizeHelperText, setDiskSizeHelperText ] = useState("")
-  const [ status, setStatus ] = useState('')
   const [ hostname, setHostname ] = useState('')
   const [ VMClusterId, setVMClusterId ] = React.useState('')
   const [ VMClusterIdError, setVMClusterIdError ] = useState(false)
@@ -89,7 +88,6 @@ function Create() {
       diskVolumeName,
       CSVName,
       diskSize,
-      status,
       hostname,
       VMClusterId,
       VMClusterName,
@@ -177,10 +175,6 @@ function Create() {
         error: diskSizeError, helperText: diskSizeHelperText
       },
       {
-        id: 'status', label: L('Status'), type: 'text',
-        required: false, readOnly: false, value: status,
-      },
-      {
         id: 'hostname', label: L('Hostname'), type: 'text',
         required: false, readOnly: false, value: hostname,
       },
@@ -244,7 +238,6 @@ function Create() {
     diskVolumeName,
     CSVName,
     diskSize, diskSizeError, diskSizeHelperText,
-    status,
     hostname,
     VMClusterId, VMClusterIdError, VMClusterIdHelperText,
     clusterList,
@@ -292,9 +285,6 @@ function Create() {
         break
       case 'diskSize':
         setDiskSize(value)
-        break
-      case 'status':
-        setStatus(value)
         break
       case 'hostname':
         setHostname(value)
