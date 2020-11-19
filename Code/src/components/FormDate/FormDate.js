@@ -49,13 +49,13 @@ export default function HAInput(props) {
     setNewValue(defaultValue)
   }, [ defaultValue ])
 
-  useEffect(() => {
-    defaultValue && onChange && onChange({ id, value: defaultValue })
-    // eslint-disable-next-line
-  }, [ defaultValue, onChange ])
+  // useEffect(() => {
+  //   defaultValue && onChange && onChange({ id, value: defaultValue })
+  //   // eslint-disable-next-line
+  // }, [ defaultValue, onChange ])
 
   useEffect(() => {
-    onChange && onChange({ id, value: new Date(newValue) })
+    newValue && onChange && onChange({ id, value: new Date(newValue) })
     // eslint-disable-next-line
   }, [ newValue ])
 
