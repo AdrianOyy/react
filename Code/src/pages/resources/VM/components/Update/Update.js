@@ -33,7 +33,6 @@ function Detail() {
   const [ diskSize, setDiskSize ] = useState('')
   const [ diskSizeError, setDiskSizeError ] = useState(false)
   const [ diskSizeHelperText, setDiskSizeHelperText ] = useState("")
-  const [ status, setStatus ] = useState('')
   const [ hostname, setHostname ] = useState('')
   const [ VMClusterId, setVMClusterId ] = React.useState('')
   const [ VMClusterIdError, setVMClusterIdError ] = useState(false)
@@ -97,7 +96,6 @@ function Detail() {
         diskVolumeName,
         CSVName,
         diskSize,
-        status,
         hostname,
         VMClusterId,
         VMClusterName,
@@ -157,7 +155,6 @@ function Detail() {
           diskVolumeName,
           CSVName,
           diskSize,
-          status,
           hostname,
           VMClusterId,
           OS,
@@ -180,7 +177,6 @@ function Detail() {
         setDiskVolumeName(diskVolumeName)
         setCSVName(CSVName)
         setDiskSize(diskSize)
-        setStatus(status)
         setHostname(hostname)
         setVMClusterId(VMClusterId)
         setOS(OS)
@@ -242,10 +238,6 @@ function Detail() {
         id: 'diskSize', label: L('Disk Size'), type: 'text',
         required: true, readOnly: false, value: diskSize,
         error: diskSizeError, helperText: diskSizeHelperText
-      },
-      {
-        id: 'status', label: L('Status'), type: 'text',
-        required: false, readOnly: false, value: status,
       },
       {
         id: 'hostname', label: L('Hostname'), type: 'text',
@@ -314,7 +306,6 @@ function Detail() {
     diskVolumeName,
     CSVName,
     diskSize, diskSizeError, diskSizeHelperText,
-    status,
     hostname,
     VMClusterId, VMClusterIdError, VMClusterIdHelperText,
     clusterList,
@@ -364,9 +355,6 @@ function Detail() {
         break
       case 'diskSize':
         setDiskSize(value)
-        break
-      case 'status':
-        setStatus(value)
         break
       case 'hostname':
         setHostname(value)
