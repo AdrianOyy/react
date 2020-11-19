@@ -11,6 +11,24 @@ import accountManagementAPI from "../../../../api/accountManagement"
 
 
 class Account extends Common {
+
+  async getInitData() {
+    const { cuId } = this.startData
+    if (!cuId) return {}
+    const parentInitData = new Map()
+    parentInitData.set('account_type', 'Internet Account Application')
+    parentInitData.set('surname', 'rexshen')
+    parentInitData.set('apply_for', 'LAN account (LoginID)  and/or')
+    parentInitData.set('contact_phone_no', '1358458751')
+    parentInitData.set('division', 'devericd')
+    parentInitData.set('firstname', 'shen')
+    parentInitData.set('jobtitle', 'IT')
+    parentInitData.set('officefax', '35854519')
+    parentInitData.set('section', 'ie')
+    parentInitData.set('stafftype', 'Head Office')
+    parentInitData.set('supervisoremailaccount', 'rexshen@apjcorp.com')
+    return { parentInitData }
+  }
   // 获取 checkBox 联动状态
   getCheckBoxStatus({ type, status }) {
     const res = new Map()
