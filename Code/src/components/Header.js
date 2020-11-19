@@ -1,10 +1,13 @@
 import React, { useEffect, useState, } from "react"
 import styled, { withTheme } from "styled-components"
+import { getUser } from "../utils/auth"
 import { connect } from "react-redux"
+import AccountCircle from '@material-ui/icons/AccountCircle'
 // import { darken } from "polished";
 
 import {
   // Badge,
+  Avatar,
   Grid,
   Hidden,
   // InputBase,
@@ -36,8 +39,8 @@ const AppBar = styled(MuiAppBar)`
 
 const IconButton = styled(MuiIconButton)`
   svg {
-    width: 22px;
-    height: 22px;
+    width: 20px;
+    height: 20px;
   }
 `
 
@@ -50,7 +53,7 @@ const IconButton = styled(MuiIconButton)`
 
 function UserMenu() {
   const [ anchorMenu, setAnchorMenu ] = useState(null)
-
+  const user = getUser()
 
   const toggleMenu = event => {
     setAnchorMenu(event.currentTarget)
@@ -63,23 +66,33 @@ function UserMenu() {
 
   return (
     <React.Fragment>
-      <IconButton
-        aria-owns={anchorMenu ? "menu-appbar" : undefined}
-        aria-haspopup="true"
-        onClick={toggleMenu}
-        color="inherit"
-      >
-        <Power />
-      </IconButton>
+      <Grid container spacing={2} alignItems={'center'}>
+        <Grid item>
+          <Avatar alt="" style={{ width: '30px', height: '30px' }}>
+            <AccountCircle />
+          </Avatar>
+        </Grid>
+        <Grid item>
+          {user ? user.displayName : ''}
+        </Grid>
+        <IconButton
+          aria-owns={anchorMenu ? "menu-appbar" : undefined}
+          aria-haspopup="true"
+          onClick={toggleMenu}
+          color="inherit"
+        >
+          <Power />
+        </IconButton>
+      </Grid>
       <Menu
         id="menu-appbar"
         anchorEl={anchorMenu}
         open={Boolean(anchorMenu)}
         onClose={closeMenu}
       >
-        <MenuItem onClick={closeMenu}>
+        {/* <MenuItem onClick={closeMenu}>
           Profile
-        </MenuItem>
+        </MenuItem> */}
         <MenuItem onClick={signOut}>
           Sign out
         </MenuItem>

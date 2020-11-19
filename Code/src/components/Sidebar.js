@@ -9,15 +9,13 @@ import PerfectScrollbar from "react-perfect-scrollbar"
 import "../vendor/perfect-scrollbar.css"
 
 import { spacing } from "@material-ui/system"
-import { getUser } from "../utils/auth"
 import {
   Avatar,
-  Badge,
+  // Badge,
   Box as MuiBox,
   Chip,
   Collapse,
   Drawer as MuiDrawer,
-  Grid,
   List as MuiList,
   ListItem,
   ListItemText,
@@ -203,41 +201,41 @@ const SidebarSection = styled(Typography)`
   display: block;
 `
 
-const SidebarFooter = styled.div`
-  background-color: ${props =>
-    props.theme.sidebar.footer.background} !important;
-  padding: ${props => props.theme.spacing(2.75)}px
-    ${props => props.theme.spacing(4)}px;
-  border-right: 1px solid rgba(0, 0, 0, 0.12);
-`
+// const SidebarFooter = styled.div`
+//   background-color: ${props =>
+//     props.theme.sidebar.footer.background} !important;
+//   padding: ${props => props.theme.spacing(2.75)}px
+//     ${props => props.theme.spacing(4)}px;
+//   border-right: 1px solid rgba(0, 0, 0, 0.12);
+// `
 
-const SidebarFooterText = styled(Typography)`
-  color: ${props => props.theme.sidebar.footer.color};
-`
+// const SidebarFooterText = styled(Typography)`
+//   color: ${props => props.theme.sidebar.footer.color};
+// `
 
-const SidebarFooterSubText = styled(Typography)`
-  color: ${props => props.theme.sidebar.footer.color};
-  font-size: .725rem;
-  display: block;
-  padding: 1px;
-`
+// const SidebarFooterSubText = styled(Typography)`
+//   color: ${props => props.theme.sidebar.footer.color};
+//   font-size: .725rem;
+//   display: block;
+//   padding: 1px;
+// `
 
-const StyledBadge = styled(Badge)`
-  margin-right: ${props => props.theme.spacing(1)}px;
+// const StyledBadge = styled(Badge)`
+//   margin-right: ${props => props.theme.spacing(1)}px;
 
-  span {
-    background-color: ${props => props.theme.sidebar.footer.online.background};
-    border: 1.5px solid ${props => props.theme.palette.common.white};
-    height: 12px;
-    width: 12px;
-    border-radius: 50%;
-  }
-`
+//   span {
+//     background-color: ${props => props.theme.sidebar.footer.online.background};
+//     border: 1.5px solid ${props => props.theme.palette.common.white};
+//     height: 12px;
+//     width: 12px;
+//     border-radius: 50%;
+//   }
+// `
 
 function SidebarCategory({
   name,
   icon,
-  classes,
+  // classes,
   isOpen,
   isCollapsable,
   badge,
@@ -275,8 +273,8 @@ function SidebarLink({ name, to, badge }) {
   )
 }
 
-function Sidebar({ classes, staticContext, location, ...rest }) {
-  const user = getUser()
+function Sidebar({ location, ...rest }) {
+  // const user = getUser()
   const initOpenRoutes = () => {
     /* Open collapse element that matches current url */
     const pathName = location.pathname
@@ -383,7 +381,7 @@ function Sidebar({ classes, staticContext, location, ...rest }) {
           </Items>
         </List>
       </Scrollbar>
-      <SidebarFooter>
+      {/* <SidebarFooter>
         <Grid container spacing={2}>
           <Grid item>
             <StyledBadge
@@ -406,7 +404,7 @@ function Sidebar({ classes, staticContext, location, ...rest }) {
             </SidebarFooterSubText>
           </Grid>
         </Grid>
-      </SidebarFooter>
+      </SidebarFooter> */}
     </Drawer>
   )
 }
