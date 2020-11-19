@@ -4,7 +4,7 @@ import CommonForm from '../CommonForm'
 
 function DetailPage(props) {
   const {
-    formTitle,
+    // formTitle,
     formFieldList,
     onFormFieldChange,
     showBtn,
@@ -15,7 +15,8 @@ function DetailPage(props) {
   return (
     <React.Fragment>
       <CommonForm
-        formTitle={formTitle}
+        // formTitle={formTitle}
+        formTitle = ''
         formFieldList = {formFieldList}
         onFormFieldChange = {onFormFieldChange}
         showBtn = {showBtn}
