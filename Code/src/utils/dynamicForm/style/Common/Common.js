@@ -39,7 +39,30 @@ class Common {
       width: '100%',
     }
     this.childTable = {}
-    this.childForm = {}
+    this.childForm = {
+      dialog: {
+        // minWidth: '65vw',
+        minHeight: '90vh',
+        minWidth: '800px',
+        borderRadius: '1em',
+        // maxWidth: '1000px',
+      },
+      content: {
+        marginTop: '2em',
+        padding: '1em 2em',
+        display: 'flex',
+        justifyContent: 'space-between',
+        flexWrap: 'wrap',
+        borderBottom: '1px solid rgba(0, 0, 0, 0.12)'
+      },
+      formElementContainer: {
+        width: '45%',
+      },
+      actions: {
+        display: 'flex',
+        justifyContent: 'center',
+      },
+    }
     this.childFormTitle = {}
     this.actions = {
       width: '100%',

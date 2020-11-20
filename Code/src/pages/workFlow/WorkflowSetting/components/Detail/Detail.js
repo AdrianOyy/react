@@ -20,6 +20,7 @@ import { useLocation, useParams } from "react-router-dom"
 import path from "../../../../../utils/path"
 import deepClone from "../../../../../utils/deepClone"
 import CommonTip from "../../../../../components/CommonTip"
+import Loading from "../../../../../components/Loading"
 const logic = getLogic('WorkflowSetting')
 const useStyles = makeStyles(() => ({
   buttonGroup: {
@@ -77,6 +78,7 @@ export default function MaterialTableDemo() {
   }
 
   useEffect(() => {
+    Loading.show()
     API.workFlowDetail({ modelId: id })
       .then(({ data }) => {
         const result = data.data
@@ -97,6 +99,13 @@ export default function MaterialTableDemo() {
             setChildValues(cValues)
           }
         }
+      })
+      .finally(() => {
+        Loading.hide()
+      })
+      .catch((e) => {
+        console.log(e)
+        Loading.hide()
       })
   }, [ id ])
 

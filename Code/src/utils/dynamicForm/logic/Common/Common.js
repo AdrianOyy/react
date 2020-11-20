@@ -13,6 +13,7 @@ import {
 import VMStatus, { SUCCESS } from '../../../variable/VMStatus'
 import Api from "../../../../api/diyForm"
 import { L } from "../../../lang"
+import CommonTip from "../../../../components/CommonTip"
 
 export class Common {
   // 构造函数
@@ -235,8 +236,8 @@ export class Common {
   }
 
   // 验证父表字段是否为空
-  isEmpty(fieldName) {
-    const value = this.parentData.get(fieldName)
+  isEmpty(fieldName, isParent = true) {
+    const value = isParent ? this.parentData.get(fieldName) : this.currentChildrenData.get(fieldName)
     if (!value) return true
     if (value instanceof Set && value.size === 0) return true
     if (value instanceof Map && value.size === 0) return true
@@ -339,6 +340,7 @@ export class Common {
       const defaultValue = initData.get(item.fieldName)
       const newItem = {
         ...item,
+        show: true,
         defaultValue,
         disabled: success || this.disabledAllChild,
       }
@@ -354,14 +356,13 @@ export class Common {
 
   // 验证子表字段
   checkChildField(field) {
-    const { fieldName, required, displayName } = field
-    if (required && this.isEmpty(fieldName)) {
-      const message = `${displayName} is required`
-      this.childFieldError.set(fieldName, message)
+    const { fieldName, required, fieldDisplayName, show } = field
+    if (show && required && this.isEmpty(fieldName, false)) {
+      const message = `${fieldDisplayName} is required`
+      this.parentFieldError.set(fieldName, message)
       return { error: true, message }
-    } else {
-      this.childFieldError.set(fieldName, null)
     }
+    this.parentFieldError.set(fieldName, null)
     return { error: false, message: '' }
   }
 
@@ -415,10 +416,12 @@ export class Common {
     const { currentIndex, onClose } = props
     const handleSave = () => {
       const pass = this.checkAllChildField()
-      if (pass) {
-        this.saveChildForm(currentIndex)
-        onClose()
+      if (!pass) {
+        CommonTip.error("Please check your data")
+        return
       }
+      this.saveChildForm(currentIndex)
+      onClose()
     }
     return (
       <>

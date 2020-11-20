@@ -5,7 +5,6 @@ function getCommonStyle(theme, style, error, helperText, disabled = false) {
   const input = Object.assign({
     borderRadius: 4,
     width: '100%',
-    // maxWidth: '50vw',
     height: '33px',
     position: 'relative',
     backgroundColor: theme.palette.background.paper,

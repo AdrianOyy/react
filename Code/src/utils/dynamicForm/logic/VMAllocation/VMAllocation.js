@@ -85,6 +85,18 @@ class VM extends Common {
     return 'VM List'
   }
 
+  // 获取子表标题
+  getChildFormTitle(index) {
+    switch (this.stepName) {
+      case CREATE:
+        return index === -1 ? 'Add VM' : 'VM Info'
+      case T3:
+        return index === -1 ? 'Add VM' : 'VM Info'
+      default:
+        return 'VM Info'
+    }
+  }
+
   onChildFieldChange(fieldName, value) {
     switch (fieldName) {
       case 'cpu_request_number':

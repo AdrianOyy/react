@@ -27,10 +27,7 @@ export default function ChildForm(props) {
   })
 
   const Dialog = withStyles(() => ({
-    paper: {
-      minWidth: '65vw',
-      minHeight: '90vh'
-    },
+    paper: Object.assign({}, style && style.childForm ? style.childForm.dialog : {}),
   }))(HADialog)
 
   const Title = withStyles((() => ({
@@ -45,23 +42,9 @@ export default function ChildForm(props) {
 
   const useStyles = makeStyles(() => {
     return {
-      dialog: {
-        minWidth: '65vw',
-        minHeight: '90vh',
-      },
-      content: {
-        padding: '1em 2em',
-        display: 'flex',
-        justifyContent: 'space-between',
-        flexWrap: 'wrap',
-      },
-      formElementContainer: Object.assign({
-        width: '45%',
-      }, style ? style.formElementContainer : {}),
-      actions: {
-        display: 'flex',
-        justifyContent: 'center',
-      },
+      content: Object.assign({}, style && style.childForm ? style.childForm.content : {}),
+      formElementContainer: Object.assign({}, style && style.childForm ? style.childForm.formElementContainer : {}),
+      actions: Object.assign({}, style && style.childForm ? style.childForm.actions : {}),
     }
   })
 
@@ -82,8 +65,12 @@ export default function ChildForm(props) {
         disableEscapeKeyDown
         TransitionComponent={Transition}
       >
-        <Title>{ logic && logic.getChildFormTitle() }</Title>
-        <DialogContent dividers={true} className={classes.content}>
+        <Title
+          style={{ borderBottom: '1px solid rgba(0, 0, 0, 0.12)' }}
+        >
+          { logic && logic.getChildFormTitle(currentIndex) }
+        </Title>
+        <DialogContent className={classes.content}>
           { logic && logic.getChildInitDetail && logic.getChildInitDetail(currentIndex).map((el, i) => {
             return (
               <div key={el.id + '_' + i} className={classes.formElementContainer}>
