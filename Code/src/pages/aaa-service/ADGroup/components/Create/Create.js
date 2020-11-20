@@ -38,6 +38,7 @@ function Create() {
       { id: 'name', label: L('Name'), type: 'text', required: true, readOnly: false, value: name, error: nameError, helperText: nameHelperText },
     ]
     setFormFieldList(list)
+    // eslint-disable-next-line
   }, [])
 
   useEffect(() => {
