@@ -15,7 +15,6 @@ function Update() {
   const { id } = useParams()
   const history = useHistory()
 
-  const [ code, setCode ] = useState('')
   const [ name, setName ] = useState('')
   const [ managerGroupId, setManagerGroupId ] = useState('')
   const [ supporterGroupId, setSupporterGroupId ] = useState('')
@@ -40,32 +39,11 @@ function Update() {
   const [ methodology_textError, setmethodology_textError ] = useState(false)
   const [ methodology_textHelperText, setmethodology_textHelperText ] = useState("")
 
-  const [ createdAt, setCreatedAt ] = useState('')
-  const [ updatedAt, setUpdatedAt ] = useState('')
   const [ formFieldList, setFormFieldList ] = useState([])
   const [ saving, setSaving ] = useState(true)
   const [ nameError, setNameError ] = useState(false)
   const [ nameHelperText, setNameHelperText ] = useState("")
-  const [ adGroupList, setAdGroupList ] = useState([])
-  const [ groupList, setGroupList ] = useState([])
-
-  // 获取 adGroupList groupList
-  useEffect(() => {
-    adGroupApi.list({ limit: 999, page: 1 })
-      .then(({ data }) => {
-        if (data && data.data) {
-          const { rows } = data.data
-          console.log(rows)
-          setAdGroupList(rows)
-        }
-      })
-    API.listGroup({ limit: 999, page: 1 }).then(({ data }) => {
-      if (data && data.data) {
-        const { rows } = data.data
-        setGroupList(rows)
-      }
-    })
-  }, [])
+  const [ errors, setErrors ] = useState({})
 
   const handleClick = async () => {
     const nameErr = await nameCheck()
@@ -102,109 +80,157 @@ function Update() {
   }
 
   useEffect(() => {
-    API.detail(id).then(({ data }) => {
-      const {
-        name, code, manager_group_id, supporter_group_id, group_id,
-        justification,
-        budget_type, project_owner, contact_person,
-        project_estimation, methodology_text,
-        createdAt, updatedAt
-      } = data.data
-      setName(name)
-      setCode(code)
-      setManagerGroupId(manager_group_id)
-      setSupporterGroupId(supporter_group_id)
-      setGroupId(group_id)
-      setjustification(justification)
-      setbudget_type(budget_type)
-      setproject_owner(project_owner)
-      setcontact_person(contact_person)
-      setproject_estimation(project_estimation)
-      setmethodology_text(methodology_text)
-      setCreatedAt(createdAt)
-      setUpdatedAt(updatedAt)
-      setSaving(false)
+    adGroupApi.list({ limit: 999, page: 1 }).then(({ data }) => {
+      if (data && data.data) {
+        return data.data.rows
+      } else {
+        return []
+      }
+    }).then(returnObj => {
+      API.listGroup({ limit: 999, page: 1 }).then(({ data }) => {
+        if (data && data.data) {
+          return {
+            adGroupList: returnObj,
+            groupList: data.data.rows,
+          }
+        } else {
+          return {
+            adGroupList: returnObj,
+            groupList: [],
+          }
+        }
+      }).then(returnObj => {
+        API.detail(id).then(({ data }) => {
+          const {
+            name, manager_group_id, supporter_group_id, group_id,
+            justification,
+            budget_type, project_owner, contact_person,
+            project_estimation, methodology_text,
+          } = data.data
+          setName(name)
+          setManagerGroupId(manager_group_id)
+          setSupporterGroupId(supporter_group_id)
+          setGroupId(group_id)
+          setjustification(justification)
+          setbudget_type(budget_type)
+          setproject_owner(project_owner)
+          setcontact_person(contact_person)
+          setproject_estimation(project_estimation)
+          setmethodology_text(methodology_text)
+          setSaving(false)
+
+          const defaultValue = data.data
+
+          const list = [
+            {
+              id: 'code', label: L('Code'), type: 'text', readOnly: true, disabled: true, value: defaultValue.code,
+            },
+            {
+              id: 'name', label: L('Name'), type: 'text', required: true, readOnly: false,
+              value: defaultValue.name, error: nameError, helperText: nameHelperText
+            },
+            {
+              id: 'managerGroupId', label: L('Manager Group'), type: "select",
+              readOnly: false, itemList: returnObj.adGroupList, value: defaultValue.manager_group_id,
+              labelField: 'name', valueField: 'id',
+            },
+            {
+              id: 'supporterGroupId', label: L('Supporter Group'), type: "select",
+              readOnly: false, itemList: returnObj.adGroupList, value: defaultValue.supporter_group_id,
+              labelField: 'name', valueField: 'id',
+            },
+            {
+              id: 'groupId', label: L('Group'), required: true, itemList: returnObj.groupList,
+              type: "select", labelField: 'name', valueField: 'id', value: defaultValue.group_id,
+            },
+            {
+              id: 'justification', label: L('justification'), type: 'text', required: true, readOnly: false,
+              value: defaultValue.justification,
+              error: justificationError, helperText: justificationHelperText
+            },
+            {
+              id: 'budget_type', label: L('budget_type'), type: 'text', required: true, readOnly: false,
+              value: defaultValue.budget_type,
+              error: budget_typeError, helperText: budget_typeHelperText
+            },
+            {
+              id: 'project_owner', label: L('project_owner'), type: 'text', required: true, readOnly: false,
+              value: defaultValue.project_owner,
+              error: project_ownerError, helperText: project_ownerHelperText
+            },
+            {
+              id: 'contact_person', label: L('contact_person'), type: 'text', required: true, readOnly: false,
+              value: defaultValue.contact_person,
+              error: contact_personError, helperText: contact_personHelperText
+            },
+            {
+              id: 'project_estimation', label: L('project_estimation'), type: 'text', required: true, readOnly: false,
+              value: defaultValue.project_estimation,
+              error: project_estimationError, helperText: project_estimationHelperText
+            },
+            {
+              id: 'methodology_text', label: L('methodology_text'), type: 'text', required: true, readOnly: false,
+              value: defaultValue.methodology_text,
+              error: methodology_textError, helperText: methodology_textHelperText
+            },
+            {
+              id: 'createdAt', label: L('Created At'), type: 'text', disabled: true,
+              readOnly: true, value: formatDateTime(defaultValue.createdAt)
+            },
+            {
+              id: 'updatedAt', label: L('Updated At'), type: 'text', disabled: true,
+              readOnly: true, value: formatDateTime(defaultValue.updatedAt)
+            },
+          ]
+          setFormFieldList(list)
+        })
+      })
     })
+    // eslint-disable-next-line
   }, [ id ])
 
   useEffect(() => {
-    const list = [
-      {
-        id: 'code', label: L('Code'), type: 'text', readOnly: true, disabled: true, value: code,
+    const errors = {
+      name: {
+        error: nameError,
+        helperText: nameHelperText,
       },
-      {
-        id: 'name', label: L('Name'), type: 'text', required: true, readOnly: false,
-        value: name, error: nameError, helperText: nameHelperText
+      justification: {
+        error: justificationError,
+        helperText: justificationHelperText,
       },
-      {
-        id: 'managerGroupId', label: L('Manager Group'), type: "select",
-        readOnly: false, itemList: adGroupList, value: managerGroupId,
-        labelField: 'name', valueField: 'id',
+      budget_type: {
+        error: budget_typeError,
+        helperText: budget_typeHelperText,
       },
-      {
-        id: 'supporterGroupId', label: L('Supporter Group'), type: "select",
-        readOnly: false, itemList: adGroupList, value: supporterGroupId,
-        labelField: 'name', valueField: 'id',
+      project_owner: {
+        error: project_ownerError,
+        helperText: project_ownerHelperText,
       },
-      {
-        id: 'groupId', label: L('Group'), required: true, itemList: groupList,
-        type: "select", labelField: 'name', valueField: 'id', value: groupId,
+      contact_person: {
+        error: contact_personError,
+        helperText: contact_personHelperText,
       },
-      {
-        id: 'justification', label: L('justification'), type: 'text', required: true, readOnly: false,
-        value: justification,
-        error: justificationError, helperText: justificationHelperText
+      project_estimation: {
+        error: project_estimationError,
+        helperText: project_estimationError,
       },
-      {
-        id: 'budget_type', label: L('budget_type'), type: 'text', required: true, readOnly: false,
-        value: budget_type,
-        error: budget_typeError, helperText: budget_typeHelperText
+      methodology_text: {
+        error: methodology_textError,
+        helperText: methodology_textError,
       },
-      {
-        id: 'project_owner', label: L('project_owner'), type: 'text', required: true, readOnly: false,
-        value: project_owner,
-        error: project_ownerError, helperText: project_ownerHelperText
-      },
-      {
-        id: 'contact_person', label: L('contact_person'), type: 'text', required: true, readOnly: false,
-        value: contact_person,
-        error: contact_personError, helperText: contact_personHelperText
-      },
-      {
-        id: 'project_estimation', label: L('project_estimation'), type: 'text', required: true, readOnly: false,
-        value: project_estimation,
-        error: project_estimationError, helperText: project_estimationHelperText
-      },
-      {
-        id: 'methodology_text', label: L('methodology_text'), type: 'text', required: true, readOnly: false,
-        value: methodology_text,
-        error: methodology_textError, helperText: methodology_textHelperText
-      },
-      {
-        id: 'createdAt', label: L('Created At'), type: 'text', disabled: true,
-        readOnly: true, value: formatDateTime(createdAt)
-      },
-      {
-        id: 'updatedAt', label: L('Updated At'), type: 'text', disabled: true,
-        readOnly: true, value: formatDateTime(updatedAt)
-      },
-    ]
-    setFormFieldList(list)
+    }
+    setErrors(errors)
+    // eslint-disable-next-line
   }, [
-    name, code, managerGroupId, supporterGroupId, adGroupList,
-    groupId, groupList,
-    justification,
-    budget_type, project_owner, contact_person,
-    project_estimation, methodology_text,
-    createdAt, updatedAt, nameError, nameHelperText,
-    justificationError, justificationHelperText,
-    budget_typeError, budget_typeHelperText,
-    project_ownerError, project_ownerHelperText,
-    contact_personError, contact_personHelperText,
-    project_estimationError, project_estimationHelperText,
-    methodology_textError, methodology_textHelperText,
+    nameHelperText,
+    justificationHelperText,
+    budget_typeHelperText,
+    project_ownerHelperText,
+    contact_personHelperText,
+    project_estimationError,
+    methodology_textError,
   ])
-
   const onFormFieldChange = (e, id) => {
     const { value } = e.target
     switch (id) {
@@ -323,10 +349,10 @@ function Update() {
   return (
     <React.Fragment>
       <DetailPage
-        formTitle={L('Update')}
         onFormFieldChange = {onFormFieldChange}
         onFormFieldBlur = {onFormFieldBlur}
         formFieldList = {formFieldList}
+        errorFieldList = {errors}
         showBtn ={true}
         onBtnClick = {handleClick}
       />

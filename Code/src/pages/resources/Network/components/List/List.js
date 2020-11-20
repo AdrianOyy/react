@@ -86,6 +86,7 @@ function List(props) {
 
   const handleSearch = () => {
     setQuery({
+      isNetwork: 'Y',
       createdAt: formatDate(createdAt),
       updatedAt: formatDate(updatedAt),
     })
