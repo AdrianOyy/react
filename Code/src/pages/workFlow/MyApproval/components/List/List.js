@@ -18,7 +18,7 @@ import {
   Chat as ChatIcon
 } from "@material-ui/icons"
 
-const tableName = ''
+const tableName = L('My Approval')
 
 function List(props) {
   const {  path } = props
@@ -166,7 +166,7 @@ function List(props) {
           <HAPaper>
             <CommonTable
               rows={rows}
-              tableName={null}
+              tableName={tableName}
               deleteAPI={API.deleteMany}
               handleSearch={handleSearch}
               hideCheckBox={true}
