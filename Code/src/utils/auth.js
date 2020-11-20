@@ -56,12 +56,14 @@ function signIn(data) {
   CommonTip.success(L('Success'))
 }
 
-function signOut() {
+function signOut(hideTip = false) {
   Loading.show()
   window.localStorage.removeItem('token')
   window.localStorage.removeItem('user')
   Loading.hide()
-  CommonTip.success(L('Success'))
+  if (!hideTip) {
+    CommonTip.success(L('Success'))
+  }
   window.location.href = '/'
 }
 
