@@ -40,10 +40,6 @@ function DatePicker(props) {
     <div
       className={classes.root}
       id={'element_' + fieldName}
-      style={{
-        marginLeft: '2em',
-        marginRight: '4em',
-      }}
     >
       {
         fieldDisplayName && fieldDisplayName.length > 40

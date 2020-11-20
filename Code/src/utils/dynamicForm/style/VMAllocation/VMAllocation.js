@@ -7,7 +7,8 @@ class VMAllocation extends Common {
     this.container = {
       backgroundColor: '#fff',
       borderRadius: '1em',
-      minWidth: '50vw',
+      width: '85%',
+      maxWidth: '1000px',
       minHeight: '60vh',
       padding: '1em 1em 1em 1em',
       display: 'flex',
@@ -21,6 +22,7 @@ class VMAllocation extends Common {
       borderRadius: '0.8em',
       width: '60%',
       display: 'flex',
+      marginTop: '2em',
     }
     this.parentRawData = {
       backgroundColor: '#fff',
@@ -48,6 +50,30 @@ class VMAllocation extends Common {
       input: {
       },
       helperText: {
+        color: '#f44336',
+        height: '1vh',
+        lineHeight: '1vh',
+        fontSize: '1em',
+        fontFamily,
+        marginTop: '0.5em',
+      }
+    }
+    this.commonElement = {
+      root: {
+        width: '90%',
+        marginBottom: '2em',
+      },
+      label: {
+        fontSize: '1.2em',
+        color: 'rgba(0,0,0,.85)',
+        '-webkit-user-select': 'none',
+        '-moz-user-select': 'none',
+      },
+      input: {
+      },
+      helperText: {
+        '-webkit-user-select': 'none',
+        '-moz-user-select': 'none',
         color: '#f44336',
         height: '1vh',
         lineHeight: '1vh',

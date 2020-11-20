@@ -8,28 +8,49 @@ import React from "react"
 import { CREATE, UPDATE } from "../../../variable/stepName"
 import { isEmail } from "../../../regex"
 import accountManagementAPI from "../../../../api/accountManagement"
+import ContractItems from "../../../../components/ContractItems/ContractItems"
 
 
 class Account extends Common {
 
-  hideItem(item) {
-    const { fieldName, remark } = item
-    if (remark === 'Internet Account Application' || remark === 'IBRA Account Application') {
-      item.show = false
-      const id = 'element_' + fieldName
-      const el = document.getElementById(id)
-      el && (el.style.display = 'none')
+  hideItem() {
+    const hideFieldList = this.parentInitDetail.filter(el => {
+      const flag = el.remark === 'Internet Account Application' || el.remark === 'IBRA Account Application'
+      if (flag) {
+        el.show = false
+      }
+      return flag
+    })
+    const [ accountType ] = this.parentInitDetail.filter(e => e.fieldName === 'account_type')
+    let hideType = []
+    if (accountType && accountType.itemList) {
+      if (accountType.itemList.indexOf('Internet Account Application') === -1) hideType.push('Internet Account Application')
+      if (accountType.itemList.indexOf('IBRA Account Application') === -1) hideType.push('IBRA Account Application')
     }
-    // Internet Account Application
-    // IBRA Account Application
-    // console.log('remark=========================remark')
-    // console.log(remark)
-    // console.log('remark=========================remark')
-    // const accountType = this.parentData.get('account_type')
-    // console.log('accountType=========================accountType')
-    // console.log(accountType)
-    // console.log('accountType=========================accountType')
-    // if (remark === 'account_type' && )
+    hideFieldList.forEach(el => {
+      const { fieldName, remark } = el
+      if (hideType.indexOf(remark)) {
+        const id = 'element_' + fieldName
+        const el = document.getElementById(id)
+        el && (el.style.display = 'none')
+      }
+    })
+  }
+
+  getContractList() {
+    let res = [ ContractItems.get('CORP Account (Personal) Application') ]
+    const atValueList = this.parentData.get('account_type')
+    const [ atItem ] = this.parentInitDetail.filter(e => e.fieldName === 'account_type')
+    if (!atItem || !atItem.itemList) return res
+
+    atValueList.forEach(el => {
+      const [ item ] = atItem.itemList.filter(e => e.id === el)
+      if (item && item.type) {
+        const contract = ContractItems.get(item.type)
+        contract && res.push(contract)
+      }
+    })
+    return res
   }
 
   async getInitData() {
@@ -69,6 +90,11 @@ class Account extends Common {
     return false
   }
 
+  getParentTitle() {
+    if (this.stepName === CREATE) return null
+    return 'Account Management'
+  }
+
 
   // 父表字段变更
   onParentFieldChange(fieldName, value) {
@@ -97,11 +123,15 @@ class Account extends Common {
       })
       showFieldList.forEach(fieldName => {
         const id = 'element_' + fieldName
+        const [ item ] = this.parentInitDetail.filter(e => e.fieldName === fieldName)
+        item.show = true
         const el = document.getElementById(id)
         el && (el.style.display = 'block')
       })
       hideFieldList.forEach(fieldName => {
         const id = 'element_' + fieldName
+        const [ item ] = this.parentInitDetail.filter(e => e.fieldName === fieldName)
+        item.show = false
         const el = document.getElementById(id)
         el && (el.style.display = 'none')
       })

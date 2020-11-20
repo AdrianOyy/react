@@ -34,6 +34,12 @@ class ClosingAccount extends Common {
     }
     return { error: false, message: '' }
   }
+
+
+  getParentTitle() {
+    if (this.stepName === CREATE) return null
+    return 'Closing Account'
+  }
 }
 
 class ClosingAccountDetail extends ClosingAccount {

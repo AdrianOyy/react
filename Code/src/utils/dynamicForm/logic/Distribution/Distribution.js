@@ -8,6 +8,7 @@ import React from "react"
 import { CREATE, HA4, UPDATE } from "../../../variable/stepName"
 import { isEmail } from "../../../regex"
 import accountManagementAPI from "../../../../api/accountManagement"
+import ContractItems from "../../../../components/ContractItems/ContractItems"
 
 
 class Distribution extends Common {
@@ -28,11 +29,21 @@ class Distribution extends Common {
     return value
   }
 
+  getContractList() {
+    const res = [ ContractItems.get('Distribution List Application') ]
+    return res
+  }
+
   shouldContinue(item) {
     if (this.parentData.get('isowner') && item.remark === 'isowner') return true
     if (this.stepName && this.stepName === CREATE && !item.showOnRequest) return true
     if (this.stepName && this.stepName !== HA4 && item.fieldName === 'distributionlistid') return true
     return false
+  }
+
+  getParentTitle() {
+    if (this.stepName === CREATE) return null
+    return 'Distribution List'
   }
 
   getDisabled(item, isParent = false) {

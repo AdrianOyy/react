@@ -86,10 +86,6 @@ function SearchInput(props) {
       <div
         className={classes.root}
         id={'element_' + fieldName}
-        style={{
-          marginLeft: '2em',
-          marginRight: '4em',
-        }}
       >
         <Label
           className={classes.label}

@@ -29,6 +29,11 @@ export default function DynamicForm() {
           childInitDetail: childInitData ? childInitData : [],
         })
         callback && callback()
+      })
+      .then(() => {
+        logic.hideItem()
+      })
+      .finally(() => {
         Loading.hide()
       })
       .catch(e => {
@@ -48,9 +53,13 @@ export default function DynamicForm() {
 
   return (
     <Paper className={classes.container} id={'dynamic_form_container'}>
-      <Typography variant='h4' id="tableTitle" className={classes.parentTitle}>
-        { logic && logic.getParentTitle() }
-      </Typography>
+      {
+        logic && logic.getParentTitle() && (
+          <Typography variant='h3' id="tableTitle" className={classes.parentTitle}>
+            { logic.getParentTitle() }
+          </Typography>
+        )
+      }
       <div className={classes.parent} id={'dynamic_form_parent'}>
         <div className={classes.parentRawData} id={'dynamic_form_parent_raw_data'}>
           {

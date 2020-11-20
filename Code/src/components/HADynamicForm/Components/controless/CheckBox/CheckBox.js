@@ -86,14 +86,16 @@ export default function HACheckBox(props) {
   const classes = useStyles()
 
   return (
-    <div style={{
-      minWidth: '700px',
-      maxWidth: '900px',
-      boxSizing: 'border-box',
-      marginBottom: '2em',
-      marginLeft: '2em',
-      marginRight: '4em',
-    }} id={'element_' + fieldName}>
+    <div
+      style={{
+        minWidth: '700px',
+        maxWidth: '900px',
+        boxSizing: 'border-box',
+        marginBottom: '2em',
+      }}
+      id={'element_' + fieldName}
+      className={classes.root}
+    >
       <Label
         className={classes.label}
         htmlFor={id}

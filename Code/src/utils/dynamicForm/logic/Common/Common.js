@@ -172,6 +172,10 @@ export class Common {
   //                 parent
   //  =====================================
 
+  getContractList() {
+    return null
+  }
+
   // 获取父表标题
   getParentTitle() {
     return this.parentFormKey
@@ -190,7 +194,6 @@ export class Common {
     const remarkedItem = new Map()
     for (const item of this.parentFormDetail) {
       if (this.shouldContinue(item)) continue
-      this.hideItem(item)
       const disabled = this.getDisabled(item, true)
       let defaultValue
       if (item && item.type === "checkbox") {
@@ -220,7 +223,7 @@ export class Common {
     return res
   }
 
-  hideItem(item) {}
+  hideItem() {}
 
   shouldContinue(item) {
     if (this.stepName && this.stepName === CREATE && !item.showOnRequest) return true

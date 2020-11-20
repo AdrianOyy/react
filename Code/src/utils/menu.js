@@ -52,7 +52,7 @@ const menu = {
         path: '/workflow/distributionList/'
       },
       closingAccount: {
-        name: 'CLosing Account',
+        name: 'Closing Account',
         path: '/workflow/closingAccount/',
       },
       vm: {
