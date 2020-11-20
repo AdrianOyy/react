@@ -127,8 +127,8 @@ function HAStep(props) {
 
   return (
     <React.Fragment>
-      <Paper>
-        <Stepper activeStep={activeStep} alternativeLabel>
+      <Paper style={{ justifyItems: 'center' }}>
+        <Stepper style={{ width: '80%' }} activeStep={activeStep} alternativeLabel>
           {steps.map((label) => {
             let labelProps = {}
             if (label.status === 'processing') {
@@ -183,7 +183,6 @@ function HAStep(props) {
           <Button
             fullwidth
             variant="contained"
-            color="primary"
             onClick={() => { setShown(false) }}
             style={{ marginRight: '2ch' }} >{L('Close')}</Button>
         </DialogActions>

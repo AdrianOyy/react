@@ -192,7 +192,6 @@ export default function ChatBox(props) {
             Submit
           </Button>
           <Button
-            color="secondary"
             variant="contained"
             className={classes.button}
             onClick={closeHandle}>

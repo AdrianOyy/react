@@ -169,32 +169,32 @@ function CommonForm(props) {
             </Grid>
           </form>
         </Paper>
-        {
-          showBtn &&   (
-            <Grid
-              container
-              direction="row"
-              justify="flex-end"
-              alignItems="center"
-              style={{ marginTop: '5ch' }}
-            >
+        <Grid
+          container
+          direction="row"
+          justify="flex-end"
+          alignItems="center"
+          style={{ marginTop: '5ch' }}
+        >
+          {
+            showBtn &&   (
               <Button
                 color="primary"
                 variant="contained"
                 onClick={() => onBtnClick()}>
                 Save
               </Button>
-              <Button
-                style={{ marginLeft: '2ch' }}
-                variant="contained"
-                onClick={() => {
-                  history.push({ pathname: '/' })
-                }}>
-                Cancel
-              </Button>
-            </Grid>
-          )
-        }
+            )
+          }
+          <Button
+            style={{ marginLeft: '2ch' }}
+            variant="contained"
+            onClick={() => {
+              history.push({ pathname: '/' })
+            }}>
+            Close
+          </Button>
+        </Grid>
       </CardContent>
     </Card>
   )
