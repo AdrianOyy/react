@@ -5,7 +5,6 @@ import ExpandTable from "../../../../../components/ExpandTable"
 import API from "../../../../../api/inventory"
 import { L } from '../../../../../utils/lang'
 import { useParams } from "react-router-dom"
-import formatDateTime from "../../../../../utils/formatDateTime"
 import PropTypes from 'prop-types'
 import { makeStyles } from '@material-ui/core/styles'
 
@@ -116,27 +115,9 @@ const showPowerOutput = {
 function Detail() {
 
   const { id } = useParams()
-  const [ _ID, set_ID ] = useState('')
-  const [ UnitCode, setUnitCode ] = useState('')
-  const [ AssetID, setAssetID ] = useState('')
-  const [ ModelCode, setModelCode ] = useState('')
-  const [ ModelDesc, setModelDesc ] = useState('')
-  const [ ClosetID, setClosetID ] = useState('')
-  const [ Rack, setRack ] = useState('')
-  const [ RLU, setRLU ] = useState('')
-  const [ ItemOwner, setItemOwner ] = useState('')
-  const [ ServiceStatus, setServiceStatus ] = useState('')
-  const [ Remark, setRemark ] = useState('')
-  const [ UnitNo, setUnitNo ] = useState('')
-  const [ PortQty, setPortQty ] = useState('')
-  const [ ReqNo, setReqNo ] = useState('')
-  const [ DOB, setDOB ] = useState('')
-  const [ DeliveryDate, setDeliveryDate ] = useState('')
-  const [ DeliveryNoteReceivedDate, setDeliveryNoteReceivedDate ] = useState('')
-  const [ MaintID, setMaintID ] = useState('')
   const [ EquipType, setEquipType ] = useState('')
-  const [ createdAt, setCreatedAt ] = useState('')
-  const [ updatedAt, setUpdastedAt ] = useState('')
+  // const [ createdAt, setCreatedAt ] = useState('')
+  // const [ updatedAt, setUpdastedAt ] = useState('')
 
   const [ inventory, setInventory ] = useState([])
   const [ policys, setPolicys ] = useState([])
@@ -183,29 +164,9 @@ function Detail() {
         // console.log(returnObj)
         API.detail(id).then(({ data }) => {
           const {
-            _ID, UnitCode, AssetID, ModelCode, ModelDesc, ClosetID,
-            Rack, RLU, ItemOwner, Remark, UnitNo, PortQty, ReqNo,
-            DOB, DeliveryDate, DeliveryNoteReceivedDate, MaintID, EquipType,
-            policy, equipPort, powerInput, powerOutput, equipType
+            EquipType, policy, equipPort, powerInput, powerOutput, equipType
           } = data.data
-          set_ID(_ID)
-          setUnitCode(UnitCode)
-          setAssetID(AssetID)
-          setModelCode(ModelCode)
-          setModelDesc(ModelDesc)
-          setClosetID(ClosetID)
-          setRack(Rack)
-          setRLU(RLU)
-          setItemOwner(ItemOwner)
-          setRemark(Remark)
           setEquipType(EquipType)
-          setUnitNo(UnitNo)
-          setPortQty(PortQty)
-          setReqNo(ReqNo)
-          setDOB(DOB)
-          setDeliveryDate(DeliveryDate)
-          setDeliveryNoteReceivedDate(DeliveryNoteReceivedDate)
-          setMaintID(MaintID)
           if (policy && policy.length > 0) {
             setPolicys(policy)
           }
@@ -514,69 +475,8 @@ function Detail() {
   //   createdAt, updatedAt, EquipType
   // ])
 
-  const onFormFieldChange = (e, id) => {
-    const { value } = e.target
-    switch (id) {
-      case '_ID' :
-        set_ID(value)
-        break
-      case 'UnitCode' :
-        setUnitCode(value)
-        break
-      case 'AssetID' :
-        setAssetID(value)
-        break
-      case 'ModelCode' :
-        setModelCode(value)
-        break
-      case 'ModelDesc' :
-        setModelDesc(value)
-        break
-      case 'ClosetID' :
-        setClosetID(value)
-        break
-      case 'Rack' :
-        setRack(value)
-        break
-      case 'RLU' :
-        setRLU(value)
-        break
-      case 'ItemOwner' :
-        setItemOwner(value)
-        break
-      case 'Status' :
-        setServiceStatus(value)
-        break
-      case 'Remark' :
-        setRemark(value)
-        break
-      case 'UnitNo' :
-        setUnitNo(value)
-        break
-      case 'PortQty' :
-        setPortQty(value)
-        break
-      case 'ReqNo' :
-        setReqNo(value)
-        break
-      case 'DOB' :
-        setDOB(value)
-        break
-      case 'DeliveryDate' :
-        setDeliveryDate(value)
-        break
-      case 'DeliveryNoteReceivedDate' :
-        setDeliveryNoteReceivedDate(value)
-        break
-      case 'MaintID' :
-        setMaintID(value)
-        break
-      case 'EquipType' :
-        setEquipType(value)
-        break
-      default:
-        break
-    }
+  const onFormFieldChange = () => {
+
   }
 
   return (

@@ -5,19 +5,19 @@ import {
   Dialog as HADialog,
   DialogActions,
   DialogTitle,
+  Card,
+  CardContent,
+  Typography,
+  InputLabel as Label,
 } from '@material-ui/core/'
 import API from "../../api/workFlow"
-import List from '@material-ui/core/List'
-import Divider from '@material-ui/core/Divider'
 import ListItem from '@material-ui/core/ListItem'
 import ListItemText from '@material-ui/core/ListItemText'
 import ListItemAvatar from '@material-ui/core/ListItemAvatar'
 import Avatar from '@material-ui/core/Avatar'
-import ImageIcon from '@material-ui/icons/Image'
 import { makeStyles, withStyles } from "@material-ui/core/styles"
 import formatDateTime from "../../utils/formatDateTime"
 import DialogContent from "@material-ui/core/DialogContent"
-import TextField from "@material-ui/core/TextField"
 import { L } from "../../utils/lang"
 
 const useStyles = makeStyles(() => ({
@@ -29,8 +29,11 @@ const useStyles = makeStyles(() => ({
     marginLeft: '1vw',
     marginRight: '1vw',
   },
-  none: {
-    display: 'none',
+  contentMessage: {
+    height: '8vh'
+  },
+  root: {
+    marginTop: '1vh'
   }
 }))
 
@@ -72,6 +75,7 @@ const Content = withStyles((() => ({
   root: {
     padding: '0 4vw',
     minHeight: '90px',
+    backgroundColor: '#F7F9FC',
   }
 })))(DialogContent)
 
@@ -96,6 +100,19 @@ export default function ChatBox(props) {
     // 用 setMessageList 方法更新 messageList
 
   }
+
+  const InputLabel = withStyles((theme) => ({
+    root: {
+      fontSize: '1.1rem',
+      display: 'block',
+      color: 'rgba(0,0,0,.85)',
+      '-webkit-user-select': 'none',
+      '-moz-user-select': 'none',
+      focused: {
+        color: theme.palette.primary.main,
+      }
+    },
+  }))(Label)
 
   const dialogReason = {
     title: 'message',
@@ -147,40 +164,91 @@ export default function ChatBox(props) {
         {/*    </DialogContentText>)*/}
         {/* })}*/}
         <Content dividers={true}>
-          <List>
-            {messageList.map((label, index) => {
+          {
+            messageList.map((label, index) => {
               return (
-                // eslint-disable-next-line react/jsx-key
-                <div key={index}>
-                  <ListItem>
-                    <ListItemAvatar>
-                      <Avatar>
-                        <ImageIcon />
-                      </Avatar>
-                    </ListItemAvatar>
-                    <ListItemText primary={label.username + '   ' + formatDateTime(new Date(label.createAt))} secondary={label.message} />
-                  </ListItem>
-                  <Divider variant="inset" component="li" />
-                </div>
+                <Card key={index} className={classes.root} variant="outlined">
+                  <CardContent>
+                    <ListItem alignItems="flex-start">
+                      <ListItemAvatar>
+                        <Avatar alt="Cindy Baker" src="/static/images/avatar/3.jpg" />
+                      </ListItemAvatar>
+                      <ListItemText
+                        primary={label.username + '   ' + formatDateTime(new Date(label.createAt))}
+                        secondary={
+                          <React.Fragment>
+                            <Typography
+                              component="span"
+                              variant="body2"
+                              className={classes.inline}
+                              color="textPrimary"
+                            >
+                              {label.message}
+                            </Typography>
+                          </React.Fragment>
+                        }
+                      />
+                    </ListItem>
+                  </CardContent>
+                </Card>
               )
-            })}
-          </List>
+            })
+          }
+
+          {/* <List>*/}
+          {/*  {messageList.map((label, index) => {*/}
+          {/*    return (*/}
+          {/*      // eslint-disable-next-line react/jsx-key*/}
+          {/*      <div key={index}>*/}
+          {/*        <ListItem>*/}
+          {/*          <ListItemAvatar>*/}
+          {/*            <Avatar>*/}
+          {/*              <ImageIcon />*/}
+          {/*            </Avatar>*/}
+          {/*          </ListItemAvatar>*/}
+          {/*          <ListItemText primary={label.username + '   ' + formatDateTime(new Date(label.createAt))} secondary={label.message} />*/}
+          {/*        </ListItem>*/}
+          {/*        <Divider variant="inset" component="li" />*/}
+          {/*      </div>*/}
+          {/*    )*/}
+          {/*  })}*/}
+          {/* </List>*/}
         </Content>
-        <Content className={disabled ? classes.none : ''} dividers={false}>
-          <TextField
-            fullWidth={true}
-            id={dialogReason.formField.id.toString()}
-            key={dialogReason.formField.id + dialogReason.formField.label}
-            label={dialogReason.formField.label}
-            type={dialogReason.formField.type}
-            error={dialogReason.formField.error || false}
-            helperText={dialogReason.formField.helperText || ''}
-            disabled={dialogReason.formField.disabled || false}
-            required={dialogReason.formField.required || false}
-            onChange={!dialogReason.formField.readOnly ? (event) => handleReasonChange(event) : null}
-            value={reasonValue}
-            multiline
-          />
+        <Content className={classes.contentMessage} dividers={false}>
+          <div>
+            <InputLabel
+              id={'messagelabel'}
+            >
+              <font color="red">*</font>
+              { 'Message:'}
+            </InputLabel>
+            <div style={{ width: '1vw' }}></div>
+            <div>
+              <textarea
+                rows={"8"}
+                cols={"20"}
+                error={dialogReason.formField.error || false}
+                disabled={dialogReason.formField.disabled || false}
+                required={dialogReason.formField.required || false}
+                style={{ marginTop: '10px', resize: 'none', width: '100%' }}
+                onChange={!dialogReason.formField.readOnly ? (event) => handleReasonChange(event) : null}
+              />
+            </div>
+          </div>
+          {/* <TextField*/}
+          {/*  fullWidth={true}*/}
+          {/*  id={dialogReason.formField.id.toString()}*/}
+          {/*  key={dialogReason.formField.id + dialogReason.formField.label}*/}
+          {/*  label={dialogReason.formField.label}*/}
+          {/*  type={dialogReason.formField.type}*/}
+          {/*  error={dialogReason.formField.error || false}*/}
+          {/*  helperText={dialogReason.formField.helperText || ''}*/}
+          {/*  disabled={dialogReason.formField.disabled || false}*/}
+          {/*  required={dialogReason.formField.required || false}*/}
+          {/*  onChange={!dialogReason.formField.readOnly ? (event) => handleReasonChange(event) : null}*/}
+          {/*  value={reasonValue}*/}
+          {/*  multiline*/}
+          {/* />*/}
         </Content>
         <Actions disableSpacing={true}>
           <Button
