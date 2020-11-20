@@ -24,7 +24,6 @@ function List(props) {
   const {  path } = props
   const history = useHistory()
   const [ startTime, setStartTime ] = useState('')
-  const [ endTime, setEndTime ] = useState('')
   const [ query, setQuery ] = useState({})
   const [ rows, setRows ] = useState([])
   const [ page, setPage ] = useState(0)
@@ -89,7 +88,6 @@ function List(props) {
 
   const handleClear = () => {
     setStartTime('')
-    setEndTime('')
     setQuery({
       startTime: '',
       endTime: ''
@@ -99,7 +97,6 @@ function List(props) {
   const handleSearch = () => {
     setQuery({
       createTime: formatDate(startTime),
-      //endTime: formatDate(endTime),
     })
   }
 
@@ -108,9 +105,6 @@ function List(props) {
     switch (id) {
       case "startTime":
         setStartTime(value)
-        break
-      case "endTime":
-        setEndTime(value)
         break
       default:
         break

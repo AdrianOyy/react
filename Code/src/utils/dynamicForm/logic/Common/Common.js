@@ -2,7 +2,7 @@ import React from "react"
 import {
   Button,
 } from "@material-ui/core"
-import { CREATE, DETAIL } from "../../../variable/stepName"
+import { CREATE, UPDATE } from "../../../variable/stepName"
 import { cloneMap1 } from "../../../clone"
 import { map2object, object2map } from "../../../map2object"
 import {
@@ -190,6 +190,7 @@ export class Common {
     const remarkedItem = new Map()
     for (const item of this.parentFormDetail) {
       if (this.shouldContinue(item)) continue
+      this.hideItem(item)
       const disabled = this.getDisabled(item, true)
       let defaultValue
       if (item && item.type === "checkbox") {
@@ -207,7 +208,7 @@ export class Common {
       }
       if (newItem.remark) {
         if (remarkedItem.has(newItem.remark)) {
-          remarkedItem.set(remarkedItem.get(newItem.remark).push(newItem.fieldName))
+          remarkedItem.get(newItem.remark).push(newItem.fieldName)
         } else {
           remarkedItem.set(item.remark, [ newItem.fieldName ])
         }
@@ -218,6 +219,8 @@ export class Common {
     this.remarkedItem = remarkedItem
     return res
   }
+
+  hideItem(item) {}
 
   shouldContinue(item) {
     if (this.stepName && this.stepName === CREATE && !item.showOnRequest) return true
@@ -564,10 +567,10 @@ export default function getCommon(props) {
   switch (stepName) {
     case CREATE:
       return new Common(props)
-    case DETAIL:
-      return new CommonDetail(props)
-    default:
+    case UPDATE:
       return new CommonUpdate(props)
+    default:
+      return new CommonDetail(props)
   }
 }
 

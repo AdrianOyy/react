@@ -80,7 +80,6 @@ function CommonForm(props) {
         value: e.value
       }
     }
-    console.log(e)
     onFormFieldChange(data, e.id)
   }
   // const handleDataBlur = (value, id) => {
@@ -102,7 +101,6 @@ function CommonForm(props) {
             <Grid container spacing={spacing ? spacing : 3}>
               {
                 formFieldList && formFieldList.map((field, i) => {
-                  console.log(field)
                   switch (field.type) {
                     case 'date':
                       return (
@@ -154,7 +152,7 @@ function CommonForm(props) {
                         >
                           <FormInput
                             id={field.id.toString()}
-                            onBur={handleDataChange}
+                            onBlur={handleDataChange}
                             style={{ padding: '0 1em' }}
                             disabled={field.disabled || false}
                             defaultValue={field.value === '' ? null : field.value}

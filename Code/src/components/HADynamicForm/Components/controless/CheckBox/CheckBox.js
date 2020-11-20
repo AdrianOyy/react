@@ -34,7 +34,6 @@ export default function HACheckBox(props) {
     fieldName,
     getCheckBoxStatus,
     defaultValue,
-    show,
   } = props
 
   const [ error, setError ] = useState(false)
