@@ -6,6 +6,7 @@ function DetailPage(props) {
   const {
     // formTitle,
     formFieldList,
+    errorFieldList,
     onFormFieldChange,
     showBtn,
     onBtnClick,
@@ -18,6 +19,7 @@ function DetailPage(props) {
         // formTitle={formTitle}
         formTitle = ''
         formFieldList = {formFieldList}
+        errorFieldList = {errorFieldList}
         onFormFieldChange = {onFormFieldChange}
         showBtn = {showBtn}
         onBtnClick = {onBtnClick}

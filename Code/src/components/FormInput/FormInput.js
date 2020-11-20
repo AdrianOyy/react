@@ -42,15 +42,9 @@ export default function FormInput(props) {
     rowsMax,
     rowsMin,
   } = props
-
-  // useEffect(() => {
-  //   defaultValue && onBlur && onBlur({ id, value: defaultValue })
-  // }, [ defaultValue, onBlur, id ])
+  // console.log(error)
+  // console.log(helperText)
   const [ newValue, setNewValue ] = useState(defaultValue)
-  // useEffect(() => {
-  //   setNewValue(defaultValue)
-  //   // defaultValue && onChange && onChange(defaultValue)
-  // }, [ defaultValue ])
 
   useEffect(() => {
     onBlur && onBlur({ id, value: newValue })

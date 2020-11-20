@@ -66,6 +66,7 @@ function CommonForm(props) {
     formTitle,
     titleLevel,
     formFieldList,
+    errorFieldList,
     onFormFieldChange,
     showBtn,
     onBtnClick,
@@ -80,6 +81,7 @@ function CommonForm(props) {
         value: e.value
       }
     }
+    console.log(data)
     onFormFieldChange(data, e.id)
   }
   // const handleDataBlur = (value, id) => {
@@ -112,11 +114,11 @@ function CommonForm(props) {
                           <FormDate
                             id={field.id.toString()}
                             label={field.label}
-                            error={field.error || false}
+                            helperText={errorFieldList && errorFieldList[field.id] ? errorFieldList[field.id].helperText : ''}
+                            error={errorFieldList && errorFieldList[field.id] ? errorFieldList[field.id].error : false}
                             required={field.required || false}
-                            helperText={field.helperText || ''}
+                            disabled={field.disabled || false}
                             defaultValue={field.value === '' ? null : field.value}
-                            disabled={field.readOnly}
                             onChange={handleDataChange}
                           />
                         </div>
@@ -131,8 +133,8 @@ function CommonForm(props) {
                           <FormSelect
                             id={field.id.toString()}
                             label={field.label}
-                            error={field.error || false}
-                            helperText={field.helperText || ''}
+                            helperText={errorFieldList && errorFieldList[field.id] ? errorFieldList[field.id].helperText : ''}
+                            error={errorFieldList && errorFieldList[field.id] ? errorFieldList[field.id].error : false}
                             defaultValue={field.value || ''}
                             required={field.required || false}
                             disabled={field.disabled || false}
@@ -154,10 +156,12 @@ function CommonForm(props) {
                             id={field.id.toString()}
                             onBlur={handleDataChange}
                             style={{ padding: '0 1em' }}
+                            required={field.required || false}
                             disabled={field.disabled || false}
+                            helperText={errorFieldList && errorFieldList[field.id] ? errorFieldList[field.id].helperText : ''}
+                            error={errorFieldList && errorFieldList[field.id] ? errorFieldList[field.id].error : false}
                             defaultValue={field.value === '' ? null : field.value}
                             label={field.label}
-                            required={field.required}
                           />
                         </div>
                       )

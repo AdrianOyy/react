@@ -156,178 +156,363 @@ function Detail() {
   }
 
   useEffect(() => {
-    API.detail(id).then(({ data }) => {
+    API.listStatus({ limit: 999, page: 1 }).then(({ data }) => {
+      // return data.data
       if (data && data.data) {
-        const {
-          _ID, UnitCode, AssetID, ModelCode, ModelDesc, ClosetID,
-          Rack, RLU, ItemOwner, status, Remark, equipType, UnitNo, PortQty, ReqNo,
-          DOB, DeliveryDate, DeliveryNoteReceivedDate, MaintID,
-          createdAt, updatedAt, policy, equipPort, powerInput, powerOutput
-        } = data.data
-        set_ID(_ID)
-        setUnitCode(UnitCode)
-        setAssetID(AssetID)
-        setModelCode(ModelCode)
-        setModelDesc(ModelDesc)
-        setClosetID(ClosetID)
-        setRack(Rack)
-        setRLU(RLU)
-        setItemOwner(ItemOwner)
-        setServiceStatus(status ? status.ServiceStatus : '')
-        setRemark(Remark)
-        setEquipType(equipType ? equipType.Type : '')
-        setUnitNo(UnitNo)
-        setPortQty(PortQty)
-        setReqNo(ReqNo)
-        setDOB(DOB)
-        setDeliveryDate(DeliveryDate)
-        setDeliveryNoteReceivedDate(DeliveryNoteReceivedDate)
-        setMaintID(MaintID)
-        setCreatedAt(createdAt)
-        setUpdastedAt(updatedAt)
-        if (policy && policy.length > 0) {
-          setPolicys(policy)
-        }
-        if (powerInput && powerInput.length > 0) {
-          setPowerInputs(powerInput)
-        }
-        if (equipPort && equipPort.length > 0) {
-          setEquipmentPorts(equipPort)
-          const tempPortAssignments = []
-          equipPort.map((_) => {
-            tempPortAssignments.push(_.portAssignment)
-            return _
-          })
-          setPortAssignments(tempPortAssignments)
-        }
-        if (powerOutput && powerOutput.length > 0) {
-          setPowerOutputs(powerOutput)
-        }
-        if (equipType && equipType.Type === 'EqNetwork') {
-          setShowProps([
-            {
-              label: L('Network'),
-              id: `simple-tab-0`,
-              'aria-controls': `simple-tabpanel-0`,
-            },
-            {
-              label: L('Assigment'),
-              id: `simple-tab-1`,
-              'aria-controls': `simple-tabpanel-1`,
-            },
-          ])
-        } else if (
-          equipType &&
-          (equipType.Type === 'EqUPS' ||
-          equipType.Type === 'EqPDU' ||
-          equipType.Type === 'EqATS')
-        ) {
-          setShowProps([
-            {
-              label: L('Assigment'),
-              id: `simple-tab-0`,
-              'aria-controls': `simple-tabpanel-0`,
-            },
-          ])
-        }
+        return data.data
+      } else {
+        return []
       }
+    }).then(returnObj => {
+      API.listEquipType({ limit: 999, page: 1 }).then(({ data }) => {
+        if (data && data.data) {
+          setEquipType(data.data.filter(_ => {
+            return _.Type !== 'EqServer'
+          }))
+          return {
+            InventoryStatus: returnObj,
+            EquipTypes: data.data,
+          }
+        } else {
+          return {
+            InventoryStatus: returnObj,
+            EquipTypes: [],
+          }
+        }
+      }).then(returnObj => {
+        // console.log(returnObj)
+        API.detail(id).then(({ data }) => {
+          const {
+            _ID, UnitCode, AssetID, ModelCode, ModelDesc, ClosetID,
+            Rack, RLU, ItemOwner, Remark, UnitNo, PortQty, ReqNo,
+            DOB, DeliveryDate, DeliveryNoteReceivedDate, MaintID, EquipType,
+            policy, equipPort, powerInput, powerOutput, equipType
+          } = data.data
+          set_ID(_ID)
+          setUnitCode(UnitCode)
+          setAssetID(AssetID)
+          setModelCode(ModelCode)
+          setModelDesc(ModelDesc)
+          setClosetID(ClosetID)
+          setRack(Rack)
+          setRLU(RLU)
+          setItemOwner(ItemOwner)
+          setRemark(Remark)
+          setEquipType(EquipType)
+          setUnitNo(UnitNo)
+          setPortQty(PortQty)
+          setReqNo(ReqNo)
+          setDOB(DOB)
+          setDeliveryDate(DeliveryDate)
+          setDeliveryNoteReceivedDate(DeliveryNoteReceivedDate)
+          setMaintID(MaintID)
+          if (policy && policy.length > 0) {
+            setPolicys(policy)
+          }
+          if (powerInput && powerInput.length > 0) {
+            setPowerInputs(powerInput)
+          }
+          if (equipPort && equipPort.length > 0) {
+            setEquipmentPorts(equipPort)
+            const tempPortAssignments = []
+            equipPort.map((_) => {
+              tempPortAssignments.push(_.portAssignment)
+              return _
+            })
+            setPortAssignments(tempPortAssignments)
+          }
+          if (powerOutput && powerOutput.length > 0) {
+            setPowerOutputs(powerOutput)
+          }
+          if (equipType && equipType.Type === 'EqNetwork') {
+            setShowProps([
+              {
+                label: L('Network'),
+                id: `simple-tab-0`,
+                'aria-controls': `simple-tabpanel-0`,
+              },
+              {
+                label: L('Assigment'),
+                id: `simple-tab-1`,
+                'aria-controls': `simple-tabpanel-1`,
+              },
+            ])
+          } else if (
+            equipType &&
+            (equipType.Type === 'EqUPS' ||
+            equipType.Type === 'EqPDU' ||
+            equipType.Type === 'EqATS')
+          ) {
+            setShowProps([
+              {
+                label: L('Assigment'),
+                id: `simple-tab-0`,
+                'aria-controls': `simple-tabpanel-0`,
+              },
+            ])
+          }
+          const defaultValue = data.data
+          const inventoryList = [
+            {
+              id: '_ID', label: L('Ref. ID'), type: 'text',
+              disabled: true, value: defaultValue._ID,
+            },
+            {
+              id: 'UnitCode', label: L('New'), type: 'text',
+              disabled: true, value: defaultValue.UnitCode
+            },
+            {
+              id: 'AssetID', label: L('Asset No'), type: 'text',
+              disabled: true, value: defaultValue.AssetID
+            },
+            {
+              id: 'ModelCode', label: L('Model Code'), type: 'text',
+              disabled: true, value: defaultValue.ModelCode
+            },
+            {
+              id: 'ModelDesc', label: L('Description'), type: 'text',
+              disabled: true, value: defaultValue.ModelDesc
+            },
+            {
+              id: 'ClosetID', label: L('Closet ID'), type: 'text',
+              disabled: true, value: defaultValue.ClosetID
+            },
+            {
+              id: 'Rack', label: L('Cabinet'), type: 'text',
+              disabled: true, value: defaultValue.Rack
+            },
+            {
+              id: 'RLU', label: L('Pos. (U)'), type: 'text',
+              disabled: true, value: defaultValue.RLU
+            },
+            {
+              id: 'ItemOwner', label: L('Item Owner'), type: 'text',
+              disabled: true, value: defaultValue.ItemOwner
+            },
+            {
+              id: 'Status', label: L('Status'), type: 'select', disabled: true,
+              value: defaultValue.Status, itemList: returnObj.InventoryStatus,
+              labelField: 'ServiceStatus', valueField: 'id',
+            },
+            {
+              id: 'Remark', label: L('Remark'), type: 'text',
+              disabled: true, value: defaultValue.Remark
+            },
+            {
+              id: 'EquipType', label: L('EquipType'), type: 'select',
+              value: defaultValue.EquipType, itemList: returnObj.EquipTypes,
+              disabled: true, labelField: 'Type', valueField: 'id',
+            },
+            {
+              id: 'UnitNo', label: L('Unit No'), type: 'text',
+              disabled: true, value: defaultValue.UnitNo
+            },
+            {
+              id: 'PortQty', label: L('Built-in Port'), type: 'text',
+              disabled: true, value: defaultValue.PortQty
+            },
+            {
+              id: 'ReqNo', label: L('Req. Form'), type: 'text',
+              disabled: true, value: defaultValue.ReqNo
+            },
+            {
+              id: 'DOB', label: L('DOB'), type: 'date',
+              disabled: true, value: defaultValue.DOB
+            },
+            {
+              id: 'DeliveryDate', label: L('Delivery Date'), type: 'date',
+              disabled: true, value: defaultValue.DeliveryDate
+            },
+            {
+              id: 'DeliveryNoteReceivedDate', label: L('Delivery Note Received Date'), type: 'date',
+              disabled: true, value: defaultValue.DeliveryNoteReceivedDate
+            },
+            {
+              id: 'MaintID', label: L('MaintID'), type: 'text',
+              disabled: true, value: defaultValue.MaintID
+            },
+          ]
+          setInventory(inventoryList)
+          // setDefaultValue(data.data)
+        })
+      })
     })
+    // eslint-disable-next-line
   }, [ id ])
 
-  useEffect(() => {
-    const inventoryList = [
-      {
-        id: '_ID', label: L('Ref. ID'), type: 'text',
-        disabled: true, readOnly: true, value: _ID
-      },
-      {
-        id: 'UnitCode', label: L('New'), type: 'text',
-        disabled: true, readOnly: true, value: UnitCode
-      },
-      {
-        id: 'AssetID', label: L('Asset No'), type: 'text',
-        disabled: true, readOnly: true, value: AssetID
-      },
-      {
-        id: 'ModelCode', label: L('Model Code'), type: 'text',
-        disabled: true, readOnly: true, value: ModelCode
-      },
-      {
-        id: 'ModelDesc', label: L('Description'), type: 'text',
-        disabled: true, readOnly: true, value: ModelDesc
-      },
-      {
-        id: 'ClosetID', label: L('Closet ID'), type: 'text',
-        disabled: true, readOnly: true, value: ClosetID
-      },
-      {
-        id: 'Rack', label: L('Cabinet'), type: 'text',
-        disabled: true, readOnly: true, value: Rack
-      },
-      {
-        id: 'RLU', label: L('Pos. (U)'), type: 'text',
-        disabled: true, readOnly: true, value: RLU
-      },
-      {
-        id: 'ItemOwner', label: L('Item Owner'), type: 'text',
-        disabled: true, readOnly: true, value: ItemOwner
-      },
-      {
-        id: 'ServiceStatus', label: L('Status'), type: 'text',
-        disabled: true, readOnly: true, value: ServiceStatus
-      },
-      {
-        id: 'Remark', label: L('Remark'), type: 'text',
-        disabled: true, readOnly: true, value: Remark
-      },
-      {
-        id: 'EquipType', label: L('EquipType'), type: 'text',
-        disabled: true, readOnly: true, value: EquipType
-      },
-      {
-        id: 'UnitNo', label: L('Unit No'), type: 'text',
-        disabled: true, readOnly: true, value: UnitNo
-      },
-      {
-        id: 'PortQty', label: L('Built-in Port'), type: 'text',
-        disabled: true, readOnly: true, value: PortQty
-      },
-      {
-        id: 'ReqNo', label: L('Req. Form'), type: 'text',
-        disabled: true, readOnly: true, value: ReqNo
-      },
-      {
-        id: 'DOB', label: L('DOB'), type: 'text',
-        disabled: true, readOnly: true, value: formatDateTime(DOB)
-      },
-      {
-        id: 'DeliveryDate', label: L('Delivery Date'), type: 'text',
-        disabled: true, readOnly: true, value: formatDateTime(DeliveryDate)
-      },
-      {
-        id: 'DeliveryNoteReceivedDate', label: L('Delivery Note Received Date'), type: 'text',
-        disabled: true, readOnly: true, value: formatDateTime(DeliveryNoteReceivedDate)
-      },
-      {
-        id: 'MaintID', label: L('MaintID'), type: 'text',
-        disabled: true, readOnly: true, value: MaintID
-      },
-      {
-        id: 'createdAt', label: L('Created At'), type: 'text',
-        disabled: true, readOnly: true, value: formatDateTime(createdAt)
-      },
-      {
-        id: 'updatedAt', label: L('Updated At'), type: 'text',
-        disabled: true, readOnly: true, value: formatDateTime(updatedAt)
-      },
-    ]
-    setInventory(inventoryList)
-  }, [
-    _ID, UnitCode, AssetID, ModelCode, ModelDesc, ClosetID,
-    Rack, RLU, ItemOwner, ServiceStatus, Remark, UnitNo, PortQty, ReqNo,
-    DOB, DeliveryDate, DeliveryNoteReceivedDate, MaintID,
-    createdAt, updatedAt, EquipType
-  ])
+  // useEffect(() => {
+  //   API.detail(id).then(({ data }) => {
+  //     if (data && data.data) {
+  //       const {
+  //         _ID, UnitCode, AssetID, ModelCode, ModelDesc, ClosetID,
+  //         Rack, RLU, ItemOwner, status, Remark, equipType, UnitNo, PortQty, ReqNo,
+  //         DOB, DeliveryDate, DeliveryNoteReceivedDate, MaintID,
+  //         createdAt, updatedAt, policy, equipPort, powerInput, powerOutput
+  //       } = data.data
+  //       set_ID(_ID)
+  //       setUnitCode(UnitCode)
+  //       setAssetID(AssetID)
+  //       setModelCode(ModelCode)
+  //       setModelDesc(ModelDesc)
+  //       setClosetID(ClosetID)
+  //       setRack(Rack)
+  //       setRLU(RLU)
+  //       setItemOwner(ItemOwner)
+  //       setServiceStatus(status ? status.ServiceStatus : '')
+  //       setRemark(Remark)
+  //       setEquipType(equipType ? equipType.Type : '')
+  //       setUnitNo(UnitNo)
+  //       setPortQty(PortQty)
+  //       setReqNo(ReqNo)
+  //       setDOB(DOB)
+  //       setDeliveryDate(DeliveryDate)
+  //       setDeliveryNoteReceivedDate(DeliveryNoteReceivedDate)
+  //       setMaintID(MaintID)
+  //       setCreatedAt(createdAt)
+  //       setUpdastedAt(updatedAt)
+  //       if (policy && policy.length > 0) {
+  //         setPolicys(policy)
+  //       }
+  //       if (powerInput && powerInput.length > 0) {
+  //         setPowerInputs(powerInput)
+  //       }
+  //       if (equipPort && equipPort.length > 0) {
+  //         setEquipmentPorts(equipPort)
+  //         const tempPortAssignments = []
+  //         equipPort.map((_) => {
+  //           tempPortAssignments.push(_.portAssignment)
+  //           return _
+  //         })
+  //         setPortAssignments(tempPortAssignments)
+  //       }
+  //       if (powerOutput && powerOutput.length > 0) {
+  //         setPowerOutputs(powerOutput)
+  //       }
+  //       if (equipType && equipType.Type === 'EqNetwork') {
+  //         setShowProps([
+  //           {
+  //             label: L('Network'),
+  //             id: `simple-tab-0`,
+  //             'aria-controls': `simple-tabpanel-0`,
+  //           },
+  //           {
+  //             label: L('Assigment'),
+  //             id: `simple-tab-1`,
+  //             'aria-controls': `simple-tabpanel-1`,
+  //           },
+  //         ])
+  //       } else if (
+  //         equipType &&
+  //         (equipType.Type === 'EqUPS' ||
+  //         equipType.Type === 'EqPDU' ||
+  //         equipType.Type === 'EqATS')
+  //       ) {
+  //         setShowProps([
+  //           {
+  //             label: L('Assigment'),
+  //             id: `simple-tab-0`,
+  //             'aria-controls': `simple-tabpanel-0`,
+  //           },
+  //         ])
+  //       }
+  //     }
+  //   })
+  // }, [ id ])
+
+  // useEffect(() => {
+  //   const inventoryList = [
+  //     {
+  //       id: '_ID', label: L('Ref. ID'), type: 'text',
+  //       disabled: true, readOnly: true, value: _ID
+  //     },
+  //     {
+  //       id: 'UnitCode', label: L('New'), type: 'text',
+  //       disabled: true, readOnly: true, value: UnitCode
+  //     },
+  //     {
+  //       id: 'AssetID', label: L('Asset No'), type: 'text',
+  //       disabled: true, readOnly: true, value: AssetID
+  //     },
+  //     {
+  //       id: 'ModelCode', label: L('Model Code'), type: 'text',
+  //       disabled: true, readOnly: true, value: ModelCode
+  //     },
+  //     {
+  //       id: 'ModelDesc', label: L('Description'), type: 'text',
+  //       disabled: true, readOnly: true, value: ModelDesc
+  //     },
+  //     {
+  //       id: 'ClosetID', label: L('Closet ID'), type: 'text',
+  //       disabled: true, readOnly: true, value: ClosetID
+  //     },
+  //     {
+  //       id: 'Rack', label: L('Cabinet'), type: 'text',
+  //       disabled: true, readOnly: true, value: Rack
+  //     },
+  //     {
+  //       id: 'RLU', label: L('Pos. (U)'), type: 'text',
+  //       disabled: true, readOnly: true, value: RLU
+  //     },
+  //     {
+  //       id: 'ItemOwner', label: L('Item Owner'), type: 'text',
+  //       disabled: true, readOnly: true, value: ItemOwner
+  //     },
+  //     {
+  //       id: 'ServiceStatus', label: L('Status'), type: 'text',
+  //       disabled: true, readOnly: true, value: ServiceStatus
+  //     },
+  //     {
+  //       id: 'Remark', label: L('Remark'), type: 'text',
+  //       disabled: true, readOnly: true, value: Remark
+  //     },
+  //     {
+  //       id: 'EquipType', label: L('EquipType'), type: 'text',
+  //       disabled: true, readOnly: true, value: EquipType
+  //     },
+  //     {
+  //       id: 'UnitNo', label: L('Unit No'), type: 'text',
+  //       disabled: true, readOnly: true, value: UnitNo
+  //     },
+  //     {
+  //       id: 'PortQty', label: L('Built-in Port'), type: 'text',
+  //       disabled: true, readOnly: true, value: PortQty
+  //     },
+  //     {
+  //       id: 'ReqNo', label: L('Req. Form'), type: 'text',
+  //       disabled: true, readOnly: true, value: ReqNo
+  //     },
+  //     {
+  //       id: 'DOB', label: L('DOB'), type: 'text',
+  //       disabled: true, readOnly: true, value: formatDateTime(DOB)
+  //     },
+  //     {
+  //       id: 'DeliveryDate', label: L('Delivery Date'), type: 'text',
+  //       disabled: true, readOnly: true, value: formatDateTime(DeliveryDate)
+  //     },
+  //     {
+  //       id: 'DeliveryNoteReceivedDate', label: L('Delivery Note Received Date'), type: 'text',
+  //       disabled: true, readOnly: true, value: formatDateTime(DeliveryNoteReceivedDate)
+  //     },
+  //     {
+  //       id: 'MaintID', label: L('MaintID'), type: 'text',
+  //       disabled: true, readOnly: true, value: MaintID
+  //     },
+  //     {
+  //       id: 'createdAt', label: L('Created At'), type: 'text',
+  //       disabled: true, readOnly: true, value: formatDateTime(createdAt)
+  //     },
+  //     {
+  //       id: 'updatedAt', label: L('Updated At'), type: 'text',
+  //       disabled: true, readOnly: true, value: formatDateTime(updatedAt)
+  //     },
+  //   ]
+  //   setInventory(inventoryList)
+  // }, [
+  //   _ID, UnitCode, AssetID, ModelCode, ModelDesc, ClosetID,
+  //   Rack, RLU, ItemOwner, ServiceStatus, Remark, UnitNo, PortQty, ReqNo,
+  //   DOB, DeliveryDate, DeliveryNoteReceivedDate, MaintID,
+  //   createdAt, updatedAt, EquipType
+  // ])
 
   const onFormFieldChange = (e, id) => {
     const { value } = e.target

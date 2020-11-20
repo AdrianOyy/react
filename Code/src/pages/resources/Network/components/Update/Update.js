@@ -35,6 +35,7 @@ function Detail() {
   const [ MaintID, setMaintID ] = useState('')
   const [ EquipType, setEquipType ] = useState('')
   const [ inventory, setInventory ] = useState([])
+  const [ errInventory, setErrInventory ] = useState({})
 
   const [ saving, setSaving ] = useState(true)
   // const [ InventoryStatus, setInventoryStatus ] = useState([])
@@ -116,7 +117,6 @@ function Detail() {
           setSaving(false)
 
           const defaultValue = data.data
-          console.log(returnObj)
           const inventoryList = [
             {
               id: '_ID', label: L('Ref. ID'), type: 'text',
@@ -206,114 +206,27 @@ function Detail() {
     // eslint-disable-next-line
   }, [ id ])
 
-  // useEffect(() => {
-  //   API.listStatus({ limit: 999, page: 1 }).then(({ data }) => {
-  //     if (data && data.data) {
-  //       setInventoryStatus(data.data)
-  //     }
-  //   })
-  //   API.listEquipType({ limit: 999, page: 1 }).then(({ data }) => {
-  //     if (data && data.data) {
-  //       setEquipTypes(data.data.filter(_ => {
-  //         return _.Type !== 'EqServer'
-  //       }))
-  //     }
-  //   })
-  // }, [])
-
-  // useEffect(() => {
-  //   console.log(defaultValue._ID)
-  //   const inventoryList = [
-  //     {
-  //       id: '_ID', label: L('Ref. ID'), type: 'text',
-  //       required: true, readOnly: false, value: defaultValue._ID,
-  //       error: _IDError, helperText: _IDHelperText
-  //     },
-  //     {
-  //       id: 'UnitCode', label: L('New'), type: 'text',
-  //       required: false, readOnly: false, value: defaultValue.UnitCode
-  //     },
-  //     {
-  //       id: 'AssetID', label: L('Asset No'), type: 'text',
-  //       required: false, readOnly: false, value: defaultValue.AssetID
-  //     },
-  //     {
-  //       id: 'ModelCode', label: L('Model Code'), type: 'text',
-  //       required: false, readOnly: false, value: defaultValue.ModelCode
-  //     },
-  //     {
-  //       id: 'ModelDesc', label: L('Description'), type: 'text',
-  //       required: false, readOnly: false, value: defaultValue.ModelDesc
-  //     },
-  //     {
-  //       id: 'ClosetID', label: L('Closet ID'), type: 'text',
-  //       required: false, readOnly: false, value: defaultValue.ClosetID
-  //     },
-  //     {
-  //       id: 'Rack', label: L('Cabinet'), type: 'text',
-  //       required: false, readOnly: false, value: defaultValue.Rack
-  //     },
-  //     {
-  //       id: 'RLU', label: L('Pos. (U)'), type: 'text',
-  //       required: false, readOnly: false, value: defaultValue.RLU
-  //     },
-  //     {
-  //       id: 'ItemOwner', label: L('Item Owner'), type: 'text',
-  //       required: false, readOnly: false, value: defaultValue.ItemOwner
-  //     },
-  //     {
-  //       id: 'Status', label: L('Status'), type: 'select',
-  //       value: defaultValue.Status, itemList: InventoryStatus,
-  //       labelField: 'ServiceStatus', valueField: 'id',
-  //     },
-  //     {
-  //       id: 'Remark', label: L('Remark'), type: 'text',
-  //       required: false, readOnly: false, value: defaultValue.Remark
-  //     },
-  //     {
-  //       id: 'EquipType', label: L('EquipType'), type: 'select',
-  //       value: defaultValue.EquipType, itemList: EquipTypes,
-  //       labelField: 'Type', valueField: 'id',
-  //     },
-  //     {
-  //       id: 'UnitNo', label: L('Unit No'), type: 'text',
-  //       required: false, readOnly: false, value: defaultValue.UnitNo
-  //     },
-  //     {
-  //       id: 'PortQty', label: L('Built-in Port'), type: 'text',
-  //       required: false, readOnly: false, value: defaultValue.PortQty
-  //     },
-  //     {
-  //       id: 'ReqNo', label: L('Req. Form'), type: 'text',
-  //       required: false, readOnly: false, value: defaultValue.ReqNo
-  //     },
-  //     {
-  //       id: 'DOB', label: L('DOB'), type: 'date',
-  //       required: false, readOnly: false, value: defaultValue.DOB
-  //     },
-  //     {
-  //       id: 'DeliveryDate', label: L('Delivery Date'), type: 'date',
-  //       required: false, readOnly: false, value: defaultValue.DeliveryDate
-  //     },
-  //     {
-  //       id: 'DeliveryNoteReceivedDate', label: L('Delivery Note Received Date'), type: 'date',
-  //       required: false, readOnly: false, value: defaultValue.DeliveryNoteReceivedDate
-  //     },
-  //     {
-  //       id: 'MaintID', label: L('MaintID'), type: 'text',
-  //       required: false, readOnly: false, value: defaultValue.MaintID
-  //     },
-  //   ]
-  //   console.log(inventoryList)
-  //   setInventory(inventoryList)
-  //   // react-hooks/exhaustive-deps
-  // }, [ EquipTypes, InventoryStatus, defaultValue ])
+  useEffect(() => {
+    const error = {
+      _ID: {
+        error: _IDError,
+        helperText: _IDHelperText,
+      }
+    }
+    console.log(error)
+    setErrInventory(error)
+  }, [ _IDError, _IDHelperText ])
 
   const onFormFieldChange = (e, id) => {
     const { value } = e.target
+    console.log(value, id)
     switch (id) {
       case '_ID' :
         set_ID(value)
+        if (value) {
+          set_IDError(false)
+          set_IDHelperText('')
+        }
         break
       case 'UnitCode' :
         setUnitCode(value)
@@ -402,6 +315,7 @@ function Detail() {
         onFormFieldChange = {onFormFieldChange}
         onFormFieldBlur = {onFormFieldBlur}
         formFieldList = {inventory}
+        errorFieldList={errInventory}
         showBtn ={true}
         onBtnClick = {handleClick}
       />

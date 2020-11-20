@@ -37,6 +37,7 @@ function Create() {
   const [ saving, setSaving ] = useState(false)
   const [ InventoryStatus, setInventoryStatus ] = useState([])
   const [ EquipTypes, setEquipTypes ] = useState([])
+  const [ errInventory, setErrInventory ] = useState({})
 
   const handleClick = async () => {
     const _IDError = await _IDCheck()
@@ -161,11 +162,25 @@ function Create() {
     // eslint-disable-next-line
   }, [EquipTypes, InventoryStatus])
 
+  useEffect(() => {
+    const error = {
+      _ID: {
+        error: _IDError,
+        helperText: _IDHelperText,
+      }
+    }
+    setErrInventory(error)
+  }, [ _IDError, _IDHelperText ])
+
   const onFormFieldChange = (e, id) => {
     const { value } = e.target
     switch (id) {
       case '_ID' :
         set_ID(value)
+        if (value) {
+          set_IDError(false)
+          set_IDHelperText('')
+        }
         break
       case 'UnitCode' :
         setUnitCode(value)
@@ -255,6 +270,7 @@ function Create() {
         onFormFieldChange = {onFormFieldChange}
         onFormFieldBlur = {onFormFieldBlur}
         formFieldList = {inventory}
+        errorFieldList = {errInventory}
         showBtn ={true}
         onBtnClick = {handleClick}
       />
