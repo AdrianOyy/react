@@ -14,12 +14,11 @@ function Update() {
   const { id } = useParams()
   const history = useHistory()
   const [ name, setName ] = useState('')
-  const [ createdAt, setCreatedAt ] = useState('')
-  const [ updatedAt, setUpdastedAt ] = useState('')
   const [ formFieldList, setFormFieldList ] = useState([])
   const [ saving, setSaving ] = useState(true)
   const [ nameError, setNameError ] = useState(false)
   const [ nameHelperText, setNameHelperText ] = useState("")
+  const [ errors, setErrors ] = useState({})
 
   const hanleClick = async () => {
     const nameErr = await nameCheck()
@@ -37,22 +36,30 @@ function Update() {
 
   useEffect(() => {
     ADGroupApi.detail(id).then(({ data }) => {
-      const { name, createdAt, updatedAt } = data.data
+      const { name } = data.data
       setName(name)
-      setCreatedAt(createdAt)
-      setUpdastedAt(updatedAt)
       setSaving(false)
+
+      const defaultValue = data.data
+      const list = [
+        { id: 'name', label: L('Name'), type: 'text', required: true, readOnly: false, value: defaultValue.name, error: nameError, helperText: nameHelperText },
+        { id: 'createdAt', label: L('Created At'), type: 'text', disabled: true, readOnly: true, value: formatDateTime(defaultValue.createdAt) },
+        { id: 'updatedAt', label: L('Updated At'), type: 'text', disabled: true, readOnly: true, value: formatDateTime(defaultValue.updatedAt) },
+      ]
+      setFormFieldList(list)
     })
   }, [ id ])
 
   useEffect(() => {
-    const list = [
-      { id: 'name', label: L('Name'), type: 'text', required: true, readOnly: false, value: name, error: nameError, helperText: nameHelperText },
-      { id: 'createdAt', label: L('Created At'), type: 'text', disabled: true, readOnly: true, value: formatDateTime(createdAt) },
-      { id: 'updatedAt', label: L('Updated At'), type: 'text', disabled: true, readOnly: true, value: formatDateTime(updatedAt) },
-    ]
-    setFormFieldList(list)
-  }, [ name, createdAt, updatedAt, nameError, nameHelperText ])
+    const errors = {
+      name: {
+        error: nameError,
+        helperText: nameHelperText,
+      }
+    }
+    setErrors(errors)
+  }, [ nameError, nameHelperText ])
+
   const onFormFieldChange = (e, id) => {
     const { value } = e.target
     switch (id) {
@@ -92,6 +99,7 @@ function Update() {
         onFormFieldChange = {onFormFieldChange}
         onFormFieldBlur = {onFormFieldBlur}
         formFieldList = {formFieldList}
+        errorFieldList = {errors}
         showBtn ={true}
         onBtnClick = {hanleClick}
       />

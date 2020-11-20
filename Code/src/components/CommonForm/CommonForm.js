@@ -81,8 +81,7 @@ function CommonForm(props) {
         value: e.value
       }
     }
-    console.log(data)
-    onFormFieldChange(data, e.id)
+    onFormFieldChange && onFormFieldChange(data, e.id)
   }
   // const handleDataBlur = (value, id) => {
   //   const data = {
