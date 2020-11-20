@@ -79,6 +79,14 @@ const Content = withStyles((() => ({
   }
 })))(DialogContent)
 
+const MessageContent = withStyles((() => ({
+  root: {
+    padding: '0 4vw',
+    height: '200px',
+    backgroundColor: '#F7F9FC',
+  }
+})))(DialogContent)
+
 export default function ChatBox(props) {
   const {
     open,
@@ -214,8 +222,8 @@ export default function ChatBox(props) {
           {/*  })}*/}
           {/* </List>*/}
         </Content>
-        <Content className={classes.contentMessage} dividers={false}>
-          <div>
+        <MessageContent className={classes.contentMessage} dividers={false}>
+          <div style={{ marginTop: '10px' }}>
             <InputLabel
               id={'messagelabel'}
             >
@@ -225,7 +233,7 @@ export default function ChatBox(props) {
             <div style={{ width: '1vw' }}></div>
             <div>
               <textarea
-                rows={"8"}
+                rows={"5"}
                 cols={"20"}
                 error={dialogReason.formField.error || false}
                 disabled={dialogReason.formField.disabled || false}
@@ -249,7 +257,7 @@ export default function ChatBox(props) {
           {/*  value={reasonValue}*/}
           {/*  multiline*/}
           {/* />*/}
-        </Content>
+        </MessageContent>
         <Actions disableSpacing={true}>
           <Button
             color="primary"
