@@ -13,56 +13,46 @@ function Create() {
 
   const [ name, setName ] = useState('')
   const [ nameError, setNameError ] = useState(false)
-  const [ nameInit, setNameInit ] = useState(false)
   const [ nameHelperText, setNameHelperText ] = useState("")
   const [ code, setCode ] = useState('')
   const [ codeError, setCodeError ] = useState(false)
-  const [ codeInit, setCodeInit ] = useState(false)
   const [ codeHelperText, setCodeHelperText ] = useState("")
   const [ managerGroupId, setManagerGroupId ] = useState('')
   const [ managerGroupIdError, setManagerGroupIdError ] = useState(false)
-  const [ managerGroupIdInit, setManagerGroupIdInit ] = useState(false)
   const [ managerGroupIdHelperText, setManagerGroupIdHelperText ] = useState("")
   const [ supporterGroupId, setSupporterGroupId ] = useState('')
   const [ supporterGroupIdError, setSupporterGroupIdError ] = useState(false)
   const [ supporterGroupIdHelperText, setSupporterGroupIdHelperText ] = useState("")
-  const [ supporterGroupIdInit, setSupporterGroupIdInit ] = useState(false)
   const [ groupId, setgroupId ] = useState('')
   const [ groupIdError, setgroupIdError ] = useState(false)
   const [ groupIdHelperText, setgroupIdHelperText ] = useState("")
-  const [ groupIdInit, setgroupIdInit ] = useState(false)
 
   const [ justification, setjustification ] = useState('')
   const [ justificationError, setjustificationError ] = useState(false)
   const [ justificationHelperText, setjustificationHelperText ] = useState("")
-  const [ justificationInit, setjustificationInit ] = useState(false)
   const [ budget_type, setbudget_type ] = useState('')
   const [ budget_typeError, setbudget_typeError ] = useState(false)
   const [ budget_typeHelperText, setbudget_typeHelperText ] = useState("")
-  const [ budget_typeInit, setbudget_typeInit ] = useState(false)
   const [ project_owner, setproject_owner ] = useState('')
   const [ project_ownerError, setproject_ownerError ] = useState(false)
   const [ project_ownerHelperText, setproject_ownerHelperText ] = useState("")
-  const [ project_ownerInit, setproject_ownerInit ] = useState(false)
   const [ contact_person, setcontact_person ] = useState('')
   const [ contact_personError, setcontact_personError ] = useState(false)
   const [ contact_personHelperText, setcontact_personHelperText ] = useState("")
-  const [ contact_personInit, setcontact_personInit ] = useState(false)
   const [ project_estimation, setproject_estimation ] = useState('')
   const [ project_estimationError, setproject_estimationError ] = useState(false)
   const [ project_estimationHelperText, setproject_estimationHelperText ] = useState("")
-  const [ project_estimationInit, setproject_estimationInit ] = useState(false)
   const [ methodology_text, setmethodology_text ] = useState('')
   const [ methodology_textError, setmethodology_textError ] = useState(false)
   const [ methodology_textHelperText, setmethodology_textHelperText ] = useState("")
-  const [ methodology_textInit, setmethodology_textInit ] = useState(false)
 
   const [ formFieldList, setFormFieldList ] = useState([])
   const [ saving, setSaving ] = useState(false)
   const [ adGroupList, setAdGroupList ] = useState([])
   const [ groupList, setGroupList ] = useState([])
+  const [ errors, setErrors ] = useState({})
 
-  // 获取 adGroupList groupList
+  // 获取 adGroupList
   useEffect(() => {
     adGroupApi.list({ limit: 999, page: 1 }).then(({ data }) => {
       if (data && data.data) {
@@ -70,10 +60,12 @@ function Create() {
         setAdGroupList(rows)
       }
     })
+  }, [])
+  // 获取 groupList
+  useEffect(() => {
     API.listGroup({ limit: 999, page: 1 }).then(({ data }) => {
       if (data && data.data) {
         const { rows } = data.data
-        // console.log('111', rows)
         setGroupList(rows)
       }
     })
@@ -173,20 +165,70 @@ function Create() {
       },
     ]
     setFormFieldList(list)
+    // eslint-disable-next-line
+  }, [ adGroupList, groupList ])
+
+  useEffect(() => {
+    const errors = {
+      name: {
+        error: nameError,
+        helperText: nameHelperText,
+      },
+      code: {
+        error: codeError,
+        helperText: codeHelperText,
+      },
+      managerGroupId: {
+        error: managerGroupIdError,
+        helperText: managerGroupIdHelperText,
+      },
+      supporterGroupId: {
+        error: supporterGroupIdError,
+        helperText: supporterGroupIdHelperText,
+      },
+      groupId: {
+        error: groupIdError,
+        helperText: groupIdHelperText,
+      },
+      justification: {
+        error: justificationError,
+        helperText: justificationHelperText,
+      },
+      budget_type: {
+        error: budget_typeError,
+        helperText: budget_typeHelperText,
+      },
+      project_owner: {
+        error: project_ownerError,
+        helperText: project_ownerHelperText,
+      },
+      contact_person: {
+        error: contact_personError,
+        helperText: contact_personHelperText,
+      },
+      project_estimation: {
+        error: project_estimationError,
+        helperText: project_estimationError,
+      },
+      methodology_text: {
+        error: methodology_textError,
+        helperText: methodology_textError,
+      },
+    }
+    setErrors(errors)
+    // eslint-disable-next-line
   }, [
-    name, nameError, nameHelperText, code, codeError, adGroupList,
-    codeHelperText, managerGroupId, managerGroupIdError, managerGroupIdHelperText,
-    supporterGroupId, supporterGroupIdError, supporterGroupIdHelperText,
-    groupId, groupIdError, groupIdHelperText,
-    justification, groupList,
-    budget_type, project_owner, contact_person,
-    project_estimation, methodology_text,
-    justificationError, justificationHelperText,
-    budget_typeError, budget_typeHelperText,
-    project_ownerError, project_ownerHelperText,
-    contact_personError, contact_personHelperText,
-    project_estimationError, project_estimationHelperText,
-    methodology_textError, methodology_textHelperText,
+    nameHelperText,
+    codeHelperText,
+    managerGroupIdHelperText,
+    supporterGroupIdHelperText,
+    groupIdHelperText,
+    justificationHelperText,
+    budget_typeHelperText,
+    project_ownerHelperText,
+    contact_personHelperText,
+    project_estimationError,
+    methodology_textError,
   ])
 
   const onFormFieldChange = (e, id) => {
@@ -321,112 +363,13 @@ function Create() {
     return emptyCheck.error
   }
 
-  useEffect(() => {
-    if (nameInit) {
-      nameCheck()
-    } else {
-      setNameInit(true)
-    }
-    // eslint-disable-next-line
-  }, [name])
-
-  useEffect(() => {
-    if (codeInit) {
-      codeCheck()
-    } else {
-      setCodeInit(true)
-    }
-    // eslint-disable-next-line
-  }, [code])
-
-  useEffect(() => {
-    if (managerGroupIdInit) {
-      managerGroupCheck()
-    } else {
-      setManagerGroupIdInit(true)
-    }
-    // eslint-disable-next-line
-  }, [managerGroupId])
-
-  useEffect(() => {
-    if (supporterGroupIdInit) {
-      supporterGroupCheck()
-    } else {
-      setSupporterGroupIdInit(true)
-    }
-    // eslint-disable-next-line
-  }, [supporterGroupId])
-
-  useEffect(() => {
-    if (groupIdInit) {
-      groupIdCheck()
-    } else {
-      setgroupIdInit(true)
-    }
-    // eslint-disable-next-line
-  }, [groupId])
-
-  useEffect(() => {
-    if (justificationInit) {
-      justificationCheck()
-    } else {
-      setjustificationInit(true)
-    }
-    // eslint-disable-next-line
-  }, [justification])
-
-  useEffect(() => {
-    if (budget_typeInit) {
-      budget_typeCheck()
-    } else {
-      setbudget_typeInit(true)
-    }
-    // eslint-disable-next-line
-  }, [budget_type])
-
-  useEffect(() => {
-    if (project_ownerInit) {
-      project_ownerCheck()
-    } else {
-      setproject_ownerInit(true)
-    }
-    // eslint-disable-next-line
-  }, [project_owner])
-
-  useEffect(() => {
-    if (contact_personInit) {
-      contact_personCheck()
-    } else {
-      setcontact_personInit(true)
-    }
-    // eslint-disable-next-line
-  }, [contact_person])
-
-  useEffect(() => {
-    if (project_estimationInit) {
-      project_estimationCheck()
-    } else {
-      setproject_estimationInit(true)
-    }
-    // eslint-disable-next-line
-  }, [project_estimation])
-
-  useEffect(() => {
-    if (methodology_textInit) {
-      methodology_textCheck()
-    } else {
-      setmethodology_textInit(true)
-    }
-    // eslint-disable-next-line
-  }, [methodology_text])
-
-
   return (
     <React.Fragment>
       <DetailPage
         formTitle = 'Tenant Create'
         onFormFieldChange = {onFormFieldChange}
         formFieldList = {formFieldList}
+        errorFieldList = {errors}
         showBtn ={true}
         onBtnClick = {handleClick}
       />
