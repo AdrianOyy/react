@@ -35,10 +35,6 @@ const menu = {
     name: 'Workflow',
     path: '/workflow',
     children: {
-      test: {
-        name: 'Test',
-        path: '/workflow/test',
-      },
       account: {
         name: 'Account Management',
         path: '/workflow/account/',

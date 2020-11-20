@@ -63,8 +63,6 @@ const assign = async(() => import("../pages/aaa-service/Assign"))
 // expiry
 const expiry = async(() => import("../pages/aaa-service/Expiry"))
 
-// TODO Test page should be deleted before project building
-const test = async(() => import("../pages/workFlow/Test"))
 
 
 const authRoutes = {
@@ -118,11 +116,6 @@ const workflowRoutes = {
   icon: <CheckSquare />,
   component: logging,
   children: [
-    {
-      path: menu.workflow.children.test.path,
-      name: menu.workflow.children.test.name,
-      component: test
-    },
     {
       path: menu.workflow.children.account.path,
       name: menu.workflow.children.account.name,
