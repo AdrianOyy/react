@@ -105,7 +105,6 @@ const Header = ({ onDrawerToggle }) => {
   const [ breadcrumbsList, setBreadcrumbsList ] = useState([])
   useEffect(() => {
     const { rootName, pageName, moduleName } = getCurrentPage()
-    console.log(rootName, pageName, moduleName)
     const model = [
       {
         title: menu[rootName] ? menu[rootName].name : '',
@@ -116,7 +115,6 @@ const Header = ({ onDrawerToggle }) => {
         // path: '/'
       }
     ]
-    console.log(menu)
     if (moduleName !== 'List') {
       model.push({
         title: moduleName

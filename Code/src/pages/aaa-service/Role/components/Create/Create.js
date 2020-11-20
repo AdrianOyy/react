@@ -8,7 +8,7 @@ import { useHistory } from 'react-router-dom'
 import { checkEmpty, getCheckExist } from "../../untils/RoleFieldCheck"
 
 
-function RoleCreate(props) {
+function Create() {
   const history = useHistory()
   const [ label, setLabel ] = useState('')
   const [ value, setValue ] = useState('')
@@ -19,6 +19,7 @@ function RoleCreate(props) {
   const [ valueError, setValueError ] = useState(false)
   const [ valueHelperText, setValueHelperText ] = useState("")
   const [ valueInit, setValueInit ] = useState(false)
+  const [ errors, setErrors ] = useState({})
 
   useEffect(() => {
     if (valueInit) {
@@ -50,6 +51,7 @@ function RoleCreate(props) {
         id: 'value',
         label: L('Value'),
         type: 'select',
+        required: true,
         value,
         itemList: [
           { name: L("Read Only"), id: "Read Only" },
@@ -62,7 +64,23 @@ function RoleCreate(props) {
       },
     ]
     setFormFieldList(list)
-  }, [ label, labelError, labelHelperText, value, valueError, valueHelperText ])
+    // eslint-disable-next-line
+  }, [])
+
+  useEffect(() => {
+    const errors = {
+      label: {
+        error: labelError,
+        helperText: labelHelperText,
+      },
+      value: {
+        error: valueError,
+        helperText: valueHelperText,
+      },
+    }
+    setErrors(errors)
+  }, [ labelError, labelHelperText, valueError, valueHelperText ])
+
   const onFormFieldChange = (e, id) => {
     const { value } = e.target
     switch (id) {
@@ -112,6 +130,7 @@ function RoleCreate(props) {
         onFormFieldChange = {onFormFieldChange}
         onFormFieldBlur = {onFormFieldBlur}
         formFieldList = {formFieldList}
+        errorFieldList = {errors}
         showBtn ={true}
         onBtnClick = {handleClick}
       />
@@ -119,4 +138,4 @@ function RoleCreate(props) {
   )
 }
 
-export default RoleCreate
+export default Create

@@ -9,22 +9,24 @@ import { useHistory } from 'react-router-dom'
 import { checkEmpty, getCheckExist } from "../../untils/RoleFieldCheck"
 import { L } from '../../../../../utils/lang'
 
-function TenantDetail(props) {
+function Detail() {
   const { id } = useParams()
   const history = useHistory()
   const [ label, setLabel ] = useState('')
   const [ value, setValue ] = useState('')
-  const [ createdAt, setCreatedAt ] = useState('')
-  const [ updatedAt, setUpdastedAt ] = useState('')
   const [ formFieldList, setFormFieldList ] = useState([])
   const [ saving, setSaving ] = useState(true)
   const [ labelError, setLabelError ] = useState(false)
   const [ labelHelperText, setLabelHelperText ] = useState("")
+  const [ valueError, setValueError ] = useState(false)
+  const [ valueHelperText, setValueHelperText ] = useState("")
+  const [ errors, setErrors ] = useState({})
 
 
-  const hanleClick = async () => {
-    const labelErr = await labelCheck()
-    if (labelErr || saving) return
+  const handleClick = async () => {
+    const labelError = await labelCheck()
+    const valueError = valueCheck()
+    if (labelError || valueError ||  saving) return
     setSaving(true)
     roleApi.update(id, { label, value })
       .then(() => {
@@ -38,30 +40,47 @@ function TenantDetail(props) {
 
   useEffect(() => {
     roleApi.detail(id).then(({ data }) => {
-      const { label, value, createdAt, updatedAt } = data.data
+      const { label, value } = data.data
       setLabel(label)
       setValue(value)
-      setCreatedAt(createdAt)
-      setUpdastedAt(updatedAt)
       setSaving(false)
+
+      const defaultValue = data.data
+      const list = [
+        { id: 'label', label: L('Label'), type: 'text', required: true, readOnly: false, value: defaultValue.label, error: labelError, helperText: labelHelperText },
+        {
+          id: 'value', label: L('Value'), type: 'select', value, required: true,
+          itemList: [
+            { name: "Read Only", id: "Read Only" },
+            { name: "Read & Write", id: "Read && Write" },
+          ],
+          labelField: 'name',
+          valueField: 'id',
+          error: valueError,
+          helperText: valueHelperText
+        },
+        { id: 'createdAt', label: L('Created At'), type: 'text', disabled: true, readOnly: true, value: formatDateTime(defaultValue.createdAt) },
+        { id: 'updatedAt', label: L('Updated At'), type: 'text', disabled: true, readOnly: true, value: formatDateTime(defaultValue.updatedAt) },
+      ]
+      setFormFieldList(list)
     })
+    // eslint-disable-next-line
   }, [ id ])
 
   useEffect(() => {
-    const list = [
-      { id: 'label', label: L('Label'), type: 'text', required: true, readOnly: false, value: label, error: labelError, helperText: labelHelperText },
-      {
-        id: 'value', label: L('Value'), type: 'select', value,
-        itemList: [
-          { label: "Read Only", value: "Read Only" },
-          { label: "Read & Write", value: "Read && Write" },
-        ]
+    const errors = {
+      label: {
+        error: labelError,
+        helperText: labelHelperText,
       },
-      { id: 'createdAt', label: L('Created At'), type: 'text', disabled: true, readOnly: true, value: formatDateTime(createdAt) },
-      { id: 'updatedAt', label: L('Updated At'), type: 'text', disabled: true, readOnly: true, value: formatDateTime(updatedAt) },
-    ]
-    setFormFieldList(list)
-  }, [ label, labelError, labelHelperText, value, createdAt, updatedAt ])
+      value: {
+        error: valueError,
+        helperText: valueHelperText,
+      },
+    }
+    setErrors(errors)
+  }, [ labelError, labelHelperText, valueError, valueHelperText ])
+
   const onFormFieldChange = (e, id) => {
     const { value } = e.target
     switch (id) {
@@ -88,6 +107,13 @@ function TenantDetail(props) {
     }
     return emptyCheck.error
   }
+
+  const valueCheck = () => {
+    const { error, msg } = checkEmpty("value", value)
+    setValueError(error)
+    setValueHelperText(msg)
+  }
+
   const onFormFieldBlur = (_, id) => {
     switch (id) {
       case "label":
@@ -104,11 +130,12 @@ function TenantDetail(props) {
         onFormFieldChange = {onFormFieldChange}
         onFormFieldBlur = {onFormFieldBlur}
         formFieldList = {formFieldList}
+        errorFieldList = {errors}
         showBtn ={true}
-        onBtnClick = {hanleClick}
+        onBtnClick = {handleClick}
       />
     </React.Fragment>
   )
 }
 
-export default TenantDetail
+export default Detail

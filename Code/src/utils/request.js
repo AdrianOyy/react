@@ -205,7 +205,7 @@ function callback(error) {
       break
     case 401:
       showTip('Unauthorized')
-      signOut()
+      signOut(true)
       break
     default:
       showTip('System Busy')

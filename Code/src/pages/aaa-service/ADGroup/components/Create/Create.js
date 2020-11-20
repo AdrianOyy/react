@@ -9,13 +9,14 @@ import { L } from '../../../../../utils/lang'
 const listPath = '/aaa-service/adgroup'
 const formTitle = 'Create'
 
-function Create(props) {
+function Create() {
   const history = useHistory()
   const [ name, setName ] = useState('')
   const [ formFieldList, setFormFieldList ] = useState([])
   const [ saving, setSaving ] = useState(false)
   const [ nameError, setNameError ] = useState(false)
   const [ nameHelperText, setNameHelperText ] = useState("")
+  const [ errors, setErrors ] = useState({})
 
 
   const handelClick = async () => {
@@ -37,7 +38,19 @@ function Create(props) {
       { id: 'name', label: L('Name'), type: 'text', required: true, readOnly: false, value: name, error: nameError, helperText: nameHelperText },
     ]
     setFormFieldList(list)
-  }, [ name, nameError, nameHelperText ])
+    // eslint-disable-next-line
+  }, [])
+
+  useEffect(() => {
+    const errors = {
+      name: {
+        error: nameError,
+        helperText: nameHelperText,
+      }
+    }
+    setErrors(errors)
+  }, [ nameError, nameHelperText ])
+
   const onFormFieldChange = (e, id) => {
     const { value } = e.target
     switch (id) {
@@ -48,6 +61,7 @@ function Create(props) {
         break
     }
   }
+
   const nameCheck = async () => {
     const emptyCheck = checkEmpty("name", name)
     setNameError(emptyCheck.error)
@@ -61,6 +75,7 @@ function Create(props) {
     }
     return emptyCheck.error
   }
+
   const onFormFieldBlur = (_, id) => {
     switch (id) {
       case "name":
@@ -77,6 +92,7 @@ function Create(props) {
         onFormFieldChange = {onFormFieldChange}
         onFormFieldBlur = {onFormFieldBlur}
         formFieldList = {formFieldList}
+        errorFieldList = {errors}
         showBtn ={true}
         onBtnClick = {handelClick}
       />
