@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useEffect, useState } from "react"
 import {
   InputLabel as Label,
   InputBase,
@@ -42,13 +42,23 @@ export default function FormInput(props) {
     rowsMax,
     rowsMin,
   } = props
+
   // useEffect(() => {
   //   defaultValue && onBlur && onBlur({ id, value: defaultValue })
   // }, [ defaultValue, onBlur, id ])
+  const [ newValue, setNewValue ] = useState(defaultValue)
+  // useEffect(() => {
+  //   setNewValue(defaultValue)
+  //   // defaultValue && onChange && onChange(defaultValue)
+  // }, [ defaultValue ])
+
+  useEffect(() => {
+    onBlur && onBlur({ id, value: newValue })
+    // eslint-disable-next-line
+  }, [ newValue ])
 
   const handleBlur = (e) => {
-    const { value } = e.target
-    onBlur && onBlur({ id, value })
+    setNewValue(e.target.value)
   }
 
   const getWidth = (power) => {
@@ -141,7 +151,7 @@ export default function FormInput(props) {
         <BootstrapInput
           id={id}
           disabled={disabled}
-          defaultValue={defaultValue}
+          defaultValue={newValue}
           autoComplete={autoComplete}
           autoFocus={autoFocus}
           startAdornment={startAdornment}

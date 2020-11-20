@@ -4,6 +4,7 @@ import {
   InputBase,
 } from "@material-ui/core"
 import { fade, withStyles, makeStyles } from "@material-ui/core/styles"
+import formatDate from "../../utils/formatDate"
 
 const fontFamily = [
   '-apple-system',
@@ -38,16 +39,11 @@ export default function HAInput(props) {
     placeholder,
     readOnly,
   } = props
-
-  const [ newValue, setNewValue ] = useState('')
+  const [ newValue, setNewValue ] = useState(formatDate(defaultValue))
 
   const handleChange = (e) => {
     setNewValue(e.target.value)
   }
-
-  useEffect(() => {
-    setNewValue(defaultValue)
-  }, [ defaultValue ])
 
   // useEffect(() => {
   //   defaultValue && onChange && onChange({ id, value: defaultValue })
@@ -55,7 +51,7 @@ export default function HAInput(props) {
   // }, [ defaultValue, onChange ])
 
   useEffect(() => {
-    newValue && onChange && onChange({ id, value: new Date(newValue) })
+    onChange && onChange({ id, value: new Date(newValue) })
     // eslint-disable-next-line
   }, [ newValue ])
 

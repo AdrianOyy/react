@@ -74,6 +74,7 @@ function Create() {
       }
     })
   }, [])
+
   useEffect(() => {
     const inventoryList = [
       {
@@ -157,29 +158,9 @@ function Create() {
       },
     ]
     setInventory(inventoryList)
-  }, [
-    _ID, _IDError, _IDHelperText,
-    UnitCode,
-    AssetID,
-    ModelCode,
-    ModelDesc,
-    ClosetID,
-    Rack,
-    RLU,
-    ItemOwner,
-    Status,
-    Remark,
-    EquipType,
-    UnitNo,
-    PortQty,
-    ReqNo,
-    DOB,
-    DeliveryDate,
-    DeliveryNoteReceivedDate,
-    MaintID,
-    InventoryStatus,
-    EquipTypes
-  ])
+    // eslint-disable-next-line
+  }, [EquipTypes, InventoryStatus])
+
   const onFormFieldChange = (e, id) => {
     const { value } = e.target
     switch (id) {

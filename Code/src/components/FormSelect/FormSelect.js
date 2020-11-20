@@ -38,16 +38,16 @@ export default function HASelect(props) {
     isNew,
   } = props
 
-  const [ newValue, setNewValue ] = useState('')
+  const [ newValue, setNewValue ] = useState(defaultValue)
 
   const handleChange = (e) => {
     setNewValue(e.target.value)
   }
 
-  useEffect(() => {
-    setNewValue(defaultValue)
-    // defaultValue && onChange && onChange(defaultValue)
-  }, [ defaultValue ])
+  // useEffect(() => {
+  //   setNewValue(defaultValue)
+  //   // defaultValue && onChange && onChange(defaultValue)
+  // }, [ defaultValue ])
 
   useEffect(() => {
     if (isNew) {
