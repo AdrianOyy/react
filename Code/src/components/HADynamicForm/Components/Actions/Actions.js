@@ -6,35 +6,67 @@ import { L } from "../../../../utils/lang"
 import { Button } from "@material-ui/core"
 import RejectReason from "../RejectReason/RejectReason"
 import { UNHANDLED } from "../../../../utils/variable/VMStatus"
+import Contract from "../../../Contract"
 
 export function CommonActions(props) {
   const {
     logic,
     history,
   } = props
-  const handleSave = async () => {
+
+  const [ contractOpen, setContractOpen ] = useState(false)
+  const [ contractList, setContractList ] = useState([])
+
+  const handleClose = (argee) => {
+    setContractOpen(false)
+    // eslint-disable-next-line no-const-assign,no-undef
+    if (argee) {
+      handleSave()
+    }
+  }
+
+  const handleCheck = async () => {
     const checkRes = await logic.checkAllParentField()
     if (!checkRes) {
       CommonTip.error("Please check your data")
       return
     }
-    logic.childrenDataList && logic.childrenDataList.forEach(el => {
-      el.set('status', UNHANDLED.value)
-    })
-    const form = logic.getFormData()
+    handleContract()
+  }
+
+  const handleContract = () => {
+    const contractList = logic.getContractList()
+    if (contractList) {
+      setContractList(contractList)
+      setContractOpen(true)
+    } else {
+      handleSave()
+    }
+  }
+
+  const handleSave = () => {
     Loading.show()
-    API.create(form)
-      .then(() => {
-        CommonTip.success(L('Success'))
-        history.push({ pathname: `/` })
+    try {
+      logic.childrenDataList && logic.childrenDataList.forEach(el => {
+        el.set('status', UNHANDLED.value)
       })
-      .finally(() => {
-        Loading.hide()
-      })
-      .catch((e) => {
-        console.log(e)
-        Loading.hide()
-      })
+      const form = logic.getFormData()
+      API.create(form)
+        .then(() => {
+          CommonTip.success(L('Success'))
+          history.push({ pathname: `/` })
+        })
+        .finally(() => {
+          Loading.hide()
+        })
+        .catch((e) => {
+          console.log(e)
+          Loading.hide()
+        })
+    } catch (e) {
+      Loading.hide()
+    }
+
   }
   const onClose = () => history.push({ pathname: '/' })
   return (
@@ -49,7 +81,7 @@ export function CommonActions(props) {
           color: '#fff',
           backgroundColor: '#4CAF50'
         }}
-        onClick={handleSave}>
+        onClick={handleCheck}>
         {L('Submit')}
       </Button>
       <Button
@@ -64,6 +96,11 @@ export function CommonActions(props) {
         onClick={onClose}>
         {L('Cancel')}
       </Button>
+      <Contract
+        open={contractOpen}
+        onClose={handleClose}
+        contractList={contractList}
+      />
     </>
   )
 }

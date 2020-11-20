@@ -9,6 +9,7 @@ import { L } from "../../../lang"
 import React from "react"
 import { CREATE, HA4, UPDATE } from "../../../variable/stepName"
 import { getUser } from "../../../auth"
+import ContractItems from "../../../../components/ContractItems/ContractItems"
 
 
 class NonPersonal extends Common {
@@ -51,6 +52,11 @@ class NonPersonal extends Common {
     return { error: false, message: '' }
   }
 
+  getContractList() {
+    const res = [ ContractItems.get('CORP Account (Non-Personal) Application') ]
+    return res
+  }
+
   async getInitData() {
     const user = getUser()
     const parentInitData = new Map()
@@ -60,6 +66,11 @@ class NonPersonal extends Common {
       parentInitData.set('christianname', user.givenName)
     }
     return { parentInitData }
+  }
+
+  getParentTitle() {
+    if (this.stepName === CREATE) return null
+    return 'Non-Personal Account'
   }
 
   shouldContinue(item) {

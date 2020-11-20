@@ -54,8 +54,8 @@ function HAStep(props) {
   }
 
   const actionList = [
-    { label: L('Reject Reason'), icon: <BorderColorIcon />, handleClick: handleDetail },
-    { label: 'message', icon: <ChatIcon />, handleClick: handleChatBox, display }]
+    { label: L('Reject Reason'), icon: <BorderColorIcon fontSize="small" style={{ color: '#2553F4' }} />, handleClick: handleDetail },
+    { label: 'message', icon: <ChatIcon fontSize="small" style={{ color: '#2553F4' }} />, handleClick: handleChatBox, display }]
 
   const { processInstanceId } = props
   // const processInstanceId = 827520
@@ -106,29 +106,29 @@ function HAStep(props) {
 
   // 表头字段列表
   const headCells = [
-    { id: 'name', alignment: 'center', label: L('Name') },
-    { id: 'assignee', alignment: 'center', label: L('Assignee') },
-    { id: 'userName', alignment: 'center', label: L('User') },
-    { id: 'groupName', alignment: 'center', label: L('Group') },
-    { id: 'status', alignment: 'center', label: L('Status') },
-    { id: 'endDate', alignment: 'center', label: L('End Date') },
-    { id: 'action', alignment: 'right', label: L('Action') }
+    { id: 'name', alignment: 'left', label: L('Name') },
+    { id: 'assignee', alignment: 'left', label: L('Assignee') },
+    { id: 'userName', alignment: 'left', label: L('User') },
+    { id: 'groupName', alignment: 'left', label: L('Group') },
+    { id: 'status', alignment: 'left', label: L('Status') },
+    { id: 'endDate', alignment: 'left', label: L('End Date') },
+    { id: 'action', alignment: 'center', label: L('Action') }
   ]
 
   // 每行显示的字段
   const fieldList = [
-    { field: 'name', align: 'center' },
-    { field: 'assignee', align: 'center' },
-    { field: 'userName', align: 'center' },
-    { field: 'groupName', align: 'center' },
-    { field: 'status', align: 'center' },
-    { field: 'endDate', align: 'center' },
+    { field: 'name', align: 'left' },
+    { field: 'assignee', align: 'left' },
+    { field: 'userName', align: 'left' },
+    { field: 'groupName', align: 'left' },
+    { field: 'status', align: 'left' },
+    { field: 'endDate', align: 'left' },
   ]
 
   return (
     <React.Fragment>
-      <Paper style={{ justifyItems: 'center' }}>
-        <Stepper style={{ width: '80%' }} activeStep={activeStep} alternativeLabel>
+      <Paper style={{ paddingBottom: '20px' }}>
+        <Stepper style={{ marginTop: '20px' }} activeStep={activeStep} alternativeLabel>
           {steps.map((label) => {
             let labelProps = {}
             if (label.status === 'processing') {

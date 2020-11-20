@@ -72,6 +72,7 @@ class VM extends Common {
   }
 
   getParentTitle() {
+    if (this.stepName === CREATE) return null
     return 'VM Allocation'
   }
 

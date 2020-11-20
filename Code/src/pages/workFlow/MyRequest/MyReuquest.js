@@ -5,7 +5,7 @@ import { L } from '../../../utils/lang'
 
 const path = '/workflow/request'
 const parentTitle = L('My Request')
-const title = L('My Request')
+const title = ''
 
 function MyRequest() {
   const props = {

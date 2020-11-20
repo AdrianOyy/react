@@ -4,7 +4,7 @@ const content =
   <article style={{ fontFamily: 'Arial', fontSize: '11px' }}>
     <p style={{ fontSize: '14px' }}><b>Good Practice for the use of E-Mail</b></p>
     <p>
-      <u style={{ fontSize: 'bold;' }}>Introduction<br/></u>
+      <u style={{ fontSize: 'bold' }}>Introduction<br/></u>
     </p>
     <p>
       1.&nbsp;&nbsp;&nbsp;&nbsp;The use of e-mail has gained popularity within individuals and among HAHO, hospitals and institutions. Internet e-mail is also commonly used for communication between the HA and outside organizations. E-mail enables us to reduce the workload of internal dispatch, to distribute messages more easily to colleagues for action and to add value more effectively to other colleagues&apos; input. Officers are encouraged to use this efficient means of communication as far as possible.
@@ -16,7 +16,7 @@ const content =
       2.&nbsp;&nbsp;&nbsp;&nbsp;The HA e-mail systems are provided to officers as part of the HA resources to enhance their communication with other officers or external parties, and to discharge their official duties more efficiently. Hence, extensive use of the e-mail systems for private communication or activities should be avoided.
     </p>
     <p>
-      <u style={{ fontSize: 'bold;' }}>E-mail as written communication<br/></u>
+      <u style={{ fontSize: 'bold' }}>E-mail as written communication<br/></u>
     </p>
     <p>
       3.&nbsp;&nbsp;&nbsp;&nbsp;Appropriate steps should be taken to ensure that e-mails are dealt with expeditiously having regard to its high speed in transmission and the expectation of the sender for a quick response.
@@ -58,7 +58,7 @@ const content =
       <span>&nbsp;</span>
     </p>
     <p>
-      <u style={{ fontSize: 'bold;' }}>
+      <u style={{ fontSize: 'bold' }}>
         E-mail Traffic Control and Delivery<br/>
       </u>
     </p>

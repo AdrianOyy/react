@@ -17,7 +17,7 @@ import {
   Reorder as ReorderIcon,
 } from "@material-ui/icons"
 
-const tableName = ''
+const tableName = L('My Request')
 
 function List(props) {
   const { path } = props

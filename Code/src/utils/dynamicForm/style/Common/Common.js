@@ -5,7 +5,7 @@ class Common {
     this.container = {
       backgroundColor: '#fff',
       borderRadius: '1em',
-      // minWidth: '40vw',
+      marginTop: '1em',
       width: '85%',
       maxWidth: '1000px',
       minHeight: '60vh',
@@ -17,7 +17,7 @@ class Common {
     this.parentTitle = {
       width: '100%',
       padding: '0 0',
-      marginBottom: '2em',
+      margin: '1em 0 1em 1em',
       textAlign: 'left',
     }
     this.parent = {
@@ -51,6 +51,8 @@ class Common {
       root: {
         width: '90%',
         marginBottom: '2em',
+        marginLeft: '2em',
+        marginRight: '4em'
       },
       label: {
         fontSize: '1.2em',

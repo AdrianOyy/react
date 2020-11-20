@@ -111,8 +111,6 @@ function SearchInput(props) {
         className={classes.root}
         style={{
           height: '13em',
-          marginLeft: '2em',
-          marginRight: '4em',
         }}
         id={'element_' + fieldName}
       >
