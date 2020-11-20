@@ -43,6 +43,7 @@ const LifeCycle = async(() => import("../pages/resources/LifeCycle"))
 const VM = async(() => import("../pages/resources/VM"))
 const Network = async(() => import("../pages/resources/Network"))
 const Server = async(() => import("../pages/resources/Server"))
+const Quota = async(() => import("../pages/resources/tenantQuotaMapping"))
 
 
 // tenant
@@ -62,8 +63,6 @@ const assign = async(() => import("../pages/aaa-service/Assign"))
 
 // expiry
 const expiry = async(() => import("../pages/aaa-service/Expiry"))
-
-
 
 const authRoutes = {
   id: "Auth",
@@ -241,6 +240,11 @@ const resourceRoutes = {
       path: menu.resources.children.lifeCycle.path,
       name: menu.resources.children.lifeCycle.name,
       component: LifeCycle
+    },
+    {
+      path: menu.resources.children.quota.path,
+      name: menu.resources.children.quota.name,
+      component: Quota,
     },
   ]
 }
