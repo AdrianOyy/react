@@ -19,6 +19,7 @@ function Create() {
   const [ formFieldList, setFormFieldList ] = useState([])
   const [ saving, setSaving ] = useState(false)
   const [ typeList, setTypeList ] = useState([])
+  const [ errors, setErrors ] = useState({})
 
   const handleClick = async () => {
     const nameError = await nameCheck()
@@ -39,11 +40,11 @@ function Create() {
     API.listType({ limit: 999, page: 1 }).then(({ data }) => {
       if (data && data.data) {
         const { rows } = data.data
-        console.log(rows)
         setTypeList(rows)
       }
     })
   }, [])
+
   useEffect(() => {
     const list = [
       {
@@ -52,18 +53,31 @@ function Create() {
         error: nameError, helperText: nameHelperText
       },
       {
-        id: 'typeId', label: L('Type'), type: 'select',
+        id: 'typeId', label: L('Type'), type: 'select', required: true,
         value: typeId, itemList: typeList,
         labelField: 'name', valueField: 'id',
         error: typeIdError, helperText: typeIdHelperText,
       },
     ]
     setFormFieldList(list)
-  }, [
-    name, nameError, nameHelperText,
-    typeId, typeIdError, typeIdHelperText,
-    typeList,
-  ])
+    // eslint-disable-next-line
+  }, [ typeList ])
+
+  useEffect(() => {
+    const errors = {
+      name: {
+        error: nameError,
+        helperText: nameHelperText,
+      },
+      typeId: {
+        error: typeIdError,
+        helperText: typeIdHelperText,
+      }
+    }
+    setErrors(errors)
+    // eslint-disable-next-line
+  }, [ nameHelperText, typeIdHelperText ])
+
   const onFormFieldChange = (e, id) => {
     const { value } = e.target
     switch (id) {
@@ -77,6 +91,7 @@ function Create() {
         break
     }
   }
+
   const nameCheck = async () => {
     const emptyCheck = checkEmpty("name", name)
     setNameError(emptyCheck.error)
@@ -98,25 +113,12 @@ function Create() {
     return emptyCheck.error
   }
 
-  const onFormFieldBlur = (_, id) => {
-    switch (id) {
-      case "name":
-        nameCheck()
-        break
-      case "typeId":
-        typeIdCheck()
-        break
-      default:
-        break
-    }
-  }
   return (
     <React.Fragment>
       <DetailPage
-        formTitle={L('Create')}
         onFormFieldChange = {onFormFieldChange}
-        onFormFieldBlur = {onFormFieldBlur}
         formFieldList = {formFieldList}
+        errorFieldList = {errors}
         showBtn ={true}
         onBtnClick = {handleClick}
       />
