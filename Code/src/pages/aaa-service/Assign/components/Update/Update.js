@@ -12,31 +12,15 @@ import API from "../../../../../api/assign"
 import { L } from '../../../../../utils/lang'
 
 
-function AssignUpdate(props) {
+function Update() {
   const { id } = useParams()
   const history = useHistory()
-  const [ tenant, setTenant ] = useState('')
-  const [ group, setGroup ] = useState('')
   const [ roleId, setRoleId ] = useState('')
-  const [ createdAt, setCreatedAt ] = useState('')
-  const [ updatedAt, setUpdastedAt ] = useState('')
   const [ formFieldList, setFormFieldList ] = useState([])
   const [ saving, setSaving ] = useState(false)
   const [ roleError, setRoleError ] = useState(false)
   const [ roleHelperText, setRoleHelperText ] = useState("")
-  const [ roleList, setRoleList ] = useState([])
-  const [ roleInit, setRoleInit ] = useState(false)
-
-
-  // 获取 roleList
-  useEffect(() => {
-    roleApi.list({ limit: 999, page: 1 }).then(({ data }) => {
-      if (data && data.data) {
-        const { rows } = data.data
-        setRoleList(rows)
-      }
-    })
-  }, [])
+  const [ errors, setErrors ] = useState({})
 
   const roleCheck = async () => {
     const emptyCheck = checkEmpty("role", roleId)
@@ -44,16 +28,6 @@ function AssignUpdate(props) {
     setRoleHelperText(emptyCheck.msg)
     return emptyCheck.error
   }
-
-  // 字段 role 检查
-  useEffect(() => {
-    if (roleInit) {
-      roleCheck()
-    } else {
-      setRoleInit(true)
-    }
-    // eslint-disable-next-line
-  }, [roleId])
 
   const handleClick = async () => {
     const roleError = await roleCheck()
@@ -70,39 +44,61 @@ function AssignUpdate(props) {
   }
 
   useEffect(() => {
-    API.detail(id).then(({ data }) => {
+    roleApi.list({ limit: 999, page: 1 }).then(({ data }) => {
       if (data && data.data) {
-        const { role, tenant_group_mapping, createdAt, updatedAt } = data.data
-        const { ad_group, tenant } = tenant_group_mapping
-        if (tenant && tenant.name) {
-          setTenant(tenant.name)
-        }
-        if (ad_group && ad_group.name) {
-          setGroup(ad_group.name)
-        }
-        if (role && role.id) {
-          setRoleId(role.id)
-        }
-        setCreatedAt(createdAt)
-        setUpdastedAt(updatedAt)
+        return data.data.rows
+      } else {
+        return []
       }
+    }).then(returnObj => {
+      API.detail(id).then(({ data }) => {
+        if (data && data.data) {
+          const { role, tenant_group_mapping } = data.data
+          const { ad_group, tenant } = tenant_group_mapping
+          let tenantId = ''
+          if (tenant && tenant.name) {
+            tenantId = tenant.name
+          }
+          let adGroup = ''
+          if (ad_group && ad_group.name) {
+            adGroup = ad_group.name
+          }
+          let roleValue = ''
+          if (role && role.id) {
+            roleValue = role.id
+          }
+
+          const defaultValue = data.data
+          const list = [
+            { id: 'tenant', label: L('Tenant'), type: 'text', disabled: true, readOnly: true, value: tenantId },
+            { id: 'adGroup', label: L('AD Group'), type: 'text', disabled: true, readOnly: true, value: adGroup },
+            {
+              id: 'role', label: L('Role'), type: 'select', required: true,
+              readOnly: false, value: roleValue, error: roleError, helperText: roleHelperText,
+              itemList: returnObj, labelField: "label", valueField: "id"
+            },
+            { id: 'createdAt', label: L('Created At'), type: 'text', disabled: true, readOnly: true, value: formatDateTime(defaultValue.createdAt) },
+            { id: 'updatedAt', label: L('Updated At'), type: 'text', disabled: true, readOnly: true, value: formatDateTime(defaultValue.updatedAt) },
+          ]
+          setFormFieldList(list)
+        }
+      })
     })
+    // eslint-disable-next-line
   }, [ id ])
 
   useEffect(() => {
-    const list = [
-      { id: 'tenant', label: L('Tenant'), type: 'text', disabled: true, readOnly: true, value: tenant },
-      { id: 'adGroup', label: L('AD Group'), type: 'text', disabled: true, readOnly: true, value: group },
-      {
-        id: 'role', label: L('Role'), type: 'select', required: true,
-        readOnly: false, value: roleId, error: roleError, helperText: roleHelperText,
-        itemList: roleList, labelField: "label", valueField: "id"
+    const errors = {
+      role: {
+        error: roleError,
+        helperText: roleHelperText,
       },
-      { id: 'createdAt', label: L('Created At'), type: 'text', disabled: true, readOnly: true, value: formatDateTime(createdAt) },
-      { id: 'updatedAt', label: L('Updated At'), type: 'text', disabled: true, readOnly: true, value: formatDateTime(updatedAt) },
-    ]
-    setFormFieldList(list)
-  }, [ tenant, group, roleId, roleError, roleHelperText, roleList, createdAt, updatedAt ])
+    }
+    setErrors(errors)
+    // eslint-disable-next-line
+  }, [
+    roleHelperText,
+  ])
 
   // 字段改变
   const onFormFieldChange = (e, id) => {
@@ -119,9 +115,9 @@ function AssignUpdate(props) {
   return (
     <React.Fragment>
       <DetailPage
-        formTitle={L('Update')}
         onFormFieldChange = {onFormFieldChange}
         formFieldList = {formFieldList}
+        errorFieldList = {errors}
         showBtn ={true}
         onBtnClick = {handleClick}
       />
@@ -129,4 +125,4 @@ function AssignUpdate(props) {
   )
 }
 
-export default AssignUpdate
+export default Update

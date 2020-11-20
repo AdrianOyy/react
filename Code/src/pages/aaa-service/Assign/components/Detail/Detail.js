@@ -7,66 +7,34 @@ import { useParams } from "react-router-dom"
 import formatDateTime from "../../../../../utils/formatDateTime"
 
 
-function Detail(props) {
+function Detail() {
   const { id } = useParams()
-  const [ tenant, setTenant ] = useState('')
-  const [ adGroup, setAdGroup ] = useState('')
-  const [ role, setRole ] = useState('')
-  const [ createdAt, setCreatedAt ] = useState('')
-  const [ updatedAt, setUpdastedAt ] = useState('')
   const [ formFieldList, setFormFieldList ] = useState([])
 
   useEffect(() => {
     API.detail(id).then(({ data }) => {
       if (data && data.data) {
-        console.log("data: ", data.data)
-        const { role, tenant_group_mapping, createdAt, updatedAt } = data.data
-        const { ad_group, tenant } = tenant_group_mapping
-        if (tenant && tenant.name) {
-          setTenant(tenant.name)
-        }
-        if (ad_group && ad_group.name) {
-          setAdGroup(ad_group.name)
-        }
-        setRole(role.label)
-        setCreatedAt(createdAt)
-        setUpdastedAt(updatedAt)
+        const defaultValue = data.data
+        const tenant_group_mapping = defaultValue && defaultValue.tenant_group_mapping ? defaultValue.tenant_group_mapping : ''
+        const tenant = tenant_group_mapping && tenant_group_mapping.tenant && tenant_group_mapping.tenant.name ? tenant_group_mapping.tenant.name : ''
+        const adGroup = tenant_group_mapping && tenant_group_mapping.ad_group && tenant_group_mapping.ad_group.name ? tenant_group_mapping.ad_group.name : ''
+        const role = defaultValue && defaultValue.role && defaultValue.role.label ? defaultValue.role.label : ''
+
+        const list = [
+          { id: 'tenant', label: L('Tenant'), type: 'text', disabled: true, readOnly: true, value: tenant },
+          { id: 'adGroup', label: L('AD Group'), type: 'text', disabled: true, readOnly: true, value: adGroup },
+          { id: 'role', label: L('Role'), type: 'text', disabled: true, readOnly: true, value: role },
+          { id: 'createdAt', label: L('Created At'), type: 'text', disabled: true, readOnly: true, value: formatDateTime(defaultValue.createdAt) },
+          { id: 'updatedAt', label: L('Updated At'), type: 'text', disabled: true, readOnly: true, value: formatDateTime(defaultValue.updatedAt) },
+        ]
+        setFormFieldList(list)
       }
     })
   }, [ id ])
 
-  useEffect(() => {
-    const list = [
-      { id: 'tenant', label: L('Tenant'), type: 'text', disabled: true, readOnly: true, value: tenant },
-      { id: 'adGroup', label: L('AD Group'), type: 'text', disabled: true, readOnly: true, value: adGroup },
-      { id: 'role', label: L('Role'), type: 'text', disabled: true, readOnly: true, value: role },
-      { id: 'createdAt', label: L('Created At'), type: 'text', disabled: true, readOnly: true, value: formatDateTime(createdAt) },
-      { id: 'updatedAt', label: L('Updated At'), type: 'text', disabled: true, readOnly: true, value: formatDateTime(updatedAt) },
-    ]
-    setFormFieldList(list)
-  }, [ tenant, adGroup, role, createdAt, updatedAt ])
-
-  const onFormFieldChange = (e, id) => {
-    const { value } = e.target
-    switch (id) {
-      case 'tenant':
-        setTenant(value)
-        break
-      case 'adGroup':
-        setAdGroup(value)
-        break
-      case 'role':
-        setRole(value)
-        break
-      default:
-        break
-    }
-  }
   return (
     <React.Fragment>
       <DetailPage
-        formTitle={L('Detail')}
-        onFormFieldChange = {onFormFieldChange}
         formFieldList = {formFieldList}
       />
     </React.Fragment>

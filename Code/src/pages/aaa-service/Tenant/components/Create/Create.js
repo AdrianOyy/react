@@ -8,9 +8,9 @@ import { checkEmpty, getCheckExist } from "../../untils/tenantFieldCheck"
 import adGroupApi from "../../../../../api/adGroup"
 import { L } from '../../../../../utils/lang'
 
+
 function Create() {
   const history = useHistory()
-
   const [ name, setName ] = useState('')
   const [ nameError, setNameError ] = useState(false)
   const [ nameHelperText, setNameHelperText ] = useState("")
@@ -26,7 +26,6 @@ function Create() {
   const [ groupId, setgroupId ] = useState('')
   const [ groupIdError, setgroupIdError ] = useState(false)
   const [ groupIdHelperText, setgroupIdHelperText ] = useState("")
-
   const [ justification, setjustification ] = useState('')
   const [ justificationError, setjustificationError ] = useState(false)
   const [ justificationHelperText, setjustificationHelperText ] = useState("")
@@ -45,7 +44,6 @@ function Create() {
   const [ methodology_text, setmethodology_text ] = useState('')
   const [ methodology_textError, setmethodology_textError ] = useState(false)
   const [ methodology_textHelperText, setmethodology_textHelperText ] = useState("")
-
   const [ formFieldList, setFormFieldList ] = useState([])
   const [ saving, setSaving ] = useState(false)
   const [ adGroupList, setAdGroupList ] = useState([])
@@ -366,7 +364,6 @@ function Create() {
   return (
     <React.Fragment>
       <DetailPage
-        formTitle = 'Tenant Create'
         onFormFieldChange = {onFormFieldChange}
         formFieldList = {formFieldList}
         errorFieldList = {errors}

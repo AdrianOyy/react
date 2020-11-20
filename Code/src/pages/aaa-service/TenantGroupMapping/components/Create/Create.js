@@ -10,7 +10,7 @@ import adGroupApi from "../../../../../api/adGroup"
 import { L } from '../../../../../utils/lang'
 
 
-function TenantGroupMappingCreate() {
+function Create() {
   const history = useHistory()
   const [ tenantId, setTenantId ] = React.useState('')
   const [ groupId, setGroupId ] = React.useState('')
@@ -22,8 +22,7 @@ function TenantGroupMappingCreate() {
   const [ groupHelperText, setGroupHelperText ] = useState("")
   const [ tenantList, setTenantList ] = useState([])
   const [ adGroupList, setAdGroupList ] = useState([])
-  const [ tenantInit, setTenantInit ] = useState(false)
-  const [ groupInit, setGroupInit ] = useState(false)
+  const [ errors, setErrors ] = useState({})
 
   const handleClick = async () => {
     const tenantError = await tenantCheck()
@@ -40,7 +39,7 @@ function TenantGroupMappingCreate() {
       })
   }
 
-  // 获取 tenantList 和 groupList
+  // 获取 tenantList
   useEffect(() => {
     tenantApi.list({ limit: 999, page: 1 }).then(({ data }) => {
       if (data && data.data) {
@@ -48,7 +47,10 @@ function TenantGroupMappingCreate() {
         setTenantList(rows)
       }
     })
+  }, [])
 
+  // 获取 groupList
+  useEffect(() => {
     adGroupApi.list({ limit: 999, page: 1 }).then(({ data }) => {
       if (data && data.data) {
         const { rows } = data.data
@@ -63,6 +65,7 @@ function TenantGroupMappingCreate() {
         id: 'tenant',
         label: L('Tenant'),
         type: 'select',
+        required: true,
         value: tenantId,
         itemList: tenantList,
         labelField: 'name',
@@ -74,6 +77,7 @@ function TenantGroupMappingCreate() {
         id: 'group',
         label: L('AD Group'),
         type: 'select',
+        required: true,
         value: groupId,
         itemList: adGroupList,
         labelField: 'name',
@@ -83,16 +87,23 @@ function TenantGroupMappingCreate() {
       },
     ]
     setFormFieldList(list)
-  }, [
-    tenantId,
-    groupId,
-    tenantList,
-    adGroupList,
-    tenantError,
-    groupError,
-    tenantHelperText,
-    groupHelperText
-  ])
+    // eslint-disable-next-line
+  }, [ tenantList, adGroupList ])
+
+  useEffect(() => {
+    const errors = {
+      tenant: {
+        error: tenantError,
+        helperText: tenantHelperText,
+      },
+      group: {
+        error: groupError,
+        helperText: groupHelperText,
+      },
+    }
+    setErrors(errors)
+    // eslint-disable-next-line
+  }, [ tenantHelperText, groupHelperText ])
 
   const onFormFieldChange = (e, id) => {
     const { value } = e.target
@@ -107,6 +118,7 @@ function TenantGroupMappingCreate() {
         break
     }
   }
+
   const tenantCheck = async () => {
     const emptyCheck = checkEmpty("tenant", tenantId)
     setTenantError(emptyCheck.error)
@@ -135,32 +147,12 @@ function TenantGroupMappingCreate() {
     return emptyCheck.error
   }
 
-  // 字段 tenant 检查
-  useEffect(() => {
-    if (tenantInit) {
-      tenantCheck()
-    } else {
-      setTenantInit(true)
-    }
-    // eslint-disable-next-line
-  }, [tenantId])
-  // 字段 group 检查
-
-  useEffect(() => {
-    if (groupInit) {
-      groupCheck()
-    } else {
-      setGroupInit(true)
-    }
-    // eslint-disable-next-line
-  }, [groupId])
-
   return (
     <React.Fragment>
       <DetailPage
-        formTitle={L('Create')}
         onFormFieldChange = {onFormFieldChange}
         formFieldList = {formFieldList}
+        errorFieldList = {errors}
         showBtn ={true}
         onBtnClick = {handleClick}
       />
@@ -168,4 +160,4 @@ function TenantGroupMappingCreate() {
   )
 }
 
-export default TenantGroupMappingCreate
+export default Create

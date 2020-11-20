@@ -11,40 +11,19 @@ import tenantApi from "../../../../../api/tenant"
 import adGroupApi from "../../../../../api/adGroup"
 import { L } from '../../../../../utils/lang'
 
-function TenantGroupMappingUpdate() {
+
+function Update() {
   const { id } = useParams()
   const history = useHistory()
   const [ tenantId, setTenantId ] = React.useState('')
   const [ groupId, setGroupId ] = React.useState('')
-  const [ createdAt, setCreatedAt ] = useState('')
-  const [ updatedAt, setUpdastedAt ] = useState('')
   const [ formFieldList, setFormFieldList ] = useState([])
   const [ saving, setSaving ] = useState(true)
   const [ tenantError, setTenantError ] = useState(false)
   const [ groupError, setGroupError ] = useState(false)
   const [ tenantHelperText, setTenantHelperText ] = useState("")
   const [ groupHelperText, setGroupHelperText ] = useState("")
-  const [ tenantList, setTenantList ] = useState([])
-  const [ adGroupList, setAdGroupList ] = useState([])
-  const [ tenantInit, setTenantInit ] = useState(false)
-  const [ groupInit, setGroupInit ] = useState(false)
-
-  // 获取 tenantList 和 groupList
-  useEffect(() => {
-    tenantApi.list({ limit: 999, page: 1 }).then(({ data }) => {
-      if (data && data.data) {
-        const { rows } = data.data
-        setTenantList(rows)
-      }
-    })
-    adGroupApi.list({ limit: 999, page: 1 }).then(({ data }) => {
-      if (data && data.data) {
-        const { rows } = data.data
-        setAdGroupList(rows)
-      }
-    })
-
-  }, [])
+  const [ errors, setErrors ] = useState({})
 
   const tenantCheck = async () => {
     const emptyCheck = checkEmpty("tenant", tenantId)
@@ -73,25 +52,6 @@ function TenantGroupMappingUpdate() {
     return emptyCheck.error
   }
 
-  // 字段 tenant 检查
-  useEffect(() => {
-    if (tenantInit) {
-      tenantCheck()
-    } else {
-      setTenantInit(true)
-    }
-    // eslint-disable-next-line
-  }, [tenantId])
-  // 字段 group 检查
-  useEffect(() => {
-    if (groupInit) {
-      groupCheck()
-    } else {
-      setGroupInit(true)
-    }
-    // eslint-disable-next-line
-  }, [groupId])
-
   const handleClick = async () => {
     const tenantError = await tenantCheck()
     const adGroupError = await groupCheck()
@@ -108,33 +68,72 @@ function TenantGroupMappingUpdate() {
   }
 
   useEffect(() => {
-    API.detail(id).then(({ data }) => {
-      const { tenant, ad_group, createdAt, updatedAt } = data.data
-      setTenantId(tenant.id)
-      setGroupId(ad_group.id)
-      setCreatedAt(createdAt)
-      setUpdastedAt(updatedAt)
-      setSaving(false)
+    tenantApi.list({ limit: 999, page: 1 }).then(({ data }) => {
+      if (data && data.data) {
+        return data.data.rows
+      } else {
+        return []
+      }
+    }).then(returnObj => {
+      adGroupApi.list({ limit: 999, page: 1 }).then(({ data }) => {
+        if (data && data.data) {
+          return {
+            tenantList: returnObj,
+            adGroupList: data.data.rows,
+          }
+        } else {
+          return {
+            tenantList: returnObj,
+            adGroupList: [],
+          }
+        }
+      }).then(returnObj => {
+        API.detail(id).then(({ data }) => {
+          const { tenant, ad_group } = data.data
+          setTenantId(tenant.id)
+          setGroupId(ad_group.id)
+          setSaving(false)
+
+          const defaultValue = data.data
+          const list = [
+            {
+              id: 'tenant', label: L('Tenant'), type: 'select', required: true,
+              readOnly: false, value: defaultValue.tenantId, error: tenantError, helperText: tenantHelperText,
+              itemList: returnObj.tenantList, labelField: "name", valueField: "id"
+            },
+            {
+              id: 'group', label: L('AD Group'), type: 'select', required: true,
+              readOnly: false, value: defaultValue.ad_groupId, error: groupError, helperText: groupHelperText,
+              itemList: returnObj.adGroupList, labelField: "name", valueField: "id"
+            },
+            { id: 'createdAt', label: L('Created At'), type: 'text', disabled: true, readOnly: true, value: formatDateTime(defaultValue.createdAt) },
+            { id: 'updatedAt', label: L('Updated At'), type: 'text', disabled: true, readOnly: true, value: formatDateTime(defaultValue.updatedAt) },
+          ]
+          setFormFieldList(list)
+        })
+      })
     })
+    // eslint-disable-next-line
   }, [ id ])
 
   useEffect(() => {
-    const list = [
-      {
-        id: 'tenant', label: L('Tenant'), type: 'select', required: true,
-        readOnly: false, value: tenantId, error: tenantError, helperText: tenantHelperText,
-        itemList: tenantList, labelField: "name", valueField: "id"
+    const errors = {
+      tenant: {
+        error: tenantError,
+        helperText: tenantHelperText,
       },
-      {
-        id: 'group', label: L('AD Group'), type: 'select', required: true,
-        readOnly: false, value: groupId, error: groupError, helperText: groupHelperText,
-        itemList: adGroupList, labelField: "name", valueField: "id"
+      group: {
+        error: groupError,
+        helperText: groupHelperText,
       },
-      { id: 'createdAt', label: L('Created At'), type: 'text', disabled: true, readOnly: true, value: formatDateTime(createdAt) },
-      { id: 'updatedAt', label: L('Updated At'), type: 'text', disabled: true, readOnly: true, value: formatDateTime(updatedAt) },
-    ]
-    setFormFieldList(list)
-  }, [ tenantId, groupId, tenantError, groupError, tenantHelperText, groupHelperText, tenantList, adGroupList, createdAt, updatedAt ])
+    }
+    setErrors(errors)
+    // eslint-disable-next-line
+  }, [
+    tenantHelperText,
+    groupHelperText,
+  ])
+
   const onFormFieldChange = (e, id) => {
     const { value } = e.target
     switch (id) {
@@ -152,9 +151,9 @@ function TenantGroupMappingUpdate() {
   return (
     <React.Fragment>
       <DetailPage
-        formTitle={L('Update')}
         onFormFieldChange = {onFormFieldChange}
         formFieldList = {formFieldList}
+        errorFieldList = {errors}
         showBtn ={true}
         onBtnClick = {handleClick}
       />
@@ -162,4 +161,4 @@ function TenantGroupMappingUpdate() {
   )
 }
 
-export default TenantGroupMappingUpdate
+export default Update

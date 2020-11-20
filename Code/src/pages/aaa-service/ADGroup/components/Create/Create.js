@@ -7,7 +7,7 @@ import ADGroupApi from "../../../../../api/adGroup"
 import { checkEmpty, getCheckExist } from "../../untils/ADGroupCheck"
 import { L } from '../../../../../utils/lang'
 const listPath = '/aaa-service/adgroup'
-const formTitle = 'Create'
+
 
 function Create() {
   const history = useHistory()
@@ -17,7 +17,6 @@ function Create() {
   const [ nameError, setNameError ] = useState(false)
   const [ nameHelperText, setNameHelperText ] = useState("")
   const [ errors, setErrors ] = useState({})
-
 
   const handelClick = async () => {
     const nameErr = await nameCheck()
@@ -76,21 +75,10 @@ function Create() {
     return emptyCheck.error
   }
 
-  const onFormFieldBlur = (_, id) => {
-    switch (id) {
-      case "name":
-        nameCheck()
-        break
-      default:
-        break
-    }
-  }
   return (
     <React.Fragment>
       <DetailPage
-        formTitle = {formTitle}
         onFormFieldChange = {onFormFieldChange}
-        onFormFieldBlur = {onFormFieldBlur}
         formFieldList = {formFieldList}
         errorFieldList = {errors}
         showBtn ={true}

@@ -231,6 +231,7 @@ function Update() {
     project_estimationError,
     methodology_textError,
   ])
+
   const onFormFieldChange = (e, id) => {
     const { value } = e.target
     switch (id) {
@@ -318,39 +319,10 @@ function Update() {
     return emptyCheck.error
   }
 
-  const onFormFieldBlur = (_, id) => {
-    switch (id) {
-      case "name":
-        nameCheck()
-        break
-      case "justification":
-        justificationCheck()
-        break
-      case "budget_type":
-        budget_typeCheck()
-        break
-      case "project_owner":
-        project_ownerCheck()
-        break
-      case "contact_person":
-        contact_personCheck()
-        break
-      case "project_estimation":
-        project_estimationCheck()
-        break
-      case "methodology_text":
-        methodology_textCheck()
-        break
-      default:
-        break
-    }
-  }
-
   return (
     <React.Fragment>
       <DetailPage
         onFormFieldChange = {onFormFieldChange}
-        onFormFieldBlur = {onFormFieldBlur}
         formFieldList = {formFieldList}
         errorFieldList = {errors}
         showBtn ={true}

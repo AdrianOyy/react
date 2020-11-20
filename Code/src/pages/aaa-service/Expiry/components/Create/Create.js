@@ -10,7 +10,7 @@ import userApi from "../../../../../api/user"
 import dayjs from "dayjs"
 
 
-export default function Create(props) {
+export default function Create() {
   const history = useHistory()
   const [ assignId, setAssignId ] = useState('')
   const [ userId, setUserId ] = useState('')
@@ -25,10 +25,7 @@ export default function Create(props) {
   const [ userList, setUserList ] = useState([])
   const [ expiryDateError, setExpiryDateError ] = useState(false)
   const [ expiryDateHelperText, setExpiryDateHelperText ] = useState("")
-  const [ assignInit, setAssignInit ] = useState(false)
-  const [ userInit, setUserInit ] = useState(false)
-  const [ expiryDateInit, setExpiryDateInit ] = useState(false)
-
+  const [ errors, setErrors ] = useState({})
 
   const handleClick = async () => {
     const assignError = await assignCheck()
@@ -65,12 +62,12 @@ export default function Create(props) {
   useEffect(() => {
     const list = [
       {
-        id: 'assign', label: L('Tenant + Group + Role'), type: 'select', value: assignId,
+        id: 'assign', label: L('Tenant + Group + Role'), type: 'select', value: assignId, required: true,
         itemList: assignList, labelField: 'value', valueField: 'id', width: 1.4,
         error: assignError, helperText: assignHelperText, labelWidth: 150,
       },
       {
-        id: 'user', label: L('User'), type: 'select', value: userId,
+        id: 'user', label: L('User'), type: 'select', value: userId, required: true,
         itemList: userList, labelField: 'displayname', valueField: 'id',
         error: userError, helperText: userHelperText, labelWidth: 30,
       },
@@ -80,19 +77,27 @@ export default function Create(props) {
       },
     ]
     setFormFieldList(list)
-  }, [
-    assignId,
-    userId,
-    expiryDate,
-    assignList,
-    userList,
-    assignError,
-    userError,
-    expiryDateError,
-    assignHelperText,
-    userHelperText,
-    expiryDateHelperText
-  ])
+    // eslint-disable-next-line
+  }, [ assignList, userList ])
+
+  useEffect(() => {
+    const errors = {
+      assign: {
+        error: assignError,
+        helperText: assignHelperText,
+      },
+      user: {
+        error: userError,
+        helperText: userHelperText,
+      },
+      expiryDate: {
+        error: expiryDateError,
+        helperText: expiryDateHelperText,
+      },
+    }
+    setErrors(errors)
+    // eslint-disable-next-line
+  }, [ assignHelperText, userHelperText, expiryDateHelperText ])
 
   const onFormFieldChange = (e, id) => {
     const { value } = e.target
@@ -146,42 +151,12 @@ export default function Create(props) {
     return emptyCheck.error
   }
 
-  // 字段 assign 检查
-  useEffect(() => {
-    if (assignInit) {
-      assignCheck()
-    } else {
-      setAssignInit(true)
-    }
-    // eslint-disable-next-line
-  }, [assignId])
-
-  // 字段 user 检查
-  useEffect(() => {
-    if (userInit) {
-      userCheck()
-    } else {
-      setUserInit(true)
-    }
-    // eslint-disable-next-line
-  }, [userId])
-
-  // 字段 expiryDateCheck 检查
-  useEffect(() => {
-    if (expiryDateInit) {
-      expiryDateCheck()
-    } else {
-      setExpiryDateInit(true)
-    }
-    // eslint-disable-next-line
-  }, [expiryDate])
-
   return (
     <React.Fragment>
       <DetailPage
-        formTitle={L('Create')}
         onFormFieldChange = {onFormFieldChange}
         formFieldList = {formFieldList}
+        errorFieldList = {errors}
         showBtn ={true}
         onBtnClick = {handleClick}
       />

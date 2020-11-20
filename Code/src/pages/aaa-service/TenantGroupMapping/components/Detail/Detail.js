@@ -9,58 +9,30 @@ import formatDateTime from "../../../../../utils/formatDateTime"
 
 function Detail() {
   const { id } = useParams()
-  const [ tenant, setTenant ] = React.useState('')
-  const [ adGroup, setAdGroup ] = React.useState('')
-  const [ createdAt, setCreatedAt ] = useState('')
-  const [ updatedAt, setUpdastedAt ] = useState('')
   const [ formFieldList, setFormFieldList ] = useState([])
 
   useEffect(() => {
     tenantGroupMappingApi.detail(id)
       .then(({ data }) => {
         if (data && data.data) {
-          const { tenant, ad_group, createdAt, updatedAt } = data.data
-          if (tenant && tenant.name) {
-            setTenant(tenant.name)
-          }
-          if (ad_group && ad_group.name) {
-            setAdGroup(ad_group.name)
-          }
-          setCreatedAt(createdAt)
-          setUpdastedAt(updatedAt)
+          const defaultValue = data.data
+          const tenant = defaultValue.tenant && defaultValue.tenant.name ? defaultValue.tenant.name : ''
+          const adGroup = defaultValue.tenant && defaultValue.ad_group.name ? defaultValue.ad_group.name : ''
+
+          const list = [
+            { id: 'tenant', label: L('Tenant'), type: 'text', disabled: true, readOnly: true, value: tenant },
+            { id: 'adGroup', label: L('AD Group'), type: 'text', disabled: true, readOnly: true, value: adGroup },
+            { id: 'createdAt', label: L('Created At'), type: 'text', disabled: true, readOnly: true, value: formatDateTime(defaultValue.createdAt) },
+            { id: 'updatedAt', label: L('Updated At'), type: 'text', disabled: true, readOnly: true, value: formatDateTime(defaultValue.updatedAt) },
+          ]
+          setFormFieldList(list)
         }
       })
   }, [ id ])
 
-  useEffect(() => {
-    const list = [
-      { id: 'tenant', label: L('Tenant'), type: 'text', disabled: true, readOnly: true, value: tenant },
-      { id: 'adGroup', label: L('AD Group'), type: 'text', disabled: true, readOnly: true, value: adGroup },
-      { id: 'createdAt', label: L('Created At'), type: 'text', disabled: true, readOnly: true, value: formatDateTime(createdAt) },
-      { id: 'updatedAt', label: L('Updated At'), type: 'text', disabled: true, readOnly: true, value: formatDateTime(updatedAt) },
-    ]
-    setFormFieldList(list)
-  }, [ tenant, adGroup, createdAt, updatedAt ])
-
-  const onFormFieldChange = (e, id) => {
-    const { value } = e.target
-    switch (id) {
-      case 'tenant':
-        setTenant(value)
-        break
-      case 'adGroup':
-        setAdGroup(value)
-        break
-      default:
-        break
-    }
-  }
-
   return (
     <React.Fragment>
       <DetailPage
-        formTitle={L('Detail')}
-        onFormFieldChange = {onFormFieldChange}
         formFieldList = {formFieldList}
       />
     </React.Fragment>

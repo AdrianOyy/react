@@ -6,6 +6,7 @@ import DetailPage from "../../../../../components/DetailPage"
 import API from "../../../../../api/adGroup"
 import { L } from '../../../../../utils/lang'
 
+
 function Detail() {
   const { id } = useParams()
   const [ formFieldList, setFormFieldList ] = useState([])

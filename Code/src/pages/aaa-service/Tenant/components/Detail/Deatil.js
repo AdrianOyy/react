@@ -6,10 +6,10 @@ import { useParams } from "react-router-dom"
 import { L } from '../../../../../utils/lang'
 import formatDateTime from "../../../../../utils/formatDateTime"
 
+
 function Detail() {
   const { id } = useParams()
   const [ formFieldList, setFormFieldList ] = useState([])
-
 
   // 获取详情
   useEffect(() => {

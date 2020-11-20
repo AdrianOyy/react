@@ -114,21 +114,10 @@ function Create() {
     setValueHelperText(msg)
   }
 
-  const onFormFieldBlur = (_, id) => {
-    switch (id) {
-      case "label":
-        labelCheck()
-        break
-      default:
-        break
-    }
-  }
   return (
     <React.Fragment>
       <DetailPage
-        formTitle={L('Create')}
         onFormFieldChange = {onFormFieldChange}
-        onFormFieldBlur = {onFormFieldBlur}
         formFieldList = {formFieldList}
         errorFieldList = {errors}
         showBtn ={true}

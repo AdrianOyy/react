@@ -9,7 +9,7 @@ import roleApi from "../../../../../api/role"
 import { L } from '../../../../../utils/lang'
 
 
-function AssignCreate(props) {
+function Create() {
   const history = useHistory()
   const [ mappingId, setMappingId ] = useState('')
   const [ roleId, setRoleId ] = useState('')
@@ -21,9 +21,7 @@ function AssignCreate(props) {
   const [ roleError, setRoleError ] = useState(false)
   const [ roleHelperText, setRoleHelperText ] = useState("")
   const [ roleList, setRoleList ] = useState([])
-  const [ mappingInit, setMappingInit ] = useState(false)
-  const [ roleInit, setRoleInit ] = useState(false)
-
+  const [ errors, setErrors ] = useState({})
 
   const handleClick = async () => {
     const mappingError = await mappingCheck()
@@ -50,7 +48,6 @@ function AssignCreate(props) {
 
     roleApi.list({ limit: 999, page: 1 }).then(({ data }) => {
       if (data && data.data) {
-
         const { rows } = data.data
         setRoleList(rows)
       }
@@ -60,27 +57,34 @@ function AssignCreate(props) {
   useEffect(() => {
     const list = [
       {
-        id: 'mapping', label: L('Tenant + Group'), type: 'select', value: mappingId,
+        id: 'mapping', label: L('Tenant + Group'), type: 'select', value: mappingId, required: true,
         itemList: mappingList, labelField: 'name', valueField: 'id',
         error: mappingError, helperText: mappingHelperText,
       },
       {
-        id: 'role', label: L('Role'), type: 'select', value: roleId,
+        id: 'role', label: L('Role'), type: 'select', value: roleId, required: true,
         itemList: roleList, labelField: 'label', valueField: 'id',
         error: roleError, helperText: roleHelperText,
       },
     ]
     setFormFieldList(list)
-  }, [
-    mappingId,
-    roleId,
-    mappingList,
-    roleList,
-    mappingError,
-    roleError,
-    mappingHelperText,
-    roleHelperText
-  ])
+    // eslint-disable-next-line
+  }, [ mappingList, roleList ])
+
+  useEffect(() => {
+    const errors = {
+      mapping: {
+        error: mappingError,
+        helperText: mappingHelperText,
+      },
+      role: {
+        error: roleError,
+        helperText: roleHelperText,
+      },
+    }
+    setErrors(errors)
+    // eslint-disable-next-line
+  }, [ mappingHelperText, roleHelperText ])
 
   const onFormFieldChange = (e, id) => {
     const { value } = e.target
@@ -117,32 +121,12 @@ function AssignCreate(props) {
     return emptyCheck.error
   }
 
-  // 字段 tenant 检查
-  useEffect(() => {
-    if (mappingInit) {
-      mappingCheck()
-    } else {
-      setMappingInit(true)
-    }
-    // eslint-disable-next-line
-  }, [mappingId])
-
-  // 字段 group 检查
-  useEffect(() => {
-    if (roleInit) {
-      roleCheck()
-    } else {
-      setRoleInit(true)
-    }
-    // eslint-disable-next-line
-  }, [roleId])
-
   return (
     <React.Fragment>
       <DetailPage
-        formTitle={L('Create')}
         onFormFieldChange = {onFormFieldChange}
         formFieldList = {formFieldList}
+        errorFieldList = {errors}
         showBtn ={true}
         onBtnClick = {handleClick}
       />
@@ -150,4 +134,4 @@ function AssignCreate(props) {
   )
 }
 
-export default AssignCreate
+export default Create

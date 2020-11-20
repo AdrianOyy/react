@@ -7,6 +7,7 @@ import formatDateTime from "../../../../../utils/formatDateTime"
 
 import { L } from '../../../../../utils/lang'
 
+
 function Detail() {
   const { id } = useParams()
   const [ formFieldList, setFormFieldList ] = useState([])
@@ -25,7 +26,6 @@ function Detail() {
       }
     })
   }, [ id ])
-
 
   return (
     <React.Fragment>

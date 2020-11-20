@@ -10,21 +10,15 @@ import { useHistory } from 'react-router-dom'
 import { checkEmpty } from "../../untils/expiryFieldCheck"
 
 
-function AssignUpdate(props) {
+function Update() {
   const { id } = useParams()
   const history = useHistory()
-  const [ tenant, setTenant ] = useState('')
-  const [ group, setGroup ] = useState('')
-  const [ role, setRole ] = useState('')
-  const [ user, setUser ] = useState('')
   const [ expiryDate, setExpiryDate ] = useState('')
-  const [ createdAt, setCreatedAt ] = useState('')
-  const [ updatedAt, setUpdastedAt ] = useState('')
   const [ formFieldList, setFormFieldList ] = useState([])
   const [ saving, setSaving ] = useState(false)
   const [ expiryDateError, setExpiryDateError ] = useState(false)
   const [ expiryDateHelperText, setExpiryDateHelperText ] = useState("")
-  const [ expiryDateInit, setExpiryDateInit ] = useState(false)
+  const [ errors, setErrors ] = useState({})
 
   const expiryDateCheck = async () => {
     const emptyCheck = checkEmpty("Expiry Date", expiryDate)
@@ -51,72 +45,74 @@ function AssignUpdate(props) {
     API.detail(id)
       .then(({ data }) => {
         if (data && data.data) {
-          const { user, assign, expiryDate, createdAt, updatedAt } = data.data
+          const { user, assign } = data.data
           const { tenant_group_mapping, role } = assign
           const { ad_group, tenant } = tenant_group_mapping
+          let tenantValue = ''
           if (tenant && tenant.name) {
-            setTenant(tenant.name)
+            tenantValue = tenant.name
           }
+          let adGroup = ''
           if (ad_group && ad_group.name) {
-            setGroup(ad_group.name)
+            adGroup = ad_group.name
           }
+          let roleValue = ''
           if (role && role.label) {
-            setRole(role.label)
+            roleValue = role.label
           }
+          let userValue = ''
           if (user && user.displayname) {
-            setUser(user.displayname)
+            userValue = user.displayname
           }
-          setExpiryDate(formatDateTime(expiryDate, 'YYYY-MM-DD'))
-          setCreatedAt(createdAt)
-          setUpdastedAt(updatedAt)
+
+          const defaultValue = data.data
+          const list = [
+            { id: 'tenant', label: L('Tenant'), type: 'text', disabled: true, readOnly: true, value: tenantValue },
+            { id: 'adGroup', label: L('AD Group'), type: 'text', disabled: true, readOnly: true, value: adGroup },
+            { id: 'role', label: L('Role'), type: 'text', disabled: true, readOnly: true, value: roleValue },
+            { id: 'user', label: L('User'), type: 'text', disabled: true, readOnly: true, value: userValue },
+            {
+              id: 'expiryDate', label: L('Expiry Date'), type: 'date', disabled: false, readOnly: false,
+              required: true, value: formatDateTime(defaultValue.expiryDate), error: expiryDateError, helperText: expiryDateHelperText
+            },
+            { id: 'createdAt', label: L('Created At'), type: 'text', disabled: true, readOnly: true, value: formatDateTime(defaultValue.createdAt) },
+            { id: 'updatedAt', label: L('Updated At'), type: 'text', disabled: true, readOnly: true, value: formatDateTime(defaultValue.updatedAt) },
+          ]
+          setFormFieldList(list)
         }
       })
+      // eslint-disable-next-line
   }, [ id ])
 
   useEffect(() => {
-    const list = [
-      { id: 'tenant', label: L('Tenant'), type: 'text', disabled: true, readOnly: true, value: tenant },
-      { id: 'adGroup', label: L('AD Group'), type: 'text', disabled: true, readOnly: true, value: group },
-      { id: 'role', label: L('Role'), type: 'text', disabled: true, readOnly: true, value: role },
-      { id: 'user', label: L('User'), type: 'text', disabled: true, readOnly: true, value: user },
-      {
-        id: 'expiryDate', label: L('Expiry Date'), type: 'date', disabled: false, readOnly: false,
-        required: true, value: expiryDate, error: expiryDateError, helperText: expiryDateHelperText
+    const errors = {
+      expiryDate: {
+        error: expiryDateError,
+        helperText: expiryDateHelperText,
       },
-      { id: 'createdAt', label: L('Created At'), type: 'text', disabled: true, readOnly: true, value: formatDateTime(createdAt) },
-      { id: 'updatedAt', label: L('Updated At'), type: 'text', disabled: true, readOnly: true, value: formatDateTime(updatedAt) },
-    ]
-    setFormFieldList(list)
-  }, [ tenant, group, role, user, expiryDate, expiryDateError, expiryDateHelperText, createdAt, updatedAt ])
+    }
+    setErrors(errors)
+    // eslint-disable-next-line
+  }, [ expiryDateHelperText ])
 
   // 字段改变
   const onFormFieldChange = (e, id) => {
     const { value } = e.target
     switch (id) {
       case 'expiryDate':
-        setExpiryDate(formatDateTime(value, 'YYYY-MM-DD'))
+        setExpiryDate(formatDateTime(value))
         break
       default:
         break
     }
   }
 
-  // 字段 expiryDate 检查
-  useEffect(() => {
-    if (expiryDateInit) {
-      expiryDateCheck()
-    } else {
-      setExpiryDateInit(true)
-    }
-    // eslint-disable-next-line
-  }, [expiryDate])
-
   return (
     <React.Fragment>
       <DetailPage
-        formTitle={L('Update')}
         onFormFieldChange = {onFormFieldChange}
         formFieldList = {formFieldList}
+        errorFieldList = {errors}
         showBtn ={true}
         onBtnClick = {handleClick}
       />
@@ -124,4 +120,4 @@ function AssignUpdate(props) {
   )
 }
 
-export default AssignUpdate
+export default Update

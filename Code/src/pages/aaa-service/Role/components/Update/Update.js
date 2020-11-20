@@ -9,6 +9,7 @@ import { useHistory } from 'react-router-dom'
 import { checkEmpty, getCheckExist } from "../../untils/RoleFieldCheck"
 import { L } from '../../../../../utils/lang'
 
+
 function Detail() {
   const { id } = useParams()
   const history = useHistory()
@@ -21,7 +22,6 @@ function Detail() {
   const [ valueError, setValueError ] = useState(false)
   const [ valueHelperText, setValueHelperText ] = useState("")
   const [ errors, setErrors ] = useState({})
-
 
   const handleClick = async () => {
     const labelError = await labelCheck()
@@ -94,6 +94,7 @@ function Detail() {
         break
     }
   }
+
   const labelCheck = async () => {
     const emptyCheck = checkEmpty("label", label)
     setLabelError(emptyCheck.error)
@@ -114,21 +115,10 @@ function Detail() {
     setValueHelperText(msg)
   }
 
-  const onFormFieldBlur = (_, id) => {
-    switch (id) {
-      case "label":
-        labelCheck()
-        break
-      default:
-        break
-    }
-  }
   return (
     <React.Fragment>
       <DetailPage
-        formTitle={L('Update')}
         onFormFieldChange = {onFormFieldChange}
-        onFormFieldBlur = {onFormFieldBlur}
         formFieldList = {formFieldList}
         errorFieldList = {errors}
         showBtn ={true}
