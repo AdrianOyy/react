@@ -4,6 +4,10 @@ const menu = {
     name: 'Resource',
     path: '/resources',
     children: {
+      quota: {
+        name: 'Quota',
+        path: '/resources/quota'
+      },
       vm: {
         name: 'VM',
         path: '/resources/vm/'
