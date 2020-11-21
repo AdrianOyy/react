@@ -29,7 +29,7 @@ const menu = {
         path: '/resources/platform/',
       },
       lifeCycle: {
-        name: 'life Cycle',
+        name: 'Life Cycle',
         path: '/resources/lifeCycle/',
       }
     }

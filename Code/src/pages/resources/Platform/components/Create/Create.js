@@ -8,12 +8,11 @@ import { checkEmpty, getCheckExist } from "../../untils/PlatformFieldCheck"
 import { L } from '../../../../../utils/lang'
 
 
-function Create() {
+function Create(props) {
+  const { map } = props
   const history = useHistory()
-  const [ name, setName ] = useState('')
   const [ nameError, setNameError ] = useState(false)
   const [ nameHelperText, setNameHelperText ] = useState("")
-  const [ typeId, setTypeId ] = useState('')
   const [ typeIdError, setTypeIdError ] = useState(false)
   const [ typeIdHelperText, setTypeIdHelperText ] = useState("")
   const [ formFieldList, setFormFieldList ] = useState([])
@@ -26,7 +25,7 @@ function Create() {
     const typeIdErr = await typeIdCheck()
     if (nameError || typeIdErr || saving) return
     setSaving(true)
-    API.create({ name, typeId })
+    API.create({ name: map.get('name'), typeId: map.get('typeId') })
       .then(() => {
         CommonTip.success(L('Success'))
         history.push({ pathname: '/resources/platform' })
@@ -49,12 +48,12 @@ function Create() {
     const list = [
       {
         id: 'name', label: L('Name'), type: 'text',
-        required: true, readOnly: false, value: name,
+        required: true, readOnly: false, value: '',
         error: nameError, helperText: nameHelperText
       },
       {
         id: 'typeId', label: L('Type'), type: 'select', required: true,
-        value: typeId, itemList: typeList,
+        value: '', itemList: typeList,
         labelField: 'name', valueField: 'id',
         error: typeIdError, helperText: typeIdHelperText,
       },
@@ -82,10 +81,10 @@ function Create() {
     const { value } = e.target
     switch (id) {
       case 'name':
-        setName(value)
+        map.set('name', value)
         break
       case 'typeId':
-        setTypeId(value)
+        map.set('typeId', value)
         break
       default:
         break
@@ -93,12 +92,12 @@ function Create() {
   }
 
   const nameCheck = async () => {
-    const emptyCheck = checkEmpty("name", name)
+    const emptyCheck = checkEmpty("name", map.get('name'))
     setNameError(emptyCheck.error)
     setNameHelperText(emptyCheck.msg)
     if (!emptyCheck.error) {
       const checkExist = getCheckExist()
-      const { error, msg } = await checkExist(0, name)
+      const { error, msg } = await checkExist(0, map.get('name'))
       setNameError(error)
       setNameHelperText(msg)
       return error
@@ -107,7 +106,7 @@ function Create() {
   }
 
   const typeIdCheck = async () => {
-    const emptyCheck = checkEmpty("typeId", typeId)
+    const emptyCheck = checkEmpty("typeId", map.get('typeId'))
     setTypeIdError(emptyCheck.error)
     setTypeIdHelperText(emptyCheck.msg)
     return emptyCheck.error

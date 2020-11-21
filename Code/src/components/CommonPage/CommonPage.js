@@ -54,21 +54,21 @@ function CommonPage(props) {
           <Route path={`/detail/:id`}>
             {
               Detail && (() => (
-                <Detail path={''} />
+                <Detail path={''} map={new Map()} />
               ))
             }
           </Route>
           <Route path={`/update/:id`}>
             {
               Update && (() => (
-                <Update path={''} />
+                <Update path={''} map={new Map()} />
               ))
             }
           </Route>
           <Route path={CreateWithId ? `/create/:id` : `/create`}>
             {
               Create && (() => (
-                <Create path={''} />
+                <Create path={''} map={new Map()} />
               ))
             }
           </Route>
