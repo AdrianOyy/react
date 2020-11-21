@@ -55,7 +55,7 @@ function HAStep(props) {
 
   const actionList = [
     { label: L('Reject Reason'), icon: <BorderColorIcon fontSize="small" style={{ color: '#2553F4' }} />, handleClick: handleDetail },
-    { label: 'message', icon: <ChatIcon fontSize="small" style={{ color: '#2553F4' }} />, handleClick: handleChatBox, display }]
+    { label: L('message'), icon: <ChatIcon fontSize="small" style={{ color: '#2553F4' }} />, handleClick: handleChatBox, display }]
 
   const { processInstanceId } = props
   // const processInstanceId = 827520

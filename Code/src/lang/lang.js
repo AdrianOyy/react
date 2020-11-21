@@ -235,6 +235,8 @@ exports.lang = {
     cpsvm: 'CPS VM Allocation',
     cuid: 'CU_ID',
     cpsid: 'CPS ID',
-    Sorting: 'Sorting'
+    Sorting: 'Sorting',
+    /* pages Step -->*/
+    message: 'Message',
   }
 }

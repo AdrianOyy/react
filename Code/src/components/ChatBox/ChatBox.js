@@ -19,6 +19,7 @@ import { makeStyles, withStyles } from "@material-ui/core/styles"
 import formatDateTime from "../../utils/formatDateTime"
 import DialogContent from "@material-ui/core/DialogContent"
 import { L } from "../../utils/lang"
+import AccountCircle from '@material-ui/icons/AccountCircle'
 
 const useStyles = makeStyles(() => ({
   buttonGroup: {
@@ -30,17 +31,17 @@ const useStyles = makeStyles(() => ({
     marginRight: '1vw',
   },
   contentMessage: {
-    height: '8vh'
+    height: '12vh'
   },
   root: {
-    marginTop: '1vh'
+    margin: '1vh'
   }
 }))
 
 const Dialog = withStyles(() => ({
   paper: {
     minWidth: '65vw',
-    minHeight: '90vh'
+    minHeight: '80vh'
   },
 }))(HADialog)
 
@@ -123,11 +124,11 @@ export default function ChatBox(props) {
   }))(Label)
 
   const dialogReason = {
-    title: 'message',
+    title: L('message'),
     value: '',
     formField:
       {
-        id: 'message', label: 'message', type: 'text', disabled: false, readOnly: false, required: true, helperText: L('NotEmpty')
+        id: 'message', label: L('message'), type: 'text', disabled: false, readOnly: false, required: true, helperText: L('NotEmpty')
       },
     onSubmit: (value) => {
       console.log(value)
@@ -161,7 +162,7 @@ export default function ChatBox(props) {
         open={open}
         onEnter={onEnter}
       >
-        <Title>message</Title>
+        <Title>{L('message')}</Title>
         {/* {messageList.map((label) => {*/}
         {/*  return (*/}
         {/*    // eslint-disable-next-line react/jsx-key*/}
@@ -171,7 +172,7 @@ export default function ChatBox(props) {
         {/*      {label.message}*/}
         {/*    </DialogContentText>)*/}
         {/* })}*/}
-        <Content dividers={true}>
+        <Content dividers={true} style={{ height: '80vh' }}>
           {
             messageList.map((label, index) => {
               return (
@@ -179,7 +180,9 @@ export default function ChatBox(props) {
                   <CardContent>
                     <ListItem alignItems="flex-start">
                       <ListItemAvatar>
-                        <Avatar alt="Cindy Baker" src="/static/images/avatar/3.jpg" />
+                        <Avatar alt="" style={{ width: '30px', height: '30px' }}>
+                          <AccountCircle />
+                        </Avatar>
                       </ListItemAvatar>
                       <ListItemText
                         primary={label.username + '   ' + formatDateTime(new Date(label.createAt))}
@@ -189,7 +192,7 @@ export default function ChatBox(props) {
                               component="span"
                               variant="body2"
                               className={classes.inline}
-                              color="textPrimary"
+                              color="textSecondary"
                             >
                               {label.message}
                             </Typography>
@@ -202,28 +205,9 @@ export default function ChatBox(props) {
               )
             })
           }
-
-          {/* <List>*/}
-          {/*  {messageList.map((label, index) => {*/}
-          {/*    return (*/}
-          {/*      // eslint-disable-next-line react/jsx-key*/}
-          {/*      <div key={index}>*/}
-          {/*        <ListItem>*/}
-          {/*          <ListItemAvatar>*/}
-          {/*            <Avatar>*/}
-          {/*              <ImageIcon />*/}
-          {/*            </Avatar>*/}
-          {/*          </ListItemAvatar>*/}
-          {/*          <ListItemText primary={label.username + '   ' + formatDateTime(new Date(label.createAt))} secondary={label.message} />*/}
-          {/*        </ListItem>*/}
-          {/*        <Divider variant="inset" component="li" />*/}
-          {/*      </div>*/}
-          {/*    )*/}
-          {/*  })}*/}
-          {/* </List>*/}
         </Content>
-        <MessageContent className={classes.contentMessage} dividers={false}>
-          <div style={{ marginTop: '10px' }}>
+        <MessageContent className={classes.contentMessage} style={{ backgroundColor: '#fff' }} dividers={false}>
+          <div style={{ marginTop: '3vh' }}>
             <InputLabel
               id={'messagelabel'}
             >
