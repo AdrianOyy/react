@@ -10,18 +10,19 @@ export default function formatField(field) {
   }
   field.abbrFieldName = abbrFieldName
   switch (fieldName) {
+    case 'owneremail':
+      field.apiKey = accountAPI.findUsers
+      field.apiValue = { returnType: 'user' }
+      break
     case 'supervisoremailaccount':
-      field.type = 'inputCheck'
       field.apiKey = accountAPI.findUsers
       field.apiValue = { returnType: 'user' }
       break
     case 'distribution_list':
-      field.type = 'inputCheck'
       field.apiKey = accountAPI.findUsers
       field.apiValue = { returnType: 'distribution' }
       break
     case 'alternaterecipient':
-      field.type = 'inputCheck'
       field.apiKey = accountAPI.findUsers
       field.apiValue = { returnType: 'userOrDistribution' }
       break
