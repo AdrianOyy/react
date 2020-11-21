@@ -93,7 +93,7 @@ function UserMenu() {
         {/* <MenuItem onClick={closeMenu}>
           Profile
         </MenuItem> */}
-        <MenuItem onClick={signOut}>
+        <MenuItem onClick={() => signOut()}>
           Sign out
         </MenuItem>
       </Menu>

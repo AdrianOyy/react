@@ -17,6 +17,7 @@ import DialogTitle from "@material-ui/core/DialogTitle"
 import DialogContent from "@material-ui/core/DialogContent"
 import TextField from "@material-ui/core/TextField"
 import DialogActions from "@material-ui/core/DialogActions"
+import Loading from "../../../../../components/Loading"
 
 const tableName = 'List'
 
@@ -31,10 +32,16 @@ function List(props) {
   const [ cuIdRow, setCuIdRow ] = useState({})
 
   useEffect(() => {
+    Loading.show()
     API.getProcessList({ name: 'Account management', limit: rowsPerPage, page: page + 1 })
       .then(({ data }) => {
         setTotal(data.total)
         handleData(data.list)
+      })
+      .finally(() => Loading.hide())
+      .catch((e) => {
+        console.log(e)
+        Loading.hide()
       })
   }, [ page, rowsPerPage ])
 

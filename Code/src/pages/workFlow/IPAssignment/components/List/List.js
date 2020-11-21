@@ -10,6 +10,7 @@ import styled from "styled-components"
 import { spacing } from "@material-ui/system"
 // import envUrl from '../../../../../utils/baseUrl'
 import { L } from '../../untils/lang'
+import Loading from "../../../../../components/Loading"
 
 
 const Paper = styled(MuiPaper)(spacing)
@@ -26,10 +27,16 @@ function List(props) {
   const [ total, setTotal ] = useState(0)
 
   useEffect(() => {
+    Loading.show()
     API.list({ limit: rowsPerPage, page: page + 1 })
       .then(({ data }) => {
         setTotal(data.total)
         handleData(data.list)
+      })
+      .finally(() => Loading.hide())
+      .catch((e) => {
+        console.log(e)
+        Loading.hide()
       })
   }, [ page, rowsPerPage ])
 

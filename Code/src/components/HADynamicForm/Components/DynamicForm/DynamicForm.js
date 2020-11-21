@@ -49,7 +49,7 @@ export default function DynamicForm() {
 
   const getComponent = useCallback((el, i) => switchComponent(el, i, logic, style, true), [ logic, style ])
 
-  console.log(`%c${'child in'}`, 'background-color: black; color: red; font-size: 30px;')
+  // console.log(`%c${'child in'}`, 'background-color: black; color: red; font-size: 30px;')
 
   return (
     <Paper className={classes.container} id={'dynamic_form_container'}>

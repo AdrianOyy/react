@@ -245,12 +245,12 @@ function CommonTable(props) {
                           ))
                         }
                       </Box>
-                      <Box>
+                      <Box style={{ textAlign: 'left', paddingLeft: '0.5em' }}>
                         {
                           actionList && actionList.map((action, i) => {
                             return (
                               display(action, row) ? (
-                                <Tooltip title={action.label} key={i*i*i + '_' + action.label}>
+                                <Tooltip title={action.label} key={i * i * i + '_' + action.label}>
                                   <IconButton
                                     key={i + '_' + action.label}
                                     aria-label={action.label}

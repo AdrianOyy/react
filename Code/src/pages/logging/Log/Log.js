@@ -110,9 +110,6 @@ export default function List() {
 
   const handleData = (rawDataList) => {
     const rows = []
-    console.log('rawDataList=========================rawDataList')
-    console.log(rawDataList)
-    console.log('rawDataList=========================rawDataList')
     rawDataList.forEach((el) => {
       const { id, page, request, response } = el
       const rowModel = {

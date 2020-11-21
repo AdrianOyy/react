@@ -19,6 +19,8 @@ import AutorenewIcon from '@material-ui/icons/Autorenew'
 import ChatIcon from '@material-ui/icons/Chat'
 import { orange } from '@material-ui/core/colors'
 import { L } from "../../utils/lang"
+import Loading from "../Loading"
+import { Typography } from "@material-ui/core"
 function HAStep(props) {
   const Button = withStyles((() => ({
     root: {
@@ -64,42 +66,49 @@ function HAStep(props) {
   const [ rows, setRows ] = useState([])
 
   useEffect(() => {
-    API.getProcessPoint({ id: processInstanceId }).then(({ data }) => {
-      const process = data.data
-      console.log(data.data)
-      if (process) {
-        const pointList = []
-        let active = 0
-        for (const index in process.showProcessPointList) {
-          const point = process.showProcessPointList[index]
-          const model = {
-            name: point.name,
-            status: point.status ? point.status : 'completed'
+    Loading.show()
+    API.getProcessPoint({ id: processInstanceId })
+      .then(({ data }) => {
+        const process = data.data
+        console.log(data.data)
+        if (process) {
+          const pointList = []
+          let active = 0
+          for (const index in process.showProcessPointList) {
+            const point = process.showProcessPointList[index]
+            const model = {
+              name: point.name,
+              status: point.status ? point.status : 'completed'
+            }
+            pointList.push(model)
+            if (point.id === process.processStatus) {
+              active = index
+            }
           }
-          pointList.push(model)
-          if (point.id === process.processStatus) {
-            active = index
+          setSteps(pointList)
+          setActiveStep(parseInt(active))
+          const pointUserList = []
+          for (const pointUser of process.processPointUser) {
+            const pointRow = {
+              taskId: pointUser.taskInstance.taskId,
+              assignee: pointUser.assignee,
+              userName: pointUser.user ? pointUser.user : null,
+              groupName: pointUser.group ? pointUser.group : null,
+              name: pointUser.taskInstance.activityName,
+              endDate: pointUser.taskInstance.endTime ? formatDateTime(new Date(pointUser.taskInstance.endTime)) : null,
+              status: pointUser.status ? null : L('Rejected'),
+              reason: pointUser.rejectReason || '',
+            }
+            pointUserList.push(pointRow)
           }
+          setRows(pointUserList)
         }
-        setSteps(pointList)
-        setActiveStep(parseInt(active))
-        const pointUserList = []
-        for (const pointUser of process.processPointUser) {
-          const pointRow = {
-            taskId: pointUser.taskInstance.taskId,
-            assignee: pointUser.assignee,
-            userName: pointUser.user ? pointUser.user : null,
-            groupName: pointUser.group ? pointUser.group : null,
-            name: pointUser.taskInstance.activityName,
-            endDate: pointUser.taskInstance.endTime ? formatDateTime(new Date(pointUser.taskInstance.endTime)) : null,
-            status: pointUser.status ? null : L('Rejected'),
-            reason: pointUser.rejectReason || '',
-          }
-          pointUserList.push(pointRow)
-        }
-        setRows(pointUserList)
-      }
-    })
+      })
+      .finally(() => Loading.hide())
+      .catch((e) => {
+        console.log(e)
+        Loading.hide()
+      })
   }, [ processInstanceId ])
 
   // const steps = [ 'Select master blaster campaign settings', 'Create an ad group', 'Create an ad' ]
@@ -126,28 +135,31 @@ function HAStep(props) {
   ]
 
   return (
-    <React.Fragment>
-      <Paper style={{ paddingBottom: '20px' }}>
-        <Stepper style={{ marginTop: '20px' }} activeStep={activeStep} alternativeLabel>
-          {steps.map((label) => {
-            let labelProps = {}
-            if (label.status === 'processing') {
-              labelProps = {
-                icon: <AutorenewIcon style={{ color: orange[500] }}/>
-              }
+    <div style={{ maxWidth: '100%' }}>
+      <Typography variant='h3' id="tableTitle" style={{ fontSize: '22px', marginBottom: '1em' }}>
+        {L('My Request')}
+      </Typography>
+      <Stepper style={{ backgroundColor: '#F7F9FC' }} activeStep={activeStep} alternativeLabel>
+        {steps.map((label) => {
+          let labelProps = {}
+          if (label.status === 'processing') {
+            labelProps = {
+              icon: <AutorenewIcon style={{ color: orange[500] }}/>
             }
-            if (label.status === 'fail') {
-              labelProps = {
-                error: true
-              }
+          }
+          if (label.status === 'fail') {
+            labelProps = {
+              error: true
             }
-            return (
-              <Step key={label.name}>
-                <StepLabel {...labelProps}>{label.name}</StepLabel>
-              </Step>
-            )
-          })}
-        </Stepper>
+          }
+          return (
+            <Step key={label.name}>
+              <StepLabel {...labelProps}>{label.name}</StepLabel>
+            </Step>
+          )
+        })}
+      </Stepper>
+      <Paper style={{ paddingBottom: '20px', borderRadius: '1em' }}>
         <CommonTable
           rows={rows}
           tableName={L('History List')}
@@ -187,7 +199,7 @@ function HAStep(props) {
             style={{ marginRight: '2ch' }} >{L('Close')}</Button>
         </DialogActions>
       </Dialog>
-    </React.Fragment >
+    </div >
   )
 }
 export default HAStep
