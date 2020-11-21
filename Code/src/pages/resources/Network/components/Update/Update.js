@@ -286,6 +286,7 @@ function Detail() {
         break
     }
   }
+
   const _IDCheck = async () => {
     const emptyCheck = checkEmpty("Ref. ID", _ID)
     set_IDError(emptyCheck.error)
@@ -299,6 +300,7 @@ function Detail() {
     }
     return emptyCheck.error
   }
+
   const onFormFieldBlur = (_, id) => {
     switch (id) {
       case "_ID":
