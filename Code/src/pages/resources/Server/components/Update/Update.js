@@ -8,49 +8,28 @@ import CommonTip from "../../../../../components/CommonTip"
 import { useHistory } from 'react-router-dom'
 import { checkEmpty, getCheckExist } from "../../untils/ServerFieldCheck"
 import { L } from '../../../../../utils/lang'
+import { map2object } from "../../../../../utils/map2object"
 
 function Detail(props) {
   const { map } = props
   const { id } = useParams()
   const history = useHistory()
-
-  const [ _ID, set_ID ] = useState('')
   const [ _IDError, set_IDError ] = useState(false)
   const [ _IDHelperText, set_IDHelperText ] = useState('')
-  const [ UnitCode, setUnitCode ] = useState('')
-  const [ AssetID, setAssetID ] = useState('')
-  const [ ModelCode, setModelCode ] = useState('')
-  const [ ModelDesc, setModelDesc ] = useState('')
-  const [ ClosetID, setClosetID ] = useState('')
-  const [ Rack, setRack ] = useState('')
-  const [ RLU, setRLU ] = useState('')
-  const [ ItemOwner, setItemOwner ] = useState('')
-  const [ Status, setStatus ] = useState('')
-  const [ Remark, setRemark ] = useState('')
-  const [ UnitNo, setUnitNo ] = useState('')
-  const [ PortQty, setPortQty ] = useState('')
-  const [ ReqNo, setReqNo ] = useState('')
-  const [ DOB, setDOB ] = useState('')
-  const [ DeliveryDate, setDeliveryDate ] = useState('')
-  const [ DeliveryNoteReceivedDate, setDeliveryNoteReceivedDate ] = useState('')
-  const [ MaintID, setMaintID ] = useState('')
-  const [ EquipType, setEquipType ] = useState('')
+  const [ EquipTypeError, setEquipTypeError ] = useState(false)
+  const [ EquipTypeHelperText, setEquipTypeHelperText ] = useState('')
   const [ inventory, setInventory ] = useState([])
+  const [ errors, setErrors ] = useState({})
 
   const [ saving, setSaving ] = useState(true)
-  const [ InventoryStatus, setInventoryStatus ] = useState([])
-  const [ EquipTypes, setEquipTypes ] = useState([])
 
   const handleClick = async () => {
     const _IDError = await _IDCheck()
-    if (_IDError || saving) return
+    const EquipTypeError = await EquipTypeCheck()
+    if (_IDError || EquipTypeError || saving) return
     setSaving(true)
     API.update(id,
-      {
-        _ID, UnitCode, AssetID, ModelCode, ModelDesc, ClosetID,
-        Rack, RLU, ItemOwner, Status, Remark, UnitNo, PortQty, ReqNo,
-        DOB, DeliveryDate, DeliveryNoteReceivedDate, MaintID, EquipType
-      }
+      map2object(map)
     )
       .then(() => {
         CommonTip.success(L('Success'))
@@ -62,190 +41,177 @@ function Detail(props) {
   }
 
   useEffect(() => {
-    API.detail(id).then(({ data }) => {
-      console.log(data.data)
-      const {
-        _ID, UnitCode, AssetID, ModelCode, ModelDesc, ClosetID,
-        Rack, RLU, ItemOwner, Status, Remark, UnitNo, PortQty, ReqNo,
-        DOB, DeliveryDate, DeliveryNoteReceivedDate, MaintID, EquipType
-      } = data.data
-      set_ID(_ID)
-      setUnitCode(UnitCode)
-      setAssetID(AssetID)
-      setModelCode(ModelCode)
-      setModelDesc(ModelDesc)
-      setClosetID(ClosetID)
-      setRack(Rack)
-      setRLU(RLU)
-      setItemOwner(ItemOwner)
-      setStatus(Status)
-      setRemark(Remark)
-      setEquipType(EquipType)
-      setUnitNo(UnitNo)
-      setPortQty(PortQty)
-      setReqNo(ReqNo)
-      setDOB(DOB)
-      setDeliveryDate(DeliveryDate)
-      setDeliveryNoteReceivedDate(DeliveryNoteReceivedDate)
-      setMaintID(MaintID)
-      setSaving(false)
+    API.listStatus({ limit: 999, page: 1 }).then(({ data }) => {
+      // return data.data
+      if (data && data.data) {
+        return data.data
+      } else {
+        return []
+      }
+    }).then(returnObj => {
+      API.listEquipType({ limit: 999, page: 1 }).then(({ data }) => {
+        if (data && data.data) {
+          return {
+            InventoryStatus: returnObj,
+            EquipTypes: data.data.filter(_ => {
+              return _.Type === 'EqServer'
+            }),
+          }
+        } else {
+          return {
+            InventoryStatus: returnObj,
+            EquipTypes: [],
+          }
+        }
+      }).then(returnObj => {
+        API.detail(id).then(({ data }) => {
+          const {
+            _ID, UnitCode, AssetID, ModelCode, ModelDesc, ClosetID,
+            Rack, RLU, ItemOwner, Status, Remark, UnitNo, PortQty, ReqNo,
+            DOB, DeliveryDate, DeliveryNoteReceivedDate, MaintID, EquipType
+          } = data.data
+          setSaving(false)
+
+          const list = [
+            {
+              id: '_ID', label: L('Ref. ID'), type: 'text',
+              required: true, readOnly: false, value: _ID,
+              error: _IDError, helperText: _IDHelperText
+            },
+            {
+              id: 'UnitCode', label: L('New'), type: 'text',
+              required: false, readOnly: false, value: UnitCode
+            },
+            {
+              id: 'AssetID', label: L('Asset No'), type: 'text',
+              required: false, readOnly: false, value: AssetID
+            },
+            {
+              id: 'ModelCode', label: L('Model Code'), type: 'text',
+              required: false, readOnly: false, value: ModelCode
+            },
+            {
+              id: 'ModelDesc', label: L('Description'), type: 'text',
+              required: false, readOnly: false, value: ModelDesc
+            },
+            {
+              id: 'ClosetID', label: L('Closet ID'), type: 'text',
+              required: false, readOnly: false, value: ClosetID
+            },
+            {
+              id: 'Rack', label: L('Cabinet'), type: 'text',
+              required: false, readOnly: false, value: Rack
+            },
+            {
+              id: 'RLU', label: L('Pos. (U)'), type: 'text',
+              required: false, readOnly: false, value: RLU
+            },
+            {
+              id: 'ItemOwner', label: L('Item Owner'), type: 'text',
+              required: false, readOnly: false, value: ItemOwner
+            },
+            {
+              id: 'Status', label: L('Status'), type: 'select',
+              value: Status, itemList: returnObj.InventoryStatus,
+              labelField: 'ServiceStatus', valueField: 'id',
+            },
+            {
+              id: 'Remark', label: L('Remark'), type: 'text',
+              required: false, readOnly: false, value: Remark
+            },
+            {
+              id: 'EquipType', label: L('EquipType'), type: 'select',
+              value: EquipType, itemList: returnObj.EquipTypes,
+              labelField: 'Type', valueField: 'id',
+              required: true,
+              error: EquipTypeError, helperText: EquipTypeHelperText
+            },
+            {
+              id: 'UnitNo', label: L('Unit No'), type: 'text',
+              required: false, readOnly: false, value: UnitNo
+            },
+            {
+              id: 'PortQty', label: L('Built-in Port'), type: 'text',
+              required: false, readOnly: false, value: PortQty
+            },
+            {
+              id: 'ReqNo', label: L('Req. Form'), type: 'text',
+              required: false, readOnly: false, value: ReqNo
+            },
+            {
+              id: 'DOB', label: L('DOB'), type: 'date',
+              required: false, readOnly: false, value: DOB
+            },
+            {
+              id: 'DeliveryDate', label: L('Delivery Date'), type: 'date',
+              required: false, readOnly: false, value: DeliveryDate
+            },
+            {
+              id: 'DeliveryNoteReceivedDate', label: L('Delivery Note Received Date'), type: 'date',
+              required: false, readOnly: false, value: DeliveryNoteReceivedDate
+            },
+            {
+              id: 'MaintID', label: L('MaintID'), type: 'text',
+              required: false, readOnly: false, value: MaintID
+            },
+          ]
+          list.forEach(_ => {
+            map.set(_.id, _.value)
+          })
+          setInventory(list)
+        })
+      })
     })
+    // eslint-disable-next-line
   }, [ id ])
 
   useEffect(() => {
-    API.listStatus({ limit: 999, page: 1 }).then(({ data }) => {
-      if (data && data.data) {
-        setInventoryStatus(data.data)
-      }
-    })
-    API.listEquipType({ limit: 999, page: 1 }).then(({ data }) => {
-      if (data && data.data) {
-        setEquipTypes(data.data.filter(_ => {
-          return _.Type === 'EqServer'
-        }))
-      }
-    })
-  }, [])
+    const error = {
+      _ID: {
+        error: _IDError,
+        helperText: _IDHelperText,
+      },
+      EquipType: {
+        error: EquipTypeError,
+        helperText: EquipTypeHelperText,
+      },
+    }
+    setErrors(error)
+    // eslint-disable-next-line
+  }, [ _IDHelperText, EquipTypeHelperText ])
 
-  useEffect(() => {
-    const inventoryList = [
-      {
-        id: '_ID', label: L('Ref. ID'), type: 'text',
-        required: true, readOnly: false, value: _ID,
-        error: _IDError, helperText: _IDHelperText
-      },
-      {
-        id: 'UnitCode', label: L('New'), type: 'text',
-        required: false, readOnly: false, value: UnitCode
-      },
-      {
-        id: 'AssetID', label: L('Asset No'), type: 'text',
-        required: false, readOnly: false, value: AssetID
-      },
-      {
-        id: 'ModelCode', label: L('Model Code'), type: 'text',
-        required: false, readOnly: false, value: ModelCode
-      },
-      {
-        id: 'ModelDesc', label: L('Description'), type: 'text',
-        required: false, readOnly: false, value: ModelDesc
-      },
-      {
-        id: 'ClosetID', label: L('Closet ID'), type: 'text',
-        required: false, readOnly: false, value: ClosetID
-      },
-      {
-        id: 'Rack', label: L('Cabinet'), type: 'text',
-        required: false, readOnly: false, value: Rack
-      },
-      {
-        id: 'RLU', label: L('Pos. (U)'), type: 'text',
-        required: false, readOnly: false, value: RLU
-      },
-      {
-        id: 'ItemOwner', label: L('Item Owner'), type: 'text',
-        required: false, readOnly: false, value: ItemOwner
-      },
-      {
-        id: 'Status', label: L('Status'), type: 'select',
-        value: Status, itemList: InventoryStatus,
-        labelField: 'ServiceStatus', valueField: 'id',
-      },
-      {
-        id: 'Remark', label: L('Remark'), type: 'text',
-        required: false, readOnly: false, value: Remark
-      },
-      {
-        id: 'EquipType', label: L('EquipType'), type: 'select',
-        value: EquipType, itemList: EquipTypes,
-        labelField: 'Type', valueField: 'id',
-      },
-      {
-        id: 'UnitNo', label: L('Unit No'), type: 'text',
-        required: false, readOnly: false, value: UnitNo
-      },
-      {
-        id: 'PortQty', label: L('Built-in Port'), type: 'text',
-        required: false, readOnly: false, value: PortQty
-      },
-      {
-        id: 'ReqNo', label: L('Req. Form'), type: 'text',
-        required: false, readOnly: false, value: ReqNo
-      },
-      {
-        id: 'DOB', label: L('DOB'), type: 'date',
-        required: false, readOnly: false, value: DOB
-      },
-      {
-        id: 'DeliveryDate', label: L('Delivery Date'), type: 'date',
-        required: false, readOnly: false, value: DeliveryDate
-      },
-      {
-        id: 'DeliveryNoteReceivedDate', label: L('Delivery Note Received Date'), type: 'date',
-        required: false, readOnly: false, value: DeliveryNoteReceivedDate
-      },
-      {
-        id: 'MaintID', label: L('MaintID'), type: 'text',
-        required: false, readOnly: false, value: MaintID
-      },
-    ]
-    setInventory(inventoryList)
-  }, [
-    _ID, _IDError, _IDHelperText,
-    UnitCode,
-    AssetID,
-    ModelCode,
-    ModelDesc,
-    ClosetID,
-    Rack,
-    RLU,
-    ItemOwner,
-    Status,
-    Remark,
-    UnitNo,
-    PortQty,
-    ReqNo,
-    DOB,
-    DeliveryDate,
-    DeliveryNoteReceivedDate,
-    MaintID,
-    InventoryStatus,
-    EquipTypes,
-    EquipType
-  ])
   const onFormFieldChange = (e, id) => {
     const { value } = e.target
     map.set(id, value)
   }
+
   const _IDCheck = async () => {
-    const emptyCheck = checkEmpty("Ref. ID", _ID)
+    const emptyCheck = checkEmpty("Ref. ID", map.get("_ID"))
     set_IDError(emptyCheck.error)
     set_IDHelperText(emptyCheck.msg)
     if (!emptyCheck.error) {
       const checkExist = getCheckExist()
-      const { error, msg } = await checkExist(id, _ID)
+      const { error, msg } = await checkExist(id, map.get("_ID"))
       set_IDError(error)
       set_IDHelperText(msg)
       return error
     }
     return emptyCheck.error
   }
-  const onFormFieldBlur = (_, id) => {
-    switch (id) {
-      case "_ID":
-        _IDCheck()
-        break
-      default:
-        break
-    }
+
+  const EquipTypeCheck = async () => {
+    const emptyCheck = checkEmpty("EquipType", map.get("EquipType"))
+    setEquipTypeError(emptyCheck.error)
+    setEquipTypeHelperText(emptyCheck.msg)
+    return emptyCheck.error
   }
+
   return (
     <React.Fragment>
       <DetailPage
-        formTitle={L('Server')}
         onFormFieldChange = {onFormFieldChange}
-        onFormFieldBlur = {onFormFieldBlur}
         formFieldList = {inventory}
+        errorFieldList={errors}
         showBtn ={true}
         onBtnClick = {handleClick}
       />

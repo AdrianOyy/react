@@ -8,6 +8,7 @@ import CommonTip from "../../../../../components/CommonTip"
 import { useHistory } from 'react-router-dom'
 import { checkEmpty, getCheckExist } from "../../untils/PlatformFieldCheck"
 import { L } from '../../../../../utils/lang'
+import { map2object } from "../../../../../utils/map2object"
 
 function Update(props) {
   const { map } = props
@@ -27,7 +28,7 @@ function Update(props) {
     console.log(typeIdErr)
     if (nameErr || typeIdErr || saving) return
     setSaving(true)
-    API.update(id, { name: map.get("name"), typeId: map.get("typeId") })
+    API.update(id, map2object(map))
       .then(() => {
         CommonTip.success(L('Success'))
         history.push({ pathname: '/resources/platform' })
@@ -73,6 +74,9 @@ function Update(props) {
             disabled: true, readOnly: true, value: formatDateTime(defaultValue.updatedAt)
           },
         ]
+        list.forEach(_ => {
+          map.set(_.id, _.value)
+        })
         setFormFieldList(list)
       })
     })

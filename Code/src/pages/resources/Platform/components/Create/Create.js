@@ -6,7 +6,7 @@ import CommonTip from "../../../../../components/CommonTip"
 import { useHistory } from 'react-router-dom'
 import { checkEmpty, getCheckExist } from "../../untils/PlatformFieldCheck"
 import { L } from '../../../../../utils/lang'
-
+import { map2object } from "../../../../../utils/map2object"
 
 function Create(props) {
   const { map } = props
@@ -25,7 +25,7 @@ function Create(props) {
     const typeIdErr = await typeIdCheck()
     if (nameError || typeIdErr || saving) return
     setSaving(true)
-    API.create({ name: map.get('name'), typeId: map.get('typeId') })
+    API.create(map2object(map))
       .then(() => {
         CommonTip.success(L('Success'))
         history.push({ pathname: '/resources/platform' })
