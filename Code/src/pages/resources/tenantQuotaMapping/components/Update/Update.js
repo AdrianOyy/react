@@ -78,6 +78,7 @@ function Update(props) {
         ]
         setFormFieldList(list)
       })
+      // eslint-disable-next-line
   }, [ id ])
 
   useEffect(() => {
@@ -105,19 +106,7 @@ function Update(props) {
 
   const onFormFieldChange = (e, id) => {
     const { value } = e.target
-    switch (id) {
-      case 'type':
-        map.set("type", value)
-        break
-      case 'quota':
-        map.set("quota", value)
-        break
-      case 'year':
-        map.set("year", value)
-        break
-      default:
-        break
-    }
+    map.set(id, value)
   }
 
   const typeCheck = async () => {
@@ -126,7 +115,7 @@ function Update(props) {
     setTypeHelperText(emptyCheck.msg)
     if (!emptyCheck.error) {
       const checkExist = getCheckTypeExist()
-      const { error, msg } = await checkExist(0, { tenantId: map.get("tenantId"), type: map.get("type") })
+      const { error, msg } = await checkExist(id, { tenantId: map.get("tenantId"), type: map.get("type") })
       setTypeError(error)
       setTypeHelperText(msg)
       return error
@@ -140,7 +129,7 @@ function Update(props) {
     setYearHelperText(emptyCheck.msg)
     if (!emptyCheck.error) {
       const checkExist = getCheckYearExist()
-      const { error, msg } = await checkExist(0, { tenantId: map.get("tenantId"), year: map.get("year") })
+      const { error, msg } = await checkExist(id, { tenantId: map.get("tenantId"), year: map.get("year") })
       setYearError(error)
       setYearHelperText(msg)
       return error

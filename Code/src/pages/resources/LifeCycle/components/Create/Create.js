@@ -108,6 +108,7 @@ function Create(props) {
       ]
       setLifeCycles(lifeCycleList)
     })
+    // eslint-disable-next-line
   }, [])
 
   useEffect(() => {
@@ -123,46 +124,7 @@ function Create(props) {
 
   const onFormFieldChange = (e, id) => {
     const { value } = e.target
-    switch (id) {
-      case '_ID' :
-        map.set("_ID", value)
-        break
-      case 'InventoryID' :
-        map.set("InventoryID", value)
-        break
-      case 'AssetID' :
-        map.set("AssetID", value)
-        break
-      case 'RecordCreatedOn' :
-        map.set("RecordCreatedOn", value)
-        break
-      case 'ActionType' :
-        map.set("ActionType", value)
-        break
-      case 'ActionDetails' :
-        map.set("ActionDetails", value)
-        break
-      case 'SuccessorInventoryID' :
-        map.set("SuccessorInventoryID", value)
-        break
-      case 'ActionDate' :
-        map.set("ActionDate", value)
-        break
-      case 'RespStaff' :
-        map.set("RespStaff", value)
-        break
-      case 'RespStaffDisplayName' :
-        map.set("RespStaffDisplayName", value)
-        break
-      case 'Reason' :
-        map.set("Reason", value)
-        break
-      case 'CaseRef' :
-        map.set("CaseRef", value)
-        break
-      default:
-        break
-    }
+    map.set(id, value)
   }
 
   const _IDCheck = async () => {

@@ -10,31 +10,36 @@ import { checkEmpty, getCheckExist } from "../../untils/IPAssignmentCheck"
 
 const listPath = '/resources/IPAddress'
 
-function Update() {
+function Update(props) {
+  const { map } = props
   const { id } = useParams()
   const history = useHistory()
-  const [ ip, setIP ] = useState('')
-  const [ dc, setDC ] = useState('')
-  const [ hostname, setHostname ] = useState('')
-  const [ projectTeam, setProjectTeam ] = useState('')
-  const [ networkType, setNetworkType ] = useState('')
-  const [ ipPool, setIpPool ] = useState('')
-  const [ vlanId, setVlanId ] = useState('')
-  const [ remark, setRemark ] = useState('')
   const [ formFieldList, setFormFieldList ] = useState([])
   const [ saving, setSaving ] = useState(true)
   const [ ipError, setIpError ] = useState(false)
   const [ ipHelperText, setIpHelperText ] = useState('')
   const [ dcError, setDcError ] = useState(false)
   const [ dcHelperText, setDcHelperText ] = useState('')
+  const [ vlanIdError, setVlanIdError ] = useState(false)
+  const [ vlanIdHelperText, setVlanIdHelperText ] = useState("")
   const [ errors, setErrors ] = useState({})
 
   const handleClick = async () => {
-    const ipErr = await ipCheck()
-    const dcErr = await dcCheck()
-    if (ipErr || dcErr || saving) return
+    const ipError = await ipCheck()
+    const dcError = await dcCheck()
+    const vlanError  = await vlanIdCheck()
+    if (ipError || dcError || vlanError || saving) return
     setSaving(true)
-    API.update(id, { ip, dc, hostname, projectTeam, networkType, ipPool, vlanId, remark })
+    API.update(id, {
+      ip: map.get("ip"),
+      dc: map.get("dc"),
+      hostname: map.get("hostname"),
+      projectTeam: map.get("projectTeam"),
+      networkType: map.get("networkType"),
+      ipPool: map.get("ipPool"),
+      vlanId: map.get("vlanId"),
+      remark: map.get("remark")
+    })
       .then(() => {
         CommonTip.success(L('Success'))
         history.push({ pathname: listPath })
@@ -55,31 +60,25 @@ function Update() {
       API.detail({ id })
         .then(({ data }) => {
           const { IP, DC, hostname, projectTeam, networkType, IPPool, vlanId, remark } = data.data
-          setIP(IP ? IP : '')
-          setDC(DC ? DC.id : '')
-          setHostname(hostname ? hostname : '')
-          setProjectTeam(projectTeam ? projectTeam : '')
-          setNetworkType(networkType ? networkType : '')
-          setIpPool(IPPool ? IPPool : '')
-          setVlanId(vlanId ? vlanId : '')
-          setRemark(remark ? remark : '')
           setSaving(false)
 
-          const defaultValue = data.data
           const list = [
-            { id: 'ip', label: L('IP'), type: 'text', required: true, readOnly: false, value: defaultValue.IP, error: ipError, helperText: ipHelperText },
+            { id: 'ip', label: L('IP'), type: 'text', required: true, readOnly: false, value: IP, error: ipError, helperText: ipHelperText },
             {
               id: 'dc', label: L('DC'), type: 'select', required: false, labelWidth: 30,
-              readOnly: false, value: defaultValue.DC ? defaultValue.DC.id : '', itemList: returnObj, valueField: 'id',
+              readOnly: false, value: DC ? DC.id : '', itemList: returnObj, valueField: 'id',
               labelField: 'name', error: dcError, helperText: dcHelperText
             },
-            { id: 'hostname', label: L('Hostname'), type: 'text', required: false, readOnly: false, value: defaultValue.hostname },
-            { id: 'projectTeam', label: L('Project Team'), type: 'text', required: false, readOnly: false, value: defaultValue.projectTeam },
-            { id: 'networkType', label: L('Network Type'), type: 'text', required: false, readOnly: false, value: defaultValue.networkType },
-            { id: 'ipPool', label: L('Ip Pool'), type: 'text', required: false, readOnly: false, value: defaultValue.ipPool },
-            { id: 'vlanId', label: L('Vlan ID'), type: 'text', required: false, readOnly: false, value: defaultValue.vlanId },
-            { id: 'remark', label: L('Remark'), type: 'text', required: false, readOnly: false, value: defaultValue.remark },
+            { id: 'hostname', label: L('Hostname'), type: 'text', required: false, readOnly: false, value: hostname },
+            { id: 'projectTeam', label: L('Project Team'), type: 'text', required: false, readOnly: false, value: projectTeam },
+            { id: 'networkType', label: L('Network Type'), type: 'text', required: false, readOnly: false, value: networkType },
+            { id: 'ipPool', label: L('Ip Pool'), type: 'text', required: false, readOnly: false, value: IPPool },
+            { id: 'vlanId', label: L('Vlan ID'), type: 'text', required: false, readOnly: false, value: vlanId },
+            { id: 'remark', label: L('Remark'), type: 'text', required: false, readOnly: false, value: remark },
           ]
+          list.forEach(_ => {
+            map.set(_.id, _.value)
+          })
           setFormFieldList(list)
         })
     })
@@ -95,51 +94,28 @@ function Update() {
       dc: {
         error: dcError,
         helperText: dcHelperText,
+      },
+      vlanId: {
+        error: vlanIdError,
+        helperText: vlanIdHelperText,
       }
     }
     setErrors(errors)
     // eslint-disable-next-line
-  }, [ ipHelperText, dcHelperText ])
+  }, [ ipHelperText, dcHelperText, vlanIdHelperText ])
 
   const onFormFieldChange = (e, id) => {
     const { value } = e.target
-    switch (id) {
-      case 'ip':
-        setIP(value)
-        break
-      case 'dc':
-        setDC(value)
-        break
-      case 'hostname':
-        setHostname(value)
-        break
-      case 'projectTeam':
-        setProjectTeam(value)
-        break
-      case 'networkType':
-        setNetworkType(value)
-        break
-      case 'ipPool':
-        setIpPool(value)
-        break
-      case 'vlanId':
-        setVlanId(value)
-        break
-      case 'remark':
-        setRemark(value)
-        break
-      default:
-        break
-    }
+    map.set(id, value)
   }
 
   const ipCheck = async () => {
-    const emptyCheck = checkEmpty("IP", ip)
+    const emptyCheck = checkEmpty("ip", map.get("ip"))
     setIpError(emptyCheck.error)
     setIpHelperText(emptyCheck.msg)
     if (!emptyCheck.error) {
       const checkExist = getCheckExist()
-      const { error, msg } = await checkExist(id, ip)
+      const { error, msg } = await checkExist(id, map.get("ip"))
       setIpError(error)
       setIpHelperText(msg)
       return error
@@ -148,10 +124,28 @@ function Update() {
   }
 
   const dcCheck = async () => {
-    const emptyCheck = checkEmpty("dc", ip)
+    const emptyCheck = checkEmpty("dc", map.get("dc"))
     setDcError(emptyCheck.error)
     setDcHelperText(emptyCheck.msg)
     return emptyCheck.error
+  }
+
+  const vlanIdCheck = async () => {
+    if (map.get("vlanId")) {
+      const reg = /^[1-9]\d*$/
+      if (!reg.test(map.get("vlanId"))) {
+        setVlanIdError(true)
+        setVlanIdHelperText(L('Only accept positive integer'))
+        return true
+      } else {
+        setVlanIdError(false)
+        setVlanIdHelperText('')
+      }
+    } else {
+      setVlanIdError(false)
+      setVlanIdHelperText('')
+    }
+    return false
   }
 
   return (

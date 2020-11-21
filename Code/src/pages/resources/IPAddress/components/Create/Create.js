@@ -8,32 +8,35 @@ import dcAPI from "../../../../../api/dc"
 import { L } from '../../../../../utils/lang'
 const listPath = '/resources/IPAddress'
 
-function Create() {
+function Create(props) {
+  const { map } = props
   const history = useHistory()
-  const [ ip, setIP ] = useState('')
-  const [ dc, setDC ] = useState('')
-  const [ hostname, setHostname ] = useState('')
-  const [ projectTeam, setProjectTeam ] = useState('')
-  const [ networkType, setNetworkType ] = useState('')
-  const [ ipPool, setIpPool ] = useState('')
-  const [ vlanId, setVlanId ] = useState('')
-  const [ remark, setRemark ] = useState('')
   const [ formFieldList, setFormFieldList ] = useState([])
   const [ saving, setSaving ] = useState(false)
   const [ ipError, setIpError ] = useState(false)
   const [ ipHelperText, setIpHelperText ] = useState("")
   const [ dcError, setDcError ] = useState(false)
   const [ dcHelperText, setDcHelperText ] = useState("")
-  const [ dcList, setDcList ] = useState([])
+  const [ vlanIdError, setVlanIdError ] = useState(false)
+  const [ vlanIdHelperText, setVlanIdHelperText ] = useState("")
   const [ errors, setErrors ] = useState({})
-
 
   const handleClick = async () => {
     const ipError = await ipCheck()
     const dcError = await dcCheck()
-    if (ipError || dcError || saving) return
+    const vlanError  = await vlanIdCheck()
+    if (ipError || dcError || vlanError || saving) return
     setSaving(true)
-    API.create({ ip, dc, hostname, projectTeam, networkType, ipPool, vlanId, remark })
+    API.create({
+      ip: map.get("ip"),
+      dc: map.get("dc"),
+      hostname: map.get("hostname"),
+      projectTeam: map.get("projectTeam"),
+      networkType: map.get("networkType"),
+      ipPool: map.get("ipPool"),
+      vlanId: map.get("vlanId"),
+      remark: map.get("remark")
+    })
       .then(() => {
         CommonTip.success(L('Success'))
         history.push({ pathname: listPath })
@@ -43,36 +46,35 @@ function Create() {
       })
   }
 
-  // 获取 dcList
   useEffect(() => {
     dcAPI.list().then(({ data }) => {
-      if (data) {
-        setDcList(data.data)
+      if (data && data.data) {
+        return data.data
+      } else {
+        return []
       }
+    }).then(returnObj => {
+      const list = [
+        {
+          id: 'ip', label: L('IP'), type: 'text', value: "",
+          error: ipError, helperText: ipHelperText, required: true, readOnly: false
+        },
+        {
+          id: 'dc', label: L('DC'), type: 'select', value: "",
+          itemList: returnObj, labelField: 'name', valueField: 'id',
+          error: dcError, helperText: dcHelperText, required: true, readOnly: false
+        },
+        { id: 'hostname', label: L('Hostname'), type: 'text', required: false, readOnly: false, value: "" },
+        { id: 'projectTeam', label: L('Project Team'), type: 'text', required: false, readOnly: false, value: "" },
+        { id: 'networkType', label: L('Network Type'), type: 'text', required: false, readOnly: false, value: "" },
+        { id: 'ipPool', label: L('IP Pool'), type: 'text', required: false, readOnly: false, value: "" },
+        { id: 'vlanId', label: L('VLan ID'), type: 'text', required: false, readOnly: false, value: "" },
+        { id: 'remark', label: L('Remark'), type: 'text', required: false, readOnly: false, value: "" },
+      ]
+      setFormFieldList(list)
     })
-  }, [])
-
-  useEffect(() => {
-    const list = [
-      {
-        id: 'ip', label: L('IP'), type: 'text', value: ip,
-        error: ipError, helperText: ipHelperText, required: true, readOnly: false
-      },
-      {
-        id: 'dc', label: L('DC'), type: 'select', value: dc,
-        itemList: dcList, labelField: 'name', valueField: 'id',
-        error: dcError, helperText: dcHelperText, required: true, readOnly: false
-      },
-      { id: 'hostname', label: L('Hostname'), type: 'text', required: false, readOnly: false, value: hostname },
-      { id: 'projectTeam', label: L('Project Team'), type: 'text', required: false, readOnly: false, value: projectTeam },
-      { id: 'networkType', label: L('Network Type'), type: 'text', required: false, readOnly: false, value: networkType },
-      { id: 'ipPool', label: L('IP Pool'), type: 'text', required: false, readOnly: false, value: ipPool },
-      { id: 'vlanId', label: L('VLan ID'), type: 'text', required: false, readOnly: false, value: vlanId },
-      { id: 'remark', label: L('Remark'), type: 'text', required: false, readOnly: false, value: remark },
-    ]
-    setFormFieldList(list)
     // eslint-disable-next-line
-  }, [ dcList ])
+  }, [])
 
   useEffect(() => {
     const errors = {
@@ -83,51 +85,28 @@ function Create() {
       dc: {
         error: dcError,
         helperText: dcHelperText,
+      },
+      vlanId: {
+        error: vlanIdError,
+        helperText: vlanIdHelperText,
       }
     }
     setErrors(errors)
     // eslint-disable-next-line
-  }, [ ipHelperText, dcHelperText ])
+  }, [ ipHelperText, dcHelperText, vlanIdHelperText ])
 
   const onFormFieldChange = (e, id) => {
     const { value } = e.target
-    switch (id) {
-      case 'ip':
-        setIP(value)
-        break
-      case 'dc':
-        setDC(value)
-        break
-      case 'hostname':
-        setHostname(value)
-        break
-      case 'projectTeam':
-        setProjectTeam(value)
-        break
-      case 'networkType':
-        setNetworkType(value)
-        break
-      case 'ipPool':
-        setIpPool(value)
-        break
-      case 'vlanId':
-        setVlanId(value)
-        break
-      case 'remark':
-        setRemark(value)
-        break
-      default:
-        break
-    }
+    map.set(id, value)
   }
 
   const ipCheck = async () => {
-    const emptyCheck = checkEmpty("ip", ip)
+    const emptyCheck = checkEmpty("ip", map.get("ip"))
     setIpError(emptyCheck.error)
     setIpHelperText(emptyCheck.msg)
     if (!emptyCheck.error) {
       const checkExist = getCheckExist()
-      const { error, msg } = await checkExist(0, ip)
+      const { error, msg } = await checkExist(0, map.get("ip"))
       setIpError(error)
       setIpHelperText(msg)
       return error
@@ -136,10 +115,28 @@ function Create() {
   }
 
   const dcCheck = async () => {
-    const emptyCheck = checkEmpty("DC", dc)
+    const emptyCheck = checkEmpty("dc", map.get("dc"))
     setDcError(emptyCheck.error)
     setDcHelperText(emptyCheck.msg)
     return emptyCheck.error
+  }
+
+  const vlanIdCheck = async () => {
+    if (map.get("vlanId")) {
+      const reg = /^[1-9]\d*$/
+      if (!reg.test(map.get("vlanId"))) {
+        setVlanIdError(true)
+        setVlanIdHelperText(L('Only accept positive integer'))
+        return true
+      } else {
+        setVlanIdError(false)
+        setVlanIdHelperText('')
+      }
+    } else {
+      setVlanIdError(false)
+      setVlanIdHelperText('')
+    }
+    return false
   }
 
   return (

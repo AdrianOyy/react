@@ -8,7 +8,8 @@ import { useHistory } from 'react-router-dom'
 import { checkEmpty, getCheckExist } from "../../untils/ServerFieldCheck"
 
 
-function Create() {
+function Create(props) {
+  const { map } = props
   const history = useHistory()
 
   const [ _ID, set_ID ] = useState('')
@@ -182,67 +183,7 @@ function Create() {
   ])
   const onFormFieldChange = (e, id) => {
     const { value } = e.target
-    switch (id) {
-      case '_ID' :
-        set_ID(value)
-        break
-      case 'UnitCode' :
-        setUnitCode(value)
-        break
-      case 'AssetID' :
-        setAssetID(value)
-        break
-      case 'ModelCode' :
-        setModelCode(value)
-        break
-      case 'ModelDesc' :
-        setModelDesc(value)
-        break
-      case 'ClosetID' :
-        setClosetID(value)
-        break
-      case 'Rack' :
-        setRack(value)
-        break
-      case 'RLU' :
-        setRLU(value)
-        break
-      case 'ItemOwner' :
-        setItemOwner(value)
-        break
-      case 'Status' :
-        setStatus(value)
-        break
-      case 'Remark' :
-        setRemark(value)
-        break
-      case 'EquipType' :
-        setEquipType(value)
-        break
-      case 'UnitNo' :
-        setUnitNo(value)
-        break
-      case 'PortQty' :
-        setPortQty(value)
-        break
-      case 'ReqNo' :
-        setReqNo(value)
-        break
-      case 'DOB' :
-        setDOB(value)
-        break
-      case 'DeliveryDate' :
-        setDeliveryDate(value)
-        break
-      case 'DeliveryNoteReceivedDate' :
-        setDeliveryNoteReceivedDate(value)
-        break
-      case 'MaintID' :
-        setMaintID(value)
-        break
-      default:
-        break
-    }
+    map.set(id, value)
   }
   const _IDCheck = async () => {
     const emptyCheck = checkEmpty("Ref. ID", _ID)

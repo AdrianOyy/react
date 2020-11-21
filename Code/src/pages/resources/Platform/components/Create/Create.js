@@ -79,16 +79,7 @@ function Create(props) {
 
   const onFormFieldChange = (e, id) => {
     const { value } = e.target
-    switch (id) {
-      case 'name':
-        map.set('name', value)
-        break
-      case 'typeId':
-        map.set('typeId', value)
-        break
-      default:
-        break
-    }
+    map.set(id, value)
   }
 
   const nameCheck = async () => {

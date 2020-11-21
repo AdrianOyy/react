@@ -10,52 +10,29 @@ import { checkEmpty, getCheckExist } from "../../untils/VMFieldCheck"
 import tenantApi from "../../../../../api/tenant"
 import { L } from '../../../../../utils/lang'
 
-function Detail() {
+function Update(props) {
+  const { map } = props
   const { id } = useParams()
   const history = useHistory()
-  const [ rid, setRid ] = useState('')
-  const [ dataPortIP, setDataPortIP ] = useState('')
-  const [ serialNumber, setSerialNumber ] = useState('')
   const [ serialNumberError, setSerialNumberError ] = useState(false)
   const [ serialNumberHelperText, setSerialNumberHelperText ] = useState("")
-  const [ model, setModel ] = useState('')
-  const [ assignedMemory, setAssignedMemory ] = useState('')
   const [ assignedMemoryError, setAssignedMemoryError ] = useState(false)
   const [ assignedMemoryHelperText, setAssignedMemoryHelperText ] = useState("")
-  const [ assignedCPUCores, setAssignedCPUCores ] = useState('')
   const [ assignedCPUCoresError, setAssignedCPUCoresError ] = useState(false)
   const [ assignedCPUCoresHelperText, setAssignedCPUCoresHelperText ] = useState("")
-  const [ CPUType, setCPUType ] = useState('')
   const [ CPUTypeError, setCPUTypeError ] = useState(false)
   const [ CPUTypeHelperText, setCPUTypeHelperText ] = useState("")
-  const [ diskVolumeName, setDiskVolumeName ] = useState('')
-  const [ CSVName, setCSVName ] = useState('')
-  const [ diskSize, setDiskSize ] = useState('')
   const [ diskSizeError, setDiskSizeError ] = useState(false)
   const [ diskSizeHelperText, setDiskSizeHelperText ] = useState("")
-  const [ hostname, setHostname ] = useState('')
-  const [ VMClusterId, setVMClusterId ] = React.useState('')
   const [ VMClusterIdError, setVMClusterIdError ] = useState(false)
   const [ VMClusterIdHelperText, setVMClusterIdHelperText ] = useState("")
   const [ clusterList, setClusterList ] = useState([])
-  const [ clusterInit, setClusterInit ] = useState(false)
-  const [ OS, setOS ] = useState('')
-  const [ serverRole, setServerRole ] = useState('')
-  const [ hostIP, setHostIP ] = useState('')
-  const [ ATLIP, setATLIP ] = useState('')
-  const [ magementHost, setMagementHost ] = useState('')
-  const [ extraIPs, setExtraIPs ] = useState('')
-  const [ remarks, setRemarks ] = useState('')
-  const [ tenantId, setTenantId ] = React.useState('')
   const [ tenantError, setTenantError ] = useState(false)
   const [ tenantHelperText, setTenantHelperText ] = useState("")
   const [ tenantList, setTenantList ] = useState([])
-  const [ tenantInit, setTenantInit ] = useState(false)
-  const [ section, setSection ] = useState('')
-  const [ createdAt, setCreatedAt ] = useState('')
-  const [ updatedAt, setUpdastedAt ] = useState('')
   const [ formFieldList, setFormFieldList ] = useState([])
   const [ saving, setSaving ] = useState(true)
+  const [ errors, setErrors ] = useState({})
 
   const handleClick = async () => {
     const serialNumberError = await serialNumberCheck()
@@ -72,45 +49,45 @@ function Detail() {
     let projectManager
     let VMClusterName
     for (const _ of tenantList) {
-      if (_.id === tenantId) {
+      if (_.id === map.get("tenantId")) {
         projectCode = _.code
         projectContact = _.contact_person
         projectManager = _.manager_group.name
       }
     }
     for (const _ of clusterList) {
-      if (_.id === VMClusterId) {
+      if (_.id === map.get("VMClusterId")) {
         VMClusterName = _.VMClusterName
       }
     }
     setSaving(true)
     API.update(id,
       {
-        rid,
-        dataPortIP,
-        serialNumber,
-        model,
-        assignedMemory,
-        assignedCPUCores,
-        CPUType,
-        diskVolumeName,
-        CSVName,
-        diskSize,
-        hostname,
-        VMClusterId,
+        rid: map.get("rid"),
+        dataPortIP: map.get("dataPortIP"),
+        serialNumber: map.get("serialNumber"),
+        model: map.get("model"),
+        assignedMemory: map.get("assignedMemory"),
+        assignedCPUCores: map.get("assignedCPUCores"),
+        diskVolumeName: map.get("diskVolumeName"),
+        CSVName: map.get("CSVName"),
+        diskSize: map.get("diskSize"),
+        hostname: map.get("hostname"),
+        VMClusterId: map.get("VMClusterId"),
         VMClusterName,
-        OS,
-        serverRole,
-        hostIP,
-        ATLIP,
-        magementHost,
-        extraIPs,
-        remarks,
-        tenantId,
+        OS: map.get("OS"),
+        serverRole: map.get("serverRole"),
+        hostIP: map.get("hostIP"),
+        ATLIP: map.get("ATLIP"),
+        magementHost: map.get("magementHost"),
+        extraIPs: map.get("extraIPs"),
+        remarks: map.get("remarks"),
+        tenantId: map.get("tenantId"),
         projectCode,
         projectContact,
         projectManager,
-        section
+        section: map.get("section"),
+        CPUType: map.get("CPUType"),
       }
     ).then(() => {
       CommonTip.success("Success")
@@ -120,286 +97,225 @@ function Detail() {
     })
   }
 
-  // 获取 tenantList 和 clusterList
   useEffect(() => {
-    tenantApi.list({ limit: 999, page: 1 })
-      .then(({ data }) => {
+    tenantApi.list({ limit: 999, page: 1 }).then(({ data }) => {
+      if (data && data.data) {
+        return data.data.rows
+      } else {
+        return []
+      }
+    }).then(returnObj => {
+      API.listCluster({ limit: 999, page: 1 }).then(({ data }) => {
         if (data && data.data) {
-          const { rows } = data.data
-          console.log(rows)
-          setTenantList(rows)
+          return {
+            tenantList: returnObj,
+            clusterList: data.data.rows,
+          }
+        } else {
+          return {
+            tenantList: returnObj,
+            clusterList: [],
+          }
         }
+      }).then(returnObj => {
+        API.detail(id)
+          .then(({ data }) => {
+            const {
+              rid,
+              dataPortIP,
+              serialNumber,
+              model,
+              assignedMemory,
+              assignedCPUCores,
+              CPUType,
+              diskVolumeName,
+              CSVName,
+              diskSize,
+              hostname,
+              VMClusterId,
+              OS,
+              serverRole,
+              hostIP,
+              ATLIP,
+              magementHost,
+              extraIPs,
+              remarks,
+              tenantId,
+              section,
+              createdAt,
+              updatedAt
+            } = data.data
+            setSaving(false)
+            setTenantList(returnObj.tenantList)
+            setClusterList(returnObj.clusterList)
+            const list = [
+              {
+                id: 'rid', label: L('RID'), type: 'text',
+                required: false, readOnly: false, value: rid,
+              },
+              {
+                id: 'serialNumber', label: L('SerialNumber'), type: 'text',
+                required: true, readOnly: false, value: serialNumber,
+                error: serialNumberError, helperText: serialNumberHelperText
+              },
+              {
+                id: 'model', label: L('Model'), type: 'text',
+                required: false, readOnly: false, value: model,
+              },
+              {
+                id: 'assignedMemory', label: L('Assigned Memory(GB)'), type: 'text',
+                required: true, readOnly: false, value: assignedMemory,
+                error: assignedMemoryError, helperText: assignedMemoryHelperText
+              },
+              {
+                id: 'assignedCPUCores', label: L('Assigned CPU Cores'), type: 'text',
+                required: true, readOnly: false, value: assignedCPUCores,
+                error: assignedCPUCoresError, helperText: assignedCPUCoresHelperText
+              },
+              {
+                id: 'CPUType', label: L('CPU Type'), type: 'text',
+                required: true, readOnly: false, value: CPUType,
+                error: CPUTypeError, helperText: CPUTypeHelperText,
+              },
+              {
+                id: 'diskVolumeName', label: L('Disk Volume Name'), type: 'text',
+                required: false, readOnly: false, value: diskVolumeName,
+              },
+              {
+                id: 'CSVName', label: L('CSV Name'), type: 'text',
+                required: false, readOnly: false, value: CSVName,
+              },
+              {
+                id: 'diskSize', label: L('Disk Size'), type: 'text',
+                required: true, readOnly: false, value: diskSize,
+                error: diskSizeError, helperText: diskSizeHelperText
+              },
+              {
+                id: 'hostname', label: L('Hostname'), type: 'text',
+                required: false, readOnly: false, value: hostname,
+              },
+              {
+                id: 'VMClusterId', label: L('VM Cluster'), type: 'select',
+                value: VMClusterId, itemList: returnObj.clusterList,
+                labelField: 'VMClusterName', valueField: 'id',
+                error: VMClusterIdError, helperText: VMClusterIdHelperText,
+              },
+              {
+                id: 'OS', label: L('OS'), type: 'text',
+                required: false, readOnly: false, value: OS,
+              },
+              {
+                id: 'serverRole', label: L('Server Role'), type: 'text',
+                required: false, readOnly: false, value: serverRole,
+              },
+              {
+                id: 'hostIP', label: L('Host IP'), type: 'text',
+                required: false, readOnly: false, value: hostIP,
+              },
+              {
+                id: 'ATLIP', label: L('ATL IP'), type: 'text',
+                required: false, readOnly: false, value: ATLIP,
+              },
+              {
+                id: 'dataPortIP', label: L('Data port IP'), type: 'text',
+                required: false, readOnly: false, value: dataPortIP,
+              },
+              {
+                id: 'magementHost', label: L('Magement Host'), type: 'text',
+                required: false, readOnly: false, value: magementHost,
+              },
+              {
+                id: 'extraIPs', label: L('Extra IPs'), type: 'text',
+                required: false, readOnly: false, value: extraIPs,
+              },
+              {
+                id: 'remarks', label: L('Remarks'), type: 'text',
+                required: false, readOnly: false, value: remarks,
+              },
+              {
+                id: 'tenantId', label: L('Tenant'), type: 'select',
+                value: tenantId, itemList: returnObj.tenantList,
+                labelField: 'name', valueField: 'id',
+                error: tenantError, helperText: tenantHelperText,
+              },
+              {
+                id: 'section', label: L('Section'), type: 'text',
+                required: false, readOnly: false, value: section,
+              },
+              {
+                id: 'createdAt', label: L('Created At'), type: 'text',
+                disabled: true, readOnly: true, value: formatDateTime(createdAt)
+              },
+              {
+                id: 'updatedAt', label: L('Updated At'), type: 'text',
+                disabled: true, readOnly: true, value: formatDateTime(updatedAt)
+              },
+            ]
+            list.forEach(_ => {
+              map.set(_.id, _.value)
+            })
+            setFormFieldList(list)
+          })
       })
-
-    API.listCluster({ limit: 999, page: 1 })
-      .then(({ data }) => {
-        if (data && data.data) {
-          const { rows } = data.data
-          console.log(rows)
-          setClusterList(rows)
-        }
-      })
-  }, [])
-
-  useEffect(() => {
-    API.detail(id)
-      .then(({ data }) => {
-        const {
-          rid,
-          dataPortIP,
-          serialNumber,
-          model,
-          assignedMemory,
-          assignedCPUCores,
-          CPUType,
-          diskVolumeName,
-          CSVName,
-          diskSize,
-          hostname,
-          VMClusterId,
-          OS,
-          serverRole,
-          hostIP,
-          ATLIP,
-          magementHost,
-          extraIPs,
-          remarks,
-          tenantId,
-          section,
-          createdAt,
-          updatedAt
-        } = data.data
-        setSerialNumber(serialNumber)
-        setModel(model)
-        setAssignedMemory(assignedMemory)
-        setAssignedCPUCores(assignedCPUCores)
-        setCPUType(CPUType)
-        setDiskVolumeName(diskVolumeName)
-        setCSVName(CSVName)
-        setDiskSize(diskSize)
-        setHostname(hostname)
-        setVMClusterId(VMClusterId)
-        setOS(OS)
-        setServerRole(serverRole)
-        setHostIP(hostIP)
-        setATLIP(ATLIP)
-        setMagementHost(magementHost)
-        setExtraIPs(extraIPs)
-        setRemarks(remarks)
-        setSection(section)
-        setTenantId(tenantId)
-        setCreatedAt(createdAt)
-        setUpdastedAt(updatedAt)
-        setSaving(false)
-        setRid(rid)
-        setDataPortIP(dataPortIP)
-      })
+    })
+    // eslint-disable-next-line
   }, [ id ])
 
   useEffect(() => {
-    const list = [
-      {
-        id: 'rid', label: L('RID'), type: 'text',
-        required: false, readOnly: false, value: rid,
+    const errors = {
+      serialNumber: {
+        error: serialNumberError,
+        helperText: serialNumberHelperText,
       },
-      {
-        id: 'serialNumber', label: L('SerialNumber'), type: 'text',
-        required: true, readOnly: false, value: serialNumber,
-        error: serialNumberError, helperText: serialNumberHelperText
+      assignedMemory: {
+        error: assignedMemoryError,
+        helperText: assignedMemoryHelperText,
       },
-      {
-        id: 'model', label: L('Model'), type: 'text',
-        required: false, readOnly: false, value: model,
+      assignedCPUCores: {
+        error: assignedCPUCoresError,
+        helperText: assignedCPUCoresHelperText,
       },
-      {
-        id: 'assignedMemory', label: L('Assigned Memory(GB)'), type: 'text',
-        required: true, readOnly: false, value: assignedMemory,
-        error: assignedMemoryError, helperText: assignedMemoryHelperText
+      CPUType: {
+        error: CPUTypeError,
+        helperText: CPUTypeHelperText,
       },
-      {
-        id: 'assignedCPUCores', label: L('Assigned CPU Cores'), type: 'text',
-        required: true, readOnly: false, value: assignedCPUCores,
-        error: assignedCPUCoresError, helperText: assignedCPUCoresHelperText
+      diskSize: {
+        error: diskSizeError,
+        helperText: diskSizeHelperText,
       },
-      {
-        id: 'CPUType', label: L('CPU Type'), type: 'text',
-        required: true, readOnly: false, value: CPUType,
-        error: CPUTypeError, helperText: CPUTypeHelperText,
+      VMClusterId: {
+        error: VMClusterIdError,
+        helperText: VMClusterIdHelperText,
       },
-      {
-        id: 'diskVolumeName', label: L('Disk Volume Name'), type: 'text',
-        required: false, readOnly: false, value: diskVolumeName,
+      tenantId: {
+        error: tenantError,
+        helperText: tenantHelperText,
       },
-      {
-        id: 'CSVName', label: L('CSV Name'), type: 'text',
-        required: false, readOnly: false, value: CSVName,
-      },
-      {
-        id: 'diskSize', label: L('Disk Size'), type: 'text',
-        required: true, readOnly: false, value: diskSize,
-        error: diskSizeError, helperText: diskSizeHelperText
-      },
-      {
-        id: 'hostname', label: L('Hostname'), type: 'text',
-        required: false, readOnly: false, value: hostname,
-      },
-      {
-        id: 'VMClusterId', label: L('VM Cluster'), type: 'select',
-        value: VMClusterId, itemList: clusterList,
-        labelField: 'VMClusterName', valueField: 'id',
-        error: VMClusterIdError, helperText: VMClusterIdHelperText,
-      },
-      {
-        id: 'OS', label: L('OS'), type: 'text',
-        required: false, readOnly: false, value: OS,
-      },
-      {
-        id: 'serverRole', label: L('Server Role'), type: 'text',
-        required: false, readOnly: false, value: serverRole,
-      },
-      {
-        id: 'hostIP', label: L('Host IP'), type: 'text',
-        required: false, readOnly: false, value: hostIP,
-      },
-      {
-        id: 'ATLIP', label: L('ATL IP'), type: 'text',
-        required: false, readOnly: false, value: ATLIP,
-      },
-      {
-        id: 'dataPortIP', label: L('Data port IP'), type: 'text',
-        required: false, readOnly: false, value: dataPortIP,
-      },
-      {
-        id: 'magementHost', label: L('Magement Host'), type: 'text',
-        required: false, readOnly: false, value: magementHost,
-      },
-      {
-        id: 'extraIPs', label: L('Extra IPs'), type: 'text',
-        required: false, readOnly: false, value: extraIPs,
-      },
-      {
-        id: 'remarks', label: L('Remarks'), type: 'text',
-        required: false, readOnly: false, value: remarks,
-      },
-      {
-        id: 'tenant', label: L('Tenant'), type: 'select',
-        value: tenantId, itemList: tenantList,
-        labelField: 'name', valueField: 'id',
-        error: tenantError, helperText: tenantHelperText,
-      },
-      {
-        id: 'createdAt', label: L('Created At'), type: 'text',
-        disabled: true, readOnly: true, value: formatDateTime(createdAt)
-      },
-      {
-        id: 'updatedAt', label: L('Updated At'), type: 'text',
-        disabled: true, readOnly: true, value: formatDateTime(updatedAt)
-      },
-    ]
-    setFormFieldList(list)
+    }
+    setErrors(errors)
+    // eslint-disable-next-line
   }, [
-    serialNumber, serialNumberError, serialNumberHelperText,
-    model,
-    assignedMemory, assignedMemoryError, assignedMemoryHelperText,
-    assignedCPUCores, assignedCPUCoresError, assignedCPUCoresHelperText,
-    CPUType, CPUTypeError, CPUTypeHelperText,
-    diskVolumeName,
-    CSVName,
-    diskSize, diskSizeError, diskSizeHelperText,
-    hostname,
-    VMClusterId, VMClusterIdError, VMClusterIdHelperText,
-    clusterList,
-    OS,
-    serverRole,
-    hostIP,
-    ATLIP,
-    magementHost,
-    extraIPs,
-    remarks,
-    tenantId, tenantError, tenantHelperText,
-    tenantList,
-    section,
-    rid,
-    dataPortIP,
-    createdAt, updatedAt
+    serialNumberHelperText,
+    assignedMemoryHelperText,
+    assignedCPUCoresHelperText,
+    CPUTypeHelperText,
+    diskSizeHelperText,
+    VMClusterIdHelperText,
+    tenantHelperText,
   ])
+
   const onFormFieldChange = (e, id) => {
     const { value } = e.target
-    switch (id) {
-      case 'rid':
-        setRid(value)
-        break
-      case 'dataPortIP':
-        setDataPortIP(value)
-        break
-      case 'serialNumber':
-        setSerialNumber(value)
-        break
-      case 'model':
-        setModel(value)
-        break
-      case 'assignedMemory':
-        setAssignedMemory(value)
-        break
-      case 'assignedCPUCores':
-        setAssignedCPUCores(value)
-        break
-      case 'CPUType':
-        setCPUType(value)
-        break
-      case 'diskVolumeName':
-        setDiskVolumeName(value)
-        break
-      case 'CSVName':
-        setCSVName(value)
-        break
-      case 'diskSize':
-        setDiskSize(value)
-        break
-      case 'hostname':
-        setHostname(value)
-        break
-      case 'VMClusterId':
-        setVMClusterId(value)
-        break
-      case 'OS':
-        setOS(value)
-        break
-      case 'serverRole':
-        setServerRole(value)
-        break
-      case 'hostIP':
-        setHostIP(value)
-        break
-      case 'ATLIP':
-        setATLIP(value)
-        break
-      case 'magementHost':
-        setMagementHost(value)
-        break
-      case 'extraIPs':
-        setExtraIPs(value)
-        break
-      case 'remarks':
-        setRemarks(value)
-        break
-      case 'tenant':
-        setTenantId(value)
-        break
-      case 'section':
-        setSection(value)
-        break
-      default:
-        break
-    }
+    map.set(id, value)
   }
+
   const serialNumberCheck = async () => {
-    const emptyCheck = checkEmpty("serialNumber", serialNumber)
+    const emptyCheck = checkEmpty("serialNumber", map.get("serialNumber"))
     setSerialNumberError(emptyCheck.error)
     setSerialNumberHelperText(emptyCheck.msg)
     if (!emptyCheck.error) {
       const checkExist = getCheckExist()
-      const { error, msg } = await checkExist(id, serialNumber)
+      const { error, msg } = await checkExist(id, map.get("serialNumber"))
       setSerialNumberError(error)
       setSerialNumberHelperText(msg)
       return error
@@ -408,99 +324,77 @@ function Detail() {
   }
 
   const assignedMemoryCheck = async () => {
-    const emptyCheck = checkEmpty("assignedMemory", assignedMemory)
+    const emptyCheck = checkEmpty("assignedMemory", map.get("assignedMemory"))
     setAssignedMemoryError(emptyCheck.error)
     setAssignedMemoryHelperText(emptyCheck.msg)
+    if (!emptyCheck.error) {
+      const reg = /^(0|\d+)(\.\d+)?$/
+      if (!reg.test(map.get("assignedMemory"))) {
+        setAssignedMemoryError(true)
+        setAssignedMemoryHelperText(L('Only accept positive float'))
+        return true
+      }
+    }
     return emptyCheck.error
   }
 
   const assignedCPUCoresCheck = async () => {
-    const emptyCheck = checkEmpty("assignedCPUCores", assignedCPUCores)
+    const emptyCheck = checkEmpty("assignedCPUCores", map.get("assignedCPUCores"))
     setAssignedCPUCoresError(emptyCheck.error)
     setAssignedCPUCoresHelperText(emptyCheck.msg)
+    if (!emptyCheck.error) {
+      const reg = /^[1-9]\d*$/
+      if (!reg.test(map.get("assignedCPUCores"))) {
+        setAssignedCPUCoresError(true)
+        setAssignedCPUCoresHelperText(L('Only accept positive integer'))
+        return true
+      }
+    }
     return emptyCheck.error
   }
 
   const CPUTypeCheck = async () => {
-    const emptyCheck = checkEmpty("CPUType", CPUType)
+    const emptyCheck = checkEmpty("CPUType", map.get("CPUType"))
     setCPUTypeError(emptyCheck.error)
     setCPUTypeHelperText(emptyCheck.msg)
     return CPUTypeCheck.error
   }
 
   const diskSizeCheck = async () => {
-    const emptyCheck = checkEmpty("diskSize", diskSize)
+    const emptyCheck = checkEmpty("diskSize", map.get("diskSize"))
     setDiskSizeError(emptyCheck.error)
     setDiskSizeHelperText(emptyCheck.msg)
+    if (!emptyCheck.error) {
+      const reg = /^[1-9]\d*$/
+      if (!reg.test(map.get("diskSize"))) {
+        setDiskSizeError(true)
+        setDiskSizeHelperText(L('Only accept positive integer'))
+        return true
+      }
+    }
     return emptyCheck.error
   }
 
   const VMClusterIdCheck = async () => {
-    const emptyCheck = checkEmpty("VMClusterId", VMClusterId)
+    const emptyCheck = checkEmpty("VMClusterId", map.get("VMClusterId"))
     setVMClusterIdError(emptyCheck.error)
     setVMClusterIdHelperText(emptyCheck.msg)
     return emptyCheck.error
   }
 
   const tenantCheck = async () => {
-    const emptyCheck = checkEmpty("tenant", tenantId)
+    const emptyCheck = checkEmpty("tenantId", map.get("tenantId"))
     setTenantError(emptyCheck.error)
     setTenantHelperText(emptyCheck.msg)
     return emptyCheck.error
   }
 
-  const onFormFieldBlur = (_, id) => {
-    switch (id) {
-      case "serialNumber":
-        serialNumberCheck()
-        break
-      case "assignedMemory":
-        assignedMemoryCheck()
-        break
-      case "assignedCPUCores":
-        assignedCPUCoresCheck()
-        break
-      case "CPUType":
-        CPUTypeCheck()
-        break
-      case "diskSize":
-        diskSizeCheck()
-        break
-      case "tenant":
-        tenantCheck()
-        break
-      default:
-        break
-    }
-  }
-
-  // 字段 VMClusterId 检查
-  useEffect(() => {
-    if (clusterInit) {
-      VMClusterIdCheck()
-    } else {
-      setClusterInit(true)
-    }
-    // eslint-disable-next-line
-  }, [VMClusterId])
-
-  // 字段 tenant 检查
-  useEffect(() => {
-    if (tenantInit) {
-      tenantCheck()
-    } else {
-      setTenantInit(true)
-    }
-    // eslint-disable-next-line
-  }, [tenantId])
-
   return (
     <React.Fragment>
       <DetailPage
-        formTitle={L('Update')}
         onFormFieldChange = {onFormFieldChange}
-        onFormFieldBlur = {onFormFieldBlur}
         formFieldList = {formFieldList}
+        errorFieldList = {errors}
         showBtn ={true}
         onBtnClick = {handleClick}
       />
@@ -508,4 +402,4 @@ function Detail() {
   )
 }
 
-export default Detail
+export default Update
