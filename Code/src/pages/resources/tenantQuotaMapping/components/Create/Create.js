@@ -34,7 +34,7 @@ function Create(props) {
     }).then(returnObj => {
       const list = [
         {
-          id: 'tenant', label: L('Tenant'), type: 'select', value: "", required: true,
+          id: 'tenantId', label: L('Tenant'), type: 'select', value: "", required: true,
           itemList: returnObj, labelField: 'name', valueField: 'id',
           error: tenantError, helperText: tenantHelperText,
         },
@@ -47,7 +47,7 @@ function Create(props) {
           error: quotaError, helperText: quotaHelperText,
         },
         {
-          id: 'year', label: L('Year'), required: true, type: 'date', views: [ 'year' ],
+          id: 'year', label: L('Year'), required: true, type: 'text', views: [ 'year' ],
           readOnly: false, value: "", error: yearError, helperText: yearHelperText,
         },
       ]

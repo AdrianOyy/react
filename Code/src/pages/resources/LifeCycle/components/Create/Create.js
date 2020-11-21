@@ -129,7 +129,6 @@ function Create(props) {
 
   const _IDCheck = async () => {
     const emptyCheck = checkEmpty("Ref. ID", map.get("_ID"))
-    console.log(emptyCheck)
     set_IDError(emptyCheck.error)
     set_IDHelperText(emptyCheck.msg)
     if (!emptyCheck.error) {

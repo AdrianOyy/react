@@ -9,20 +9,20 @@ import { L } from '../../../../../utils/lang'
 const listPath = '/aaa-service/adgroup'
 
 
-function Create() {
+function Create(props) {
+  const { map } = props
   const history = useHistory()
-  const [ name, setName ] = useState('')
   const [ formFieldList, setFormFieldList ] = useState([])
   const [ saving, setSaving ] = useState(false)
   const [ nameError, setNameError ] = useState(false)
   const [ nameHelperText, setNameHelperText ] = useState("")
   const [ errors, setErrors ] = useState({})
 
-  const handelClick = async () => {
+  const handleClick = async () => {
     const nameErr = await nameCheck()
     if (nameErr || saving) return
     setSaving(true)
-    ADGroupApi.create({ name })
+    ADGroupApi.create({ name: map && map.get('name') })
       .then(() => {
         CommonTip.success(L('Success'))
         history.push({ pathname: listPath })
@@ -34,7 +34,7 @@ function Create() {
 
   useEffect(() => {
     const list = [
-      { id: 'name', label: L('Name'), type: 'text', required: true, readOnly: false, value: name, error: nameError, helperText: nameHelperText },
+      { id: 'name', label: L('Name'), type: 'text', required: true, readOnly: false, value: map && map.get('name'), error: nameError, helperText: nameHelperText },
     ]
     setFormFieldList(list)
     // eslint-disable-next-line
@@ -54,7 +54,7 @@ function Create() {
     const { value } = e.target
     switch (id) {
       case 'name':
-        setName(value)
+        map && map.set('name', value)
         break
       default:
         break
@@ -62,12 +62,12 @@ function Create() {
   }
 
   const nameCheck = async () => {
-    const emptyCheck = checkEmpty("name", name)
+    const emptyCheck = checkEmpty("name", map && map.get('name'))
     setNameError(emptyCheck.error)
     setNameHelperText(emptyCheck.msg)
     if (!emptyCheck.error) {
       const checkExist = getCheckExist()
-      const { error, msg } = await checkExist(0, name)
+      const { error, msg } = await checkExist(0, map && map.get('name'))
       setNameError(error)
       setNameHelperText(msg)
       return error
@@ -82,7 +82,7 @@ function Create() {
         formFieldList = {formFieldList}
         errorFieldList = {errors}
         showBtn ={true}
-        onBtnClick = {handelClick}
+        onBtnClick = {handleClick}
       />
     </React.Fragment>
   )

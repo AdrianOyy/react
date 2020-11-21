@@ -6,25 +6,27 @@ import CommonTip from "../../../../../components/CommonTip"
 import ADGroupApi from "../../../../../api/adGroup"
 import { checkEmpty, getCheckExist } from "../../untils/ADGroupCheck"
 import { L } from '../../../../../utils/lang'
+import Loading from "../../../../../components/Loading"
 
 const listPath = '/aaa-service/adgroup'
 const formTitle = 'Update'
 
-function Update() {
+function Update(props) {
+  const { map } = props
   const { id } = useParams()
   const history = useHistory()
-  const [ name, setName ] = useState('')
+  // const [ name, setName ] = useState('')
   const [ formFieldList, setFormFieldList ] = useState([])
   const [ saving, setSaving ] = useState(true)
   const [ nameError, setNameError ] = useState(false)
   const [ nameHelperText, setNameHelperText ] = useState("")
   const [ errors, setErrors ] = useState({})
 
-  const hanleClick = async () => {
+  const handleClick = async () => {
     const nameErr = await nameCheck()
     if (nameErr || saving) return
     setSaving(true)
-    ADGroupApi.update(id, { name })
+    ADGroupApi.update(id, { name: map && map.get('name') })
       .then(() => {
         CommonTip.success("Success")
         history.push({ pathname: listPath })
@@ -35,19 +37,25 @@ function Update() {
   }
 
   useEffect(() => {
-    ADGroupApi.detail(id).then(({ data }) => {
-      const { name } = data.data
-      setName(name)
-      setSaving(false)
-
-      const defaultValue = data.data
-      const list = [
-        { id: 'name', label: L('Name'), type: 'text', required: true, readOnly: false, value: defaultValue.name, error: nameError, helperText: nameHelperText },
-        { id: 'createdAt', label: L('Created At'), type: 'text', disabled: true, readOnly: true, value: formatDateTime(defaultValue.createdAt) },
-        { id: 'updatedAt', label: L('Updated At'), type: 'text', disabled: true, readOnly: true, value: formatDateTime(defaultValue.updatedAt) },
-      ]
-      setFormFieldList(list)
-    })
+    Loading.show()
+    ADGroupApi.detail(id)
+      .then(({ data }) => {
+        const { name } = data.data
+        map && map.set('name', name)
+        setSaving(false)
+        const defaultValue = data.data
+        const list = [
+          { id: 'name', label: L('Name'), type: 'text', required: true, readOnly: false, value: defaultValue.name, error: nameError, helperText: nameHelperText },
+          { id: 'createdAt', label: L('Created At'), type: 'text', disabled: true, readOnly: true, value: formatDateTime(defaultValue.createdAt) },
+          { id: 'updatedAt', label: L('Updated At'), type: 'text', disabled: true, readOnly: true, value: formatDateTime(defaultValue.updatedAt) },
+        ]
+        setFormFieldList(list)
+      })
+      .finally(() => Loading.hide())
+      .catch((e) => {
+        console.log(e)
+        Loading.hide()
+      })
     // eslint-disable-next-line
   }, [ id ])
 
@@ -63,21 +71,16 @@ function Update() {
 
   const onFormFieldChange = (e, id) => {
     const { value } = e.target
-    switch (id) {
-      case 'name':
-        setName(value)
-        break
-      default:
-        break
-    }
+    map && map.set(id, value)
   }
+
   const nameCheck = async () => {
-    const emptyCheck = checkEmpty("name", name)
+    const emptyCheck = checkEmpty("name", map && map.get('name'))
     setNameError(emptyCheck.error)
     setNameHelperText(emptyCheck.msg)
     if (!emptyCheck.error) {
       const checkExist = getCheckExist()
-      const { error, msg } = await checkExist(id, name)
+      const { error, msg } = await checkExist(id, map && map.get('name'))
       setNameError(error)
       setNameHelperText(msg)
       return error
@@ -102,7 +105,7 @@ function Update() {
         formFieldList = {formFieldList}
         errorFieldList = {errors}
         showBtn ={true}
-        onBtnClick = {hanleClick}
+        onBtnClick = {handleClick}
       />
     </React.Fragment>
   )
