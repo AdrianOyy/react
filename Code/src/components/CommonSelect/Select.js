@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import InputLabel from '@material-ui/core/InputLabel'
 import MenuItem from '@material-ui/core/MenuItem'
@@ -38,7 +38,11 @@ function CommonSelect(props) {
   const onCommonSelectChange = (e) => {
     setSelectValue(e.target.value)
     onSelectChange(e)
+
   }
+  useEffect(() => {
+    setSelectValue(value)
+  }, [ value ])
   return (
     <FormControl
       className={classes.formControl}
