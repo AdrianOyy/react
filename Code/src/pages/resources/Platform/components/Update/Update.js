@@ -9,13 +9,12 @@ import { useHistory } from 'react-router-dom'
 import { checkEmpty, getCheckExist } from "../../untils/PlatformFieldCheck"
 import { L } from '../../../../../utils/lang'
 
-function Update() {
+function Update(props) {
+  const { map } = props
   const { id } = useParams()
   const history = useHistory()
-  const [ name, setName ] = useState('')
   const [ nameError, setNameError ] = useState(false)
   const [ nameHelperText, setNameHelperText ] = useState("")
-  const [ typeId, setTypeId ] = useState('')
   const [ typeIdError, setTypeIdError ] = useState(false)
   const [ typeIdHelperText, setTypeIdHelperText ] = useState("")
   const [ formFieldList, setFormFieldList ] = useState([])
@@ -25,9 +24,10 @@ function Update() {
   const hanleClick = async () => {
     const nameErr = await nameCheck()
     const typeIdErr = await typeIdCheck()
+    console.log(typeIdErr)
     if (nameErr || typeIdErr || saving) return
     setSaving(true)
-    API.update(id, { name, typeId })
+    API.update(id, { name: map.get("name"), typeId: map.get("typeId") })
       .then(() => {
         CommonTip.success(L('Success'))
         history.push({ pathname: '/resources/platform' })
@@ -45,13 +45,13 @@ function Update() {
         return []
       }
     }).then(returnObj => {
-      API.detail(id).then(({ data }) => {
-        const { name, typeId }  = data.data
-        setName(name)
-        setTypeId(typeId)
+      API.detail(id).then((_) => {
+        const { name, typeId }  = _.data.data
+        map && map.set('name', name)
+        map && map.set('typeId', typeId)
         setSaving(false)
 
-        const defaultValue = data.data
+        const defaultValue = _.data.data
         const list = [
           {
             id: 'name', label: L('Name'), type: 'text',
@@ -98,10 +98,10 @@ function Update() {
     const { value } = e.target
     switch (id) {
       case 'name':
-        setName(value)
+        map.set('name', value)
         break
       case 'typeId':
-        setTypeId(value)
+        map.set('typeId', value)
         break
       default:
         break
@@ -109,12 +109,12 @@ function Update() {
   }
 
   const nameCheck = async () => {
-    const emptyCheck = checkEmpty("name", name)
+    const emptyCheck = checkEmpty("name", map.get("name"))
     setNameError(emptyCheck.error)
     setNameHelperText(emptyCheck.msg)
     if (!emptyCheck.error) {
       const checkExist = getCheckExist()
-      const { error, msg } = await checkExist(id, name)
+      const { error, msg } = await checkExist(id, map.get("name"))
       setNameError(error)
       setNameHelperText(msg)
       return error
@@ -123,7 +123,8 @@ function Update() {
   }
 
   const typeIdCheck = async () => {
-    const emptyCheck = checkEmpty("typeId", typeId)
+    console.log(map.get("typeId"))
+    const emptyCheck = checkEmpty("typeId", map.get("typeId"))
     setTypeIdError(emptyCheck.error)
     setTypeIdHelperText(emptyCheck.msg)
     return emptyCheck.error

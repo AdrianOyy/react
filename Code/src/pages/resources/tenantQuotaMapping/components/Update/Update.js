@@ -9,16 +9,10 @@ import { L } from '../../../../../utils/lang'
 import { useHistory } from 'react-router-dom'
 import { checkEmpty, getCheckTypeExist, getCheckYearExist } from "../../untils/ManagementFieldCheck"
 
-function ManagementUpdate() {
+function Update(props) {
+  const { map } = props
   const { id } = useParams()
   const history = useHistory()
-  const [ tenantId, setTenantId ] = useState('')
-  const [ tenant, setTenant ] = useState('')
-  const [ type, setType ] = useState('')
-  const [ quota, setQuota ] = useState('')
-  const [ year, setYear ] = useState('')
-  const [ createdAt, setCreatedAt ] = useState('')
-  const [ updatedAt, setUpdatedAt ] = useState('')
   const [ formFieldList, setFormFieldList ] = useState([])
   const [ saving, setSaving ] = useState(true)
   const [ typeError, setTypeError ] = useState(false)
@@ -27,80 +21,7 @@ function ManagementUpdate() {
   const [ quotaHelperText, setQuotaHelperText ] = useState('')
   const [ yearError, setYearError ] = useState(false)
   const [ yearHelperText, setYearHelperText ] = useState('')
-  const [ typeInit, setTypeInit ] = useState(false)
-  const [ yearInit, setYearInit ] = useState(false)
-  const [ quotaInit, setQuotaInit ] = useState(false)
-  const typeCheck = async () => {
-    const emptyCheck = checkEmpty("Type", type)
-    setTypeError(emptyCheck.error)
-    setTypeHelperText(emptyCheck.msg)
-    if (!emptyCheck.error) {
-      const checkExist = getCheckTypeExist()
-      const { error, msg } = await checkExist(id, { tenantId, type })
-      setTypeError(error)
-      setTypeHelperText(msg)
-      return error
-    }
-    return emptyCheck.error
-  }
-
-  const yearCheck = async () => {
-    const emptyCheck = checkEmpty("Year", year)
-    setYearError(emptyCheck.error)
-    setYearHelperText(emptyCheck.msg)
-    if (!emptyCheck.error) {
-      const checkExist = getCheckYearExist()
-      const { error, msg } = await checkExist(id, { tenantId, year })
-      setYearError(error)
-      setYearHelperText(msg)
-      return error
-    }
-    return emptyCheck.error
-  }
-
-  const quotaCheck = () => {
-    const emptyCheck = checkEmpty("Quota", quota)
-    setQuotaError(emptyCheck.error)
-    setQuotaHelperText(emptyCheck.msg)
-    if (!emptyCheck.errpr) {
-      const reg = /^[1-9]\d*$/
-      if (!reg.test(quota)) {
-        setQuotaError(true)
-        setQuotaHelperText(L('Only accept positive integer'))
-        return true
-      }
-    }
-    return emptyCheck.error
-  }
-
-  // 字段 type 检查
-  useEffect(() => {
-    if (typeInit) {
-      typeCheck()
-    } else {
-      setTypeInit(true)
-    }
-    // eslint-disable-next-line
-  }, [type])
-
-  // 字段 quota 检查
-  useEffect(() => {
-    if (quotaInit) {
-      quotaCheck()
-    } else {
-      setQuotaInit(true)
-    }
-    // eslint-disable-next-line
-  }, [quota])
-
-  useEffect(() => {
-    if (yearInit) {
-      yearCheck()
-    } else {
-      setYearInit(true)
-    }
-    // eslint-disable-next-line
-  }, [year])
+  const [ errors, setErrors ] = useState({})
 
   const handleClick = async () => {
     const typeError = await typeCheck()
@@ -108,7 +29,11 @@ function ManagementUpdate() {
     const yearError = await yearCheck()
     if (typeError || quotaError || yearError || saving) return
     setSaving(true)
-    API.update(id, { type, quota, year })
+    API.update(id, {
+      type: map.get("type"),
+      quota: map.get("quota"),
+      year: map.get("year"),
+    })
       .then(() => {
         CommonTip.success(L('Success'))
         history.push({ pathname: '/aaa-service/tenantQuotaMapping/' })
@@ -124,71 +49,126 @@ function ManagementUpdate() {
         const { tenant, type, quota, year, createdAt, updatedAt } = data.data
         if (tenant) {
           if (tenant.id) {
-            setTenantId(tenant.id)
-          }
-          if (tenant.name) {
-            setTenant(tenant.name)
+            map.set("tenantId", tenant.id)
           }
         }
-        setType(type)
-        setQuota(quota)
-        setYear(year.toString())
-        setCreatedAt(createdAt)
-        setUpdatedAt(updatedAt)
+        map.set("type", type)
+        map.set("quota", quota)
+        map.set("year", year.toString())
         setSaving(false)
+
+        const list = [
+          {
+            id: 'tenant', label: L('Tenant'), disabled: true, readOnly: true, value: tenant ? tenant.name : ''
+          },
+          {
+            id: 'type', label: L('Type'), required: true, readOnly: false, value: type,
+            error: typeError, helperText: typeHelperText,
+          },
+          {
+            id: 'quota', label: L('Quota'), required: true, type: 'text', value: quota,
+            error: quotaError, helperText: quotaHelperText,
+          },
+          {
+            id: 'year', label: L('Year'), required: true, type: 'date', views: [ 'year' ],
+            readOnly: false, value: year, error: yearError, helperText: yearHelperText,
+          },
+          { id: 'createdAt', label: L('Created At'), type: 'text', disabled: true, readOnly: true, value: formatDateTime(createdAt) },
+          { id: 'updatedAt', label: L('Updated At'), type: 'text', disabled: true, readOnly: true, value: formatDateTime(updatedAt) },
+        ]
+        setFormFieldList(list)
       })
   }, [ id ])
 
   useEffect(() => {
-    const list = [
-      {
-        id: 'tenant', label: L('Tenant'), disabled: true, readOnly: true, value: tenant
+    const errors = {
+      type: {
+        error: typeError,
+        helperText: typeHelperText,
       },
-      {
-        id: 'type', label: L('Type'), required: true, readOnly: false, value: type,
-        error: typeError, helperText: typeHelperText,
+      quota: {
+        error: quotaError,
+        helperText: quotaHelperText,
       },
-      {
-        id: 'quota', label: L('Quota'), required: true, type: 'text', value: quota,
-        error: quotaError, helperText: quotaHelperText,
+      year: {
+        error: yearError,
+        helperText: yearHelperText,
       },
-      {
-        id: 'year', label: L('Year'), required: true, type: 'date', views: [ 'year' ],
-        readOnly: false, value: year, error: yearError, helperText: yearHelperText,
-      },
-      { id: 'createdAt', label: L('Created At'), type: 'text', disabled: true, readOnly: true, value: formatDateTime(createdAt) },
-      { id: 'updatedAt', label: L('Updated At'), type: 'text', disabled: true, readOnly: true, value: formatDateTime(updatedAt) },
-    ]
-    setFormFieldList(list)
+    }
+    setErrors(errors)
+    // eslint-disable-next-line
   }, [
-    tenant, type, year, quota, createdAt, updatedAt,
-    typeError, typeHelperText, yearError, yearHelperText,
-    quotaError, quotaHelperText
+    typeHelperText,
+    quotaHelperText,
+    yearHelperText
   ])
 
   const onFormFieldChange = (e, id) => {
     const { value } = e.target
     switch (id) {
       case 'type':
-        setType(value)
+        map.set("type", value)
         break
       case 'quota':
-        setQuota(value)
+        map.set("quota", value)
         break
       case 'year':
-        setYear(value)
+        map.set("year", value)
         break
       default:
         break
     }
   }
 
+  const typeCheck = async () => {
+    const emptyCheck = checkEmpty("Type", map.get("type"))
+    setTypeError(emptyCheck.error)
+    setTypeHelperText(emptyCheck.msg)
+    if (!emptyCheck.error) {
+      const checkExist = getCheckTypeExist()
+      const { error, msg } = await checkExist(0, { tenantId: map.get("tenantId"), type: map.get("type") })
+      setTypeError(error)
+      setTypeHelperText(msg)
+      return error
+    }
+    return emptyCheck.error
+  }
+
+  const yearCheck = async () => {
+    const emptyCheck = checkEmpty("Year", map.get("year"))
+    setYearError(emptyCheck.error)
+    setYearHelperText(emptyCheck.msg)
+    if (!emptyCheck.error) {
+      const checkExist = getCheckYearExist()
+      const { error, msg } = await checkExist(0, { tenantId: map.get("tenantId"), year: map.get("year") })
+      setYearError(error)
+      setYearHelperText(msg)
+      return error
+    }
+    return emptyCheck.error
+  }
+
+  const quotaCheck = () => {
+    const emptyCheck = checkEmpty("Quota", map.get("quota"))
+    setQuotaError(emptyCheck.error)
+    setQuotaHelperText(emptyCheck.msg)
+    if (!emptyCheck.error) {
+      const reg = /^[1-9]\d*$/
+      if (!reg.test(map.get("quota"))) {
+        setQuotaError(true)
+        setQuotaHelperText(L('Only accept positive integer'))
+        return true
+      }
+    }
+    return emptyCheck.error
+  }
+
   return (
     <React.Fragment>
       <DetailPage
-        formTitle={L('Update')}
         onFormFieldChange = {onFormFieldChange}
         formFieldList = {formFieldList}
+        errorFieldList = {errors}
         showBtn ={true}
         onBtnClick = {handleClick}
       />
@@ -196,4 +176,4 @@ function ManagementUpdate() {
   )
 }
 
-export default ManagementUpdate
+export default Update
