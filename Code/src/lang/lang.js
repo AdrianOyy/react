@@ -236,6 +236,7 @@ exports.lang = {
     cuid: 'CU_ID',
     cpsid: 'CPS ID',
     Sorting: 'Sorting',
+    parentLength: 'Please install Parent Form List',
     /* pages Step -->*/
     message: 'Message',
   }

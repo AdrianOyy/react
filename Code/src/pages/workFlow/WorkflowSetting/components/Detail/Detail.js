@@ -269,23 +269,26 @@ export default function MaterialTableDemo() {
   ]
 
   const handleSubmit = () => {
-    const form = {
-      modelId: id,
-      workflowName: name,
-      parentFormKey,
-      parentValues,
-      childVersion,
-      selectChild,
-      childValues,
-      childFormKey,
-    }
-    console.log(form)
-    API.createWorkFlow(form).then(({ data }) => {
-      if (data) {
-        CommonTip.success(L('Success'))
-        handleCancle()
+    if (parentValues.length > 0) {
+      const form = {
+        modelId: id,
+        workflowName: name,
+        parentFormKey,
+        parentValues,
+        childVersion,
+        selectChild,
+        childValues,
+        childFormKey,
       }
-    })
+      API.createWorkFlow(form).then(({ data }) => {
+        if (data) {
+          CommonTip.success(L('Success'))
+          handleCancle()
+        }
+      })
+    } else {
+      CommonTip.error(L('parentLength'))
+    }
   }
 
   const handleCancle = () => {

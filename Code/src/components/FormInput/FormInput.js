@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react"
 import {
   InputLabel as Label,
-  InputBase,
 } from "@material-ui/core"
 import { fade, withStyles, makeStyles } from "@material-ui/core/styles"
 
@@ -28,19 +27,8 @@ export default function FormInput(props) {
     defaultValue,
     disabled,
     helperText,
-    autoComplete,
-    autoFocus,
-    startAdornment,
-    endAdornment,
-    fullWidth,
-    multiline,
     onBlur,
-    placeholder,
-    readOnly,
     showRequest,
-    rows,
-    rowsMax,
-    rowsMin,
   } = props
   // console.log(error)
   // console.log(helperText)
@@ -67,7 +55,7 @@ export default function FormInput(props) {
     }
   }
 
-  const useStyles = makeStyles(() => ({
+  const useStyles = makeStyles((theme) => ({
     root: {
       padding: `0 0 ${error && helperText ? '0' : '1vh'} 0`,
       marginBottom: '1vh',
@@ -88,6 +76,28 @@ export default function FormInput(props) {
       fontFamily,
       marginTop: '0.5vh',
       marginLeft: getWidth(width).labelWidth + 'vw'
+    },
+    input: {
+      borderRadius: 4,
+      width: '100%',
+      height: '33px',
+      position: 'relative',
+      backgroundColor: theme.palette.background.paper,
+      transition: theme.transitions.create([ 'border-color', 'box-shadow' ]),
+      color: disabled ? 'rgba(196, 196, 196, 0.8)' : 'black',
+      fontSize: 16,
+      marginTop: '0.5em',
+      padding: '0px 26px 0px 12px',
+      borderWidth: '1px',
+      borderStyle: 'solid',
+      borderColor: error ? theme.palette.error.main : (disabled ? '#dedede' : '#ccc'),
+      fontFamily,
+      '&:focus': {
+        borderRadius: 4,
+        borderColor: '#80bdff',
+        outline: 'none',
+        boxShadow: `${fade(theme.palette.primary.main, 0.25)} 0 0 0 0.2rem`,
+      }
     }
   }))
 
@@ -107,28 +117,28 @@ export default function FormInput(props) {
     },
   }))(Label)
 
-  const BootstrapInput = withStyles((theme) => ({
-    root: {
-      width: getWidth(width).input + 'vw',
-    },
-    input: {
-      height: '0.8em',
-      marginTop: '0.5em',
-      borderRadius: 4,
-      position: 'relative',
-      display: showRequest === false ? 'none' : 'block',
-      backgroundColor: theme.palette.common.white,
-      border: props.error ? `1px solid ${theme.palette.error.main}` : '1px solid #ced4da',
-      fontSize: 16,
-      padding: '10px 12px',
-      transition: theme.transitions.create([ 'border-color', 'box-shadow' ]),
-      fontFamily,
-      '&:focus': {
-        boxShadow: `${fade(theme.palette.primary.main, 0.25)} 0 0 0 0.2rem`,
-        borderColor: theme.palette.primary.main,
-      },
-    },
-  }))(InputBase)
+  // const BootstrapInput = withStyles((theme) => ({
+  //   root: {
+  //     width: getWidth(width).input + 'vw',
+  //   },
+  //   input: {
+  //     height: '0.8em',
+  //     marginTop: '0.5em',
+  //     borderRadius: 4,
+  //     position: 'relative',
+  //     display: showRequest === false ? 'none' : 'block',
+  //     backgroundColor: theme.palette.common.white,
+  //     border: props.error ? `1px solid ${theme.palette.error.main}` : '1px solid #ced4da',
+  //     fontSize: 16,
+  //     padding: '10px 12px',
+  //     transition: theme.transitions.create([ 'border-color', 'box-shadow' ]),
+  //     fontFamily,
+  //     '&:focus': {
+  //       boxShadow: `${fade(theme.palette.primary.main, 0.25)} 0 0 0 0.2rem`,
+  //       borderColor: theme.palette.primary.main,
+  //     },
+  //   },
+  // }))(InputBase)
 
   return (
     <div className={classes.root}>
@@ -142,24 +152,28 @@ export default function FormInput(props) {
       </InputLabel>
       <div style={{ width: '1vw' }}></div>
       <div>
-        <BootstrapInput
+        <input
           id={id}
+          type="text"
           disabled={disabled}
-          defaultValue={newValue}
-          autoComplete={autoComplete}
-          autoFocus={autoFocus}
-          startAdornment={startAdornment}
-          endAdornment={endAdornment}
-          fullWidth={fullWidth}
-          multiline={multiline}
+          className={classes.input}
           onBlur={handleBlur}
-          error={false}
-          placeholder={placeholder}
-          readOnly={readOnly}
-          rows={rows}
-          rowsMax={rowsMax}
-          rowsMin={rowsMin}
+          defaultValue={defaultValue ? defaultValue : ''}
         />
+        {/* <BootstrapInput*/}
+        {/*  id={id}*/}
+        {/*  disabled={disabled}*/}
+        {/*  defaultValue={newValue}*/}
+        {/*  fullWidth={fullWidth}*/}
+        {/*  multiline={multiline}*/}
+        {/*  onBlur={handleBlur}*/}
+        {/*  error={false}*/}
+        {/*  placeholder={placeholder}*/}
+        {/*  readOnly={readOnly}*/}
+        {/*  rows={rows}*/}
+        {/*  rowsMax={rowsMax}*/}
+        {/*  rowsMin={rowsMin}*/}
+        {/* />*/}
       </div>
       {
         error && helperText && (
