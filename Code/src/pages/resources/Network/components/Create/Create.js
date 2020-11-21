@@ -8,46 +8,46 @@ import { useHistory } from 'react-router-dom'
 import { checkEmpty, getCheckExist } from "../../untils/NetworkFieldCheck"
 
 
-function Create() {
+function Create(props) {
+  const { map } = props
   const history = useHistory()
-
-  const [ _ID, set_ID ] = useState('')
   const [ _IDError, set_IDError ] = useState(false)
   const [ _IDHelperText, set_IDHelperText ] = useState('')
-  const [ UnitCode, setUnitCode ] = useState('')
-  const [ AssetID, setAssetID ] = useState('')
-  const [ ModelCode, setModelCode ] = useState('')
-  const [ ModelDesc, setModelDesc ] = useState('')
-  const [ ClosetID, setClosetID ] = useState('')
-  const [ Rack, setRack ] = useState('')
-  const [ RLU, setRLU ] = useState('')
-  const [ ItemOwner, setItemOwner ] = useState('')
-  const [ Status, setStatus ] = useState('')
-  const [ Remark, setRemark ] = useState('')
-  const [ UnitNo, setUnitNo ] = useState('')
-  const [ PortQty, setPortQty ] = useState('')
-  const [ ReqNo, setReqNo ] = useState('')
-  const [ DOB, setDOB ] = useState('')
-  const [ DeliveryDate, setDeliveryDate ] = useState('')
-  const [ DeliveryNoteReceivedDate, setDeliveryNoteReceivedDate ] = useState('')
-  const [ MaintID, setMaintID ] = useState('')
-  const [ EquipType, setEquipType ] = useState('')
+  const [ EquipTypeError, setEquipTypeError ] = useState(false)
+  const [ EquipTypeHelperText, setEquipTypeHelperText ] = useState('')
   const [ inventory, setInventory ] = useState([])
 
   const [ saving, setSaving ] = useState(false)
   const [ InventoryStatus, setInventoryStatus ] = useState([])
   const [ EquipTypes, setEquipTypes ] = useState([])
-  const [ errInventory, setErrInventory ] = useState({})
+  const [ errors, setErrors ] = useState({})
 
   const handleClick = async () => {
     const _IDError = await _IDCheck()
-    if (_IDError || saving) return
+    const EquipTypeError = await EquipTypeCheck()
+    if (_IDError || EquipTypeError || saving) return
     setSaving(true)
     API.create(
       {
-        _ID, UnitCode, AssetID, ModelCode, ModelDesc, ClosetID,
-        Rack, RLU, ItemOwner, Status, Remark, EquipType, UnitNo, PortQty, ReqNo,
-        DOB, DeliveryDate, DeliveryNoteReceivedDate, MaintID
+        _ID: map.get("_ID"),
+        UnitCode: map.get("UnitCode"),
+        AssetID: map.get("AssetID"),
+        ModelCode: map.get("ModelCode"),
+        ModelDesc: map.get("ModelDesc"),
+        ClosetID: map.get("ClosetID"),
+        Rack: map.get("Rack"),
+        RLU: map.get("RLU"),
+        ItemOwner: map.get("ItemOwner"),
+        Status: map.get("Status"),
+        Remark: map.get("Remark"),
+        EquipType: map.get("EquipType"),
+        UnitNo: map.get("UnitNo"),
+        PortQty: map.get("PortQty"),
+        ReqNo: map.get("ReqNo"),
+        DOB: map.get("DOB"),
+        DeliveryDate: map.get("DeliveryDate"),
+        DeliveryNoteReceivedDate: map.get("DeliveryNoteReceivedDate"),
+        MaintID: map.get("MaintID")
       }
     )
       .then(() => {
@@ -66,6 +66,7 @@ function Create() {
       }
     })
   }, [])
+
   useEffect(() => {
     API.listEquipType({ limit: 999, page: 1 }).then(({ data }) => {
       if (data && data.data) {
@@ -80,82 +81,84 @@ function Create() {
     const inventoryList = [
       {
         id: '_ID', label: L('Ref. ID'), type: 'text',
-        required: true, readOnly: false, value: _ID,
+        required: true, readOnly: false, value: "",
         error: _IDError, helperText: _IDHelperText
       },
       {
         id: 'UnitCode', label: L('New'), type: 'text',
-        required: false, readOnly: false, value: UnitCode
+        required: false, readOnly: false, value: ""
       },
       {
         id: 'AssetID', label: L('Asset No'), type: 'text',
-        required: false, readOnly: false, value: AssetID
+        required: false, readOnly: false, value: ""
       },
       {
         id: 'ModelCode', label: L('Model Code'), type: 'text',
-        required: false, readOnly: false, value: ModelCode
+        required: false, readOnly: false, value: ""
       },
       {
         id: 'ModelDesc', label: L('Description'), type: 'text',
-        required: false, readOnly: false, value: ModelDesc
+        required: false, readOnly: false, value: ""
       },
       {
         id: 'ClosetID', label: L('Closet ID'), type: 'text',
-        required: false, readOnly: false, value: ClosetID
+        required: false, readOnly: false, value: ""
       },
       {
         id: 'Rack', label: L('Cabinet'), type: 'text',
-        required: false, readOnly: false, value: Rack
+        required: false, readOnly: false, value: ""
       },
       {
         id: 'RLU', label: L('Pos. (U)'), type: 'text',
-        required: false, readOnly: false, value: RLU
+        required: false, readOnly: false, value: ""
       },
       {
         id: 'ItemOwner', label: L('Item Owner'), type: 'text',
-        required: false, readOnly: false, value: ItemOwner
+        required: false, readOnly: false, value: ""
       },
       {
         id: 'Status', label: L('Status'), type: 'select',
-        value: Status, itemList: InventoryStatus,
+        value: "", itemList: InventoryStatus,
         labelField: 'ServiceStatus', valueField: 'id',
       },
       {
         id: 'Remark', label: L('Remark'), type: 'text',
-        required: false, readOnly: false, value: Remark
+        required: false, readOnly: false, value: ""
       },
       {
         id: 'EquipType', label: L('EquipType'), type: 'select',
-        value: EquipType, itemList: EquipTypes,
+        value: "", itemList: EquipTypes,
         labelField: 'Type', valueField: 'id',
+        required: true,
+        error: EquipTypeError, helperText: EquipTypeHelperText
       },
       {
         id: 'UnitNo', label: L('Unit No'), type: 'text',
-        required: false, readOnly: false, value: UnitNo
+        required: false, readOnly: false, value: ""
       },
       {
         id: 'PortQty', label: L('Built-in Port'), type: 'text',
-        required: false, readOnly: false, value: PortQty
+        required: false, readOnly: false, value: ""
       },
       {
         id: 'ReqNo', label: L('Req. Form'), type: 'text',
-        required: false, readOnly: false, value: ReqNo
+        required: false, readOnly: false, value: ""
       },
       {
         id: 'DOB', label: L('DOB'), type: 'date',
-        required: false, readOnly: false, value: DOB
+        required: false, readOnly: false, value: ""
       },
       {
         id: 'DeliveryDate', label: L('Delivery Date'), type: 'date',
-        required: false, readOnly: false, value: DeliveryDate
+        required: false, readOnly: false, value: ""
       },
       {
         id: 'DeliveryNoteReceivedDate', label: L('Delivery Note Received Date'), type: 'date',
-        required: false, readOnly: false, value: DeliveryNoteReceivedDate
+        required: false, readOnly: false, value: ""
       },
       {
         id: 'MaintID', label: L('MaintID'), type: 'text',
-        required: false, readOnly: false, value: MaintID
+        required: false, readOnly: false, value: ""
       },
     ]
     setInventory(inventoryList)
@@ -167,86 +170,28 @@ function Create() {
       _ID: {
         error: _IDError,
         helperText: _IDHelperText,
-      }
+      },
+      EquipType: {
+        error: EquipTypeError,
+        helperText: EquipTypeHelperText,
+      },
     }
-    setErrInventory(error)
-  }, [ _IDError, _IDHelperText ])
+    setErrors(error)
+    // eslint-disable-next-line
+  }, [ _IDHelperText, EquipTypeHelperText ])
 
   const onFormFieldChange = (e, id) => {
     const { value } = e.target
-    switch (id) {
-      case '_ID' :
-        set_ID(value)
-        if (value) {
-          set_IDError(false)
-          set_IDHelperText('')
-        }
-        break
-      case 'UnitCode' :
-        setUnitCode(value)
-        break
-      case 'AssetID' :
-        setAssetID(value)
-        break
-      case 'ModelCode' :
-        setModelCode(value)
-        break
-      case 'ModelDesc' :
-        setModelDesc(value)
-        break
-      case 'ClosetID' :
-        setClosetID(value)
-        break
-      case 'Rack' :
-        setRack(value)
-        break
-      case 'RLU' :
-        setRLU(value)
-        break
-      case 'ItemOwner' :
-        setItemOwner(value)
-        break
-      case 'Status' :
-        setStatus(value)
-        break
-      case 'Remark' :
-        setRemark(value)
-        break
-      case 'EquipType' :
-        setEquipType(value)
-        break
-      case 'UnitNo' :
-        setUnitNo(value)
-        break
-      case 'PortQty' :
-        setPortQty(value)
-        break
-      case 'ReqNo' :
-        setReqNo(value)
-        break
-      case 'DOB' :
-        setDOB(value)
-        break
-      case 'DeliveryDate' :
-        setDeliveryDate(value)
-        break
-      case 'DeliveryNoteReceivedDate' :
-        setDeliveryNoteReceivedDate(value)
-        break
-      case 'MaintID' :
-        setMaintID(value)
-        break
-      default:
-        break
-    }
+    map.set(id, value)
   }
+
   const _IDCheck = async () => {
-    const emptyCheck = checkEmpty("Ref. ID", _ID)
+    const emptyCheck = checkEmpty("Ref. ID", map.get("_ID"))
     set_IDError(emptyCheck.error)
     set_IDHelperText(emptyCheck.msg)
     if (!emptyCheck.error) {
       const checkExist = getCheckExist()
-      const { error, msg } = await checkExist(0, _ID)
+      const { error, msg } = await checkExist(0, map.get("_ID"))
       set_IDError(error)
       set_IDHelperText(msg)
       return error
@@ -254,23 +199,19 @@ function Create() {
     return emptyCheck.error
   }
 
-  const onFormFieldBlur = (_, id) => {
-    switch (id) {
-      case "_ID":
-        _IDCheck()
-        break
-      default:
-        break
-    }
+  const EquipTypeCheck = async () => {
+    const emptyCheck = checkEmpty("EquipType", map.get("EquipType"))
+    setEquipTypeError(emptyCheck.error)
+    setEquipTypeHelperText(emptyCheck.msg)
+    return emptyCheck.error
   }
+
   return (
     <React.Fragment>
       <DetailPage
-        formTitle={L('Network')}
         onFormFieldChange = {onFormFieldChange}
-        onFormFieldBlur = {onFormFieldBlur}
         formFieldList = {inventory}
-        errorFieldList = {errInventory}
+        errorFieldList = {errors}
         showBtn ={true}
         onBtnClick = {handleClick}
       />

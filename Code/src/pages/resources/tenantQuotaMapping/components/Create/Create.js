@@ -53,6 +53,7 @@ function Create(props) {
       ]
       setFormFieldList(list)
     })
+    // eslint-disable-next-line
   }, [])
 
   const handleClick = async () => {
@@ -107,22 +108,7 @@ function Create(props) {
 
   const onFormFieldChange = (e, id) => {
     const { value } = e.target
-    switch (id) {
-      case 'tenant':
-        map.set("tenantId", value)
-        break
-      case 'type':
-        map.set("type", value)
-        break
-      case 'quota':
-        map.set("quota", value)
-        break
-      case 'year':
-        map.set("year", value)
-        break
-      default:
-        break
-    }
+    map.set(id, value)
   }
 
   const tenantCheck = async () => {
