@@ -29,7 +29,7 @@ class Account extends Common {
     }
     hideFieldList.forEach(el => {
       const { fieldName, remark } = el
-      if (hideType.indexOf(remark)) {
+      if (hideType.indexOf(remark) !== -1) {
         const id = 'element_' + fieldName
         const el = document.getElementById(id)
         el && (el.style.display = 'none')

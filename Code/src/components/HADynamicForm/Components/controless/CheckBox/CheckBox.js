@@ -87,14 +87,14 @@ export default function HACheckBox(props) {
 
   return (
     <div
-      style={{
+      style={Object.assign({
         minWidth: '700px',
-        maxWidth: '900px',
+        maxWidth: '950px',
         boxSizing: 'border-box',
-        marginBottom: '2em',
-      }}
+        minHeight: '5.5em',
+        marginBottom: '2.5em',
+      }, style ? style.root : {})}
       id={'element_' + fieldName}
-      className={classes.root}
     >
       <Label
         className={classes.label}
