@@ -9,9 +9,8 @@ import { L } from '../../../../../utils/lang'
 import { checkEmpty, getCheckExist } from "../../untils/IPAssignmentCheck"
 
 const listPath = '/resources/IPAddress'
-const formTitle = 'Update'
 
-function Update(props) {
+function Update() {
   const { id } = useParams()
   const history = useHistory()
   const [ ip, setIP ] = useState('')
@@ -28,7 +27,7 @@ function Update(props) {
   const [ ipHelperText, setIpHelperText ] = useState('')
   const [ dcError, setDcError ] = useState(false)
   const [ dcHelperText, setDcHelperText ] = useState('')
-  const [ dcList, setDcList ] = useState([])
+  const [ errors, setErrors ] = useState({})
 
   const handleClick = async () => {
     const ipErr = await ipCheck()
@@ -45,51 +44,62 @@ function Update(props) {
       })
   }
 
-  // 获取 DC list
   useEffect(() => {
-    DCAPI.list()
-      .then(({ data }) => {
-        setDcList(data.data)
-      })
-  }, [])
+    DCAPI.list().then(({ data }) => {
+      if (data && data.data) {
+        return data.data
+      } else {
+        return []
+      }
+    }).then(returnObj => {
+      API.detail({ id })
+        .then(({ data }) => {
+          const { IP, DC, hostname, projectTeam, networkType, IPPool, vlanId, remark } = data.data
+          setIP(IP ? IP : '')
+          setDC(DC ? DC.id : '')
+          setHostname(hostname ? hostname : '')
+          setProjectTeam(projectTeam ? projectTeam : '')
+          setNetworkType(networkType ? networkType : '')
+          setIpPool(IPPool ? IPPool : '')
+          setVlanId(vlanId ? vlanId : '')
+          setRemark(remark ? remark : '')
+          setSaving(false)
 
-  useEffect(() => {
-    API.detail({ id })
-      .then(({ data }) => {
-        const { IP, DC, hostname, projectTeam, networkType, IPPool, vlanId, remark } = data.data
-        setIP(IP ? IP : '')
-        setDC(DC ? DC.id : '')
-        setHostname(hostname ? hostname : '')
-        setProjectTeam(projectTeam ? projectTeam : '')
-        setNetworkType(networkType ? networkType : '')
-        setIpPool(IPPool ? IPPool : '')
-        setVlanId(vlanId ? vlanId : '')
-        setRemark(remark ? remark : '')
-        setSaving(false)
-      })
+          const defaultValue = data.data
+          const list = [
+            { id: 'ip', label: L('IP'), type: 'text', required: true, readOnly: false, value: defaultValue.IP, error: ipError, helperText: ipHelperText },
+            {
+              id: 'dc', label: L('DC'), type: 'select', required: false, labelWidth: 30,
+              readOnly: false, value: defaultValue.DC ? defaultValue.DC.id : '', itemList: returnObj, valueField: 'id',
+              labelField: 'name', error: dcError, helperText: dcHelperText
+            },
+            { id: 'hostname', label: L('Hostname'), type: 'text', required: false, readOnly: false, value: defaultValue.hostname },
+            { id: 'projectTeam', label: L('Project Team'), type: 'text', required: false, readOnly: false, value: defaultValue.projectTeam },
+            { id: 'networkType', label: L('Network Type'), type: 'text', required: false, readOnly: false, value: defaultValue.networkType },
+            { id: 'ipPool', label: L('Ip Pool'), type: 'text', required: false, readOnly: false, value: defaultValue.ipPool },
+            { id: 'vlanId', label: L('Vlan ID'), type: 'text', required: false, readOnly: false, value: defaultValue.vlanId },
+            { id: 'remark', label: L('Remark'), type: 'text', required: false, readOnly: false, value: defaultValue.remark },
+          ]
+          setFormFieldList(list)
+        })
+    })
+    // eslint-disable-next-line
   }, [ id ])
 
   useEffect(() => {
-    const list = [
-      { id: 'ip', label: L('IP'), type: 'text', required: true, readOnly: false, value: ip, error: ipError, helperText: ipHelperText },
-      {
-        id: 'dc', label: L('DC'), type: 'select', required: false, labelWidth: 30,
-        readOnly: false, value: dc, itemList: dcList, valueField: 'id',
-        labelField: 'name', error: dcError, helperText: dcHelperText
+    const errors = {
+      ip: {
+        error: ipError,
+        helperText: ipHelperText,
       },
-      { id: 'hostname', label: L('Hostname'), type: 'text', required: false, readOnly: false, value: hostname },
-      { id: 'projectTeam', label: L('Project Team'), type: 'text', required: false, readOnly: false, value: projectTeam },
-      { id: 'networkType', label: L('Network Type'), type: 'text', required: false, readOnly: false, value: networkType },
-      { id: 'ipPool', label: L('Ip Pool'), type: 'text', required: false, readOnly: false, value: ipPool },
-      { id: 'vlanId', label: L('Vlan ID'), type: 'text', required: false, readOnly: false, value: vlanId },
-      { id: 'remark', label: L('Remark'), type: 'text', required: false, readOnly: false, value: remark },
-    ]
-    setFormFieldList(list)
-  }, [
-    ip, dc, hostname, projectTeam, networkType,
-    ipPool, vlanId, remark, ipError, dcError,
-    ipHelperText, dcHelperText, dcList
-  ])
+      dc: {
+        error: dcError,
+        helperText: dcHelperText,
+      }
+    }
+    setErrors(errors)
+    // eslint-disable-next-line
+  }, [ ipHelperText, dcHelperText ])
 
   const onFormFieldChange = (e, id) => {
     const { value } = e.target
@@ -138,31 +148,18 @@ function Update(props) {
   }
 
   const dcCheck = async () => {
-    const emptyCheck = checkEmpty("IP", ip)
+    const emptyCheck = checkEmpty("dc", ip)
     setDcError(emptyCheck.error)
     setDcHelperText(emptyCheck.msg)
     return emptyCheck.error
   }
 
-  const onFormFieldBlur = (_, id) => {
-    switch (id) {
-      case "ip":
-        ipCheck()
-        break
-      case "dc":
-        dcCheck()
-        break
-      default:
-        break
-    }
-  }
   return (
     <React.Fragment>
       <DetailPage
-        formTitle = {formTitle}
         onFormFieldChange = {onFormFieldChange}
-        onFormFieldBlur = {onFormFieldBlur}
         formFieldList = {formFieldList}
+        errorFieldList = {errors}
         showBtn ={true}
         onBtnClick = {handleClick}
       />

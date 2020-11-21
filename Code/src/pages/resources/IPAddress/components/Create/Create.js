@@ -8,7 +8,7 @@ import dcAPI from "../../../../../api/dc"
 import { L } from '../../../../../utils/lang'
 const listPath = '/resources/IPAddress'
 
-function AssignCreate(props) {
+function Create() {
   const history = useHistory()
   const [ ip, setIP ] = useState('')
   const [ dc, setDC ] = useState('')
@@ -25,8 +25,7 @@ function AssignCreate(props) {
   const [ dcError, setDcError ] = useState(false)
   const [ dcHelperText, setDcHelperText ] = useState("")
   const [ dcList, setDcList ] = useState([])
-  const [ ipInit, setIpInit ] = useState(false)
-  const [ dcInit, setDcInit ] = useState(false)
+  const [ errors, setErrors ] = useState({})
 
 
   const handleClick = async () => {
@@ -72,10 +71,23 @@ function AssignCreate(props) {
       { id: 'remark', label: L('Remark'), type: 'text', required: false, readOnly: false, value: remark },
     ]
     setFormFieldList(list)
-  }, [
-    ip, dc, hostname, projectTeam, networkType, ipPool,
-    vlanId, remark, ipError, ipHelperText, dcError, dcHelperText, dcList
-  ])
+    // eslint-disable-next-line
+  }, [ dcList ])
+
+  useEffect(() => {
+    const errors = {
+      ip: {
+        error: ipError,
+        helperText: ipHelperText,
+      },
+      dc: {
+        error: dcError,
+        helperText: dcHelperText,
+      }
+    }
+    setErrors(errors)
+    // eslint-disable-next-line
+  }, [ ipHelperText, dcHelperText ])
 
   const onFormFieldChange = (e, id) => {
     const { value } = e.target
@@ -110,7 +122,7 @@ function AssignCreate(props) {
   }
 
   const ipCheck = async () => {
-    const emptyCheck = checkEmpty("IP", ip)
+    const emptyCheck = checkEmpty("ip", ip)
     setIpError(emptyCheck.error)
     setIpHelperText(emptyCheck.msg)
     if (!emptyCheck.error) {
@@ -130,32 +142,12 @@ function AssignCreate(props) {
     return emptyCheck.error
   }
 
-  // 字段 ip 检查
-  useEffect(() => {
-    if (ipInit) {
-      ipCheck()
-    } else {
-      setIpInit(true)
-    }
-    // eslint-disable-next-line
-  }, [ip])
-
-  // 字段 dc 检查
-  useEffect(() => {
-    if (dcInit) {
-      dcCheck()
-    } else {
-      setDcInit(true)
-    }
-    // eslint-disable-next-line
-  }, [dc])
-
   return (
     <React.Fragment>
       <DetailPage
-        formTitle={L('Create')}
         onFormFieldChange = {onFormFieldChange}
         formFieldList = {formFieldList}
+        errorFieldList = {errors}
         showBtn ={true}
         onBtnClick = {handleClick}
       />
@@ -163,4 +155,4 @@ function AssignCreate(props) {
   )
 }
 
-export default AssignCreate
+export default Create
