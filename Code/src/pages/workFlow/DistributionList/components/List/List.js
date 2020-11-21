@@ -10,6 +10,7 @@ import API from "../../../../../api/workFlow"
 import PlayCircleFilledWhiteOutlinedIcon from '@material-ui/icons/PlayCircleFilledWhiteOutlined'
 import formatDateTime from "../../../../../utils/formatDateTime"
 import { L } from '../../../../../utils/lang'
+import Loading from "../../../../../components/Loading"
 
 const tableName = 'List'
 
@@ -22,10 +23,16 @@ function List(props) {
   const [ total, setTotal ] = useState(0)
 
   useEffect(() => {
+    Loading.show()
     API.getProcessList({ name: 'Distribution List', limit: rowsPerPage, page: page + 1 })
       .then(({ data }) => {
         setTotal(data.total)
         handleData(data.list)
+      })
+      .finally(() => Loading.hide())
+      .catch((e) => {
+        console.log(e)
+        Loading.hide()
       })
   }, [ page, rowsPerPage ])
 

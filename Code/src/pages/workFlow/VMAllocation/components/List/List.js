@@ -16,6 +16,7 @@ import PlayCircleFilledWhiteOutlinedIcon from '@material-ui/icons/PlayCircleFill
 import UpdateIcon from '@material-ui/icons/Update'
 import formatDateTime from "../../../../../utils/formatDateTime"
 import DialogTitle from "@material-ui/core/DialogTitle"
+import Loading from "../../../../../components/Loading"
 
 const tableName = 'List'
 
@@ -30,10 +31,16 @@ function List(props) {
   const [ srow, setSrow ] = useState({})
 
   useEffect(() => {
+    Loading.show()
     API.getProcessList({ name: 'VM Allocation', limit: rowsPerPage, page: page + 1 })
       .then(({ data }) => {
         setTotal(data.total)
         handleData(data.list)
+      })
+      .finally(() => Loading.hide())
+      .catch((e) => {
+        console.log(e)
+        Loading.hide()
       })
   }, [ page, rowsPerPage ])
 

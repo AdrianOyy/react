@@ -16,6 +16,7 @@ import {
   BorderColorOutlined as BorderColorIcon,
   Reorder as ReorderIcon,
 } from "@material-ui/icons"
+import Loading from "../../../../../components/Loading"
 
 const tableName = L('My Request')
 
@@ -31,10 +32,16 @@ function List(props) {
   const [ total, setTotal ] = useState(0)
 
   useEffect(() => {
+    Loading.show()
     API.getMyRequest({ ...query, userName: getUser() && getUser().id ? getUser().id.toString() : '0', limit: rowsPerPage, page: page + 1 })
       .then(response => {
         setTotal(response.data.data.total)
         handleData(response.data.data.list)
+      })
+      .finally(() => Loading.hide())
+      .catch((e) => {
+        console.log(e)
+        Loading.hide()
       })
   }, [ page, rowsPerPage, query ])
 

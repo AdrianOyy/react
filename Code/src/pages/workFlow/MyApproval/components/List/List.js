@@ -17,6 +17,7 @@ import {
   Reorder as ReorderIcon,
   Chat as ChatIcon
 } from "@material-ui/icons"
+import Loading from "../../../../../components/Loading"
 
 const tableName = L('My Approval')
 
@@ -36,15 +37,21 @@ function List(props) {
 
   useEffect(() => {
     const groupList = getUserGroupList()
-    API.getTaskListByGroup({ ...query, groupList, limit: rowsPerPage, page: page + 1 }).then(response => {
-      setTotal(response.data.data.total)
-      handleData(response.data.data.list)
-    })
+    Loading.show()
+    API.getTaskListByGroup({ ...query, groupList, limit: rowsPerPage, page: page + 1 })
+      .then(response => {
+        setTotal(response.data.data.total)
+        handleData(response.data.data.list)
+      })
+      .finally(() => Loading.hide())
+      .catch((e) => {
+        console.log(e)
+        Loading.hide()
+      })
   }, [ page, rowsPerPage, query ])
 
   const handleData = (rawDataList) => {
     const rows = []
-    console.log(rawDataList)
     rawDataList.forEach((el) => {
       const rowModel = {
         id: el.processInstanceId,
