@@ -70,7 +70,7 @@ function Update(props) {
             error: quotaError, helperText: quotaHelperText,
           },
           {
-            id: 'year', label: L('Year'), required: true, type: 'date', views: [ 'year' ],
+            id: 'year', label: L('Year'), required: true, type: 'text', views: [ 'year' ],
             readOnly: false, value: year, error: yearError, helperText: yearHelperText,
           },
           { id: 'createdAt', label: L('Created At'), type: 'text', disabled: true, readOnly: true, value: formatDateTime(createdAt) },

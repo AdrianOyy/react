@@ -8,10 +8,11 @@ import { useHistory } from 'react-router-dom'
 import { checkEmpty, getCheckExist } from "../../untils/RoleFieldCheck"
 
 
-function Create() {
+function Create(props) {
+  const { map } = props
   const history = useHistory()
-  const [ label, setLabel ] = useState('')
-  const [ value, setValue ] = useState('')
+  // const [ label, setLabel ] = useState('')
+  // const [ value, setValue ] = useState('')
   const [ formFieldList, setFormFieldList ] = useState([])
   const [ saving, setSaving ] = useState(false)
   const [ labelError, setLabelError ] = useState(false)
@@ -28,14 +29,14 @@ function Create() {
       setValueInit(true)
     }
     // eslint-disable-next-line
-  }, [value])
+  }, [])
 
   const handleClick = async () => {
     const labelError = await labelCheck()
     const valueError = valueCheck()
     if (labelError || valueError ||  saving) return
     setSaving(true)
-    roleApi.create({ label, value })
+    roleApi.create({ label: map && map.get('label'), value: map && map.get('value') })
       .then(() => {
         CommonTip.success("Success")
         history.push({ pathname: '/aaa-service/role' })
@@ -46,13 +47,13 @@ function Create() {
   }
   useEffect(() => {
     const list = [
-      { id: 'label', label: L('Label'), type: 'text', required: true, readOnly: false, value: label, error: labelError, helperText: labelHelperText },
+      { id: 'label', label: L('Label'), type: 'text', required: true, readOnly: false, value: map && map.get('label'), error: labelError, helperText: labelHelperText },
       {
         id: 'value',
         label: L('Value'),
         type: 'select',
         required: true,
-        value,
+        value: map && map.get('value'),
         itemList: [
           { name: L("Read Only"), id: "Read Only" },
           { name: L("Read & Write"), id: "Read && Write" },
@@ -83,24 +84,25 @@ function Create() {
 
   const onFormFieldChange = (e, id) => {
     const { value } = e.target
-    switch (id) {
-      case 'label':
-        setLabel(value)
-        break
-      case 'value':
-        setValue(value)
-        break
-      default:
-        break
-    }
+    map && map.set(id, value)
+    // switch (id) {
+    //   case 'label':
+    //     setLabel(value)
+    //     break
+    //   case 'value':
+    //     setValue(value)
+    //     break
+    //   default:
+    //     break
+    // }
   }
   const labelCheck = async () => {
-    const emptyCheck = checkEmpty("label", label)
+    const emptyCheck = checkEmpty("label", map && map.get('label'))
     setLabelError(emptyCheck.error)
     setLabelHelperText(emptyCheck.msg)
     if (!emptyCheck.error) {
       const checkExist = getCheckExist()
-      const { error, msg } = await checkExist(0, label)
+      const { error, msg } = await checkExist(0, map && map.get('label'))
       setLabelError(error)
       setLabelHelperText(msg)
       return error
@@ -109,7 +111,7 @@ function Create() {
   }
 
   const valueCheck = () => {
-    const { error, msg } = checkEmpty("value", value)
+    const { error, msg } = checkEmpty("value", map && map.get('value'))
     setValueError(error)
     setValueHelperText(msg)
   }

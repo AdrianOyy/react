@@ -10,11 +10,12 @@ import { checkEmpty, getCheckExist } from "../../untils/RoleFieldCheck"
 import { L } from '../../../../../utils/lang'
 
 
-function Detail() {
+function Detail(props) {
+  const { map } = props
   const { id } = useParams()
   const history = useHistory()
-  const [ label, setLabel ] = useState('')
-  const [ value, setValue ] = useState('')
+  // const [ label, setLabel ] = useState('')
+  // const [ value, setValue ] = useState('')
   const [ formFieldList, setFormFieldList ] = useState([])
   const [ saving, setSaving ] = useState(true)
   const [ labelError, setLabelError ] = useState(false)
@@ -28,7 +29,7 @@ function Detail() {
     const valueError = valueCheck()
     if (labelError || valueError ||  saving) return
     setSaving(true)
-    roleApi.update(id, { label, value })
+    roleApi.update(id, { label: map && map.get('label'), value: map && map.get('value') })
       .then(() => {
         CommonTip.success(L('Success'))
         history.push({ pathname: '/aaa-service/role' })
@@ -39,31 +40,33 @@ function Detail() {
   }
 
   useEffect(() => {
-    roleApi.detail(id).then(({ data }) => {
-      const { label, value } = data.data
-      setLabel(label)
-      setValue(value)
-      setSaving(false)
-
-      const defaultValue = data.data
-      const list = [
-        { id: 'label', label: L('Label'), type: 'text', required: true, readOnly: false, value: defaultValue.label, error: labelError, helperText: labelHelperText },
-        {
-          id: 'value', label: L('Value'), type: 'select', value, required: true,
-          itemList: [
-            { name: "Read Only", id: "Read Only" },
-            { name: "Read & Write", id: "Read && Write" },
-          ],
-          labelField: 'name',
-          valueField: 'id',
-          error: valueError,
-          helperText: valueHelperText
-        },
-        { id: 'createdAt', label: L('Created At'), type: 'text', disabled: true, readOnly: true, value: formatDateTime(defaultValue.createdAt) },
-        { id: 'updatedAt', label: L('Updated At'), type: 'text', disabled: true, readOnly: true, value: formatDateTime(defaultValue.updatedAt) },
-      ]
-      setFormFieldList(list)
-    })
+    roleApi.detail(id)
+      .then(({ data }) => {
+        const { label, value } = data.data
+        // setLabel(label)
+        // setValue(value)
+        map && map.set('label', label)
+        map && map.set('value', value)
+        setSaving(false)
+        const defaultValue = data.data
+        const list = [
+          { id: 'label', label: L('Label'), type: 'text', required: true, readOnly: false, value: defaultValue.label, error: labelError, helperText: labelHelperText },
+          {
+            id: 'value', label: L('Value'), type: 'select', value: map && map.get('value'), required: true,
+            itemList: [
+              { name: "Read Only", id: "Read Only" },
+              { name: "Read & Write", id: "Read && Write" },
+            ],
+            labelField: 'name',
+            valueField: 'id',
+            error: valueError,
+            helperText: valueHelperText
+          },
+          { id: 'createdAt', label: L('Created At'), type: 'text', disabled: true, readOnly: true, value: formatDateTime(defaultValue.createdAt) },
+          { id: 'updatedAt', label: L('Updated At'), type: 'text', disabled: true, readOnly: true, value: formatDateTime(defaultValue.updatedAt) },
+        ]
+        setFormFieldList(list)
+      })
     // eslint-disable-next-line
   }, [ id ])
 
@@ -83,25 +86,16 @@ function Detail() {
 
   const onFormFieldChange = (e, id) => {
     const { value } = e.target
-    switch (id) {
-      case 'label':
-        setLabel(value)
-        break
-      case 'value':
-        setValue(value)
-        break
-      default:
-        break
-    }
+    map && map.set(id, value)
   }
 
   const labelCheck = async () => {
-    const emptyCheck = checkEmpty("label", label)
+    const emptyCheck = checkEmpty("label", map && map.get('label'))
     setLabelError(emptyCheck.error)
     setLabelHelperText(emptyCheck.msg)
     if (!emptyCheck.error) {
       const checkExist = getCheckExist()
-      const { error, msg } = await checkExist(id, label)
+      const { error, msg } = await checkExist(id, map && map.get('label'))
       setLabelError(error)
       setLabelHelperText(msg)
       return error
@@ -110,7 +104,7 @@ function Detail() {
   }
 
   const valueCheck = () => {
-    const { error, msg } = checkEmpty("value", value)
+    const { error, msg } = checkEmpty("value", map && map.get('value'))
     setValueError(error)
     setValueHelperText(msg)
   }
