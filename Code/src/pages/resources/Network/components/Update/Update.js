@@ -7,6 +7,8 @@ import CommonTip from "../../../../../components/CommonTip"
 import { useHistory } from 'react-router-dom'
 import { checkEmpty, getCheckExist } from "../../untils/NetworkFieldCheck"
 import { L } from '../../../../../utils/lang'
+import formatDateTime from "../../../../../utils/formatDateTime"
+import { map2object } from "../../../../../utils/map2object"
 
 function Update(props) {
   const { map } = props
@@ -14,8 +16,14 @@ function Update(props) {
   const history = useHistory()
   const [ _IDError, set_IDError ] = useState(false)
   const [ _IDHelperText, set_IDHelperText ] = useState('')
+  const [ AssetIDError, setAssetIDError ] = useState(false)
+  const [ AssetIDHelperText, setAssetIDHelperText ] = useState('')
+  const [ ClosetIDError, setClosetIDError ] = useState(false)
+  const [ ClosetIDHelperText, setClosetIDHelperText ] = useState('')
   const [ EquipTypeError, setEquipTypeError ] = useState(false)
   const [ EquipTypeHelperText, setEquipTypeHelperText ] = useState('')
+  const [ PortQtyError, setPortQtyError ] = useState(false)
+  const [ PortQtyHelperText, setPortQtyHelperText ] = useState('')
   const [ inventory, setInventory ] = useState([])
   const [ errors, setErrors ] = useState({})
 
@@ -24,31 +32,14 @@ function Update(props) {
 
   const handleClick = async () => {
     const _IDError = await _IDCheck()
+    const AssetIDError = await AssetIDCheck()
+    const ClosetIDError = await ClosetIDCheck()
     const EquipTypeError = await EquipTypeCheck()
-    if (_IDError || EquipTypeError || saving) return
+    const PortQtyError = await PortQtyCheck()
+    if (_IDError || AssetIDError || ClosetIDError || EquipTypeError || PortQtyError || saving) return
     setSaving(true)
     API.update(id,
-      {
-        _ID: map.get("_ID"),
-        UnitCode: map.get("UnitCode"),
-        AssetID: map.get("AssetID"),
-        ModelCode: map.get("ModelCode"),
-        ModelDesc: map.get("ModelDesc"),
-        ClosetID: map.get("ClosetID"),
-        Rack: map.get("Rack"),
-        RLU: map.get("RLU"),
-        ItemOwner: map.get("ItemOwner"),
-        Status: map.get("Status"),
-        Remark: map.get("Remark"),
-        EquipType: map.get("EquipType"),
-        UnitNo: map.get("UnitNo"),
-        PortQty: map.get("PortQty"),
-        ReqNo: map.get("ReqNo"),
-        DOB: map.get("DOB"),
-        DeliveryDate: map.get("DeliveryDate"),
-        DeliveryNoteReceivedDate: map.get("DeliveryNoteReceivedDate"),
-        MaintID: map.get("MaintID")
-      }
+      map2object(map)
     )
       .then(() => {
         CommonTip.success(L('Success'))
@@ -61,7 +52,6 @@ function Update(props) {
 
   useEffect(() => {
     API.listStatus({ limit: 999, page: 1 }).then(({ data }) => {
-      // return data.data
       if (data && data.data) {
         return data.data
       } else {
@@ -83,7 +73,6 @@ function Update(props) {
           }
         }
       }).then(returnObj => {
-        // console.log(returnObj)
         API.detail(id).then(({ data }) => {
           const {
             _ID, UnitCode, AssetID, ModelCode, ModelDesc, ClosetID,
@@ -104,7 +93,8 @@ function Update(props) {
             },
             {
               id: 'AssetID', label: L('Asset No'), type: 'text',
-              required: false, readOnly: false, value: AssetID
+              required: false, readOnly: false, value: AssetID,
+              error: AssetIDError, helperText: AssetIDHelperText
             },
             {
               id: 'ModelCode', label: L('Model Code'), type: 'text',
@@ -116,7 +106,8 @@ function Update(props) {
             },
             {
               id: 'ClosetID', label: L('Closet ID'), type: 'text',
-              required: false, readOnly: false, value: ClosetID
+              required: false, readOnly: false, value: ClosetID,
+              error: ClosetIDError, helperText: ClosetIDHelperText
             },
             {
               id: 'Rack', label: L('Cabinet'), type: 'text',
@@ -152,7 +143,8 @@ function Update(props) {
             },
             {
               id: 'PortQty', label: L('Built-in Port'), type: 'text',
-              required: false, readOnly: false, value: PortQty
+              required: false, readOnly: false, value: PortQty,
+              error: PortQtyError, helperText: PortQtyHelperText
             },
             {
               id: 'ReqNo', label: L('Req. Form'), type: 'text',
@@ -160,15 +152,15 @@ function Update(props) {
             },
             {
               id: 'DOB', label: L('DOB'), type: 'date',
-              required: false, readOnly: false, value: DOB
+              required: false, readOnly: false, value: formatDateTime(DOB)
             },
             {
               id: 'DeliveryDate', label: L('Delivery Date'), type: 'date',
-              required: false, readOnly: false, value: DeliveryDate
+              required: false, readOnly: false, value: formatDateTime(DeliveryDate)
             },
             {
               id: 'DeliveryNoteReceivedDate', label: L('Delivery Note Received Date'), type: 'date',
-              required: false, readOnly: false, value: DeliveryNoteReceivedDate
+              required: false, readOnly: false, value: formatDateTime(DeliveryNoteReceivedDate)
             },
             {
               id: 'MaintID', label: L('MaintID'), type: 'text',
@@ -191,14 +183,26 @@ function Update(props) {
         error: _IDError,
         helperText: _IDHelperText,
       },
+      AssetID: {
+        error: AssetIDError,
+        helperText: AssetIDHelperText,
+      },
+      ClosetID: {
+        error: ClosetIDError,
+        helperText: ClosetIDHelperText,
+      },
       EquipType: {
         error: EquipTypeError,
         helperText: EquipTypeHelperText,
       },
+      PortQty: {
+        error: PortQtyError,
+        helperText: PortQtyHelperText,
+      },
     }
     setErrors(error)
     // eslint-disable-next-line
-  }, [ _IDHelperText, EquipTypeHelperText ])
+  }, [ _IDHelperText, AssetIDHelperText, ClosetIDHelperText, EquipTypeHelperText, PortQtyHelperText ])
 
   const onFormFieldChange = (e, id) => {
     const { value } = e.target
@@ -210,13 +214,57 @@ function Update(props) {
     set_IDError(emptyCheck.error)
     set_IDHelperText(emptyCheck.msg)
     if (!emptyCheck.error) {
+      const reg = /^[1-9]\d*$/
+      if (!reg.test(map.get("_ID"))) {
+        set_IDError(true)
+        set_IDHelperText(L('Only accept positive integer'))
+        emptyCheck.error = true
+      }
+    }
+    if (!emptyCheck.error) {
       const checkExist = getCheckExist()
+      console.log(id)
       const { error, msg } = await checkExist(id, map.get("_ID"))
       set_IDError(error)
       set_IDHelperText(msg)
-      return error
+      emptyCheck.error = error
     }
+
     return emptyCheck.error
+  }
+
+  const AssetIDCheck = async () => {
+    let error = false
+    if (map.get("AssetID")) {
+      const reg = /^[1-9]\d*$/
+      if (!reg.test(map.get("AssetID"))) {
+        error = true
+        setAssetIDError(error)
+        setAssetIDHelperText(L('Only accept positive integer'))
+      }
+    }
+    if (!error) {
+      setAssetIDError(error)
+      setAssetIDHelperText()
+    }
+    return error
+  }
+
+  const ClosetIDCheck = async () => {
+    let error = false
+    if (map.get("ClosetID")) {
+      const reg = /^[1-9]\d*$/
+      if (!reg.test(map.get("ClosetID"))) {
+        error = true
+        setClosetIDError(error)
+        setClosetIDHelperText(L('Only accept positive integer'))
+      }
+    }
+    if (!error) {
+      setClosetIDError(error)
+      setClosetIDHelperText()
+    }
+    return error
   }
 
   const EquipTypeCheck = async () => {
@@ -224,6 +272,23 @@ function Update(props) {
     setEquipTypeError(emptyCheck.error)
     setEquipTypeHelperText(emptyCheck.msg)
     return emptyCheck.error
+  }
+
+  const PortQtyCheck = async () => {
+    let error = false
+    if (map.get("PortQty")) {
+      const reg = /^(0|\d+)(\.\d+)?$/
+      if (!reg.test(map.get("PortQty"))) {
+        error = true
+        setPortQtyError(error)
+        setPortQtyHelperText(L('Only accept positive float'))
+      }
+    }
+    if (!error) {
+      setPortQtyError(error)
+      setPortQtyHelperText()
+    }
+    return error
   }
 
   return (

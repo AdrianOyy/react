@@ -130,12 +130,12 @@ function Update() {
               value: defaultValue.name, error: nameError, helperText: nameHelperText
             },
             {
-              id: 'managerGroupId', label: L('Manager Group'), type: "select",
+              id: 'managerGroupId', label: L('Manager Group'), type: "select", required: true,
               readOnly: false, itemList: returnObj.adGroupList, value: defaultValue.manager_group_id,
               labelField: 'name', valueField: 'id',
             },
             {
-              id: 'supporterGroupId', label: L('Supporter Group'), type: "select",
+              id: 'supporterGroupId', label: L('Supporter Group'), type: "select", required: true,
               readOnly: false, itemList: returnObj.adGroupList, value: defaultValue.supporter_group_id,
               labelField: 'name', valueField: 'id',
             },

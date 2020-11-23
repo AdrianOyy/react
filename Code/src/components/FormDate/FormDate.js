@@ -137,7 +137,7 @@ export default function HAInput(props) {
           type={'date'}
           disabled={disabled}
           onChange={(e) => handleChange(e)}
-          defaultValue={defaultValue ? defaultValue : ''}
+          defaultValue={newValue ? newValue : ''}
           className={classes.input}
         />
       </div>

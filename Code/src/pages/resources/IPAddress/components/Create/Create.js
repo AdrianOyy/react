@@ -109,7 +109,16 @@ function Create(props) {
       const { error, msg } = await checkExist(0, map.get("ip"))
       setIpError(error)
       setIpHelperText(msg)
-      return error
+      emptyCheck.error = error
+    }
+
+    if (!emptyCheck.error) {
+      const reg = /^(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$/
+      if (!reg.test(map.get("ip"))) {
+        setIpError(true)
+        setIpHelperText(L('Only accept ip'))
+        emptyCheck.error = true
+      }
     }
     return emptyCheck.error
   }
@@ -122,21 +131,20 @@ function Create(props) {
   }
 
   const vlanIdCheck = async () => {
+    let error = false
     if (map.get("vlanId")) {
       const reg = /^[1-9]\d*$/
       if (!reg.test(map.get("vlanId"))) {
         setVlanIdError(true)
         setVlanIdHelperText(L('Only accept positive integer'))
-        return true
-      } else {
-        setVlanIdError(false)
-        setVlanIdHelperText('')
+        error = true
       }
-    } else {
-      setVlanIdError(false)
+    }
+    if (!error) {
+      setVlanIdError(error)
       setVlanIdHelperText('')
     }
-    return false
+    return error
   }
 
   return (

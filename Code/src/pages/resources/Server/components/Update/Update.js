@@ -16,8 +16,14 @@ function Detail(props) {
   const history = useHistory()
   const [ _IDError, set_IDError ] = useState(false)
   const [ _IDHelperText, set_IDHelperText ] = useState('')
+  const [ AssetIDError, setAssetIDError ] = useState(false)
+  const [ AssetIDHelperText, setAssetIDHelperText ] = useState('')
+  const [ ClosetIDError, setClosetIDError ] = useState(false)
+  const [ ClosetIDHelperText, setClosetIDHelperText ] = useState('')
   const [ EquipTypeError, setEquipTypeError ] = useState(false)
   const [ EquipTypeHelperText, setEquipTypeHelperText ] = useState('')
+  const [ PortQtyError, setPortQtyError ] = useState(false)
+  const [ PortQtyHelperText, setPortQtyHelperText ] = useState('')
   const [ inventory, setInventory ] = useState([])
   const [ errors, setErrors ] = useState({})
 
@@ -25,8 +31,11 @@ function Detail(props) {
 
   const handleClick = async () => {
     const _IDError = await _IDCheck()
+    const AssetIDError = await AssetIDCheck()
+    const ClosetIDError = await ClosetIDCheck()
     const EquipTypeError = await EquipTypeCheck()
-    if (_IDError || EquipTypeError || saving) return
+    const PortQtyError = await PortQtyCheck()
+    if (_IDError || AssetIDError || ClosetIDError || EquipTypeError || PortQtyError || saving) return
     setSaving(true)
     API.update(id,
       map2object(map)
@@ -84,7 +93,8 @@ function Detail(props) {
             },
             {
               id: 'AssetID', label: L('Asset No'), type: 'text',
-              required: false, readOnly: false, value: AssetID
+              required: false, readOnly: false, value: AssetID,
+              error: AssetIDError, helperText: AssetIDHelperText
             },
             {
               id: 'ModelCode', label: L('Model Code'), type: 'text',
@@ -96,7 +106,8 @@ function Detail(props) {
             },
             {
               id: 'ClosetID', label: L('Closet ID'), type: 'text',
-              required: false, readOnly: false, value: ClosetID
+              required: false, readOnly: false, value: ClosetID,
+              error: ClosetIDError, helperText: ClosetIDHelperText
             },
             {
               id: 'Rack', label: L('Cabinet'), type: 'text',
@@ -132,7 +143,8 @@ function Detail(props) {
             },
             {
               id: 'PortQty', label: L('Built-in Port'), type: 'text',
-              required: false, readOnly: false, value: PortQty
+              required: false, readOnly: false, value: PortQty,
+              error: PortQtyError, helperText: PortQtyHelperText
             },
             {
               id: 'ReqNo', label: L('Req. Form'), type: 'text',
@@ -171,14 +183,26 @@ function Detail(props) {
         error: _IDError,
         helperText: _IDHelperText,
       },
+      AssetID: {
+        error: AssetIDError,
+        helperText: AssetIDHelperText,
+      },
+      ClosetID: {
+        error: ClosetIDError,
+        helperText: ClosetIDHelperText,
+      },
       EquipType: {
         error: EquipTypeError,
         helperText: EquipTypeHelperText,
       },
+      PortQty: {
+        error: PortQtyError,
+        helperText: PortQtyHelperText,
+      },
     }
     setErrors(error)
     // eslint-disable-next-line
-  }, [ _IDHelperText, EquipTypeHelperText ])
+  }, [ _IDHelperText, AssetIDHelperText, ClosetIDHelperText, EquipTypeHelperText, PortQtyHelperText ])
 
   const onFormFieldChange = (e, id) => {
     const { value } = e.target
@@ -190,13 +214,56 @@ function Detail(props) {
     set_IDError(emptyCheck.error)
     set_IDHelperText(emptyCheck.msg)
     if (!emptyCheck.error) {
+      const reg = /^[1-9]\d*$/
+      if (!reg.test(map.get("_ID"))) {
+        set_IDError(true)
+        set_IDHelperText(L('Only accept positive integer'))
+        emptyCheck.error = true
+      }
+    }
+    if (!emptyCheck.error) {
       const checkExist = getCheckExist()
       const { error, msg } = await checkExist(id, map.get("_ID"))
       set_IDError(error)
       set_IDHelperText(msg)
-      return error
+      emptyCheck.error = error
     }
+
     return emptyCheck.error
+  }
+
+  const AssetIDCheck = async () => {
+    let error = false
+    if (map.get("AssetID")) {
+      const reg = /^[1-9]\d*$/
+      if (!reg.test(map.get("AssetID"))) {
+        error = true
+        setAssetIDError(error)
+        setAssetIDHelperText(L('Only accept positive integer'))
+      }
+    }
+    if (!error) {
+      setAssetIDError(error)
+      setAssetIDHelperText()
+    }
+    return error
+  }
+
+  const ClosetIDCheck = async () => {
+    let error = false
+    if (map.get("ClosetID")) {
+      const reg = /^[1-9]\d*$/
+      if (!reg.test(map.get("ClosetID"))) {
+        error = true
+        setClosetIDError(error)
+        setClosetIDHelperText(L('Only accept positive integer'))
+      }
+    }
+    if (!error) {
+      setClosetIDError(error)
+      setClosetIDHelperText()
+    }
+    return error
   }
 
   const EquipTypeCheck = async () => {
@@ -204,6 +271,23 @@ function Detail(props) {
     setEquipTypeError(emptyCheck.error)
     setEquipTypeHelperText(emptyCheck.msg)
     return emptyCheck.error
+  }
+
+  const PortQtyCheck = async () => {
+    let error = false
+    if (map.get("PortQty")) {
+      const reg = /^(0|\d+)(\.\d+)?$/
+      if (!reg.test(map.get("PortQty"))) {
+        error = true
+        setPortQtyError(error)
+        setPortQtyHelperText(L('Only accept positive float'))
+      }
+    }
+    if (!error) {
+      setPortQtyError(error)
+      setPortQtyHelperText()
+    }
+    return error
   }
 
   return (
