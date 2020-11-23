@@ -10,6 +10,7 @@ import formatDateTime from "../../../../../utils/formatDateTime"
 function Detail() {
   const { id } = useParams()
   const [ LifeCycles, setLifeCycles ] = useState([])
+  const format = 'DD-MMM-YYYY'
 
   useEffect(() => {
     API.detail(id).then(({ data }) => {
@@ -30,7 +31,7 @@ function Detail() {
           },
           {
             id: 'RecordCreatedOn', label: L('Record Created On'), type: 'text',
-            disabled: true, readOnly: true, value: formatDateTime(defaultValue.RecordCreatedOn)
+            disabled: true, readOnly: true, value: defaultValue.RecordCreatedOn ? formatDateTime(defaultValue.RecordCreatedOn, format) : ''
           },
           {
             id: 'ActionType', label: L('Action Type'), type: 'text',
@@ -46,7 +47,7 @@ function Detail() {
           },
           {
             id: 'ActionDate', label: L('Action Date'), type: 'text',
-            disabled: true, readOnly: true, value: formatDateTime(defaultValue.ActionDate)
+            disabled: true, readOnly: true, value: defaultValue.ActionDate ? formatDateTime(defaultValue.ActionDate, format) : ''
           },
           {
             id: 'RespStaff', label: L('Resp Staff'), type: 'text',

@@ -88,7 +88,7 @@ function List(props) {
         ad_group: el.assign && el.assign.tenant_group_mapping && el.assign.tenant_group_mapping.ad_group ? el.assign.tenant_group_mapping.ad_group.name : '',
         role: el.assign && el.assign.role ? el.assign.role.label : '',
         user: el.user ? el.user.displayname : '',
-        expiryDate: el.expiryDate ? formatDateTime(el.expiryDate) : '',
+        expiryDate: el.expiryDate ? formatDateTime(el.expiryDate, 'DD-MMM-YYYY') : '',
         createdAt: formatDateTime(el.createdAt),
         updatedAt: formatDateTime(el.updatedAt),
       }

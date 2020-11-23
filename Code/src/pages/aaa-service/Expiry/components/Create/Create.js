@@ -19,10 +19,8 @@ export default function Create() {
   const [ saving, setSaving ] = useState(false)
   const [ assignError, setAssignError ] = useState(false)
   const [ assignHelperText, setAssignHelperText ] = useState("")
-  const [ assignList, setAssignList ] = useState([])
   const [ userError, setUserError ] = useState('')
   const [ userHelperText, setUserHelperText ] = useState('')
-  const [ userList, setUserList ] = useState([])
   const [ expiryDateError, setExpiryDateError ] = useState(false)
   const [ expiryDateHelperText, setExpiryDateHelperText ] = useState("")
   const [ errors, setErrors ] = useState({})
@@ -43,42 +41,48 @@ export default function Create() {
       })
   }
 
-  // 获取 assignList 和 userList
   useEffect(() => {
     assignApi.handledList().then(({ data }) => {
-      if (data) {
-        setAssignList(data.data)
-      }
-    })
-
-    userApi.list({ limit: 999, page: 1 }).then(({ data }) => {
       if (data && data.data) {
-        const { rows } = data.data
-        setUserList(rows)
+        return data.data
+      } else {
+        return []
       }
+    }).then(returnObj => {
+      userApi.list({ limit: 999, page: 1 }).then(({ data }) => {
+        if (data && data.data) {
+          return {
+            assignList: returnObj,
+            userList: data.data.rows,
+          }
+        } else {
+          return {
+            assignList: returnObj,
+            userList: [],
+          }
+        }
+      }).then(returnObj => {
+        const list = [
+          {
+            id: 'assign', label: L('Tenant + Group + Role'), type: 'select', value: assignId, required: true,
+            itemList: returnObj.assignList, labelField: 'value', valueField: 'id', width: 1.4,
+            error: assignError, helperText: assignHelperText, labelWidth: 150,
+          },
+          {
+            id: 'user', label: L('User'), type: 'select', value: userId, required: true,
+            itemList: returnObj.userList, labelField: 'displayname', valueField: 'id',
+            error: userError, helperText: userHelperText, labelWidth: 30,
+          },
+          {
+            id: 'expiryDate', label: L('Expiry Date'), type: 'date', disabled: false, readOnly: false,
+            required: true, value: expiryDate, error: expiryDateError, helperText: expiryDateHelperText
+          },
+        ]
+        setFormFieldList(list)
+      })
     })
-  }, [])
-
-  useEffect(() => {
-    const list = [
-      {
-        id: 'assign', label: L('Tenant + Group + Role'), type: 'select', value: assignId, required: true,
-        itemList: assignList, labelField: 'value', valueField: 'id', width: 1.4,
-        error: assignError, helperText: assignHelperText, labelWidth: 150,
-      },
-      {
-        id: 'user', label: L('User'), type: 'select', value: userId, required: true,
-        itemList: userList, labelField: 'displayname', valueField: 'id',
-        error: userError, helperText: userHelperText, labelWidth: 30,
-      },
-      {
-        id: 'expiryDate', label: L('Expiry Date'), type: 'date', disabled: false, readOnly: false,
-        required: true, value: expiryDate, error: expiryDateError, helperText: expiryDateHelperText
-      },
-    ]
-    setFormFieldList(list)
     // eslint-disable-next-line
-  }, [ assignList, userList ])
+  }, [])
 
   useEffect(() => {
     const errors = {

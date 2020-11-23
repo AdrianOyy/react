@@ -27,7 +27,7 @@ function AssignDetail() {
           { id: 'adGroup', label: L('AD Group'), type: 'text', disabled: true, readOnly: true, value: adGroup },
           { id: 'role', label: L('Role'), type: 'text', disabled: true, readOnly: true, value: role },
           { id: 'user', label: L('User'), type: 'text', disabled: true, readOnly: true, value: user },
-          { id: 'expiryDate', label: L('Expiry Date'), type: 'text', disabled: true, readOnly: true, value: formatDateTime(defaultValue.expiryDate) },
+          { id: 'expiryDate', label: L('Expiry Date'), type: 'text', disabled: true, readOnly: true, value: formatDateTime(defaultValue.expiryDate, 'DD-MMM-YYYY') },
           { id: 'createdAt', label: L('Created At'), type: 'text', disabled: true, readOnly: true, value: formatDateTime(defaultValue.createdAt) },
           { id: 'updatedAt', label: L('Updated At'), type: 'text', disabled: true, readOnly: true, value: formatDateTime(defaultValue.updatedAt) },
         ]
