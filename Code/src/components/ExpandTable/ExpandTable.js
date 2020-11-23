@@ -22,7 +22,8 @@ import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp'
 import { spacing } from "@material-ui/system"
 import styled from "styled-components"
 
-const Card = styled(MuiCard)(spacing)
+let Card = styled(MuiCard)(spacing)
+Card = styled(Card)`border-radius: 1em; margin:0 auto;`
 
 function ExpandTable(props) {
   const { label, rows, show } = props
@@ -31,6 +32,7 @@ function ExpandTable(props) {
   if (show.index + 1 < show.list.length) {
     expand.push(1)
   }
+
   return (
     <Card mb={6}>
       <CardContent>
@@ -57,7 +59,7 @@ function ExpandTable(props) {
               </TableRow>
             </TableHead>
             <TableBody>
-              {rows && rows.map((row, i) => (
+              {rows && rows.length > 0 && rows.map((row, i) => (
                 <ExpandRow key={i} show={show} row={row} expand={expand} />
               ))}
             </TableBody>
@@ -73,16 +75,17 @@ function ExpandRow(props) {
   const [ open, setOpen ] = useState(false)
 
   const listrows = []
+
   show.list.map((_, i) => {
-    if (i !== 0) {
-      listrows.push({ id: i, label: show.labels[i], value: row[_] })
+    if (i !== 0 && row) {
+      listrows.push({ id: i, label: show.labels[i], value: row ? row[_] : '' })
     }
     return _
   })
 
   return (
     <React.Fragment>
-      <TableRow key={row[0]}>
+      <TableRow key={row ? row[0] : 0}>
         {
           listrows.map((_, i) => {
             if (i === 0) {
@@ -94,7 +97,7 @@ function ExpandRow(props) {
           })
         }
         {
-          expand && expand.length > 0 && expand.map(_ => {
+          expand && row && expand.length > 0 && expand.map(_ => {
             return <TableCell key={_.id}> <IconButton aria-label="expand row" size="small" onClick={() => setOpen(!open)}> {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />} </IconButton> </TableCell>
           })
         }

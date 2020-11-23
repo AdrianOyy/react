@@ -45,7 +45,9 @@ TabPanel.propTypes = {
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
+    width: '70%',
     backgroundColor: theme.palette.background.paper,
+    margin: '0 auto',
   },
 }))
 
@@ -128,7 +130,7 @@ function Detail() {
   const classes = useStyles()
   const [ value, setValue ] = React.useState(0)
 
-  const handleChange = (newValue) => {
+  const handleChange = (event, newValue) => {
     setValue(newValue)
   }
 

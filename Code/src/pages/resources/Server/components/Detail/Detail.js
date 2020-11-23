@@ -12,7 +12,9 @@ import { makeStyles } from '@material-ui/core/styles'
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
+    width: '70%',
     backgroundColor: theme.palette.background.paper,
+    margin: '0 auto',
   },
 }))
 
