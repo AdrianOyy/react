@@ -8,7 +8,7 @@ import CommonTip from "../../../../../components/CommonTip"
 import { useHistory } from 'react-router-dom'
 import { checkEmpty, getCheckExist } from "../../untils/RoleFieldCheck"
 import { L } from '../../../../../utils/lang'
-
+import { map2object } from "../../../../../utils/map2object"
 
 function Detail(props) {
   const { map } = props
@@ -29,7 +29,7 @@ function Detail(props) {
     const valueError = valueCheck()
     if (labelError || valueError ||  saving) return
     setSaving(true)
-    roleApi.update(id, { label: map && map.get('label'), value: map && map.get('value') })
+    roleApi.update(id, map2object(map))
       .then(() => {
         CommonTip.success(L('Success'))
         history.push({ pathname: '/aaa-service/role' })
@@ -104,9 +104,10 @@ function Detail(props) {
   }
 
   const valueCheck = () => {
-    const { error, msg } = checkEmpty("value", map && map.get('value'))
-    setValueError(error)
-    setValueHelperText(msg)
+    const emptyCheck = checkEmpty("value", map && map.get('value'))
+    setValueError(emptyCheck.error)
+    setValueHelperText(emptyCheck.msg)
+    return emptyCheck.error
   }
 
   return (

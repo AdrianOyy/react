@@ -6,7 +6,7 @@ import { L } from '../../../../../utils/lang'
 import CommonTip from "../../../../../components/CommonTip"
 import { useHistory } from 'react-router-dom'
 import { checkEmpty, getCheckExist } from "../../untils/LifeCycleFieldCheck"
-
+import { map2object } from "../../../../../utils/map2object"
 
 function Create(props) {
   const { map } = props
@@ -22,20 +22,7 @@ function Create(props) {
     if (_IDError || saving) return
     setSaving(true)
     API.create(
-      {
-        _ID: map.get("_ID"),
-        InventoryID: map.get("InventoryID"),
-        AssetID: map.get("AssetID"),
-        RecordCreatedOn: map.get("RecordCreatedOn"),
-        ActionType: map.get("ActionType"),
-        ActionDetails: map.get("ActionDetails"),
-        SuccessorInventoryID: map.get("SuccessorInventoryID"),
-        ActionDate: map.get("ActionDate"),
-        RespStaff: map.get("RespStaff"),
-        RespStaffDisplayName: map.get("RespStaffDisplayName"),
-        Reason: map.get("Reason"),
-        CaseRef: map.get("CaseRef")
-      }
+      map2object(map)
     )
       .then(() => {
         CommonTip.success(L('Success'))
@@ -132,12 +119,21 @@ function Create(props) {
     set_IDError(emptyCheck.error)
     set_IDHelperText(emptyCheck.msg)
     if (!emptyCheck.error) {
+      const reg = /^[1-9]\d*$/
+      if (!reg.test(map.get("_ID"))) {
+        set_IDError(true)
+        set_IDHelperText(L('Only accept positive integer'))
+        emptyCheck.error = true
+      }
+    }
+    if (!emptyCheck.error) {
       const checkExist = getCheckExist()
       const { error, msg } = await checkExist(0, map.get("_ID"))
       set_IDError(error)
       set_IDHelperText(msg)
-      return error
+      emptyCheck.error = error
     }
+
     return emptyCheck.error
   }
 
