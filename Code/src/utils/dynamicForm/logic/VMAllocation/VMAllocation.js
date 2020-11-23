@@ -56,6 +56,7 @@ class VM extends Common {
     }
   }
 
+
   //  =====================================
   //                 parent
   //  =====================================
@@ -101,6 +102,7 @@ class VM extends Common {
     switch (fieldName) {
       case 'cpu_request_number':
         onCPUChange(value, this.currentChildrenData)
+        this.currentChildrenData.set(fieldName, value)
         break
       default:
         this.currentChildrenData.set(fieldName, value)

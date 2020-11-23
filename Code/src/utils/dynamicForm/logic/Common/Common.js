@@ -125,8 +125,8 @@ export class Common {
 
   // 异步字段验证
   asyncCheck(field) {
-    const { fieldName, required, fieldDisplayName, show } = field
-    if (show && required && this.isEmpty(fieldName)) {
+    const { fieldName, required, fieldDisplayName, show, isParent } = field
+    if (show && required && this.isEmpty(fieldName, isParent)) {
       const message = `${fieldDisplayName} is required`
       this.parentFieldError.set(fieldName, message)
       return { error: true, message }

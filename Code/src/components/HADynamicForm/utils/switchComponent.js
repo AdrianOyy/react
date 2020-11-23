@@ -20,6 +20,7 @@ const switchComponent = (el, i, logic, style, isParent) => {
           onChange={logic ? (isParent ? logic.onParentFieldChange : logic.onChildFieldChange) : undefined}
           checkField={logic ? (isParent ? logic.checkParentField : logic.checkChildField) : undefined}
           style={style[field.fieldName] ? style[field.fieldName] : style.commonElement}
+          isParent={isParent}
         />
       )
     case 'checkbox':
@@ -31,6 +32,7 @@ const switchComponent = (el, i, logic, style, isParent) => {
           onChange={logic ? (isParent ? logic.onParentFieldChange : logic.onChildFieldChange) : undefined}
           checkField={logic ? (isParent ? logic.checkParentField : logic.checkChildField) : undefined}
           style={style[field.fieldName] ? style[field.fieldName] : style.commonElement}
+          isParent={isParent}
         />
       )
     case 'inputCheck':
@@ -42,6 +44,7 @@ const switchComponent = (el, i, logic, style, isParent) => {
           checkField={logic ? (isParent ? logic.checkParentField : logic.checkChildField) : undefined}
           asyncCheck={logic ? logic.asyncCheck : undefined}
           style={style[field.fieldName] ? style[field.fieldName] : style.commonElement}
+          isParent={isParent}
         />
       )
     case 'list':
@@ -52,6 +55,7 @@ const switchComponent = (el, i, logic, style, isParent) => {
           onChange={logic ? (isParent ? logic.onParentFieldChange : logic.onChildFieldChange) : undefined}
           asyncCheck={logic ? logic.asyncCheck : undefined}
           style={style[field.fieldName] ? style[field.fieldName] : style.commonElement}
+          isParent={isParent}
         />
       )
     case 'date':
@@ -62,6 +66,7 @@ const switchComponent = (el, i, logic, style, isParent) => {
           onChange={logic ? (isParent ? logic.onParentFieldChange : logic.onChildFieldChange) : undefined}
           asyncCheck={logic ? logic.asyncCheck : undefined}
           style={style[field.fieldName] ? style[field.fieldName] : style.commonElement}
+          isParent={isParent}
         />
       )
     default:
@@ -73,6 +78,7 @@ const switchComponent = (el, i, logic, style, isParent) => {
           onBlur={logic ? (isParent ? logic.onParentFieldChange : logic.onChildFieldChange) : undefined}
           checkField={logic ? (isParent ? logic.checkParentField : logic.checkChildField) : undefined}
           style={style[field.fieldName] ? style[field.fieldName] : style.commonElement}
+          isParent={isParent}
         />
       )
   }
