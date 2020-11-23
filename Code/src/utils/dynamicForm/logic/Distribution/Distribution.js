@@ -9,6 +9,7 @@ import { CREATE, HA4, UPDATE } from "../../../variable/stepName"
 import { isEmail } from "../../../regex"
 import accountManagementAPI from "../../../../api/accountManagement"
 import ContractItems from "../../../../components/ContractItems/ContractItems"
+import { getUser } from "../../../auth"
 
 
 class Distribution extends Common {
@@ -35,10 +36,21 @@ class Distribution extends Common {
   }
 
   shouldContinue(item) {
-    if (this.parentData.get('isowner') && item.remark === 'isowner') return true
+    if (item.remark === 'isowner' && this.parentData.get('isowner') && this.parentData.get('isowner').size) {
+      return true
+    }
     if (this.stepName && this.stepName === CREATE && !item.showOnRequest) return true
     if (this.stepName && this.stepName !== HA4 && item.fieldName === 'distributionlistid') return true
     return false
+  }
+
+  async getInitData() {
+    const user = getUser()
+    const parentInitData = new Map()
+    if (user) {
+      parentInitData.set('surname', user.cn)
+    }
+    return { parentInitData }
   }
 
   getParentTitle() {

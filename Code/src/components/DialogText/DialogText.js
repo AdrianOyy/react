@@ -34,7 +34,6 @@ function DialogText(props) {
             id="name"
             label={label}
             type="email"
-            fullWidth
           />
         </DialogContent>
         <DialogActions>

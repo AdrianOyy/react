@@ -14,6 +14,7 @@ import VMStatus, { SUCCESS } from '../../../variable/VMStatus'
 import Api from "../../../../api/diyForm"
 import { L } from "../../../lang"
 import CommonTip from "../../../../components/CommonTip"
+import { isNonNegativeInteger } from "../../../regex"
 
 export class Common {
   // 构造函数
@@ -30,6 +31,8 @@ export class Common {
     this.deleteChild = this.deleteChild.bind(this)
     this.deleteAllChild = this.deleteAllChild.bind(this)
     this.asyncCheck = this.asyncCheck.bind(this)
+    this.getParentErrorMessageList = this.getParentErrorMessageList.bind(this)
+    this.getChildFormErrorMessageList = this.getChildFormErrorMessageList.bind(this)
     const {
       processDefinitionId,
       workflowName,
@@ -180,6 +183,14 @@ export class Common {
   //                 parent
   //  =====================================
 
+  getParentErrorMessageList() {
+    let messageList = []
+    this.parentFieldError && this.parentFieldError.forEach(message => {
+      message && messageList.push(message)
+    })
+    return messageList
+  }
+
   getContractList() {
     return null
   }
@@ -206,6 +217,13 @@ export class Common {
       let defaultValue
       if (item && item.type === "checkbox") {
         defaultValue = parentInitData.get(item.fieldName) && parentInitData.get(item.fieldName).split('!@#')
+        const initData = new Set()
+        const { itemList } = item
+        defaultValue && defaultValue.forEach(el => {
+          const [ target ] = itemList.filter(e => e.type === el)
+          target && target.id && initData.add(target.id)
+        })
+        parentInitData.set(item.fieldName, initData)
       } else if (item && item.type === 'list') {
         defaultValue = parentInitData.get(item.fieldName) && parentInitData.get(item.fieldName).split('!@#')
       } else {
@@ -301,6 +319,14 @@ export class Common {
     return 'child'
   }
 
+  getChildFormErrorMessageList() {
+    let messageList = []
+    this.childFieldError && this.childFieldError.forEach(message => {
+      message && messageList.push(message)
+    })
+    return messageList
+  }
+
   // 获取子表显示用数据
   getChildLabelValue(fieldName, value) {
     if (!value) return value
@@ -366,11 +392,22 @@ export class Common {
     const { fieldName, required, fieldDisplayName, show } = field
     if (show && required && this.isEmpty(fieldName, false)) {
       const message = `${fieldDisplayName} is required`
-      this.parentFieldError.set(fieldName, message)
+      this.childFieldError.set(fieldName, message)
       return { error: true, message }
     }
-    this.parentFieldError.set(fieldName, null)
+    const value = this.currentChildrenData.get(fieldName)
+    if (show && (fieldName === 'cpu_request_number' || fieldName === 'ram_request_number') && !isNonNegativeInteger(value)) {
+      const message = `${fieldDisplayName} Only receive non-negative integer`
+      this.childFieldError.set(fieldName, message)
+      return { error: true, message }
+    }
+    this.childFieldError.set(fieldName, null)
     return { error: false, message: '' }
+  }
+
+  // 验证子表是否为空
+  checkChildLength() {
+    return true
   }
 
   // 验证子表所有字段
@@ -424,7 +461,8 @@ export class Common {
     const handleSave = () => {
       const pass = this.checkAllChildField()
       if (!pass) {
-        CommonTip.error("Please check your data")
+        let messageList = this.getChildFormErrorMessageList()
+        CommonTip.error(messageList.length ? messageList[0] : "Please check your data")
         return
       }
       this.saveChildForm(currentIndex)

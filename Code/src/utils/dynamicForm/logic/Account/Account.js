@@ -68,6 +68,7 @@ class Account extends Common {
     parentInitData.set('section', 'ie')
     parentInitData.set('stafftype', 'Head Office')
     parentInitData.set('supervisoremailaccount', 'rexshen@apjcorp.com')
+    parentInitData.set('hkid', '12345678')
     return { parentInitData }
   }
   // 获取 checkBox 联动状态
@@ -184,9 +185,6 @@ class AccountDetail extends Account {
     if (parentData) {
       parentInitData = object2map(parentData)
     }
-    console.log('parentInitData=========================parentInitData')
-    console.log(parentInitData)
-    console.log('parentInitData=========================parentInitData')
     if (childDataList && childDataList.length) {
       childDataList.forEach(childData => {
         childInitData.push(object2map(childData))

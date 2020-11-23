@@ -28,7 +28,14 @@ export function CommonActions(props) {
   const handleCheck = async () => {
     const checkRes = await logic.checkAllParentField()
     if (!checkRes) {
-      CommonTip.error("Please check your data")
+      let messageList = logic.getParentErrorMessageList()
+      CommonTip.error(messageList.length ? messageList[0] : "Please check your data")
+      return
+    }
+    const childRes = logic.checkChildLength()
+    if (!childRes) {
+      const title = logic.getChildTableTitle()
+      CommonTip.error(`${title ? title : 'Child table'} can not be null`)
       return
     }
     handleContract()
@@ -137,7 +144,8 @@ export function UpdateActions(props) {
   const handleUpdate = async () => {
     const res = await logic.checkAllParentField()
     if (!res) {
-      CommonTip.error("Please check your data")
+      let messageList = logic.getParentErrorMessageList()
+      CommonTip.error(messageList.length ? messageList[0] : "Please check your data")
       return
     }
     Loading.show()
@@ -209,7 +217,8 @@ export function VMT3Actions(props) {
   const handleSave = async () => {
     const res = await logic.checkAllParentField()
     if (!res) {
-      CommonTip.error("Please check your data")
+      let messageList = logic.getParentErrorMessageList()
+      CommonTip.error(messageList.length ? messageList[0] : "Please check your data")
       return
     }
     let checkAllChild = true

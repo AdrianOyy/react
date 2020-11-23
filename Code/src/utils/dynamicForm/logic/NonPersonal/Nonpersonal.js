@@ -74,10 +74,23 @@ class NonPersonal extends Common {
   }
 
   shouldContinue(item) {
-    if (this.parentData.get('issame') && item.remark === 'issame') return true
+    if (item.remark === 'issame' && this.parentData.get('issame').size) return true
     if (this.stepName && this.stepName === CREATE && !item.showOnRequest) return true
     if (this.stepName && this.stepName !== HA4 && item.fieldName === 'emailid') return true
     return false
+  }
+
+  hideItem() {
+    const issame = this.parentData.get('issame')
+    if (issame && issame.size) return
+    const hideFieldList = this.remarkedItem.get('issame')
+    hideFieldList.forEach(hideField => {
+      const id = 'element_' + hideField
+      const el = document.getElementById(id)
+      el && (el.style.display = 'none')
+      const [ target ] = this.parentInitDetail.filter(e => e.fieldName === hideField)
+      target.show = false
+    })
   }
 
   getDisabled(item, isParent = false) {
@@ -87,11 +100,16 @@ class NonPersonal extends Common {
 
   onParentFieldChange(fieldName, value) {
     if (fieldName === 'issame') {
-      const id = 'element_' +  this.remarkedItem.get('issame')[0]
-      const el = document.getElementById(id)
-      el && (el.style.display = value.size ? 'none' : 'block')
-      const [ item ] = this.parentInitDetail.filter(e => e.remark === fieldName)
-      item.show = !value.size
+      const remarkItemList = this.remarkedItem.get('issame')
+      if (remarkItemList && remarkItemList.length) {
+        remarkItemList.forEach(remarkItem => {
+          const id = 'element_' +  remarkItem
+          const el = document.getElementById(id)
+          el && (el.style.display = value.size ? 'block' : 'none')
+          const [ item ] = this.parentInitDetail.filter(e => e.remark === fieldName)
+          item.show = !!value.size
+        })
+      }
     }
     this.parentData.set(fieldName, value)
     return value

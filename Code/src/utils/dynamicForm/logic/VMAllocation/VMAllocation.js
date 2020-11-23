@@ -14,6 +14,7 @@ import API from "../../../../api/diyForm"
 import CommonTip from "../../../../components/CommonTip"
 import { CHECKED, SKIP, SUCCESS } from "../../../variable/VMStatus"
 import color from "../../../theme/color"
+import { isNonNegativeInteger } from "../../../regex"
 
 class VM extends Common {
   //  =====================================
@@ -57,6 +58,25 @@ class VM extends Common {
   }
 
 
+  // 异步字段验证
+  asyncCheck(field) {
+    let message = ''
+    const { fieldName, required, fieldDisplayName, show, isParent } = field
+    if (show && required && this.isEmpty(fieldName, isParent)) {
+      message = `${fieldDisplayName} is required`
+      isParent ? this.parentFieldError.set(fieldName, message) :  this.childFieldError.set(fieldName, message)
+      return { error: true, message }
+    }
+    const value = isParent ? this.parentData.get(fieldName) : this.currentChildrenData.get(fieldName)
+    if ((fieldName === 'cpu_request_number' || fieldName === 'ram_request_number') && !isNonNegativeInteger(value)) {
+      message = `Only receive non-negative integer`
+      this.childFieldError.set(fieldName, message)
+      return { error: true, message }
+    }
+    this.parentFieldError.set(fieldName, null)
+    return { error: false, message }
+  }
+
   //  =====================================
   //                 parent
   //  =====================================
@@ -84,6 +104,14 @@ class VM extends Common {
   // 获取子表表格标题
   getChildTableTitle() {
     return 'VM List'
+  }
+
+  // 验证子表是否为空
+  checkChildLength() {
+    if (this.childInitDetail && this.childInitDetail.length) {
+      return this.childrenDataList.length !== 0
+    }
+    return true
   }
 
   // 获取子表标题
@@ -413,7 +441,7 @@ class VMT3 extends VMUpdate {
 function onCPUChange(value, currentChildrenData) {
   const ramEl = document.getElementById('ram_request_number')
   if (ramEl) {
-    ramEl.value = parseInt(value) ? parseInt(value) * 8 : ramEl.value
+    ramEl.value = isNonNegativeInteger(value) ? parseInt(value) * 8 : ramEl.value
     currentChildrenData.set('ram_request_number', ramEl.value)
   }
   currentChildrenData.set('cpu_request_number', value)

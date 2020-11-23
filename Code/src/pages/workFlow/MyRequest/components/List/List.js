@@ -157,9 +157,9 @@ function List(props) {
 
   // 自定义action
   const actionList = [
-    { label: L('download'), icon: <GetAppIcon fontSize="small" style={{ color: '#2553F4' }} />, handleClick: handleDownload, display },
     { label: L('edit'), icon: <BorderColorIcon fontSize="small" style={{ color: '#2553F4' }} />, handleClick: handleDetail },
     { label: L('step'), icon: <ReorderIcon fontSize="small" style={{ color: '#2553F4' }} />, handleClick: handleStep },
+    { label: L('download'), icon: <GetAppIcon fontSize="small" style={{ color: '#2553F4' }} />, handleClick: handleDownload, display },
   ]
 
   return (

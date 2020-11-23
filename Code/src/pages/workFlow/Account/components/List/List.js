@@ -186,10 +186,8 @@ function List(props) {
             <DialogActions>
               <Button
                 variant="contained"
-                fullwidth
                 onClick={() => { setShown(false) }}>{L('Cancel')}</Button>
               <Button
-                fullwidth
                 variant="contained"
                 color="primary"
                 style={{ marginRight: '2ch' }}
