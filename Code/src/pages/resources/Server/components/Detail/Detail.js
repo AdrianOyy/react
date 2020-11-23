@@ -130,15 +130,15 @@ function Detail() {
           },
           {
             id: 'DOB', label: L('DOB'), type: 'text',
-            disabled: true, readOnly: true, value: formatDateTime(DOB)
+            disabled: true, readOnly: true, value: DOB ? formatDateTime(DOB) : ''
           },
           {
             id: 'DeliveryDate', label: L('Delivery Date'), type: 'text',
-            disabled: true, readOnly: true, value: formatDateTime(DeliveryDate)
+            disabled: true, readOnly: true, value: DeliveryDate ? formatDateTime(DeliveryDate) : ''
           },
           {
             id: 'DeliveryNoteReceivedDate', label: L('Delivery Note Received Date'), type: 'text',
-            disabled: true, readOnly: true, value: formatDateTime(DeliveryNoteReceivedDate)
+            disabled: true, readOnly: true, value: DeliveryNoteReceivedDate ? formatDateTime(DeliveryNoteReceivedDate) : ''
           },
           {
             id: 'MaintID', label: L('MaintID'), type: 'text',

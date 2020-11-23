@@ -152,15 +152,15 @@ function Update(props) {
             },
             {
               id: 'DOB', label: L('DOB'), type: 'date',
-              required: false, readOnly: false, value: formatDateTime(DOB)
+              required: false, readOnly: false, value: DOB ? formatDateTime(DOB) : ''
             },
             {
               id: 'DeliveryDate', label: L('Delivery Date'), type: 'date',
-              required: false, readOnly: false, value: formatDateTime(DeliveryDate)
+              required: false, readOnly: false, value: DeliveryDate ? formatDateTime(DeliveryDate) : ''
             },
             {
               id: 'DeliveryNoteReceivedDate', label: L('Delivery Note Received Date'), type: 'date',
-              required: false, readOnly: false, value: formatDateTime(DeliveryNoteReceivedDate)
+              required: false, readOnly: false, value: DeliveryNoteReceivedDate ? formatDateTime(DeliveryNoteReceivedDate) : ''
             },
             {
               id: 'MaintID', label: L('MaintID'), type: 'text',
