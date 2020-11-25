@@ -71,7 +71,7 @@ function List(props) {
     { id: 'startTime', alignment: 'left', label: L('Start Date') },
     { id: 'endTime', alignment: 'left', label: L('End Date') },
     { id: 'state', alignment: 'left', label: L('State') },
-    { id: 'action', alignment: 'center', label: L('Action') },
+    { id: 'action', alignment: 'left', label: L('Action') },
   ]
 
   // 每行显示的字段
@@ -157,9 +157,9 @@ function List(props) {
 
   // 自定义action
   const actionList = [
-    { label: L('edit'), icon: <BorderColorIcon fontSize="small" style={{ color: '#2553F4' }} />, handleClick: handleDetail },
-    { label: L('step'), icon: <ReorderIcon fontSize="small" style={{ color: '#2553F4' }} />, handleClick: handleStep },
-    { label: L('download'), icon: <GetAppIcon fontSize="small" style={{ color: '#2553F4' }} />, handleClick: handleDownload, display },
+    { label: L('Detail'), icon: <BorderColorIcon fontSize="small" style={{ color: '#2553F4' }} />, handleClick: handleDetail },
+    { label: L('Process'), icon: <ReorderIcon fontSize="small" style={{ color: '#2553F4' }} />, handleClick: handleStep },
+    { label: L('Download'), icon: <GetAppIcon fontSize="small" style={{ color: '#2553F4' }} />, handleClick: handleDownload, display },
   ]
 
   return (

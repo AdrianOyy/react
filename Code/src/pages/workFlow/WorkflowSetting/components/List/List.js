@@ -65,7 +65,7 @@ function List(props) {
     { id: 'id', alignment: 'left', label: L('Model Id') },
     { id: 'version', alignment: 'left', label: L('Version') },
     { id: 'deploymentId', alignment: 'left', label: L('Deployment Id') },
-    { id: 'action', alignment: 'center', label: L('Action') },
+    { id: 'action', alignment: 'left', label: L('Action') },
   ]
 
   // 每行显示的字段
@@ -112,9 +112,9 @@ function List(props) {
 
   // 自定义action
   const actionList = [
-    { label: L('edit'), icon: <BorderColorIcon fontSize="small" style={{ color: '#2553F4' }} />, handleClick: customEdit },
-    { label: L('setting'), icon: <SettingsIcon fontSize="small" style={{ color: '#2553F4' }} />, handleClick: handleSetting },
-    { label: L('event'), icon: <EventAvailableIcon fontSize="small" style={{ color: '#2553F4' }} />, handleClick: handlePublish },
+    { label: L('Workflow Setting'), icon: <BorderColorIcon fontSize="small" style={{ color: '#2553F4' }} />, handleClick: customEdit },
+    { label: L('Form Setting'), icon: <SettingsIcon fontSize="small" style={{ color: '#2553F4' }} />, handleClick: handleSetting },
+    { label: L('Deploy'), icon: <EventAvailableIcon fontSize="small" style={{ color: '#2553F4' }} />, handleClick: handlePublish },
   ]
 
   const customCreate = () => {
