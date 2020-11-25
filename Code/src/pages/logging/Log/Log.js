@@ -152,8 +152,8 @@ export default function List() {
       logType,
       request,
       response,
-      startDate,
-      endDate,
+      startDate: startDate ? formatDateTime(startDate, 'YYYY-MM-DD') + ' 00:00:00' : startDate,
+      endDate: endDate ? formatDateTime(endDate, 'YYYY-MM-DD') + ' 23:59:59' : endDate,
     })
   }
 

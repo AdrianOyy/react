@@ -68,7 +68,6 @@ class Account extends Common {
     parentInitData.set('section', 'ie')
     parentInitData.set('stafftype', 'Head Office')
     parentInitData.set('supervisoremailaccount', 'rexshen@apjcorp.com')
-    parentInitData.set('hkid', '12345678')
     return { parentInitData }
   }
   // 获取 checkBox 联动状态

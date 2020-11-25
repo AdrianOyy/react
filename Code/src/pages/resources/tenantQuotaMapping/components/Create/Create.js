@@ -80,7 +80,7 @@ function Create(props) {
 
   useEffect(() => {
     const errors = {
-      tenant: {
+      tenantId: {
         error: tenantError,
         helperText: tenantHelperText,
       },

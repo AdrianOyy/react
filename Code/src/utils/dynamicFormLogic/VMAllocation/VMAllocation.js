@@ -42,7 +42,7 @@ export default class VMAllocation {
     const cpu_request_number = childDataMap.get('cpu_request_number') && childDataMap.get('cpu_request_number').value
     const ram_request_number = childDataMap.get('ram_request_number') && childDataMap.get('ram_request_number').value
     if (ram_request_number && cpu_request_number && parseInt(ram_request_number) / parseInt(cpu_request_number) > 8) {
-      CommonTip.error('ram is 8 times larger than cpu')
+      CommonTip.error('RAM is 8 times larger than cpu')
       return false
     }
     return true

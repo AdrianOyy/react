@@ -141,8 +141,8 @@ class VM extends Common {
   getChildHeaderCellList() {
     const res = [
       { id: 'platform', label: 'Platform', alignment: 'left' },
-      { id: 'cpu_request_number', label: 'Cpu Request Number', alignment: 'left' },
-      { id: 'ram_request_number', label: 'Ram Request Number', alignment: 'left' },
+      { id: 'cpu_request_number', label: 'CPU Request Number', alignment: 'left' },
+      { id: 'ram_request_number', label: 'RAM Request Number', alignment: 'left' },
       { id: 'data_storage_request_number', label: 'Data Storage Request Number', alignment: 'left' },
     ]
     if (this.stepName !== CREATE) {
