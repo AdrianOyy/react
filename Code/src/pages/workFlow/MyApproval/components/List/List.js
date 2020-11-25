@@ -76,7 +76,7 @@ function List(props) {
     { id: 'name', alignment: 'left', label: L('Name') },
     { id: 'createBy', alignment: 'left', label: L('Create By') },
     { id: 'createTime', alignment: 'left', label: L('Create Time') },
-    { id: 'action', alignment: 'center', label: L('Action') },
+    { id: 'action', alignment: 'left', label: L('Action') },
   ]
 
   // 每行显示的字段
@@ -151,9 +151,9 @@ function List(props) {
   }
 
   const actionList = [
-    { label: L('step'), icon: <ReorderIcon fontSize="small" style={{ color: '#2553F4' }} />, handleClick: handleStep },
-    { label: L('edit'), icon: <BorderColorIcon fontSize="small" style={{ color: '#2553F4' }} />, handleClick: handleDetail },
-    { label: L('message'), icon: <ChatIcon fontSize="small" style={{ color: '#2553F4' }} />, handleClick: handleChatBox },
+    { label: L('Process'), icon: <ReorderIcon fontSize="small" style={{ color: '#2553F4' }} />, handleClick: handleStep },
+    { label: L('Approve'), icon: <BorderColorIcon fontSize="small" style={{ color: '#2553F4' }} />, handleClick: handleDetail },
+    { label: L('Message'), icon: <ChatIcon fontSize="small" style={{ color: '#2553F4' }} />, handleClick: handleChatBox },
   ]
 
   const handleClose = () => {

@@ -152,9 +152,9 @@ export default function Contract(props) {
     <div>
       <Dialog
         open={open}
-        keepMounted
         onEnter={onEnter}
         onClose={onClose}
+        keepMounted
         disableBackdropClick
         disableEscapeKeyDown
         TransitionComponent={Transition}
