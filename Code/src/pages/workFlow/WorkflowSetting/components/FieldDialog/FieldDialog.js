@@ -85,7 +85,6 @@ export default function FieldDialog(props) {
     onClose,
     handleSave
   } = props
-  console.log(`%c${'dialog in'}`, 'background-color: black; color: red; font-size: 30px;')
 
   const [ data, setData ] = useState({})
   const [ showExtend, setShowExtend ] = useState(false)
@@ -94,7 +93,7 @@ export default function FieldDialog(props) {
     if (initData) {
       setData({ ...initData })
       const { inputType } = initData
-      if (inputType === 'select') {
+      if (inputType === 'select' || inputType === 'checkbox') {
         setShowExtend(true)
       }
     }
@@ -117,7 +116,14 @@ export default function FieldDialog(props) {
   const onChange = (fieldName, value) => {
     data && (data[fieldName] = value)
     if (fieldName === 'inputType') {
-      value === 'select' ? setShowExtend(true) : setShowExtend(false)
+      if (value === 'select' || value === 'checkbox') {
+        setShowExtend(true)
+      } else {
+        setShowExtend(false)
+        data.foreignTable = null
+        data.foreignKey = null
+        data.foreignDisplayKey = null
+      }
     }
   }
 
