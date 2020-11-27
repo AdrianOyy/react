@@ -48,6 +48,14 @@ export class Common {
       pid,
       taskId,
     } = props
+    // parentFormDetail.sort((a, b) => {
+    //   if (a.indexOf === null) a.indexOf = Number.MAX_SAFE_INTEGER
+    //   return a.indexOf - b.indexOf
+    // })
+    // childFormDetail.sort((a, b) => {
+    //   if (a.indexOf === null) a.indexOf = Number.MAX_SAFE_INTEGER
+    //   return a.indexOf - b.indexOf
+    // })
     this.parentChangedFidleList = []
     this.childChangedFidleList = []
     this.pid = pid

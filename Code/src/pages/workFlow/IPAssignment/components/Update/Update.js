@@ -42,7 +42,6 @@ function Update() {
 
   useEffect(() => {
     API.detail(id).then(({ data }) => {
-      console.log(data.data)
       const { ip, dc, hostname, projectTeam, networkType, ipPool, vlanId, remark } = data.data
       setIP(ip)
       setDC(dc)

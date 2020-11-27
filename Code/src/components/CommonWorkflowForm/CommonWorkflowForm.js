@@ -439,7 +439,6 @@ export default function CommonWorkflowForm(props) {
   }
   const handleReasonSubmit = () => {
     if (dialogReason.value && dialogReason.value.length > 0) {
-      console.log(dialogReason.value)
       let data = {
         taskId,
         variables: { pass: false },
@@ -518,7 +517,6 @@ export default function CommonWorkflowForm(props) {
 
   const handleT1FollowUpClick = () => {
     const childData = map2object(childDataMap)
-    console.log(childData)
     if (childData.status) {
       childData.status.value = 'skip'
     } else {

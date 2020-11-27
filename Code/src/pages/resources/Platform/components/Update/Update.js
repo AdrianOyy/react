@@ -25,7 +25,6 @@ function Update(props) {
   const hanleClick = async () => {
     const nameErr = await nameCheck()
     const typeIdErr = await typeIdCheck()
-    console.log(typeIdErr)
     if (nameErr || typeIdErr || saving) return
     setSaving(true)
     API.update(id, map2object(map))
@@ -118,7 +117,6 @@ function Update(props) {
   }
 
   const typeIdCheck = async () => {
-    console.log(map.get("typeId"))
     const emptyCheck = checkEmpty("typeId", map.get("typeId"))
     setTypeIdError(emptyCheck.error)
     setTypeIdHelperText(emptyCheck.msg)

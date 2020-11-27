@@ -224,7 +224,6 @@ export default class AccountManagement {
   async getEmail(parentDataMap) {
     return new Promise(function(reslove) {
       Api.findUsers({ email: parentDataMap.get('supervisoremailaccount').value }).then(({ data }) => {
-        console.log(data)
         const results = data.data
         reslove(results)
       })

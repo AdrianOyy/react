@@ -91,7 +91,6 @@ export default function Detail() {
         }
       })
       .finally(() => {
-        console.log(map)
         setMap(initMap)
         Loading.hide()
       })
@@ -141,10 +140,10 @@ export default function Detail() {
       modelId: id,
       workflowName: name,
       parentFormKey: map.get('parentFormKey'),
-      parentValues: formatValue(parentRows),
+      parentValues: parentRows,
       childVersion: map.get('childVersion'),
       selectChild: isSelected,
-      childValues: formatValue(childRows),
+      childValues: childRows,
       childFormKey: map.get('childFormKey')
     }
     Loading.show()
@@ -305,11 +304,11 @@ function exchange(value) {
   return value ? '1' : '0'
 }
 
-function formatValue(list) {
-  list.forEach(item => {
-    for (let key in item) {
-      item[key] = { value: item[key] }
-    }
-  })
-  return list
-}
+// function formatValue(list) {
+//   list.forEach(item => {
+//     for (let key in item) {
+//       item[key] = { value: item[key] }
+//     }
+//   })
+//   return list
+// }

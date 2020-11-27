@@ -49,11 +49,9 @@ function Create() {
       { id: 'vlanId', label: L('VLan ID'), type: 'text', required: false, readOnly: false, value: vlanId },
       { id: 'remark', label: L('Remark'), type: 'text', required: false, readOnly: false, value: remark },
     ]
-    console.log(list)
     setFormFieldList(list)
   }, [ ip, dc, hostname, projectTeam, networkType, ipPool, vlanId, remark, nameError, nameHelperText ])
   const onFormFieldChange = (e, id) => {
-    console.log(e, id)
     const { value } = e.target
     switch (id) {
       case 'ip':

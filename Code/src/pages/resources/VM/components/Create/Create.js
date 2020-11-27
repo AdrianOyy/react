@@ -115,7 +115,6 @@ function Create(props) {
           }
         }
       }).then(returnObj => {
-        console.log(returnObj)
         setTenantList(returnObj.tenantList)
         setClusterList(returnObj.clusterList)
         const list = [

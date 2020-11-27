@@ -128,8 +128,6 @@ function List(props) {
   }
 
   const handleImage = (event, row) => {
-    console.log(event)
-    console.log(row.procInstId)
     API.getDiagram('260008').then(response => {
       let blob = new Blob([ response.data ])
       setImage(window.URL.createObjectURL(blob))

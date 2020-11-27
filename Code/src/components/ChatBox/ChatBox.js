@@ -103,7 +103,6 @@ export default function ChatBox(props) {
   const onEnter = () => {
     // 获取 messageList
     API.getTaskMessage({ taskId }).then(({ data }) => {
-      console.log(data.data)
       setMessageList(data.data)
     })
     // 用 setMessageList 方法更新 messageList
@@ -130,8 +129,8 @@ export default function ChatBox(props) {
       {
         id: 'message', label: L('message'), type: 'text', disabled: false, readOnly: false, required: true, helperText: L('NotEmpty')
       },
-    onSubmit: (value) => {
-      console.log(value)
+    onSubmit: () => {
+      // console.log(value)
     },
   }
 

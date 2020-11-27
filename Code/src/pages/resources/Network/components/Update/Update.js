@@ -223,7 +223,6 @@ function Update(props) {
     }
     if (!emptyCheck.error) {
       const checkExist = getCheckExist()
-      console.log(id)
       const { error, msg } = await checkExist(id, map.get("_ID"))
       set_IDError(error)
       set_IDHelperText(msg)

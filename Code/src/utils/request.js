@@ -128,7 +128,6 @@ export default {
           resolve(res)
         })
         .catch(error => {
-          console.log(error)
           CommonTip.error(error.message, { })
           reject(error)
         })

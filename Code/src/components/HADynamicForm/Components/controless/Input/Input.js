@@ -76,7 +76,7 @@ export default function HAInput(props) {
           disabled={disabled}
           className={classes.input}
           onBlur={handleBlur}
-          defaultValue={defaultValue ? defaultValue : ''}
+          defaultValue={defaultValue !== undefined && defaultValue !== null ? defaultValue : ''}
         />
       </div>
       {

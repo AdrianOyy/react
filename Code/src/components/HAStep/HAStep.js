@@ -70,7 +70,6 @@ function HAStep(props) {
     API.getProcessPoint({ id: processInstanceId })
       .then(({ data }) => {
         const process = data.data
-        console.log(data.data)
         if (process) {
           const pointList = []
           let active = 0
