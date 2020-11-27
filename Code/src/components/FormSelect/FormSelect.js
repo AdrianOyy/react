@@ -112,7 +112,7 @@ export default function HASelect(props) {
 
   const BootstrapInput = withStyles((theme) => ({
     root: {
-      width: getWidth(width).input + 'vw',
+      width: '100%',
     },
     input: {
       borderRadius: 4,
