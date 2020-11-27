@@ -25,6 +25,9 @@ class tenant {
   checkExist(id, code) {
     return request.get(`${prefix}/tenant/checkExist?id=${id}&code=${code}`)
   }
+  getCps(cpsId) {
+    return request.get(`${prefix}/tenant/getCps?cpsId=${cpsId}`)
+  }
 }
 
 export default new tenant()

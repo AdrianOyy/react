@@ -158,22 +158,22 @@ class VMCreate extends VM {
   async getInitData() {
     const { cpsId } = this.startData
     if (!cpsId) return {}
-    const parentInitData = new Map()
-    parentInitData.set('tenant', 1)
-    parentInitData.set('justification', 'test')
+    const { data }  = await tenantAPI.getCps(cpsId)
+    let parentInitData = new Map()
+    const childInitDatas = []
+    if (data.data && data.data.tenant && data.data.vms) {
+      const { tenant, vms } = data.data
+      if (tenant && tenant.tenant) {
+        parentInitData = object2map(tenant)
+      }
+      if (vms && vms.length > 0) {
+        vms.forEach(_ => {
+          childInitDatas.push(object2map(_))
+        })
+      }
+    }
 
-    const childInitData = new Map()
-    childInitData.set('application_type', 3)
-    childInitData.set('backup_volume', 'test')
-    childInitData.set('cpu_request_number', '1')
-    childInitData.set('data_storage_request_number', '800')
-    childInitData.set('environment_type', 3)
-    childInitData.set('network_zone', 3)
-    childInitData.set('phase', 'test11')
-    childInitData.set('platform', 1)
-    childInitData.set('ram_request_number', 8)
-
-    return { parentInitData, childInitData: [ childInitData ], callback: this.insertDom.bind(this) }
+    return { parentInitData, childInitData: childInitDatas, callback: this.insertDom.bind(this) }
   }
 
   // parent
