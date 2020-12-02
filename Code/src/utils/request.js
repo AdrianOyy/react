@@ -197,10 +197,10 @@ export default {
 
 
 function callback(error) {
-  const { status, message } = error.response
+  const { status, message, data } = error.response
   switch (status) {
     case 400:
-      showTip(message ? message : 'Bad Request')
+      showTip(message ? message : (data && data.message ? data.message : 'Bad Request'))
       break
     case 401:
       showTip('Unauthorized')
@@ -211,6 +211,6 @@ function callback(error) {
   }
 }
 
-function showTip(message) {
-  CommonTip.error(message)
+function showTip(message, autoHideDuration) {
+  CommonTip.error(message, autoHideDuration)
 }

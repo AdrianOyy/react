@@ -18,8 +18,12 @@ class CommonTip extends Component {
   static warning(msg) {
     this.showtip({ msg, severity: 'warning' })
   }
-  static error(msg) {
-    this.showtip({ msg, severity: 'error' })
+  static error(msg, autoHideDuration) {
+    const options = { msg, severity: 'error' }
+    if (autoHideDuration) {
+      options.autoHideDuration = autoHideDuration
+    }
+    this.showtip(options)
   }
   static showtip(options) {
     const ex_us = lang.ex_us
@@ -27,7 +31,7 @@ class CommonTip extends Component {
     let defaultOptions = {
       msg: '',
       severity: 'info',
-      autoHideDuration: 5000,
+      autoHideDuration: options.autoHideDuration ? options.autoHideDuration : 5000,
       vertical: 'top',
       horizontal: 'center',
       ...options,
