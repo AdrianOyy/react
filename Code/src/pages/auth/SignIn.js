@@ -4,7 +4,7 @@ import { useHistory } from "react-router-dom"
 import authAPI from '../../api/auth.js'
 import Helmet from 'react-helmet'
 import { L } from '../../utils/lang'
-import { encryption } from '../../utils/encryption'
+import { encryptionNew } from '../../utils/encryption'
 import { signIn } from '../../utils/auth'
 import Loading from "../../components/Loading"
 
@@ -42,7 +42,7 @@ function SignIn() {
       authAPI
         .login({
           username: account,
-          password: encryption(pwd)
+          password: encryptionNew(pwd)
         })
         .then(response => {
           if (!response.data || !response.data.data) {
