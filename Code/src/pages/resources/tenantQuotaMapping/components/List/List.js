@@ -117,7 +117,7 @@ function List(props) {
     setQuery({
       tenantId,
       type,
-      year: formatDateTime(year, 'YYYY'),
+      year: year ? formatDateTime(year, 'YYYY') : '',
       createdAt: formatDate(createdAt),
       updatedAt: formatDate(updatedAt),
     })
