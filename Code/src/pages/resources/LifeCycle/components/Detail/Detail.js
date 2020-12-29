@@ -5,6 +5,7 @@ import API from "../../../../../api/inventoryLifeCycle"
 import { L } from '../../../../../utils/lang'
 import { useParams } from "react-router-dom"
 import formatDateTime from "../../../../../utils/formatDateTime"
+import actionType from "../../untils/actionType"
 
 
 function Detail() {
@@ -34,7 +35,8 @@ function Detail() {
             disabled: true, readOnly: true, value: defaultValue.RecordCreatedOn ? formatDateTime(defaultValue.RecordCreatedOn, format) : ''
           },
           {
-            id: 'ActionType', label: L('Action Type'), type: 'text',
+            id: 'ActionType', label: L('Action Type'), type: 'select',
+            itemList: actionType, labelField: 'label', valueField: 'value',
             disabled: true, readOnly: true, value: defaultValue.ActionType
           },
           {

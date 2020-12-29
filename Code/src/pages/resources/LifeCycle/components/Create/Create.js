@@ -7,6 +7,7 @@ import CommonTip from "../../../../../components/CommonTip"
 import { useHistory } from 'react-router-dom'
 import { checkEmpty, getCheckExist } from "../../untils/LifeCycleFieldCheck"
 import { map2object } from "../../../../../utils/map2object"
+import actionType from "../../untils/actionType"
 
 function Create(props) {
   const { map } = props
@@ -61,7 +62,8 @@ function Create(props) {
           required: false, readOnly: false, value: ""
         },
         {
-          id: 'ActionType', label: L('Action Type'), type: 'text',
+          id: 'ActionType', label: L('Action Type'), type: 'select',
+          itemList: actionType, labelField: 'label', valueField: 'value',
           required: false, readOnly: false, value: ""
         },
         {

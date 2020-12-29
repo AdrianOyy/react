@@ -8,6 +8,7 @@ import { useHistory } from 'react-router-dom'
 import { checkEmpty, getCheckExist } from "../../untils/LifeCycleFieldCheck"
 import { L } from '../../../../../utils/lang'
 import { map2object } from "../../../../../utils/map2object"
+import actionType from "../../untils/actionType"
 
 function Update(props) {
   const { map } = props
@@ -71,7 +72,8 @@ function Update(props) {
             required: false, readOnly: false, value: RecordCreatedOn
           },
           {
-            id: 'ActionType', label: L('Action Type'), type: 'text',
+            id: 'ActionType', label: L('Action Type'), type: 'select',
+            itemList: actionType, labelField: 'label', valueField: 'value',
             required: false, readOnly: false, value: ActionType
           },
           {
