@@ -206,6 +206,12 @@ function SidebarCategory({
   )
 }
 
+const onClick = function(to) {
+  if (to === window.location.pathname) {
+    window.location.href = to
+  }
+}
+
 function SidebarLink({ name, to, badge }) {
   return (
     <Link
@@ -214,6 +220,7 @@ function SidebarLink({ name, to, badge }) {
       component={NavLink}
       exact
       to={to}
+      onClick={() => onClick(to)}
       activeClassName="active"
     >
       <LinkText>{name}</LinkText>
