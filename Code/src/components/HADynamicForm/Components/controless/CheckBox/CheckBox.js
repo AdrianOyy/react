@@ -128,13 +128,13 @@ export default function HACheckBox(props) {
             >
               <input
                 type={'checkbox'}
-                id={'checkbox_' + el.type}
+                id={'checkbox_' + fieldName + '_' + el.type}
                 disabled={disabled}
                 checked={checkedList.has(el.id)}
                 onChange={(e) => handleChange(e, el, i)}
               />
               <label
-                htmlFor={"checkbox_" + el.type}
+                htmlFor={'checkbox_' + fieldName + '_' + el.type}
                 style={{
                   fontSize: '1.1em',
                 }}

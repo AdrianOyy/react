@@ -1,5 +1,5 @@
 import { Common } from "../Common"
-import { isEmail } from "../../../regex"
+import {isEmail, isHKPhone} from "../../../regex"
 import accountManagementAPI from "../../../../api/accountManagement"
 import Api from "../../../../api/diyForm"
 import { object2map } from "../../../map2object"
@@ -22,16 +22,23 @@ class NonPersonal extends Common {
       this.parentFieldError.set(fieldName, message)
       return { error: true, message }
     }
-    if (fieldName === 'alternaterecipient') {
-      if (!isEmail(this.parentData.get('alternaterecipient'))) {
+    if (fieldName === 'alternaterecipient' || fieldName === 'owneremail') {
+      if (!isEmail(this.parentData.get(fieldName))) {
         const message = 'Incorrect Email Address'
         this.parentFieldError.set(fieldName, message)
         return { error: true, message }
       }
     }
-    if (fieldName === 'owneremail') {
-      if (!isEmail(this.parentData.get('owneremail'))) {
-        const message = 'Incorrect Email Address'
+    if (fieldName === 'officefax') {
+      if (!isHKPhone(this.parentData.get(fieldName))) {
+        const message = 'Incorrect fax no'
+        this.parentFieldError.set(fieldName, message)
+        return { error: true, message }
+      }
+    }
+    if (fieldName === 'officetel') {
+      if (!isHKPhone(this.parentData.get(fieldName))) {
+        const message = 'Incorrect telephone no'
         this.parentFieldError.set(fieldName, message)
         return { error: true, message }
       }

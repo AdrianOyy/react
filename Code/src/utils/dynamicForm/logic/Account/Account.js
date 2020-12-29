@@ -6,7 +6,7 @@ import { Button } from "@material-ui/core"
 import { L } from "../../../lang"
 import React from "react"
 import { CREATE, UPDATE } from "../../../variable/stepName"
-import { isEmail } from "../../../regex"
+import { isEmail, isHKPhone } from "../../../regex"
 import accountManagementAPI from "../../../../api/accountManagement"
 import ContractItems from "../../../../components/ContractItems/ContractItems"
 
@@ -144,7 +144,7 @@ class Account extends Common {
   async asyncCheck(field) {
     const { fieldName, required, fieldDisplayName, show } = field
     if (show && required && this.isEmpty(fieldName)) {
-      const message = `${fieldDisplayName} is required`
+      const message = fieldDisplayName.length > 40 ? 'This field is required' : `${fieldDisplayName} is required`
       this.parentFieldError.set(fieldName, message)
       return { error: true, message }
     }
@@ -157,6 +157,20 @@ class Account extends Common {
       const { data } = await accountManagementAPI.getUsersByEmails({ emails: [ this.parentData.get('supervisoremailaccount') ] })
       if (!data || !data.data || !data.data[0]) {
         const message = 'User never logged in'
+        this.parentFieldError.set(fieldName, message)
+        return { error: true, message }
+      }
+    }
+    if (fieldName === 'contact_phone_no' || fieldName === 'mobile_phone_no_for_receipt_of_sms_otp') {
+      if (!isHKPhone(this.parentData.get(fieldName))) {
+        const message = 'Incorrect phone no'
+        this.parentFieldError.set(fieldName, message)
+        return { error: true, message }
+      }
+    }
+    if (fieldName === 'officefax') {
+      if (!isHKPhone(this.parentData.get(fieldName))) {
+        const message = 'Incorrect fax address'
         this.parentFieldError.set(fieldName, message)
         return { error: true, message }
       }

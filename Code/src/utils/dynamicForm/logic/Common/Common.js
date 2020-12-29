@@ -138,7 +138,7 @@ export class Common {
   asyncCheck(field) {
     const { fieldName, required, fieldDisplayName, show, isParent } = field
     if (show && required && this.isEmpty(fieldName, isParent)) {
-      const message = `${fieldDisplayName} is required`
+      const message = fieldDisplayName.length > 40 ? 'This field is required' : `${fieldDisplayName} is required`
       this.parentFieldError.set(fieldName, message)
       return { error: true, message }
     }
@@ -400,7 +400,7 @@ export class Common {
   checkChildField(field) {
     const { fieldName, required, fieldDisplayName, show } = field
     if (show && required && this.isEmpty(fieldName, false)) {
-      const message = `${fieldDisplayName} is required`
+      const message = fieldDisplayName.length > 40 ? 'This field is required' : `${fieldDisplayName} is required`
       this.childFieldError.set(fieldName, message)
       return { error: true, message }
     }

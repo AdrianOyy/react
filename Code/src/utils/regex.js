@@ -6,3 +6,7 @@ export function isEmail(e) {
 export function isNonNegativeInteger(e) {
   return /^\d+$/.test(e)
 }
+
+export function isHKPhone(e) {
+  return /^[0-9]{8}$/.test(e)
+}
