@@ -19,6 +19,7 @@ import FormSelect from "../FormSelect"
 import FormDate from "../FormDate"
 import { makeStyles } from "@material-ui/core/styles"
 import { useHistory } from "react-router-dom"
+import RequiredField from "../RequiredField/RequiredField";
 
 let Card = styled(MuiCard)(spacing)
 Card = styled(Card)`border-radius: 1em; width:70%; margin:0 auto;`
@@ -72,6 +73,7 @@ function CommonForm(props) {
     onBtnClick,
     // onFormFieldBlur,
     spacing,
+    showRequiredField,
   } = props
   const history = useHistory()
   const classes = useStyles()
@@ -98,6 +100,7 @@ function CommonForm(props) {
           { formTitle }
         </Typography>
         <Paper mt={0}>
+          { showRequiredField && <RequiredField />}
           <form noValidate autoComplete="off">
             <Grid container spacing={spacing ? spacing : 3}>
               {

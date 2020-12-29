@@ -205,6 +205,7 @@ export class Common {
 
   // 获取父表标题
   getParentTitle() {
+    if (this.stepName === CREATE) return null
     return this.parentFormKey
   }
 
