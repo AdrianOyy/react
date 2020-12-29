@@ -327,6 +327,7 @@ function Update() {
         errorFieldList = {errors}
         showBtn ={true}
         onBtnClick = {handleClick}
+        showRequiredField={true}
       />
     </React.Fragment>
   )

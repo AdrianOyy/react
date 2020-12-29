@@ -11,6 +11,7 @@ function DetailPage(props) {
     showBtn,
     onBtnClick,
     onFormFieldBlur,
+    showRequiredField,
   } = props
 
   return (
@@ -24,6 +25,7 @@ function DetailPage(props) {
         showBtn = {showBtn}
         onBtnClick = {onBtnClick}
         onFormFieldBlur = {onFormFieldBlur}
+        showRequiredField = {showRequiredField}
       />
     </React.Fragment>
   )

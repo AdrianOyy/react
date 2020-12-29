@@ -6,6 +6,7 @@ import { switchComponent } from "../../utils"
 import ChildTable from "../ChildTable"
 import { DynamicContext } from "../../HADynamicForm"
 import Loading from "../../../Loading"
+import RequiredField from "../../../RequiredField";
 
 export default function DynamicForm() {
   const { logic, style } = useContext(DynamicContext)
@@ -50,33 +51,36 @@ export default function DynamicForm() {
   const getComponent = useCallback((el, i) => switchComponent(el, i, logic, style, true), [ logic, style ])
 
   return (
-    <Paper className={classes.container} id={'dynamic_form_container'}>
-      {
-        logic && logic.getParentTitle() && (
-          <Typography variant='h3' id="tableTitle" className={classes.parentTitle}>
-            { logic.getParentTitle() }
-          </Typography>
-        )
-      }
-      <div className={classes.parent} id={'dynamic_form_parent'}>
-        <div className={classes.parentRawData} id={'dynamic_form_parent_raw_data'}>
+    <>
+      <Paper className={classes.container} id={'dynamic_form_container'}>
+        <RequiredField />
+        {
+          logic && logic.getParentTitle() && (
+            <Typography variant='h3' id="tableTitle" className={classes.parentTitle}>
+              { logic.getParentTitle() }
+            </Typography>
+          )
+        }
+        <div className={classes.parent} id={'dynamic_form_parent'}>
+          <div className={classes.parentRawData} id={'dynamic_form_parent_raw_data'}>
+            {
+              initData.parentInitDetail && initData.parentInitDetail.map((el, i) => (getComponent(el, i)))
+            }
+          </div>
+        </div>
+        {
+          logic && logic.childFormDetail && logic.childFormDetail.length ? (
+            <div className={classes.child} id={'dynamic_form_child'}>
+              <ChildTable />
+            </div>
+          ) : null
+        }
+        <div className={classes.actions} id={'dynamic_form_actions'}>
           {
-            initData.parentInitDetail && initData.parentInitDetail.map((el, i) => (getComponent(el, i)))
+            logic && logic.getActions(history)
           }
         </div>
-      </div>
-      {
-        logic && logic.childFormDetail && logic.childFormDetail.length ? (
-          <div className={classes.child} id={'dynamic_form_child'}>
-            <ChildTable />
-          </div>
-        ) : null
-      }
-      <div className={classes.actions} id={'dynamic_form_actions'}>
-        {
-          logic && logic.getActions(history)
-        }
-      </div>
-    </Paper>
+      </Paper>
+    </>
   )
 }

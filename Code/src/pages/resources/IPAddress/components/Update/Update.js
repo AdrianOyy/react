@@ -164,6 +164,7 @@ function Update(props) {
         errorFieldList = {errors}
         showBtn ={true}
         onBtnClick = {handleClick}
+        showRequiredField={true}
       />
     </React.Fragment>
   )

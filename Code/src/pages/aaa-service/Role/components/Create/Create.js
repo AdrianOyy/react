@@ -125,6 +125,7 @@ function Create(props) {
         errorFieldList = {errors}
         showBtn ={true}
         onBtnClick = {handleClick}
+        showRequiredField={true}
       />
     </React.Fragment>
   )
