@@ -17,8 +17,8 @@ function Detail() {
       if (data && data.data) {
         const defaultValue = data.data
         const list = [
-          { id: 'label', label: L('Label'), type: 'text', disabled: true, readOnly: true, value: defaultValue.label },
-          { id: 'value', label: L('Value'), type: 'text', disabled: true, readOnly: true, value: defaultValue.value },
+          { id: 'label', label: L('Tenant\'s Group'), type: 'text', disabled: true, readOnly: true, value: defaultValue.label },
+          { id: 'value', label: L('Right'), type: 'text', disabled: true, readOnly: true, value: defaultValue.value },
           { id: 'createdAt', label: L('Created At'), type: 'text', disabled: true, readOnly: true, value: formatDateTime(defaultValue.createdAt) },
           { id: 'updatedAt', label: L('Updated At'), type: 'text', disabled: true, readOnly: true, value: formatDateTime(defaultValue.updatedAt) },
         ]

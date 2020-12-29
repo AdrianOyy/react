@@ -47,10 +47,10 @@ function Create(props) {
   }
   useEffect(() => {
     const list = [
-      { id: 'label', label: L('Label'), type: 'text', required: true, readOnly: false, value: map && map.get('label'), error: labelError, helperText: labelHelperText },
+      { id: 'label', label: L('Tenant\'s Group'), type: 'text', required: true, readOnly: false, value: map && map.get('label'), error: labelError, helperText: labelHelperText },
       {
         id: 'value',
-        label: L('Value'),
+        label: L('Right'),
         type: 'select',
         required: true,
         value: map && map.get('value'),

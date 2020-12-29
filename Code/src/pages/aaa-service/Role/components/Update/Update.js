@@ -50,9 +50,9 @@ function Detail(props) {
         setSaving(false)
         const defaultValue = data.data
         const list = [
-          { id: 'label', label: L('Label'), type: 'text', required: true, readOnly: false, value: defaultValue.label, error: labelError, helperText: labelHelperText },
+          { id: 'label', label: L('Tenant\'s Group'), type: 'text', required: true, readOnly: false, value: defaultValue.label, error: labelError, helperText: labelHelperText },
           {
-            id: 'value', label: L('Value'), type: 'select', value: map && map.get('value'), required: true,
+            id: 'value', label: L('Right'), type: 'select', value: map && map.get('value'), required: true,
             itemList: [
               { name: "Read Only", id: "Read Only" },
               { name: "Read & Write", id: "Read && Write" },

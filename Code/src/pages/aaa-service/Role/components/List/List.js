@@ -52,8 +52,8 @@ function List(props) {
 
   // 表头字段列表
   const headCells = [
-    { id: 'label', alignment: 'left', label: L('Label') },
-    { id: 'value', alignment: 'left', label: L('Value') },
+    { id: 'label', alignment: 'left', label: L('Tenant\'s Group') },
+    { id: 'value', alignment: 'left', label: L('Right') },
     { id: 'createdAt', alignment: 'left', label: L('Created At') },
     { id: 'updatedAt', alignment: 'left', label: L('Updated At') },
     { id: 'action', alignment: 'center', label: L('Actions') },
@@ -68,8 +68,8 @@ function List(props) {
   ]
 
   const searchBarFieldList = [
-    { id: 'label', label: L('Label'), type: 'text', disabled: false, readOnly: false, value: label },
-    { id: 'value', label: L('Value'), type: 'text', disabled: false, value, isSelector: true,
+    { id: 'label', label: L('Tenant\'s Group'), type: 'text', disabled: false, readOnly: false, value: label },
+    { id: 'value', label: L('Right'), type: 'text', disabled: false, value, isSelector: true,
       itemList: [
         { name: L("Read Only"), id: "Read Only" },
         { name: L("Read & Write"), id: "Read && Write" },
