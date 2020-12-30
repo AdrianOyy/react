@@ -58,7 +58,7 @@ function Create(props) {
           required: false, readOnly: false, value: ""
         },
         {
-          id: 'RecordCreatedOn', label: L('Record Created On'), type: 'date',
+          id: 'RecordCreatedOn', label: L('Record Created Date'), type: 'date',
           required: false, readOnly: false, value: ""
         },
         {

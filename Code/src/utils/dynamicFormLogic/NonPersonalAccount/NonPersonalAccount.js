@@ -69,7 +69,7 @@ export default class NonPersonalAccount {
           for (const index in results) {
             if (!results[index]) {
               pass = false
-              CommonTip.error(`Supervisor Email Account ${emails[index]} is not found`)
+              CommonTip.error(`Manager Email Account ${emails[index]} is not found`)
             }
           }
           if (pass) {
