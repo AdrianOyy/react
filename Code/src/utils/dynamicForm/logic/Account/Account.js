@@ -209,29 +209,33 @@ class Account extends Common {
         }
         el && (el.style.display = 'none')
       })
+    } else if (fieldName === 'existing_corp_account') {
+      const el_hkid = document.getElementById('element_hkid')
+      const el_apply_for = document.getElementById('element_apply_for')
+      if (value) {
+        this.parentInitDetail.map(e => {
+          if (e.fieldName === 'hkid') {
+            e.required = false
+          } else if (e.fieldName === 'apply_for') {
+            e.required = false
+          }
+          return e
+        })
+        el_hkid && (el_hkid.style.display = 'none')
+        el_apply_for && (el_apply_for.style.display = 'none')
+      } else {
+        this.parentInitDetail.map(e => {
+          if (e.fieldName === 'hkid') {
+            e.required = true
+          } else if (e.fieldName === 'apply_for') {
+            e.required = true
+          }
+          return e
+        })
+        el_hkid && (el_hkid.style.display = 'block')
+        el_apply_for && (el_apply_for.style.display = 'block')
+      }
     }
-    // else if (fieldName === 'existing_ibra_account') {
-    //   const id = 'element_hkid'
-    //   const el = document.getElementById(id)
-    //   if (value) {
-    //     this.parentInitDetail.map(e => {
-    //       if (e.fieldName === 'hkid') {
-    //         e.required = false
-    //       }
-    //       return e
-    //     })
-    //     el && (el.style.display = 'none')
-    //   } else {
-    //     this.parentInitDetail.map(e => {
-    //       if (e.fieldName === 'hkid') {
-    //         e.required = true
-    //       }
-    //       return e
-    //     })
-    //     el && (el.style.display = 'block')
-    //   }
-    // }
-    // console.log(fieldName, value)
     this.parentData.set(fieldName, value)
     return value
   }
