@@ -31,7 +31,7 @@ function Detail() {
             disabled: true, readOnly: true, value: defaultValue.AssetID
           },
           {
-            id: 'RecordCreatedOn', label: L('Record Created On'), type: 'text',
+            id: 'RecordCreatedOn', label: L('Record Created Date'), type: 'text',
             disabled: true, readOnly: true, value: defaultValue.RecordCreatedOn ? formatDateTime(defaultValue.RecordCreatedOn, format) : ''
           },
           {

@@ -68,7 +68,7 @@ function Update(props) {
             required: false, readOnly: false, value: AssetID
           },
           {
-            id: 'RecordCreatedOn', label: L('Record Created On'), type: 'date',
+            id: 'RecordCreatedOn', label: L('Record Created Date'), type: 'date',
             required: false, readOnly: false, value: RecordCreatedOn
           },
           {

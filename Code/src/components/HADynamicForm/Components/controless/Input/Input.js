@@ -18,6 +18,7 @@ export default function HAInput(props) {
     style,
     abbrFieldName,
     asyncCheck,
+    placeholder,
   } = props
 
   const [ error, setError ] = useState(false)
@@ -77,6 +78,7 @@ export default function HAInput(props) {
           className={classes.input}
           onBlur={handleBlur}
           defaultValue={defaultValue !== undefined && defaultValue !== null ? defaultValue : ''}
+          placeholder={placeholder ? placeholder : ''}
         />
       </div>
       {
