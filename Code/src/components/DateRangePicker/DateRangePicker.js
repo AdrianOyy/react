@@ -55,6 +55,7 @@ export default function DateRangePicker(props) {
           disableFuture={disableFuture ? disableFuture : false}
           format={'dd-MMM-yyyy'}
           value={startDate}
+          style={{ width: '70%' }}
           onChange={(e) => onStartDateChange(e)}
         />
         <DatePicker

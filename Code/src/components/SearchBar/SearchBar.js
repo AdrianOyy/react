@@ -10,13 +10,16 @@ import {
   KeyboardDatePicker,
 } from '@material-ui/pickers'
 import CommonSelect from "../CommonSelect"
+import DateRange from "../DateRange"
+// import { DateRange } from "@material-ui/icons";
 
 const useStyles = makeStyles((theme) => ({
   root: {
     marginBottom: '10px',
     display: 'flex',
+    alignItems: 'flex-end',
     justifyContent: 'space-between',
-    alignItems: 'center',
+    marginLeft: '1em',
   },
   textField: {
     marginRight: theme.spacing(10),
@@ -61,7 +64,14 @@ function SearchBar(props) {
       {/*
         type list, see: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#Form_%3Cinput%3E_types
       */}
-      <div>
+      <div
+        style={{
+          display: "flex",
+          flexWrap: "wrap",
+          alignItems: "flex-end",
+          justifyContent: "flex-start",
+        }}
+      >
         {
           fieldList && fieldList.map((field) => field.isSelector ? (
             <CommonSelect
@@ -80,6 +90,20 @@ function SearchBar(props) {
           ) : (field.type === 'date' ?
             (
               <KeyboardDatePicker
+                clearable='true'
+                variant="inline"
+                key = {field.id + field.label}
+                error = {field.error || false}
+                helperText = {field.helperText || ''}
+                views={field.views ? field.views : undefined}
+                format={field.views ? 'yyyy' : 'yyyy / MM / dd'}
+                label = {field.label}
+                value = {field.value === '' ? null : field.value}
+                style={{ marginRight: "8ch", marginTop: "1em" }}
+                onChange = {(event) => handleDataChange(event, field.id)}
+              />
+            ) : (field.type === 'dateRange' ? (
+              <DateRange
                 clearable='true'
                 variant="inline"
                 key = {field.id + field.label}
@@ -109,7 +133,8 @@ function SearchBar(props) {
                 }}
                 style={{ marginRight: "8ch" }}
               />
-            )))
+            ))
+          ))
         }
       </div>
       <div style={{ minWidth: '25ch' }}>

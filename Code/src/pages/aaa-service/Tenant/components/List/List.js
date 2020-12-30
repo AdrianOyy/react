@@ -99,8 +99,8 @@ function List(props) {
       value: supporterGroupId, isSelector: true, itemList: groupList,
       labelField: 'name', valueField: 'id'
     },
-    { id: 'createdAt', label: L('Created At'), type: 'date', disabled: false, readOnly: false, value: createdAt },
-    { id: 'updatedAt', label: L('Updated At'), type: 'date', disabled: false, readOnly: false, value: updatedAt },
+    { id: 'createdAt', label: L('Created At'), type: 'dateRange', disabled: false, readOnly: false, value: createdAt },
+    { id: 'updatedAt', label: L('Updated At'), type: 'dateRange', disabled: false, readOnly: false, value: updatedAt },
   ]
 
   const handleClear = () => {
@@ -126,8 +126,8 @@ function List(props) {
       code,
       manager_group_id: managerGroupId,
       supporter_group_id: supporterGroupId,
-      createdAt: formatDate(createdAt),
-      updatedAt: formatDate(updatedAt),
+      createdAt: createdAt,
+      updatedAt: updatedAt,
     })
   }
 
