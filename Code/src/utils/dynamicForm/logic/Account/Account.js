@@ -10,8 +10,21 @@ import { isEmail, isHKPhone } from "../../../regex"
 import accountManagementAPI from "../../../../api/accountManagement"
 import ContractItems from "../../../../components/ContractItems/ContractItems"
 
+const applicant = document.createElement("div")
+applicant.id = "headLine_applicant's_particulars"
+applicant.innerText = "Applicant's Particulars:"
+applicant.style.width = '100%'
+applicant.style.marginBottom = '1em'
+// applicant.style.marginTop = '1em'
+applicant.style.fontSize = '1.8em'
+
 
 class Account extends Common {
+
+  async insertHeadLine() {
+    const surname = document.getElementById("element_surname")
+    surname && surname.parentElement.insertBefore(applicant, surname)
+  }
 
   hideItem() {
     const hideFieldList = this.parentInitDetail.filter(el => {
@@ -86,8 +99,7 @@ class Account extends Common {
 
   shouldContinue(item) {
     if (this.stepName && this.stepName === CREATE && !item.showOnRequest) return true
-    if (this.stepName && this.stepName !== CREATE && item.fieldName === 'hkid') return true
-    return false
+    return this.stepName && this.stepName !== CREATE && item.fieldName === 'hkid';
   }
 
   getParentTitle() {
@@ -127,12 +139,33 @@ class Account extends Common {
         item.show = true
         const el = document.getElementById(id)
         el && (el.style.display = 'block')
+        if (fieldName === "owa_hospital_web") {
+          let headLine = document.getElementById("headLine_Profile Required")
+          if (headLine) {
+            headLine.style.display = 'block'
+          } else {
+            headLine = document.createElement("div")
+            headLine.id = "headLine_Profile Required"
+            headLine.innerText = "Profile Required:"
+            headLine.style.width = '100%'
+            headLine.style.marginBottom = '1em'
+            headLine.style.marginTop = '1em'
+            headLine.style.fontSize = '1.8em'
+            el.parentElement.insertBefore(headLine, el)
+          }
+        }
       })
       hideFieldList.forEach(fieldName => {
         const id = 'element_' + fieldName
         const [ item ] = this.parentInitDetail.filter(e => e.fieldName === fieldName)
         item.show = false
         const el = document.getElementById(id)
+        if (fieldName === "owa_hospital_web") {
+          const headLine = document.getElementById("headLine_Profile Required")
+          if (headLine) {
+            headLine.style.display = 'none'
+          }
+        }
         el && (el.style.display = 'none')
       })
     }

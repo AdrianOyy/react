@@ -33,6 +33,7 @@ export default function DynamicForm() {
       })
       .then(() => {
         logic.hideItem()
+        logic.insertHeadLine()
       })
       .finally(() => {
         Loading.hide()

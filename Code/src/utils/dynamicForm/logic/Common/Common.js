@@ -95,6 +95,10 @@ export class Common {
     return {}
   }
 
+  insertHeadLine() {
+    return {}
+  }
+
   // 插入 Dom
   insertDom() {}
 
