@@ -29,11 +29,25 @@ class Account extends Common {
     }
     hideFieldList.forEach(el => {
       const { fieldName, remark } = el
-      if (hideType.indexOf(remark) !== -1) {
+      if (hideType.indexOf(remark) !== -1
+          && (!accountType || !accountType.defaultValue || !accountType.defaultValue.includes(remark))) {
         const id = 'element_' + fieldName
         const el = document.getElementById(id)
         el && (el.style.display = 'none')
       }
+    })
+  }
+
+  setPlaceholder(parentInitDetail) {
+    parentInitDetail.map(_ => {
+      if (_.fieldName === 'surname') {
+        _.placeholder = 'Example: CHAN'
+      } else if (_.fieldName === 'firstname') {
+        _.placeholder = 'Example : Tai Man'
+      } else if (_.fieldName === 'hkid') {
+        _.placeholder = 'Example : A1234567'
+      }
+      return _
     })
   }
 
@@ -57,17 +71,29 @@ class Account extends Common {
     const { cuId } = this.startData
     if (!cuId) return {}
     const parentInitData = new Map()
-    parentInitData.set('account_type', 'Internet Account Application')
-    parentInitData.set('surname', 'rexshen')
-    parentInitData.set('apply_for', 'LAN account (LoginID)  and/or')
-    parentInitData.set('contact_phone_no', '1358458751')
-    parentInitData.set('division', 'devericd')
-    parentInitData.set('firstname', 'shen')
-    parentInitData.set('jobtitle', 'IT')
-    parentInitData.set('officefax', '35854519')
-    parentInitData.set('section', 'ie')
-    parentInitData.set('stafftype', 'Head Office')
-    parentInitData.set('supervisoremailaccount', 'rexshen@apjcorp.com')
+    const cuDatas = JSON.parse('{"account_type":"Internet Account Application!@#IBRA Account Application","surname":"rexshen","apply_for":"LAN account (LoginID)  and/or","contact_phone_no":"1358458751","division":"devericd","firstname":"shen","jobtitle":"IT","officefax":"35854519","section":"ie","stafftype":"Head Office","supervisoremailaccount":"rexshen@apjcorp.com"}')
+    parentInitData.set('account_type', cuDatas.account_type)
+    parentInitData.set('surname', cuDatas.surname)
+    parentInitData.set('apply_for', cuDatas.apply_for)
+    parentInitData.set('contact_phone_no', cuDatas.contact_phone_no)
+    parentInitData.set('division', cuDatas.division)
+    parentInitData.set('firstname', cuDatas.firstname)
+    parentInitData.set('jobtitle', cuDatas.jobtitle)
+    parentInitData.set('officefax', cuDatas.officefax)
+    parentInitData.set('section', cuDatas.section)
+    parentInitData.set('stafftype', cuDatas.stafftype)
+    parentInitData.set('supervisoremailaccount', cuDatas.supervisoremailaccount)
+    // parentInitData.set('account_type', 'Internet Account Application')
+    // parentInitData.set('surname', 'rexshen')
+    // parentInitData.set('apply_for', 'LAN account (LoginID)  and/or')
+    // parentInitData.set('contact_phone_no', '1358458751')
+    // parentInitData.set('division', 'devericd')
+    // parentInitData.set('firstname', 'shen')
+    // parentInitData.set('jobtitle', 'IT')
+    // parentInitData.set('officefax', '35854519')
+    // parentInitData.set('section', 'ie')
+    // parentInitData.set('stafftype', 'Head Office')
+    // parentInitData.set('supervisoremailaccount', 'rexshen@apjcorp.com')
     return { parentInitData }
   }
   // 获取 checkBox 联动状态

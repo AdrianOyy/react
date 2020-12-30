@@ -6,7 +6,7 @@ import { switchComponent } from "../../utils"
 import ChildTable from "../ChildTable"
 import { DynamicContext } from "../../HADynamicForm"
 import Loading from "../../../Loading"
-import RequiredField from "../../../RequiredField";
+import RequiredField from "../../../RequiredField"
 
 export default function DynamicForm() {
   const { logic, style } = useContext(DynamicContext)
@@ -24,6 +24,9 @@ export default function DynamicForm() {
         const pInitData = parentInitData ? parentInitData : new Map()
         logic.parentData = pInitData
         const parentInitDetail = logic.getParentInitDetail(pInitData)
+        if (logic.setPlaceholder) {
+          logic.setPlaceholder(parentInitDetail)
+        }
         logic.childrenDataList = childInitData ? childInitData : []
         setInitData({
           parentInitDetail,
