@@ -18,12 +18,38 @@ applicant.style.marginBottom = '1em'
 // applicant.style.marginTop = '1em'
 applicant.style.fontSize = '1.8em'
 
+const manager = document.createElement("div")
+manager.id = "headLine_manager's_Information"
+manager.innerText = "Manager's Information:"
+manager.style.width = '100%'
+manager.style.marginBottom = '1em'
+// applicant.style.marginTop = '1em'
+manager.style.fontSize = '1.8em'
+
 
 class Account extends Common {
 
   async insertHeadLine() {
     const surname = document.getElementById("element_surname")
     surname && surname.parentElement.insertBefore(applicant, surname)
+    const supervisoremailaccount = document.getElementById("element_supervisoremailaccount")
+    supervisoremailaccount && supervisoremailaccount.parentElement.insertBefore(manager, supervisoremailaccount)
+  }
+
+  preParentInitDetail(parentInitDetail) {
+    // 增加placeholder，修改check按钮显示为Add
+    parentInitDetail.map(_ => {
+      if (_.fieldName === 'surname') {
+        _.placeholder = 'Example: CHAN'
+      } else if (_.fieldName === 'firstname') {
+        _.placeholder = 'Example : Tai Man [should be same as that on HKID card]'
+      } else if (_.fieldName === 'hkid') {
+        _.placeholder = 'Example : A1234567'
+      } else if (_.fieldName === 'distribution_list') {
+        _.buttonText = 'Add'
+      }
+      return _
+    })
   }
 
   hideItem() {
@@ -51,19 +77,6 @@ class Account extends Common {
     })
   }
 
-  setPlaceholder(parentInitDetail) {
-    parentInitDetail.map(_ => {
-      if (_.fieldName === 'surname') {
-        _.placeholder = 'Example: CHAN'
-      } else if (_.fieldName === 'firstname') {
-        _.placeholder = 'Example : Tai Man'
-      } else if (_.fieldName === 'hkid') {
-        _.placeholder = 'Example : A1234567'
-      }
-      return _
-    })
-  }
-
   getContractList() {
     let res = [ ContractItems.get('CORP Account (Personal) Application') ]
     const atValueList = this.parentData.get('account_type')
@@ -82,8 +95,10 @@ class Account extends Common {
 
   async getInitData() {
     const { cuId } = this.startData
-    if (!cuId) return {}
     const parentInitData = new Map()
+    parentInitData.set('owa_hospital_web', 'OWA Webmail + Hospital home page')
+    parentInitData.set('apply_for_internet', 'Internet web access!@#Internet Email address')
+    if (!cuId) return { parentInitData }
     const cuDatas = JSON.parse('{"account_type":"Internet Account Application!@#IBRA Account Application","surname":"rexshen","apply_for":"LAN account (LoginID)  and/or","contact_phone_no":"1358458751","division":"devericd","firstname":"shen","jobtitle":"IT","officefax":"35854519","section":"ie","stafftype":"Head Office","supervisoremailaccount":"rexshen@apjcorp.com"}')
     parentInitData.set('account_type', cuDatas.account_type)
     parentInitData.set('surname', cuDatas.surname)
@@ -125,7 +140,7 @@ class Account extends Common {
 
   shouldContinue(item) {
     if (this.stepName && this.stepName === CREATE && !item.showOnRequest) return true
-    return this.stepName && this.stepName !== CREATE && item.fieldName === 'hkid';
+    return this.stepName && this.stepName !== CREATE && item.fieldName === 'hkid'
   }
 
   getParentTitle() {
@@ -195,6 +210,28 @@ class Account extends Common {
         el && (el.style.display = 'none')
       })
     }
+    // else if (fieldName === 'existing_ibra_account') {
+    //   const id = 'element_hkid'
+    //   const el = document.getElementById(id)
+    //   if (value) {
+    //     this.parentInitDetail.map(e => {
+    //       if (e.fieldName === 'hkid') {
+    //         e.required = false
+    //       }
+    //       return e
+    //     })
+    //     el && (el.style.display = 'none')
+    //   } else {
+    //     this.parentInitDetail.map(e => {
+    //       if (e.fieldName === 'hkid') {
+    //         e.required = true
+    //       }
+    //       return e
+    //     })
+    //     el && (el.style.display = 'block')
+    //   }
+    // }
+    // console.log(fieldName, value)
     this.parentData.set(fieldName, value)
     return value
   }

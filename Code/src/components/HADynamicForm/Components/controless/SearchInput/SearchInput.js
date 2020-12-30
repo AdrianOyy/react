@@ -19,6 +19,7 @@ function SearchInput(props) {
     style,
     apiKey,
     apiValue,
+    buttonText,
   } = props
 
   const inputEl = useRef(null)
@@ -110,7 +111,7 @@ function SearchInput(props) {
             disabled={disabled}
             className={classes.inputCheck}
             onClick={handleCheck}
-          >Check</Button>
+          >{buttonText ? buttonText : 'Check'}</Button>
         </div>
         {
           error && helperText && (

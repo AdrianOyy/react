@@ -49,6 +49,7 @@ function signIn(data) {
     cn: rawUser.cn,
     sn: rawUser.sn,
     givenName: rawUser.givenName,
+    mail: rawUser.mail,
   }
   localStorage.setItem('user', JSON.stringify(user))
   store.dispatch(setUser(user))

@@ -1,5 +1,5 @@
 import { Common } from "../Common"
-import {isEmail, isHKPhone} from "../../../regex"
+import { isEmail, isHKPhone } from "../../../regex"
 import accountManagementAPI from "../../../../api/accountManagement"
 import Api from "../../../../api/diyForm"
 import { object2map } from "../../../map2object"
@@ -10,9 +10,20 @@ import React from "react"
 import { CREATE, HA4, UPDATE } from "../../../variable/stepName"
 import { getUser } from "../../../auth"
 import ContractItems from "../../../../components/ContractItems/ContractItems"
-
+const applicant = document.createElement("div")
+applicant.id = "headLine_applicant's_particulars"
+applicant.innerText = "Applicant's Particulars:"
+applicant.style.width = '100%'
+applicant.style.marginBottom = '1em'
+// applicant.style.marginTop = '1em'
+applicant.style.fontSize = '1.8em'
 
 class NonPersonal extends Common {
+  async insertHeadLine() {
+    const surname = document.getElementById("element_surname")
+    surname && surname.parentElement.insertBefore(applicant, surname)
+  }
+
   // 特殊字段验证(异步)
   async asyncCheck(field) {
     const { show, fieldName, required, fieldDisplayName } = field

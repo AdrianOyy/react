@@ -6,13 +6,25 @@ import { Button } from "@material-ui/core"
 import { L } from "../../../lang"
 import React from "react"
 import { CREATE, HA4, UPDATE } from "../../../variable/stepName"
-import {isEmail, isHKPhone} from "../../../regex"
+import { isEmail, isHKPhone } from "../../../regex"
 import accountManagementAPI from "../../../../api/accountManagement"
 import ContractItems from "../../../../components/ContractItems/ContractItems"
 import { getUser } from "../../../auth"
+const applicant = document.createElement("div")
+applicant.id = "headLine_applicant's_particulars"
+applicant.innerText = "Applicant's Particulars:"
+applicant.style.width = '100%'
+applicant.style.marginBottom = '1em'
+// applicant.style.marginTop = '1em'
+applicant.style.fontSize = '1.8em'
 
 
 class Distribution extends Common {
+  async insertHeadLine() {
+    const surname = document.getElementById("element_surname")
+    surname && surname.parentElement.insertBefore(applicant, surname)
+  }
+
   onParentFieldChange(fieldName, value) {
     if (fieldName === 'isowner') {
       const target = this.remarkedItem.get('isowner')

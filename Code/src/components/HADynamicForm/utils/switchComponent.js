@@ -45,6 +45,7 @@ const switchComponent = (el, i, logic, style, isParent) => {
           asyncCheck={logic ? logic.asyncCheck : undefined}
           style={style[field.fieldName] ? style[field.fieldName] : style.commonElement}
           isParent={isParent}
+          buttonText={field.buttonText}
         />
       )
     case 'list':
@@ -56,6 +57,7 @@ const switchComponent = (el, i, logic, style, isParent) => {
           asyncCheck={logic ? logic.asyncCheck : undefined}
           style={style[field.fieldName] ? style[field.fieldName] : style.commonElement}
           isParent={isParent}
+          buttonText={field.buttonText}
         />
       )
     case 'date':
