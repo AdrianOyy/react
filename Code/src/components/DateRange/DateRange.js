@@ -7,6 +7,7 @@ function DateRange(props) {
     disableFuture,
     onChange,
     label,
+    value,
   } = props
   const [ startDate, setStartDate ] = useState(null)
   const [ endDate, setEndDate ] = useState(null)
@@ -14,6 +15,12 @@ function DateRange(props) {
     onChange && onChange({ startDate, endDate })
     // eslint-disable-next-line
   }, [ startDate, endDate ])
+  useEffect(() => {
+    if (!value) {
+      setStartDate(null)
+      setEndDate(null)
+    }
+  }, [ value ])
   const onStartDateChange = (e) => {
     setStartDate(e)
   }

@@ -13,7 +13,6 @@ import { L } from '../../../../../utils/lang'
 import styled from "styled-components"
 import { spacing } from "@material-ui/system"
 import formatDateTime from "../../../../../utils/formatDateTime"
-import formatDate from "../../../../../utils/formatDate"
 
 const Paper = styled(MuiPaper)(spacing)
 
@@ -94,8 +93,8 @@ function List(props) {
     { id: 'tenant', label: L('Tenant'), type: 'text', disabled: false, value: tenantId, isSelector: true, itemList: tenantList, labelField: 'name', valueField: 'id' },
     { id: 'type', label: L('Type'), type: 'text', disabled: false, value: type },
     { id: 'year', label: L('Year'), type: 'date', disabled: false, value: year, views: [ 'year' ] },
-    { id: 'createdAt', label: L('Created At'), type: 'date', disabled: false, readOnly: false, value: createdAt },
-    { id: 'updatedAt', label: L('Updated At'), type: 'date', disabled: false, readOnly: false, value: updatedAt },
+    { id: 'createdAt', label: L('Created At'), type: 'dateRange', disabled: false, readOnly: false, value: createdAt },
+    { id: 'updatedAt', label: L('Updated At'), type: 'dateRange', disabled: false, readOnly: false, value: updatedAt },
   ]
 
   const handleClear = () => {
@@ -118,8 +117,8 @@ function List(props) {
       tenantId,
       type,
       year: year ? formatDateTime(year, 'YYYY') : '',
-      createdAt: formatDate(createdAt),
-      updatedAt: formatDate(updatedAt),
+      createdAt,
+      updatedAt,
     })
   }
 

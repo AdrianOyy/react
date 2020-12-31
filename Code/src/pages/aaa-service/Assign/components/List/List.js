@@ -10,7 +10,6 @@ import adGroupApi from "../../../../../api/adGroup"
 import { L } from '../../../../../utils/lang'
 import roleApi from "../../../../../api/role"
 import formatDateTime from "../../../../../utils/formatDateTime"
-import formatDate from "../../../../../utils/formatDate"
 
 
 const tableName = L('List')
@@ -118,8 +117,8 @@ function AssignList(props) {
       value: role, isSelector: true, itemList: roleList,
       labelField: 'label', valueField: 'id'
     },
-    { id: 'createdAt', label: L('Created At'), type: 'date', disabled: false, readOnly: false, value: createdAt },
-    { id: 'updatedAt', label: L('Updated At'), type: 'date', disabled: false, readOnly: false, value: updatedAt },
+    { id: 'createdAt', label: L('Created At'), type: 'dateRange', disabled: false, readOnly: false, value: createdAt },
+    { id: 'updatedAt', label: L('Updated At'), type: 'dateRange', disabled: false, readOnly: false, value: updatedAt },
   ]
 
   const handleClear = () => {
@@ -142,8 +141,8 @@ function AssignList(props) {
       tenantId: tenant,
       groupId: adGroup,
       roleId: role,
-      createdAt: formatDate(createdAt),
-      updatedAt: formatDate(updatedAt),
+      createdAt,
+      updatedAt,
     })
   }
 

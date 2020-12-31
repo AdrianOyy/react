@@ -8,7 +8,6 @@ import { L } from '../../../../../utils/lang'
 import { CommonTable, SearchBar, TablePagination, HAPaper } from '../../../../../components'
 import API from "../../../../../api/inventory"
 import formatDateTime from "../../../../../utils/formatDateTime"
-import formatDate from "../../../../../utils/formatDate"
 
 const tableName = L('List')
 
@@ -70,8 +69,8 @@ function List(props) {
   ]
 
   const searchBarFieldList = [
-    { id: 'createdAt', label: L('Created At'), type: 'date', disabled: false, readOnly: false, value: createdAt },
-    { id: 'updatedAt', label: L('Updated At'), type: 'date', disabled: false, readOnly: false, value: updatedAt },
+    { id: 'createdAt', label: L('Created At'), type: 'dateRange', disabled: false, readOnly: false, value: createdAt },
+    { id: 'updatedAt', label: L('Updated At'), type: 'dateRange', disabled: false, readOnly: false, value: updatedAt },
   ]
 
   const handleClear = () => {
@@ -87,8 +86,8 @@ function List(props) {
   const handleSearch = () => {
     setQuery({
       isNetwork: 'Y',
-      createdAt: formatDate(createdAt),
-      updatedAt: formatDate(updatedAt),
+      createdAt,
+      updatedAt,
     })
   }
 

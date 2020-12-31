@@ -12,7 +12,6 @@ import { L } from '../../../../../utils/lang'
 import roleApi from "../../../../../api/role"
 import userApi from "../../../../../api/user"
 import formatDateTime from "../../../../../utils/formatDateTime"
-import formatDate from "../../../../../utils/formatDate"
 
 
 const tableName = L('List')
@@ -142,8 +141,8 @@ function List(props) {
       labelField: 'displayname', valueField: 'id'
     },
     { id: 'expiryDate', label: L('Expiry Date'), type: 'date', disabled: false, readOnly: false, value: expiryDate },
-    { id: 'createdAt', label: L('Created At'), type: 'date', disabled: false, readOnly: false, value: createdAt },
-    { id: 'updatedAt', label: L('Updated At'), type: 'date', disabled: false, readOnly: false, value: updatedAt },
+    { id: 'createdAt', label: L('Created At'), type: 'dateRange', disabled: false, readOnly: false, value: createdAt },
+    { id: 'updatedAt', label: L('Updated At'), type: 'dateRange', disabled: false, readOnly: false, value: updatedAt },
   ]
 
   const handleClear = () => {
@@ -172,8 +171,8 @@ function List(props) {
       roleId: role,
       userId: user,
       expiryDate,
-      createdAt: formatDate(createdAt),
-      updatedAt: formatDate(updatedAt),
+      createdAt,
+      updatedAt,
     })
   }
 

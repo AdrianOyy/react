@@ -8,7 +8,6 @@ import {
 import { CommonTable, SearchBar, TablePagination, HAPaper } from '../../../../../components'
 import API from "../../../../../api/vm"
 import formatDateTime from "../../../../../utils/formatDateTime"
-import formatDate from "../../../../../utils/formatDate"
 
 const tableName = L('List')
 
@@ -64,8 +63,8 @@ function List(props) {
 
   const searchBarFieldList = [
     { id: 'serialNumber', label: L('Serial Number'), type: 'text', disabled: false, readOnly: false, value: serialNumber },
-    { id: 'createdAt', label: L('Created At'), type: 'date', disabled: false, readOnly: false, value: createdAt },
-    { id: 'updatedAt', label: L('Updated At'), type: 'date', disabled: false, readOnly: false, value: updatedAt },
+    { id: 'createdAt', label: L('Created At'), type: 'dateRange', disabled: false, readOnly: false, value: createdAt },
+    { id: 'updatedAt', label: L('Updated At'), type: 'dateRange', disabled: false, readOnly: false, value: updatedAt },
   ]
 
   const handleClear = () => {
@@ -82,8 +81,8 @@ function List(props) {
   const handleSearch = () => {
     setQuery({
       serialNumber,
-      createdAt: formatDate(createdAt),
-      updatedAt: formatDate(updatedAt),
+      createdAt,
+      updatedAt
     })
   }
 

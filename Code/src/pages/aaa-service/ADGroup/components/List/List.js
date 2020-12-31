@@ -6,7 +6,6 @@ import {
 import { SearchBar, CommonTable, TablePagination, HAPaper } from '../../../../../components'
 import { L } from '../../../../../utils/lang'
 import formatDateTime from "../../../../../utils/formatDateTime"
-import formatDate from "../../../../../utils/formatDate"
 
 const tableName = L('List')
 
@@ -62,8 +61,8 @@ function List(props) {
   // 搜索栏字段列表
   const searchBarFieldList = [
     { id: 'name', label: L('Name'), type: 'text', disabled: false, readOnly: false, value: name },
-    { id: 'createdAt', label: L('Created At'), type: 'date', disabled: false, readOnly: false, value: createdAt },
-    { id: 'updatedAt', label: L('Updated At'), type: 'date', disabled: false, readOnly: false, value: updatedAt },
+    { id: 'createdAt', label: L('Created At'), type: 'dateRange', disabled: false, readOnly: false, value: createdAt },
+    { id: 'updatedAt', label: L('Updated At'), type: 'dateRange', disabled: false, readOnly: false, value: updatedAt },
   ]
 
   const handleClear = () => {
@@ -80,8 +79,8 @@ function List(props) {
   const handleSearch = () => {
     setQuery({
       name,
-      createdAt: formatDate(createdAt),
-      updatedAt: formatDate(updatedAt),
+      createdAt,
+      updatedAt,
     })
   }
 

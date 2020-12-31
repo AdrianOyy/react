@@ -8,8 +8,6 @@ import { CommonTable, SearchBar, TablePagination, HAPaper } from '../../../../..
 import API from "../../../../../api/role"
 import { L } from '../../../../../utils/lang'
 import formatDateTime from "../../../../../utils/formatDateTime"
-import formatDate from "../../../../../utils/formatDate"
-
 const tableName = L('List')
 
 
@@ -77,8 +75,8 @@ function List(props) {
       labelField: 'name',
       valueField: 'id'
     },
-    { id: 'createdAt', label: L('Created At'), type: 'date', disabled: false, readOnly: false, value: createdAt },
-    { id: 'updatedAt', label: L('Updated At'), type: 'date', disabled: false, readOnly: false, value: updatedAt },
+    { id: 'createdAt', label: L('Created At'), type: 'dateRange', disabled: false, readOnly: false, value: createdAt },
+    { id: 'updatedAt', label: L('Updated At'), type: 'dateRange', disabled: false, readOnly: false, value: updatedAt },
   ]
 
   const handleClear = () => {
@@ -98,8 +96,8 @@ function List(props) {
     setQuery({
       label,
       value,
-      createdAt: formatDate(createdAt),
-      updatedAt: formatDate(updatedAt),
+      createdAt,
+      updatedAt,
     })
   }
 

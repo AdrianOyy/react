@@ -10,7 +10,6 @@ import tenantApi from "../../../../../api/tenant"
 import adGroupApi from "../../../../../api/adGroup"
 import { L } from '../../../../../utils/lang'
 import formatDateTime from "../../../../../utils/formatDateTime"
-import formatDate from "../../../../../utils/formatDate"
 
 const tableName = ''
 
@@ -90,8 +89,8 @@ function List(props) {
   const searchBarFieldList = [
     { id: 'tenant', label: L('Tenant'), type: 'text', disabled: false, value: tenant, isSelector: true, itemList: tenantList, labelField: 'name', valueField: 'id' },
     { id: 'adGroup', label: L('AD Group'), type: 'text', disabled: false, value: adGroup, isSelector: true, itemList: adGroupList, labelField: 'name', valueField: 'id' },
-    { id: 'createdAt', label: L('Created At'), type: 'date', disabled: false, readOnly: false, value: createdAt },
-    { id: 'updatedAt', label: L('Updated At'), type: 'date', disabled: false, readOnly: false, value: updatedAt },
+    { id: 'createdAt', label: L('Created At'), type: 'dateRange', disabled: false, readOnly: false, value: createdAt },
+    { id: 'updatedAt', label: L('Updated At'), type: 'dateRange', disabled: false, readOnly: false, value: updatedAt },
   ]
 
   const handleClear = () => {
@@ -111,8 +110,8 @@ function List(props) {
     setQuery({
       tenantId: tenant,
       groupId: adGroup,
-      createdAt: formatDate(createdAt),
-      updatedAt: formatDate(updatedAt),
+      createdAt,
+      updatedAt,
     })
   }
 
