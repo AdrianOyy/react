@@ -6,7 +6,6 @@ import { SearchBar, CommonTable, TablePagination, HAPaper } from '../../../../..
 import API from "../../../../../api/tenant"
 import adGroupApi from "../../../../../api/adGroup"
 import formatDateTime from "../../../../../utils/formatDateTime"
-import formatDate from "../../../../../utils/formatDate"
 import { L } from '../../../../../utils/lang'
 
 

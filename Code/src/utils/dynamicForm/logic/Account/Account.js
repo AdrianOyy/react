@@ -243,7 +243,11 @@ class Account extends Common {
   // 特殊字段验证(异步)
   async asyncCheck(field) {
     const { fieldName, required, fieldDisplayName, show } = field
-    if (show && required && this.isEmpty(fieldName)) {
+    if (!show) {
+      this.parentFieldError.set(fieldName, null)
+      return { error: false, message: '' }
+    }
+    if (required && this.isEmpty(fieldName)) {
       const message = fieldDisplayName.length > 40 ? 'This field is required' : `${fieldDisplayName} is required`
       this.parentFieldError.set(fieldName, message)
       return { error: true, message }
@@ -275,6 +279,7 @@ class Account extends Common {
         return { error: true, message }
       }
     }
+    this.parentFieldError.set(fieldName, null)
     return { error: false, message: '' }
   }
 }

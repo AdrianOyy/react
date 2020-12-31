@@ -78,6 +78,10 @@ class Distribution extends Common {
   // 特殊字段验证(异步)
   async asyncCheck(field) {
     const { fieldName, required, fieldDisplayName, show } = field
+    if (!show) {
+      this.parentFieldError.set(fieldName, null)
+      return { error: false, message: '' }
+    }
     if (show && required && this.isEmpty(fieldName)) {
       const message = `${fieldDisplayName} is required`
       this.parentFieldError.set(fieldName, message)
@@ -110,6 +114,7 @@ class Distribution extends Common {
         return { error: true, message }
       }
     }
+    this.parentFieldError.set(fieldName, null)
     return { error: false, message: '' }
   }
 }

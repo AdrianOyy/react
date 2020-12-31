@@ -27,7 +27,10 @@ class NonPersonal extends Common {
   // 特殊字段验证(异步)
   async asyncCheck(field) {
     const { show, fieldName, required, fieldDisplayName } = field
-    if (!show) return { error: false, message: '' }
+    if (!show) {
+      this.parentFieldError.set(fieldName, null)
+      return { error: false, message: '' }
+    }
     if (required && this.isEmpty(fieldName)) {
       const message = `${fieldDisplayName} is required`
       this.parentFieldError.set(fieldName, message)
@@ -67,6 +70,7 @@ class NonPersonal extends Common {
         return { error: true, message }
       }
     }
+    this.parentFieldError.set(fieldName, null)
     return { error: false, message: '' }
   }
 

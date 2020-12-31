@@ -62,6 +62,10 @@ class VM extends Common {
   asyncCheck(field) {
     let message = ''
     const { fieldName, required, fieldDisplayName, show, isParent } = field
+    if (!show) {
+      this.parentFieldError.set(fieldName, null)
+      return { error: false, message: '' }
+    }
     if (show && required && this.isEmpty(fieldName, isParent)) {
       message = `${fieldDisplayName} is required`
       isParent ? this.parentFieldError.set(fieldName, message) :  this.childFieldError.set(fieldName, message)
@@ -74,7 +78,7 @@ class VM extends Common {
       return { error: true, message }
     }
     this.parentFieldError.set(fieldName, null)
-    return { error: false, message }
+    return { error: false, message: '' }
   }
 
   //  =====================================
