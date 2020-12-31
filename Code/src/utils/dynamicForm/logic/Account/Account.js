@@ -83,6 +83,13 @@ class Account extends Common {
         }
       }
     })
+    const [ apply_for_internet ] = this.parentInitDetail.filter(el => el.fieldName === 'apply_for_internet')
+    if (apply_for_internet && (!apply_for_internet.defaultValue || !apply_for_internet.defaultValue.includes('Intranet email account'))) {
+      const el_internet_email_alias = document.getElementById('element_internet_email_alias')
+      const el_internet_email_display_name = document.getElementById('element_internet_email_display_name')
+      el_internet_email_alias && (el_internet_email_alias.style.display = 'none')
+      el_internet_email_display_name && (el_internet_email_display_name.style.display = 'none')
+    }
   }
 
   getContractList() {
