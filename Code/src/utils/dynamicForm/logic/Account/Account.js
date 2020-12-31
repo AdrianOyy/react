@@ -244,7 +244,8 @@ class Account extends Common {
             headLine.style.fontSize = '1.8em'
             el.parentElement.insertBefore(headLine, el)
           }
-        } else if (fieldName === "apply_for") {
+        }
+        if (fieldName === "apply_for") {
           let headLine = document.getElementById("headLine_CORP Account")
           if (headLine) {
             headLine.style.display = 'block'
@@ -270,7 +271,8 @@ class Account extends Common {
           if (headLine) {
             headLine.style.display = 'none'
           }
-        } else if (fieldName === "apply_for") {
+        }
+        if (fieldName === "apply_for") {
           const headLine = document.getElementById("headLine_CORP Account")
           if (headLine) {
             headLine.style.display = 'none'
@@ -278,7 +280,8 @@ class Account extends Common {
         }
         el && (el.style.display = 'none')
       })
-    } else if (fieldName === 'existing_corp_account') {
+    }
+    if (fieldName === 'existing_corp_account') {
       const el_hkid = document.getElementById('element_hkid')
       const el_apply_for = document.getElementById('element_apply_for')
       let display = 'block'
@@ -305,7 +308,8 @@ class Account extends Common {
       }
       el_hkid && (el_hkid.style.display = display)
       el_apply_for && (el_apply_for.style.display = display)
-    } else if (fieldName === 'apply_for_internet') {
+    }
+    if (fieldName === 'apply_for_internet') {
       const el_internet_email_alias = document.getElementById('element_internet_email_alias')
       const el_internet_email_display_name = document.getElementById('element_internet_email_display_name')
       let display = 'block'
@@ -318,6 +322,20 @@ class Account extends Common {
       }
       el_internet_email_alias && (el_internet_email_alias.style.display = display)
       el_internet_email_display_name && (el_internet_email_display_name.style.display = display)
+    }
+    if (fieldName === 'apply_for') {
+      const element_email_display_name = document.getElementById('element_email_display_name')
+      const element_distribution_list = document.getElementById('element_distribution_list')
+      let display = 'block'
+      const [ apply_for ] = this.parentInitDetail.filter(el => el.fieldName === 'apply_for')
+      const [ target ] = apply_for && apply_for.itemList.filter(el => el.type === 'Intranet email account')
+      if (!value || !value.has(target.id)) {
+        display = 'none'
+      } else {
+        display = 'block'
+      }
+      element_email_display_name && (element_email_display_name.style.display = display)
+      element_distribution_list && (element_distribution_list.style.display = display)
     }
     this.parentData.set(fieldName, value)
     return value
