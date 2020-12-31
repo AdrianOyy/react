@@ -46,13 +46,13 @@ function SearchDialog(props) {
         <DialogContent dividers={true}>
           <List>
             {dataList.map((data) => (
-              <ListItem button onClick={() => handleSelect(data)}  key={data}>
+              <ListItem button onClick={() => handleSelect(data.mail)}  key={data.mail}>
                 <ListItemAvatar>
                   <Avatar className={classes.avatar}>
                     <PersonIcon />
                   </Avatar>
                 </ListItemAvatar>
-                <ListItemText primary={data} />
+                <ListItemText primary={data.display} />
               </ListItem>
             ))}
           </List>
