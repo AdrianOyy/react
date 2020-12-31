@@ -9,6 +9,7 @@ import { CREATE, UPDATE } from "../../../variable/stepName"
 import { isEmail, isHKPhone } from "../../../regex"
 import accountManagementAPI from "../../../../api/accountManagement"
 import ContractItems from "../../../../components/ContractItems/ContractItems"
+import { getUser } from "../../../auth"
 
 const applicant = document.createElement("div")
 applicant.id = "headLine_applicant's_particulars"
@@ -38,6 +39,7 @@ class Account extends Common {
 
   preParentInitDetail(parentInitDetail) {
     // 增加placeholder，修改check按钮显示为Add
+    const user = getUser()
     parentInitDetail.map(_ => {
       if (_.fieldName === 'surname') {
         _.placeholder = 'Example: CHAN'
@@ -45,6 +47,10 @@ class Account extends Common {
         _.placeholder = 'Example : Tai Man [should be same as that on HKID card]'
       } else if (_.fieldName === 'hkid') {
         _.placeholder = 'Example : A1234567'
+      } else if (_.fieldName === 'apply_for') {
+        if (!user.mail) {
+          _.itemList = _.itemList.filter(_ => _.type !== 'Intranet email account')
+        }
       } else if (_.fieldName === 'distribution_list') {
         _.buttonText = 'Add'
       }
@@ -54,7 +60,7 @@ class Account extends Common {
 
   hideItem() {
     const hideFieldList = this.parentInitDetail.filter(el => {
-      const flag = el.remark === 'Internet Account Application' || el.remark === 'IBRA Account Application'
+      const flag = el.remark === 'CORP Account Application' || el.remark === 'Internet Account Application' || el.remark === 'IBRA Account Application'
       if (flag) {
         el.show = false
       }
@@ -63,16 +69,18 @@ class Account extends Common {
     const [ accountType ] = this.parentInitDetail.filter(e => e.fieldName === 'account_type')
     let hideType = []
     if (accountType && accountType.itemList) {
+      if (accountType.itemList.indexOf('CORP Account Application') === -1) hideType.push('CORP Account Application')
       if (accountType.itemList.indexOf('Internet Account Application') === -1) hideType.push('Internet Account Application')
       if (accountType.itemList.indexOf('IBRA Account Application') === -1) hideType.push('IBRA Account Application')
     }
     hideFieldList.forEach(el => {
       const { fieldName, remark } = el
-      if (hideType.indexOf(remark) !== -1
-          && (!accountType || !accountType.defaultValue || !accountType.defaultValue.includes(remark))) {
+      if (hideType.indexOf(remark) !== -1) {
         const id = 'element_' + fieldName
         const el = document.getElementById(id)
-        el && (el.style.display = 'none')
+        if (!accountType || !accountType.defaultValue || !accountType.defaultValue.includes(remark)) {
+          el && (el.style.display = 'none')
+        }
       }
     })
   }
@@ -96,10 +104,15 @@ class Account extends Common {
   async getInitData() {
     const { cuId } = this.startData
     const parentInitData = new Map()
+    const user = getUser()
+    if (user.mail) {
+      parentInitData.set('apply_for', 'Intranet email account')
+    }
     parentInitData.set('owa_hospital_web', 'OWA Webmail + Hospital home page')
     parentInitData.set('apply_for_internet', 'Internet web access!@#Internet Email address')
+    parentInitData.set('authenticationmethod', 'HA Chat')
     if (!cuId) return { parentInitData }
-    const cuDatas = JSON.parse('{"account_type":"Internet Account Application!@#IBRA Account Application","surname":"rexshen","apply_for":"LAN account (LoginID)  and/or","contact_phone_no":"1358458751","division":"devericd","firstname":"shen","jobtitle":"IT","officefax":"35854519","section":"ie","stafftype":"Head Office","supervisoremailaccount":"rexshen@apjcorp.com"}')
+    const cuDatas = JSON.parse('{"account_type":"Internet Account Application!@#IBRA Account Application","surname":"rexshen","apply_for":"CORP ID (Login ID)","contact_phone_no":"1358458751","division":"devericd","firstname":"shen","jobtitle":"IT","officefax":"35854519","section":"ie","stafftype":"Head Office","supervisoremailaccount":"rexshen@apjcorp.com"}')
     parentInitData.set('account_type', cuDatas.account_type)
     parentInitData.set('surname', cuDatas.surname)
     parentInitData.set('apply_for', cuDatas.apply_for)
@@ -113,7 +126,7 @@ class Account extends Common {
     parentInitData.set('supervisoremailaccount', cuDatas.supervisoremailaccount)
     // parentInitData.set('account_type', 'Internet Account Application')
     // parentInitData.set('surname', 'rexshen')
-    // parentInitData.set('apply_for', 'LAN account (LoginID)  and/or')
+    // parentInitData.set('apply_for', 'CORP ID (Login ID)')
     // parentInitData.set('contact_phone_no', '1358458751')
     // parentInitData.set('division', 'devericd')
     // parentInitData.set('firstname', 'shen')
@@ -194,6 +207,20 @@ class Account extends Common {
             headLine.style.fontSize = '1.8em'
             el.parentElement.insertBefore(headLine, el)
           }
+        } else if (fieldName === "apply_for") {
+          let headLine = document.getElementById("headLine_CORP Account")
+          if (headLine) {
+            headLine.style.display = 'block'
+          } else {
+            headLine = document.createElement("div")
+            headLine.id = "headLine_CORP Account"
+            headLine.innerText = "CORP Account:"
+            headLine.style.width = '100%'
+            headLine.style.marginBottom = '1em'
+            headLine.style.marginTop = '1em'
+            headLine.style.fontSize = '1.8em'
+            el.parentElement.insertBefore(headLine, el)
+          }
         }
       })
       hideFieldList.forEach(fieldName => {
@@ -206,23 +233,28 @@ class Account extends Common {
           if (headLine) {
             headLine.style.display = 'none'
           }
+        } else if (fieldName === "apply_for") {
+          const headLine = document.getElementById("headLine_CORP Account")
+          if (headLine) {
+            headLine.style.display = 'none'
+          }
         }
         el && (el.style.display = 'none')
       })
     } else if (fieldName === 'existing_corp_account') {
       const el_hkid = document.getElementById('element_hkid')
       const el_apply_for = document.getElementById('element_apply_for')
+      let display = 'block'
       if (value) {
         this.parentInitDetail.map(e => {
           if (e.fieldName === 'hkid') {
             e.required = false
           } else if (e.fieldName === 'apply_for') {
             e.required = false
+            display = 'none'
           }
           return e
         })
-        el_hkid && (el_hkid.style.display = 'none')
-        el_apply_for && (el_apply_for.style.display = 'none')
       } else {
         this.parentInitDetail.map(e => {
           if (e.fieldName === 'hkid') {
@@ -232,9 +264,21 @@ class Account extends Common {
           }
           return e
         })
-        el_hkid && (el_hkid.style.display = 'block')
-        el_apply_for && (el_apply_for.style.display = 'block')
+        display = 'block'
       }
+      el_hkid && (el_hkid.style.display = display)
+      el_apply_for && (el_apply_for.style.display = display)
+    } else if (fieldName === 'apply_for_internet') {
+      const el_internet_email_alias = document.getElementById('element_internet_email_alias')
+      const el_internet_email_display_name = document.getElementById('element_internet_email_display_name')
+      let display = 'block'
+      if (!value || value.size === 0) {
+        display = 'none'
+      } else {
+        display = 'block'
+      }
+      el_internet_email_alias && (el_internet_email_alias.style.display = display)
+      el_internet_email_display_name && (el_internet_email_display_name.style.display = display)
     }
     this.parentData.set(fieldName, value)
     return value

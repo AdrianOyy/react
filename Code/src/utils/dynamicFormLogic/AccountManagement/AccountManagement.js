@@ -114,7 +114,7 @@ export default class AccountManagement {
       const data = {
         account_type: 'Internet Account Application',
         surname: 'rexshen',
-        apply_for: 'LAN account (LoginID)  and/or',
+        apply_for: 'CORP ID (Login ID)',
         contact_phone_no: '1358458751',
         division: 'devericd',
         firstname: 'shen',
