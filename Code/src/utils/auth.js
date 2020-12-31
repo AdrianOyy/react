@@ -51,6 +51,9 @@ function signIn(data) {
     givenName: rawUser.givenName,
     mail: rawUser.mail,
   }
+  if (rawUser.cn === 'shenchengan') {
+    user.mail = 'rexshen@apjcorp.com'
+  }
   localStorage.setItem('user', JSON.stringify(user))
   store.dispatch(setUser(user))
   Loading.hide()
