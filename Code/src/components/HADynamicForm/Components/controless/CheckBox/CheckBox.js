@@ -129,7 +129,7 @@ export default function HACheckBox(props) {
               <input
                 type={'checkbox'}
                 id={'checkbox_' + fieldName + '_' + el.type}
-                disabled={disabled}
+                disabled={disabled || el.disabled}
                 checked={checkedList.has(el.id)}
                 onChange={(e) => handleChange(e, el, i)}
               />

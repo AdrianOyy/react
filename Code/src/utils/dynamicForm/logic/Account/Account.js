@@ -106,7 +106,8 @@ class Account extends Common {
     const parentInitData = new Map()
     const user = getUser()
     if (user.mail) {
-      parentInitData.set('apply_for', 'Intranet email account')
+      parentInitData.set('apply_for', 'CORP ID (Login ID)!@#Intranet email account')
+      parentInitData.set('account_type', 'CORP Account Application')
     }
     parentInitData.set('owa_hospital_web', 'OWA Webmail + Hospital home page')
     parentInitData.set('apply_for_internet', 'Internet web access!@#Internet Email address')
@@ -124,19 +125,9 @@ class Account extends Common {
     parentInitData.set('section', cuDatas.section)
     parentInitData.set('stafftype', cuDatas.stafftype)
     parentInitData.set('supervisoremailaccount', cuDatas.supervisoremailaccount)
-    // parentInitData.set('account_type', 'Internet Account Application')
-    // parentInitData.set('surname', 'rexshen')
-    // parentInitData.set('apply_for', 'CORP ID (Login ID)')
-    // parentInitData.set('contact_phone_no', '1358458751')
-    // parentInitData.set('division', 'devericd')
-    // parentInitData.set('firstname', 'shen')
-    // parentInitData.set('jobtitle', 'IT')
-    // parentInitData.set('officefax', '35854519')
-    // parentInitData.set('section', 'ie')
-    // parentInitData.set('stafftype', 'Head Office')
-    // parentInitData.set('supervisoremailaccount', 'rexshen@apjcorp.com')
     return { parentInitData }
   }
+
   // 获取 checkBox 联动状态
   getCheckBoxStatus({ type, status }) {
     const res = new Map()
@@ -161,6 +152,52 @@ class Account extends Common {
     return 'Account Management'
   }
 
+  // 整合父表初始数据和结构
+  getParentInitDetail(parentInitData) {
+    if (!this.parentFormDetail || !this.parentFormDetail.length || !parentInitData) return []
+    const res = []
+    const remarkedItem = new Map()
+    for (const item of this.parentFormDetail) {
+      if (this.shouldContinue(item)) continue
+      const disabled = this.getDisabled(item, true)
+      if (item.fieldName === 'account_type') {
+        const [ target ] = item.itemList.filter(el => el.type === 'CORP Account Application')
+        target.disabled = true
+      }
+      let defaultValue
+      if (item && item.type === "checkbox") {
+        defaultValue = parentInitData.get(item.fieldName) && parentInitData.get(item.fieldName).split('!@#')
+        const initData = new Set()
+        const { itemList } = item
+        defaultValue && defaultValue.forEach(el => {
+          const [ target ] = itemList.filter(e => e.type === el)
+          target && target.id && initData.add(target.id)
+        })
+        parentInitData.set(item.fieldName, initData)
+      } else if (item && item.type === 'list') {
+        defaultValue = parentInitData.get(item.fieldName) && parentInitData.get(item.fieldName).split('!@#')
+      } else {
+        defaultValue = parentInitData.get(item.fieldName)
+      }
+      const newItem = {
+        ...item,
+        show: true,
+        defaultValue,
+        disabled,
+      }
+      if (newItem.remark) {
+        if (remarkedItem.has(newItem.remark)) {
+          remarkedItem.get(newItem.remark).push(newItem.fieldName)
+        } else {
+          remarkedItem.set(item.remark, [ newItem.fieldName ])
+        }
+      }
+      res.push(newItem)
+    }
+    this.parentInitDetail = res
+    this.remarkedItem = remarkedItem
+    return res
+  }
 
   // 父表字段变更
   onParentFieldChange(fieldName, value) {
@@ -272,7 +309,9 @@ class Account extends Common {
       const el_internet_email_alias = document.getElementById('element_internet_email_alias')
       const el_internet_email_display_name = document.getElementById('element_internet_email_display_name')
       let display = 'block'
-      if (!value || value.size === 0) {
+      const [ apply_for_internet ] = this.parentInitDetail.filter(el => el.fieldName === 'apply_for_internet')
+      const [ target ] = apply_for_internet && apply_for_internet.itemList.filter(el => el.type === 'Internet Email address')
+      if (!value || !value.has(target.id)) {
         display = 'none'
       } else {
         display = 'block'
@@ -292,7 +331,7 @@ class Account extends Common {
       return { error: false, message: '' }
     }
     if (required && this.isEmpty(fieldName)) {
-      const message = fieldDisplayName.length > 40 ? 'This field is required' : `${fieldDisplayName} is required`
+      const message = fieldDisplayName.length > 40 ? fieldDisplayName.slice(0, 37) + '... is required' : `${fieldDisplayName} is required`
       this.parentFieldError.set(fieldName, message)
       return { error: true, message }
     }

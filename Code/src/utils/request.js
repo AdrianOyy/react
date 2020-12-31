@@ -2,7 +2,7 @@ import axios from 'axios'
 // import store from '@/store'
 // import { getToken } from 'utils/auth'
 import CommonTip from '../components/CommonTip'
-import { signOut } from "./auth"
+import { signOut, getToken } from "./auth"
 
 // 这个baseUrl要根据实际情况进行改变
 // eslint-disable-next-line
@@ -70,7 +70,11 @@ export default {
           resolve(res)
         })
         .catch(error => {
-          CommonTip.error(error.message, { })
+          if (error.response && error.response.status) {
+            callback(error)
+          } else {
+            CommonTip.error(error.message)
+          }
           reject(error)
         })
         .finally(() => {
@@ -128,7 +132,11 @@ export default {
           resolve(res)
         })
         .catch(error => {
-          CommonTip.error(error.message, { })
+          if (error.response && error.response.status) {
+            callback(error)
+          } else {
+            CommonTip.error(error.message)
+          }
           reject(error)
         })
         .finally(() => {
@@ -154,7 +162,11 @@ export default {
           resolve(res)
         })
         .catch(error => {
-          CommonTip.error(error.message, { })
+          if (error.response && error.response.status) {
+            callback(error)
+          } else {
+            CommonTip.error(error.message)
+          }
           reject(error)
         })
         .finally(() => {
@@ -181,7 +193,11 @@ export default {
           resolve(res)
         })
         .catch(error => {
-          CommonTip.error(error.message, { })
+          if (error.response && error.response.status) {
+            callback(error)
+          } else {
+            CommonTip.error(error.message)
+          }
           reject(error)
         })
         .finally(() => {
@@ -205,6 +221,14 @@ function callback(error) {
     case 401:
       showTip('Unauthorized')
       signOut(true)
+      break
+    case 500:
+      if (!getToken()) {
+        showTip('Unauthorized')
+        signOut(true)
+      } else {
+        showTip('System Busy')
+      }
       break
     default:
       showTip('System Busy')

@@ -105,5 +105,6 @@ export {
   getUserGroupList,
   getUserGroupTypeList,
   getUserFromLocalStorage,
-  getUser
+  getUser,
+  getToken,
 }
