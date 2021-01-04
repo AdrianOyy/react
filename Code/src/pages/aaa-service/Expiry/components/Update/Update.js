@@ -21,7 +21,7 @@ function Update() {
   const [ errors, setErrors ] = useState({})
 
   const expiryDateCheck = async () => {
-    const emptyCheck = checkEmpty("Expiry Date", expiryDate)
+    const emptyCheck = checkEmpty("expiryDate", expiryDate, 'Expiry Date')
     setExpiryDateError(emptyCheck.error)
     setExpiryDateHelperText(emptyCheck.msg)
     return emptyCheck.error

@@ -90,8 +90,7 @@ export default function List() {
   const [ logType, setLogType ] = useState('')
   const [ request, setRequest ] = useState('')
   const [ response, setResponse ] = useState('')
-  const [ startDate, setStartDate ] = useState('')
-  const [ endDate, setEndDate ] = useState('')
+  const [ requestedDate, setRequestedDate ] = useState('')
   const [ query, setQuery ] = useState({})
   const [ rows, setRows ] = useState([])
   const [ page, setPage ] = useState(0)
@@ -125,25 +124,21 @@ export default function List() {
   }
 
   const searchBarFieldList = [
-    // { id: 'logType', label: 'LogType', type: 'text', disabled: false, value: logType },
-    { id: 'request', label: 'Request', type: 'text', disabled: false, value: request },
-    { id: 'response', label: 'Response', type: 'text', disabled: false, value: response },
-    { id: 'startDate', label: 'Start Date', type: 'date', disabled: false, readOnly: false, value: startDate },
-    { id: 'endDate', label: 'End Date', type: 'date', disabled: false, readOnly: false, value: endDate },
+    { id: 'request', label: 'Request path', type: 'text', disabled: false, value: request },
+    { id: 'response', label: 'Response Code', type: 'text', disabled: false, value: response },
+    { id: 'requestedDate', label: 'Requested Date', type: 'dateRange', disabled: false, readOnly: false, value: requestedDate },
   ]
 
   const handleClear = () => {
     setLogType('')
     setRequest('')
     setResponse('')
-    setStartDate('')
-    setEndDate('')
+    setRequestedDate('')
     setQuery({
       logType: '',
       request: '',
       response: '',
-      startDate: '',
-      endDate: '',
+      requestedDate: '',
     })
   }
 
@@ -152,8 +147,7 @@ export default function List() {
       logType,
       request,
       response,
-      startDate: startDate ? formatDateTime(startDate, 'YYYY-MM-DD') + ' 00:00:00' : startDate,
-      endDate: endDate ? formatDateTime(endDate, 'YYYY-MM-DD') + ' 23:59:59' : endDate,
+      requestedDate,
     })
   }
 
@@ -169,11 +163,8 @@ export default function List() {
       case "response":
         setResponse(value)
         break
-      case "startDate":
-        setStartDate(value)
-        break
-      case "endDate":
-        setEndDate(value)
+      case "requestedDate":
+        setRequestedDate(value)
         break
       default:
         break

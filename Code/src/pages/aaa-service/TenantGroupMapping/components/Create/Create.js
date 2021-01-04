@@ -120,7 +120,7 @@ function Create() {
   }
 
   const tenantCheck = async () => {
-    const emptyCheck = checkEmpty("tenant", tenantId)
+    const emptyCheck = checkEmpty("Tenant", tenantId)
     setTenantError(emptyCheck.error)
     setTenantHelperText(emptyCheck.msg)
     if (!emptyCheck.error && !groupError) {

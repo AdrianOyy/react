@@ -15,6 +15,9 @@ function List(props) {
   const { path } = props
 
   const [ surname, setSurname ] = React.useState('')
+  const [ givenName, setGivenName ] = React.useState('')
+  const [ displayName, setDisplayName ] = React.useState('')
+  const [ email, setEmail ] = React.useState('')
   const [ createdAt, setCreatedAt ] = React.useState('')
   const [ updatedAt, setUpdateAt ] = React.useState('')
   const [ query, setQuery ] = React.useState({})
@@ -80,16 +83,25 @@ function List(props) {
 
   const searchBarFieldList = [
     { id: 'surname', label: L('Surname'), type: 'text', disabled: false, readOnly: false, value: surname },
+    { id: 'givenName', label: L('Given Name'), type: 'text', disabled: false, readOnly: false, value: givenName },
+    { id: 'displayName', label: L('Display Name'), type: 'text', disabled: false, readOnly: false, value: displayName },
+    { id: 'email', label: L('Email'), type: 'text', disabled: false, readOnly: false, value: email },
     { id: 'createdAt', label: L('Created At'), type: 'dateRange', disabled: false, readOnly: false, value: createdAt },
     { id: 'updatedAt', label: L('Updated At'), type: 'dateRange', disabled: false, readOnly: false, value: updatedAt },
   ]
 
   const handleClear = () => {
     setSurname('')
+    setGivenName('')
+    setDisplayName('')
+    setEmail('')
     setCreatedAt('')
     setUpdateAt('')
     setQuery({
       surname: '',
+      givenName: '',
+      displayName: '',
+      email: '',
       createdAt: '',
       updatedAt: '',
     })
@@ -98,6 +110,9 @@ function List(props) {
   const handleSearch = () => {
     setQuery({
       surname,
+      givenName,
+      displayName,
+      email,
       createdAt,
       updatedAt,
     })
@@ -108,6 +123,15 @@ function List(props) {
     switch (id) {
       case "surname":
         setSurname(value)
+        break
+      case "givenName":
+        setGivenName(value)
+        break
+      case "displayName":
+        setDisplayName(value)
+        break
+      case "email":
+        setEmail(value)
         break
       case "createdAt":
         setCreatedAt(value)

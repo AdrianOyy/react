@@ -56,7 +56,7 @@ function Create(props) {
         value: map && map.get('value'),
         itemList: [
           { name: L("Read Only"), id: "Read Only" },
-          { name: L("Read & Write"), id: "Read && Write" },
+          { name: L("Read & Write"), id: "Read & Write" },
         ],
         labelField: 'name',
         valueField: 'id',

@@ -23,7 +23,7 @@ function Update() {
   const [ errors, setErrors ] = useState({})
 
   const roleCheck = async () => {
-    const emptyCheck = checkEmpty("role", roleId)
+    const emptyCheck = checkEmpty("role", roleId, "Role")
     setRoleError(emptyCheck.error)
     setRoleHelperText(emptyCheck.msg)
     return emptyCheck.error

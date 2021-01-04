@@ -90,6 +90,7 @@ export default function HASelect(props) {
       height: '1vh',
       lineHeight: '1vh',
       fontSize: '1rem',
+      marginTop: '0.5vh',
       fontFamily,
       marginLeft: getWidth(width).labelWidth + 'vw'
     }

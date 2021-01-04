@@ -17,6 +17,7 @@ import {
   RemoveRedEye as RemoveRedEyeIcon,
   BorderColorOutlined as BorderColorIcon,
 } from "@material-ui/icons"
+import Loading from "../Loading";
 
 const StyledTableRow = withStyles((theme) => ({
   root: {
@@ -90,15 +91,18 @@ function CommonTable(props) {
   const handleDelete = () => {
     if (loading || !deleteAPI) return
     setLoading(true)
+    Loading.show()
     deleteAPI({ idList: selected })
       .then(() => {
         CommentTip.success('success')
         handleSearch()
         setLoading(false)
         setSelected([])
+        Loading.hide()
       })
       .catch(() => {
         setLoading(false)
+        Loading.hide()
       })
   }
 

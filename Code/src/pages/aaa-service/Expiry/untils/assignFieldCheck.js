@@ -1,9 +1,9 @@
 import assignAPi from '../../../../api/assign'
-export function checkEmpty(key, value) {
+export function checkEmpty(key, value, name) {
   if (!value) {
     return {
       error: true,
-      msg: `${key} is required`
+      msg: `${name} is required`
     }
   }
   return {

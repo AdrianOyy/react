@@ -271,49 +271,49 @@ function Update() {
   }
 
   const nameCheck = async () => {
-    const emptyCheck = checkEmpty("name", name)
+    const emptyCheck = checkEmpty("Name", name)
     setNameError(emptyCheck.error)
     setNameHelperText(emptyCheck.msg)
     return emptyCheck.error
   }
 
   const justificationCheck = async () => {
-    const emptyCheck = checkEmpty("justification", justification)
+    const emptyCheck = checkEmpty("Justification", justification)
     setjustificationError(emptyCheck.error)
     setjustificationHelperText(emptyCheck.msg)
     return emptyCheck.error
   }
 
   const budget_typeCheck = async () => {
-    const emptyCheck = checkEmpty("budget_type", budget_type)
+    const emptyCheck = checkEmpty("Budget type", budget_type)
     setbudget_typeError(emptyCheck.error)
     setbudget_typeHelperText(emptyCheck.msg)
     return emptyCheck.error
   }
 
   const project_ownerCheck = async () => {
-    const emptyCheck = checkEmpty("project_owner", project_owner)
+    const emptyCheck = checkEmpty("Project owner", project_owner)
     setproject_ownerError(emptyCheck.error)
     setproject_ownerHelperText(emptyCheck.msg)
     return emptyCheck.error
   }
 
   const contact_personCheck = async () => {
-    const emptyCheck = checkEmpty("contact_person", contact_person)
+    const emptyCheck = checkEmpty("Contact person", contact_person)
     setcontact_personError(emptyCheck.error)
     setcontact_personHelperText(emptyCheck.msg)
     return emptyCheck.error
   }
 
   const project_estimationCheck = async () => {
-    const emptyCheck = checkEmpty("project_estimation", project_estimation)
+    const emptyCheck = checkEmpty("Project estimation", project_estimation)
     setproject_estimationError(emptyCheck.error)
     setproject_estimationHelperText(emptyCheck.msg)
     return emptyCheck.error
   }
 
   const methodology_textCheck = async () => {
-    const emptyCheck = checkEmpty("methodology_text", methodology_text)
+    const emptyCheck = checkEmpty("Methodology", methodology_text)
     setmethodology_textError(emptyCheck.error)
     setmethodology_textHelperText(emptyCheck.msg)
     return emptyCheck.error
