@@ -10,86 +10,38 @@ import { isEmail, isHKPhone } from "../../../regex"
 import accountManagementAPI from "../../../../api/accountManagement"
 import ContractItems from "../../../../components/ContractItems/ContractItems"
 import { getUser } from "../../../auth"
-
-const applicant = document.createElement("div")
-applicant.id = "headLine_applicant's_particulars"
-applicant.innerText = "Applicant's Particulars:"
-applicant.style.width = '100%'
-applicant.style.marginBottom = '1em'
-// applicant.style.marginTop = '1em'
-applicant.style.fontSize = '1.8em'
-
-const manager = document.createElement("div")
-manager.id = "headLine_manager's_Information"
-manager.innerText = "Manager's Information:"
-manager.style.width = '100%'
-manager.style.marginBottom = '1em'
-// applicant.style.marginTop = '1em'
-manager.style.fontSize = '1.8em'
+import {
+  showItem,
+  hideItem,
+  itemIsChecked,
+  getFieldByFieldName,
+  getCheckedItemList,
+  getUncheckItemList,
+  insertHeadLine,
+  removeHeadline,
+  clearItemValueByRemark,
+  getItemIDByItemName,
+  checkField,
+} from "../utils"
+import array2set from "../../../array2set"
 
 
 class Account extends Common {
 
   async insertHeadLine() {
-    const surname = document.getElementById("element_surname")
-    surname && surname.parentElement.insertBefore(applicant, surname)
-    const supervisoremailaccount = document.getElementById("element_supervisoremailaccount")
-    supervisoremailaccount && supervisoremailaccount.parentElement.insertBefore(manager, supervisoremailaccount)
-  }
-
-  preParentInitDetail(parentInitDetail) {
-    // 增加placeholder，修改check按钮显示为Add
-    const user = getUser()
-    parentInitDetail.map(_ => {
-      if (_.fieldName === 'surname') {
-        _.placeholder = 'Example: CHAN'
-      } else if (_.fieldName === 'firstname') {
-        _.placeholder = 'Example : Tai Man [should be same as that on HKID card]'
-      } else if (_.fieldName === 'hkid') {
-        _.placeholder = 'Example : A1234567'
-      } else if (_.fieldName === 'apply_for') {
-        if (!user.mail) {
-          _.itemList = _.itemList.filter(_ => _.type !== 'Intranet email account')
-        }
-      } else if (_.fieldName === 'distribution_list') {
-        _.buttonText = 'Add'
-      }
-      return _
-    })
+    insertHeadLine('surname', 'Applicant\'s Particulars')
+    insertHeadLine('supervisoremailaccount', "Manager's Information")
+    const apply_for = getFieldByFieldName(this, 'apply_for')
+    if (apply_for && apply_for.show) {
+      insertHeadLine('apply_for', 'CORP Account')
+    }
   }
 
   hideItem() {
-    const hideFieldList = this.parentInitDetail.filter(el => {
-      const flag = el.remark === 'CORP Account Application' || el.remark === 'Internet Account Application' || el.remark === 'IBRA Account Application'
-      if (flag) {
-        el.show = false
-      }
-      return flag
-    })
-    const [ accountType ] = this.parentInitDetail.filter(e => e.fieldName === 'account_type')
-    let hideType = []
-    if (accountType && accountType.itemList) {
-      if (accountType.itemList.indexOf('CORP Account Application') === -1) hideType.push('CORP Account Application')
-      if (accountType.itemList.indexOf('Internet Account Application') === -1) hideType.push('Internet Account Application')
-      if (accountType.itemList.indexOf('IBRA Account Application') === -1) hideType.push('IBRA Account Application')
-    }
-    hideFieldList.forEach(el => {
-      const { fieldName, remark } = el
-      if (hideType.indexOf(remark) !== -1) {
-        const id = 'element_' + fieldName
-        const el = document.getElementById(id)
-        if (!accountType || !accountType.defaultValue || !accountType.defaultValue.includes(remark)) {
-          el && (el.style.display = 'none')
-        }
-      }
-    })
-    const [ apply_for_internet ] = this.parentInitDetail.filter(el => el.fieldName === 'apply_for_internet')
-    if (apply_for_internet && (!apply_for_internet.defaultValue || !apply_for_internet.defaultValue.includes('Intranet email account'))) {
-      const el_internet_email_alias = document.getElementById('element_internet_email_alias')
-      const el_internet_email_display_name = document.getElementById('element_internet_email_display_name')
-      el_internet_email_alias && (el_internet_email_alias.style.display = 'none')
-      el_internet_email_display_name && (el_internet_email_display_name.style.display = 'none')
-    }
+    if (!itemIsChecked(this, 'account_type', 'CORP Account Application')) hideItem(this, 'CORP Account Application')
+    if (!itemIsChecked(this, 'account_type', 'Internet Account Application')) hideItem(this, 'Internet Account Application')
+    if (!itemIsChecked(this, 'account_type', 'IBRA Account Application')) hideItem(this, 'IBRA Account Application')
+    if (!itemIsChecked(this, 'apply_for', 'Intranet email account')) hideItem(this, 'Intranet email account')
   }
 
   getContractList() {
@@ -109,29 +61,12 @@ class Account extends Common {
   }
 
   async getInitData() {
-    const { cuId } = this.startData
     const parentInitData = new Map()
-    const user = getUser()
-    if (user.mail) {
-      parentInitData.set('apply_for', 'CORP ID (Login ID)!@#Intranet email account')
-      parentInitData.set('account_type', 'CORP Account Application')
-    }
+    parentInitData.set('apply_for', 'CORP ID (Login ID)!@#Intranet email account')
+    parentInitData.set('account_type', 'CORP Account Application')
     parentInitData.set('owa_hospital_web', 'OWA Webmail + Hospital home page')
-    parentInitData.set('apply_for_internet', 'Internet web access!@#Internet Email address')
+    // parentInitData.set('apply_for_internet', 'Internet web access!@#Internet Email address')
     parentInitData.set('authenticationmethod', 'HA Chat')
-    if (!cuId) return { parentInitData }
-    const cuDatas = JSON.parse('{"account_type":"Internet Account Application!@#IBRA Account Application","surname":"rexshen","apply_for":"CORP ID (Login ID)","contact_phone_no":"1358458751","division":"devericd","firstname":"shen","jobtitle":"IT","officefax":"35854519","section":"ie","stafftype":"Head Office","supervisoremailaccount":"rexshen@apjcorp.com"}')
-    parentInitData.set('account_type', cuDatas.account_type)
-    parentInitData.set('surname', cuDatas.surname)
-    parentInitData.set('apply_for', cuDatas.apply_for)
-    parentInitData.set('contact_phone_no', cuDatas.contact_phone_no)
-    parentInitData.set('division', cuDatas.division)
-    parentInitData.set('firstname', cuDatas.firstname)
-    parentInitData.set('jobtitle', cuDatas.jobtitle)
-    parentInitData.set('officefax', cuDatas.officefax)
-    parentInitData.set('section', cuDatas.section)
-    parentInitData.set('stafftype', cuDatas.stafftype)
-    parentInitData.set('supervisoremailaccount', cuDatas.supervisoremailaccount)
     return { parentInitData }
   }
 
@@ -171,6 +106,22 @@ class Account extends Common {
         const [ target ] = item.itemList.filter(el => el.type === 'CORP Account Application')
         target.disabled = true
       }
+      if (item.fieldName === 'apply_for') {
+        const [ target ] = item.itemList.filter(el => el.type === 'CORP ID (Login ID)')
+        target.disabled = true
+      }
+      if (item.fieldName === 'surname') {
+        item.placeholder = 'Example: CHAN'
+      }
+      if (item.fieldName === 'firstname') {
+        item.placeholder = 'Example : Tai Man'
+      }
+      if (item.fieldName === 'hkid') {
+        item.placeholder = 'Example : A1234567'
+      }
+      if (item.fieldName === 'distribution_list') {
+        item.buttonText = 'Add'
+      }
       let defaultValue
       if (item && item.type === "checkbox") {
         defaultValue = parentInitData.get(item.fieldName) && parentInitData.get(item.fieldName).split('!@#')
@@ -208,142 +159,79 @@ class Account extends Common {
 
   // 父表字段变更
   onParentFieldChange(fieldName, value) {
-    if (fieldName === 'account_type') {
-      const showList = new Set()
-      const [{ itemList }] = this.parentFormDetail.filter(e => e.fieldName === 'account_type')
-      const fullId = new Set()
-      itemList.forEach(e => {
-        fullId.add(e.type)
-        value.forEach(el => {
-          if (e.id === el) {
-            showList.add(e.type)
-          }
-        })
-      })
-      const hideList = new Set([ ...fullId ].filter(e => !showList.has(e)))
-      const showFieldList = []
-      const hideFieldList = []
-      showList.forEach(checkboxName => {
-        const t = this.remarkedItem.get(checkboxName)
-        t && showFieldList.push(...t)
-      })
-      hideList.forEach(checkboxName => {
-        const t = this.remarkedItem.get(checkboxName)
-        t && hideFieldList.push(...t)
-      })
-      showFieldList.forEach(fieldName => {
-        const id = 'element_' + fieldName
-        const [ item ] = this.parentInitDetail.filter(e => e.fieldName === fieldName)
-        item.show = true
-        const el = document.getElementById(id)
-        el && (el.style.display = 'block')
-        if (fieldName === "owa_hospital_web") {
-          let headLine = document.getElementById("headLine_Profile Required")
-          if (headLine) {
-            headLine.style.display = 'block'
-          } else {
-            headLine = document.createElement("div")
-            headLine.id = "headLine_Profile Required"
-            headLine.innerText = "Profile Required:"
-            headLine.style.width = '100%'
-            headLine.style.marginBottom = '1em'
-            headLine.style.marginTop = '1em'
-            headLine.style.fontSize = '1.8em'
-            el.parentElement.insertBefore(headLine, el)
-          }
+    const field = getFieldByFieldName(this, fieldName)
+    if (field.type === 'checkbox') {
+      const checkedItemList = getCheckedItemList(this, fieldName, value)
+      checkedItemList.forEach(remark => {
+        const shownFieldList = showItem(this, remark)
+        if (shownFieldList.indexOf("owa_hospital_web") !== -1) {
+          insertHeadLine('owa_hospital_web', 'Profile Required')
         }
-        if (fieldName === "apply_for") {
-          let headLine = document.getElementById("headLine_CORP Account")
-          if (headLine) {
-            headLine.style.display = 'block'
-          } else {
-            headLine = document.createElement("div")
-            headLine.id = "headLine_CORP Account"
-            headLine.innerText = "CORP Account:"
-            headLine.style.width = '100%'
-            headLine.style.marginBottom = '1em'
-            headLine.style.marginTop = '1em'
-            headLine.style.fontSize = '1.8em'
-            el.parentElement.insertBefore(headLine, el)
+        if (shownFieldList.indexOf("apply_for") !== -1) {
+          insertHeadLine('apply_for', 'CORP Account')
+        }
+        if (shownFieldList.indexOf("apply_for_internet") !== -1) {
+          const apply_for_internet = getFieldByFieldName(this, "apply_for_internet")
+          if (apply_for_internet && apply_for_internet.show && apply_for_internet.itemList) {
+            const itemIDList = []
+            apply_for_internet.itemList.forEach(item => {
+              const itemId = getItemIDByItemName(this, apply_for_internet.fieldName, item.type)
+              itemId && itemIDList.push(itemId)
+            })
+            this.onParentFieldChange("apply_for_internet", array2set(itemIDList))
+            checkField('apply_for_internet', 'Internet web access')
+            checkField('apply_for_internet', 'Internet Email address')
+            if (value && this.parentData.get("apply_for_internet")) {
+              value = new Set([ ...value, ...this.parentData.get("apply_for_internet") ])
+            }
           }
         }
       })
-      hideFieldList.forEach(fieldName => {
-        const id = 'element_' + fieldName
-        const [ item ] = this.parentInitDetail.filter(e => e.fieldName === fieldName)
-        item.show = false
-        const el = document.getElementById(id)
-        if (fieldName === "owa_hospital_web") {
-          const headLine = document.getElementById("headLine_Profile Required")
-          if (headLine) {
-            headLine.style.display = 'none'
-          }
+
+      const uncheckItemList = getUncheckItemList(this, fieldName, value)
+      uncheckItemList.forEach(remark => {
+        const hiddenFieldList = hideItem(this, remark)
+        if (hiddenFieldList.indexOf("owa_hospital_web") !== -1) {
+          removeHeadline("Profile Required")
         }
-        if (fieldName === "apply_for") {
-          const headLine = document.getElementById("headLine_CORP Account")
-          if (headLine) {
-            headLine.style.display = 'none'
-          }
+        if (hiddenFieldList.indexOf("apply_for") !== -1) {
+          removeHeadline("CORP Account")
         }
-        el && (el.style.display = 'none')
+        // clear hidden item’s value
+        clearItemValueByRemark(this, remark)
       })
     }
-    if (fieldName === 'existing_corp_account') {
-      const el_hkid = document.getElementById('element_hkid')
-      const el_apply_for = document.getElementById('element_apply_for')
-      let display = 'block'
-      if (value) {
-        this.parentInitDetail.map(e => {
-          if (e.fieldName === 'hkid') {
-            e.required = false
-          } else if (e.fieldName === 'apply_for') {
-            e.required = false
-            display = 'none'
-          }
-          return e
-        })
-      } else {
-        this.parentInitDetail.map(e => {
-          if (e.fieldName === 'hkid') {
-            e.required = true
-          } else if (e.fieldName === 'apply_for') {
-            e.required = true
-          }
-          return e
-        })
-        display = 'block'
-      }
-      el_hkid && (el_hkid.style.display = display)
-      el_apply_for && (el_apply_for.style.display = display)
-    }
-    if (fieldName === 'apply_for_internet') {
-      const el_internet_email_alias = document.getElementById('element_internet_email_alias')
-      const el_internet_email_display_name = document.getElementById('element_internet_email_display_name')
-      let display = 'block'
-      const [ apply_for_internet ] = this.parentInitDetail.filter(el => el.fieldName === 'apply_for_internet')
-      const [ target ] = apply_for_internet && apply_for_internet.itemList.filter(el => el.type === 'Internet Email address')
-      if (!value || !value.has(target.id)) {
-        display = 'none'
-      } else {
-        display = 'block'
-      }
-      el_internet_email_alias && (el_internet_email_alias.style.display = display)
-      el_internet_email_display_name && (el_internet_email_display_name.style.display = display)
-    }
-    if (fieldName === 'apply_for') {
-      const element_email_display_name = document.getElementById('element_email_display_name')
-      const element_distribution_list = document.getElementById('element_distribution_list')
-      let display = 'block'
-      const [ apply_for ] = this.parentInitDetail.filter(el => el.fieldName === 'apply_for')
-      const [ target ] = apply_for && apply_for.itemList.filter(el => el.type === 'Intranet email account')
-      if (!value || !value.has(target.id)) {
-        display = 'none'
-      } else {
-        display = 'block'
-      }
-      element_email_display_name && (element_email_display_name.style.display = display)
-      element_distribution_list && (element_distribution_list.style.display = display)
-    }
+
+    // TODO 以下注释部分逻辑有误
+    // if (fieldName === 'existing_corp_account') {
+    //   const el_hkid = document.getElementById('element_hkid')
+    //   const el_apply_for = document.getElementById('element_apply_for')
+    //   let display = 'block'
+    //   if (value) {
+    //     this.parentInitDetail.map(e => {
+    //       if (e.fieldName === 'hkid') {
+    //         e.required = false
+    //       } else if (e.fieldName === 'apply_for') {
+    //         e.required = false
+    //         display = 'none'
+    //       }
+    //       return e
+    //     })
+    //   } else {
+    //     this.parentInitDetail.map(e => {
+    //       if (e.fieldName === 'hkid') {
+    //         e.required = true
+    //       } else if (e.fieldName === 'apply_for') {
+    //         e.required = true
+    //       }
+    //       return e
+    //     })
+    //     display = 'block'
+    //   }
+    //   el_hkid && (el_hkid.style.display = display)
+    //   el_apply_for && (el_apply_for.style.display = display)
+    // }
+
     this.parentData.set(fieldName, value)
     return value
   }
@@ -389,6 +277,120 @@ class Account extends Common {
     }
     this.parentFieldError.set(fieldName, null)
     return { error: false, message: '' }
+  }
+}
+
+class AccountWithCuID extends Account {
+  async getInitData() {
+    // const { cuId } = this.startData
+    const parentInitData = new Map()
+    this.user = getUser()
+    // if (!this.user.mail) {
+    //   parentInitData.set('account_type', 'CORP Account Application')
+    // }
+    parentInitData.set('owa_hospital_web', 'OWA Webmail + Hospital home page')
+    parentInitData.set('apply_for_internet', 'Internet web access!@#Internet Email address')
+    if (!this.user.mail) {
+      parentInitData.set('apply_for', 'Intranet email account')
+    }
+    parentInitData.set('authenticationmethod', 'HA Chat')
+    const cuDatas = JSON.parse('{"account_type":"Internet Account Application!@#IBRA Account Application","surname":"rexshen","apply_for":"CORP ID (Login ID)","contact_phone_no":"13584587","division":"devericd","firstname":"shen","jobtitle":"IT","officefax":"35854519","section":"ie","stafftype":"Head Office","supervisoremailaccount":"rexshen@apjcorp.com"}')
+    parentInitData.set('account_type', !this.user.mail ? 'CORP Account Application!@#' + cuDatas.account_type : cuDatas.account_type)
+    parentInitData.set('surname', cuDatas.surname)
+    // parentInitData.set('apply_for', cuDatas.apply_for)
+    parentInitData.set('contact_phone_no', cuDatas.contact_phone_no)
+    parentInitData.set('division', cuDatas.division)
+    parentInitData.set('firstname', cuDatas.firstname)
+    parentInitData.set('jobtitle', cuDatas.jobtitle)
+    parentInitData.set('officefax', cuDatas.officefax)
+    parentInitData.set('section', cuDatas.section)
+    parentInitData.set('stafftype', cuDatas.stafftype)
+    parentInitData.set('supervisoremailaccount', cuDatas.supervisoremailaccount)
+    return { parentInitData }
+  }
+
+  // 整合父表初始数据和结构
+  getParentInitDetail(parentInitData) {
+    if (!this.parentFormDetail || !this.parentFormDetail.length || !parentInitData) return []
+    const res = []
+    const remarkedItem = new Map()
+    for (const item of this.parentFormDetail) {
+      if (this.shouldContinue(item)) continue
+      const disabled = this.getDisabled(item, true)
+      if (item.fieldName === 'account_type') {
+        let index = findItemIndex(item, 'CORP Account Application')
+        if (this.user.mail) {
+          item.itemList.splice(index, 1)
+        } else {
+          item.itemList[index].disabled = true
+        }
+      }
+      if (item.fieldName === 'apply_for') {
+        if (!this.user.mail) {
+          let index = findItemIndex(item, 'CORP ID (Login ID)')
+          item.itemList.splice(index, 1)
+        }
+      }
+      if (item.fieldName === 'surname') {
+        item.placeholder = 'Example: CHAN'
+      }
+      if (item.fieldName === 'firstname') {
+        item.placeholder = 'Example : Tai Man'
+      }
+      if (item.fieldName === 'hkid') {
+        item.placeholder = 'Example : A1234567'
+      }
+      if (item.fieldName === 'distribution_list') {
+        item.buttonText = 'Add'
+      }
+      let defaultValue
+      if (item && item.type === "checkbox") {
+        defaultValue = parentInitData.get(item.fieldName) && parentInitData.get(item.fieldName).split('!@#')
+        // if (item.fieldName === 'apply_for') {
+        //   console.log('parentInitData.get(item.fieldName)=========================parentInitData.get(item.fieldName)')
+        //   console.log(parentInitData.get(item.fieldName))
+        //   console.log('parentInitData.get(item.fieldName)=========================parentInitData.get(item.fieldName)')
+        // }
+        const initData = new Set()
+        const { itemList } = item
+        defaultValue && defaultValue.forEach(el => {
+          const [ target ] = itemList.filter(e => e.type === el)
+          target && target.id && initData.add(target.id)
+        })
+        parentInitData.set(item.fieldName, initData)
+      } else if (item && item.type === 'list') {
+        defaultValue = parentInitData.get(item.fieldName) && parentInitData.get(item.fieldName).split('!@#')
+      } else {
+        defaultValue = parentInitData.get(item.fieldName)
+      }
+      const newItem = {
+        ...item,
+        show: true,
+        defaultValue,
+        disabled,
+      }
+      if (newItem.remark) {
+        if (remarkedItem.has(newItem.remark)) {
+          remarkedItem.get(newItem.remark).push(newItem.fieldName)
+        } else {
+          remarkedItem.set(item.remark, [ newItem.fieldName ])
+        }
+      }
+      res.push(newItem)
+    }
+    this.parentInitDetail = res
+    this.remarkedItem = remarkedItem
+    return res
+  }
+
+  shouldContinue(item) {
+    if (this.stepName && this.stepName === CREATE && !item.showOnRequest) return true
+    if (item.fieldName === 'hkid') return true
+    return !!(this.user.mail && (
+      item.fieldName === 'existing_corp_account' ||
+      item.fieldName === 'email_display_name' ||
+      item.fieldName === 'distribution_list'
+    ))
   }
 }
 
@@ -485,13 +487,28 @@ class AccountUpdate extends Account {
 }
 
 export default async function getAccountLogic(props) {
-  const { stepName } = props
+  const { stepName, startData } = props
   switch (stepName) {
     case CREATE:
+      if (startData && startData.cuId) {
+        return new AccountWithCuID(props)
+      }
       return new Account(props)
     case UPDATE:
       return new AccountUpdate(props)
     default:
       return new AccountDetail(props)
   }
+}
+
+
+function findItemIndex(item, type) {
+  let index = -1
+  for (let i = 0; i < item.itemList.length; i++) {
+    if (item.itemList[i].type === type) {
+      index = i
+      break
+    }
+  }
+  return index
 }

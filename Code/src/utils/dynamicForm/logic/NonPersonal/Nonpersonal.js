@@ -11,7 +11,7 @@ import { CREATE, HA4, UPDATE } from "../../../variable/stepName"
 import { getUser } from "../../../auth"
 import ContractItems from "../../../../components/ContractItems/ContractItems"
 const applicant = document.createElement("div")
-applicant.id = "headLine_applicant's_particulars"
+applicant.id = "headline_applicant's_particulars"
 applicant.innerText = "Applicant's Particulars:"
 applicant.style.width = '100%'
 applicant.style.marginBottom = '1em'

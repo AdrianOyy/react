@@ -33,6 +33,7 @@ export class Common {
     this.asyncCheck = this.asyncCheck.bind(this)
     this.getParentErrorMessageList = this.getParentErrorMessageList.bind(this)
     this.getChildFormErrorMessageList = this.getChildFormErrorMessageList.bind(this)
+    this.getCurrentValue = this.getCurrentValue.bind(this)
     const {
       processDefinitionId,
       workflowName,
@@ -201,6 +202,10 @@ export class Common {
       message && messageList.push(message)
     })
     return messageList
+  }
+
+  getCurrentValue(fieldName) {
+    return this.parentData.get(fieldName)
   }
 
   getContractList() {

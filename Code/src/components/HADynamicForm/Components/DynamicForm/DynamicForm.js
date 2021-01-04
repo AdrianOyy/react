@@ -24,9 +24,6 @@ export default function DynamicForm() {
         const pInitData = parentInitData ? parentInitData : new Map()
         logic.parentData = pInitData
         const parentInitDetail = logic.getParentInitDetail(pInitData)
-        if (logic.preParentInitDetail) {
-          logic.preParentInitDetail(parentInitDetail)
-        }
         logic.childrenDataList = childInitData ? childInitData : []
         setInitData({
           parentInitDetail,

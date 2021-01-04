@@ -1,4 +1,4 @@
-import React, { useEffect } from "react"
+import React from "react"
 import { connect } from "react-redux"
 
 import Helmet from 'react-helmet'
@@ -10,16 +10,8 @@ import { StylesProvider } from "@material-ui/styles"
 import { ThemeProvider } from "styled-components"
 import maTheme from "./theme"
 import Routes from "./routes/Routes"
-import getIEVersion from './utils/ieVersion'
-import CommonTip from './components/CommonTip'
 
 function App({ theme }) {
-  useEffect(() => {
-    const IEVersion = getIEVersion()
-    if (IEVersion !== -1) {
-      CommonTip.warning("This platform is not support IE, please change another browser to continue")
-    }
-  }, [])
 
   return (
     <React.Fragment>

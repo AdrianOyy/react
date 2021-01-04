@@ -34,6 +34,7 @@ export default function HACheckBox(props) {
     fieldName,
     getCheckBoxStatus,
     defaultValue,
+    getCurrentValue
   } = props
 
   const [ error, setError ] = useState(false)
@@ -55,7 +56,9 @@ export default function HACheckBox(props) {
   const useStyles = makeStyles((theme) => (getCommonStyle(theme, style, error, helperText, disabled)))
 
   const handleChange = useCallback((e, el) => {
-    const newList = cloneSet1(checkedList)
+    let currentValue =  (getCurrentValue && getCurrentValue(fieldName)) || new Set()
+    // const newList = new Set([ ...cloneSet1(checkedList), ...currentValue ])
+    const newList = cloneSet1(currentValue)
     newList.has(el.id) ? newList.delete(el.id) : newList.add(el.id)
     if (getCheckBoxStatus) {
       const model = {
@@ -73,6 +76,7 @@ export default function HACheckBox(props) {
         }
       })
     }
+    setCheckedList(new Set())
     setCheckedList(newList)
     onChange && onChange(fieldName, newList)
     if (checkField) {

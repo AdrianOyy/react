@@ -33,6 +33,7 @@ const switchComponent = (el, i, logic, style, isParent) => {
           checkField={logic ? (isParent ? logic.checkParentField : logic.checkChildField) : undefined}
           style={style[field.fieldName] ? style[field.fieldName] : style.commonElement}
           isParent={isParent}
+          getCurrentValue={logic ? logic.getCurrentValue : undefined}
         />
       )
     case 'inputCheck':
