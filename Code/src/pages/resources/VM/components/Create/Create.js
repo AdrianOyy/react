@@ -4,7 +4,7 @@ import DetailPage from "../../../../../components/DetailPage"
 import API from "../../../../../api/vm"
 import CommonTip from "../../../../../components/CommonTip"
 import { useHistory } from 'react-router-dom'
-import { checkEmpty, getCheckExist } from "../../untils/VMFieldCheck"
+import { checkEmpty, checkEmptyAre, getCheckExist } from "../../untils/VMFieldCheck"
 import tenantApi from "../../../../../api/tenant"
 import { L } from '../../../../../utils/lang'
 
@@ -267,7 +267,7 @@ function Create(props) {
   }
 
   const serialNumberCheck = async () => {
-    const emptyCheck = checkEmpty("serialNumber", map.get("serialNumber"))
+    const emptyCheck = checkEmpty("Serial number", map.get("serialNumber"))
     setSerialNumberError(emptyCheck.error)
     setSerialNumberHelperText(emptyCheck.msg)
     if (!emptyCheck.error) {
@@ -281,7 +281,7 @@ function Create(props) {
   }
 
   const assignedMemoryCheck = async () => {
-    const emptyCheck = checkEmpty("assignedMemory", map.get("assignedMemory"))
+    const emptyCheck = checkEmpty("Assigned memory", map.get("assignedMemory"))
     setAssignedMemoryError(emptyCheck.error)
     setAssignedMemoryHelperText(emptyCheck.msg)
     if (!emptyCheck.error) {
@@ -296,7 +296,7 @@ function Create(props) {
   }
 
   const assignedCPUCoresCheck = async () => {
-    const emptyCheck = checkEmpty("assignedCPUCores", map.get("assignedCPUCores"))
+    const emptyCheck = checkEmptyAre("Assigned CPU cores", map.get("assignedCPUCores"))
     setAssignedCPUCoresError(emptyCheck.error)
     setAssignedCPUCoresHelperText(emptyCheck.msg)
     if (!emptyCheck.error) {
@@ -311,14 +311,14 @@ function Create(props) {
   }
 
   const CPUTypeCheck = async () => {
-    const emptyCheck = checkEmpty("CPUType", map.get("CPUType"))
+    const emptyCheck = checkEmpty("CPU type", map.get("CPUType"))
     setCPUTypeError(emptyCheck.error)
     setCPUTypeHelperText(emptyCheck.msg)
     return CPUTypeCheck.error
   }
 
   const diskSizeCheck = async () => {
-    const emptyCheck = checkEmpty("diskSize", map.get("diskSize"))
+    const emptyCheck = checkEmpty("Disk size", map.get("diskSize"))
     setDiskSizeError(emptyCheck.error)
     setDiskSizeHelperText(emptyCheck.msg)
     if (!emptyCheck.error) {
@@ -333,14 +333,14 @@ function Create(props) {
   }
 
   const VMClusterIdCheck = async () => {
-    const emptyCheck = checkEmpty("VMClusterId", map.get("VMClusterId"))
+    const emptyCheck = checkEmpty("VM Cluster", map.get("VMClusterId"))
     setVMClusterIdError(emptyCheck.error)
     setVMClusterIdHelperText(emptyCheck.msg)
     return emptyCheck.error
   }
 
   const tenantCheck = async () => {
-    const emptyCheck = checkEmpty("tenantId", map.get("tenantId"))
+    const emptyCheck = checkEmpty("Tenant", map.get("tenantId"))
     setTenantError(emptyCheck.error)
     setTenantHelperText(emptyCheck.msg)
     return emptyCheck.error

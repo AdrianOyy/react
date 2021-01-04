@@ -12,6 +12,19 @@ export function checkEmpty(key, value) {
   }
 }
 
+export function checkEmptyAre(key, value) {
+  if (!value) {
+    return {
+      error: true,
+      msg: `${key} are required`
+    }
+  }
+  return {
+    error: false,
+    msg: ''
+  }
+}
+
 export function getCheckExist() {
   return async function(id, value) {
     const { data } = await API.checkSerialNumber(id, value)
