@@ -3,9 +3,10 @@ import API from '../../../../api/IPAssignment'
 
 export function checkEmpty(key, value) {
   if (!value) {
+    let name = key === 'ip' ? 'IP' : 'DC'
     return {
       error: true,
-      msg: `${key} is required`
+      msg: `${name} is required`
     }
   }
   return {

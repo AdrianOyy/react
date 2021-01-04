@@ -101,7 +101,7 @@ function Create() {
   }
 
   const mappingCheck = async () => {
-    const emptyCheck = checkEmpty("mapping", mappingId)
+    const emptyCheck = checkEmpty("mapping", mappingId, "Mapping")
     setMappingError(emptyCheck.error)
     setMappingHelperText(emptyCheck.msg)
     if (!emptyCheck.error) {
@@ -115,7 +115,7 @@ function Create() {
   }
 
   const roleCheck = async () => {
-    const emptyCheck = checkEmpty("role", roleId)
+    const emptyCheck = checkEmpty("role", roleId, "Role")
     setRoleError(emptyCheck.error)
     setRoleHelperText(emptyCheck.msg)
     return emptyCheck.error

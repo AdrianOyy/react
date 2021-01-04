@@ -61,7 +61,7 @@ export default function DateRangePicker(props) {
         <DatePicker
           placeholder={'Until'}
           clearable
-          disableFuture
+          disableFuture={disableFuture ? disableFuture : false}
           format={'dd-MMM-yyyy'}
           value={endDate}
           onChange={(e) => onEndDateChange(e)}

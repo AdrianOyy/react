@@ -3,7 +3,7 @@ import { useHistory } from 'react-router-dom'
 import DetailPage from "../../../../../components/DetailPage"
 import API from "../../../../../api/expiry"
 import CommonTip from "../../../../../components/CommonTip"
-import { checkEmpty, getCheckExist } from "../../untils/expiryFieldCheck"
+import { checkEmpty, checkFuture, getCheckExist } from "../../untils/expiryFieldCheck"
 import assignApi from "../../../../../api/assign"
 import { L } from '../../../../../utils/lang'
 import userApi from "../../../../../api/user"
@@ -121,7 +121,7 @@ export default function Create() {
   }
 
   const assignCheck = async () => {
-    const emptyCheck = checkEmpty("assign", assignId)
+    const emptyCheck = checkEmpty("assign", assignId, 'Assign')
     setAssignError(emptyCheck.error)
     setAssignHelperText(emptyCheck.msg)
     if (!emptyCheck.error && !userError) {
@@ -135,7 +135,7 @@ export default function Create() {
   }
 
   const userCheck = async () => {
-    const emptyCheck = checkEmpty("user", userId)
+    const emptyCheck = checkEmpty("user", userId, 'User')
     setUserError(emptyCheck.error)
     setUserHelperText(emptyCheck.msg)
     if (!emptyCheck.error && !assignError) {
@@ -149,9 +149,15 @@ export default function Create() {
   }
 
   const expiryDateCheck = async () => {
-    const emptyCheck = checkEmpty("expiryDate", expiryDate)
+    const emptyCheck = checkEmpty("expiryDate", expiryDate, 'Expiry date')
     setExpiryDateError(emptyCheck.error)
     setExpiryDateHelperText(emptyCheck.msg)
+    if (!emptyCheck.error) {
+      const { error, msg } = checkFuture(expiryDate)
+      setExpiryDateError(error)
+      setExpiryDateHelperText(msg)
+      return error
+    }
     return emptyCheck.error
   }
 

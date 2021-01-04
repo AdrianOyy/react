@@ -4,7 +4,7 @@ export function checkEmpty(key, value) {
   if (!value) {
     return {
       error: true,
-      msg: `${key} is required`
+      msg: `Name is required`
     }
   }
   return {

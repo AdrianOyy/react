@@ -120,14 +120,14 @@ function Create(props) {
     const emptyCheck = checkEmpty("Ref. ID", map.get("_ID"))
     set_IDError(emptyCheck.error)
     set_IDHelperText(emptyCheck.msg)
-    if (!emptyCheck.error) {
-      const reg = /^[1-9]\d*$/
-      if (!reg.test(map.get("_ID"))) {
-        set_IDError(true)
-        set_IDHelperText(L('Only accept positive integer'))
-        emptyCheck.error = true
-      }
-    }
+    // if (!emptyCheck.error) {
+    //   const reg = /^[1-9]\d*$/
+    //   if (!reg.test(map.get("_ID"))) {
+    //     set_IDError(true)
+    //     set_IDHelperText(L('Only accept positive integer'))
+    //     emptyCheck.error = true
+    //   }
+    // }
     if (!emptyCheck.error) {
       const checkExist = getCheckExist()
       const { error, msg } = await checkExist(0, map.get("_ID"))

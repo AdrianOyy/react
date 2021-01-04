@@ -1,9 +1,29 @@
 import expiryApi from '../../../../api/expiry'
-export function checkEmpty(key, value) {
+export function checkEmpty(key, value, name) {
   if (!value) {
     return {
       error: true,
-      msg: `${key} is required`
+      msg: `${name} is required`
+    }
+  }
+  return {
+    error: false,
+    msg: ''
+  }
+}
+
+export function checkFuture(value) {
+  if (!value || isNaN(new Date(value).getTime())) {
+    return {
+      error: true,
+      msg: 'Invalid Date'
+    }
+  }
+  const isFuture = ((new Date(value) - new Date()) > 0)
+  if (!isFuture) {
+    return {
+      error: true,
+      msg: 'Accept future date only'
     }
   }
   return {

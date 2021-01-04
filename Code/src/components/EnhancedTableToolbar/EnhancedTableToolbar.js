@@ -73,13 +73,10 @@ function EnhancedTableToolbar(props) {
           )}
         </ToolbarTitle>
         <Spacer />
-        <div style={{ display: 'flex' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-around', minWidth: showDownLoad ? '13em' : undefined }}>
           {
             showDownLoad && (
               <Tooltip title="Export">
-                {/* <IconButton aria-label="Export" onClick={onDownLoad}>*/}
-                {/*  <GetAppIcon />*/}
-                {/* </IconButton>*/}
                 <Button
                   variant="contained"
                   size="small"
