@@ -31,6 +31,10 @@ class tenantQuotaMapping {
   checkYearExist(id, tenantId, year) {
     return request.get(`${prefix}/tenant_quota_mapping/checkYearExist?id=${id}&tenantId=${tenantId}&year=${year}`)
   }
+
+  checkExist(id, tenantId, year, type) {
+    return request.get(`${prefix}/tenant_quota_mapping/checkExist?id=${id}&tenantId=${tenantId}&year=${year}&type=${type}`)
+  }
 }
 
 export default new tenantQuotaMapping()

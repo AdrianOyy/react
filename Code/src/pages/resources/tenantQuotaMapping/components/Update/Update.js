@@ -7,7 +7,7 @@ import formatDateTime from "../../../../../utils/formatDateTime"
 import CommonTip from "../../../../../components/CommonTip"
 import { L } from '../../../../../utils/lang'
 import { useHistory } from 'react-router-dom'
-import { checkEmpty, getCheckTypeExist, getCheckYearExist } from "../../untils/ManagementFieldCheck"
+import { checkEmpty, getCheckExist, checkYear } from "../../untils/ManagementFieldCheck"
 
 function Update(props) {
   const { map } = props
@@ -24,10 +24,10 @@ function Update(props) {
   const [ errors, setErrors ] = useState({})
 
   const handleClick = async () => {
-    const typeError = await typeCheck()
+    const existError = await existCheck()
     const quotaError = await quotaCheck()
-    const yearError = await yearCheck()
-    if (typeError || quotaError || yearError || saving) return
+    const yearError = yearCheck()
+    if (existError || quotaError || yearError || saving) return
     setSaving(true)
     API.update(id, {
       type: map.get("type"),
@@ -109,13 +109,13 @@ function Update(props) {
     map.set(id, value)
   }
 
-  const typeCheck = async () => {
+  const existCheck = async () => {
     const emptyCheck = checkEmpty("Type", map.get("type"))
     setTypeError(emptyCheck.error)
     setTypeHelperText(emptyCheck.msg)
     if (!emptyCheck.error) {
-      const checkExist = getCheckTypeExist()
-      const { error, msg } = await checkExist(id, { tenantId: map.get("tenantId"), type: map.get("type") })
+      const checkExist = getCheckExist()
+      const { error, msg } = await checkExist(id, { tenantId: map.get("tenantId"), type: map.get("type"), year: map.get("year") })
       setTypeError(error)
       setTypeHelperText(msg)
       return error
@@ -123,13 +123,13 @@ function Update(props) {
     return emptyCheck.error
   }
 
-  const yearCheck = async () => {
-    const emptyCheck = checkEmpty("Year", map.get("year"))
+  const yearCheck = () => {
+    const year = map.get("year")
+    const emptyCheck = checkEmpty("Year", year)
     setYearError(emptyCheck.error)
     setYearHelperText(emptyCheck.msg)
     if (!emptyCheck.error) {
-      const checkExist = getCheckYearExist()
-      const { error, msg } = await checkExist(id, { tenantId: map.get("tenantId"), year: map.get("year") })
+      const { error, msg } = checkYear(year)
       setYearError(error)
       setYearHelperText(msg)
       return error

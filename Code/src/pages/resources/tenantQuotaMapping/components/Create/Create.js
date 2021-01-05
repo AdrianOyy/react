@@ -5,7 +5,7 @@ import API from "../../../../../api/tenantQuotaMapping"
 import CommonTip from "../../../../../components/CommonTip"
 import { L } from '../../../../../utils/lang'
 import { useHistory } from 'react-router-dom'
-import { checkEmpty, getCheckTypeExist, getCheckYearExist } from "../../untils/ManagementFieldCheck"
+import { checkEmpty, checkYear, getCheckExist } from "../../untils/ManagementFieldCheck"
 import tenantApi from "../../../../../api/tenant"
 
 
@@ -58,10 +58,13 @@ function Create(props) {
 
   const handleClick = async () => {
     const tenantError = await tenantCheck()
-    const typeError = await typeCheck()
     const quotaError = await quotaCheck()
-    const yearError = await yearCheck()
-    if (tenantError || typeError || quotaError || yearError || saving) return
+    const yearError = yearCheck()
+    let existError = false
+    if (!tenantError && !quotaError && !yearError) {
+      existError = await existCheck()
+    }
+    if (tenantError || existError || yearError || quotaError || saving) return
     setSaving(true)
     API.create({
       tenantId: map.get("tenantId"),
@@ -84,13 +87,13 @@ function Create(props) {
         error: tenantError,
         helperText: tenantHelperText,
       },
-      type: {
-        error: typeError,
-        helperText: typeHelperText,
-      },
       quota: {
         error: quotaError,
         helperText: quotaHelperText,
+      },
+      type: {
+        error: typeError,
+        helperText: typeHelperText,
       },
       year: {
         error: yearError,
@@ -118,13 +121,13 @@ function Create(props) {
     return emptyCheck.error
   }
 
-  const typeCheck = async () => {
+  const existCheck = async () => {
     const emptyCheck = checkEmpty("Type", map.get("type"))
     setTypeError(emptyCheck.error)
     setTypeHelperText(emptyCheck.msg)
     if (!emptyCheck.error && !tenantError) {
-      const checkExist = getCheckTypeExist()
-      const { error, msg } = await checkExist(0, { tenantId: map.get("tenantId"), type: map.get("type") })
+      const checkExist = getCheckExist()
+      const { error, msg } = await checkExist(0, { tenantId: map.get("tenantId"), type: map.get("type"), year: map.get("year") })
       setTypeError(error)
       setTypeHelperText(msg)
       return error
@@ -132,13 +135,13 @@ function Create(props) {
     return emptyCheck.error
   }
 
-  const yearCheck = async () => {
-    const emptyCheck = checkEmpty("Year", map.get("year"))
+  const yearCheck = () => {
+    const year = map.get("year")
+    const emptyCheck = checkEmpty("Year", year)
     setYearError(emptyCheck.error)
     setYearHelperText(emptyCheck.msg)
-    if (!emptyCheck.error && !tenantError) {
-      const checkExist = getCheckYearExist()
-      const { error, msg } = await checkExist(0, { tenantId: map.get("tenantId"), year: map.get("year") })
+    if (!emptyCheck.error) {
+      const { error, msg } = checkYear(year)
       setYearError(error)
       setYearHelperText(msg)
       return error
