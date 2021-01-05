@@ -179,7 +179,7 @@ function List(props) {
             <CommonTable
               rows={rows}
               tableName={tableName}
-              hideCheckBox={true}
+              // hideCheckBox={true}
               deleteAPI={API.deleteMany}
               handleSearch={handleSearch}
               path={path}

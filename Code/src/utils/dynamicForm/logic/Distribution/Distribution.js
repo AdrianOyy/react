@@ -6,16 +6,15 @@ import { Button } from "@material-ui/core"
 import { L } from "../../../lang"
 import React from "react"
 import { CREATE, HA4, UPDATE } from "../../../variable/stepName"
-import { isEmail, isHKPhone } from "../../../regex"
-import accountManagementAPI from "../../../../api/accountManagement"
 import ContractItems from "../../../../components/ContractItems/ContractItems"
 import { getUser } from "../../../auth"
+import { fieldCheck } from "../utils"
+
 const applicant = document.createElement("div")
 applicant.id = "headline_applicant's_particulars"
 applicant.innerText = "Applicant's Particulars:"
 applicant.style.width = '100%'
 applicant.style.marginBottom = '1em'
-// applicant.style.marginTop = '1em'
 applicant.style.fontSize = '1.8em'
 
 
@@ -43,8 +42,7 @@ class Distribution extends Common {
   }
 
   getContractList() {
-    const res = [ ContractItems.get('Distribution List Application') ]
-    return res
+    return [ ContractItems.get('Distribution List Application') ]
   }
 
   shouldContinue(item) {
@@ -77,45 +75,22 @@ class Distribution extends Common {
 
   // 特殊字段验证(异步)
   async asyncCheck(field) {
-    const { fieldName, required, fieldDisplayName, show } = field
-    if (!show) {
-      this.parentFieldError.set(fieldName, null)
-      return { error: false, message: '' }
+    const emailAndLoginFieldNameList = [
+      'supervisoremailaccount'
+    ]
+    const phoneFieldNameList = [
+      'phoneno',
+      'isowner_phoneno'
+    ]
+    const faxFieldNameList = [
+      'faxno'
+    ]
+    const fieldNameList = {
+      emailAndLoginFieldNameList,
+      phoneFieldNameList,
+      faxFieldNameList
     }
-    if (show && required && this.isEmpty(fieldName)) {
-      const message = `${fieldDisplayName} is required`
-      this.parentFieldError.set(fieldName, message)
-      return { error: true, message }
-    }
-    if (fieldName === 'supervisoremailaccount') {
-      if (!isEmail(this.parentData.get('supervisoremailaccount'))) {
-        const message = 'Incorrect Email Address'
-        this.parentFieldError.set(fieldName, message)
-        return { error: true, message }
-      }
-      const { data } = await accountManagementAPI.getUsersByEmails({ emails: [ this.parentData.get('supervisoremailaccount') ] })
-      if (!data || !data.data || !data.data[0]) {
-        const message = 'User never logged in'
-        this.parentFieldError.set(fieldName, message)
-        return { error: true, message }
-      }
-    }
-    if (fieldName === 'phoneno' || fieldName === 'isowner_phoneno') {
-      if (!isHKPhone(this.parentData.get(fieldName))) {
-        const message = 'Incorrect phone no'
-        this.parentFieldError.set(fieldName, message)
-        return { error: true, message }
-      }
-    }
-    if (fieldName === 'faxno') {
-      if (!isHKPhone(this.parentData.get(fieldName))) {
-        const message = 'Incorrect fax no'
-        this.parentFieldError.set(fieldName, message)
-        return { error: true, message }
-      }
-    }
-    this.parentFieldError.set(fieldName, null)
-    return { error: false, message: '' }
+    return fieldCheck(this, field, fieldNameList)
   }
 }
 

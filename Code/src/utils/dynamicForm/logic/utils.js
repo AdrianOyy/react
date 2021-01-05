@@ -1,3 +1,6 @@
+import {isEmail, isHKPhone} from "../../regex"
+import accountManagementAPI from "../../../api/accountManagement";
+
 export function itemIsChecked(self, fieldName, itemName) {
   const itemID = getItemIDByItemName(self, fieldName, itemName)
   if (!itemID) return false
@@ -180,3 +183,173 @@ export function createElement(text) {
   return el
 }
 
+
+// ======================================================
+//                        字段验证
+// ======================================================
+
+export function commonCheck(self, field) {
+  const { fieldName, required, show } = field
+  let done = false
+  let error = false
+  let message = ''
+  if (!show) {
+    done = true
+    self.parentFieldError.set(fieldName, null)
+    return { error, message, done }
+  }
+  if (required && self.isEmpty(fieldName)) {
+    message = getRequiredMessage(field)
+    error = true
+    done = true
+    self.parentFieldError.set(fieldName, message)
+    return { error, message, done }
+  }
+  if (!required && self.isEmpty(fieldName)) {
+    self.parentFieldError.set(fieldName, null)
+    done = true
+    return { error, message, done }
+  }
+  return { error, message, done }
+}
+
+export function emailCheck(self, field) {
+  const { fieldName } = field
+  let done = false
+  let error = false
+  let message = ''
+  const value = self.parentData.get(fieldName)
+  if (!isEmail(value)) {
+    error = true
+    done = true
+    message = 'Incorrect Email Address'
+    self.parentFieldError.set(fieldName, message)
+    return { error, message, done }
+  }
+  return { error, message, done }
+}
+
+export function emailCheckByFieldNameList(self, field, fieldNameList) {
+  if (fieldNameList.indexOf(field.fieldName) !== -1) {
+    return emailCheck(self, field)
+  }
+  return { error: false, message: '', done: false }
+}
+
+export async function loginCheck(self, field) {
+  let error = false
+  let message = ''
+  let done = false
+  const { fieldName } = field
+  const value = self.parentData.get(fieldName)
+  const { data } = await accountManagementAPI.getUsersByEmails({ emails: [ value ] })
+  if (!data || !data.data || !data.data[0]) {
+    error = true
+    message = 'User never logged in'
+    done = true
+    self.parentFieldError.set(fieldName, message)
+    return { error, message, done }
+  }
+  return { error, message, done }
+}
+
+export async function loginCheckByListNameList(self, field, fieldNameList) {
+  if (fieldNameList.indexOf(field.fieldName) !== -1) {
+    return await loginCheck(self, field)
+  }
+  return { error: false, message: '', done: false }
+}
+
+export async function emailAndLoginCheck(self, field) {
+  const emailRes = emailCheck(self, field)
+  if (emailRes.done) return emailRes
+  return loginCheck(self, field)
+}
+
+export async function emailAndLoginCheckByFieldNameList(self, field, fieldNameList) {
+  if (fieldNameList.indexOf(field.fieldName) !== -1) {
+    return await emailAndLoginCheck(self, field)
+  }
+  return { error: false, message: '', done: false }
+}
+
+export function phoneCheck(self, field) {
+  return HKNumberCheck(self, field, 'phone')
+}
+
+export function phoneCheckByFieldNameList(self, field, fieldNameList) {
+  if (fieldNameList.indexOf(field.fieldName) !== -1) {
+    return phoneCheck(self, field)
+  }
+  return { error: false, message: '', done: false }
+}
+
+export function faxCheck(self, field) {
+  return HKNumberCheck(self, field, 'fax')
+}
+
+export function faxCheckByFieldNameList(self, field, fieldNameList) {
+  if (fieldNameList.indexOf(field.fieldName) !== -1) {
+    return faxCheck(self, field)
+  }
+  return { error: false, message: '', done: false }
+}
+
+export async function fieldCheck(self, field, fieldNameList) {
+  const {
+    emailFieldNameList,
+    loginFieldNameList,
+    emailAndLoginFieldNameList,
+    phoneFieldNameList,
+    faxFieldNameList
+  } = fieldNameList
+  const commonRes = commonCheck(self, field)
+  if (commonRes.done) {
+    return { error: commonRes.error, message: commonRes.message }
+  }
+  const emailRes = emailFieldNameList && emailFieldNameList.length && emailCheckByFieldNameList(self, field, emailFieldNameList)
+  if (emailRes && emailRes.done) {
+    return { error: emailRes.error, message: emailRes.message }
+  }
+  const loginRes = loginFieldNameList && loginFieldNameList.length && await loginCheckByListNameList(self, field, loginFieldNameList)
+  if (loginRes && loginRes.done) {
+    return { error: loginRes.error, message: loginRes.message }
+  }
+  const emailAndLoginRes = emailAndLoginFieldNameList && emailAndLoginFieldNameList.length && await emailAndLoginCheckByFieldNameList(self, field, emailAndLoginFieldNameList)
+  if (emailAndLoginRes && emailAndLoginRes.done) {
+    return { error: emailAndLoginRes.error, message: emailAndLoginRes.message }
+  }
+  const phoneRes = phoneFieldNameList && phoneFieldNameList && phoneCheckByFieldNameList(self, field, phoneFieldNameList)
+  if (phoneRes && phoneRes.done) {
+    return { error: phoneRes.error, message: phoneRes.message }
+  }
+  const faxRes = faxFieldNameList && faxFieldNameList && faxCheckByFieldNameList(self, field, faxFieldNameList)
+  if (faxRes && faxRes.done) {
+    return { error: faxRes.error, message: faxRes.message }
+  }
+  self.parentFieldError.set(field.fieldName, null)
+  return { error: false, message: '' }
+}
+
+function HKNumberCheck(self, field, type = 'phone') {
+  const { fieldName } = field
+  let done = false
+  let error = false
+  let message = ''
+  const value = self.parentData.get(fieldName)
+  if (!isHKPhone(value)) {
+    message = `Incorrect ${type} no`
+    error = true
+    done = true
+    self.parentFieldError.set(fieldName, message)
+    return { error, message, done }
+  }
+}
+
+function getRequiredMessage(field) {
+  return getFieldDisplayName(field) + "is required"
+}
+
+function getFieldDisplayName(field) {
+  return field.fieldDisplayName.length > 40 ? field.fieldDisplayName.slice(0, 37) : field.fieldDisplayName
+}

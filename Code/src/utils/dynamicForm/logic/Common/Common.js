@@ -15,6 +15,7 @@ import Api from "../../../../api/diyForm"
 import { L } from "../../../lang"
 import CommonTip from "../../../../components/CommonTip"
 import { isNonNegativeInteger } from "../../../regex"
+import {commonCheck} from "../utils";
 
 export class Common {
   // 构造函数
@@ -141,14 +142,11 @@ export class Common {
 
   // 异步字段验证
   asyncCheck(field) {
-    const { fieldName, required, fieldDisplayName, show, isParent } = field
-    if (show && required && this.isEmpty(fieldName, isParent)) {
-      const message = fieldDisplayName.length > 40 ? 'This field is required' : `${fieldDisplayName} is required`
-      this.parentFieldError.set(fieldName, message)
-      return { error: true, message }
+    const { error, message } = commonCheck(this, field)
+    if (!error) {
+      this.parentFieldError.set(field.fieldName, null)
     }
-    this.parentFieldError.set(fieldName, null)
-    return { error: false, message: '' }
+    return { error, message }
   }
 
   formatFormData(data, isParent = false) {

@@ -6,8 +6,6 @@ import { Button } from "@material-ui/core"
 import { L } from "../../../lang"
 import React from "react"
 import { CREATE, UPDATE } from "../../../variable/stepName"
-import { isEmail, isHKPhone } from "../../../regex"
-import accountManagementAPI from "../../../../api/accountManagement"
 import ContractItems from "../../../../components/ContractItems/ContractItems"
 import { getUser } from "../../../auth"
 import {
@@ -22,6 +20,7 @@ import {
   clearItemValueByRemark,
   getItemIDByItemName,
   checkField,
+  fieldCheck,
 } from "../utils"
 import array2set from "../../../array2set"
 
@@ -201,82 +200,28 @@ class Account extends Common {
         clearItemValueByRemark(this, remark)
       })
     }
-
-    // TODO 以下注释部分逻辑有误
-    // if (fieldName === 'existing_corp_account') {
-    //   const el_hkid = document.getElementById('element_hkid')
-    //   const el_apply_for = document.getElementById('element_apply_for')
-    //   let display = 'block'
-    //   if (value) {
-    //     this.parentInitDetail.map(e => {
-    //       if (e.fieldName === 'hkid') {
-    //         e.required = false
-    //       } else if (e.fieldName === 'apply_for') {
-    //         e.required = false
-    //         display = 'none'
-    //       }
-    //       return e
-    //     })
-    //   } else {
-    //     this.parentInitDetail.map(e => {
-    //       if (e.fieldName === 'hkid') {
-    //         e.required = true
-    //       } else if (e.fieldName === 'apply_for') {
-    //         e.required = true
-    //       }
-    //       return e
-    //     })
-    //     display = 'block'
-    //   }
-    //   el_hkid && (el_hkid.style.display = display)
-    //   el_apply_for && (el_apply_for.style.display = display)
-    // }
-
     this.parentData.set(fieldName, value)
     return value
   }
 
   // 特殊字段验证(异步)
   async asyncCheck(field) {
-    const { fieldName, required, fieldDisplayName, show } = field
-    if (!show) {
-      this.parentFieldError.set(fieldName, null)
-      return { error: false, message: '' }
+    const emailAndLoginFieldNameList = [
+      'supervisoremailaccount'
+    ]
+    const phoneFieldNameList = [
+      'contact_phone_no',
+      'mobile_phone_no_for_receipt_of_sms_otp'
+    ]
+    const faxFieldNameList = [
+      'officefax'
+    ]
+    const fieldNameList = {
+      emailAndLoginFieldNameList,
+      phoneFieldNameList,
+      faxFieldNameList
     }
-    if (required && this.isEmpty(fieldName)) {
-      const message = fieldDisplayName.length > 40 ? fieldDisplayName.slice(0, 37) + '... is required' : `${fieldDisplayName} is required`
-      this.parentFieldError.set(fieldName, message)
-      return { error: true, message }
-    }
-    if (fieldName === 'supervisoremailaccount') {
-      if (!isEmail(this.parentData.get('supervisoremailaccount'))) {
-        const message = 'Incorrect Email Address'
-        this.parentFieldError.set(fieldName, message)
-        return { error: true, message }
-      }
-      const { data } = await accountManagementAPI.getUsersByEmails({ emails: [ this.parentData.get('supervisoremailaccount') ] })
-      if (!data || !data.data || !data.data[0]) {
-        const message = 'User never logged in'
-        this.parentFieldError.set(fieldName, message)
-        return { error: true, message }
-      }
-    }
-    if (fieldName === 'contact_phone_no' || fieldName === 'mobile_phone_no_for_receipt_of_sms_otp') {
-      if (!isHKPhone(this.parentData.get(fieldName))) {
-        const message = 'Incorrect phone no'
-        this.parentFieldError.set(fieldName, message)
-        return { error: true, message }
-      }
-    }
-    if (fieldName === 'officefax') {
-      if (!isHKPhone(this.parentData.get(fieldName))) {
-        const message = 'Incorrect fax address'
-        this.parentFieldError.set(fieldName, message)
-        return { error: true, message }
-      }
-    }
-    this.parentFieldError.set(fieldName, null)
-    return { error: false, message: '' }
+    return fieldCheck(this, field, fieldNameList)
   }
 }
 

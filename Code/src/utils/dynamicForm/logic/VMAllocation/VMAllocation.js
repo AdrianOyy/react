@@ -66,10 +66,14 @@ class VM extends Common {
       this.parentFieldError.set(fieldName, null)
       return { error: false, message: '' }
     }
-    if (show && required && this.isEmpty(fieldName, isParent)) {
+    if (required && this.isEmpty(fieldName, isParent)) {
       message = `${fieldDisplayName} is required`
       isParent ? this.parentFieldError.set(fieldName, message) :  this.childFieldError.set(fieldName, message)
       return { error: true, message }
+    }
+    if (!required && this.isEmpty(fieldName, isParent)) {
+      isParent ? this.parentFieldError.set(fieldName, null) :  this.childFieldError.set(fieldName, null)
+      return { error: false, message: '' }
     }
     const value = isParent ? this.parentData.get(fieldName) : this.currentChildrenData.get(fieldName)
     if ((fieldName === 'cpu_request_number' || fieldName === 'ram_request_number') && !isNonNegativeInteger(value)) {

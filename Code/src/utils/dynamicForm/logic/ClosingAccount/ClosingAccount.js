@@ -1,6 +1,4 @@
 import { Common } from "../Common"
-import { isEmail } from "../../../regex"
-import accountManagementAPI from "../../../../api/accountManagement"
 import Api from "../../../../api/diyForm"
 import { object2map } from "../../../map2object"
 import { DetailActions, UpdateActions } from "../../../../components/HADynamicForm/Components/Actions"
@@ -8,36 +6,19 @@ import { Button } from "@material-ui/core"
 import { L } from "../../../lang"
 import React from "react"
 import { CREATE, UPDATE } from "../../../variable/stepName"
+import { fieldCheck } from "../utils"
 
 
 class ClosingAccount extends Common {
   // 特殊字段验证(异步)
   async asyncCheck(field) {
-    const { fieldName, required, fieldDisplayName, show } = field
-    if (!show) {
-      this.parentFieldError.set(fieldName, null)
-      return { error: false, message: '' }
+    const emailAndLoginFieldNameList = [
+      'supervisoremailaccount'
+    ]
+    const fieldNameList = {
+      emailAndLoginFieldNameList,
     }
-    if (required && this.isEmpty(fieldName)) {
-      const message = `${fieldDisplayName} is required`
-      this.parentFieldError.set(fieldName, message)
-      return { error: true, message }
-    }
-    if (fieldName === 'supervisoremailaccount') {
-      if (!isEmail(this.parentData.get('supervisoremailaccount'))) {
-        const message = 'Incorrect Email Address'
-        this.parentFieldError.set(fieldName, message)
-        return { error: true, message }
-      }
-      const { data } = await accountManagementAPI.getUsersByEmails({ emails: [ this.parentData.get('supervisoremailaccount') ] })
-      if (!data || !data.data || !data.data[0]) {
-        const message = 'User never logged in'
-        this.parentFieldError.set(fieldName, message)
-        return { error: true, message }
-      }
-    }
-    this.parentFieldError.set(fieldName, null)
-    return { error: false, message: '' }
+    return fieldCheck(this, field, fieldNameList)
   }
 
 
