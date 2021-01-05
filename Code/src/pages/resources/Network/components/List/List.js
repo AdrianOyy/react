@@ -17,9 +17,7 @@ function List(props) {
 
   const [ createdAt, setCreatedAt ] = useState('')
   const [ updatedAt, setUpdateAt ] = useState('')
-  const [ query, setQuery ] = useState({
-    isNetwork: 'Y',
-  })
+  const [ query, setQuery ] = useState({})
   const [ rows, setRows ] = useState([])
   const [ page, setPage ] = useState(0)
   const [ rowsPerPage, setRowsPerPage ] = useState(10)
@@ -77,7 +75,6 @@ function List(props) {
     setCreatedAt('')
     setUpdateAt('')
     setQuery({
-      isNetwork: 'Y',
       createdAt: '',
       updatedAt: '',
     })
@@ -85,7 +82,6 @@ function List(props) {
 
   const handleSearch = () => {
     setQuery({
-      isNetwork: 'Y',
       createdAt,
       updatedAt,
     })

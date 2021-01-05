@@ -1,4 +1,4 @@
-import API from '../../../../api/inventory'
+import API from '../../../../api/server'
 export function checkEmpty(key, value) {
   if (!value) {
     return {

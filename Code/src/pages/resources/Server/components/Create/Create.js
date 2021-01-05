@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react'
 
 import DetailPage from "../../../../../components/DetailPage"
-import API from "../../../../../api/inventory"
+import API from "../../../../../api/server"
+import inventoryAPI from "../../../../../api/inventory"
 import { L } from '../../../../../utils/lang'
 import CommonTip from "../../../../../components/CommonTip"
 import { useHistory } from 'react-router-dom'
@@ -42,7 +43,7 @@ function Create(props) {
   }
 
   useEffect(() => {
-    API.listStatus({ limit: 999, page: 1 }).then(({ data }) => {
+    inventoryAPI.listStatus({ limit: 999, page: 1 }).then(({ data }) => {
       if (data && data.data) {
         setInventoryStatus(data.data)
       }
@@ -50,7 +51,7 @@ function Create(props) {
   }, [])
 
   useEffect(() => {
-    API.listEquipType({ limit: 999, page: 1 }).then(({ data }) => {
+    inventoryAPI.listEquipType({ limit: 999, page: 1 }).then(({ data }) => {
       if (data && data.data) {
         setEquipTypes(data.data.filter(_ => {
           return _.Type === 'EqServer'
@@ -163,7 +164,7 @@ function Create(props) {
     }
     setErrors(error)
     // eslint-disable-next-line
-  }, [ _IDHelperText, AssetIDHelperText, ClosetIDHelperText, EquipTypeHelperText, PortQtyHelperText ])
+  }, [ _IDHelperText, EquipTypeHelperText, PortQtyHelperText ])
 
   const onFormFieldChange = (e, id) => {
     const { value } = e.target

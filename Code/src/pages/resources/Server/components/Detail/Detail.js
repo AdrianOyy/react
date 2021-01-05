@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 
 import DetailPage from "../../../../../components/DetailPage"
 import ExpandTable from "../../../../../components/ExpandTable"
-import API from "../../../../../api/inventory"
+import API from "../../../../../api/server"
 import { L } from '../../../../../utils/lang'
 import { useParams } from "react-router-dom"
 import formatDateTime from "../../../../../utils/formatDateTime"

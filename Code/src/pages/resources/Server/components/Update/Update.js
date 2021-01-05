@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react'
 
 import DetailPage from "../../../../../components/DetailPage"
-import API from "../../../../../api/inventory"
+import API from "../../../../../api/server"
+import inventoryAPI from "../../../../../api/inventory"
 import { useParams } from "react-router-dom"
 // import dayjs from "dayjs"
 import CommonTip from "../../../../../components/CommonTip"
@@ -44,7 +45,7 @@ function Detail(props) {
   }
 
   useEffect(() => {
-    API.listStatus({ limit: 999, page: 1 }).then(({ data }) => {
+    inventoryAPI.listStatus({ limit: 999, page: 1 }).then(({ data }) => {
       // return data.data
       if (data && data.data) {
         return data.data
@@ -52,7 +53,7 @@ function Detail(props) {
         return []
       }
     }).then(returnObj => {
-      API.listEquipType({ limit: 999, page: 1 }).then(({ data }) => {
+      inventoryAPI.listEquipType({ limit: 999, page: 1 }).then(({ data }) => {
         if (data && data.data) {
           return {
             InventoryStatus: returnObj,
@@ -186,7 +187,7 @@ function Detail(props) {
     }
     setErrors(error)
     // eslint-disable-next-line
-  }, [ _IDHelperText, AssetIDHelperText, ClosetIDHelperText, EquipTypeHelperText, PortQtyHelperText ])
+  }, [ _IDHelperText, EquipTypeHelperText, PortQtyHelperText ])
 
   const onFormFieldChange = (e, id) => {
     const { value } = e.target

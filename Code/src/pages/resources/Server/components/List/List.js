@@ -6,7 +6,7 @@ import {
 
 import { L } from '../../../../../utils/lang'
 import { CommonTable, SearchBar, TablePagination, HAPaper } from '../../../../../components'
-import API from "../../../../../api/inventory"
+import API from "../../../../../api/server"
 import formatDateTime from "../../../../../utils/formatDateTime"
 
 const tableName = L('List')
