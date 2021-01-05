@@ -1,17 +1,12 @@
 const proUrl = {
-  user: null,
-  auth: null,
-  logging: null,
-  group: null,
-  workflow: null,
+  aaa: process.env.REACT_APP_BASE_API,
+  logging: process.env.REACT_APP_BASE_API,
+  workflow: process.env.REACT_APP_BASE_API,
 }
 
 const devUrl = {
-  user: null,
-  auth: null,
+  aaa: 'http://127.0.0.1:7001',
   logging: 'http://10.231.131.123:3002',
-  group: 'http://127.0.0.1:7001',
-  // workflow: 'http://127.0.0.1:8888'
   workflow: 'http://10.231.131.123:3004',
 }
 

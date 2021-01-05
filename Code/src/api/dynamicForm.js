@@ -1,32 +1,43 @@
-import request from '../utils/request'
 import envPrefix from "../utils/prefix"
 import envUrl from "../utils/baseUrl"
+import http from "../utils/request"
 
-const prefix = envPrefix.aaa
-
-const url = envUrl.group
+const path = envUrl.aaa + envPrefix.aaa
 
 class dynamicForm {
   getDynamicForm(params) {
-    return request.get(`${prefix}/dynamicForm/getDynamicForm`, params, {}, url)
+    return http(`${path}/dynamicForm/getDynamicForm`, {
+      method: 'GET',
+      params
+    })
   }
+
   save(data) {
-    return request.post(`${prefix}/dynamicForm/save`, data, {}, url)
+    return http(`${path}/dynamicForm/save`, {
+      method: 'POST',
+      data
+    })
   }
-  getDynamicFormDetail(params) {
-    return request.get(`${prefix}/dynamicForm/getDynamicFormDetail`, params, {}, url)
-  }
-  test(params) {
-    return request.get(`${prefix}/workflow/createTable`, params)
-  }
+
   create(data) {
-    return request.post(`${prefix}/diyForm/create`, data)
+    return http(`${path}/diyForm/create`, {
+      method: 'POST',
+      data
+    })
   }
+
   createWorkFlow(data) {
-    return request.post(`${prefix}/workflow/create`, data)
+    return http(`${path}/workflow/create`, {
+      method: 'POST',
+      data
+    })
   }
+
   workFlowDetail(params) {
-    return request.get(`${prefix}/workflow/detail`, params)
+    return http(`${path}/workflow/detail`, {
+      method: 'GET',
+      params
+    })
   }
 }
 

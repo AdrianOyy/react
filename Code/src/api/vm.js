@@ -1,35 +1,73 @@
-import request from '../utils/request'
 import envPrefix from "../utils/prefix"
 import envUrl from "../utils/baseUrl"
+import http from "../utils/request"
 
-const prefix = envPrefix.aaa
-
-const url = envUrl.group
+const path = envUrl.aaa + envPrefix.aaa
 
 class vmGuest {
-  listCluster(params, options) {
-    return request.get(`${prefix}/vmCluster/list`, params, options, url)
+  listCluster(params) {
+    return http(`${path}/vmCluster/list`, {
+      method: 'GET',
+      params,
+    })
   }
-  list(params, options) {
-    return request.get(`${prefix}/vmGuest/list`, params, options, url)
+
+  list(params) {
+    return http(`${path}/vmGuest/list`, {
+      method: 'GET',
+      params,
+    })
   }
-  create(params) {
-    return request.post(`${prefix}/vmGuest/create`, params, {}, url)
+
+  create(data) {
+    return http(`${path}/vmGuest/create`, {
+      method: 'POST',
+      data,
+    })
   }
+
   detail(id) {
-    return request.get(`${prefix}/vmGuest/detail?id=${id}`, {}, {}, url)
+    return http(`${path}/vmGuest/detail`, {
+      method: 'GET',
+      params: {
+        id,
+      },
+    })
   }
-  update(id, params) {
-    return request.put(`${prefix}/vmGuest/update?id=${id}`, params, {}, url)
+
+  update(id, data) {
+    return http(`${path}/vmGuest/update`, {
+      method: 'GET',
+      params: {
+        id,
+      },
+      data,
+    })
   }
-  deleteMany(params) {
-    return request.delete(`${prefix}/vmGuest/deleteMany`, params, {}, url)
+
+  deleteMany(data) {
+    return http(`${path}/vmGuest/deleteMany`, {
+      method: 'DELETE',
+      data,
+    })
   }
+
   checkSerialNumber(id, serialNumber) {
-    return request.get(`${prefix}/vmGuest/checkSerialNumber?id=${id}&serialNumber=${serialNumber}`, {}, {}, url)
+    return http(`${path}/vmGuest/checkSerialNumber`, {
+      method: 'GET',
+      params: {
+        id,
+        serialNumber,
+      },
+    })
   }
+
   download(data) {
-    return request.post(`${prefix}/vmGuest/export`, data, { responseType: 'blob' }, url)
+    return http(`${path}/vmGuest/export`, {
+      method: 'POST',
+      responseType: 'blob',
+      data,
+    })
   }
 }
 

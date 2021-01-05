@@ -1,14 +1,17 @@
-import request from '../utils/request'
 import envPrefix from "../utils/prefix"
 import envUrl from "../utils/baseUrl"
+import http from "../utils/request"
 
-const prefix = envPrefix.aaa
-const url = envUrl.auth
+
+const path = envUrl.aaa + envPrefix.aaa
 
 
 class Auth {
-  login(params, options) {
-    return request.post(`${prefix}/user/login`, params, options, url)
+  login(data) {
+    return http(`${path}/user/login`, {
+      method: 'POST',
+      data
+    })
   }
 }
 

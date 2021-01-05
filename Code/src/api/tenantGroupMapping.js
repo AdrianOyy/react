@@ -1,29 +1,65 @@
-import request from '../utils/request'
 import envPrefix from "../utils/prefix"
+import envUrl from "../utils/baseUrl"
+import http from "../utils/request"
 
-const prefix = envPrefix.aaa
+const path = envUrl.aaa + envPrefix.aaa
 
 class role {
-  list(params, options) {
-    return request.get(`${prefix}/tenant_group_mapping/list`, params, options)
+  list(params) {
+    return http(`${path}/tenant_group_mapping/list`, {
+      method: 'GET',
+      params,
+    })
   }
-  create(params) {
-    return request.post(`${prefix}/tenant_group_mapping/create`, params)
+
+  create(data) {
+    return http(`${path}/tenant_group_mapping/create`, {
+      method: 'POST',
+      data,
+    })
   }
+
   detail(id) {
-    return request.get(`${prefix}/tenant_group_mapping/detail?id=${id}`)
+    return http(`${path}/tenant_group_mapping/detail`, {
+      method: 'GET',
+      params: {
+        id,
+      },
+    })
   }
-  update(id, params) {
-    return request.put(`${prefix}/tenant_group_mapping/update?id=${id}`, params)
+
+  update(id, data) {
+    return http(`${path}/tenant_group_mapping/update`, {
+      method: 'PUT',
+      params: {
+        id,
+      },
+      data,
+    })
   }
-  deleteMany(params) {
-    return request.delete(`${prefix}/tenant_group_mapping/deleteMany`, params)
+
+  deleteMany(data) {
+    return http(`${path}/tenant_group_mapping/deleteMany`, {
+      method: 'DELETE',
+      data,
+    })
   }
+
   checkExist(id, tenantId, groupId) {
-    return request.get(`${prefix}/tenant_group_mapping/checkExist?id=${id}&tenantId=${tenantId}&groupId=${groupId}`)
+    return http(`${path}/tenant_group_mapping/checkExist`, {
+      method: 'GET',
+      params: {
+        id,
+        tenantId,
+        groupId,
+      },
+    })
   }
+
   handledList() {
-    return request.get(`${prefix}/tenant_group_mapping/handledList`)
+    return http(`${path}/tenant_group_mapping/handledList`, {
+      method: 'GET',
+    })
   }
 }
 

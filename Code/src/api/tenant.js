@@ -1,32 +1,74 @@
-import request from '../utils/request'
 import envPrefix from "../utils/prefix"
+import envUrl from "../utils/baseUrl"
+import http from "../utils/request"
 
-const prefix = envPrefix.aaa
+const path = envUrl.aaa + envPrefix.aaa
 
 class tenant {
-  list(params, options) {
-    return request.get(`${prefix}/tenant/list`, params, options)
+  list(params) {
+    return http(`${path}/tenant/list`, {
+      method: 'GET',
+      params,
+    })
   }
-  listGroup(params, options) {
-    return request.get(`${prefix}/group/list`, params, options)
+
+  listGroup(params) {
+    return http(`${path}/group/list`, {
+      method: 'GET',
+      params,
+    })
   }
-  create(params) {
-    return request.post(`${prefix}/tenant/create`, params)
+
+  create(data) {
+    return http(`${path}/tenant/create`, {
+      method: 'POST',
+      data,
+    })
   }
+
   detail(id) {
-    return request.get(`${prefix}/tenant/detail?id=${id}`)
+    return http(`${path}/tenant/detail`, {
+      method: 'GET',
+      params: {
+        id,
+      },
+    })
   }
-  update(id, params) {
-    return request.put(`${prefix}/tenant/update?id=${id}`, params)
+
+  update(id, data) {
+    return http(`${path}/tenant/update`, {
+      method: 'PUT',
+      params: {
+        id,
+      },
+      data,
+    })
   }
-  deleteMany(params) {
-    return request.delete(`${prefix}/tenant/deleteMany`, params)
+
+  deleteMany(data) {
+    return http(`${path}/tenant/deleteMany`, {
+      method: 'DELETE',
+      data,
+    })
   }
+
   checkExist(id, code) {
-    return request.get(`${prefix}/tenant/checkExist?id=${id}&code=${code}`)
+    return http(`${path}/tenant/checkExist`, {
+      method: 'GET',
+      params: {
+        id,
+        code,
+      },
+    })
   }
+
   getCps(cpsId) {
-    return request.get(`${prefix}/tenant/getCps?cpsId=${cpsId}`)
+    return http(`${path}/tenant/getCps`, {
+      method: 'GET',
+      params: {
+        cpsId
+      },
+    })
   }
 }
 

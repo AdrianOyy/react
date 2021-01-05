@@ -1,17 +1,23 @@
-import request from '../utils/request'
+// import request from '../utils/request'
 import envPrefix from "../utils/prefix"
 import envUrl from "../utils/baseUrl"
-// import envUrl from "../utils/baseUrl"
+import http from "../utils/request"
 
-const prefix = envPrefix.aaa
-const url = envUrl.group
+const path = envUrl.aaa + envPrefix.aaa
 
 class HADynamicForm {
   getDynamicForm(params) {
-    return request.get(`${prefix}/dynamicForm/getDynamicForm`, params, {}, url)
+    return http(`${path}/dynamicForm/getDynamicForm`, {
+      method: 'GET',
+      params
+    })
   }
+
   getInitData(params) {
-    return request.get(`${prefix}/haDynamicForm/getInitData`, params)
+    return http(`${path}/haDynamicForm/getInitData`, {
+      method: 'GET',
+      params
+    })
   }
 }
 

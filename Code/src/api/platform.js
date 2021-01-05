@@ -1,32 +1,62 @@
-import request from '../utils/request'
 import envPrefix from "../utils/prefix"
 import envUrl from "../utils/baseUrl"
+import http from "../utils/request"
 
-const prefix = envPrefix.aaa
-
-const url = envUrl.group
+const path = envUrl.aaa + envPrefix.aaa
 
 class platform {
-  list(params, options) {
-    return request.get(`${prefix}/platform/list`, params, options, url)
+  list(params) {
+    return http(`${path}/platform/list`, {
+      method: 'GET',
+      params,
+    })
   }
-  listType(params, options) {
-    return request.get(`${prefix}/platform/listType`, params, options, url)
+
+  listType(params) {
+    return http(`${path}/platform/listType`, {
+      method: 'GET',
+      params,
+    })
   }
-  create(params) {
-    return request.post(`${prefix}/platform/create`, params, {}, url)
+
+  create(data) {
+    return http(`${path}/platform/create`, {
+      method: 'POST',
+      data,
+    })
   }
+
   detail(id) {
-    return request.get(`${prefix}/platform/detail?id=${id}`, {}, {}, url)
+    return http(`${path}/platform/detail`, {
+      method: 'GET',
+      params: {
+        id,
+      },
+    })
   }
+
   update(id, params) {
-    return request.put(`${prefix}/platform/update?id=${id}`, params, {}, url)
+    return http(`${path}/platform/update`, {
+      method: 'GET',
+      params,
+    })
   }
-  deleteMany(params) {
-    return request.delete(`${prefix}/platform/deleteMany`, params, {}, url)
+
+  deleteMany(data) {
+    return http(`${path}/platform/deleteMany`, {
+      method: 'DELETE',
+      data,
+    })
   }
+
   checkName(id, name) {
-    return request.get(`${prefix}/platform/checkName?id=${id}&name=${name}`, {}, {}, url)
+    return http(`${path}/platform/checkName`, {
+      method: 'GET',
+      params: {
+        id,
+        name,
+      },
+    })
   }
 }
 

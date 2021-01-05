@@ -1,17 +1,25 @@
-import request from '../utils/request'
 import envPrefix from "../utils/prefix"
 import envUrl from "../utils/baseUrl"
+import http from "../utils/request"
 
-const prefix = envPrefix.aaa
 
-const url = envUrl.group
+const path = envUrl.aaa + envPrefix.aaa
 
 class vmLocation {
-  create(params) {
-    return request.post(`${prefix}/vm_location/create`, params, {}, url)
+  create(data) {
+    return http(`${path}/vm_location/create`, {
+      method: 'POST',
+      data,
+    })
   }
+
   detail(id) {
-    return request.get(`${prefix}/vm_location/detail?id=${id}`, {}, {}, url)
+    return http(`${path}/vm_location/detail`, {
+      method: 'GET',
+      params: {
+        id,
+      },
+    })
   }
 }
 

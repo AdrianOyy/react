@@ -1,29 +1,60 @@
-import request from '../utils/request'
 import envPrefix from "../utils/prefix"
 import envUrl from "../utils/baseUrl"
+import http from "../utils/request"
 
-const prefix = envPrefix.aaa
 
-const url = envUrl.group
+const path = envUrl.aaa + envPrefix.aaa
 
 class adGroup {
-  list(params, options) {
-    return request.get(`${prefix}/ad_group/list`, params, options, url)
+  list(params) {
+    return http(`${path}/ad_group/list`, {
+      method: 'GET',
+      params
+    })
   }
-  create(params) {
-    return request.post(`${prefix}/ad_group/create`, params, {}, url)
+
+  create(data) {
+    // return request.post(`${prefix}/ad_group/create`, params, {}, url)
+    return http(`${path}/ad_group/create`, {
+      method: 'POST',
+      data,
+    })
   }
+
   detail(id) {
-    return request.get(`${prefix}/ad_group/detail?id=${id}`, {}, {}, url)
+    return http(`${path}/ad_group/detail`, {
+      method: 'GET',
+      params: {
+        id
+      }
+    })
   }
-  update(id, params) {
-    return request.put(`${prefix}/ad_group/update?id=${id}`, params, {}, url)
+
+  update(id, data) {
+    return http(`${path}/ad_group/update`, {
+      method: 'GET',
+      params: {
+        id
+      },
+      data,
+    })
   }
-  deleteMany(params) {
-    return request.delete(`${prefix}/ad_group/deleteMany`, params, {}, url)
+
+  deleteMany(data) {
+    return http(`${path}/ad_group/deleteMany`, {
+      method: 'DELETE',
+      data,
+    })
   }
+
   checkName(id, name) {
-    return request.get(`${prefix}/ad_group/checkName?id=${id}&name=${name}`, {}, {}, url)
+    return http(`${path}/ad_group/checkName`, {
+      method: 'GET',
+      params: {
+        id,
+        name
+      },
+    })
   }
 }
 

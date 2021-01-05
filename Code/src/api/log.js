@@ -1,21 +1,29 @@
-import request from '../utils/request'
 import envPrefix from "../utils/prefix"
 import envUrl from "../utils/baseUrl"
+import http from "../utils/request"
 
-const prefix = envPrefix.logging
-const url = envUrl.logging
+const path = envUrl.logging + envPrefix.logging
 
 class Log {
   list(params) {
-    return request.get(`${prefix}/log/list`, params, {}, url)
+    return http(`${path}/log/list`, {
+      method: 'GET',
+      params,
+    })
   }
 
-  delete(data, options) {
-    return request.delete(`${prefix}/log/delete`, data, options, url)
+  delete(data) {
+    return http(`${path}/log/delete`, {
+      method: 'DELETE',
+      data,
+    })
   }
 
-  deleteMany(params) {
-    return request.delete(`${prefix}/log/deleteMany`, params, {}, url)
+  deleteMany(data) {
+    return http(`${path}/log/deleteMany`, {
+      method: 'DELETE',
+      data,
+    })
   }
 }
 

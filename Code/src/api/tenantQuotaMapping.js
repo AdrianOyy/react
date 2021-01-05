@@ -1,39 +1,60 @@
-import request from '../utils/request'
 import envPrefix from "../utils/prefix"
+import envUrl from "../utils/baseUrl"
+import http from "../utils/request"
 
-const prefix = envPrefix.aaa
+const path = envUrl.aaa + envPrefix.aaa
 
 class tenantQuotaMapping {
-  list(params, options) {
-    return request.get(`${prefix}/tenant_quota_mapping/list`, params, options)
+  list(params) {
+    return http(`${path}/tenant_quota_mapping/list`, {
+      method: 'GET',
+      params,
+    })
   }
 
-  create(params) {
-    return request.post(`${prefix}/tenant_quota_mapping/create`, params)
+  create(data) {
+    return http(`${path}/tenant_quota_mapping/create`, {
+      method: 'POST',
+      data,
+    })
   }
 
   detail(id) {
-    return request.get(`${prefix}/tenant_quota_mapping/detail?id=${id}`)
+    return http(`${path}/tenant_quota_mapping/detail`, {
+      method: 'GET',
+      params: {
+        id,
+      },
+    })
   }
 
-  update(id, params) {
-    return request.put(`${prefix}/tenant_quota_mapping/update?id=${id}`, params)
+  update(id, data) {
+    return http(`${path}/tenant_quota_mapping/update`, {
+      method: 'PUT',
+      params: {
+        id,
+      },
+      data,
+    })
   }
 
-  deleteMany(params) {
-    return request.delete(`${prefix}/tenant_quota_mapping/deleteMany`, params)
-  }
-
-  checkTypeExist(id, tenantId, type) {
-    return request.get(`${prefix}/tenant_quota_mapping/checkTypeExist?id=${id}&tenantId=${tenantId}&type=${type}`)
-  }
-
-  checkYearExist(id, tenantId, year) {
-    return request.get(`${prefix}/tenant_quota_mapping/checkYearExist?id=${id}&tenantId=${tenantId}&year=${year}`)
+  deleteMany(data) {
+    return http(`${path}/tenant_quota_mapping/deleteMany`, {
+      method: 'POST',
+      data,
+    })
   }
 
   checkExist(id, tenantId, year, type) {
-    return request.get(`${prefix}/tenant_quota_mapping/checkExist?id=${id}&tenantId=${tenantId}&year=${year}&type=${type}`)
+    return http(`${path}/tenant_quota_mapping/deleteMany`, {
+      method: 'GET',
+      params: {
+        id,
+        tenantId,
+        year,
+        type,
+      },
+    })
   }
 }
 

@@ -1,35 +1,72 @@
-import request from '../utils/request'
 import envPrefix from "../utils/prefix"
 import envUrl from "../utils/baseUrl"
+import http from "../utils/request"
 
-const prefix = envPrefix.aaa
-
-const url = envUrl.group
+const path = envUrl.aaa + envPrefix.aaa
 
 class inventory {
-  list(params, options) {
-    return request.get(`${prefix}/inventory/list`, params, options, url)
+  list(params) {
+    return http(`${path}/inventory/list`, {
+      method: 'GET',
+      params
+    })
   }
-  listStatus(params, options) {
-    return request.get(`${prefix}/inventory/listStatus`, params, options, url)
+
+  listStatus(params) {
+    return http(`${path}/inventory/listStatus`, {
+      method: 'GET',
+      params
+    })
   }
-  listEquipType(params, options) {
-    return request.get(`${prefix}/inventory/listEquipType`, params, options, url)
+
+  listEquipType(params) {
+    return http(`${path}/inventory/listEquipType`, {
+      method: 'GET',
+      params
+    })
   }
-  create(params) {
-    return request.post(`${prefix}/inventory/create`, params, {}, url)
+
+  create(data) {
+    return http(`${path}/inventory/create`, {
+      method: 'POST',
+      data
+    })
   }
+
   detail(id) {
-    return request.get(`${prefix}/inventory/detail?id=${id}`, {}, {}, url)
+    return http(`${path}/inventory/detail`, {
+      method: 'GET',
+      params: {
+        id,
+      },
+    })
   }
-  update(id, params) {
-    return request.put(`${prefix}/inventory/update?id=${id}`, params, {}, url)
+
+  update(id, data) {
+    return http(`${path}/inventory/update`, {
+      method: 'PUT',
+      params: {
+        id,
+      },
+      data
+    })
   }
-  deleteMany(params) {
-    return request.delete(`${prefix}/inventory/deleteMany`, params, {}, url)
+
+  deleteMany(data) {
+    return http(`${path}/inventory/deleteMany`, {
+      method: 'DELETE',
+      data
+    })
   }
+
   checkIDExist(id, _ID) {
-    return request.get(`${prefix}/inventory/checkIDExist?id=${id}&_ID=${_ID}`, {}, {}, url)
+    return http(`${path}/inventory/checkIDExist`, {
+      method: 'GET',
+      data: {
+        id,
+        _ID,
+      }
+    })
   }
 }
 

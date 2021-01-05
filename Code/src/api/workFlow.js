@@ -1,61 +1,85 @@
-import request from '../utils/request'
 import envPrefix from "../utils/prefix"
 import envUrl from "../utils/baseUrl"
+import http from "../utils/request"
 
-const prefix = envPrefix.workflow
-const url = envUrl.workflow
+const path = envUrl.workflow + envPrefix.workflow
 
 class WorkFlow {
-  getProcessDefinitions(params, options) {
-    return request.get(`${prefix}/repository/modelList`, params, options, url)
+  getProcessDefinitions(params) {
+    return http(`${path}/repository/modelList`, {
+      method: 'GET',
+      params
+    })
   }
-  createModel(params, options) {
-    return request.get(`${prefix}/create`, params, options, url)
-  }
-  openDesigner(params, options) {
-    return request.get(`${prefix}/openDesigner`, params, options, url)
-  }
+
   getMyRequest(params) {
-    return request.get(`${prefix}/ReuqestTask/getMyRequest`, params, {}, url)
+    return http(`${path}/ReuqestTask/getMyRequest`, {
+      method: 'GET',
+      params
+    })
   }
-  getMyApproval(params) {
-    return request.get(`${prefix}/ReuqestTask/getMyApproval`, params, {}, url)
-  }
+
   getDiagram(id) {
-    return request.getBuffer(`${prefix}/runtime/process-instances/${id}/diagram`, {}, { }, url)
+    return http(`${path}/runtime/process-instances/${id}/diagram`, {
+      method: 'GET',
+      responseType: 'arraybuffer',
+    })
   }
-  getStartFormJson(id) {
-    return request.get(`${prefix}/formsetting/getStartFormJson/${id}`, {}, { }, url)
-  }
+
   getPublishModel(id) {
-    return request.get(`${prefix}/publish/${id}`, {}, { }, url)
+    return http(`${path}/publish/${id}`, {
+      method: 'GET',
+    })
   }
-  startProcess(data) {
-    return request.post(`${prefix}/process/startProcess/`, data, { }, url)
-  }
+
   getProcessList(params) {
-    return request.get(`${prefix}/deployment/getProcessDefinitions`, params, {}, url)
+    return http(`${path}/deployment/getProcessDefinitions`, {
+      method: 'GET',
+      params,
+    })
   }
+
   getTaskListByGroup(data) {
-    return request.post(`${prefix}/runtime/getTaskListByGroup/`, data, { }, url)
+    return http(`${path}/runtime/getTaskListByGroup`, {
+      method: 'POST',
+      data,
+    })
   }
+
   actionTask(data) {
-    return request.post(`${prefix}/runtime/actionTask`, data, { }, url)
+    return http(`${path}/runtime/actionTask`, {
+      method: 'POST',
+      data,
+    })
   }
-  getStartFormKeyAndDeploymentId(data) {
-    return request.get(`${prefix}/runtime/getStartFormKeyAndDeploymentId`, data, { }, url)
-  }
+
   getProcessPoint(params) {
-    return request.get(`${prefix}/tree/getProcessPoint`, params, { }, url)
+    return http(`${path}/tree/getProcessPoint`, {
+      method: 'GET',
+      params,
+    })
   }
+
   addMessage(data) {
-    return request.post(`${prefix}/runtime/addTaskMessage`, data, { }, url)
+    return http(`${path}/runtime/addTaskMessage`, {
+      method: 'POST',
+      data,
+    })
   }
+
   getTaskMessage(params) {
-    return request.get(`${prefix}/runtime/getTaskMessage`, params, { }, url)
+    return http(`${path}/runtime/getTaskMessage`, {
+      method: 'GET',
+      params,
+    })
   }
+
   download(data) {
-    return request.post(`${prefix}/export/getAccountPdf`, data, { responseType: 'blob' }, url)
+    return http(`${path}/export/getAccountPdf`, {
+      method: 'POST',
+      data,
+      responseType: 'blob'
+    })
   }
 }
 

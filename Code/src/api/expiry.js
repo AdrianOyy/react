@@ -1,27 +1,58 @@
-import request from '../utils/request'
 import envPrefix from "../utils/prefix"
+import envUrl from "../utils/baseUrl"
+import http from "../utils/request"
 
-const prefix = envPrefix.aaa
+const path = envUrl.aaa + envPrefix.aaa
 
 class assign {
   list(params) {
-    return request.get(`${prefix}/expiry/list`, params)
+    return http(`${path}/expiry/list`, {
+      method: 'GET',
+      params
+    })
   }
+
   detail(id) {
-    return request.get(`${prefix}/expiry/detail?id=${id}`)
+    return http(`${path}/expiry/detail`, {
+      method: 'GET',
+      params: {
+        id,
+      },
+    })
   }
-  update(id, params) {
-    return request.put(`${prefix}/expiry/update?id=${id}`, params)
+
+  update(id, data) {
+    return http(`${path}/expiry/update`, {
+      method: 'PUT',
+      params: {
+        id,
+      },
+      data
+    })
   }
-  create(params) {
-    return request.post(`${prefix}/expiry/create`, params)
+
+  create(data) {
+    return http(`${path}/expiry/create`, {
+      method: 'POST',
+      data
+    })
   }
-  deleteMany(params) {
-    return request.delete(`${prefix}/expiry/deleteMany`, params)
+
+  deleteMany(data) {
+    return http(`${path}/expiry/deleteMany`, {
+      method: 'DELETE',
+      data
+    })
   }
-  checkExist(id, parmas) {
-    const { assignId, userId } = parmas
-    return request.get(`${prefix}/expiry/checkExist?id=${id}&assignId=${assignId}&userId=${userId}`)
+
+  checkExist(id, params) {
+    return http(`${path}/expiry/checkExist`, {
+      method: 'GET',
+      params: {
+        ...params,
+        id
+      }
+    })
   }
 }
 

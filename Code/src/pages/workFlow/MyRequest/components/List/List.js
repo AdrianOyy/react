@@ -135,17 +135,19 @@ function List(props) {
     history.push({ pathname: `/step/${row.id}`, search: `deploymentId=${row.deploymentId}` })
   }
 
-  // const display = (row) => {
-  //   if (row.state === 'completed') {
-  //     return false
-  //   }
-  //   return true
-  // }
-
   const handleDownload = (event, row) => {
-    API.download({ processInstanceId: row.id }).then(({ data }) => {
-      downloadFile(data, 'Account management.pdf')
-    })
+    Loading.show()
+    API.download({ processInstanceId: row.id })
+      .then(({ data }) => {
+        downloadFile(data, 'Account management.pdf')
+      })
+      .finally(() => {
+        Loading.hide()
+      })
+      .catch(e => {
+        console.log(e)
+        Loading.hide()
+      })
   }
 
   const display = (row) => {

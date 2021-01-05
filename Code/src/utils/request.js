@@ -1,26 +1,17 @@
-import axios from 'axios'
-// import store from '@/store'
-// import { getToken } from 'utils/auth'
-import CommonTip from '../components/CommonTip'
-import { signOut, getToken } from "./auth"
+import axios from "axios"
+import { getToken, signOut } from "./auth"
+import CommonTip from "../components/CommonTip"
 
-// 这个baseUrl要根据实际情况进行改变
-// eslint-disable-next-line
-axios.defaults.baseURL = process.env.REACT_APP_BASE_API
-axios.defaults.headers.common['Content-Type'] =
-  'application/json, charset=UTF-8'
-// axios.defaults.headers.Common['Access-Control-Allow-Origin'] = '*'
-
-
-const axiosInstance = axios.create({
-  timeout: 60000,
+const http = axios.create({
+  timeout: 1000 * 60,
+  headers: {
+    'Content-Type': 'application/json; charset=utf-8'
+  }
 })
 
-// 请求拦截器 用于添加token
-axiosInstance.interceptors.request.use(
+http.interceptors.request.use(
   config => {
     config.headers['Authorization'] = 'Bearer ' + localStorage.getItem('token')
-    config.headers['Content-Type'] = 'application/json'
     return config
   },
   error => {
@@ -28,191 +19,28 @@ axiosInstance.interceptors.request.use(
   }
 )
 
-// 响应拦截器(处理异常)
-axios.interceptors.response.use(
-  response => {
-    return response
+http.interceptors.response.use(
+  res => {
+    const newToken = res?.data?.newToken
+    if (newToken) {
+      window.localStorage.setItem('token', newToken)
+    }
+    return res
   },
   error => {
-    return Promise.reject(error)
+    handleError(error)
+    return Promise.reject(error.response)
   }
 )
 
-export default {
-  instance: axiosInstance,
-  // 默认选项, 留着备用
-  // 默认选项, 留着备用
-  defaultOptions: {
-    handleError: true // 是否自动解析结果并提示
-  },
-  enableChangeBaseApi: true,
-  changeBaseUrl(baseUrl, flag = false) {
-    if (flag && baseUrl && this.enableChangeBaseApi) {
-      axiosInstance.defaults.baseURL = baseUrl
-    }
-  },
-  // get 请求
-  getBuffer(url, param, options, baseUrl = null) {
-    let o = Object.assign(this.defaultOptions, options)
-    const defaultUrl = axiosInstance.defaults.baseURL
-    this.changeBaseUrl(baseUrl, baseUrl !== null)
-    return new Promise((resolve, reject) => {
-      axiosInstance({
-        method: 'get',
-        responseType: 'arraybuffer',
-        url,
-        params: param
-      })
-        .then(res => {
-          if (res.data && !res.data.status && res.data.message && o.handleError) {
-            CommonTip.error(`${res.data.message}${res.data.exception ? ':' + res.data.exception.message : ''}`, { })
-          }
-          resolve(res)
-        })
-        .catch(error => {
-          if (error.response && error.response.status) {
-            callback(error)
-          } else {
-            CommonTip.error(error.message)
-          }
-          reject(error)
-        })
-        .finally(() => {
-          this.changeBaseUrl(defaultUrl, baseUrl !== null)
-        })
-    })
-  },
 
-  get(url, param, options, baseUrl = null) {
-    let o = Object.assign(this.defaultOptions, options)
-    const defaultUrl = axiosInstance.defaults.baseURL
-    this.changeBaseUrl(baseUrl, baseUrl !== null)
-    return new Promise((resolve, reject) => {
-      axiosInstance({
-        method: 'get',
-        url,
-        params: param
-      })
-        .then(res => {
-          if (res.data && !res.data.status && res.data.message && o.handleError) {
-            CommonTip.error(`${res.data.message}${res.data.exception ? ':' + res.data.exception.message : ''}`, { })
-          }
-          resolve(res)
-        })
-        .catch(error => {
-          if (error.response && error.response.status) {
-            callback(error)
-          } else {
-            CommonTip.error(error.message)
-          }
-          reject(error)
-        })
-        .finally(() => {
-          this.changeBaseUrl(defaultUrl, baseUrl !== null)
-        })
-    })
-  },
-  // post 请求
-  post(url, param, options, baseUrl = null) {
-    let o = Object.assign(this.defaultOptions, options)
-    const defaultUrl = axiosInstance.defaults.baseURL
-    this.changeBaseUrl(baseUrl, baseUrl !== null)
+export default http
 
-    return new Promise((resolve, reject) => {
-      axiosInstance({
-        method: 'post',
-        url,
-        data: param,
-        responseType: o.responseType
-      })
-        .then(res => {
-          if (res.data && !res.data.status && res.data.message && o.handleError) {
-            CommonTip.error(`${res.data.message}${res.data.exception ? ':' + res.data.exception.message : ''}`, { })
-          }
-          resolve(res)
-        })
-        .catch(error => {
-          if (error.response && error.response.status) {
-            callback(error)
-          } else {
-            CommonTip.error(error.message)
-          }
-          reject(error)
-        })
-        .finally(() => {
-          this.changeBaseUrl(defaultUrl, baseUrl !== null)
-        })
-    })
-  },
-  // put 请求
-  put(url, param, options, baseUrl = null) {
-    let o = Object.assign(this.defaultOptions, options)
-    const defaultUrl = axiosInstance.defaults.baseURL
-    this.changeBaseUrl(baseUrl, baseUrl !== null)
-    return new Promise((resolve, reject) => {
-      axiosInstance({
-        method: 'put',
-        url,
-        data: param
-      })
-        .then(res => {
-          if (res.data && !res.data.status && res.data.message && o.handleError) {
-            CommonTip.error(`${res.data.message}${res.data.exception ? ':' + res.data.exception.message : ''}`, { })
-          }
-          resolve(res)
-        })
-        .catch(error => {
-          if (error.response && error.response.status) {
-            callback(error)
-          } else {
-            CommonTip.error(error.message)
-          }
-          reject(error)
-        })
-        .finally(() => {
-          this.changeBaseUrl(defaultUrl, baseUrl !== null)
-        })
-    })
-  },
-  // delete 请求
-  delete(url, param, options, baseUrl = null) {
-    let o = Object.assign(this.defaultOptions, options)
-    const defaultUrl = axiosInstance.defaults.baseURL
-    this.changeBaseUrl(baseUrl, baseUrl !== null)
-
-    return new Promise((resolve, reject) => {
-      axiosInstance({
-        method: 'delete',
-        url,
-        data: param
-      })
-        .then(res => {
-          if (res.data && !res.data.status && res.data.message && o.handleError) {
-            CommonTip.error(`${res.data.message}${res.data.exception ? ':' + res.data.exception.message : ''}`, { })
-          }
-          resolve(res)
-        })
-        .catch(error => {
-          if (error.response && error.response.status) {
-            callback(error)
-          } else {
-            CommonTip.error(error.message)
-          }
-          reject(error)
-        })
-        .finally(() => {
-          this.changeBaseUrl(defaultUrl, baseUrl !== null)
-        })
-    })
-  },
-  // all get请求
-  allGet(fnArr) {
-    return axios.all(fnArr)
+function handleError(error) {
+  if (!error.response) {
+    showTip('System Busy')
+    return
   }
-}
-
-
-function callback(error) {
   const { status, message, data } = error.response
   switch (status) {
     case 400:

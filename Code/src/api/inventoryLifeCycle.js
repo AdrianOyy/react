@@ -1,32 +1,65 @@
-import request from '../utils/request'
 import envPrefix from "../utils/prefix"
 import envUrl from "../utils/baseUrl"
+import http from "../utils/request"
 
-const prefix = envPrefix.aaa
-
-const url = envUrl.group
+const path = envUrl.aaa + envPrefix.aaa
 
 class inventoryLifeCycle {
-  list(params, options) {
-    return request.get(`${prefix}/inventoryLifeCycle/list`, params, options, url)
+  list(params) {
+    return http(`${path}/inventoryLifeCycle/list`, {
+      method: 'GET',
+      params
+    })
   }
-  listInventorys(params, options) {
-    return request.get(`${prefix}/inventoryLifeCycle/listInventorys`, params, options, url)
+
+  listInventorys(params) {
+    return http(`${path}/inventoryLifeCycle/listInventorys`, {
+      method: 'GET',
+      params
+    })
   }
-  create(params) {
-    return request.post(`${prefix}/inventoryLifeCycle/create`, params, {}, url)
+
+  create(data) {
+    return http(`${path}/inventoryLifeCycle/create`, {
+      method: 'POST',
+      data,
+    })
   }
+
   detail(id) {
-    return request.get(`${prefix}/inventoryLifeCycle/detail?id=${id}`, {}, {}, url)
+    return http(`${path}/inventoryLifeCycle/detail`, {
+      method: 'GET',
+      params: {
+        id,
+      },
+    })
   }
-  update(id, params) {
-    return request.put(`${prefix}/inventoryLifeCycle/update?id=${id}`, params, {}, url)
+
+  update(id, data) {
+    return http(`${path}/inventoryLifeCycle/update`, {
+      method: 'PUT',
+      params: {
+        id,
+      },
+      data,
+    })
   }
-  deleteMany(params) {
-    return request.delete(`${prefix}/inventoryLifeCycle/deleteMany`, params, {}, url)
+
+  deleteMany(data) {
+    return http(`${path}/inventoryLifeCycle/deleteMany`, {
+      method: 'DELETE',
+      data,
+    })
   }
+
   checkIDExist(id, _ID) {
-    return request.get(`${prefix}/inventoryLifeCycle/checkIDExist?id=${id}&_ID=${_ID}`, {}, {}, url)
+    return http(`${path}/inventoryLifeCycle/checkIDExist`, {
+      method: 'GET',
+      params: {
+        id,
+        _ID,
+      },
+    })
   }
 }
 

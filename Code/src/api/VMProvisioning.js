@@ -1,25 +1,48 @@
-import request from '../utils/request'
 import envPrefix from "../utils/prefix"
 import envUrl from "../utils/baseUrl"
+import http from "../utils/request"
 
-const prefix = envPrefix.workflow
-const url = envUrl.workflow
+const path = envUrl.workflow + envPrefix.workflow
 
 class VMProvisioning {
-  list(params, options) {
-    return request.get(`${prefix}/VmProvisioningRequest/getVmProvisioningRequest`, params, options, url)
+  list(params) {
+    return http(`${path}/VmProvisioningRequest/getVmProvisioningRequest`, {
+      method: 'GET',
+      params,
+    })
   }
-  create(params) {
-    return request.post(`${prefix}/VmProvisioningRequest/createVmProvisioningRequest`, params, {}, url)
+
+  create(data) {
+    return http(`${path}/VmProvisioningRequest/createVmProvisioningRequest`, {
+      method: 'POST',
+      data,
+    })
   }
+
   detail(id) {
-    return request.get(`${prefix}/VmProvisioningRequest/getVmProvisioningRequestById?id=${id}`, {}, {}, url)
+    return http(`${path}/VmProvisioningRequest/getVmProvisioningRequestById`, {
+      method: 'GET',
+      params: {
+        id,
+      },
+    })
   }
-  update(id, params) {
-    return request.put(`${prefix}/VmProvisioningRequest/updateVmProvisioningRequest?id=${id}`, params, {}, url)
+
+  update(id, data) {
+    return http(`${path}/VmProvisioningRequest/updateVmProvisioningRequest`, {
+      method: 'PUT',
+      params: {
+        id,
+      },
+      data
+    })
   }
-  deleteMany(params) {
-    return request.delete(`${prefix}/VmProvisioningRequest/deleteVmProvisioningRequest`, params, {}, url)
+
+  deleteMany(data) {
+    return http(`${path}/VmProvisioningRequest/deleteVmProvisioningRequest`, {
+      method: 'DELETE',
+      data
+    })
   }
 }
 

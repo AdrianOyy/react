@@ -1,29 +1,58 @@
-import request from '../utils/request'
 import envPrefix from "../utils/prefix"
 import envUrl from "../utils/baseUrl"
+import http from "../utils/request"
 
-const prefix = envPrefix.aaa
-
-const url = envUrl.group
+const path = envUrl.aaa + envPrefix.aaa
 
 class server {
-  list(params, options) {
-    return request.get(`${prefix}/server/list`, params, options, url)
+  list(params) {
+    return http(`${path}/server/list`, {
+      method: 'GET',
+      params,
+    })
   }
-  create(params) {
-    return request.post(`${prefix}/server/create`, params, {}, url)
+
+  create(data) {
+    return http(`${path}/server/create`, {
+      method: 'POST',
+      data,
+    })
   }
+
   detail(id) {
-    return request.get(`${prefix}/server/detail?id=${id}`, {}, {}, url)
+    return http(`${path}/server/detail`, {
+      method: 'GET',
+      params: {
+        id,
+      },
+    })
   }
-  update(id, params) {
-    return request.put(`${prefix}/server/update?id=${id}`, params, {}, url)
+
+  update(id, data) {
+    return http(`${path}/server/update`, {
+      method: 'PUT',
+      params: {
+        id,
+      },
+      data,
+    })
   }
-  deleteMany(params) {
-    return request.delete(`${prefix}/server/deleteMany`, params, {}, url)
+
+  deleteMany(data) {
+    return http(`${path}/server/deleteMany`, {
+      method: 'DELETE',
+      data,
+    })
   }
+
   checkIDExist(id, _ID) {
-    return request.get(`${prefix}/server/checkIDExist?id=${id}&_ID=${_ID}`, {}, {}, url)
+    return http(`${path}/server/deleteMany`, {
+      method: 'GET',
+      params: {
+        id,
+        _ID,
+      },
+    })
   }
 }
 

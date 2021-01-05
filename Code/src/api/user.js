@@ -1,16 +1,24 @@
-import request from '../utils/request'
 import envPrefix from "../utils/prefix"
 import envUrl from "../utils/baseUrl"
+import http from "../utils/request"
 
-const prefix = envPrefix.aaa
-const url = envUrl.user
+const path = envUrl.aaa + envPrefix.aaa
 
 class User {
-  list(params, options) {
-    return request.get(`${prefix}/user/list`, params, options, url)
+  list(params) {
+    return http(`${path}/user/list`, {
+      method: 'GET',
+      params,
+    })
   }
+
   detail(id) {
-    return request.get(`${prefix}/user/detail?id=${id}`, {}, {}, url)
+    return http(`${path}/user/detail`, {
+      method: 'GET',
+      params: {
+        id,
+      },
+    })
   }
 }
 

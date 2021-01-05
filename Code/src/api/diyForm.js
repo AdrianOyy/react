@@ -1,21 +1,36 @@
-import request from '../utils/request'
 import envPrefix from "../utils/prefix"
-// import envUrl from "../utils/baseUrl"
+import envUrl from "../utils/baseUrl"
+import http from "../utils/request"
 
-const prefix = envPrefix.aaa
+const path = envUrl.aaa + envPrefix.aaa
 
 class diyForm {
   create(data) {
-    return request.post(`${prefix}/diyForm/create`, data)
+    return http(`${path}/diyForm/create`, {
+      method: 'POST',
+      data
+    })
   }
+
   detail(params) {
-    return request.get(`${prefix}/diyForm/detail`, params)
+    return http(`${path}/diyForm/detail`, {
+      method: 'GET',
+      params
+    })
   }
+
   update(data) {
-    return request.post(`${prefix}/diyForm/update`, data)
+    return http(`${path}/diyForm/update`, {
+      method: 'POST',
+      data
+    })
   }
+
   check(data) {
-    return request.post(`${prefix}/vm/check`, data)
+    return http(`${path}/vm/check`, {
+      method: 'POST',
+      data
+    })
   }
 }
 
