@@ -31,7 +31,7 @@ function Update(props) {
     setSaving(true)
     API.update(id, {
       type: map.get("type"),
-      quota: map.get("quota"),
+      quota: parseInt(map.get("quota")),
       year: map.get("year"),
     })
       .then(() => {

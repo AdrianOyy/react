@@ -6,7 +6,7 @@ import { useParams } from "react-router-dom"
 import formatDateTime from "../../../../../utils/formatDateTime"
 import CommonTip from "../../../../../components/CommonTip"
 import { useHistory } from 'react-router-dom'
-import {checkEmpty, checkEmptyAre, getCheckExist} from "../../untils/VMFieldCheck"
+import { checkEmpty, checkEmptyAre, getCheckExist } from "../../untils/VMFieldCheck"
 import tenantApi from "../../../../../api/tenant"
 import { L } from '../../../../../utils/lang'
 
@@ -67,11 +67,11 @@ function Update(props) {
         dataPortIP: map.get("dataPortIP"),
         serialNumber: map.get("serialNumber"),
         model: map.get("model"),
-        assignedMemory: map.get("assignedMemory"),
-        assignedCPUCores: map.get("assignedCPUCores"),
+        assignedMemory: parseFloat(map.get("assignedMemory")),
+        assignedCPUCores: parseInt(map.get("assignedCPUCores")),
         diskVolumeName: map.get("diskVolumeName"),
         CSVName: map.get("CSVName"),
-        diskSize: map.get("diskSize"),
+        diskSize: parseInt(map.get("diskSize")),
         hostname: map.get("hostname"),
         VMClusterId: map.get("VMClusterId"),
         VMClusterName,
@@ -315,7 +315,7 @@ function Update(props) {
     setSerialNumberHelperText(emptyCheck.msg)
     if (!emptyCheck.error) {
       const checkExist = getCheckExist()
-      const { error, msg } = await checkExist(0, map.get("serialNumber"))
+      const { error, msg } = await checkExist(id, map.get("serialNumber"))
       setSerialNumberError(error)
       setSerialNumberHelperText(msg)
       return error
