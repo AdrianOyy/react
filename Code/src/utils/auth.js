@@ -14,11 +14,7 @@ function authRoute(path) {
   const groupList = getUserGroupTypeList()
   switch (path) {
     case '/workflow/workflowSetting/':
-      if (groupList.includes('IT')) {
-        return true
-      } else {
-        return false
-      }
+      return groupList.includes('IT')
     default:
       return true
   }
@@ -28,11 +24,7 @@ function authMenu(path) {
   const groupList = getUserGroupTypeList()
   switch (path) {
     case '/workflow/workflowSetting/':
-      if (groupList.includes('IT')) {
-        return true
-      } else {
-        return false
-      }
+      return groupList.includes('IT')
     default:
       return true
   }

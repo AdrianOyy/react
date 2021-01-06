@@ -1,11 +1,7 @@
 import React from "react"
-// import {
-//   NavLink as RouterNavLink,
-// } from "react-router-dom"
 import styled from "styled-components"
 import {
   Typography,
-  // Link,
   Breadcrumbs as MuiBreadcrumbs
 } from "@material-ui/core"
 import { spacing } from "@material-ui/system"
@@ -14,9 +10,6 @@ import store from "../../redux/store"
 import { getCurrentPage } from "../../utils/url"
 import NavigateNextIcon from '@material-ui/icons/NavigateNext'
 
-// const NavLink = React.forwardRef((props, ref) => (
-//   <RouterNavLink innerRef={ref} {...props} />
-// ))
 
 const Breadcrumbs = styled(MuiBreadcrumbs)(spacing)
 

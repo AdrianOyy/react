@@ -48,7 +48,7 @@ function CommonPage(props) {
       }}>
         {title}
       </div>
-      <Router >
+      <Router>
         <Link to='/' ref={linkEl} style={{ display: 'none' }}> hide link, to list page </Link>
         <Switch>
           <Route path={`/detail/:id`}>
