@@ -37,7 +37,7 @@ class vmGuest {
 
   update(id, data) {
     return http(`${path}/vmGuest/update`, {
-      method: 'GET',
+      method: 'PUT',
       params: {
         id,
       },

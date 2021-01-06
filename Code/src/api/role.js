@@ -46,7 +46,7 @@ class role {
   }
 
   checkLabel(id, label) {
-    return http(`${path}/role/deleteMany`, {
+    return http(`${path}/role/checkLabel`, {
       method: 'GET',
       params: {
         id,

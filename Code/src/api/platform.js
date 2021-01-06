@@ -35,10 +35,13 @@ class platform {
     })
   }
 
-  update(id, params) {
+  update(id, data) {
     return http(`${path}/platform/update`, {
-      method: 'GET',
-      params,
+      method: 'PUT',
+      params: {
+        id
+      },
+      data,
     })
   }
 

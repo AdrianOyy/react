@@ -40,13 +40,13 @@ class tenantQuotaMapping {
 
   deleteMany(data) {
     return http(`${path}/tenant_quota_mapping/deleteMany`, {
-      method: 'POST',
+      method: 'DELETE',
       data,
     })
   }
 
   checkExist(id, tenantId, year, type) {
-    return http(`${path}/tenant_quota_mapping/deleteMany`, {
+    return http(`${path}/tenant_quota_mapping/checkExist`, {
       method: 'GET',
       params: {
         id,

@@ -46,7 +46,7 @@ class server {
   }
 
   checkIDExist(id, _ID) {
-    return http(`${path}/server/deleteMany`, {
+    return http(`${path}/server/checkIDExist`, {
       method: 'GET',
       params: {
         id,

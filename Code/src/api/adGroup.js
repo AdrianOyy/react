@@ -32,7 +32,7 @@ class adGroup {
 
   update(id, data) {
     return http(`${path}/ad_group/update`, {
-      method: 'GET',
+      method: 'PUT',
       params: {
         id
       },
