@@ -1,21 +1,15 @@
 import React from "react"
-import {
-  Button,
-} from "@material-ui/core"
+import { Button, } from "@material-ui/core"
 import { CREATE, UPDATE } from "../../../variable/stepName"
 import { cloneMap1 } from "../../../clone"
 import { map2object, object2map } from "../../../map2object"
-import {
-  CommonActions,
-  DetailActions,
-  UpdateActions
-} from "../../../../components/HADynamicForm/Components/Actions"
+import { CommonActions, DetailActions, UpdateActions } from "../../../../components/HADynamicForm/Components/Actions"
 import VMStatus, { SUCCESS } from '../../../variable/VMStatus'
 import Api from "../../../../api/diyForm"
 import { L } from "../../../lang"
 import CommonTip from "../../../../components/CommonTip"
 import { isNonNegativeInteger } from "../../../regex"
-import {commonCheck} from "../utils";
+import { commonCheck } from "../utils"
 
 export class Common {
   // 构造函数
@@ -50,14 +44,6 @@ export class Common {
       pid,
       taskId,
     } = props
-    // parentFormDetail.sort((a, b) => {
-    //   if (a.indexOf === null) a.indexOf = Number.MAX_SAFE_INTEGER
-    //   return a.indexOf - b.indexOf
-    // })
-    // childFormDetail.sort((a, b) => {
-    //   if (a.indexOf === null) a.indexOf = Number.MAX_SAFE_INTEGER
-    //   return a.indexOf - b.indexOf
-    // })
     this.parentChangedFidleList = []
     this.childChangedFidleList = []
     this.pid = pid
@@ -86,6 +72,7 @@ export class Common {
     this.hideCreate = false
     this.remarkedItem = new Map()
     this.parentInitDetail = []
+    this.publicKey = ''
   }
 
   //  =====================================
@@ -112,14 +99,16 @@ export class Common {
   getFormData() {
     const parentData = map2object(this.parentData)
     this.formatFormData(parentData, true)
+    this.encryptionData(parentData)
     const childDataList = []
     this.childrenDataList.forEach(el => {
       const childData = map2object(el)
       this.formatFormData(childData)
       delete childData['$handled']
+      this.encryptionData(childData)
       childDataList.push(childData)
     })
-    const form = {
+    return {
       pid: this.pid,
       taskId: this.taskId,
       processDefinitionId: this.processDefinitionId,
@@ -131,8 +120,9 @@ export class Common {
       version: this.version,
       deploymentId: this.deploymentId,
     }
-    return form
   }
+
+  encryptionData() {}
 
   getActions(history) {
     return (

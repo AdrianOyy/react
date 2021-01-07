@@ -32,6 +32,12 @@ class accountManagement {
       data,
     })
   }
+
+  getPublicKey() {
+    return http(`${path}/accountManagement/getPublicKey`, {
+      method: 'GET',
+    })
+  }
 }
 
 export default new accountManagement()

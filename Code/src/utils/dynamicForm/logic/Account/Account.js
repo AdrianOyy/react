@@ -8,19 +8,22 @@ import React from "react"
 import { CREATE, UPDATE } from "../../../variable/stepName"
 import ContractItems from "../../../../components/ContractItems/ContractItems"
 import { getUser } from "../../../auth"
+import accountAPI from "../../../../api/accountManagement"
 import {
-  showItem,
-  hideItem,
-  itemIsChecked,
-  getFieldByFieldName,
-  getCheckedItemList,
-  getUncheckItemList,
-  insertHeadLine,
-  removeHeadline,
+  changeDisplayNameToHeadLine,
+  checkField, checkItem,
   clearItemValueByRemark,
-  getItemIDByItemName,
-  checkField,
+  encryption,
   fieldCheck,
+  getCheckedItemList,
+  getFieldByFieldName,
+  getItemIDByItemName,
+  getUncheckItemList,
+  hideItem,
+  insertHeadLine,
+  itemIsChecked,
+  removeHeadline,
+  showItem,
 } from "../utils"
 import array2set from "../../../array2set"
 
@@ -28,12 +31,11 @@ import array2set from "../../../array2set"
 class Account extends Common {
 
   async insertHeadLine() {
+    changeDisplayNameToHeadLine('account_type')
+    changeDisplayNameToHeadLine('apply_for_internet')
+    changeDisplayNameToHeadLine('apply_for')
     insertHeadLine('surname', 'Applicant\'s Particulars')
     insertHeadLine('supervisoremailaccount', "Manager's Information")
-    const apply_for = getFieldByFieldName(this, 'apply_for')
-    if (apply_for && apply_for.show) {
-      insertHeadLine('apply_for', 'CORP Account')
-    }
   }
 
   hideItem() {
@@ -63,9 +65,10 @@ class Account extends Common {
     const parentInitData = new Map()
     parentInitData.set('apply_for', 'CORP ID (Login ID)!@#Intranet email account')
     parentInitData.set('account_type', 'CORP Account Application')
-    parentInitData.set('owa_hospital_web', 'OWA Webmail + Hospital home page')
-    // parentInitData.set('apply_for_internet', 'Internet web access!@#Internet Email address')
-    parentInitData.set('authenticationmethod', 'HA Chat')
+    // parentInitData.set('owa_hospital_web', 'OWA Webmail + Hospital home page')
+    // parentInitData.set('authenticationmethod', 'HA Chat')
+    const response = await accountAPI.getPublicKey()
+    this.publicKey = response?.data?.data || ''
     return { parentInitData }
   }
 
@@ -164,10 +167,11 @@ class Account extends Common {
       checkedItemList.forEach(remark => {
         const shownFieldList = showItem(this, remark)
         if (shownFieldList.indexOf("owa_hospital_web") !== -1) {
-          insertHeadLine('owa_hospital_web', 'Profile Required')
+          insertHeadLine('owa_hospital_web', 'Profile Required', { fontSize: '1.2em' })
+          checkItem(this, 'owa_hospital_web', 'OWA Webmail + Hospital home page')
         }
-        if (shownFieldList.indexOf("apply_for") !== -1) {
-          insertHeadLine('apply_for', 'CORP Account')
+        if (shownFieldList.indexOf("authenticationmethod") !== -1) {
+          checkItem(this, "authenticationmethod", "HA Chat")
         }
         if (shownFieldList.indexOf("apply_for_internet") !== -1) {
           const apply_for_internet = getFieldByFieldName(this, "apply_for_internet")
@@ -185,6 +189,9 @@ class Account extends Common {
             }
           }
         }
+        if (shownFieldList.indexOf("existing_ibra_account") !== -1) {
+          insertHeadLine("existing_ibra_account", "IBRA Account")
+        }
       })
 
       const uncheckItemList = getUncheckItemList(this, fieldName, value)
@@ -195,6 +202,9 @@ class Account extends Common {
         }
         if (hiddenFieldList.indexOf("apply_for") !== -1) {
           removeHeadline("CORP Account")
+        }
+        if (hiddenFieldList.indexOf("existing_ibra_account") !== -1) {
+          removeHeadline("IBRA Account")
         }
         // clear hidden item’s value
         clearItemValueByRemark(this, remark)
@@ -222,6 +232,16 @@ class Account extends Common {
       faxFieldNameList
     }
     return fieldCheck(this, field, fieldNameList)
+  }
+
+  encryptionData(data) {
+    for (let key in data) {
+      if (key === 'hkid') {
+        const encryptedValue = encryption(data[key].value, this.publicKey)
+        data[key].value = encryptedValue
+        data[key].label = encryptedValue
+      }
+    }
   }
 }
 

@@ -155,6 +155,7 @@ function SearchInput(props) {
           >{ buttonText ? buttonText : 'Check' }</Button>
         </div>
         <div
+          id={fieldName + '_dataList'}
           style={{
             border: '1px solid #ccc',
             height: '7em',

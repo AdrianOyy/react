@@ -1,5 +1,6 @@
-import {isEmail, isHKPhone} from "../../regex"
-import accountManagementAPI from "../../../api/accountManagement";
+import { isEmail, isHKPhone } from "../../regex"
+import accountManagementAPI from "../../../api/accountManagement"
+import { JSEncrypt } from 'jsencrypt'
 
 export function itemIsChecked(self, fieldName, itemName) {
   const itemID = getItemIDByItemName(self, fieldName, itemName)
@@ -102,16 +103,18 @@ export function showItem(self, remark) {
   return shownFieldList
 }
 
-export function insertHeadLine(fieldName, text) {
+export function insertHeadLine(fieldName, text, style) {
   const id = 'element_' + fieldName
   const el = document.getElementById(id)
+  if (!el) return
   let headline = document.getElementById("headline_" + text)
   if (headline) {
     headline.style.display = 'block'
   } else {
-    headline = createElement(text)
+    headline = createElement(text, style)
     el.parentElement.insertBefore(headline, el)
   }
+  return headline
 }
 
 export function removeHeadline(headlineText) {
@@ -132,21 +135,23 @@ export function getFieldListByRemark(self, remark) {
 }
 
 export function clearItemValueByRemark(self, remark) {
-  const fieldNameList = getFieldListByRemark(self, remark)
-  fieldNameList.forEach(field => {
-    switch (field.type) {
-      case 'input':
-        self.parentData.set(field.fieldName, null)
-        break
-      default:
-        self.parentData.set(field.fieldName, new Set())
+  const fieldList = getFieldListByRemark(self, remark)
+  fieldList.forEach(field => {
+    self.parentData.delete(field.fieldName)
+    self.parentFieldError.delete(field.fieldName)
+    if (field.type === 'text' || field.type === 'inputCheck') {
+      clearField(field)
+    }
+    if (field.type === 'list') {
+      clearList(field)
+      clearField(field)
     }
     if (field.type === 'checkbox') {
       field.itemList.forEach(item => {
         hideItem(self, item.type)
       })
+      uncheckField(field)
     }
-    uncheckField(field)
   })
 }
 
@@ -156,6 +161,22 @@ export function uncheckField(field) {
   checkboxList.forEach(checkbox => {
     checkbox.checked = false
   })
+}
+
+export function clearField(field) {
+  const id = field.fieldName
+  const inputList = document.querySelectorAll("input[id^=" + id + "]")
+  inputList.forEach(input => {
+    input.value = null
+  })
+}
+
+export function clearList(field) {
+  const id = field.fieldName + '_dataList'
+  const [ dataAreaList ] = document.querySelectorAll("div[id^=" + id + "]")
+  while (dataAreaList && dataAreaList.hasChildNodes()) {
+    dataAreaList.removeChild(dataAreaList.firstChild)
+  }
 }
 
 export function checkField(fieldName, itemName) {
@@ -171,18 +192,23 @@ export function checkField(fieldName, itemName) {
 /**
  *
  * @param {String} text
+ * @param { Object | undefined } style
  * @return {Node} element
  */
-export function createElement(text) {
+export function createElement(text, style) {
   const el = document.createElement('div')
   el.id = "headline_" + text
   el.innerText = text + ":"
-  el.style.width = '100%'
-  el.style.marginBottom = '1em'
-  el.style.fontSize = '1.8em'
+  Object.assign(el.style, headlineStyle, style ? style : undefined)
   return el
 }
 
+const headlineStyle = {
+  width: '100%',
+  marginBottom: '1em',
+  fontSize: '1.8em',
+  userSelect: 'none'
+}
 
 // ======================================================
 //                        字段验证
@@ -352,4 +378,34 @@ function getRequiredMessage(field) {
 
 function getFieldDisplayName(field) {
   return field.fieldDisplayName.length > 40 ? field.fieldDisplayName.slice(0, 37) : field.fieldDisplayName
+}
+
+export function encryption(value, publicKey) {
+  const jsencrypt = new JSEncrypt()
+  jsencrypt.setPublicKey(publicKey)
+  return jsencrypt.encrypt(value)
+}
+
+export function changeDisplayNameToHeadLine(fieldName) {
+  const id = 'element_' + fieldName
+  const el = document.getElementById(id)
+  const label = el?.firstChild
+  if (label) {
+    Object.assign(label.style, headlineStyle, {
+      marginLeft: '-1.15em'
+    })
+  }
+}
+
+export function checkItem(self, fieldName, itemType) {
+  const itemId = getItemIDByItemName(self, fieldName, itemType)
+  const valueSet = self.parentData.get(fieldName)
+  if (valueSet) {
+    valueSet.add(itemId)
+  } else {
+    const newSet = new Set()
+    newSet.add(itemId)
+    self.parentData.set(fieldName, newSet)
+  }
+  checkField(fieldName, itemType)
 }
