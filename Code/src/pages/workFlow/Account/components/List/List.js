@@ -110,7 +110,7 @@ function List(props) {
     value: '',
     formField:
       {
-        id: 'cu_id', label: L('cuid'), type: 'text', disabled: false, readOnly: false, required: true, helperText: L('NotEmpty')
+        id: 'corpId', label: L('corpId'), type: 'text', disabled: false, readOnly: false, required: true, helperText: L('NotEmpty')
       },
     onSubmit: (value) => {
       if (!value) return

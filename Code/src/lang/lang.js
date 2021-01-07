@@ -234,6 +234,7 @@ exports.lang = {
     changeAccount: 'Change Account Management',
     cpsvm: 'CPS VM Allocation',
     cuid: 'CU_ID',
+    corpId: 'CORP a/c',
     cpsid: 'CPS ID',
     Sorting: 'Sorting',
     parentLength: 'Please install Parent Form List',
