@@ -1,5 +1,5 @@
-import {isEmail, isHKPhone} from "../../regex"
-import accountManagementAPI from "../../../api/accountManagement";
+import { isEmail, isHKPhone } from "../../regex"
+import accountManagementAPI from "../../../api/accountManagement"
 
 export function itemIsChecked(self, fieldName, itemName) {
   const itemID = getItemIDByItemName(self, fieldName, itemName)
@@ -338,7 +338,9 @@ function HKNumberCheck(self, field, type = 'phone') {
   let message = ''
   const value = self.parentData.get(fieldName)
   if (!isHKPhone(value)) {
-    message = `Incorrect ${type} no`
+    message = `Incorrect ${type} no. `
+    const example = type === 'phone' ? 'Example: 21955500' : 'Example: 35426044'
+    message += example
     error = true
     done = true
     self.parentFieldError.set(fieldName, message)
