@@ -46,7 +46,7 @@ function SearchDialog(props) {
         <DialogContent dividers={true}>
           <List>
             {dataList.map((data, i) => (
-              <ListItem button onClick={() => handleSelect(data.mail)}  key={data.toString() + i}>
+              <ListItem button onClick={() => handleSelect(data)}  key={data.toString() + i}>
                 <ListItemAvatar>
                   <Avatar className={classes.avatar}>
                     <PersonIcon />

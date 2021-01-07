@@ -47,6 +47,7 @@ const switchComponent = (el, i, logic, style, isParent) => {
           style={style[field.fieldName] ? style[field.fieldName] : style.commonElement}
           isParent={isParent}
           buttonText={field.buttonText}
+          getDisplayName={logic.stepName !== 'create'}
         />
       )
     case 'list':
@@ -59,6 +60,7 @@ const switchComponent = (el, i, logic, style, isParent) => {
           style={style[field.fieldName] ? style[field.fieldName] : style.commonElement}
           isParent={isParent}
           buttonText={field.buttonText}
+          getDisplayName={logic.stepName !== 'create'}
         />
       )
     case 'date':

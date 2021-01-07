@@ -38,6 +38,13 @@ class accountManagement {
       method: 'GET',
     })
   }
+
+  getDisplayName(data) {
+    return http(`${path}/accountManagement/getDisplayName`, {
+      method: 'POST',
+      data,
+    })
+  }
 }
 
 export default new accountManagement()

@@ -1,10 +1,11 @@
-import React, { useCallback, useState, useRef } from 'react'
+import React, {useCallback, useState, useRef, useEffect} from 'react'
 import { makeStyles } from "@material-ui/core/styles"
 import getCommonStyle from "../../CommonStyle"
 import { Button, InputLabel as Label } from "@material-ui/core"
 import CommonTip from "../../../../CommonTip"
 import Loading from "../../../../Loading"
 import SearchDialog from "./SearchDialog"
+import accountAPI from "../../../../../api/accountManagement"
 
 function SearchInput(props) {
   const {
@@ -20,6 +21,7 @@ function SearchInput(props) {
     apiKey,
     apiValue,
     buttonText,
+    getDisplayName,
   } = props
 
   const inputEl = useRef(null)
@@ -28,6 +30,7 @@ function SearchInput(props) {
   const [ helperText, setHelperText ] = useState(false)
   const [ open, setOpen ] = useState(false)
   const [ dataList, setDataList ] = useState([])
+  const [ defaultDisplayValue, setDefaultDisplayValue ] = useState('')
 
 
   const handleBlur = useCallback(async (e) => {
@@ -39,13 +42,30 @@ function SearchInput(props) {
     // eslint-disable-next-line
   }, [ onBlur ])
 
+  useEffect(() => {
+    onBlur && onBlur(fieldName, defaultValue)
+    const data = {
+      valueList: [ defaultValue ],
+      ...apiValue,
+    }
+    getDisplayName && accountAPI.getDisplayName(data)
+      .then(({ data }) => {
+        const displayValueList = data.data
+        const displayValue = displayValueList ? displayValueList[0] : null
+        setDefaultDisplayValue(displayValue ? displayValue.display : '')
+      })
+      .catch((e) => console.log(e))
+    // eslint-disable-next-line
+  }, [ defaultValue ])
+
   const onDialogClose = useCallback(() => { setOpen(false) }, [])
 
   const onDialogSelect = useCallback((data) => {
+    const { mail, display } = data
     if (inputEl && inputEl.current) {
-      inputEl.current.value = data + ''
+      inputEl.current.value = display + ''
     }
-    handleBlur({ target: { value: data + '' } })
+    handleBlur({ target: { value: mail + '' } })
     // eslint-disable-next-line
   }, [])
 
@@ -105,7 +125,7 @@ function SearchInput(props) {
             disabled={disabled}
             className={classes.input}
             onBlur={handleBlur}
-            defaultValue={defaultValue ? defaultValue : ''}
+            defaultValue={defaultDisplayValue ? defaultDisplayValue : ''}
           />
           <Button
             disabled={disabled}

@@ -6,6 +6,7 @@ import CommonTip from "../../../../CommonTip"
 import Loading from "../../../../Loading"
 import SearchDialog from "./SearchDialog"
 import HighlightOffTwoToneIcon from '@material-ui/icons/HighlightOffTwoTone'
+import accountAPI from "../../../../../api/accountManagement"
 
 function SearchInput(props) {
   const {
@@ -22,6 +23,7 @@ function SearchInput(props) {
     apiKey,
     apiValue,
     buttonText,
+    getDisplayName,
   } = props
 
   const inputEl = useRef(null)
@@ -30,30 +32,52 @@ function SearchInput(props) {
   const [ helperText, setHelperText ] = useState(false)
   const [ open, setOpen ] = useState(false)
   const [ dataList, setDataList ] = useState([])
+  const [ displayList, setDisplayList ] = useState([])
   const [ selectedList, setSelectedList ] = useState([])
 
   useEffect(()  => {
     onChange && onChange(fieldName, selectedList)
-    async function asyncCheckeField() {
+    async function asyncCheckField() {
       const { error, message } = await asyncCheck(props)
       setError(error)
       setHelperText(message)
     }
-    asyncCheckeField(fieldName, selectedList)
+    asyncCheckField(fieldName, selectedList)
     // eslint-disable-next-line
   }, [ selectedList ])
 
   useEffect(() => {
     defaultValue && setSelectedList(defaultValue)
+    const body = {
+      valueList: defaultValue,
+      ...apiValue,
+    }
+    getDisplayName && accountAPI.getDisplayName(body)
+      .then(({ data }) => {
+        const displayValueList = data.data
+        const displayList = []
+        defaultValue && defaultValue.forEach(value => {
+          const [ displayValue ] = displayValueList.filter(displayValue => value === displayValue.email)
+          displayValue && displayValue.display !== undefined
+          && displayValue.display !== null
+          && (displayList.push(displayValue.display))
+        })
+        setDisplayList(displayList)
+      })
+      .catch((e) => console.log(e))
+    // eslint-disable-next-line
   }, [ defaultValue ])
 
   const onDialogClose = useCallback(() => { setOpen(false) }, [])
 
   const onDialogSelect = useCallback((data) => {
-    if (selectedList.indexOf(data) !== -1) return
-    const newSelectedList = [ ...selectedList, data + '' ]
+    const { mail, display } = data
+    if (selectedList.indexOf(mail) !== -1) return
+    const newSelectedList = [ ...selectedList, mail + '' ]
+    const newDisplayList = [ ...displayList, display + '' ]
     setSelectedList(newSelectedList)
-  }, [ selectedList ])
+    setDisplayList(newDisplayList)
+  }, [ selectedList, displayList ])
 
   const useStyles = makeStyles((theme) => ({
     ...getCommonStyle(theme, style, error, helperText, disabled),
@@ -84,7 +108,7 @@ function SearchInput(props) {
         .then(({ data }) => {
           const result = data.data
           if (!result || !result.length) {
-            CommonTip.error('value can not be found')
+            CommonTip.error('Value can not be found')
           } else {
             setDataList(result)
             setOpen(true)
@@ -101,9 +125,12 @@ function SearchInput(props) {
   }
 
   const handleRemove = (i) => {
-    const newList = [ ...selectedList ]
-    newList.splice(i, 1)
-    setSelectedList(newList)
+    const newSelectList = [ ...selectedList ]
+    newSelectList.splice(i, 1)
+    const newDisplayList = [ ...displayList ]
+    newDisplayList.splice(i, 1)
+    setSelectedList(newSelectList)
+    setDisplayList(newDisplayList)
   }
 
   return (
@@ -164,7 +191,7 @@ function SearchInput(props) {
           }}
         >
           {
-            selectedList && selectedList.map((el, i) => (
+            displayList && displayList.map((el, i) => (
               <div
                 key={el + '_' + i}
                 className={classes.row}
