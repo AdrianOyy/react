@@ -62,7 +62,7 @@ class inventory {
   checkIDExist(id, _ID) {
     return http(`${path}/inventory/checkIDExist`, {
       method: 'GET',
-      data: {
+      params: {
         id,
         _ID,
       }

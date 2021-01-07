@@ -1,14 +1,14 @@
-import {Common} from "../Common"
+import { Common } from "../Common"
 import Api from "../../../../api/diyForm"
-import {object2map} from "../../../map2object"
-import {DetailActions, UpdateActions} from "../../../../components/HADynamicForm/Components/Actions"
-import {Button} from "@material-ui/core"
-import {L} from "../../../lang"
+import { object2map } from "../../../map2object"
+import { DetailActions, UpdateActions } from "../../../../components/HADynamicForm/Components/Actions"
+import { Button } from "@material-ui/core"
+import { L } from "../../../lang"
 import React from "react"
-import {CREATE, HA4, UPDATE} from "../../../variable/stepName"
-import {getUser} from "../../../auth"
+import { CREATE, HA4, UPDATE } from "../../../variable/stepName"
+import { getUser } from "../../../auth"
 import ContractItems from "../../../../components/ContractItems/ContractItems"
-import {fieldCheck} from "../utils";
+import { fieldCheck } from "../utils"
 
 const applicant = document.createElement("div")
 applicant.id = "headline_applicant's_particulars"
@@ -56,9 +56,9 @@ class NonPersonal extends Common {
     const user = getUser()
     const parentInitData = new Map()
     if (user) {
-      parentInitData.set('surname', user.cn)
-      parentInitData.set('firstname', user.sn)
-      parentInitData.set('christianname', user.givenName)
+      parentInitData.set('surname', user.sn)
+      parentInitData.set('firstname', user.givenName)
+      parentInitData.set('christianname', user.cn)
     }
     return { parentInitData }
   }

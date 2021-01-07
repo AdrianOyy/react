@@ -20,6 +20,13 @@ class User {
       },
     })
   }
+
+  findUser(data) {
+    return http(`${path}/user/findUser`, {
+      method: 'POST',
+      data,
+    })
+  }
 }
 
 export default new User()

@@ -1,5 +1,6 @@
 import { Common } from "../Common"
 import Api from "../../../../api/diyForm"
+import UserApi from "../../../../api/user"
 import { object2map } from "../../../map2object"
 import { DetailActions, UpdateActions } from "../../../../components/HADynamicForm/Components/Actions"
 import { Button } from "@material-ui/core"
@@ -247,30 +248,46 @@ class Account extends Common {
 
 class AccountWithCuID extends Account {
   async getInitData() {
-    // const { cuId } = this.startData
+    const { cuId } = this.startData
+    const { data } = await UserApi.findUser({ username: cuId })
     const parentInitData = new Map()
-    this.user = getUser()
+    if (data.data) {
+      this.user = data.data
+      parentInitData.set('apply_for', 'CORP ID (Login ID)!@#Intranet email account')
+      parentInitData.set('account_type', 'CORP Account Application')
+      parentInitData.set('owa_hospital_web', 'OWA Webmail + Hospital home page')
+      parentInitData.set('authenticationmethod', 'HA Chat')
+      parentInitData.set('firstname', data.data.sn)
+      parentInitData.set('surname', data.data.cn)
+      parentInitData.set('existing_corp_account', cuId)
+    } else {
+      this.user = getUser()
+      parentInitData.set('apply_for', 'CORP ID (Login ID)!@#Intranet email account')
+      parentInitData.set('account_type', 'CORP Account Application')
+      parentInitData.set('owa_hospital_web', 'OWA Webmail + Hospital home page')
+      parentInitData.set('authenticationmethod', 'HA Chat')
+    }
     // if (!this.user.mail) {
     //   parentInitData.set('account_type', 'CORP Account Application')
     // }
-    parentInitData.set('owa_hospital_web', 'OWA Webmail + Hospital home page')
-    parentInitData.set('apply_for_internet', 'Internet web access!@#Internet Email address')
-    if (!this.user.mail) {
-      parentInitData.set('apply_for', 'Intranet email account')
-    }
-    parentInitData.set('authenticationmethod', 'HA Chat')
-    const cuDatas = JSON.parse('{"account_type":"Internet Account Application!@#IBRA Account Application","surname":"rexshen","apply_for":"CORP ID (Login ID)","contact_phone_no":"13584587","division":"devericd","firstname":"shen","jobtitle":"IT","officefax":"35854519","section":"ie","stafftype":"Head Office","supervisoremailaccount":"rexshen@apjcorp.com"}')
-    parentInitData.set('account_type', !this.user.mail ? 'CORP Account Application!@#' + cuDatas.account_type : cuDatas.account_type)
-    parentInitData.set('surname', cuDatas.surname)
-    // parentInitData.set('apply_for', cuDatas.apply_for)
-    parentInitData.set('contact_phone_no', cuDatas.contact_phone_no)
-    parentInitData.set('division', cuDatas.division)
-    parentInitData.set('firstname', cuDatas.firstname)
-    parentInitData.set('jobtitle', cuDatas.jobtitle)
-    parentInitData.set('officefax', cuDatas.officefax)
-    parentInitData.set('section', cuDatas.section)
-    parentInitData.set('stafftype', cuDatas.stafftype)
-    parentInitData.set('supervisoremailaccount', cuDatas.supervisoremailaccount)
+    // parentInitData.set('owa_hospital_web', 'OWA Webmail + Hospital home page')
+    // parentInitData.set('apply_for_internet', 'Internet web access!@#Internet Email address')
+    // if (!this.user.mail) {
+    //   parentInitData.set('apply_for', 'Intranet email account')
+    // }
+    // parentInitData.set('authenticationmethod', 'HA Chat')
+    // const cuDatas = JSON.parse('{"account_type":"Internet Account Application!@#IBRA Account Application","surname":"rexshen","apply_for":"CORP ID (Login ID)","contact_phone_no":"13584587","division":"devericd","firstname":"shen","jobtitle":"IT","officefax":"35854519","section":"ie","stafftype":"Head Office","supervisoremailaccount":"rexshen@apjcorp.com"}')
+    // parentInitData.set('account_type', !this.user.mail ? 'CORP Account Application!@#' + cuDatas.account_type : cuDatas.account_type)
+    // parentInitData.set('surname', cuDatas.surname)
+    // // parentInitData.set('apply_for', cuDatas.apply_for)
+    // parentInitData.set('contact_phone_no', cuDatas.contact_phone_no)
+    // parentInitData.set('division', cuDatas.division)
+    // parentInitData.set('firstname', cuDatas.firstname)
+    // parentInitData.set('jobtitle', cuDatas.jobtitle)
+    // parentInitData.set('officefax', cuDatas.officefax)
+    // parentInitData.set('section', cuDatas.section)
+    // parentInitData.set('stafftype', cuDatas.stafftype)
+    // parentInitData.set('supervisoremailaccount', cuDatas.supervisoremailaccount)
     return { parentInitData }
   }
 
@@ -456,7 +473,10 @@ export default async function getAccountLogic(props) {
   switch (stepName) {
     case CREATE:
       if (startData && startData.cuId) {
-        return new AccountWithCuID(props)
+        const { data } = await UserApi.findUser({ username: startData.cuId })
+        if (data.data) {
+          return new AccountWithCuID(props)
+        }
       }
       return new Account(props)
     case UPDATE:
