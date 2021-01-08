@@ -5,6 +5,7 @@ import API from "../../../../../api/tenant"
 import { useParams } from "react-router-dom"
 import { L } from '../../../../../utils/lang'
 import formatDateTime from "../../../../../utils/formatDateTime"
+import {U} from "../../../../../utils/variable/returnType";
 
 
 function Detail() {
@@ -30,7 +31,7 @@ function Detail() {
             { id: 'justification', label: L('Justification'), type: 'text', disabled: true, readOnly: true, value: defaultValue.justification },
             { id: 'budget_type', label: L('Budget Type'), type: 'text', disabled: true, readOnly: true, value: defaultValue.budget_type },
             { id: 'project_owner', label: L('Project Owner'), type: 'text', disabled: true, readOnly: true, value: defaultValue.project_owner },
-            { id: 'contact_person', label: L('Contact Person'), type: 'text', disabled: true, readOnly: true, value: defaultValue.contact_person },
+            { id: 'contact_person', label: L('Contact Person'), type: 'searchInput', apiValue: { returnType: U }, disabled: true, readOnly: true, value: defaultValue.contact_person },
             { id: 'project_estimation', label: L('Project Estimation'), type: 'text', disabled: true, readOnly: true, value: defaultValue.project_estimation },
             { id: 'methodology_text', label: L('Methodology Text'), type: 'text', disabled: true, readOnly: true, value: defaultValue.methodology_text },
             { id: 'createdAt', label: L('Created At'), type: 'text', disabled: true, readOnly: true, value: formatDateTime(defaultValue.createdAt) },

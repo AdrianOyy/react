@@ -9,6 +9,7 @@ import { useHistory } from 'react-router-dom'
 import { checkEmpty } from "../../untils/tenantFieldCheck"
 import adGroupApi from "../../../../../api/adGroup"
 import { L } from '../../../../../utils/lang'
+import {U} from "../../../../../utils/variable/returnType";
 
 
 function Update() {
@@ -159,8 +160,10 @@ function Update() {
               error: project_ownerError, helperText: project_ownerHelperText
             },
             {
-              id: 'contact_person', label: L('contact_person'), type: 'text', required: true, readOnly: false,
+              id: 'contact_person', label: L('contact_person'), required: true, readOnly: false,
               value: defaultValue.contact_person,
+              type: 'searchInput',
+              apiValue: { returnType: U },
               error: contact_personError, helperText: contact_personHelperText
             },
             {

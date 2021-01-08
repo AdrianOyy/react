@@ -19,7 +19,8 @@ import FormSelect from "../FormSelect"
 import FormDate from "../FormDate"
 import { makeStyles } from "@material-ui/core/styles"
 import { useHistory } from "react-router-dom"
-import RequiredField from "../RequiredField/RequiredField";
+import RequiredField from "../RequiredField/RequiredField"
+import SearchInput from "../FormSearchInput"
 
 let Card = styled(MuiCard)(spacing)
 Card = styled(Card)`border-radius: 1em; width:70%; margin:0 auto;`
@@ -71,7 +72,6 @@ function CommonForm(props) {
     onFormFieldChange,
     showBtn,
     onBtnClick,
-    // onFormFieldBlur,
     spacing,
     showRequiredField,
   } = props
@@ -85,14 +85,6 @@ function CommonForm(props) {
     }
     onFormFieldChange && onFormFieldChange(data, e.id)
   }
-  // const handleDataBlur = (value, id) => {
-  //   const data = {
-  //     target: {
-  //       value
-  //     }
-  //   }
-  //   onFormFieldBlur(data, id)
-  // }
   return (
     <Card mb={6}>
       <CardContent>
@@ -144,6 +136,28 @@ function CommonForm(props) {
                             labelField={field.labelField}
                             valueField={field.valueField}
                             onChange={handleDataChange}
+                          />
+                        </div>
+                      )
+                    case 'searchInput':
+                      return (
+                        <div
+                          className={classes.grid}
+                          key={field.id + '_' + i}
+                          id={field.id + '_div'}
+                        >
+                          <SearchInput
+                            key={field.id + '_' + i}
+                            id={field.id.toString()}
+                            onBlur={handleDataChange}
+                            style={{ padding: '0 1em' }}
+                            required={field.required || false}
+                            disabled={field.disabled || false}
+                            helperText={errorFieldList && errorFieldList[field.id] ? errorFieldList[field.id].helperText : ''}
+                            error={errorFieldList && errorFieldList[field.id] ? errorFieldList[field.id].error : false}
+                            defaultValue={field.value === '' ? null : field.value}
+                            label={field.label}
+                            apiValue={field.apiValue}
                           />
                         </div>
                       )

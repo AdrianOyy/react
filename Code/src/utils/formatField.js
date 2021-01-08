@@ -1,8 +1,6 @@
 import accountAPI from "../api/accountManagement"
+import { U, D, UD } from "./variable/returnType"
 
-const U = 'user'
-const D = 'distribution'
-const UD = 'userOrdistribution'
 
 export default function formatField(field) {
   if (!field) return field

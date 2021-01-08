@@ -1,8 +1,13 @@
-import React, { useEffect, useState } from "react"
+import React, { useCallback, useEffect, useRef, useState } from "react"
 import {
+  Button,
   InputLabel as Label,
 } from "@material-ui/core"
 import { fade, withStyles, makeStyles } from "@material-ui/core/styles"
+import accountAPI from "../../api/accountManagement"
+import CommonTip from "../CommonTip"
+import Loading from "../Loading"
+import SearchDialog from "../HADynamicForm/Components/controless/SearchInput/SearchDialog"
 
 const fontFamily = [
   '-apple-system',
@@ -29,13 +34,37 @@ export default function FormInput(props) {
     helperText,
     onBlur,
     showRequest,
+    apiValue,
+    buttonText,
   } = props
+
+  const inputEl = useRef(null)
+
   const [ newValue, setNewValue ] = useState(defaultValue)
+  const [ defaultDisplayValue, setDefaultDisplayValue ] = useState('')
+  const [ dataList, setDataList ] = useState([])
+  const [ open, setOpen ] = useState(false)
 
   useEffect(() => {
     onBlur && onBlur({ id, value: newValue })
     // eslint-disable-next-line
   }, [ newValue ])
+
+  useEffect(() => {
+    onBlur && onBlur({ id, value: newValue })
+    const data = {
+      valueList: [ defaultValue ],
+      ...apiValue,
+    }
+    accountAPI.getDisplayName(data)
+      .then(({ data }) => {
+        const displayValueList = data.data
+        const displayValue = displayValueList ? displayValueList[0] : null
+        setDefaultDisplayValue(displayValue ? displayValue.display : '')
+      })
+      .catch((e) => console.log(e))
+    // eslint-disable-next-line
+  }, [ defaultValue ])
 
   const handleBlur = (e) => {
     setNewValue(e.target.value)
@@ -52,6 +81,47 @@ export default function FormInput(props) {
       container: Math.max(inputWidth, labelWidth)
     }
   }
+
+  const handleCheck = () => {
+    const inputValue = inputEl && inputEl.current ? inputEl.current.value : ''
+    if (!inputValue || inputValue.trim() === '') {
+      CommonTip.warning('Please input the keyword first')
+      return
+    }
+    const apiKey = accountAPI.findUsers
+    if (!apiKey) return
+    if (inputValue) {
+      Loading.show()
+      apiKey && apiKey(Object.assign({ email: inputValue, id }, apiValue))
+        .then(({ data }) => {
+          const result = data.data
+          if (!result || !result.length) {
+            CommonTip.error('value can not be found')
+          } else {
+            setDataList(result)
+            setOpen(true)
+          }
+        })
+        .finally(() => {
+          Loading.hide()
+        })
+        .catch((e) => {
+          console.log(e)
+          Loading.hide()
+        })
+    }
+  }
+
+  const onDialogSelect = useCallback((data) => {
+    const { mail, display } = data
+    if (inputEl && inputEl.current) {
+      inputEl.current.value = display + ''
+    }
+    handleBlur({ target: { value: mail + '' } })
+    // eslint-disable-next-line
+  }, [])
+
+  const onDialogClose = useCallback(() => { setOpen(false) }, [])
 
   const useStyles = makeStyles((theme) => ({
     root: {
@@ -96,7 +166,17 @@ export default function FormInput(props) {
         outline: 'none',
         boxShadow: `${fade(theme.palette.primary.main, 0.25)} 0 0 0 0.2rem`,
       }
-    }
+    },
+    inputCheck: {
+      padding: '0',
+      width: '2em',
+      height: '33px',
+      color: '#fff',
+      backgroundColor: '#2553F4',
+      '&:hover': {
+        backgroundColor: '#2196f3',
+      },
+    },
   }))
 
   const classes = useStyles()
@@ -126,21 +206,34 @@ export default function FormInput(props) {
         {label + ':'}
       </InputLabel>
       <div style={{ width: '1vw' }} />
-      <div>
+      <div style={{ display: 'flex', alignItems: 'flex-end' }}>
         <input
           id={id}
+          ref={inputEl}
           type="text"
           disabled={disabled}
           className={classes.input}
           onBlur={handleBlur}
-          defaultValue={defaultValue ? defaultValue : ''}
+          defaultValue={defaultDisplayValue ? defaultDisplayValue : ''}
         />
+        <Button
+          disabled={disabled}
+          className={classes.inputCheck}
+          onClick={handleCheck}
+        >{buttonText ? buttonText : 'Check'}</Button>
       </div>
       {
         error && helperText && (
           <div className={classes.helper}>{helperText}</div>
         )
       }
+      <SearchDialog
+        open={open}
+        onClose={onDialogClose}
+        title={id}
+        dataList={dataList}
+        onSelect={onDialogSelect}
+      />
     </div>
   )
 }

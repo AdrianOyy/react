@@ -7,6 +7,7 @@ import { useHistory } from 'react-router-dom'
 import { checkEmpty, getCheckExist } from "../../untils/tenantFieldCheck"
 import adGroupApi from "../../../../../api/adGroup"
 import { L } from '../../../../../utils/lang'
+import { U } from '../../../../../utils/variable/returnType'
 
 
 function Create() {
@@ -147,7 +148,10 @@ function Create() {
         error: project_ownerError, helperText: project_ownerHelperText
       },
       {
-        id: 'contact_person', label: L('contact_person'), type: 'text', required: true, readOnly: false,
+        id: 'contact_person', label: L('contact_person'),
+        type: 'searchInput',
+        required: true, readOnly: false,
+        apiValue: { returnType: U },
         value: contact_person,
         error: contact_personError, helperText: contact_personHelperText
       },
