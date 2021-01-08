@@ -1,5 +1,6 @@
 import { isEmail, isHKPhone } from "../../regex"
-import accountManagementAPI from "../../../api/accountManagement"
+// import accountManagementAPI from "../../../api/accountManagement"
+import procedureAPI from "../../../api/procedure"
 import { JSEncrypt } from 'jsencrypt'
 
 export function itemIsChecked(self, fieldName, itemName) {
@@ -63,6 +64,30 @@ export function getFieldByFieldName(self, fieldName) {
   const target = self && self.parentInitDetail.filter(e => e.fieldName === fieldName)
   if (target) return target[0]
   return false
+}
+
+export function getFieldByFieldNameBeforeMix(self, fieldName) {
+  const target = self && self.parentFormDetail.filter(e => e.fieldName === fieldName)
+  if (target) return target[0]
+  return false
+}
+
+export async function getNewItemList(arg) {
+  const { data } = await procedureAPI.call({ arg })
+  return data?.data
+}
+
+export async function changeItemList(self, fieldName) {
+  const field = getFieldByFieldNameBeforeMix(self, fieldName)
+  const remoteItemList = await getNewItemList(self.workflowName)
+  const newItemList = []
+  remoteItemList.forEach(remoteItem => {
+    newItemList.push({
+      id: remoteItem.locationName,
+      type: remoteItem.locationName,
+    })
+  })
+  field.itemList = newItemList
 }
 
 export function hideItem(self, remark) {
@@ -262,42 +287,42 @@ export function emailCheckByFieldNameList(self, field, fieldNameList) {
   return { error: false, message: '', done: false }
 }
 
-export async function loginCheck(self, field) {
-  let error = false
-  let message = ''
-  let done = false
-  const { fieldName } = field
-  const value = self.parentData.get(fieldName)
-  const { data } = await accountManagementAPI.getUsersByEmails({ emails: [ value ] })
-  if (!data || !data.data || !data.data[0]) {
-    error = true
-    message = 'User never logged in'
-    done = true
-    self.parentFieldError.set(fieldName, message)
-    return { error, message, done }
-  }
-  return { error, message, done }
-}
+// export async function loginCheck(self, field) {
+//   let error = false
+//   let message = ''
+//   let done = false
+//   const { fieldName } = field
+//   const value = self.parentData.get(fieldName)
+//   const { data } = await accountManagementAPI.getUsersByEmails({ emails: [ value ] })
+//   if (!data || !data.data || !data.data[0]) {
+//     error = true
+//     message = 'User never logged in'
+//     done = true
+//     self.parentFieldError.set(fieldName, message)
+//     return { error, message, done }
+//   }
+//   return { error, message, done }
+// }
 
-export async function loginCheckByListNameList(self, field, fieldNameList) {
-  if (fieldNameList.indexOf(field.fieldName) !== -1) {
-    return await loginCheck(self, field)
-  }
-  return { error: false, message: '', done: false }
-}
+// export async function loginCheckByListNameList(self, field, fieldNameList) {
+//   if (fieldNameList.indexOf(field.fieldName) !== -1) {
+//     return await loginCheck(self, field)
+//   }
+//   return { error: false, message: '', done: false }
+// }
+//
+// export async function emailAndLoginCheck(self, field) {
+//   const emailRes = emailCheck(self, field)
+//   if (emailRes.done) return emailRes
+//   return loginCheck(self, field)
+// }
 
-export async function emailAndLoginCheck(self, field) {
-  const emailRes = emailCheck(self, field)
-  if (emailRes.done) return emailRes
-  return loginCheck(self, field)
-}
-
-export async function emailAndLoginCheckByFieldNameList(self, field, fieldNameList) {
-  if (fieldNameList.indexOf(field.fieldName) !== -1) {
-    return await emailAndLoginCheck(self, field)
-  }
-  return { error: false, message: '', done: false }
-}
+// export async function emailAndLoginCheckByFieldNameList(self, field, fieldNameList) {
+//   if (fieldNameList.indexOf(field.fieldName) !== -1) {
+//     return await emailAndLoginCheck(self, field)
+//   }
+//   return { error: false, message: '', done: false }
+// }
 
 export function phoneCheck(self, field) {
   return HKNumberCheck(self, field, 'phone')
@@ -324,8 +349,8 @@ export function faxCheckByFieldNameList(self, field, fieldNameList) {
 export async function fieldCheck(self, field, fieldNameList) {
   const {
     emailFieldNameList,
-    loginFieldNameList,
-    emailAndLoginFieldNameList,
+    // loginFieldNameList,
+    // emailAndLoginFieldNameList,
     phoneFieldNameList,
     faxFieldNameList
   } = fieldNameList
@@ -337,14 +362,14 @@ export async function fieldCheck(self, field, fieldNameList) {
   if (emailRes && emailRes.done) {
     return { error: emailRes.error, message: emailRes.message }
   }
-  const loginRes = loginFieldNameList && loginFieldNameList.length && await loginCheckByListNameList(self, field, loginFieldNameList)
-  if (loginRes && loginRes.done) {
-    return { error: loginRes.error, message: loginRes.message }
-  }
-  const emailAndLoginRes = emailAndLoginFieldNameList && emailAndLoginFieldNameList.length && await emailAndLoginCheckByFieldNameList(self, field, emailAndLoginFieldNameList)
-  if (emailAndLoginRes && emailAndLoginRes.done) {
-    return { error: emailAndLoginRes.error, message: emailAndLoginRes.message }
-  }
+  // const loginRes = loginFieldNameList && loginFieldNameList.length && await loginCheckByListNameList(self, field, loginFieldNameList)
+  // if (loginRes && loginRes.done) {
+  //   return { error: loginRes.error, message: loginRes.message }
+  // }
+  // const emailAndLoginRes = emailAndLoginFieldNameList && emailAndLoginFieldNameList.length && await emailAndLoginCheckByFieldNameList(self, field, emailAndLoginFieldNameList)
+  // if (emailAndLoginRes && emailAndLoginRes.done) {
+  //   return { error: emailAndLoginRes.error, message: emailAndLoginRes.message }
+  // }
   const phoneRes = phoneFieldNameList && phoneFieldNameList && phoneCheckByFieldNameList(self, field, phoneFieldNameList)
   if (phoneRes && phoneRes.done) {
     return { error: phoneRes.error, message: phoneRes.message }

@@ -11,7 +11,7 @@ import ContractItems from "../../../../components/ContractItems/ContractItems"
 import { getUser } from "../../../auth"
 import accountAPI from "../../../../api/accountManagement"
 import {
-  changeDisplayNameToHeadLine,
+  changeDisplayNameToHeadLine, changeItemList,
   checkField, checkItem,
   clearItemValueByRemark,
   encryption,
@@ -37,6 +37,10 @@ class Account extends Common {
     changeDisplayNameToHeadLine('apply_for')
     insertHeadLine('surname', 'Applicant\'s Particulars')
     insertHeadLine('supervisoremailaccount', "Manager's Information")
+  }
+
+  async changeItemList() {
+    await changeItemList(this, 'stafftype')
   }
 
   hideItem() {
@@ -217,7 +221,7 @@ class Account extends Common {
 
   // 特殊字段验证(异步)
   async asyncCheck(field) {
-    const emailAndLoginFieldNameList = [
+    const emailFieldNameList = [
       'supervisoremailaccount'
     ]
     const phoneFieldNameList = [
@@ -228,7 +232,7 @@ class Account extends Common {
       'officefax'
     ]
     const fieldNameList = {
-      emailAndLoginFieldNameList,
+      emailFieldNameList,
       phoneFieldNameList,
       faxFieldNameList
     }

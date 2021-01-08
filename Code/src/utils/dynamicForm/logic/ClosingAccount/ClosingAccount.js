@@ -12,11 +12,11 @@ import { fieldCheck } from "../utils"
 class ClosingAccount extends Common {
   // 特殊字段验证(异步)
   async asyncCheck(field) {
-    const emailAndLoginFieldNameList = [
+    const emailFieldNameList = [
       'supervisoremailaccount'
     ]
     const fieldNameList = {
-      emailAndLoginFieldNameList,
+      emailFieldNameList,
     }
     return fieldCheck(this, field, fieldNameList)
   }

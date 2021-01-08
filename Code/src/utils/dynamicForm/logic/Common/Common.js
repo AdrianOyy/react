@@ -84,6 +84,8 @@ export class Common {
     return {}
   }
 
+  async changeItemList() {}
+
   insertHeadLine() {
     return {}
   }

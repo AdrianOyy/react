@@ -20,20 +20,23 @@ export default function DynamicForm() {
     Loading.show()
     logic && logic.getInitData()
       .then((data) => {
-        const { parentInitData, childInitData, callback } = data
-        const pInitData = parentInitData ? parentInitData : new Map()
-        logic.parentData = pInitData
-        const parentInitDetail = logic.getParentInitDetail(pInitData)
-        logic.childrenDataList = childInitData ? childInitData : []
-        setInitData({
-          parentInitDetail,
-          childInitDetail: childInitData ? childInitData : [],
-        })
-        callback && callback()
-      })
-      .then(() => {
-        logic.hideItem()
-        logic.insertHeadLine()
+        logic.changeItemList()
+          .then(() => {
+            const { parentInitData, childInitData, callback } = data
+            const pInitData = parentInitData ? parentInitData : new Map()
+            logic.parentData = pInitData
+            const parentInitDetail = logic.getParentInitDetail(pInitData)
+            logic.childrenDataList = childInitData ? childInitData : []
+            setInitData({
+              parentInitDetail,
+              childInitDetail: childInitData ? childInitData : [],
+            })
+            callback && callback()
+          })
+          .then(() => {
+            logic.hideItem()
+            logic.insertHeadLine()
+          })
       })
       .finally(() => {
         Loading.hide()

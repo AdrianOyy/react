@@ -8,7 +8,7 @@ import React from "react"
 import { CREATE, HA4, UPDATE } from "../../../variable/stepName"
 import { getUser } from "../../../auth"
 import ContractItems from "../../../../components/ContractItems/ContractItems"
-import { fieldCheck } from "../utils"
+import { changeItemList, fieldCheck } from "../utils"
 
 const applicant = document.createElement("div")
 applicant.id = "headline_applicant's_particulars"
@@ -29,8 +29,6 @@ class NonPersonal extends Common {
     const emailFieldNameList = [
       'alternaterecipient',
       'owneremail',
-    ]
-    const emailAndLoginFieldNameList = [
       'supervisoremailaccount'
     ]
     const phoneFieldNameList = [
@@ -41,11 +39,14 @@ class NonPersonal extends Common {
     ]
     const fieldNameList = {
       emailFieldNameList,
-      emailAndLoginFieldNameList,
       phoneFieldNameList,
       faxFieldNameList
     }
     return fieldCheck(this, field, fieldNameList)
+  }
+
+  async changeItemList() {
+    await changeItemList(this, 'stafftype')
   }
 
   getContractList() {

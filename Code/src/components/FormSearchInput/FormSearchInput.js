@@ -51,9 +51,11 @@ export default function FormInput(props) {
   }, [ newValue ])
 
   useEffect(() => {
+    if (!defaultValue) return
     onBlur && onBlur({ id, value: newValue })
     const data = {
       valueList: [ defaultValue ],
+      isCorp: true,
       ...apiValue,
     }
     accountAPI.getDisplayName(data)
@@ -92,7 +94,7 @@ export default function FormInput(props) {
     if (!apiKey) return
     if (inputValue) {
       Loading.show()
-      apiKey && apiKey(Object.assign({ email: inputValue, id }, apiValue))
+      apiKey && apiKey(Object.assign({ email: inputValue }, apiValue))
         .then(({ data }) => {
           const result = data.data
           if (!result || !result.length) {
@@ -113,11 +115,11 @@ export default function FormInput(props) {
   }
 
   const onDialogSelect = useCallback((data) => {
-    const { mail, display } = data
+    const { corp, display } = data
     if (inputEl && inputEl.current) {
       inputEl.current.value = display + ''
     }
-    handleBlur({ target: { value: mail + '' } })
+    handleBlur({ target: { value: corp + '' } })
     // eslint-disable-next-line
   }, [])
 

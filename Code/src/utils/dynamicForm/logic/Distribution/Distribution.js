@@ -75,7 +75,7 @@ class Distribution extends Common {
 
   // 特殊字段验证(异步)
   async asyncCheck(field) {
-    const emailAndLoginFieldNameList = [
+    const emailFieldNameList = [
       'supervisoremailaccount'
     ]
     const phoneFieldNameList = [
@@ -86,7 +86,7 @@ class Distribution extends Common {
       'faxno'
     ]
     const fieldNameList = {
-      emailAndLoginFieldNameList,
+      emailFieldNameList,
       phoneFieldNameList,
       faxFieldNameList
     }
