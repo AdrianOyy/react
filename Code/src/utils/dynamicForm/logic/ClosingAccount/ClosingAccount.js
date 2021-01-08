@@ -13,7 +13,7 @@ class ClosingAccount extends Common {
   // 特殊字段验证(异步)
   async asyncCheck(field) {
     const emailAndLoginFieldNameList = [
-      'supervisoremailaccount'
+      // 'supervisoremailaccount'
     ]
     const fieldNameList = {
       emailAndLoginFieldNameList,

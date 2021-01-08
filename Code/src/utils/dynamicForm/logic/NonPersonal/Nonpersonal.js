@@ -31,7 +31,7 @@ class NonPersonal extends Common {
       'owneremail',
     ]
     const emailAndLoginFieldNameList = [
-      'supervisoremailaccount'
+      // 'supervisoremailaccount'
     ]
     const phoneFieldNameList = [
       'officetel'
