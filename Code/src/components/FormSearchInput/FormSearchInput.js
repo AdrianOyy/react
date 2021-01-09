@@ -94,7 +94,7 @@ export default function FormInput(props) {
     if (!apiKey) return
     if (inputValue) {
       Loading.show()
-      apiKey && apiKey(Object.assign({ email: inputValue }, apiValue))
+      apiKey && apiKey(Object.assign({ email: inputValue, isCorp: true }, apiValue))
         .then(({ data }) => {
           const result = data.data
           if (!result || !result.length) {
