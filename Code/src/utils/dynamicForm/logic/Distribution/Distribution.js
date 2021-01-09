@@ -58,7 +58,7 @@ class Distribution extends Common {
     const user = getUser()
     const parentInitData = new Map()
     if (user) {
-      parentInitData.set('isowner_name', user.cn)
+      parentInitData.set('christianname', user.cn)
     }
     return { parentInitData }
   }
