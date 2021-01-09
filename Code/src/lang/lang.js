@@ -235,6 +235,7 @@ exports.lang = {
     cpsvm: 'CPS VM Allocation',
     cuid: 'CU_ID',
     corpId: 'CORP a/c',
+    corpIdNotFind: 'CORP a/c not found',
     cpsid: 'CPS ID',
     Sorting: 'Sorting',
     parentLength: 'Please install Parent Form List',
