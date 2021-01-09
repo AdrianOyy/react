@@ -477,10 +477,7 @@ export default async function getAccountLogic(props) {
   switch (stepName) {
     case CREATE:
       if (startData && startData.cuId) {
-        const { data } = await UserApi.findUser({ username: startData.cuId })
-        if (data.data) {
-          return new AccountWithCuID(props)
-        }
+        return new AccountWithCuID(props)
       }
       return new Account(props)
     case UPDATE:

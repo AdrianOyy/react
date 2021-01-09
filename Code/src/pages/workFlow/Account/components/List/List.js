@@ -7,8 +7,9 @@ import {
 import { L } from '../../../../../utils/lang'
 
 import { useHistory } from 'react-router-dom'
-import { CommonTable, TablePagination, HAPaper } from '../../../../../components'
+import { CommonTable, TablePagination, HAPaper, CommonTip } from '../../../../../components'
 import API from "../../../../../api/workFlow"
+import UserApi from "../../../../../api/user"
 import UpdateIcon from '@material-ui/icons/Update'
 import PlayCircleFilledWhiteOutlinedIcon from '@material-ui/icons/PlayCircleFilledWhiteOutlined'
 import formatDateTime from "../../../../../utils/formatDateTime"
@@ -117,9 +118,14 @@ function List(props) {
       rejectActions(value)
     },
   }
-  const handleReasonSubmit = () => {
+  const handleReasonSubmit = async () => {
     if (dialogReason.value && dialogReason.value.length > 0) {
-      rejectActions(dialogReason.value)
+      const { data } = await UserApi.findUser({ username: dialogReason.value })
+      if (data && data.data) {
+        rejectActions(dialogReason.value)
+      } else {
+        CommonTip.error(L('corpIdNotFind'))
+      }
     }
   }
   const handleReasonChange = (event) => {
