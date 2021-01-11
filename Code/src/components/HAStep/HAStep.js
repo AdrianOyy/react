@@ -34,7 +34,9 @@ function HAStep(props) {
   const [ taskId, setTaskId ] = useState('')
   const [ showDisabled, setShowDisabled ] = useState(false)
   const handleDetail = (event, row) => {
-    setReason(row.reason)
+    let reason = row.reason
+    reason = reason.trim().replace(/<[^>]+>/g, '')
+    setReason(reason)
     setShown(true)
   }
   const handleChatBox = (event, row) => {
