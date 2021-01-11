@@ -35,7 +35,7 @@ function HAStep(props) {
   const [ showDisabled, setShowDisabled ] = useState(false)
   const handleDetail = (event, row) => {
     let reason = row.reason
-    reason = reason.trim().replace(/<[^>]+>/g, '')
+    reason = reason ? reason.trim().replace(/<[^>]+>/g, '') : reason
     setReason(reason)
     setShown(true)
   }
