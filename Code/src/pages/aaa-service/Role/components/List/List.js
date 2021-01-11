@@ -70,7 +70,7 @@ function List(props) {
     { id: 'value', label: L('Right'), type: 'text', disabled: false, value, isSelector: true,
       itemList: [
         { name: L("Read Only"), id: "Read Only" },
-        { name: L("Read & Write"), id: "Read && Write" },
+        { name: L("Read & Write"), id: "Read & Write" },
       ],
       labelField: 'name',
       valueField: 'id'

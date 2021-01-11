@@ -261,8 +261,8 @@ class AccountWithCuID extends Account {
       parentInitData.set('account_type', 'CORP Account Application')
       parentInitData.set('owa_hospital_web', 'OWA Webmail + Hospital home page')
       parentInitData.set('authenticationmethod', 'HA Chat')
-      parentInitData.set('firstname', data.data.sn)
-      parentInitData.set('surname', data.data.cn)
+      parentInitData.set('firstname', data.data.givenName)
+      parentInitData.set('surname', data.data.sn)
       parentInitData.set('existing_corp_account', cuId)
     } else {
       this.user = getUser()

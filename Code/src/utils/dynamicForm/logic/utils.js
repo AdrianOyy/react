@@ -400,7 +400,7 @@ function HKNumberCheck(self, field, type = 'phone') {
 }
 
 function getRequiredMessage(field) {
-  return getFieldDisplayName(field) + "is required"
+  return getFieldDisplayName(field) + " is required"
 }
 
 function getFieldDisplayName(field) {

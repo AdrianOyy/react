@@ -55,7 +55,7 @@ function Detail(props) {
             id: 'value', label: L('Right'), type: 'select', value: map && map.get('value'), required: true,
             itemList: [
               { name: "Read Only", id: "Read Only" },
-              { name: "Read & Write", id: "Read && Write" },
+              { name: "Read & Write", id: "Read & Write" },
             ],
             labelField: 'name',
             valueField: 'id',
