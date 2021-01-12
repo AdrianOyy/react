@@ -52,15 +52,6 @@ const tenant = async(() => import("../pages/aaa-service/Tenant"))
 // ADGroup
 const ADGroup = async(() => import("../pages/aaa-service/ADGroup"))
 
-// role
-const role = async(() => import("../pages/aaa-service/Role"))
-
-// tenant adGroup mapping
-const tenantGroupMapping = async(() => import("../pages/aaa-service/TenantGroupMapping"))
-
-// assign
-const assign = async(() => import("../pages/aaa-service/Assign"))
-
 // expiry
 const expiry = async(() => import("../pages/aaa-service/Expiry"))
 
@@ -169,11 +160,6 @@ const aaaServiceRoutes = {
   icon: <Grid />,
   children: [
     {
-      path: menu.AAAService.children.role.path,
-      name: menu.AAAService.children.role.name,
-      component: role,
-    },
-    {
       path: menu.AAAService.children.adGroup.path,
       name: menu.AAAService.children.adGroup.name,
       component: ADGroup,
@@ -187,16 +173,6 @@ const aaaServiceRoutes = {
       path: menu.AAAService.children.tenant.path,
       name: menu.AAAService.children.tenant.name,
       component: tenant,
-    },
-    {
-      path: menu.AAAService.children.tenantAdGroupMapping.path,
-      name: menu.AAAService.children.tenantAdGroupMapping.name,
-      component: tenantGroupMapping,
-    },
-    {
-      path: menu.AAAService.children.assign.path,
-      name: menu.AAAService.children.assign.name,
-      component: assign
     },
     {
       path: menu.AAAService.children.expiry.path,
