@@ -11,49 +11,6 @@ class role {
       params,
     })
   }
-
-  create(data) {
-    return http(`${path}/role/create`, {
-      method: 'POST',
-      data,
-    })
-  }
-
-  detail(id) {
-    return http(`${path}/role/detail`, {
-      method: 'GET',
-      params: {
-        id,
-      },
-    })
-  }
-
-  update(id, data) {
-    return http(`${path}/role/update`, {
-      method: 'PUT',
-      params: {
-        id,
-      },
-      data,
-    })
-  }
-
-  deleteMany(data) {
-    return http(`${path}/role/deleteMany`, {
-      method: 'DELETE',
-      data,
-    })
-  }
-
-  checkLabel(id, label) {
-    return http(`${path}/role/checkLabel`, {
-      method: 'GET',
-      params: {
-        id,
-        label,
-      },
-    })
-  }
 }
 
 export default new role()

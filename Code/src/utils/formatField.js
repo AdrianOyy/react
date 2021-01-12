@@ -1,6 +1,5 @@
 import accountAPI from "../api/accountManagement"
-import { U, D, UD } from "./variable/returnType"
-
+import returnType from "./variable/returnType"
 
 export default function formatField(field) {
   if (!field) return field
@@ -14,43 +13,43 @@ export default function formatField(field) {
   switch (fieldName) {
     case 'owneremail':
       field.apiKey = accountAPI.findUsers
-      field.apiValue = { returnType: U }
+      field.apiValue = { returnType: returnType.U }
       break
     case 'supervisoremailaccount':
       field.apiKey = accountAPI.findUsers
-      field.apiValue = { returnType: U }
+      field.apiValue = { returnType: returnType.U }
       break
     case 'distribution_list':
       field.apiKey = accountAPI.findUsers
-      field.apiValue = { returnType: D }
+      field.apiValue = { returnType: returnType.D }
       break
     case 'alternaterecipient':
       field.apiKey = accountAPI.findUsers
-      field.apiValue = { returnType: UD }
+      field.apiValue = { returnType: returnType.U }
       break
     case 'alreadyaddeddistributionlist':
       field.apiKey = accountAPI.findUsers
-      field.apiValue = { returnType: D }
+      field.apiValue = { returnType: returnType.D }
       break
     case 'emailid':
       field.apiKey = accountAPI.findUsers
-      field.apiValue = { returnType: U }
+      field.apiValue = { returnType: returnType.U }
       break
     case 'members':
       field.apiKey = accountAPI.findUsers
-      field.apiValue = { returnType: UD }
+      field.apiValue = { returnType: returnType.M }
       break
     case 'memberof':
       field.apiKey = accountAPI.findUsers
-      field.apiValue = { returnType: D }
+      field.apiValue = { returnType: returnType.D }
       break
     case 'acceptmessagesfrom':
       field.apiKey = accountAPI.findUsers
-      field.apiValue = { returnType: UD }
+      field.apiValue = { returnType: returnType.UD }
       break
     case 'rejectmessagesfrom':
       field.apiKey = accountAPI.findUsers
-      field.apiValue = { returnType: UD }
+      field.apiValue = { returnType: returnType.UD }
       break
     default:
       break

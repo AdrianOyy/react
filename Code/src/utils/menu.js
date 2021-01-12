@@ -93,10 +93,6 @@ const menu = {
     name: 'AAA Service',
     path: '/AAAService',
     children: {
-      role: {
-        name: 'Role',
-        path: '/AAAService/role/',
-      },
       adGroup: {
         name: 'AD Group',
         path: '/AAAService/adGroup/',
@@ -108,14 +104,6 @@ const menu = {
       tenant: {
         name: 'Tenant',
         path: '/AAAService/tenant/',
-      },
-      tenantAdGroupMapping: {
-        name: 'Tenant AD Group Mapping',
-        path: '/AAAService/tenantAdGroupMapping/',
-      },
-      assign: {
-        name: 'Assign',
-        path: '/AAAService/assign/'
       },
       expiry: {
         name: 'Expiry',
