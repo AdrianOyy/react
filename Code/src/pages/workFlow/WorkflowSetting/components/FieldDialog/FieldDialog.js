@@ -247,6 +247,7 @@ export default function FieldDialog(props) {
               { id: 'date', value: 'date' },
               { id: 'list', value: 'list' },
               { id: 'inputCheck', value: 'inputCheck' },
+              { id: 'procedure', value: 'procedure' },
             ]
           }
           style={ELStyle}

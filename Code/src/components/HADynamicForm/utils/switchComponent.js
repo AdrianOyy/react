@@ -1,9 +1,10 @@
 import React, { memo } from "react"
-import { Input, Select, SearchInput, CheckBox, SearchList, DatePicker } from "../Components/controless"
+import { Input, Select, SearchInput, CheckBox, SearchList, DatePicker, Procedure } from "../Components/controless"
 import formatField from "../../../utils/formatField"
 
 const MemoInput = memo(Input)
 const MemoSelect = memo(Select)
+const ProcedureSelect = memo(Procedure)
 const MemoSearchInput = memo(SearchInput)
 const MemoCheckBox = memo(CheckBox)
 const MemoSearchList = memo(SearchList)
@@ -12,6 +13,17 @@ const MemoDatePicker = memo(DatePicker)
 const switchComponent = (el, i, logic, style, isParent) => {
   const field = formatField(el)
   switch (field.type) {
+    case 'procedure':
+      return (
+        <ProcedureSelect
+          key={field.id + '_' + i}
+          {...field}
+          onChange={logic ? (isParent ? logic.onParentFieldChange : logic.onChildFieldChange) : undefined}
+          checkField={logic ? (isParent ? logic.checkParentField : logic.checkChildField) : undefined}
+          style={style[field.fieldName] ? style[field.fieldName] : style.commonElement}
+          isParent={isParent}
+        />
+      )
     case 'select':
       return (
         <MemoSelect
