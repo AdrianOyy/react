@@ -9,8 +9,9 @@ import { useHistory } from 'react-router-dom'
 import { checkEmpty } from "../../untils/tenantFieldCheck"
 import adGroupApi from "../../../../../api/adGroup"
 import { L } from '../../../../../utils/lang'
-import {U} from "../../../../../utils/variable/returnType";
-
+import returnType from "../../../../../utils/variable/returnType"
+import roleAPI from "../../../../../api/role";
+import Loading from "../../../../../components/Loading";
 
 function Update() {
   const { id } = useParams()
@@ -40,6 +41,14 @@ function Update() {
   const [ methodology_textError, setmethodology_textError ] = useState(false)
   const [ methodology_textHelperText, setmethodology_textHelperText ] = useState("")
 
+  const [ role, setRole ] = useState('')
+  const [ roleList, setRoleList ] = useState([])
+  const [ roleError, setRoleError ] = useState(false)
+  const [ roleHelperText, setRoleHelperText ] = useState('')
+  const [ mappingGroup, setMappingGroup ] = useState('')
+  const [ mappingGroupError, setMappingGroupError ] = useState(false)
+  const [ mappingGroupHelperText, setMappingGroupHelperText ] = useState('')
+
   const [ formFieldList, setFormFieldList ] = useState([])
   const [ saving, setSaving ] = useState(true)
   const [ nameError, setNameError ] = useState(false)
@@ -48,6 +57,8 @@ function Update() {
 
   const handleClick = async () => {
     const nameErr = await nameCheck()
+    const mappErr = await mappingGroupCheck()
+    const roleErr = await roleCheck()
     const justificationErr = await justificationCheck()
     const budget_typeErr = await budget_typeCheck()
     const project_ownerErr = await project_ownerCheck()
@@ -57,28 +68,40 @@ function Update() {
     if (nameErr
      || justificationErr || budget_typeErr || project_ownerErr
      || contact_personErr || project_estimatioErr || methodology_textErr
-     || saving) {
+     || saving || mappErr || roleErr
+    ) {
       return
     }
     setSaving(true)
+    Loading.show()
     API.update(id,
       {
         name,
         manager_group_id: managerGroupId,
         supporter_group_id: supporterGroupId,
         group_id: groupId,
+        roleId: role,
+        mappingGroupId: mappingGroup,
         justification,
         budget_type, project_owner, contact_person,
         project_estimation, methodology_text
       })
       .then(() => {
         CommonTip.success(L('Success'))
+        Loading.hide()
         history.push({ pathname: '/aaa-service/tenant' })
       })
       .catch(() => {
+        Loading.hide()
         setSaving(false)
       })
   }
+
+  useEffect(() => {
+    roleAPI.list().then(({ data }) => {
+      data?.data && setRoleList(data?.data)
+    })
+  }, [])
 
   useEffect(() => {
     adGroupApi.list({ limit: 999, page: 1 }).then(({ data }) => {
@@ -131,9 +154,17 @@ function Update() {
               value: defaultValue.name, error: nameError, helperText: nameHelperText
             },
             {
+              id: 'mappingGroup', label: L('Mapping Group'), type: 'select', required: true, itemList: returnObj.adGroupList,
+              labelField: 'name', valueField: 'id', value: defaultValue.mapping_group_id, error: mappingGroupError, helperText: mappingGroupHelperText,
+            },
+            {
               id: 'managerGroupId', label: L('Manager Group'), type: "select", required: true,
               readOnly: false, itemList: returnObj.adGroupList, value: defaultValue.manager_group_id,
               labelField: 'name', valueField: 'id',
+            },
+            {
+              id: 'role', label: L('Role'), type: 'select', required: true, itemList: roleList,
+              labelField: 'right', valueField: 'id', value: defaultValue.role_id, error: roleError, helperText: roleHelperText,
             },
             {
               id: 'supporterGroupId', label: L('Supporter Group'), type: "select", required: true,
@@ -163,7 +194,7 @@ function Update() {
               id: 'contact_person', label: L('contact_person'), required: true, readOnly: false,
               value: defaultValue.contact_person,
               type: 'searchInput',
-              apiValue: { returnType: U },
+              apiValue: { returnType: returnType.U },
               error: contact_personError, helperText: contact_personHelperText
             },
             {
@@ -190,7 +221,7 @@ function Update() {
       })
     })
     // eslint-disable-next-line
-  }, [ id ])
+  }, [ id, roleList ])
 
   useEffect(() => {
     const errors = {
@@ -233,6 +264,8 @@ function Update() {
     contact_personHelperText,
     project_estimationError,
     methodology_textError,
+    mappingGroupHelperText,
+    roleHelperText,
   ])
 
   const onFormFieldChange = (e, id) => {
@@ -241,8 +274,14 @@ function Update() {
       case 'name':
         setName(value)
         break
+      case 'mappingGroup':
+        setMappingGroup(value)
+        break
       case 'managerGroupId':
         setManagerGroupId(value)
+        break
+      case 'role':
+        setRole(value)
         break
       case 'supporterGroupId':
         setSupporterGroupId(value)
@@ -271,6 +310,20 @@ function Update() {
       default:
         break
     }
+  }
+
+  const mappingGroupCheck = async () => {
+    const emptyCheck = checkEmpty("Mapping Group", mappingGroup)
+    setMappingGroupError(emptyCheck.error)
+    setMappingGroupHelperText(emptyCheck.msg)
+    return emptyCheck.error
+  }
+
+  const roleCheck = async () => {
+    const emptyCheck = checkEmpty("Role", role)
+    setRoleError(emptyCheck.error)
+    setRoleHelperText(emptyCheck.msg)
+    return emptyCheck.error
   }
 
   const nameCheck = async () => {

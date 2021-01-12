@@ -6,9 +6,10 @@ import CommonTip from "../../../../../components/CommonTip"
 import { useHistory } from 'react-router-dom'
 import { checkEmpty, getCheckExist } from "../../untils/tenantFieldCheck"
 import adGroupApi from "../../../../../api/adGroup"
+import roleAPI from "../../../../../api/role"
 import { L } from '../../../../../utils/lang'
-import { U } from '../../../../../utils/variable/returnType'
-
+import returnType from "../../../../../utils/variable/returnType"
+import Loading from "../../../../../components/Loading"
 
 function Create() {
   const history = useHistory()
@@ -45,6 +46,13 @@ function Create() {
   const [ methodology_text, setmethodology_text ] = useState('')
   const [ methodology_textError, setmethodology_textError ] = useState(false)
   const [ methodology_textHelperText, setmethodology_textHelperText ] = useState("")
+  const [ role, setRole ] = useState('')
+  const [ roleList, setRoleList ] = useState([])
+  const [ roleError, setRoleError ] = useState(false)
+  const [ roleHelperText, setRoleHelperText ] = useState('')
+  const [ mappingGroup, setMappingGroup ] = useState('')
+  const [ mappingGroupError, setMappingGroupError ] = useState(false)
+  const [ mappingGroupHelperText, setMappingGroupHelperText ] = useState('')
   const [ formFieldList, setFormFieldList ] = useState([])
   const [ saving, setSaving ] = useState(false)
   const [ adGroupList, setAdGroupList ] = useState([])
@@ -69,11 +77,20 @@ function Create() {
       }
     })
   }, [])
+  // 获取 roleList
+  useEffect(() => {
+    roleAPI.list().then(({ data }) => {
+      data?.data && setRoleList(data?.data)
+    })
+  }, [])
 
   const handleClick = async () => {
+
     const nameErr = await nameCheck()
     const codeErr = await codeCheck()
+    const mappErr = await mappingGroupCheck()
     const manaErr = await managerGroupCheck()
+    const roleErr = await roleCheck()
     const suppErr = await supporterGroupCheck()
     const groupIdErr = await groupIdCheck()
     const justificationErr = await justificationCheck()
@@ -82,27 +99,32 @@ function Create() {
     const contact_personErr = await contact_personCheck()
     const project_estimatioErr = await project_estimationCheck()
     const methodology_textErr = await methodology_textCheck()
-    if (nameErr || codeErr || manaErr || suppErr || groupIdErr
-      || justificationErr || budget_typeErr
+    if (nameErr || codeErr || manaErr || suppErr || groupIdErr || mappErr
+      || justificationErr || budget_typeErr || roleErr
       || project_ownerErr || contact_personErr || project_estimatioErr
       || methodology_textErr || saving) {
       return
     }
+    Loading.show()
     setSaving(true)
     API.create({
       name, code,
       manager_group_id: managerGroupId,
       supporter_group_id: supporterGroupId,
       group_id: groupId,
+      mappingGroupId: mappingGroup,
+      roleId: role,
       justification,
       budget_type, project_owner, contact_person,
       project_estimation, methodology_text
     })
       .then(() => {
         CommonTip.success("Success")
+        Loading.hide()
         history.push({ pathname: '/aaa-service/tenant' })
       })
       .catch(() => {
+        Loading.hide()
         setSaving(false)
       })
   }
@@ -118,9 +140,19 @@ function Create() {
         value: name, error: nameError, helperText: nameHelperText
       },
       {
+        id: 'mappingGroup', label: L('Mapping Group'), type: 'select', required: true, itemList: adGroupList,
+        labelField: 'name', valueField: 'id', value: mappingGroup, error: mappingGroupError, helperText: mappingGroupHelperText,
+        width: 1.2, labelWidth: 104
+      },
+      {
         id: 'managerGroupId', label: L('Manager Group'), required: true, itemList: adGroupList,
         type: "select", labelField: 'name', valueField: 'id', value: managerGroupId,
         error: managerGroupIdError, helperText: managerGroupIdHelperText, width: 1.2, labelWidth: 104
+      },
+      {
+        id: 'role', label: L('Role'), type: 'select', required: true, itemList: roleList,
+        labelField: 'right', valueField: 'id', value: role, error: roleError, helperText: roleHelperText,
+        width: 1.2, labelWidth: 104
       },
       {
         id: 'supporterGroupId', label: L('Supporter Group'), required: true, itemList: adGroupList,
@@ -151,7 +183,7 @@ function Create() {
         id: 'contact_person', label: L('contact_person'),
         type: 'searchInput',
         required: true, readOnly: false,
-        apiValue: { returnType: U },
+        apiValue: { returnType: returnType.U },
         value: contact_person,
         error: contact_personError, helperText: contact_personHelperText
       },
@@ -168,7 +200,7 @@ function Create() {
     ]
     setFormFieldList(list)
     // eslint-disable-next-line
-  }, [ adGroupList, groupList ])
+  }, [ adGroupList, groupList, roleList ])
 
   useEffect(() => {
     const errors = {
@@ -179,6 +211,14 @@ function Create() {
       code: {
         error: codeError,
         helperText: codeHelperText,
+      },
+      mappingGroup: {
+        error: mappingGroupError,
+        helperText: mappingGroupHelperText,
+      },
+      role: {
+        error: roleError,
+        helperText: roleHelperText,
       },
       managerGroupId: {
         error: managerGroupIdError,
@@ -231,6 +271,8 @@ function Create() {
     contact_personHelperText,
     project_estimationError,
     methodology_textError,
+    mappingGroupHelperText,
+    roleHelperText,
   ])
 
   const onFormFieldChange = (e, id) => {
@@ -242,8 +284,14 @@ function Create() {
       case 'code':
         setCode(value)
         break
+      case 'mappingGroup':
+        setMappingGroup(value)
+        break
       case 'managerGroupId':
         setManagerGroupId(value)
+        break
+      case 'role':
+        setRole(value)
         break
       case 'supporterGroupId':
         setSupporterGroupId(value)
@@ -362,6 +410,20 @@ function Create() {
     const emptyCheck = checkEmpty("Methodology", methodology_text)
     setmethodology_textError(emptyCheck.error)
     setmethodology_textHelperText(emptyCheck.msg)
+    return emptyCheck.error
+  }
+
+  const mappingGroupCheck = async () => {
+    const emptyCheck = checkEmpty("Mapping Group", mappingGroup)
+    setMappingGroupError(emptyCheck.error)
+    setMappingGroupHelperText(emptyCheck.msg)
+    return emptyCheck.error
+  }
+
+  const roleCheck = async () => {
+    const emptyCheck = checkEmpty("Role", role)
+    setRoleError(emptyCheck.error)
+    setRoleHelperText(emptyCheck.msg)
     return emptyCheck.error
   }
 
