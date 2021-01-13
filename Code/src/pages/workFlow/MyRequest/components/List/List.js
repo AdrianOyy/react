@@ -16,6 +16,7 @@ import {
   Reorder as ReorderIcon,
 } from "@material-ui/icons"
 import Loading from "../../../../../components/Loading"
+import dayjs from 'dayjs'
 
 const tableName = L('My Request')
 
@@ -97,9 +98,41 @@ function List(props) {
   }
 
   const handleSearch = () => {
+    let startTimeStart = startTime.startDate
+    let startTimeEnd = startTime.endDate
+    let endTimeStart = endTime.startDate
+    let endTimeEnd = endTime.endDate
+    if (startTime.startDate && startTime.endDate) {
+      if (dayjs(startTime.startDate).format('YYYY-MM-DD') === dayjs(startTime.endDate).format('YYYY-MM-DD')) {
+        startTimeStart = dayjs(startTime.startDate).format('YYYY-MM-DD') + 'T00:00:00Z'
+        startTimeEnd = dayjs(startTime.endDate).format('YYYY-MM-DD') + 'T23:59:59Z'
+      } else if (dayjs(startTime.startDate).isAfter(startTime.endDate)) {
+        startTimeStart = dayjs(startTime.endDate).format('YYYY-MM-DD') + 'T00:00:00Z'
+        startTimeEnd = dayjs(startTime.startDate).format('YYYY-MM-DD') + 'T00:00:00Z'
+      }
+    } else if (startTime.startDate) {
+      startTimeStart = dayjs(startTime.startDate).format('YYYY-MM-DD') + 'T00:00:00Z'
+    } else if (startTime.endDate) {
+      startTimeEnd = dayjs(startTime.endDate).format('YYYY-MM-DD') + 'T00:00:00Z'
+    }
+    if (endTime.startDate && endTime.endDate) {
+      if (dayjs(endTime.startDate).format('YYYY-MM-DD') === dayjs(endTime.endDate).format('YYYY-MM-DD')) {
+        endTimeStart = dayjs(endTime.startDate).format('YYYY-MM-DD') + 'T00:00:00Z'
+        endTimeEnd = dayjs(endTime.endDate).format('YYYY-MM-DD') + 'T23:59:59Z'
+      } else if (dayjs(endTime.startDate).isAfter(endTime.endDate)) {
+        endTimeStart = dayjs(endTime.endDate).format('YYYY-MM-DD') + 'T00:00:00Z'
+        endTimeEnd = dayjs(endTime.startDate).format('YYYY-MM-DD') + 'T00:00:00Z'
+      } 
+    } else if (endTime.startDate) {
+      endTimeStart = dayjs(endTime.startDate).format('YYYY-MM-DD') + 'T00:00:00Z'
+    } else if (endTime.endDate) {
+      endTimeEnd = dayjs(endTime.endDate).format('YYYY-MM-DD') + 'T00:00:00Z'
+    }
     setQuery({
-      startTime,
-      endTime,
+      startTimeStart,
+      startTimeEnd,
+      endTimeStart,
+      endTimeEnd,
     })
   }
 
@@ -150,8 +183,7 @@ function List(props) {
   }
 
   const display = (row) => {
-    return row.name === 'Account management';
-
+    return row.name === 'Account management'
   }
 
   // 自定义action
