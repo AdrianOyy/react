@@ -4,5 +4,6 @@ import InternetAccount from './InternetAccount'
 import IBRA from './IBRA'
 import NonPersonal from './NonPersonal'
 import Distribution from './Distribution'
+import ClosingAccount from "./ClosingAccount"
 
-export { Corp, WLAN, InternetAccount, IBRA, NonPersonal, Distribution }
+export { Corp, WLAN, InternetAccount, IBRA, NonPersonal, Distribution, ClosingAccount }

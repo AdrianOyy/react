@@ -1,4 +1,4 @@
-import expiryApi from '../../../../api/expiry'
+import expiryAPI from '../../../../api/expiry'
 export function checkEmpty(key, value, name) {
   if (!value) {
     return {
@@ -33,8 +33,11 @@ export function checkFuture(value) {
 }
 
 export function getCheckExist() {
-  return async function(id, value) {
-    const { data } = await expiryApi.checkExist(id, value)
+  return async function(id, tenantId) {
+    const { data } = await expiryAPI.checkExist({
+      tenantId,
+      id,
+    })
     if (data.data < 1) {
       return {
         error: false,

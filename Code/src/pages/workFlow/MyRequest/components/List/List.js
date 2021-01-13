@@ -66,8 +66,8 @@ function List(props) {
 
   // 表头字段列表
   const headCells = [
+    { id: 'procInstId', alignment: 'left', label: L('Id') },
     { id: 'name', alignment: 'left', label: L('Name') },
-    { id: 'procDefId', alignment: 'left', label: L('Id') },
     { id: 'startTime', alignment: 'left', label: L('Start Date') },
     { id: 'endTime', alignment: 'left', label: L('End Date') },
     { id: 'state', alignment: 'left', label: L('State') },
@@ -76,8 +76,8 @@ function List(props) {
 
   // 每行显示的字段
   const fieldList = [
+    { field: 'id', align: 'left' },
     { field: 'name', align: 'left' },
-    { field: 'procDefId', align: 'left' },
     { field: 'startTime', align: 'left' },
     { field: 'endTime', align: 'left' },
     { field: 'state', align: 'left' },
@@ -151,10 +151,8 @@ function List(props) {
   }
 
   const display = (row) => {
-    if (row.name === 'Account management') {
-      return true
-    }
-    return false
+    return row.name === 'Account management';
+
   }
 
   // 自定义action

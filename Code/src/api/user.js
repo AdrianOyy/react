@@ -27,6 +27,13 @@ class User {
       data,
     })
   }
+
+  findUserByTenant(params) {
+    return http(`${path}/user/findUserByTenant`, {
+      method: 'GET',
+      params
+    })
+  }
 }
 
 export default new User()

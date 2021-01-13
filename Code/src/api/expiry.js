@@ -12,12 +12,10 @@ class assign {
     })
   }
 
-  detail(id) {
+  detail(params) {
     return http(`${path}/expiry/detail`, {
       method: 'GET',
-      params: {
-        id,
-      },
+      params,
     })
   }
 
@@ -45,13 +43,10 @@ class assign {
     })
   }
 
-  checkExist(id, params) {
+  checkExist(params) {
     return http(`${path}/expiry/checkExist`, {
       method: 'GET',
-      params: {
-        ...params,
-        id
-      }
+      params,
     })
   }
 }

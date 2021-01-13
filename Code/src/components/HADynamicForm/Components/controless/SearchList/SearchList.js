@@ -71,9 +71,9 @@ function SearchInput(props) {
   const onDialogClose = useCallback(() => { setOpen(false) }, [])
 
   const onDialogSelect = useCallback((data) => {
-    const { mail, display } = data
-    if (selectedList.indexOf(mail) !== -1) return
-    const newSelectedList = [ ...selectedList, mail + '' ]
+    const { corp, display } = data
+    if (selectedList.indexOf(corp) !== -1) return
+    const newSelectedList = [ ...selectedList, corp + '' ]
     const newDisplayList = [ ...displayList, display + '' ]
     setSelectedList(newSelectedList)
     setDisplayList(newDisplayList)

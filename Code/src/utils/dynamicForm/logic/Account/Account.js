@@ -222,7 +222,7 @@ class Account extends Common {
   // 特殊字段验证(异步)
   async asyncCheck(field) {
     const emailFieldNameList = [
-      'supervisoremailaccount'
+      // 'supervisoremailaccount'
     ]
     const phoneFieldNameList = [
       'contact_phone_no',

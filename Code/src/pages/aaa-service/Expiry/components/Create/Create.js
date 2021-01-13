@@ -4,34 +4,29 @@ import DetailPage from "../../../../../components/DetailPage"
 import API from "../../../../../api/expiry"
 import CommonTip from "../../../../../components/CommonTip"
 import { checkEmpty, checkFuture, getCheckExist } from "../../untils/expiryFieldCheck"
-import assignApi from "../../../../../api/assign"
 import { L } from '../../../../../utils/lang'
-import userApi from "../../../../../api/user"
 import dayjs from "dayjs"
+import tenantAPI from "../../../../../api/tenant"
 
 
 export default function Create() {
   const history = useHistory()
-  const [ assignId, setAssignId ] = useState('')
-  const [ userId, setUserId ] = useState('')
+  const [ tenantId, setTenantId ] = useState('')
   const [ expiryDate, setExpiryDate ] = useState('')
   const [ formFieldList, setFormFieldList ] = useState([])
   const [ saving, setSaving ] = useState(false)
-  const [ assignError, setAssignError ] = useState(false)
-  const [ assignHelperText, setAssignHelperText ] = useState("")
-  const [ userError, setUserError ] = useState('')
-  const [ userHelperText, setUserHelperText ] = useState('')
+  const [ tenantError, setTenantError ] = useState(false)
+  const [ tenantHelperText, setTenantHelperText ] = useState('')
   const [ expiryDateError, setExpiryDateError ] = useState(false)
   const [ expiryDateHelperText, setExpiryDateHelperText ] = useState("")
   const [ errors, setErrors ] = useState({})
 
   const handleClick = async () => {
-    const assignError = await assignCheck()
-    const userError = await userCheck()
+    const tenantError = await tenantCheck()
     const expiryDateError = await expiryDateCheck()
-    if (assignError || userError || expiryDateError || saving) return
+    if (tenantError || expiryDateError || saving) return
     setSaving(true)
-    API.create({ assignId, userId, expiryDate })
+    API.create({ tenantId, expiryDate })
       .then(() => {
         CommonTip.success(L('Success'))
         history.push({ pathname: '/' })
@@ -42,36 +37,18 @@ export default function Create() {
   }
 
   useEffect(() => {
-    assignApi.handledList().then(({ data }) => {
-      if (data && data.data) {
-        return data.data
-      } else {
-        return []
-      }
-    }).then(returnObj => {
-      userApi.list({ limit: 999, page: 1 }).then(({ data }) => {
-        if (data && data.data) {
-          return {
-            assignList: returnObj,
-            userList: data.data.rows,
-          }
-        } else {
-          return {
-            assignList: returnObj,
-            userList: [],
-          }
+    tenantAPI.list()
+      .then(({ data }) => {
+        return {
+          tenantList: data?.data?.rows,
         }
-      }).then(returnObj => {
+      })
+      .then(returnObj => {
         const list = [
           {
-            id: 'assign', label: L('Tenant + Group + Role'), type: 'select', value: assignId, required: true,
-            itemList: returnObj.assignList, labelField: 'value', valueField: 'id', width: 1.4,
-            error: assignError, helperText: assignHelperText, labelWidth: 150,
-          },
-          {
-            id: 'user', label: L('User'), type: 'select', value: userId, required: true,
-            itemList: returnObj.userList, labelField: 'displayname', valueField: 'id',
-            error: userError, helperText: userHelperText, labelWidth: 30,
+            id: 'tenant', label: L('Tenant'), type: 'select', value: tenantId, required: true,
+            itemList: returnObj.tenantList, labelField: 'name', valueField: 'id',
+            error: tenantError, helperText: tenantHelperText, labelWidth: 30,
           },
           {
             id: 'expiryDate', label: L('Expiry Date'), type: 'date', disabled: false, readOnly: false,
@@ -80,19 +57,14 @@ export default function Create() {
         ]
         setFormFieldList(list)
       })
-    })
     // eslint-disable-next-line
   }, [])
 
   useEffect(() => {
     const errors = {
-      assign: {
-        error: assignError,
-        helperText: assignHelperText,
-      },
-      user: {
-        error: userError,
-        helperText: userHelperText,
+      tenant: {
+        error: tenantError,
+        helperText: tenantHelperText,
       },
       expiryDate: {
         error: expiryDateError,
@@ -101,16 +73,13 @@ export default function Create() {
     }
     setErrors(errors)
     // eslint-disable-next-line
-  }, [ assignHelperText, userHelperText, expiryDateHelperText ])
+  }, [ tenantHelperText, expiryDateHelperText ])
 
   const onFormFieldChange = (e, id) => {
     const { value } = e.target
     switch (id) {
-      case 'assign':
-        setAssignId(value)
-        break
-      case 'user':
-        setUserId(value)
+      case 'tenant':
+        setTenantId(value)
         break
       case 'expiryDate':
         setExpiryDate(dayjs(new Date(value)).format('YYYY-MM-DD'))
@@ -120,36 +89,8 @@ export default function Create() {
     }
   }
 
-  const assignCheck = async () => {
-    const emptyCheck = checkEmpty("assign", assignId, 'Assign')
-    setAssignError(emptyCheck.error)
-    setAssignHelperText(emptyCheck.msg)
-    if (!emptyCheck.error && !userError) {
-      const checkExist = getCheckExist()
-      const { error, msg } = await checkExist(0, { assignId, userId })
-      setAssignError(error)
-      setAssignHelperText(msg)
-      return error
-    }
-    return emptyCheck.error
-  }
-
-  const userCheck = async () => {
-    const emptyCheck = checkEmpty("user", userId, 'User')
-    setUserError(emptyCheck.error)
-    setUserHelperText(emptyCheck.msg)
-    if (!emptyCheck.error && !assignError) {
-      const checkExist = getCheckExist()
-      const { error, msg } = await checkExist(0, { assignId, userId })
-      setUserError(error)
-      setUserHelperText(msg)
-      return error
-    }
-    return emptyCheck.error
-  }
-
   const expiryDateCheck = async () => {
-    const emptyCheck = checkEmpty("expiryDate", expiryDate, 'Expiry date')
+    const emptyCheck = checkEmpty("Expiry Date", expiryDate, 'Expiry date')
     setExpiryDateError(emptyCheck.error)
     setExpiryDateHelperText(emptyCheck.msg)
     if (!emptyCheck.error) {
@@ -159,6 +100,19 @@ export default function Create() {
       return error
     }
     return emptyCheck.error
+  }
+
+  const tenantCheck = async () => {
+    const emptyCheck = checkEmpty("Tenant", tenantId, 'Tenant')
+    setTenantError(emptyCheck.error)
+    setTenantHelperText(emptyCheck.msg)
+    if (!emptyCheck.error) {
+      const checkExist = getCheckExist()
+      const { error, msg } = await checkExist(0, tenantId)
+      setTenantError(error)
+      setTenantHelperText(msg)
+      return error
+    }
   }
 
   return (

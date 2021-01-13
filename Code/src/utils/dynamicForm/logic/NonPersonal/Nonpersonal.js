@@ -27,9 +27,9 @@ class NonPersonal extends Common {
   // 特殊字段验证(异步)
   async asyncCheck(field) {
     const emailFieldNameList = [
-      'alternaterecipient',
-      'owneremail',
-      'supervisoremailaccount'
+      // 'alternaterecipient',
+      // 'owneremail',
+      // 'supervisoremailaccount'
     ]
     const phoneFieldNameList = [
       'officetel'

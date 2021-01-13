@@ -11,37 +11,21 @@ export default function formatField(field) {
   }
   field.abbrFieldName = abbrFieldName
   switch (fieldName) {
-    case 'owneremail':
+    case 'distribution_list':
       field.apiKey = accountAPI.findUsers
-      field.apiValue = { returnType: returnType.U }
+      field.apiValue = { returnType: returnType.D }
       break
     case 'supervisoremailaccount':
       field.apiKey = accountAPI.findUsers
       field.apiValue = { returnType: returnType.U }
       break
-    case 'distribution_list':
-      field.apiKey = accountAPI.findUsers
-      field.apiValue = { returnType: returnType.D }
-      break
     case 'alternaterecipient':
       field.apiKey = accountAPI.findUsers
-      field.apiValue = { returnType: returnType.U }
+      field.apiValue = { returnType: returnType.UD }
       break
     case 'alreadyaddeddistributionlist':
       field.apiKey = accountAPI.findUsers
-      field.apiValue = { returnType: returnType.D }
-      break
-    case 'emailid':
-      field.apiKey = accountAPI.findUsers
-      field.apiValue = { returnType: returnType.U }
-      break
-    case 'members':
-      field.apiKey = accountAPI.findUsers
-      field.apiValue = { returnType: returnType.M }
-      break
-    case 'memberof':
-      field.apiKey = accountAPI.findUsers
-      field.apiValue = { returnType: returnType.D }
+      field.apiValue = { returnType: returnType.UD }
       break
     case 'acceptmessagesfrom':
       field.apiKey = accountAPI.findUsers
@@ -51,6 +35,24 @@ export default function formatField(field) {
       field.apiKey = accountAPI.findUsers
       field.apiValue = { returnType: returnType.UD }
       break
+    case 'members':
+      field.apiKey = accountAPI.findUsers
+      field.apiValue = { returnType: returnType.M }
+      break
+    case 'memberof':
+      field.apiKey = accountAPI.findUsers
+      field.apiValue = { returnType: returnType.UD }
+      break
+    case 'owneremail':
+      field.apiKey = accountAPI.findUsers
+      field.apiValue = { returnType: returnType.U }
+      break
+    case 'emailid':
+      field.apiKey = accountAPI.findUsers
+      field.apiValue = { returnType: returnType.U }
+      break
+
+
     default:
       break
   }

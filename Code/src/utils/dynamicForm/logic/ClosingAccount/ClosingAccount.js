@@ -7,18 +7,23 @@ import { L } from "../../../lang"
 import React from "react"
 import { CREATE, UPDATE } from "../../../variable/stepName"
 import { fieldCheck } from "../utils"
+import ContractItems from "../../../../components/ContractItems/ContractItems";
 
 
 class ClosingAccount extends Common {
   // 特殊字段验证(异步)
   async asyncCheck(field) {
     const emailFieldNameList = [
-      'supervisoremailaccount'
+      // 'supervisoremailaccount'
     ]
     const fieldNameList = {
       emailFieldNameList,
     }
     return fieldCheck(this, field, fieldNameList)
+  }
+
+  getContractList() {
+    return [ ContractItems.get('Closing Account') ]
   }
 
 

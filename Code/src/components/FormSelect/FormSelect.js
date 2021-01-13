@@ -44,10 +44,6 @@ export default function HASelect(props) {
     setNewValue(e.target.value)
   }
 
-  // useEffect(() => {
-  //   setNewValue(defaultValue)
-  //   // defaultValue && onChange && onChange(defaultValue)
-  // }, [ defaultValue ])
 
   useEffect(() => {
     if (isNew) {
@@ -155,7 +151,7 @@ export default function HASelect(props) {
         <Select
           labelId="demo-customized-select-label"
           id="demo-customized-select"
-          value={newValue}
+          value={newValue || ''}
           disabled={disabled}
           // defaultValue={defaultValue ? (defaultValue.value ? defaultValue.value : defaultValue) : ''}
           onChange={handleChange}

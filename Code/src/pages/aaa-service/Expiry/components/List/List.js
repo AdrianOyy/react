@@ -7,10 +7,7 @@ import {
 import { CommonTable, SearchBar, TablePagination, HAPaper } from '../../../../../components'
 import API from "../../../../../api/expiry"
 import tenantApi from "../../../../../api/tenant"
-import adGroupApi from "../../../../../api/adGroup"
 import { L } from '../../../../../utils/lang'
-import roleApi from "../../../../../api/role"
-import userApi from "../../../../../api/user"
 import formatDateTime from "../../../../../utils/formatDateTime"
 
 
@@ -21,9 +18,7 @@ function List(props) {
   const { path } = props
 
   const [ tenant, setTenant ] = useState('')
-  const [ adGroup, setAdGroup ] = useState('')
-  const [ role, setRole ] = useState('')
-  const [ user, setUser ] = useState('')
+  // const [ user, setUser ] = useState('')
   const [ expiryDate, setExpiryDate ] = useState('')
   const [ createdAt, setCreatedAt ] = useState('')
   const [ updatedAt, setUpdateAt ] = useState('')
@@ -33,9 +28,7 @@ function List(props) {
   const [ rowsPerPage, setRowsPerPage ] = useState(10)
   const [ total, setTotal ] = useState(0)
   const [ tenantList, setTenantList ] = useState([])
-  const [ adGroupList, setAdGroupList ] = useState([])
-  const [ roleList, setRoleList ] = useState([])
-  const [ userList, setUserList ] = useState([])
+  // const [ userList, setUserList ] = useState([])
 
 
   // 获取 tenantList、 groupList、roleList 和 userList
@@ -47,26 +40,12 @@ function List(props) {
       }
     })
 
-    adGroupApi.list({ limit: 999, page: 1 }).then(({ data }) => {
-      if (data && data.data) {
-        const { rows } = data.data
-        setAdGroupList(rows)
-      }
-    })
-
-    roleApi.list({ limit: 999, page: 1 }).then(({ data }) => {
-      if (data && data.data) {
-        const { rows } = data.data
-        setRoleList(rows)
-      }
-    })
-
-    userApi.list({ limit: 999, page: 1 }).then(({ data }) => {
-      if (data && data.data) {
-        const { rows } = data.data
-        setUserList(rows)
-      }
-    })
+    // userApi.list({ limit: 999, page: 1 }).then(({ data }) => {
+    //   if (data && data.data) {
+    //     const { rows } = data.data
+    //     setUserList(rows)
+    //   }
+    // })
 
   }, [])
 
@@ -83,10 +62,7 @@ function List(props) {
     rawDataList.forEach((el) => {
       const rowModel = {
         id: el.id,
-        tenant: el.assign && el.assign.tenant_group_mapping && el.assign.tenant_group_mapping.tenant ? el.assign.tenant_group_mapping.tenant.name : '',
-        ad_group: el.assign && el.assign.tenant_group_mapping && el.assign.tenant_group_mapping.ad_group ? el.assign.tenant_group_mapping.ad_group.name : '',
-        role: el.assign && el.assign.role ? el.assign.role.label : '',
-        user: el.user ? el.user.displayname : '',
+        tenant: el?.tenant?.name || '',
         expiryDate: el.expiryDate ? formatDateTime(el.expiryDate, 'DD-MMM-YYYY') : '',
         createdAt: formatDateTime(el.createdAt),
         updatedAt: formatDateTime(el.updatedAt),
@@ -99,9 +75,6 @@ function List(props) {
   // 表头字段列表
   const headCells = [
     { id: 'tenant', alignment: 'left', label: L('Tenant') },
-    { id: 'group', alignment: 'left', label: L('AD Group') },
-    { id: 'role', alignment: 'left', label: L('Role') },
-    { id: 'user', alignment: 'left', label: L('User') },
     { id: 'expiryDate', alignment: 'left', label: L('Expiry Date') },
     { id: 'createdAt', alignment: 'left', label: L('Created At') },
     { id: 'updatedAt', alignment: 'left', label: L('Updated At') },
@@ -111,9 +84,6 @@ function List(props) {
   // 每行显示的字段
   const fieldList = [
     { field: 'tenant', align: 'left' },
-    { field: 'ad_group', align: 'left' },
-    { field: 'role', align: 'left' },
-    { field: 'user', align: 'left' },
     { field: 'expiryDate', align: 'left' },
     { field: 'createdAt', align: 'left' },
     { field: 'updatedAt', align: 'left' }
@@ -125,39 +95,20 @@ function List(props) {
       value: tenant, isSelector: true, itemList: tenantList,
       labelField: 'name', valueField: 'id'
     },
-    {
-      id: 'adGroup', label: L('AD Group'), type: 'text', disabled: false,
-      value: adGroup, isSelector: true, itemList: adGroupList,
-      labelField: 'name', valueField: 'id'
-    },
-    {
-      id: 'role', label: L('Role'), type: 'text', disabled: false,
-      value: role, isSelector: true, itemList: roleList,
-      labelField: 'label', valueField: 'id'
-    },
-    {
-      id: 'user', label: L('User'), type: 'text', disabled: false,
-      value: user, isSelector: true, itemList: userList,
-      labelField: 'displayname', valueField: 'id'
-    },
-    { id: 'expiryDate', label: L('Expiry Date'), type: 'date', disabled: false, readOnly: false, value: expiryDate },
+    { id: 'expiryDate', label: L('Expiry Date'), type: 'dateRange', disabled: false, readOnly: false, value: expiryDate },
     { id: 'createdAt', label: L('Created At'), type: 'dateRange', disabled: false, readOnly: false, value: createdAt },
     { id: 'updatedAt', label: L('Updated At'), type: 'dateRange', disabled: false, readOnly: false, value: updatedAt },
   ]
 
   const handleClear = () => {
     setTenant('')
-    setAdGroup('')
-    setRole('')
-    setUser('')
+    // setUser('')
     setExpiryDate('')
     setCreatedAt('')
     setUpdateAt('')
     setQuery({
       tenantId: '',
-      groupId: '',
-      roleId: '',
-      userId: '',
+      // userId: '',
       expiryDate: '',
       createdAt: '',
       updatedAt: '',
@@ -167,9 +118,7 @@ function List(props) {
   const handleSearch = () => {
     setQuery({
       tenantId: tenant,
-      groupId: adGroup,
-      roleId: role,
-      userId: user,
+      // userId: user,
       expiryDate,
       createdAt,
       updatedAt,
@@ -182,15 +131,9 @@ function List(props) {
       case "tenant":
         setTenant(value)
         break
-      case "adGroup":
-        setAdGroup(value)
-        break
-      case "role":
-        setRole(value)
-        break
-      case "user":
-        setUser(value)
-        break
+      // case "user":
+      //   setUser(value)
+      //   break
       case "expiryDate":
         setExpiryDate(value)
         break

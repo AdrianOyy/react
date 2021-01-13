@@ -161,6 +161,29 @@ function CommonForm(props) {
                           />
                         </div>
                       )
+                    case 'checkbox':
+                      return (
+                        <div
+                          className={classes.grid}
+                          key={field.id + '_' + i}
+                          id={field.id + '_div'}
+                          style={{
+                            display: 'flex',
+                            alignItems: 'flex-end',
+                          }}
+                        >
+                          <input
+                            type={'checkbox'}
+                            id={field.id}
+                            checked={field.checked}
+                            disabled={field.disabled}
+                            onChange={(e) => handleDataChange({ value: e.target.checked, id: e.target.id, })}
+                          />
+                          <label htmlFor={field.id}>
+                            { field.label }
+                          </label>
+                        </div>
+                      )
                     default:
                       return (
                         <div

@@ -61,11 +61,11 @@ function SearchInput(props) {
   const onDialogClose = useCallback(() => { setOpen(false) }, [])
 
   const onDialogSelect = useCallback((data) => {
-    const { mail, display } = data
+    const { corp, display } = data
     if (inputEl && inputEl.current) {
       inputEl.current.value = display + ''
     }
-    handleBlur({ target: { value: mail + '' } })
+    handleBlur({ target: { value: corp + '' } })
     // eslint-disable-next-line
   }, [])
 

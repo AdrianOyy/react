@@ -2,39 +2,40 @@ import React, { useEffect, useState } from 'react'
 
 import DetailPage from "../../../../../components/DetailPage"
 import API from "../../../../../api/expiry"
-import { useParams } from "react-router-dom"
+import { useHistory, useParams } from "react-router-dom"
 import formatDateTime from "../../../../../utils/formatDateTime"
 import { L } from '../../../../../utils/lang'
+import CommonTip from "../../../../../components/CommonTip"
+import message from "../../../../../utils/variable/message"
 
 
 function AssignDetail() {
   const { id } = useParams()
+  const history = useHistory()
   const [ formFieldList, setFormFieldList ] = useState([])
 
   useEffect(() => {
-    API.detail(id).then(({ data }) => {
-      if (data && data.data) {
-        const defaultValue = data.data
-        const assign = defaultValue.assign
-        const tenant_group_mapping = assign && assign.tenant_group_mapping ? assign.tenant_group_mapping : ''
-        const tenant = tenant_group_mapping && tenant_group_mapping.tenant && tenant_group_mapping.tenant.name ? tenant_group_mapping.tenant.name : ''
-        const adGroup = tenant_group_mapping && tenant_group_mapping.ad_group && tenant_group_mapping.ad_group.name ? tenant_group_mapping.ad_group.name : ''
-        const role = assign && assign.role && assign.role.label ? assign.role.label : ''
-        const user = defaultValue.user && defaultValue.user.displayname ? defaultValue.user.displayname : ''
-
-        const list = [
-          { id: 'tenant', label: L('Tenant'), type: 'text', disabled: true, readOnly: true, value: tenant },
-          { id: 'adGroup', label: L('AD Group'), type: 'text', disabled: true, readOnly: true, value: adGroup },
-          { id: 'role', label: L('Role'), type: 'text', disabled: true, readOnly: true, value: role },
-          { id: 'user', label: L('User'), type: 'text', disabled: true, readOnly: true, value: user },
-          { id: 'expiryDate', label: L('Expiry Date'), type: 'text', disabled: true, readOnly: true, value: formatDateTime(defaultValue.expiryDate, 'DD-MMM-YYYY') },
-          { id: 'createdAt', label: L('Created At'), type: 'text', disabled: true, readOnly: true, value: formatDateTime(defaultValue.createdAt) },
-          { id: 'updatedAt', label: L('Updated At'), type: 'text', disabled: true, readOnly: true, value: formatDateTime(defaultValue.updatedAt) },
-        ]
-        setFormFieldList(list)
+    API.detail({ id }).then(({ data }) => {
+      if (!data?.data) {
+        CommonTip.error(message.VALUE_NOT_FOUND)
+        history.push('/')
       }
+      const {
+        tenant,
+        expiryDate,
+        createdAt,
+        updatedAt,
+      } = data.data
+      const tenantName = tenant?.name || ''
+      const list = [
+        { id: 'tenant', label: L('Tenant'), type: 'text', disabled: true, readOnly: true, value: tenantName },
+        { id: 'expiryDate', label: L('Expiry Date'), type: 'text', disabled: true, readOnly: true, value: formatDateTime(expiryDate, 'DD-MMM-YYYY') },
+        { id: 'createdAt', label: L('Created At'), type: 'text', disabled: true, readOnly: true, value: formatDateTime(createdAt) },
+        { id: 'updatedAt', label: L('Updated At'), type: 'text', disabled: true, readOnly: true, value: formatDateTime(updatedAt) },
+      ]
+      setFormFieldList(list)
     })
-  }, [ id ])
+  }, [ id, history ])
 
   return (
     <React.Fragment>
