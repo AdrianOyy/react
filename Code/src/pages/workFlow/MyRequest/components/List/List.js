@@ -8,7 +8,6 @@ import { L } from '../../../../../utils/lang'
 import { CommonTable, SearchBar, TablePagination, HAPaper } from '../../../../../components'
 import API from "../../../../../api/workFlow"
 import formatDateTime from "../../../../../utils/formatDateTime"
-import formatDate from "../../../../../utils/formatDate"
 import { getUser } from "../../../../../utils/auth"
 import downloadFile from "../../../../../utils/downloadFile"
 import GetAppIcon from '@material-ui/icons/GetApp'
@@ -84,8 +83,8 @@ function List(props) {
   ]
 
   const searchBarFieldList = [
-    { id: 'startTime', label: L('Start Date'), type: 'date', disabled: false, readOnly: false, value: startTime },
-    { id: 'endTime', label: L('End Date'), type: 'date', disabled: false, readOnly: false, value: endTime },
+    { id: 'startTime', label: L('Start Date'), type: 'dateRange', disabled: false, readOnly: false, value: startTime },
+    { id: 'endTime', label: L('End Date'), type: 'dateRange', disabled: false, readOnly: false, value: endTime },
   ]
 
   const handleClear = () => {
@@ -99,8 +98,8 @@ function List(props) {
 
   const handleSearch = () => {
     setQuery({
-      startTime: formatDate(startTime),
-      endTime: formatDate(endTime),
+      startTime,
+      endTime,
     })
   }
 

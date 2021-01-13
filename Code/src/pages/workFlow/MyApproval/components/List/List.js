@@ -11,7 +11,6 @@ import API from "../../../../../api/workFlow"
 import { useHistory } from "react-router-dom"
 import { getUserGroupList } from "../../../../../utils/auth"
 import formatDateTime from "../../../../../utils/formatDateTime"
-import formatDate from "../../../../../utils/formatDate"
 import {
   BorderColorOutlined as BorderColorIcon,
   Reorder as ReorderIcon,
@@ -89,21 +88,20 @@ function List(props) {
   ]
 
   const searchBarFieldList = [
-    { id: 'startTime', label: L('Create Time'), type: 'date', disabled: false, readOnly: false, value: startTime },
+    { id: 'startTime', label: L('Create Time'), type: 'dateRange', disabled: false, readOnly: false, value: startTime },
     // { id: 'endTime', label: L('End Date'), type: 'date', disabled: false, readOnly: false, value: endTime },
   ]
 
   const handleClear = () => {
     setStartTime('')
     setQuery({
-      startTime: '',
-      endTime: ''
+      startTime: ''
     })
   }
 
   const handleSearch = () => {
     setQuery({
-      createTime: formatDate(startTime),
+      createTime: startTime,
     })
   }
 
