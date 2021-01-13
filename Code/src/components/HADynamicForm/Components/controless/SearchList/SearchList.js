@@ -57,7 +57,7 @@ function SearchInput(props) {
         const displayValueList = data.data
         const displayList = []
         defaultValue && defaultValue.forEach(value => {
-          const [ displayValue ] = displayValueList.filter(displayValue => value === displayValue.email)
+          const [ displayValue ] = displayValueList.filter(displayValue => value === displayValue.corp)
           displayValue && displayValue.display !== undefined
           && displayValue.display !== null
           && (displayList.push(displayValue.display))
