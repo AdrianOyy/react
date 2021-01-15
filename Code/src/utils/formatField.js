@@ -41,7 +41,7 @@ export default function formatField(field) {
       break
     case 'memberof':
       field.apiKey = accountAPI.findUsers
-      field.apiValue = { returnType: returnType.UD }
+      field.apiValue = { returnType: returnType.D }
       break
     case 'owneremail':
       field.apiKey = accountAPI.findUsers
