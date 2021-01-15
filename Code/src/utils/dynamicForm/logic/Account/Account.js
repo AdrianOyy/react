@@ -224,6 +224,9 @@ class Account extends Common {
     const emailFieldNameList = [
       // 'supervisoremailaccount'
     ]
+    const idFieldNameList = [
+      'hkid'
+    ]
     const phoneFieldNameList = [
       'contact_phone_no',
       'mobile_phone_no_for_receipt_of_sms_otp'
@@ -233,6 +236,7 @@ class Account extends Common {
     ]
     const fieldNameList = {
       emailFieldNameList,
+      idFieldNameList,
       phoneFieldNameList,
       faxFieldNameList
     }

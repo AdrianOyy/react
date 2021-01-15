@@ -10,3 +10,7 @@ export function isNonNegativeInteger(e) {
 export function isHKPhone(e) {
   return /^[0-9]{8}$/.test(e)
 }
+
+export function isHKID(e) {
+  return /[A-Z]+([0-9]{6})+[a-zA-Z0-9]/.test(e)
+}

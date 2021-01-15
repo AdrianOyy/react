@@ -1,4 +1,4 @@
-import { isEmail, isHKPhone } from "../../regex"
+import {isEmail, isHKID, isHKPhone} from "../../regex"
 // import accountManagementAPI from "../../../api/accountManagement"
 import procedureAPI from "../../../api/procedure"
 import { JSEncrypt } from 'jsencrypt'
@@ -287,43 +287,6 @@ export function emailCheckByFieldNameList(self, field, fieldNameList) {
   return { error: false, message: '', done: false }
 }
 
-// export async function loginCheck(self, field) {
-//   let error = false
-//   let message = ''
-//   let done = false
-//   const { fieldName } = field
-//   const value = self.parentData.get(fieldName)
-//   const { data } = await accountManagementAPI.getUsersByEmails({ emails: [ value ] })
-//   if (!data || !data.data || !data.data[0]) {
-//     error = true
-//     message = 'User never logged in'
-//     done = true
-//     self.parentFieldError.set(fieldName, message)
-//     return { error, message, done }
-//   }
-//   return { error, message, done }
-// }
-
-// export async function loginCheckByListNameList(self, field, fieldNameList) {
-//   if (fieldNameList.indexOf(field.fieldName) !== -1) {
-//     return await loginCheck(self, field)
-//   }
-//   return { error: false, message: '', done: false }
-// }
-//
-// export async function emailAndLoginCheck(self, field) {
-//   const emailRes = emailCheck(self, field)
-//   if (emailRes.done) return emailRes
-//   return loginCheck(self, field)
-// }
-
-// export async function emailAndLoginCheckByFieldNameList(self, field, fieldNameList) {
-//   if (fieldNameList.indexOf(field.fieldName) !== -1) {
-//     return await emailAndLoginCheck(self, field)
-//   }
-//   return { error: false, message: '', done: false }
-// }
-
 export function phoneCheck(self, field) {
   return HKNumberCheck(self, field, 'phone')
 }
@@ -346,11 +309,33 @@ export function faxCheckByFieldNameList(self, field, fieldNameList) {
   return { error: false, message: '', done: false }
 }
 
+export function HKIDCheck(self, field) {
+  const { fieldName } = field
+  let done = false
+  let error = false
+  let message = ''
+  const value = self.parentData.get(fieldName)
+  if (!isHKID(value)) {
+    error = true
+    done = true
+    message = 'Incorrect HK ID. Example: A1234567'
+    self.parentFieldError.set(fieldName, message)
+    return { error, message, done }
+  }
+  return { error, message, done }
+}
+
+export function HKIDCheckByFileNameList(self, field, fieldNameList) {
+  if (fieldNameList.indexOf(field.fieldName) !== -1) {
+    return HKIDCheck(self, field)
+  }
+  return { error: false, message: '', done: false }
+}
+
 export async function fieldCheck(self, field, fieldNameList) {
   const {
     emailFieldNameList,
-    // loginFieldNameList,
-    // emailAndLoginFieldNameList,
+    idFieldNameList,
     phoneFieldNameList,
     faxFieldNameList
   } = fieldNameList
@@ -362,14 +347,10 @@ export async function fieldCheck(self, field, fieldNameList) {
   if (emailRes && emailRes.done) {
     return { error: emailRes.error, message: emailRes.message }
   }
-  // const loginRes = loginFieldNameList && loginFieldNameList.length && await loginCheckByListNameList(self, field, loginFieldNameList)
-  // if (loginRes && loginRes.done) {
-  //   return { error: loginRes.error, message: loginRes.message }
-  // }
-  // const emailAndLoginRes = emailAndLoginFieldNameList && emailAndLoginFieldNameList.length && await emailAndLoginCheckByFieldNameList(self, field, emailAndLoginFieldNameList)
-  // if (emailAndLoginRes && emailAndLoginRes.done) {
-  //   return { error: emailAndLoginRes.error, message: emailAndLoginRes.message }
-  // }
+  const idRes = idFieldNameList && idFieldNameList.length && HKIDCheckByFileNameList(self, field, idFieldNameList)
+  if (idRes && idRes.done) {
+    return { error: idRes.error, message: idRes.message }
+  }
   const phoneRes = phoneFieldNameList && phoneFieldNameList && phoneCheckByFieldNameList(self, field, phoneFieldNameList)
   if (phoneRes && phoneRes.done) {
     return { error: phoneRes.error, message: phoneRes.message }
