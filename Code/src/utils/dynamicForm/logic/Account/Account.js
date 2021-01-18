@@ -452,6 +452,9 @@ class AccountUpdate extends Account {
     this.hideCreate = true
   }
 
+  encryptionData() {
+  }
+
   // 整体
   async getInitData() {
     const { data } = await Api.detail({ deploymentId: this.deploymentId, pid: this.pid })
