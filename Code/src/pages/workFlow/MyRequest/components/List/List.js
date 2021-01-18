@@ -122,7 +122,7 @@ function List(props) {
       } else if (dayjs(endTime.startDate).isAfter(endTime.endDate)) {
         endTimeStart = dayjs(endTime.endDate).format('YYYY-MM-DD') + 'T00:00:00Z'
         endTimeEnd = dayjs(endTime.startDate).format('YYYY-MM-DD') + 'T00:00:00Z'
-      } 
+      }
     } else if (endTime.startDate) {
       endTimeStart = dayjs(endTime.startDate).format('YYYY-MM-DD') + 'T00:00:00Z'
     } else if (endTime.endDate) {

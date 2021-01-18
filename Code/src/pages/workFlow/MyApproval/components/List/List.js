@@ -17,6 +17,7 @@ import {
   Chat as ChatIcon
 } from "@material-ui/icons"
 import Loading from "../../../../../components/Loading"
+import dayjs from 'dayjs'
 
 const tableName = L('My Approval')
 
@@ -24,7 +25,8 @@ function List(props) {
   const {  path } = props
   const history = useHistory()
   const [ startTime, setStartTime ] = useState('')
-  const [ query, setQuery ] = useState({})
+  const [ type, setType ] = useState('pending')
+  const [ query, setQuery ] = useState({ type: 'pending' })
   const [ rows, setRows ] = useState([])
   const [ page, setPage ] = useState(0)
   const [ rowsPerPage, setRowsPerPage ] = useState(10)
@@ -62,6 +64,7 @@ function List(props) {
         createBy: el.createBy,
         createTime: formatDateTime(el.createTime),
         stepName: el.taskDefinitionKey,
+        status: el.status
       }
       rows.push(rowModel)
     })
@@ -89,19 +92,44 @@ function List(props) {
 
   const searchBarFieldList = [
     { id: 'startTime', label: L('Create Time'), type: 'dateRange', disabled: false, readOnly: false, value: startTime },
+    {
+      id: 'type', label: L('Type'),
+      type: 'text',
+      disabled: false, value: type,
+      isSelector: true, itemList: [{ id: 'pending', name: 'pending' }, { id: 'approved', name: 'approved' }, { id: '', name: 'all' }],
+      labelField: 'name', valueField: 'id'
+    },
     // { id: 'endTime', label: L('End Date'), type: 'date', disabled: false, readOnly: false, value: endTime },
   ]
 
   const handleClear = () => {
     setStartTime('')
+    setType('')
     setQuery({
-      startTime: ''
+      startTime: '',
+      type: ''
     })
   }
 
   const handleSearch = () => {
+    if (startTime.startDate && startTime.endDate) {
+      if (dayjs(startTime.startDate).format('YYYY-MM-DD') === dayjs(startTime.endDate).format('YYYY-MM-DD')) {
+        startTime.startDate = dayjs(startTime.startDate).format('YYYY-MM-DD') + 'T00:00:00Z'
+        startTime.endDate = dayjs(startTime.endDate).format('YYYY-MM-DD') + 'T23:59:59Z'
+      } else if (dayjs(startTime.startDate).isAfter(startTime.endDate)) {
+        const startTimeStart = dayjs(startTime.endDate).format('YYYY-MM-DD') + 'T00:00:00Z'
+        const startTimeEnd = dayjs(startTime.startDate).format('YYYY-MM-DD') + 'T00:00:00Z'
+        startTime.startDate = startTimeStart
+        startTime.endDate = startTimeEnd
+      }
+    } else if (startTime.startDate) {
+      startTime.startDate = dayjs(startTime.startDate).format('YYYY-MM-DD') + 'T00:00:00Z'
+    } else if (startTime.endDate) {
+      startTime.endDate = dayjs(startTime.endDate).format('YYYY-MM-DD') + 'T00:00:00Z'
+    }
     setQuery({
       createTime: startTime,
+      type
     })
   }
 
@@ -110,6 +138,9 @@ function List(props) {
     switch (id) {
       case "startTime":
         setStartTime(value)
+        break
+      case "type":
+        setType(value)
         break
       default:
         break
@@ -125,6 +156,7 @@ function List(props) {
     setPage(0)
   }
 
+  // eslint-disable-next-line no-unused-vars
   const handleImage = (event, row) => {
     API.getDiagram('260008').then(response => {
       let blob = new Blob([ response.data ])
@@ -133,8 +165,12 @@ function List(props) {
     })
   }
 
-  const handleDetail = (event, row) => {
+  const handleApprove = (event, row) => {
     history.push({ pathname: `/detail/${row.id}`, search: `processDefinitionId=${row.processDefinitionId}&deploymentId=${row.deploymentId}&stepName=${row.stepName}&taskId=${row.taskId}` })
+  }
+
+  const handleDetail = (event, row) => {
+    history.push({ pathname: `/detail/${row.id}`, search: `deploymentId=${row.deploymentId}` })
   }
 
   const handleStep = (event, row) => {
@@ -146,10 +182,19 @@ function List(props) {
     setShowChatBox(true)
   }
 
+  const display = (row) => {
+    return row.status === 'pending'
+  }
+
+  const displayApprove = (row) => {
+    return row.status === 'approved'
+  }
+
   const actionList = [
     { label: L('Process'), icon: <ReorderIcon fontSize="small" style={{ color: '#2553F4' }} />, handleClick: handleStep },
-    { label: L('Approve'), icon: <BorderColorIcon fontSize="small" style={{ color: '#2553F4' }} />, handleClick: handleDetail },
-    { label: L('Message'), icon: <ChatIcon fontSize="small" style={{ color: '#2553F4' }} />, handleClick: handleChatBox },
+    { label: L('Approve'), icon: <BorderColorIcon fontSize="small" style={{ color: '#2553F4' }} />, handleClick: handleApprove, display },
+    { label: L('Detail'), icon: <BorderColorIcon fontSize="small" style={{ color: '#2553F4' }} />, handleClick: handleDetail, display: displayApprove },
+    { label: L('Message'), icon: <ChatIcon fontSize="small" style={{ color: '#2553F4' }} />, handleClick: handleChatBox, display },
   ]
 
   const handleClose = () => {
