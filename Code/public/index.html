@@ -44,11 +44,14 @@
         }
       }
       if (getIEVersion() !== -1) {
-        const $content = document.createElement('h2')
-        $content.innerText = "Internet Explorer is not supported on this platform. Please change to another modern browser to continue."
+        const $title = document.createElement('h2')
+        $title.innerText = "Browser Not Supported"
+        $title.style.marginLeft = '20px'
+        const $content = document.createElement('h4')
+        $content.innerText = "Hello! Welcome to SENSE platform. This site is not supported in Internet Explorer (IE). Please use Google Chrome browser, thanks."
         $content.style.marginLeft = '20px'
         document.execCommand("Stop")
-        // alert("This platform is not support Internet Explorer, please change another modern browser to continue.")
+        document.documentElement.appendChild($title)
         document.documentElement.appendChild($content)
       }
     </script>

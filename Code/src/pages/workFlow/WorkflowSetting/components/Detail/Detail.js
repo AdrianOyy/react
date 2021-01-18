@@ -62,10 +62,10 @@ export default function Detail() {
     const initMap = new Map()
     API.workFlowDetail({ modelId: id })
       .then(({ data }) => {
-        if (!data || !data.data || !data.data.dynamicForm) {
-          CommonTip.error(L('System busy'))
-          return
-        }
+        // if (!data || !data.data || !data.data.dynamicForm) {
+        //   CommonTip.error(L('System busy'))
+        //   return
+        // }
         const { parentTableList, childDynamicForm, childTableList } = data.data
         parentTableList.forEach(el => {
           el.showOnRequest = exchange(el.showOnRequest)
@@ -133,15 +133,14 @@ export default function Detail() {
     setIsSelected(e.target.checked)
   }
 
-  const handleSave = () => {
-    const parentRows = parentTableEl && parentTableEl.current ? parentTableEl.current.dataList : []
-    const childRows = childTableEl && childTableEl.current ? childTableEl.current.dataList : []
+  const handleSave = (parentRows, childRows) => {
+
     const form = {
       modelId: id,
       workflowName: name,
       parentFormKey: map.get('parentFormKey'),
       parentValues: parentRows,
-      childVersion: map.get('childVersion'),
+      childVersion: map.get('childVersion') || 1,
       selectChild: isSelected,
       childValues: childRows,
       childFormKey: map.get('childFormKey')
@@ -167,8 +166,10 @@ export default function Detail() {
       CommonTip.error('From Key is required')
       return
     }
-    const parentRows = map.get('parentRows')
-    if (!parentRows) {
+    const parentRows = parentTableEl && parentTableEl.current ? parentTableEl.current.dataList : []
+    const childRows = childTableEl && childTableEl.current ? childTableEl.current.dataList : []
+    // const parentRows = map.get('parentRows')
+    if (!parentRows.length) {
       CommonTip.error('From Field List can not be null')
       return
     }
@@ -178,13 +179,13 @@ export default function Detail() {
         CommonTip.error('Child From Key is required')
         return
       }
-      const childRows = map.get('childRows')
-      if (!childRows) {
+      // const childRows = map.get('childRows')
+      if (!childRows.length) {
         CommonTip.error('Child From Field List can not be null')
         return
       }
     }
-    handleSave()
+    handleSave(parentRows, childRows)
   }
 
   const onClose = () => {

@@ -1,4 +1,4 @@
-import {isEmail, isHKID, isHKPhone} from "../../regex"
+import { isEmail, isHKID, isHKPhone } from "../../regex"
 // import accountManagementAPI from "../../../api/accountManagement"
 import procedureAPI from "../../../api/procedure"
 import { JSEncrypt } from 'jsencrypt'
