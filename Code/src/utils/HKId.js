@@ -63,7 +63,13 @@ export default class HKId {
       numList = this.getIdArray().slice(1).slice(0, -1)
       productNum += 8 * convertedList[0]
     }
-    productNum += parseInt(numList[0]) * 7 + parseInt(numList[1]) * 6 + parseInt(numList[2]) * 5 + parseInt(numList[3]) * 4 + parseInt(numList[4]) * 3 + parseInt(numList[5]) * 2
+    productNum +=
+      parseInt(numList[0]) * 7
+      + parseInt(numList[1]) * 6
+      + parseInt(numList[2]) * 5
+      + parseInt(numList[3]) * 4
+      + parseInt(numList[4]) * 3
+      + parseInt(numList[5]) * 2
     return productNum
   }
 }
