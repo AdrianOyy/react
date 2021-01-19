@@ -175,6 +175,12 @@ export default function FieldDialog(props) {
     } else if (showExtend && !data.foreignDisplayKey) {
       error = true
       message = 'Foreign Display Key is required'
+    } else if (data.indexOf) {
+      const reg = /^[0-9]\d*$/
+      if (!reg.test(data.indexOf)) {
+        error = true
+        message = L('Only accept positive integer')
+      }
     }
 
     return { error, message }
