@@ -179,7 +179,7 @@ export default function FieldDialog(props) {
       const reg = /^[0-9]\d*$/
       if (!reg.test(data.indexOf)) {
         error = true
-        message = L('Only accept positive integer')
+        message = 'Sorting ' + L('Only accept positive integer')
       }
     }
 
