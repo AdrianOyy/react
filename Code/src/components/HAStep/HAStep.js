@@ -90,6 +90,12 @@ function HAStep(props) {
           setActiveStep(parseInt(active))
           const pointUserList = []
           for (const pointUser of process.processPointUser) {
+            let status = null
+            if (pointUser.status && pointUser.taskInstance.endTime) {
+              status = L('Passed')
+            } else if (!pointUser.status) {
+              status = L('Rejected')
+            }
             const pointRow = {
               taskId: pointUser.taskInstance.taskId,
               assignee: pointUser.assignee,
@@ -97,7 +103,7 @@ function HAStep(props) {
               groupName: pointUser.group ? pointUser.group : null,
               name: pointUser.taskInstance.activityName,
               endDate: pointUser.taskInstance.endTime ? formatDateTime(new Date(pointUser.taskInstance.endTime)) : null,
-              status: pointUser.status ? null : L('Rejected'),
+              status,
               reason: pointUser.rejectReason || '',
             }
             pointUserList.push(pointRow)
