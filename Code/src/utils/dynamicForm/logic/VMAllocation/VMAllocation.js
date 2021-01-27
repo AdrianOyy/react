@@ -370,6 +370,7 @@ class VMT3 extends VMUpdate {
       const currentChild = this.getCurrentChild(currentIndex)
       currentChild.set('$handled', true)
       currentChild.set('status', SKIP.value)
+      currentChild.set('checkName', name)
       CommonTip.success(L(`${name} Follow Up Success`))
       onClose && onClose()
     }
