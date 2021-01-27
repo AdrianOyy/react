@@ -31,6 +31,7 @@ function List(props) {
   const [ total, setTotal ] = useState(0)
   const [ shown, setShown ] = useState(false)
   const [ cuIdRow, setCuIdRow ] = useState({})
+  const [ type, setType ] = useState('corp')
 
   useEffect(() => {
     Loading.show()
@@ -111,7 +112,7 @@ function List(props) {
     value: '',
     formField:
       {
-        id: 'corpId', label: L('corpId'), type: 'text', disabled: false, readOnly: false, required: true, helperText: L('NotEmpty')
+        id: 'corpId', label: type !== 'corp' ? L('CPS ID') : L('corpId'), type: 'text', disabled: false, readOnly: false, required: true, helperText: L('NotEmpty')
       },
     onSubmit: (value) => {
       if (!value) return
@@ -120,11 +121,11 @@ function List(props) {
   }
   const handleReasonSubmit = async () => {
     if (dialogReason.value && dialogReason.value.length > 0) {
-      const { data } = await UserApi.findUser({ username: dialogReason.value })
+      const { data } = await UserApi.findUser({ username: dialogReason.value, type })
       if (data && data.data) {
         rejectActions(dialogReason.value)
       } else {
-        CommonTip.error(L('corpIdNotFind'))
+        CommonTip.error(type === 'corp' ? L('corpIdNotFind') : L('CPS ID not found'))
       }
     }
   }
@@ -134,6 +135,14 @@ function List(props) {
 
   const rejectActions = (data) => {
     history.push({ pathname: `${path}/create/${cuIdRow.id}`, search: `deploymentId=${cuIdRow.deploymentId}&cuId=${data}` })
+  }
+
+  const onCheckBoxChange = (e) => {
+    if (e.target.checked) {
+      setType('cps')
+    } else {
+      setType('corp')
+    }
   }
 
   return (
@@ -173,6 +182,19 @@ function List(props) {
             <DialogTitle id="form-dialog-title">{dialogReason.title}</DialogTitle>
             <DialogContent>
               <form autoComplete="off">
+                <input
+                  type={'checkbox'}
+                  id={'checkbox_isCps'}
+                  onChange={onCheckBoxChange}
+                />
+                <label
+                  htmlFor={'checkbox_isCps'}
+                  style={{
+                    fontSize: '1.1em',
+                  }}
+                >
+                  Is CPS ID
+                </label>
                 <TextField
                   fullWidth={true}
                   id={dialogReason.formField.id.toString()}
