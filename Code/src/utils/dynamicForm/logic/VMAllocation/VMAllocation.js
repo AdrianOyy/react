@@ -339,8 +339,8 @@ class VMT3 extends VMUpdate {
         childData
       }
       Loading.show()
-      const jobData = await API.getJobId()
-      const {success, message, jobId} = jobData
+      const jobData = await API.getJobId(form)
+      const { success, message, jobId } = jobData
       if (!success) {
         Loading.hide()
         CommonTip.error(message)
