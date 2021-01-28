@@ -339,11 +339,8 @@ class VMT3 extends VMUpdate {
         childData
       }
       Loading.show()
-      const { data: jobData } = await API.getJobId(form)
+      const { data: { data: jobData } } = await API.getJobId(form)
       const { success, message, jobId } = jobData
-      console.log('jobData=========================jobData')
-      console.log(jobData)
-      console.log('jobData=========================jobData')
       if (!success) {
         Loading.hide()
         CommonTip.error(message)
@@ -353,7 +350,7 @@ class VMT3 extends VMUpdate {
         let checkSuccess = false
         while (count < 6) {
           count++
-          const { data: ResourceData } = await API.getResource({ form, jobId })
+          const { data: { data: ResourceData } } = await API.getResource({ form, jobId })
           const { done, message, success } = ResourceData
           checkMessage = message
           checkSuccess = success
@@ -372,7 +369,7 @@ class VMT3 extends VMUpdate {
         }
         Loading.hide()
       }
-      
+
     }
     const handleSkip = async (name) => {
       const currentChild = this.getCurrentChild(currentIndex)
