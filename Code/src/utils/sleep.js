@@ -1,6 +1,8 @@
 async function sleep(time) {
   await new Promise(resolve => {
-    resolve()
-  }, time)
+    setTimeout(() => {
+      resolve()
+    }, time)
+  })
 }
 export default sleep
