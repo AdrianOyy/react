@@ -26,8 +26,15 @@ class diyForm {
     })
   }
 
-  check(data) {
+  getJobId(data) {
     return http(`${path}/vm/check`, {
+      method: 'POST',
+      data
+    })
+  }
+
+  getResource(data) {
+    return http(`${path}/vm/getResource`, {
       method: 'POST',
       data
     })

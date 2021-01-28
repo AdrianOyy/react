@@ -339,32 +339,36 @@ class VMT3 extends VMUpdate {
         childData
       }
       Loading.show()
-      API.check(form)
-        .then(({ data }) => {
-          Loading.hide()
-          if (data) {
-            const fileList = data.data
-            let isError = false
-            for (const item of fileList) {
-              if (item.error) {
-                currentChild.set('$handled', false)
-                isError = true
-                CommonTip.error(item.message)
-                break
-              }
-              currentChild.set('$handled', true)
-            }
-            if (!isError) {
-              CommonTip.success(L('Check successfully'))
-              currentChild.set('status', CHECKED.value)
-              onClose()
-            }
-          }
-        })
-        .catch(() => {
-          Loading.hide()
-        })
-      // setCheckCount(checkCount + 1)
+      const jobData = await API.getJobId()
+      const {success, message, jobId} = jobData
+      if (!success) {
+        Loading.hide()
+        CommonTip.error(message)
+        return
+      }
+      let count = 0
+      let checkMessage = ''
+      let checkSuccess = false
+      while (count < 6) {
+        count++
+        const ResourceData = await API.getResource({ form, jobId })
+        const { done, message, success } = ResourceData
+        checkMessage = message
+        checkSuccess = success
+        if (done) {
+          break
+        }
+      }
+      if (checkSuccess) {
+        currentChild.set('$handled', true)
+        currentChild.set('status', CHECKED.value)
+        CommonTip.success(L('Check successfully'))
+        onClose()
+      } else {
+        currentChild.set('$handled', false)
+        CommonTip.error(checkMessage)
+      }
+      Loading.hide()
     }
     const handleSkip = async (name) => {
       const currentChild = this.getCurrentChild(currentIndex)
