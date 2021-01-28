@@ -339,7 +339,7 @@ class VMT3 extends VMUpdate {
         childData
       }
       Loading.show()
-      const jobData = await API.getJobId(form)
+      const { data: jobData } = await API.getJobId(form)
       const { success, message, jobId } = jobData
       if (!success) {
         Loading.hide()
@@ -351,7 +351,7 @@ class VMT3 extends VMUpdate {
       let checkSuccess = false
       while (count < 6) {
         count++
-        const ResourceData = await API.getResource({ form, jobId })
+        const { data: ResourceData } = await API.getResource({ form, jobId })
         const { done, message, success } = ResourceData
         checkMessage = message
         checkSuccess = success
