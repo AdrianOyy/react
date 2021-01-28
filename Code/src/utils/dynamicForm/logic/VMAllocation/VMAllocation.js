@@ -341,34 +341,38 @@ class VMT3 extends VMUpdate {
       Loading.show()
       const { data: jobData } = await API.getJobId(form)
       const { success, message, jobId } = jobData
+      console.log('jobData=========================jobData')
+      console.log(jobData)
+      console.log('jobData=========================jobData')
       if (!success) {
         Loading.hide()
         CommonTip.error(message)
-        return
-      }
-      let count = 0
-      let checkMessage = ''
-      let checkSuccess = false
-      while (count < 6) {
-        count++
-        const { data: ResourceData } = await API.getResource({ form, jobId })
-        const { done, message, success } = ResourceData
-        checkMessage = message
-        checkSuccess = success
-        if (done) {
-          break
-        }
-      }
-      if (checkSuccess) {
-        currentChild.set('$handled', true)
-        currentChild.set('status', CHECKED.value)
-        CommonTip.success(L('Check successfully'))
-        onClose()
       } else {
-        currentChild.set('$handled', false)
-        CommonTip.error(checkMessage)
+        let count = 0
+        let checkMessage = ''
+        let checkSuccess = false
+        while (count < 6) {
+          count++
+          const { data: ResourceData } = await API.getResource({ form, jobId })
+          const { done, message, success } = ResourceData
+          checkMessage = message
+          checkSuccess = success
+          if (done) {
+            break
+          }
+        }
+        if (checkSuccess) {
+          currentChild.set('$handled', true)
+          currentChild.set('status', CHECKED.value)
+          CommonTip.success(L('Check successfully'))
+          onClose()
+        } else {
+          currentChild.set('$handled', false)
+          CommonTip.error(checkMessage)
+        }
+        Loading.hide()
       }
-      Loading.hide()
+      
     }
     const handleSkip = async (name) => {
       const currentChild = this.getCurrentChild(currentIndex)
