@@ -72,7 +72,7 @@ function List(props) {
     { id: 'networkType', alignment: 'left', label: L('Network Type') },
     { id: 'ipPool', alignment: 'left', label: L('IP Pool') },
     { id: 'assignedDate', alignment: 'left', label: L('Assigned Date') },
-    { id: 'action', alignment: 'center', label: L('Actions') },
+    { id: 'action', alignment: 'left', label: L('Actions') },
   ]
 
   // 每行显示的字段

@@ -70,7 +70,7 @@ function List(props) {
     { id: 'deploymentId', alignment: 'left', label: L('Deployment Id') },
     { id: 'version', alignment: 'left', label: L('Version') },
     { id: 'deployTime', alignment: 'left', label: L('Deploy Time') },
-    { id: 'action', alignment: 'center', label: L('Action') },
+    { id: 'action', alignment: 'left', label: L('Action') },
   ]
 
   // 每行显示的字段

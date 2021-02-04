@@ -70,13 +70,13 @@ function List(props) {
 
   // 表头字段列表
   const headCells = [
-    { id: 'tenant', alignment: 'center', label: L('Tenant') },
-    { id: 'type', alignment: 'center', label: L('Type') },
-    { id: 'quota', alignment: 'center', label: L('Quota') },
-    { id: 'year', alignment: 'center', label: L('Year') },
-    { id: 'createdAt', alignment: 'center', label: L('Created At') },
-    { id: 'updatedAt', alignment: 'center', label: L('Updated At') },
-    { id: 'action', alignment: 'right', label: L('Actions') },
+    { id: 'tenant', alignment: 'left', label: L('Tenant') },
+    { id: 'type', alignment: 'left', label: L('Type') },
+    { id: 'quota', alignment: 'left', label: L('Quota') },
+    { id: 'year', alignment: 'left', label: L('Year') },
+    { id: 'createdAt', alignment: 'left', label: L('Created At') },
+    { id: 'updatedAt', alignment: 'left', label: L('Updated At') },
+    { id: 'action', alignment: 'left', label: L('Actions') },
   ]
 
   // 每行显示的字段
