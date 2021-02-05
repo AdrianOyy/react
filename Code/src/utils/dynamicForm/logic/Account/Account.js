@@ -6,7 +6,7 @@ import { DetailActions, UpdateActions } from "../../../../components/HADynamicFo
 import { Button } from "@material-ui/core"
 import { L } from "../../../lang"
 import React from "react"
-import { CREATE, UPDATE } from "../../../variable/stepName"
+import { CREATE, HA4, UPDATE } from "../../../variable/stepName"
 import ContractItems from "../../../../components/ContractItems/ContractItems"
 import { getUser } from "../../../auth"
 import accountAPI from "../../../../api/accountManagement"
@@ -30,6 +30,22 @@ import array2set from "../../../array2set"
 
 
 class Account extends Common {
+  constructor(props) {
+    super(props)
+    this.shouldContinueMap = new Map()
+    this.shouldContinueMap.set('hkid', {
+      show: new Set([ CREATE ]),
+      hide: new Set([]),
+    })
+    this.shouldContinueMap.set('corpid', {
+      show: new Set([ HA4 ]),
+      hide: new Set([]),
+    })
+    this.shouldContinueMap.set('position_ranking', {
+      show: new Set([ HA4 ]),
+      hide: new Set([]),
+    })
+  }
 
   async insertHeadLine() {
     changeDisplayNameToHeadLine('account_type')
@@ -93,7 +109,12 @@ class Account extends Common {
 
   shouldContinue(item) {
     if (this.stepName && this.stepName === CREATE && !item.showOnRequest) return true
-    return this.stepName && this.stepName !== CREATE && item.fieldName === 'hkid'
+    const itemContinueMap = this.shouldContinueMap.get(item.fieldName)
+    if (itemContinueMap && (!itemContinueMap.show.has(this.stepName) || itemContinueMap.hide.has(this.stepName))) {
+      return true
+    }
+    return false
+    // return this.stepName && this.stepName !== CREATE && item.fieldName === 'hkid'
   }
 
   getParentTitle() {
@@ -275,27 +296,6 @@ class AccountWithCuID extends Account {
       parentInitData.set('owa_hospital_web', 'OWA Webmail + Hospital home page')
       parentInitData.set('authenticationmethod', 'HA Chat')
     }
-    // if (!this.user.mail) {
-    //   parentInitData.set('account_type', 'CORP Account Application')
-    // }
-    // parentInitData.set('owa_hospital_web', 'OWA Webmail + Hospital home page')
-    // parentInitData.set('apply_for_internet', 'Internet web access!@#Internet Email address')
-    // if (!this.user.mail) {
-    //   parentInitData.set('apply_for', 'Intranet email account')
-    // }
-    // parentInitData.set('authenticationmethod', 'HA Chat')
-    // const cuDatas = JSON.parse('{"account_type":"Internet Account Application!@#IBRA Account Application","surname":"rexshen","apply_for":"CORP ID (Login ID)","contact_phone_no":"13584587","division":"devericd","firstname":"shen","jobtitle":"IT","officefax":"35854519","section":"ie","stafftype":"Head Office","supervisoremailaccount":"rexshen@apjcorp.com"}')
-    // parentInitData.set('account_type', !this.user.mail ? 'CORP Account Application!@#' + cuDatas.account_type : cuDatas.account_type)
-    // parentInitData.set('surname', cuDatas.surname)
-    // // parentInitData.set('apply_for', cuDatas.apply_for)
-    // parentInitData.set('contact_phone_no', cuDatas.contact_phone_no)
-    // parentInitData.set('division', cuDatas.division)
-    // parentInitData.set('firstname', cuDatas.firstname)
-    // parentInitData.set('jobtitle', cuDatas.jobtitle)
-    // parentInitData.set('officefax', cuDatas.officefax)
-    // parentInitData.set('section', cuDatas.section)
-    // parentInitData.set('stafftype', cuDatas.stafftype)
-    // parentInitData.set('supervisoremailaccount', cuDatas.supervisoremailaccount)
     return { parentInitData }
   }
 
@@ -479,6 +479,17 @@ class AccountUpdate extends Account {
   }
 }
 
+class AccountHA4 extends AccountUpdate {
+  constructor(props) {
+    super(props)
+    this.enableFileList = new Set([
+      'corpid',
+      'position_ranking'
+    ])
+  }
+
+}
+
 export default async function getAccountLogic(props) {
   const { stepName, startData } = props
   switch (stepName) {
@@ -489,6 +500,8 @@ export default async function getAccountLogic(props) {
       return new Account(props)
     case UPDATE:
       return new AccountUpdate(props)
+    case HA4:
+      return new AccountHA4(props)
     default:
       return new AccountDetail(props)
   }

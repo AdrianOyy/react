@@ -19,6 +19,18 @@ applicant.style.marginBottom = '1em'
 applicant.style.fontSize = '1.8em'
 
 class NonPersonal extends Common {
+  constructor(props) {
+    super(props)
+    this.shouldContinueMap = new Map()
+    this.shouldContinueMap.set('corpid', {
+      show: new Set([ HA4 ]),
+      hide: new Set([]),
+    })
+    this.shouldContinueMap.set('emailid', {
+      show: new Set([ HA4 ]),
+      hide: new Set([]),
+    })
+  }
   async insertHeadLine() {
     const surname = document.getElementById("element_surname")
     surname && surname.parentElement.insertBefore(applicant, surname)
@@ -72,7 +84,11 @@ class NonPersonal extends Common {
   shouldContinue(item) {
     if (item.remark === 'issame' && this.parentData.get('issame').size) return true
     if (this.stepName && this.stepName === CREATE && !item.showOnRequest) return true
-    if (this.stepName && this.stepName !== HA4 && item.fieldName === 'emailid') return true
+    const itemContinueMap = this.shouldContinueMap.get(item.fieldName)
+    itemContinueMap && console.log(itemContinueMap)
+    if (itemContinueMap && (!itemContinueMap.show.has(this.stepName) || itemContinueMap.hide.has(this.stepName))) {
+      return true
+    }
     return false
   }
 
@@ -91,6 +107,7 @@ class NonPersonal extends Common {
 
   getDisabled(item, isParent = false) {
     if (this.stepName === HA4 && item.fieldName === 'emailid') return false
+    if (this.stepName === HA4 && item.fieldName === 'corpid') return false
     return isParent ? this.disabledAllParent : this.disabledAllChild
   }
 

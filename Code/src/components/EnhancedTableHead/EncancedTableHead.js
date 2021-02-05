@@ -20,18 +20,18 @@ const StyledTableCell = withStyles(() => ({
   },
 }))(TableCell)
 
-const StyledTableCellAction = withStyles(() => ({
-  head: {
-    backgroundColor: '#E6EBF1',
-    border: '1px solid white',
-    height: '4.7vh',
-    width: '10%',
-    padding: 0,
-  },
-  body: {
-    fontSize: 14,
-  },
-}))(TableCell)
+// const StyledTableCellAction = withStyles(() => ({
+//   head: {
+//     backgroundColor: '#E6EBF1',
+//     border: '1px solid white',
+//     height: '4.7vh',
+//     width: '10%',
+//     padding: 0,
+//   },
+//   body: {
+//     fontSize: 14,
+//   },
+// }))(TableCell)
 
 const ActionCell = withStyles(() => ({
   head: {
