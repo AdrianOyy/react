@@ -51,9 +51,13 @@ export default function formatField(field) {
       field.apiKey = accountAPI.findUsers
       field.apiValue = { returnType: returnType.U }
       break
-
-
+    case 'isowner_mailboxdisplayname':
+      field.apiKey = accountAPI.findUsers
+      field.apiValue = { returnType: returnType.U }
+      break
     default:
+      field.apiKey = accountAPI.findUsers
+      field.apiValue = { returnType: returnType.U }
       break
   }
   return field

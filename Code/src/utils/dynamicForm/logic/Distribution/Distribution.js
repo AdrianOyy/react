@@ -8,7 +8,7 @@ import React from "react"
 import { CREATE, HA4, UPDATE } from "../../../variable/stepName"
 import ContractItems from "../../../../components/ContractItems/ContractItems"
 import { getUser } from "../../../auth"
-import { fieldCheck } from "../utils"
+import { fieldCheck, changeItemList } from "../utils"
 
 const applicant = document.createElement("div")
 applicant.id = "headline_applicant's_particulars"
@@ -22,6 +22,10 @@ class Distribution extends Common {
   async insertHeadLine() {
     const surname = document.getElementById("element_surname")
     surname && surname.parentElement.insertBefore(applicant, surname)
+  }
+
+  async changeItemList() {
+    await changeItemList(this, 'stafftype')
   }
 
   onParentFieldChange(fieldName, value) {
