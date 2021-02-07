@@ -51,7 +51,7 @@ function List(props) {
     { id: 'serialNumber', alignment: 'left', label: L('Serial Number') },
     { id: 'createdAt', alignment: 'left', label: L('Created At') },
     { id: 'updatedAt', alignment: 'left', label: L('Updated At') },
-    { id: 'action', alignment: 'center', label: L('Actions') },
+    { id: 'action', alignment: 'left', label: L('Actions') },
   ]
 
   // 每行显示的字段

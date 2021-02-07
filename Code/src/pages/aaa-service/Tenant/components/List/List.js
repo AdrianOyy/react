@@ -71,7 +71,7 @@ function List(props) {
     { id: 'supporterGroupId', alignment: 'left', label: L('Supporter Group') },
     { id: 'createdAt', alignment: 'left', label: L('Created At') },
     { id: 'updatedAt', alignment: 'left', label: L('Updated At') },
-    { id: 'action', alignment: 'center', label: L('Actions') },
+    { id: 'action', alignment: 'left', label: L('Actions') },
   ]
 
   // 每行显示的字段

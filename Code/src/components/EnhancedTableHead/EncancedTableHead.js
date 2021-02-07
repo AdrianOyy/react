@@ -20,13 +20,26 @@ const StyledTableCell = withStyles(() => ({
   },
 }))(TableCell)
 
-const StyledTableCellAction = withStyles(() => ({
+// const StyledTableCellAction = withStyles(() => ({
+//   head: {
+//     backgroundColor: '#E6EBF1',
+//     border: '1px solid white',
+//     height: '4.7vh',
+//     width: '10%',
+//     padding: 0,
+//   },
+//   body: {
+//     fontSize: 14,
+//   },
+// }))(TableCell)
+
+const ActionCell = withStyles(() => ({
   head: {
     backgroundColor: '#E6EBF1',
     border: '1px solid white',
     height: '4.7vh',
     width: '10%',
-    padding: 0,
+    padding: '1em',
   },
   body: {
     fontSize: 14,
@@ -93,9 +106,13 @@ function EnhancedTableHead(props) {
           headCells && headCells.map((headCell) => (
             // eslint-disable-next-line react/jsx-key
             headCell.label === 'Actions' ? (
-              <StyledTableCellAction key={headCell.id} align={headCell.alignment} padding={headCell.disablePadding ? 'none' : 'default'}>
+              <ActionCell
+                key={headCell.id}
+                align={headCell.alignment}
+                padding={headCell.disablePadding ? 'none' : 'default'}
+              >
                 {headCell.label}
-              </StyledTableCellAction>
+              </ActionCell>
             ) : (
               <StyledTableCell key={headCell.id}  align={headCell.alignment} padding={headCell.disablePadding ? 'none' : 'default'}  sortDirection={orderBy === headCell.id ? order : false}>
                 <StyledTableSortLabel

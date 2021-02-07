@@ -5,12 +5,6 @@ import http from "../utils/request"
 const path = envUrl.aaa + envPrefix.aaa
 
 class dynamicForm {
-  getDynamicForm(params) {
-    return http(`${path}/dynamicForm/getDynamicForm`, {
-      method: 'GET',
-      params
-    })
-  }
 
   save(data) {
     return http(`${path}/dynamicForm/save`, {

@@ -226,7 +226,7 @@ function CommonTable(props) {
                         </StyledTableCell>
                       ))
                     }
-                    <StyledTableCell padding="none" align="center">
+                    <StyledTableCell padding="none" align="left">
                       <Box mt={3}>
                         {
                           !hideDetail && (() => (

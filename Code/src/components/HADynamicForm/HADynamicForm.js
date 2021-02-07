@@ -9,12 +9,13 @@ export const DynamicContext = createContext({})
 
 export default function HADynamicForm(props) {
   const {
-    deploymentId
+    deploymentId,
+    stepName,
   } = props
   const [ dynamic, setDynamic ] = useState({})
   useEffect(() => {
     Loading.show()
-    Api.getDynamicForm({ deploymentId })
+    Api.getDynamicForm({ deploymentId, stepName })
       .then(({ data }) => {
         let detail = {}
         if (data.data) {

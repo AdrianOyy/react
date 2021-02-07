@@ -73,6 +73,8 @@ export class Common {
     this.remarkedItem = new Map()
     this.parentInitDetail = []
     this.publicKey = ''
+    this.enableFileList = new Set()
+    this.shouldContinueMap = new Set()
   }
 
   //  =====================================
@@ -263,9 +265,18 @@ export class Common {
     if (this.stepName && this.stepName === CREATE && !item.showOnRequest) return true
     return false
   }
+  // shouldContinue(item) {
+  //   if (this.stepName && this.stepName === CREATE && !item.showOnRequest) return true
+  //   const itemContinueMap = this.shouldContinueMap.get(item.fieldName)
+  //   itemContinueMap && console.log(itemContinueMap)
+  //   if (itemContinueMap && (!itemContinueMap.show.has(this.stepName) || itemContinueMap.hide.has(this.stepName))) {
+  //     return true
+  //   }
+  //   return false
+  // }
 
   getDisabled(item, isParent = false) {
-    return isParent ? this.disabledAllParent : this.disabledAllChild
+    return isParent ? (this.disabledAllParent && !this.enableFileList.has(item.fieldName)) : (this.disabledAllChild && !this.enableFileList.has(item.fieldName))
   }
 
   // 验证父表字段是否为空
