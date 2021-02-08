@@ -8,7 +8,7 @@ import React from "react"
 import { CREATE, HA4, UPDATE } from "../../../variable/stepName"
 import { getUser } from "../../../auth"
 import ContractItems from "../../../../components/ContractItems/ContractItems"
-import { changeItemList, fieldCheck } from "../utils"
+import {changeItemList, fieldCheck, getFieldByFieldNameBeforeMix} from "../utils"
 
 const applicant = document.createElement("div")
 applicant.id = "headline_applicant's_particulars"
@@ -22,8 +22,9 @@ class NonPersonal extends Common {
   constructor(props) {
     super(props)
     this.shouldContinueMap = new Map()
+    const corpId = getFieldByFieldNameBeforeMix(this, 'corpid')
     this.shouldContinueMap.set('corpid', {
-      show: new Set([ HA4 ]),
+      show: new Set(corpId.showOnRequest ? [ HA4, CREATE ] : [ HA4 ]),
       hide: new Set([]),
     })
     this.shouldContinueMap.set('emailid', {

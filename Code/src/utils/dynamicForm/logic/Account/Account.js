@@ -17,7 +17,7 @@ import {
   encryption,
   fieldCheck,
   getCheckedItemList,
-  getFieldByFieldName,
+  getFieldByFieldName, getFieldByFieldNameBeforeMix,
   getItemIDByItemName,
   getUncheckItemList,
   hideItem,
@@ -32,13 +32,14 @@ import array2set from "../../../array2set"
 class Account extends Common {
   constructor(props) {
     super(props)
+    const corpId = getFieldByFieldNameBeforeMix(this, 'corpid')
     this.shouldContinueMap = new Map()
     this.shouldContinueMap.set('hkid', {
       show: new Set([ CREATE ]),
       hide: new Set([]),
     })
     this.shouldContinueMap.set('corpid', {
-      show: new Set([ HA4 ]),
+      show: new Set(corpId.showOnRequest ? [ HA4, CREATE ] : [ HA4 ]),
       hide: new Set([]),
     })
     this.shouldContinueMap.set('position_ranking', {

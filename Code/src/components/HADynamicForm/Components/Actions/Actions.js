@@ -221,15 +221,21 @@ export function VMT3Actions(props) {
       CommonTip.error(messageList.length ? messageList[0] : "Please check your data")
       return
     }
-    let checkAllChild = true
-    logic.childrenDataList && logic.childrenDataList.forEach(el => {
-      if (!el.get('$handled')) {
-        checkAllChild = false
+    console.log(logic.childrenDataList)
+    for (const childData of logic.childrenDataList) {
+      if (!childData.get('$handled')) {
+        CommonTip.warning('Please handle all VM first!')
+        return
       }
-    })
-    if (!checkAllChild) {
-      CommonTip.warning('Please handle all VM first!')
-      return
+    }
+    const hostnameSet = new Set()
+    for (const childData of logic.childrenDataList) {
+      const hostname = childData.get("hostname")
+      if (hostnameSet.has(hostname)) {
+        CommonTip.warning('The hostname in requested VM list cannot be duplicate.')
+        return
+      }
+      hostnameSet.add(hostname)
     }
     const form = logic.getFormData()
     Loading.show()

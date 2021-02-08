@@ -351,11 +351,11 @@ export async function fieldCheck(self, field, fieldNameList) {
   if (idRes && idRes.done) {
     return { error: idRes.error, message: idRes.message }
   }
-  const phoneRes = phoneFieldNameList && phoneFieldNameList && phoneCheckByFieldNameList(self, field, phoneFieldNameList)
+  const phoneRes = phoneFieldNameList && phoneFieldNameList.length && phoneCheckByFieldNameList(self, field, phoneFieldNameList)
   if (phoneRes && phoneRes.done) {
     return { error: phoneRes.error, message: phoneRes.message }
   }
-  const faxRes = faxFieldNameList && faxFieldNameList && faxCheckByFieldNameList(self, field, faxFieldNameList)
+  const faxRes = faxFieldNameList && faxFieldNameList.length && faxCheckByFieldNameList(self, field, faxFieldNameList)
   if (faxRes && faxRes.done) {
     return { error: faxRes.error, message: faxRes.message }
   }
@@ -370,7 +370,7 @@ function HKNumberCheck(self, field, type = 'phone') {
   let message = ''
   const value = self.parentData.get(fieldName)
   if (!isHKPhone(value)) {
-    message = `Incorrect ${type} no. `
+    message = `Incorrect ${type} No. `
     const example = type === 'phone' ? 'Example: 21955500' : 'Example: 35426044'
     message += example
     error = true
