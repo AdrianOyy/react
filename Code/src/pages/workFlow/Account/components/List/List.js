@@ -31,7 +31,8 @@ function List(props) {
   const [ total, setTotal ] = useState(0)
   const [ shown, setShown ] = useState(false)
   const [ cuIdRow, setCuIdRow ] = useState({})
-  const [ type, setType ] = useState('corp')
+  const [ type ] = useState('corp')
+  // const [ type, setType ] = useState('corp')
 
   useEffect(() => {
     Loading.show()
@@ -137,13 +138,13 @@ function List(props) {
     history.push({ pathname: `${path}/create/${cuIdRow.id}`, search: `deploymentId=${cuIdRow.deploymentId}&cuId=${data}` })
   }
 
-  const onCheckBoxChange = (e) => {
-    if (e.target.checked) {
-      setType('cps')
-    } else {
-      setType('corp')
-    }
-  }
+  // const onCheckBoxChange = (e) => {
+  //   if (e.target.checked) {
+  //     setType('cps')
+  //   } else {
+  //     setType('corp')
+  //   }
+  // }
 
   return (
     <React.Fragment>
@@ -182,19 +183,19 @@ function List(props) {
             <DialogTitle id="form-dialog-title">{dialogReason.title}</DialogTitle>
             <DialogContent>
               <form autoComplete="off">
-                <input
-                  type={'checkbox'}
-                  id={'checkbox_isCps'}
-                  onChange={onCheckBoxChange}
-                />
-                <label
-                  htmlFor={'checkbox_isCps'}
-                  style={{
-                    fontSize: '1.1em',
-                  }}
-                >
-                  Is CPS ID
-                </label>
+                {/*<input*/}
+                {/*  type={'checkbox'}*/}
+                {/*  id={'checkbox_isCps'}*/}
+                {/*  onChange={onCheckBoxChange}*/}
+                {/*/>*/}
+                {/*<label*/}
+                {/*  htmlFor={'checkbox_isCps'}*/}
+                {/*  style={{*/}
+                {/*    fontSize: '1.1em',*/}
+                {/*  }}*/}
+                {/*>*/}
+                {/*  Is CPS ID*/}
+                {/*</label>*/}
                 <TextField
                   fullWidth={true}
                   id={dialogReason.formField.id.toString()}
