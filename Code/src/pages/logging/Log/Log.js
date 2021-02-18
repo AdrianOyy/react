@@ -87,7 +87,6 @@ const columns = [
 export default function List() {
   const classes = useStyles()
 
-  const [ logType, setLogType ] = useState('')
   const [ request, setRequest ] = useState('')
   const [ response, setResponse ] = useState('')
   const [ requestedDate, setRequestedDate ] = useState('')
@@ -130,12 +129,10 @@ export default function List() {
   ]
 
   const handleClear = () => {
-    setLogType('')
     setRequest('')
     setResponse('')
     setRequestedDate('')
     setQuery({
-      logType: '',
       request: '',
       response: '',
       requestedDate: '',
@@ -144,19 +141,16 @@ export default function List() {
 
   const handleSearch = () => {
     setQuery({
-      logType,
       request,
       response,
       requestedDate,
     })
+    setPage(0)
   }
 
   const handleFieldChange = (e, id) => {
     const { value } = e.target
     switch (id) {
-      case "logType":
-        setLogType(value)
-        break
       case "request":
         setRequest(value)
         break
