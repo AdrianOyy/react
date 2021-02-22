@@ -84,6 +84,9 @@ function HAStep(props) {
             pointList.push(model)
             if (point.id === process.processStatus) {
               active = index
+              if (parseInt(index) + 1 === process.showProcessPointList.length) {
+                active = active + 1
+              }
             }
           }
           setSteps(pointList)
