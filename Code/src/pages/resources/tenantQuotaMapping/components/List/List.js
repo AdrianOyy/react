@@ -59,6 +59,7 @@ function List(props) {
         tenant: el.tenant ? el.tenant.name : '',
         type: el.type,
         quota: el.quota,
+        currentQuota: el.currentQuota,
         year: el.year,
         createdAt: formatDateTime(el.createdAt),
         updatedAt: formatDateTime(el.updatedAt),
@@ -73,6 +74,7 @@ function List(props) {
     { id: 'tenant', alignment: 'left', label: L('Tenant') },
     { id: 'type', alignment: 'left', label: L('Type') },
     { id: 'quota', alignment: 'left', label: L('Quota') },
+    { id: 'currentQuota', alignment: 'left', label: L('CurrentQuota') },
     { id: 'year', alignment: 'left', label: L('Year') },
     { id: 'createdAt', alignment: 'left', label: L('Created At') },
     { id: 'updatedAt', alignment: 'left', label: L('Updated At') },
@@ -84,6 +86,7 @@ function List(props) {
     { field: 'tenant', align: 'center' },
     { field: 'type', align: 'center' },
     { field: 'quota', align: 'center' },
+    { field: 'currentQuota', align: 'center' },
     { field: 'year', align: 'center' },
     { field: 'createdAt', align: 'center' },
     { field: 'updatedAt', align: 'center' }

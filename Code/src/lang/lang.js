@@ -142,6 +142,7 @@ exports.lang = {
     RID: 'RID',
     'Data port IP': 'Data port IP',
     Quota: 'Quota',
+    CurrentQuota: 'Current Quota',
     Year: 'Year',
     Type: 'Type',
     windows: 'Windows',

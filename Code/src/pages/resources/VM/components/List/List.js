@@ -38,6 +38,10 @@ function List(props) {
       const rowModel = {
         id: el.id,
         serialNumber: el.serialNumber,
+        hostname: el.hostname,
+        OS: el.OS,
+        VMClusterName: el.VMClusterName,
+        tenant: el.tenant,
         createdAt: formatDateTime(el.createdAt),
         updatedAt: formatDateTime(el.updatedAt),
       }
@@ -49,6 +53,10 @@ function List(props) {
   // 表头字段列表
   const headCells = [
     { id: 'serialNumber', alignment: 'left', label: L('Serial Number') },
+    { id: 'hostname', alignment: 'left', label: L('Hostname') },
+    { id: 'OS', alignment: 'left', label: L('OS') },
+    { id: 'VMClusterName', alignment: 'left', label: L('VM Cluster') },
+    { id: 'tenant', alignment: 'left', label: L('Tenant') },
     { id: 'createdAt', alignment: 'left', label: L('Created At') },
     { id: 'updatedAt', alignment: 'left', label: L('Updated At') },
     { id: 'action', alignment: 'left', label: L('Actions') },
@@ -57,6 +65,10 @@ function List(props) {
   // 每行显示的字段
   const fieldList = [
     { field: 'serialNumber', align: 'left' },
+    { field: 'hostname', align: 'left' },
+    { field: 'OS', align: 'left' },
+    { field: 'VMClusterName', align: 'left' },
+    { field: 'tenant', align: 'left' },
     { field: 'createdAt', align: 'left' },
     { field: 'updatedAt', align: 'left' }
   ]
