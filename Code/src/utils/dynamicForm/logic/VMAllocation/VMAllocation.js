@@ -173,6 +173,7 @@ class VMCreate extends VM {
     if (data.data && data.data.tenant && data.data.vms) {
       const { tenant, vms } = data.data
       if (tenant && tenant.tenant) {
+        tenant.cpsid = cpsId
         parentInitData = object2map(tenant)
       }
       if (vms && vms.length > 0) {
