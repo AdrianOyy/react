@@ -237,6 +237,7 @@ exports.lang = {
     'Workflow Setting': 'Workflow Setting',
     changeAccount: 'Change Account Management',
     cpsvm: 'CPS VM Allocation',
+    cpsformat: 'CPS ID is not valid.',
     cuid: 'CU_ID',
     corpId: 'CORP a/c',
     corpIdNotFind: 'CORP a/c not found',

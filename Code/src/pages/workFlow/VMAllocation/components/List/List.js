@@ -17,6 +17,7 @@ import UpdateIcon from '@material-ui/icons/Update'
 import formatDateTime from "../../../../../utils/formatDateTime"
 import DialogTitle from "@material-ui/core/DialogTitle"
 import Loading from "../../../../../components/Loading"
+import CommonTip from "../../../../../components/CommonTip"
 
 const tableName = 'List'
 
@@ -112,8 +113,9 @@ function List(props) {
   }
 
   const handleReasonSubmit = () => {
-    if (dialogReason.value && dialogReason.value.length > 0) {
-      submitActions(dialogReason.value)
+    const cps = dialogReason.value && dialogReason.value.length ? dialogReason.value.split('-') : []
+    if (cps && cps.length > 0) {
+      cps[1] === 'cps' || cps[1] === 'adhoc' ? submitActions(dialogReason.value) : CommonTip.error(L('cpsformat'))
     }
   }
 
