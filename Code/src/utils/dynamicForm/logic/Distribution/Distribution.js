@@ -26,6 +26,7 @@ class Distribution extends Common {
 
   async changeItemList() {
     await changeItemList(this, 'stafftype')
+    await changeItemList(this, 'isowner_stafftype')
   }
 
   onParentFieldChange(fieldName, value) {
