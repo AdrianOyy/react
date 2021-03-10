@@ -154,6 +154,16 @@ class VM extends Common {
       { id: 'ram_request_number', label: 'RAM Request Number', alignment: 'left' },
       { id: 'data_storage_request_number', label: 'Data Storage Request Number', alignment: 'left' },
     ]
+    if (this.childFormDetail && this.childFormDetail.length > 0) {
+      const platform = this.childFormDetail.filter(_ => _.fieldName === 'platform')
+      const cpu_request_number = this.childFormDetail.filter(_ => _.fieldName === 'cpu_request_number')
+      const ram_request_number = this.childFormDetail.filter(_ => _.fieldName === 'ram_request_number')
+      const data_storage_request_number = this.childFormDetail.filter(_ => _.fieldName === 'data_storage_request_number')
+      res[0].label = (platform && platform[0] && platform[0].fieldDisplayName ? platform[0].fieldDisplayName : res[0].label)
+      res[1].label = (cpu_request_number && cpu_request_number[0] && cpu_request_number[0].fieldDisplayName ? cpu_request_number[0].fieldDisplayName : res[1].label)
+      res[2].label = (ram_request_number && ram_request_number[0] && ram_request_number[0].fieldDisplayName ? ram_request_number[0].fieldDisplayName : res[2].label)
+      res[3].label = (data_storage_request_number && data_storage_request_number[0] && data_storage_request_number[0].fieldDisplayName ? data_storage_request_number[0].fieldDisplayName : res[3].label)
+    }
     if (this.stepName !== CREATE) {
       res.push({ id: 'status', label: 'Status', alignment: 'left' })
     }
