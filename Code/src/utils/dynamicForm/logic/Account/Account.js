@@ -237,8 +237,13 @@ class Account extends Common {
         clearItemValueByRemark(this, remark)
       })
     }
-    this.parentData.set(fieldName, value)
-    return value
+    let result = value
+    if ((fieldName === 'surname' || fieldName === 'firstname') && value) {
+      result = value.trim().replace(/\s+/g, ' ')
+      result = result.replace(/'+/g, "\\'")
+    }
+    this.parentData.set(fieldName, result)
+    return result
   }
 
   // 特殊字段验证(异步)
@@ -256,11 +261,16 @@ class Account extends Common {
     const faxFieldNameList = [
       'officefax'
     ]
+    const nameFieldNameList = [
+      'surname',
+      'firstname'
+    ]
     const fieldNameList = {
       emailFieldNameList,
       idFieldNameList,
       phoneFieldNameList,
-      faxFieldNameList
+      faxFieldNameList,
+      nameFieldNameList
     }
     return fieldCheck(this, field, fieldNameList)
   }

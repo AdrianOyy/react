@@ -16,3 +16,7 @@ export function isHKPhone(e) {
 export function isHKID(e) {
   return new HKId(e).correct
 }
+
+export function isFirstAndLastName(e) {
+  return /^[a-zA-Z(\\')-.]+$/.test(e)
+}

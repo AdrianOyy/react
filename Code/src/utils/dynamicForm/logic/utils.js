@@ -1,4 +1,4 @@
-import { isEmail, isHKID, isHKPhone } from "../../regex"
+import { isEmail, isHKID, isHKPhone, isFirstAndLastName } from "../../regex"
 // import accountManagementAPI from "../../../api/accountManagement"
 import procedureAPI from "../../../api/procedure"
 import { JSEncrypt } from 'jsencrypt'
@@ -337,7 +337,8 @@ export async function fieldCheck(self, field, fieldNameList) {
     emailFieldNameList,
     idFieldNameList,
     phoneFieldNameList,
-    faxFieldNameList
+    faxFieldNameList,
+    nameFieldNameList
   } = fieldNameList
   const commonRes = commonCheck(self, field)
   if (commonRes.done) {
@@ -359,6 +360,10 @@ export async function fieldCheck(self, field, fieldNameList) {
   if (faxRes && faxRes.done) {
     return { error: faxRes.error, message: faxRes.message }
   }
+  const nameRes = nameFieldNameList && nameFieldNameList.length && nameCheckByFieldNameList(self, field, nameFieldNameList)
+  if (nameRes && nameRes.done) {
+    return { error: nameRes.error, message: nameRes.message }
+  }
   self.parentFieldError.set(field.fieldName, null)
   return { error: false, message: '' }
 }
@@ -373,6 +378,28 @@ function HKNumberCheck(self, field, type = 'phone') {
     message = `Incorrect ${type} No. `
     const example = type === 'phone' ? 'Example: 21955500' : 'Example: 35426044'
     message += example
+    error = true
+    done = true
+    self.parentFieldError.set(fieldName, message)
+    return { error, message, done }
+  }
+}
+
+export function nameCheckByFieldNameList(self, field, fieldNameList) {
+  if (fieldNameList.indexOf(field.fieldName) !== -1) {
+    return nameCheck(self, field)
+  }
+  return { error: false, message: '', done: false }
+}
+
+function nameCheck(self, field) {
+  const { fieldName, fieldDisplayName } = field
+  let done = false
+  let error = false
+  let message = ''
+  const value = self.parentData.get(fieldName)
+  if (value.indexOf(',') !== -1 || value.indexOf('+') !== -1 || !isFirstAndLastName(value.replace(/\s/g, ""))) {
+    message = ` Incorrect ${fieldDisplayName} Name. `
     error = true
     done = true
     self.parentFieldError.set(fieldName, message)
