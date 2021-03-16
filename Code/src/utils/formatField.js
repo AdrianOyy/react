@@ -18,6 +18,7 @@ export default function formatField(field) {
     case 'supervisoremailaccount':
       field.apiKey = accountAPI.findUsers
       field.apiValue = { returnType: returnType.U }
+      field.checkMail = true
       break
     case 'alternaterecipient':
       field.apiKey = accountAPI.findUsers

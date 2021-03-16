@@ -15,7 +15,7 @@ import CommonTip from "../../../../components/CommonTip"
 import { CHECKED, SKIP, SUCCESS } from "../../../variable/VMStatus"
 import color from "../../../theme/color"
 import { isNonNegativeInteger } from "../../../regex"
-import sleep from "../../../sleep";
+import sleep from "../../../sleep"
 
 class VM extends Common {
   //  =====================================

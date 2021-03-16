@@ -1,4 +1,4 @@
-import React, {useCallback, useState, useRef, useEffect} from 'react'
+import React, { useCallback, useState, useRef, useEffect } from 'react'
 import { makeStyles } from "@material-ui/core/styles"
 import getCommonStyle from "../../CommonStyle"
 import { Button, InputLabel as Label } from "@material-ui/core"
@@ -20,6 +20,7 @@ function SearchInput(props) {
     style,
     apiKey,
     apiValue,
+    checkMail,
     buttonText,
     getDisplayName,
   } = props
@@ -84,7 +85,11 @@ function SearchInput(props) {
       Loading.show()
       apiKey && apiKey(Object.assign({ email: inputValue }, apiValue))
         .then(({ data }) => {
-          const result = data.data
+          let result = data.data
+          console.log(result, checkMail)
+          if (result && result.length > 0 && checkMail) {
+            result = result.filter(_ => !!_.mail)
+          }
           if (!result || !result.length) {
             CommonTip.error('value can not be found')
           } else {
