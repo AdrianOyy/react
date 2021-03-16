@@ -23,10 +23,12 @@ class NonPersonal extends Common {
     super(props)
     this.shouldContinueMap = new Map()
     const corpId = getFieldByFieldNameBeforeMix(this, 'corpid')
-    this.shouldContinueMap.set('corpid', {
-      show: new Set(corpId.showOnRequest ? [ HA4, CREATE ] : [ HA4 ]),
-      hide: new Set([]),
-    })
+    if (corpId) {
+      this.shouldContinueMap.set('corpid', {
+        show: new Set(corpId.showOnRequest ? [ HA4, CREATE ] : [ HA4 ]),
+        hide: new Set([]),
+      })
+    }
     this.shouldContinueMap.set('emailid', {
       show: new Set([ HA4 ]),
       hide: new Set([]),

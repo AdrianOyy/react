@@ -38,10 +38,12 @@ class Account extends Common {
       show: new Set([ CREATE ]),
       hide: new Set([]),
     })
-    this.shouldContinueMap.set('corpid', {
-      show: new Set(corpId.showOnRequest ? [ HA4, CREATE ] : [ HA4 ]),
-      hide: new Set([]),
-    })
+    if (corpId) {
+      this.shouldContinueMap.set('corpid', {
+        show: new Set(corpId.showOnRequest ? [ HA4, CREATE ] : [ HA4 ]),
+        hide: new Set([]),
+      })
+    }
     this.shouldContinueMap.set('position_ranking', {
       show: new Set([ HA4 ]),
       hide: new Set([]),
