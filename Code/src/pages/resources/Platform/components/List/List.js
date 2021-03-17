@@ -38,7 +38,7 @@ function List(props) {
       const rowModel = {
         id: el.id,
         name: el.name,
-        type: el.vm_platform_type ? el.vm_platform_type.name : '',
+        // type: el.vm_platform_type ? el.vm_platform_type.name : '',
         createdAt: formatDateTime(el.createdAt),
         updatedAt: formatDateTime(el.updatedAt),
       }
@@ -50,7 +50,7 @@ function List(props) {
   // 表头字段列表
   const headCells = [
     { id: 'name', alignment: 'left', label: L('Name') },
-    { id: 'type', alignment: 'left', label: L('Type') },
+    // { id: 'type', alignment: 'left', label: L('Type') },
     { id: 'createdAt', alignment: 'left', label: L('Created At') },
     { id: 'updatedAt', alignment: 'left', label: L('Updated At') },
     { id: 'action', alignment: 'left', label: L('Actions') },
@@ -59,7 +59,7 @@ function List(props) {
   // 每行显示的字段
   const fieldList = [
     { field: 'name', align: 'left' },
-    { field: 'type', align: 'left' },
+    // { field: 'type', align: 'left' },
     { field: 'createdAt', align: 'left' },
     { field: 'updatedAt', align: 'left' }
   ]

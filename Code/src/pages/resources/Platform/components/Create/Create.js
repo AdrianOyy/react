@@ -13,17 +13,18 @@ function Create(props) {
   const history = useHistory()
   const [ nameError, setNameError ] = useState(false)
   const [ nameHelperText, setNameHelperText ] = useState("")
-  const [ typeIdError, setTypeIdError ] = useState(false)
-  const [ typeIdHelperText, setTypeIdHelperText ] = useState("")
+  // const [ typeIdError, setTypeIdError ] = useState(false)
+  // const [ typeIdHelperText, setTypeIdHelperText ] = useState("")
   const [ formFieldList, setFormFieldList ] = useState([])
   const [ saving, setSaving ] = useState(false)
-  const [ typeList, setTypeList ] = useState([])
+  // const [ typeList, setTypeList ] = useState([])
   const [ errors, setErrors ] = useState({})
 
   const handleClick = async () => {
     const nameError = await nameCheck()
-    const typeIdErr = await typeIdCheck()
-    if (nameError || typeIdErr || saving) return
+    // const typeIdErr = await typeIdCheck()
+    // if (nameError || typeIdErr || saving) return
+    if (nameError || saving) return
     setSaving(true)
     API.create(map2object(map))
       .then(() => {
@@ -35,14 +36,14 @@ function Create(props) {
       })
   }
 
-  useEffect(() => {
-    API.listType({ limit: 999, page: 1 }).then(({ data }) => {
-      if (data && data.data) {
-        const { rows } = data.data
-        setTypeList(rows)
-      }
-    })
-  }, [])
+  // useEffect(() => {
+  //   API.listType({ limit: 999, page: 1 }).then(({ data }) => {
+  //     if (data && data.data) {
+  //       const { rows } = data.data
+  //       setTypeList(rows)
+  //     }
+  //   })
+  // }, [])
 
   useEffect(() => {
     const list = [
@@ -51,16 +52,18 @@ function Create(props) {
         required: true, readOnly: false, value: '',
         error: nameError, helperText: nameHelperText
       },
-      {
-        id: 'typeId', label: L('Type'), type: 'select', required: true,
-        value: '', itemList: typeList,
-        labelField: 'name', valueField: 'id',
-        error: typeIdError, helperText: typeIdHelperText,
-      },
+      // {
+      //   id: 'typeId', label: L('Type'), type: 'select', required: true,
+      //   value: '', itemList: typeList,
+      //   labelField: 'name', valueField: 'id',
+      //   error: typeIdError, helperText: typeIdHelperText,
+      // },
     ]
     setFormFieldList(list)
     // eslint-disable-next-line
-  }, [ typeList ])
+  }, [
+    // typeList
+  ])
 
   useEffect(() => {
     const errors = {
@@ -68,14 +71,17 @@ function Create(props) {
         error: nameError,
         helperText: nameHelperText,
       },
-      typeId: {
-        error: typeIdError,
-        helperText: typeIdHelperText,
-      }
+      // typeId: {
+      //   error: typeIdError,
+      //   helperText: typeIdHelperText,
+      // }
     }
     setErrors(errors)
     // eslint-disable-next-line
-  }, [ nameHelperText, typeIdHelperText ])
+  }, [
+    nameHelperText,
+    // typeIdHelperText
+  ])
 
   const onFormFieldChange = (e, id) => {
     const { value } = e.target
@@ -96,12 +102,12 @@ function Create(props) {
     return emptyCheck.error
   }
 
-  const typeIdCheck = async () => {
-    const emptyCheck = checkEmpty("typeId", map.get('typeId'))
-    setTypeIdError(emptyCheck.error)
-    setTypeIdHelperText(emptyCheck.msg)
-    return emptyCheck.error
-  }
+  // const typeIdCheck = async () => {
+  //   const emptyCheck = checkEmpty("typeId", map.get('typeId'))
+  //   setTypeIdError(emptyCheck.error)
+  //   setTypeIdHelperText(emptyCheck.msg)
+  //   return emptyCheck.error
+  // }
 
   return (
     <React.Fragment>

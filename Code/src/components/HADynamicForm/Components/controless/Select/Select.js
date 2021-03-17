@@ -59,7 +59,7 @@ export default function Select(props) {
           <option value='' />
           {
             itemList && itemList.map((el, i) => (
-              <option key={el[labelField] + '__' + i} value={el[valueField]}>{fieldName !== 'platform' ? el[labelField] : (el[labelField] + (el['typeId'] === 1 ? ' (Development)' : ' (Production)')) }</option>
+              <option key={el[labelField] + '__' + i} value={el[valueField]}>{ el[labelField] }</option>
             ))
           }
         </select>

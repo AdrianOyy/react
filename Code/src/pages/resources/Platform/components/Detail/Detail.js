@@ -20,10 +20,10 @@ function Detail() {
             id: 'name', label: L('Name'), type: 'text',
             disabled: true, readOnly: true, value: defaultValue.name
           },
-          {
-            id: 'typeId', label: L('Type'), type: 'text',
-            disabled: true, readOnly: true, value: defaultValue["vm_platform_type.name"],
-          },
+          // {
+          //   id: 'typeId', label: L('Type'), type: 'text',
+          //   disabled: true, readOnly: true, value: defaultValue["vm_platform_type.name"],
+          // },
           {
             id: 'createdAt', label: L('Created At'), type: 'text',
             disabled: true, readOnly: true, value: formatDateTime(defaultValue.createdAt)

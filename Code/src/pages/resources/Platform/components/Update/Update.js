@@ -16,16 +16,17 @@ function Update(props) {
   const history = useHistory()
   const [ nameError, setNameError ] = useState(false)
   const [ nameHelperText, setNameHelperText ] = useState("")
-  const [ typeIdError, setTypeIdError ] = useState(false)
-  const [ typeIdHelperText, setTypeIdHelperText ] = useState("")
+  // const [ typeIdError, setTypeIdError ] = useState(false)
+  // const [ typeIdHelperText, setTypeIdHelperText ] = useState("")
   const [ formFieldList, setFormFieldList ] = useState([])
   const [ saving, setSaving ] = useState(true)
   const [ errors, setErrors ] = useState({})
 
   const hanleClick = async () => {
     const nameErr = await nameCheck()
-    const typeIdErr = await typeIdCheck()
-    if (nameErr || typeIdErr || saving) return
+    // const typeIdErr = await typeIdCheck()
+    // if (nameErr || typeIdErr || saving) return
+    if (nameErr || saving) return
     setSaving(true)
     API.update(id, map2object(map))
       .then(() => {
@@ -44,6 +45,7 @@ function Update(props) {
       } else {
         return []
       }
+    // eslint-disable-next-line no-unused-vars
     }).then(returnObj => {
       API.detail(id).then((_) => {
         const { name, typeId }  = _.data.data
@@ -58,12 +60,12 @@ function Update(props) {
             required: true, readOnly: false, value: defaultValue.name,
             error: nameError, helperText: nameHelperText
           },
-          {
-            id: 'typeId', label: L('Type'), type: 'select',
-            value: defaultValue.typeId, itemList: returnObj,
-            labelField: 'name', valueField: 'id', required: true,
-            error: typeIdError, helperText: typeIdHelperText,
-          },
+          // {
+          //   id: 'typeId', label: L('Type'), type: 'select',
+          //   value: defaultValue.typeId, itemList: returnObj,
+          //   labelField: 'name', valueField: 'id', required: true,
+          //   error: typeIdError, helperText: typeIdHelperText,
+          // },
           {
             id: 'createdAt', label: L('Created At'), type: 'text',
             disabled: true, readOnly: true, value: formatDateTime(defaultValue.createdAt)
@@ -88,14 +90,17 @@ function Update(props) {
         error: nameError,
         helperText: nameHelperText,
       },
-      typeId: {
-        error: typeIdError,
-        helperText: typeIdHelperText,
-      },
+      // typeId: {
+      //   error: typeIdError,
+      //   helperText: typeIdHelperText,
+      // },
     }
     setErrors(errors)
     // eslint-disable-next-line
-  }, [ nameHelperText, typeIdHelperText ])
+  }, [
+    nameHelperText,
+    // typeIdHelperText
+  ])
 
   const onFormFieldChange = (e, id) => {
     const { value } = e.target
@@ -116,12 +121,12 @@ function Update(props) {
     return emptyCheck.error
   }
 
-  const typeIdCheck = async () => {
-    const emptyCheck = checkEmpty("typeId", map.get("typeId"))
-    setTypeIdError(emptyCheck.error)
-    setTypeIdHelperText(emptyCheck.msg)
-    return emptyCheck.error
-  }
+  // const typeIdCheck = async () => {
+  //   const emptyCheck = checkEmpty("typeId", map.get("typeId"))
+  //   setTypeIdError(emptyCheck.error)
+  //   setTypeIdHelperText(emptyCheck.msg)
+  //   return emptyCheck.error
+  // }
 
   return (
     <React.Fragment>
