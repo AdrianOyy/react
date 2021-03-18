@@ -399,7 +399,7 @@ function nameCheck(self, field) {
   let message = ''
   const value = self.parentData.get(fieldName)
   if (value.indexOf(',') !== -1 || value.indexOf('+') !== -1 || !isFirstAndLastName(value.replace(/\s/g, ""))) {
-    message = ` Incorrect ${fieldDisplayName} Name. `
+    message = ` ${fieldDisplayName} contains disallowed special character(s). `
     error = true
     done = true
     self.parentFieldError.set(fieldName, message)

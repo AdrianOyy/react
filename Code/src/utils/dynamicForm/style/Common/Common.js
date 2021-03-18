@@ -91,7 +91,7 @@ class Common {
         color: '#f44336',
         height: '1vh',
         lineHeight: '1vh',
-        fontSize: '1em',
+        fontSize: '0.95em',
         fontFamily,
         marginTop: '0.5em',
       }

@@ -18,6 +18,8 @@ import {
 } from "@material-ui/icons"
 import Loading from "../../../../../components/Loading"
 import dayjs from 'dayjs'
+import downloadFile from "../../../../../utils/downloadFile"
+import GetAppIcon from '@material-ui/icons/GetApp'
 
 const tableName = L('My Approval')
 
@@ -182,6 +184,21 @@ function List(props) {
     setShowChatBox(true)
   }
 
+  const handleDownload = (event, row) => {
+    Loading.show()
+    API.download({ processInstanceId: row.id })
+      .then(({ data }) => {
+        downloadFile(data, 'Account management.pdf')
+      })
+      .finally(() => {
+        Loading.hide()
+      })
+      .catch(e => {
+        console.log(e)
+        Loading.hide()
+      })
+  }
+
   const display = (row) => {
     return row.status === 'pending'
   }
@@ -190,11 +207,16 @@ function List(props) {
     return row.status === 'approved'
   }
 
+  const displayDownload = (row) => {
+    return row.workflowName === 'Account management' && row.name === 'End'
+  }
+
   const actionList = [
     { label: L('Process'), icon: <ReorderIcon fontSize="small" style={{ color: '#2553F4' }} />, handleClick: handleStep },
     { label: L('Approve'), icon: <BorderColorIcon fontSize="small" style={{ color: '#2553F4' }} />, handleClick: handleApprove, display },
     { label: L('Detail'), icon: <BorderColorIcon fontSize="small" style={{ color: '#2553F4' }} />, handleClick: handleDetail, display: displayApprove },
     { label: L('Message'), icon: <ChatIcon fontSize="small" style={{ color: '#2553F4' }} />, handleClick: handleChatBox, display },
+    { label: L('Download'), icon: <GetAppIcon fontSize="small" style={{ color: '#2553F4' }} />, handleClick: handleDownload, display: displayDownload },
   ]
 
   const handleClose = () => {

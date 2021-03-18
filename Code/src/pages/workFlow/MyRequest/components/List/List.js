@@ -58,6 +58,7 @@ function List(props) {
         state: el.endTime ? "completed" : "processing",
         assignee: el.assignee,
         status: el.status,
+        end: el.end,
       }
       rows.push(rowModel)
     })
@@ -183,7 +184,7 @@ function List(props) {
   }
 
   const display = (row) => {
-    return row.name === 'Account management'
+    return row.name === 'Account management' && row.end === 'End'
   }
 
   // 自定义action
