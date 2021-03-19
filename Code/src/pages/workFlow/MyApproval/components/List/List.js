@@ -66,7 +66,8 @@ function List(props) {
         createBy: el.createBy,
         createTime: formatDateTime(el.createTime),
         stepName: el.taskDefinitionKey,
-        status: el.status
+        status: el.status,
+        end: el.end
       }
       rows.push(rowModel)
     })
@@ -208,7 +209,7 @@ function List(props) {
   }
 
   const displayDownload = (row) => {
-    return row.workflowName === 'Account management' && row.name === 'End'
+    return row.workflowName === 'Account management' && row.end === 'End'
   }
 
   const actionList = [
