@@ -244,6 +244,25 @@ class Account extends Common {
       result = value.trim().replace(/\s+/g, ' ')
       result = result.replace(/'+/g, "\\'")
     }
+    if (fieldName === 'account_type') {
+      let flag = false
+      if (value && (value.has(2) || value.has(3) || value.has(4))) {
+        flag = true
+      }
+      const newParentInitDetail = []
+      for (const item of this.parentInitDetail) {
+        const newItem = {
+          ...item,
+        }
+        if (newItem.fieldName === 'apply_for') {
+          console.log(newItem.required)
+          newItem.required = flag
+          console.log(newItem.required)
+        }
+        newParentInitDetail.push(newItem)
+      }
+      this.parentInitDetail = newParentInitDetail
+    }
     this.parentData.set(fieldName, result)
     return result
   }
