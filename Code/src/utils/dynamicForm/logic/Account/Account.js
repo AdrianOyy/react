@@ -314,7 +314,11 @@ class AccountWithCuID extends Account {
     const parentInitData = new Map()
     if (data.data) {
       this.user = data.data
-      parentInitData.set('apply_for', 'CORP ID (Login ID)!@#Intranet email account')
+      if (!data.data.mail) {
+        parentInitData.set('apply_for', 'CORP ID (Login ID)!@#Intranet email account')
+      } else {
+        parentInitData.set('apply_for', 'CORP ID (Login ID)')
+      }
       parentInitData.set('account_type', 'CORP Account Application')
       parentInitData.set('owa_hospital_web', 'OWA Webmail + Hospital home page')
       parentInitData.set('authenticationmethod', 'HA Chat')
