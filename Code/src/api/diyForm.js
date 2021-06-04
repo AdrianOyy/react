@@ -39,6 +39,13 @@ class diyForm {
       data
     })
   }
+
+  getGrouptoEmail(data) {
+    return http(`${path}/mail/getGrouptoEmail`, {
+      method: 'post',
+      data
+    })
+  }
 }
 
 export default new diyForm()

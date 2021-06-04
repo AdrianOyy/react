@@ -29,6 +29,7 @@ export class Common {
     this.getParentErrorMessageList = this.getParentErrorMessageList.bind(this)
     this.getChildFormErrorMessageList = this.getChildFormErrorMessageList.bind(this)
     this.getCurrentValue = this.getCurrentValue.bind(this)
+    this.getCurrentValueAll = this.getCurrentValueAll.bind(this)
     const {
       processDefinitionId,
       workflowName,
@@ -198,6 +199,10 @@ export class Common {
 
   getCurrentValue(fieldName) {
     return this.parentData.get(fieldName)
+  }
+
+  getCurrentValueAll() {
+    return this.parentData
   }
 
   getContractList() {

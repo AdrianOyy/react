@@ -386,11 +386,15 @@ class VMT3 extends VMUpdate {
     }
     const handleSkip = async (name) => {
       const currentChild = this.getCurrentChild(currentIndex)
-      currentChild.set('$handled', true)
-      currentChild.set('status', SKIP.value)
-      currentChild.set('checkName', name)
-      CommonTip.success(L(`${name} Follow Up Success`))
-      onClose && onClose()
+      // console.log(this.getCurrentValueAll())
+      const { data } = await Api.getGrouptoEmail({ checkName: name })
+      if (data.success) {
+        currentChild.set('$handled', true)
+        currentChild.set('status', SKIP.value)
+        currentChild.set('checkName', name)
+        CommonTip.success(L(`${name} Follow Up Success`))
+        onClose && onClose()
+      }
     }
     return (
       <>
