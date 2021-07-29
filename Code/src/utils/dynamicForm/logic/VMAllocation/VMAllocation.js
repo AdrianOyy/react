@@ -386,7 +386,7 @@ class VMT3 extends VMUpdate {
     }
     const handleSkip = async (name) => {
       const currentChild = this.getCurrentChild(currentIndex)
-      // console.log(this.getCurrentValueAll())
+      console.log(this.getCurrentValueAll())
       const { data } = await Api.getGrouptoEmail({ checkName: name })
       if (data.success) {
         currentChild.set('$handled', true)

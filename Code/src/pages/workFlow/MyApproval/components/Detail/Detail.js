@@ -8,6 +8,8 @@ import { DETAIL } from "../../../../../utils/variable/stepName"
 const DynamicForm = memo(HADynamicForm)
 
 function Create() {
+  console.log(useParams())
+  console.log('------------userParams----------------')
   const { id } = useParams()
   const arr = path.getQueryString(useLocation().search)
   const deploymentId = arr['deploymentId']
