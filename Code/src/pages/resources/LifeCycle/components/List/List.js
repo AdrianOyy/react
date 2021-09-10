@@ -36,7 +36,7 @@ function List(props) {
     rawDataList.forEach((el) => {
       const rowModel = {
         id: el.id,
-        _ID: el._ID,
+        oldID: el.oldID,
         InventoryID: el.InventoryID,
         AssetID: el.AssetID,
         createdAt: formatDateTime(el.createdAt),
@@ -59,7 +59,7 @@ function List(props) {
 
   // 每行显示的字段
   const fieldList = [
-    { field: '_ID', align: 'left' },
+    { field: 'oldID', align: 'left' },
     { field: 'InventoryID', align: 'left' },
     { field: 'AssetID', align: 'left' },
     { field: 'createdAt', align: 'left' },

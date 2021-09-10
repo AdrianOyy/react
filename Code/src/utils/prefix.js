@@ -1,13 +1,15 @@
 const proPrefix = {
   aaa: '/AAA',
   logging: '/logging',
-  workflow: '/workflow'
+  workflow: '/workflow',
+  resource: 'resource'
 }
 
 const devPrefix = {
   aaa: '',
   logging: '',
-  workflow: ''
+  workflow: '',
+  resource: '',
 }
 
 // eslint-disable-next-line

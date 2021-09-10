@@ -2,25 +2,26 @@ import envPrefix from "../utils/prefix"
 import envUrl from "../utils/baseUrl"
 import http from "../utils/request"
 
-const path = envUrl.aaa + envPrefix.aaa
+// const path = envUrl.aaa + envPrefix.aaa
+const newPath = envUrl.resource + envPrefix.aaa
 
 class server {
   list(params) {
-    return http(`${path}/server/list`, {
+    return http(`${newPath}/server/list`, {
       method: 'GET',
       params,
     })
   }
 
   create(data) {
-    return http(`${path}/server/create`, {
+    return http(`${newPath}/server/create`, {
       method: 'POST',
       data,
     })
   }
 
   detail(id) {
-    return http(`${path}/server/detail`, {
+    return http(`${newPath}/server/detail`, {
       method: 'GET',
       params: {
         id,
@@ -29,7 +30,7 @@ class server {
   }
 
   update(id, data) {
-    return http(`${path}/server/update`, {
+    return http(`${newPath}/server/update`, {
       method: 'PUT',
       params: {
         id,
@@ -39,14 +40,14 @@ class server {
   }
 
   deleteMany(data) {
-    return http(`${path}/server/deleteMany`, {
+    return http(`${newPath}/server/deleteMany`, {
       method: 'DELETE',
       data,
     })
   }
 
   checkIDExist(id, _ID) {
-    return http(`${path}/server/checkIDExist`, {
+    return http(`${newPath}/server/checkIDExist`, {
       method: 'GET',
       params: {
         id,

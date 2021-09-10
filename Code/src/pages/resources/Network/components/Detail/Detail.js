@@ -54,7 +54,7 @@ const useStyles = makeStyles((theme) => ({
 const showPolicy = {
   index: 4,
   list: [
-    'id', '_ID', 'InventoryID', 'IPAddress', 'DefGateway', 'SubnetMask', 'ConfigFile',
+    'id', 'oldID', 'InventoryID', 'IPAddress', 'DefGateway', 'SubnetMask', 'ConfigFile',
     'CurVer', 'NxBtVer', 'BlockDHCP', 'MedicalNW', 'NetworkApplied', 'Group'
   ],
   labels: [
@@ -67,7 +67,7 @@ const showPolicy = {
 const showPowerInput = {
   index: 4,
   list: [
-    'id', '_ID', 'PowerID', 'InputType', 'InventoryID',
+    'id', 'oldID', 'PowerID', 'InputType', 'InventoryID',
   ],
   labels: [
     L('id'), L('_ID'), L('Power ID'), L('Inlet Type'), L('InventoryID')
@@ -77,7 +77,7 @@ const showPowerInput = {
 const showEquipmentPort = {
   index: 4,
   list: [
-    'id', '_ID', 'InventoryID', 'SlotID', 'PortID', 'PortType', 'OutletID',
+    'id', 'oldID', 'InventoryID', 'SlotID', 'PortID', 'PortType', 'OutletID',
     'Remark', 'PortStatus', 'PortSecurity', 'Polarity', 'PortSpeed',
     'Duplex', 'VLanID', 'PortPolicyType', 'PortPolicy', 'ConnectingInventory'
   ],
@@ -91,7 +91,7 @@ const showEquipmentPort = {
 const showPortAssignment = {
   index: 4,
   list: [
-    'id', '_ID', 'EquipPortID', 'Slot', 'Port', 'RequesterTeam', 'PortUsage', 'PortAssignStatus',
+    'id', 'oldID', 'EquipPortID', 'Slot', 'Port', 'RequesterTeam', 'PortUsage', 'PortAssignStatus',
     'PortAssignDate', 'PortAssignerID', 'PortAssignerDisplayName', 'PortTeamingEquip',
     'PortTeamingEquipPort', 'MoveInRef', 'MachineIP', 'MachineHostName',
     'PortAssignmentRemarks', 'IPAddRef'
@@ -107,7 +107,7 @@ const showPortAssignment = {
 const showPowerOutput = {
   index: 4,
   list: [
-    'id', '_ID', 'PowerID', 'OutletType', 'InventoryID',
+    'id', 'oldID', 'PowerID', 'OutletType', 'InventoryID',
   ],
   labels: [
     L('id'), L('_ID'), L('Power ID'), L('Outlet Type'), L('Inventory ID')
@@ -145,7 +145,7 @@ function Detail() {
       API.listEquipType({ limit: 999, page: 1 }).then(({ data }) => {
         if (data && data.data) {
           setEquipType(data.data.filter(_ => {
-            return _.Type !== 'EqServer'
+            return _.EquipType !== 'EqServer'
           }))
           return {
             InventoryStatus: returnObj,
@@ -160,7 +160,7 @@ function Detail() {
       }).then(returnObj => {
         API.detail(id).then(({ data }) => {
           const {
-            EquipType, policy, equipPort, powerInput, powerOutput, equipType
+            EquipType, policy, equipPort, powerInput, powerOutput, equipTypePo
           } = data.data
           setEquipType(EquipType)
           if (policy && policy.length > 0) {
@@ -181,7 +181,7 @@ function Detail() {
           if (powerOutput && powerOutput.length > 0) {
             setPowerOutputs(powerOutput)
           }
-          if (equipType && equipType.Type === 'EqNetwork') {
+          if (equipTypePo && equipTypePo.EquipType === 'EqNetwork') {
             setShowProps([
               {
                 label: L('Network'),
@@ -195,10 +195,10 @@ function Detail() {
               },
             ])
           } else if (
-            equipType &&
-            (equipType.Type === 'EqUPS' ||
-            equipType.Type === 'EqPDU' ||
-            equipType.Type === 'EqATS')
+            equipTypePo &&
+            (equipTypePo.EquipType === 'EqUPS' ||
+            equipTypePo.EquipType === 'EqPDU' ||
+            equipTypePo.EquipType === 'EqATS')
           ) {
             setShowProps([
               {
@@ -211,8 +211,8 @@ function Detail() {
           const defaultValue = data.data
           const inventoryList = [
             {
-              id: '_ID', label: L('Ref. ID'), type: 'text',
-              disabled: true, value: defaultValue._ID,
+              id: 'oldID', label: L('Ref. ID'), type: 'text',
+              disabled: true, value: defaultValue.oldID,
             },
             {
               id: 'UnitCode', label: L('New'), type: 'text',
@@ -258,7 +258,7 @@ function Detail() {
             {
               id: 'EquipType', label: L('EquipType'), type: 'select',
               value: defaultValue.EquipType, itemList: returnObj.EquipTypes,
-              disabled: true, labelField: 'Type', valueField: 'id',
+              disabled: true, labelField: 'EquipType', valueField: 'id',
             },
             {
               id: 'UnitNo', label: L('Unit No'), type: 'text',

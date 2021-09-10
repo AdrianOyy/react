@@ -19,7 +19,7 @@ function Detail() {
         const defaultValue = data.data
         const lifeCycleList = [
           {
-            id: '_ID', label: L('Ref. ID'), type: 'text',
+            id: 'oldID', label: L('Ref. ID'), type: 'text',
             disabled: true, readOnly: true, value: defaultValue._ID
           },
           {

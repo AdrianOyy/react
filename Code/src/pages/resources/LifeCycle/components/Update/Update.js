@@ -46,7 +46,7 @@ function Update(props) {
     }).then(returnObj => {
       API.detail(id).then(({ data }) => {
         const {
-          _ID, InventoryID, AssetID, RecordCreatedOn, ActionType, ActionDetails,
+          oldID, InventoryID, AssetID, RecordCreatedOn, ActionType, ActionDetails,
           SuccessorInventoryID, ActionDate, RespStaff, RespStaffDisplayName,
           Reason, CaseRef
         } = data.data
@@ -54,14 +54,14 @@ function Update(props) {
 
         const list = [
           {
-            id: '_ID', label: L('Ref. ID'), type: 'text',
-            required: true, readOnly: false, value: _ID,
+            id: 'oldID', label: L('Ref. ID'), type: 'text',
+            required: true, readOnly: false, value: oldID,
             error: _IDError, helperText: _IDHelperText
           },
           {
             id: 'InventoryID', label: L('Inventory'), type: 'select',
             value: InventoryID, itemList: returnObj,
-            labelField: '_ID', valueField: '_ID',
+            labelField: 'oldID', valueField: 'oldID',
           },
           {
             id: 'AssetID', label: L('Asset No'), type: 'text',
@@ -116,7 +116,7 @@ function Update(props) {
 
   useEffect(() => {
     const errors = {
-      _ID: {
+      oldID: {
         error: _IDError,
         helperText: _IDHelperText,
       }
@@ -131,7 +131,7 @@ function Update(props) {
   }
 
   const _IDCheck = async () => {
-    const emptyCheck = checkEmpty("Ref. ID", map.get("_ID"))
+    const emptyCheck = checkEmpty("Ref. ID", map.get("oldID"))
     set_IDError(emptyCheck.error)
     set_IDHelperText(emptyCheck.msg)
     // if (!emptyCheck.error) {
@@ -144,7 +144,7 @@ function Update(props) {
     // }
     if (!emptyCheck.error) {
       const checkExist = getCheckExist()
-      const { error, msg } = await checkExist(id, map.get("_ID"))
+      const { error, msg } = await checkExist(id, map.get("oldID"))
       set_IDError(error)
       set_IDHelperText(msg)
       emptyCheck.error = error

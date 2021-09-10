@@ -21,11 +21,11 @@ const useStyles = makeStyles((theme) => ({
 const showPolicy = {
   index: 4,
   list: [
-    'id', '_ID', 'InventoryID', 'IPAddress', 'DefGateway', 'SubnetMask', 'ConfigFile',
+    'id', 'oldID', 'InventoryID', 'IPAddress', 'DefGateway', 'SubnetMask', 'ConfigFile',
     'CurVer', 'NxBtVer', 'BlockDHCP', 'MedicalNW', 'NetworkApplied', 'Group'
   ],
   labels: [
-    L('id'), L('_ID'), L('InventoryID'), L('IP Address'), L('Gateway'), L('Subnet'), L('Config File'),
+    L('id'), L('oldID'), L('InventoryID'), L('IP Address'), L('Gateway'), L('Subnet'), L('Config File'),
     L('Current Firmware Version'), L('Next Boot Firmware Version'),
     L('DHCP Snooping'), L('MedicalNW'), L('Network Applied'), L('Group')
   ]
@@ -34,10 +34,10 @@ const showPolicy = {
 const showPowerInput = {
   index: 4,
   list: [
-    'id', '_ID', 'PowerID', 'InputType', 'InventoryID',
+    'id', 'oldID', 'PowerID', 'InputType', 'InventoryID',
   ],
   labels: [
-    L('id'), L('_ID'), L('Power ID'), L('Inlet Type'), L('InventoryID')
+    L('id'), L('oldID'), L('Power ID'), L('Inlet Type'), L('InventoryID')
   ]
 }
 
@@ -55,8 +55,8 @@ function Detail() {
     API.detail(id).then(({ data }) => {
       if (data && data.data) {
         const {
-          _ID, UnitCode, AssetID, ModelCode, ModelDesc, ClosetID,
-          Rack, RLU, ItemOwner, status, Remark, equipType, UnitNo, PortQty, ReqNo,
+          oldID, UnitCode, AssetID, ModelCode, ModelDesc, ClosetID,
+          Rack, RLU, ItemOwner, ServiceStatus, Remark, equipTypePo, UnitNo, PortQty, ReqNo,
           DOB, DeliveryDate, DeliveryNoteReceivedDate, MaintID,
           createdAt, updatedAt, policy, powerInput
         } = data.data
@@ -69,8 +69,8 @@ function Detail() {
         }
         const inventoryList = [
           {
-            id: '_ID', label: L('Ref. ID'), type: 'text',
-            disabled: true, readOnly: true, value: _ID
+            id: 'oldID', label: L('Ref. ID'), type: 'text',
+            disabled: true, readOnly: true, value: oldID
           },
           {
             id: 'UnitCode', label: L('New'), type: 'text',
@@ -106,7 +106,7 @@ function Detail() {
           },
           {
             id: 'ServiceStatus', label: L('Status'), type: 'text',
-            disabled: true, readOnly: true, value: status ? status.ServiceStatus : ''
+            disabled: true, readOnly: true, value: ServiceStatus
           },
           {
             id: 'Remark', label: L('Remark'), type: 'text',
@@ -114,7 +114,7 @@ function Detail() {
           },
           {
             id: 'EquipType', label: L('EquipType'), type: 'text',
-            disabled: true, readOnly: true, value: equipType ? equipType.Type : ''
+            disabled: true, readOnly: true, value: equipTypePo.EquipType
           },
           {
             id: 'UnitNo', label: L('Unit No'), type: 'text',

@@ -1,33 +1,33 @@
 import envPrefix from "../utils/prefix"
-import envUrl from "../utils/baseUrl";
+import envUrl from "../utils/baseUrl"
 import http from "../utils/request"
 
-const path = envUrl.aaa + envPrefix.aaa
+const newPath = envUrl.resource + envPrefix.aaa
 
 class IPAssignment {
   list(params) {
-    return http(`${path}/ipAssign/list`, {
+    return http(`${newPath}/ipAssign/list`, {
       method: 'GET',
       params,
     })
   }
 
   create(data) {
-    return http(`${path}/ipAssign/create`, {
+    return http(`${newPath}/ipAssign/create`, {
       method: 'POST',
       data,
     })
   }
 
   detail(params) {
-    return http(`${path}/ipAssign/detail`, {
+    return http(`${newPath}/ipAssign/detail`, {
       method: 'GET',
       params,
     })
   }
 
   update(id, data) {
-    return http(`${path}/ipAssign/update`, {
+    return http(`${newPath}/ipAssign/update`, {
       method: 'PUT',
       params: {
         id
@@ -37,14 +37,14 @@ class IPAssignment {
   }
 
   deleteMany(data) {
-    return http(`${path}/ipAssign/deleteMany`, {
+    return http(`${newPath}/ipAssign/deleteMany`, {
       method: 'DELETE',
       data,
     })
   }
 
   checkIpExist(params) {
-    return http(`${path}/ipAssign/checkIpExist`, {
+    return http(`${newPath}/ipAssign/checkIpExist`, {
       method: 'GET',
       params,
     })

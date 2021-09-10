@@ -44,14 +44,14 @@ function Create(props) {
     }).then(returnObj => {
       const lifeCycleList = [
         {
-          id: '_ID', label: L('Ref. ID'), type: 'text',
+          id: 'oldID', label: L('Ref. ID'), type: 'text',
           required: true, readOnly: false, value: "",
           error: _IDError, helperText: _IDHelperText
         },
         {
           id: 'InventoryID', label: L('Inventory'), type: 'select',
           value: "", itemList: returnObj,
-          labelField: '_ID', valueField: '_ID',
+          labelField: 'oldID', valueField: 'oldID',
         },
         {
           id: 'AssetID', label: L('Asset No'), type: 'text',
@@ -102,7 +102,7 @@ function Create(props) {
 
   useEffect(() => {
     const errors = {
-      _ID: {
+      oldID: {
         error: _IDError,
         helperText: _IDHelperText,
       }
@@ -117,7 +117,7 @@ function Create(props) {
   }
 
   const _IDCheck = async () => {
-    const emptyCheck = checkEmpty("Ref. ID", map.get("_ID"))
+    const emptyCheck = checkEmpty("Ref. ID", map.get("oldID"))
     set_IDError(emptyCheck.error)
     set_IDHelperText(emptyCheck.msg)
     // if (!emptyCheck.error) {
@@ -130,7 +130,7 @@ function Create(props) {
     // }
     if (!emptyCheck.error) {
       const checkExist = getCheckExist()
-      const { error, msg } = await checkExist(0, map.get("_ID"))
+      const { error, msg } = await checkExist(0, map.get("oldID"))
       set_IDError(error)
       set_IDHelperText(msg)
       emptyCheck.error = error

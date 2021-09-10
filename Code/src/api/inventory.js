@@ -2,39 +2,39 @@ import envPrefix from "../utils/prefix"
 import envUrl from "../utils/baseUrl"
 import http from "../utils/request"
 
-const path = envUrl.aaa + envPrefix.aaa
+const newPath = envUrl.resource + envPrefix.aaa
 
 class inventory {
   list(params) {
-    return http(`${path}/inventory/list`, {
+    return http(`${newPath}/inventory/list`, {
       method: 'GET',
       params
     })
   }
 
   listStatus(params) {
-    return http(`${path}/inventory/listStatus`, {
+    return http(`${newPath}/inventory/listStatus`, {
       method: 'GET',
       params
     })
   }
 
   listEquipType(params) {
-    return http(`${path}/inventory/listEquipType`, {
+    return http(`${newPath}/inventory/listEquipType`, {
       method: 'GET',
       params
     })
   }
 
   create(data) {
-    return http(`${path}/inventory/create`, {
+    return http(`${newPath}/inventory/create`, {
       method: 'POST',
       data
     })
   }
 
   detail(id) {
-    return http(`${path}/inventory/detail`, {
+    return http(`${newPath}/inventory/detail`, {
       method: 'GET',
       params: {
         id,
@@ -43,7 +43,7 @@ class inventory {
   }
 
   update(id, data) {
-    return http(`${path}/inventory/update`, {
+    return http(`${newPath}/inventory/update`, {
       method: 'PUT',
       params: {
         id,
@@ -53,14 +53,14 @@ class inventory {
   }
 
   deleteMany(data) {
-    return http(`${path}/inventory/deleteMany`, {
+    return http(`${newPath}/inventory/deleteMany`, {
       method: 'DELETE',
       data
     })
   }
 
   checkIDExist(id, _ID) {
-    return http(`${path}/inventory/checkIDExist`, {
+    return http(`${newPath}/inventory/checkIDExist`, {
       method: 'GET',
       params: {
         id,

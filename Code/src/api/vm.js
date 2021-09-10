@@ -3,6 +3,7 @@ import envUrl from "../utils/baseUrl"
 import http from "../utils/request"
 
 const path = envUrl.aaa + envPrefix.aaa
+const newPath = "http://localhost:8080"
 
 class vmGuest {
   listCluster(params) {
@@ -13,21 +14,21 @@ class vmGuest {
   }
 
   list(params) {
-    return http(`${path}/vmGuest/list`, {
+    return http(`${newPath}/vmGuest/list`, {
       method: 'GET',
       params,
     })
   }
 
   create(data) {
-    return http(`${path}/vmGuest/create`, {
+    return http(`${newPath}/vmGuest/create`, {
       method: 'POST',
       data,
     })
   }
 
   detail(id) {
-    return http(`${path}/vmGuest/detail`, {
+    return http(`${newPath}/vmGuest/detail`, {
       method: 'GET',
       params: {
         id,
@@ -36,7 +37,7 @@ class vmGuest {
   }
 
   update(id, data) {
-    return http(`${path}/vmGuest/update`, {
+    return http(`${newPath}/vmGuest/update`, {
       method: 'PUT',
       params: {
         id,
@@ -46,14 +47,14 @@ class vmGuest {
   }
 
   deleteMany(data) {
-    return http(`${path}/vmGuest/deleteMany`, {
+    return http(`${newPath}/vmGuest/deleteMany`, {
       method: 'DELETE',
       data,
     })
   }
 
   checkSerialNumber(id, serialNumber) {
-    return http(`${path}/vmGuest/checkSerialNumber`, {
+    return http(`${newPath}/vmGuest/checkSerialNumber`, {
       method: 'GET',
       params: {
         id,
@@ -63,7 +64,7 @@ class vmGuest {
   }
 
   download(data) {
-    return http(`${path}/vmGuest/export`, {
+    return http(`${newPath}/vmGuest/export`, {
       method: 'POST',
       responseType: 'blob',
       data,

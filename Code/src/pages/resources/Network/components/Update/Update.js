@@ -56,20 +56,20 @@ function Update(props) {
         if (data && data.data) {
           return {
             InventoryStatus: returnObj,
-            EquipTypes: data.data.filter(_ => {
-              return _.Type !== 'EqServer'
+            EquipType: data.data.filter(_ => {
+              return _.EquipType !== 'EqServer'
             }),
           }
         } else {
           return {
             InventoryStatus: returnObj,
-            EquipTypes: [],
+            EquipType: [],
           }
         }
       }).then(returnObj => {
         API.detail(id).then(({ data }) => {
           const {
-            _ID, UnitCode, AssetID, ModelCode, ModelDesc, ClosetID,
+            oldID, UnitCode, AssetID, ModelCode, ModelDesc, ClosetID,
             Rack, RLU, ItemOwner, Status, Remark, UnitNo, PortQty, ReqNo,
             DOB, DeliveryDate, DeliveryNoteReceivedDate, MaintID, EquipType
           } = data.data
@@ -77,8 +77,8 @@ function Update(props) {
 
           const list = [
             {
-              id: '_ID', label: L('Ref. ID'), type: 'text',
-              required: true, readOnly: false, value: _ID,
+              id: 'oldID', label: L('Ref. ID'), type: 'text',
+              required: true, readOnly: false, value: oldID,
               error: _IDError, helperText: _IDHelperText
             },
             {
@@ -126,8 +126,8 @@ function Update(props) {
             },
             {
               id: 'EquipType', label: L('EquipType'), type: 'select',
-              value: EquipType, itemList: returnObj.EquipTypes,
-              labelField: 'Type', valueField: 'id',
+              value: EquipType, itemList: returnObj.EquipType,
+              labelField: 'EquipType', valueField: 'id',
               required: true,
               error: EquipTypeError, helperText: EquipTypeHelperText
             },
@@ -173,7 +173,7 @@ function Update(props) {
 
   useEffect(() => {
     const error = {
-      _ID: {
+      oldID: {
         error: _IDError,
         helperText: _IDHelperText,
       },
@@ -196,12 +196,12 @@ function Update(props) {
   }
 
   const _IDCheck = async () => {
-    const emptyCheck = checkEmpty("Ref. ID", map.get("_ID"))
+    const emptyCheck = checkEmpty("Ref. ID", map.get("oldID"))
     set_IDError(emptyCheck.error)
     set_IDHelperText(emptyCheck.msg)
     if (!emptyCheck.error) {
       const checkExist = getCheckExist()
-      const { error, msg } = await checkExist(id, map.get("_ID"))
+      const { error, msg } = await checkExist(id, map.get("oldID"))
       set_IDError(error)
       set_IDHelperText(msg)
       emptyCheck.error = error

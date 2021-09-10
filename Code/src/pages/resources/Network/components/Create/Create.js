@@ -54,7 +54,7 @@ function Create(props) {
     API.listEquipType({ limit: 999, page: 1 }).then(({ data }) => {
       if (data && data.data) {
         setEquipTypes(data.data.filter(_ => {
-          return _.Type !== 'EqServer'
+          return _.EquipType !== 'EqServer'
         }))
       }
     })
@@ -63,7 +63,7 @@ function Create(props) {
   useEffect(() => {
     const inventoryList = [
       {
-        id: '_ID', label: L('Ref. ID'), type: 'text',
+        id: 'oldID', label: L('Ref. ID'), type: 'text',
         required: true, readOnly: false, value: "",
         error: _IDError, helperText: _IDHelperText
       },
@@ -113,7 +113,7 @@ function Create(props) {
       {
         id: 'EquipType', label: L('EquipType'), type: 'select',
         value: "", itemList: EquipTypes,
-        labelField: 'Type', valueField: 'id',
+        labelField: 'EquipType', valueField: 'id',
         required: true,
         error: EquipTypeError, helperText: EquipTypeHelperText
       },
@@ -153,7 +153,7 @@ function Create(props) {
 
   useEffect(() => {
     const error = {
-      _ID: {
+      oldID: {
         error: _IDError,
         helperText: _IDHelperText,
       },
@@ -176,7 +176,7 @@ function Create(props) {
   }
 
   const _IDCheck = async () => {
-    const emptyCheck = checkEmpty("Ref. ID", map.get("_ID"))
+    const emptyCheck = checkEmpty("Ref. ID", map.get("oldID"))
     set_IDError(emptyCheck.error)
     set_IDHelperText(emptyCheck.msg)
     // if (!emptyCheck.error) {
@@ -189,7 +189,7 @@ function Create(props) {
     // }
     if (!emptyCheck.error) {
       const checkExist = getCheckExist()
-      const { error, msg } = await checkExist(0, map.get("_ID"))
+      const { error, msg } = await checkExist(0, map.get("oldID"))
       set_IDError(error)
       set_IDHelperText(msg)
       emptyCheck.error = error

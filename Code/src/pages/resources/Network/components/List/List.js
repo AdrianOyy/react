@@ -36,7 +36,7 @@ function List(props) {
     rawDataList.forEach((el) => {
       const rowModel = {
         id: el.id,
-        _ID: el._ID,
+        oldID: el.oldID,
         UnitCode: el.UnitCode,
         AssetID: el.AssetID,
         createdAt: formatDateTime(el.createdAt),
@@ -49,7 +49,7 @@ function List(props) {
 
   // 表头字段列表
   const headCells = [
-    { id: '_ID', alignment: 'left', label: L('Ref. ID') },
+    { id: 'oldID', alignment: 'left', label: L('Ref. ID') },
     { id: 'UnitCode', alignment: 'left', label: L('New') },
     { id: 'AssetID', alignment: 'left', label: L('Asset No') },
     { id: 'createdAt', alignment: 'left', label: L('Created At') },
@@ -59,7 +59,7 @@ function List(props) {
 
   // 每行显示的字段
   const fieldList = [
-    { field: '_ID', align: 'left' },
+    { field: 'oldID', align: 'left' },
     { field: 'UnitCode', align: 'left' },
     { field: 'AssetID', align: 'left' },
     { field: 'createdAt', align: 'left' },
