@@ -37,6 +37,6 @@ docker run -dit \
 --name sense-frontend \
 --restart always \
 -p 80:80 \
--e API_BASE_URL=http:\\/\\/10.231.131.123:8000 \
+-e API_BASE_URL=http:\\/\\/10.240.131.123:8000 \
 sense-frontend
 ````
