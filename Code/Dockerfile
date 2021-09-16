@@ -7,7 +7,7 @@ RUN rm -rf /etc/nginx/conf.d
 
 COPY ./conf.d /etc/nginx/conf.d
 
-COPY ./sense /usr/share/nginx/sense
+COPY ./build /usr/share/nginx/sense
 
 COPY ./env.sh /usr/share/nginx/sense
 
