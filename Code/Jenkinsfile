@@ -32,6 +32,10 @@ def containerport = 80
 
 pipeline {
     agent any
+    environment {
+        //根据自己的Jenkinssonarqube-scanner环境修改 （全局工具配置SonarQube Scanner）
+        scannerHome=tool 'SonarQubeScanner'
+    }
     stages{
         stage('Pull the code'){
             steps{
