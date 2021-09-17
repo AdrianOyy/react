@@ -42,7 +42,7 @@ function SearchInput(props) {
       setError(error)
       setHelperText(message)
     }
-    asyncCheckField(fieldName, selectedList)
+    asyncCheckField()
     // eslint-disable-next-line
   }, [ selectedList ])
 

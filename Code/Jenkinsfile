@@ -23,8 +23,6 @@ def harbor_auth = '2008c9e0-2f8d-4f39-a9d7-980685719cab'
 //定义镜像名称
 def imageName = "${project_name}:${tag}"
 
-// bashurl
-def baseurl = "-e API_BASE_URL=http:\\/\\/10.240.131.123:8000"
 
 // 项目运行的端口
 def port = 80
@@ -52,6 +50,46 @@ pipeline {
                     ])
             }
         }
+
+        stage('Check the source code') {
+            steps{
+                 nodejs('NodeJS 14.17.0') {
+                    //引入Jenkinssonarqube环境 （全局工具管理SonarQube servers）
+                    withSonarQubeEnv('SonarQubeServer'){
+                        sh """
+                            ${scannerHome}/bin/sonar-scanner
+                        """
+                    }
+                }
+                echo '源码检查完毕'
+            }
+        }
+        stage('Quality Gate') {
+            steps {
+              script {
+                  Integer waitSeconds = 10
+                  Integer timeOutMinutes = 10
+                  Integer maxRetry = (timeOutMinutes * 60) / waitSeconds as Integer
+                  for (Integer i = 0; i < maxRetry; i++) {
+                    try {
+                      timeout(time: waitSeconds, unit: 'SECONDS') {
+                        def qg = waitForQualityGate()
+                        if (qg.status != 'OK') {
+                          error "Sonar quality gate status: ${qg.status}"
+                        } else {
+                          i = maxRetry
+                        }
+                      }
+                    } catch (Throwable e) {
+                      if (i == maxRetry - 1) {
+                        throw e
+                      }
+                    }
+                }
+              }
+               echo '成功获取扫描结果'
+            }
+        }
         stage('Download dependencies and compile'){
             steps{
                 nodejs('NodeJS 14.17.0') {
@@ -66,14 +104,16 @@ pipeline {
         stage('Build the mirror'){
             steps{
                 sh "docker build -t ${project_name} ./Code "
+            }
+        }
+        stage('Label the image') {
+            steps{
                 //给镜像打标签
                 sh "docker tag ${imageName}  ${harbor_url}/${harbor_project_name}/${imageName}"
             }
         }
-
         stage('Upload the image to the warehouse') {
             steps{
-
                 //登录Harbor，并上传镜像
                 withCredentials([usernamePassword(
                         credentialsId: "${harbor_auth}",
@@ -86,14 +126,17 @@ pipeline {
                     sh "docker push ${harbor_url}/${harbor_project_name}/${imageName}"
                     echo '镜像上传成功'
                 }
+            }
+        }
 
+        stage('Remove the mirror') {
+            steps{
                 //删除本地镜像
                 sh "docker rmi -f ${imageName}"
                 // 刪除打标签的镜像
                 sh "docker rmi -f ${harbor_url}/${harbor_project_name}/${imageName}"
             }
         }
-
         stage('Remote deployment'){
             steps{
                        //=====以下为远程调用进行项目部署========
@@ -106,7 +149,7 @@ pipeline {
                                     cleanRemote: false,
                                     excludes: '',
                                     // 参数说明  harbor仓库的url、harbor服务暴露的端口、项目名、容器标签、主机端口、容器端口、占位参
-                                    execCommand: "/opt/jenkins_shell/deploy.sh $harbor_url $harbor_project_name $project_name $tag $port $containerport $baseurl",
+                                    execCommand: "/opt/jenkins_shell/deploy.sh $harbor_url $harbor_project_name $project_name $tag $port $containerport",
                                     execTimeout: 360000,
                                     flatten: false,
                                     makeEmptyDirs: false,

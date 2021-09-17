@@ -7,7 +7,7 @@ export function L(slang, args = []) {
   let s = lang.ex_us[slang] || slang
   if (args.length > 0) {
     // eslint-disable-next-line
-    args.map((item, i) => {
+    args.forEach((item, i) => {
       // array-callback-return
       s = s.replace(`{${i}}`, item)
     })

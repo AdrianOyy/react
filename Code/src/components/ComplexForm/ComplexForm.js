@@ -133,7 +133,7 @@ export default function ComplexForm(props) {
                 return (
                   <div  key={i + '__' + module.title} style={{ marginBottom: '5ch' }}>
                     {
-                      tableHandle(module, i)
+                      tableHandle(module)
                     }
                   </div>
                 )
