@@ -3,7 +3,7 @@ import envUrl from "../utils/baseUrl"
 import http from "../utils/request"
 
 // const path = envUrl.aaa + envPrefix.aaa
-const newPath = envUrl.resource + envPrefix.aaa
+const newPath = envUrl.resource + envPrefix.resource
 
 class server {
   list(params) {

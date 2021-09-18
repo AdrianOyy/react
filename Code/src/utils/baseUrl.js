@@ -9,7 +9,7 @@ const devUrl = {
   aaa: 'http://10.240.131.123:3003',
   logging: 'http://10.240.131.123:3002',
   workflow: 'http://10.240.131.123:3004',
-  resource: 'http://localhost:8080',
+  resource: 'http://10.240.131.123:8080',
 }
 
 // eslint-disable-next-line

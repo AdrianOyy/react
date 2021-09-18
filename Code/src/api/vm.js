@@ -3,7 +3,8 @@ import envUrl from "../utils/baseUrl"
 import http from "../utils/request"
 
 const path = envUrl.aaa + envPrefix.aaa
-const newPath = "http://localhost:8080"
+// const newPath = "http://localhost:8080"
+const newPath = envUrl.resource + envPrefix.resource
 
 class vmGuest {
   listCluster(params) {

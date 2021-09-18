@@ -2,7 +2,7 @@ import envPrefix from "../utils/prefix"
 import envUrl from "../utils/baseUrl"
 import http from "../utils/request"
 
-const newPath = envUrl.resource + envPrefix.aaa
+const newPath = envUrl.resource + envPrefix.resource
 
 class IPAssignment {
   list(params) {
