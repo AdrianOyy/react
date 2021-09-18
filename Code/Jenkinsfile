@@ -9,7 +9,7 @@ def git_url = 'git@gitlab.apjcorp.com:ha/sense-platform/sense-frontend.git'
 def harbor_url = '10.240.131.40:1180'
 
 //前端项目名称
-def project_name = 'sense-front'
+def project_name = 'sense-frontend'
 
 //构建版本的名称
 def tag = 'latest'

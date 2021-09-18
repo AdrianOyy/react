@@ -2,7 +2,7 @@ const proUrl = {
   aaa: process.env.REACT_APP_BASE_API,
   logging: process.env.REACT_APP_BASE_API,
   workflow: process.env.REACT_APP_BASE_API,
-  resource: process.env.REACT_APP_BASE_API,
+  resource: "http://10.240.131.123:8080"
 }
 
 const devUrl = {
