@@ -153,7 +153,7 @@ pipeline {
                                     cleanRemote: false,
                                     excludes: '',
                                     // 参数说明  harbor仓库的url、harbor服务暴露的端口、项目名、容器标签、主机端口、容器端口、占位参
-                                    execCommand: "/opt/jenkins_shell/sense-frontend-deploy $harbor_url $harbor_project_name $project_name $tag $port $containerport",
+                                    execCommand: "/opt/jenkins_shell/sense-frontend-deploy.sh $harbor_url $harbor_project_name $project_name $tag $port $containerport",
                                     execTimeout: 360000,
                                     flatten: false,
                                     makeEmptyDirs: false,
