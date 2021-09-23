@@ -2,8 +2,7 @@ const proPrefix = {
   aaa: '/AAA',
   logging: '/logging',
   workflow: '/workflow',
-  // resource: '/resource'
-  resource: ''
+  resource: '/resource'
 }
 
 const devPrefix = {
