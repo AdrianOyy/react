@@ -171,4 +171,45 @@ pipeline {
         }
 
     }
+   post {
+        // 发构建邮件
+        always {
+                emailext(
+                    subject: '构建通知：${PROJECT_NAME} - Build # ${BUILD_NUMBER} -${BUILD_STATUS}!',
+                    body: '${FILE,path="./Code/Email.html"}',
+                    to: 'Timli@apjcorp.com'
+                )
+            }
+        // 触发ACT测试
+        success  {
+            script{
+                node('slave') {
+                        // catchError的原因是,在ACT测试时候出现的失败结果不希望影响管道任务
+                        catchError(buildResult: 'SUCCESS', message: 'ACT任务失败') {
+                            checkout([
+                                $class: 'GitSCM',
+                                branches: [  [ name: '*/${branch}' ]],
+                                doGenerateSubmoduleConfigurations: false,
+                                extensions: [ ],
+                                submoduleCfg: [ ],
+                                userRemoteConfigs: [
+                                    [
+                                        credentialsId: "${git_auth}",
+                                        url: "git@gitlab.apjcorp.com:ha/act.git"
+                                    ]
+                                ]
+                            ])
+                            bat  '''
+                                cd C:/ACT/SENSE/workspace/Sense-Frontend/Code/SENSA Project/biz_layer
+                                mvn install
+                            '''  
+                            bat ''' 
+                                cd C:/ACT/SENSE/workspace/Sense-Frontend/Code/SENSA Project/test_layer
+                                mvn test -Dselenium.hub.address="http://localhost:8094/wd/hub" -DfeatureFilePath="src/test/resources/features"  -DdataFilePath="src/test/resources/datafile/dev/Dataset_Jira.xlsx" -Dtest.institution="HAHO" -Dvideo.capture="y" -Dtest.env="dev" -Dbuild.number="1" -Ddesktop.properties.profile="win10_chrome" -DexecutionTag=""
+                            '''
+                        }
+                    }
+            }
+        }
+    }
 }
