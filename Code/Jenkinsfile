@@ -59,10 +59,12 @@ pipeline {
             steps{
                     //引入Jenkinssonarqube环境 （全局工具管理SonarQube servers）
                     withSonarQubeEnv('SonarQubeServer'){
-                        sh """
-                            cd Code
-                            ${scannerHome}/bin/sonar-scanner
-                        """
+                        nodejs('NodeJS 14.17.0') {
+                            sh """
+                                cd Code
+                                ${scannerHome}/bin/sonar-scanner
+                            """
+                         }
                     }
                 echo '源码检查完毕'
             }
