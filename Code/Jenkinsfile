@@ -202,11 +202,11 @@ pipeline {
                                 ]
                             ])
                             bat  '''
-                                cd C:/ACT/SENSE/workspace/Sense-Frontend/Code/SENSA Project/biz_layer
+                                cd C:/ACT/SENSE/workspace/SENSE-Front/Code/SENSA Project/biz_layer
                                 mvn install
                             '''  
                             bat ''' 
-                                cd C:/ACT/SENSE/workspace/Sense-Frontend/Code/SENSA Project/test_layer
+                                cd C:/ACT/SENSE/workspace/SENSE-Front/Code/SENSA Project/test_layer
                                 mvn test -Dselenium.hub.address="http://localhost:8094/wd/hub" -DfeatureFilePath="src/test/resources/features"  -DdataFilePath="src/test/resources/datafile/dev/Dataset_Jira.xlsx" -Dtest.institution="HAHO" -Dvideo.capture="y" -Dtest.env="dev" -Dbuild.number="1" -Ddesktop.properties.profile="win10_chrome" -DexecutionTag=""
                             '''
                         }
